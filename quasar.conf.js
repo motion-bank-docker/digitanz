@@ -6,9 +6,8 @@ module.exports = function (ctx) {
     plugins: [
       'api',
       'auth',
-      'axios',
-      'params'
-   //   'dragula'
+      'axios'
+      // 'dragula'
     ],
     css: [
       'app.styl'
@@ -44,18 +43,28 @@ module.exports = function (ctx) {
         })
       },
       env: {
-        GENTLY: JSON.stringify(false),
-        PARAM_HOST: JSON.stringify(process.env.PARAM_HOST || 'http://params.digitanz.de/'),
         API_HOST: JSON.stringify(process.env.API_HOST || 'https://api.motionbank.org'),
         TRANSCODER_HOST: JSON.stringify(process.env.TRANSCODER_HOST || 'https://transcoder.motionbank.org'),
         UI_HOST: JSON.stringify(process.env.UI_HOST || 'http://app.digitanz.de'),
+        ASSETS_BASE_PATH: JSON.stringify(process.env.ASSETS_BASE_PATH || 'https://assets.motionbank.org/piecemaker/'),
         TIMELINE_BASE_URI: JSON.stringify(process.env.TIMELINE_BASE_URI || 'https://app.motionbank.org/piecemaker/timelines/'),
         GRID_BASE_URI: JSON.stringify(process.env.GRID_BASE_URI || 'https://app.motionbank.org/mosys/grids/'),
         ID_FIELD: JSON.stringify(process.env.ID_FIELD || 'uuid'),
+        //
+        // Auth0
+        //
         AUTH0_DOMAIN: JSON.stringify(process.env.AUTH0_DOMAIN || 'motionbank.eu.auth0.com'),
         AUTH0_CLIENT_ID: JSON.stringify(process.env.AUTH0_CLIENT_ID || 'q2iRQgbj8weO946f2XqDE0Mp05s5bcFi'),
         AUTH0_REDIRECT_URL: JSON.stringify(process.env.AUTH0_REDIRECT_URL || 'http://app.digitanz.de/users/callback'),
-        AUTH0_AUDIENCE: JSON.stringify(process.env.AUTH0_AUDIENCE || 'https://api.motionbank.org')
+        AUTH0_AUDIENCE: JSON.stringify(process.env.AUTH0_AUDIENCE || 'https://api.motionbank.org'),
+        //
+        // Toggle tools/features
+        //
+        FEATURE_MR_GRIDDLE: JSON.stringify(process.env.FEATURE_MR_GRIDDLE || false),
+        FEATURE_RECIPES: JSON.stringify(process.env.FEATURE_RECIPES || false),
+        FEATURE_SPACE: JSON.stringify(process.env.FEATURE_SPACE || false),
+        FEATURE_SEQUENCER: JSON.stringify(process.env.FEATURE_SEQUENCER || false),
+        FEATURE_UPLOAD: JSON.stringify(process.env.FEATURE_MR_GRIDDLE || true)
       }
     },
     devServer: {

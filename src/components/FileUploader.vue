@@ -23,20 +23,14 @@
     },
     data () {
       return {
-        url: undefined,
+        url: `${process.env.TRANSCODER_HOST}/uploads`,
         responses: {},
         title: undefined
       }
     },
-    async mounted () {
-      const params = await this.$params()
-      if (Array.isArray(params.urls) && params.urls.length) {
-        this.url = params.urls[0].streamer
-      }
-    },
     methods: {
       getVideoURL (response) {
-        return `${this.url}/${response.doc.uuid}.mp4`
+        return `${process.env.ASSETS_BASE_PATH}/${response.doc.uuid}.mp4`
       },
       async onFinish (responses) {
         this.responses = responses

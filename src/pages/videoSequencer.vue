@@ -86,21 +86,9 @@
   import ModalPreview from '../components/VideoModal'
   import { VideoPlayer } from 'mbjs-quasar/src/components'
   import FileUploader from '../components/FileUploader'
-  import {QInput, QBtn, QList, QItem, QPage, QItemMain, QItemSide, QModal, QCheckbox, QInnerLoading, QSpinnerGears} from 'quasar'
   import url from 'url'
   export default {
     components: {
-      QInput,
-      QBtn,
-      QList,
-      QItem,
-      QPage,
-      QItemMain,
-      QItemSide,
-      QModal,
-      QCheckbox,
-      QInnerLoading,
-      QSpinnerGears,
       ModalPreview,
       VideoPlayer,
       FileUploader
