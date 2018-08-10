@@ -12,17 +12,18 @@
     // MY SAVED ITEMS
     q-list.row.no-border(v-for="(date, index) in dates", :id="date.date")
       q-list-header.no-margin(:ref="date.date")
-        div.row
-          h4.no-margin {{ date.title }}
+        div.row.items-baseline
+          h3.no-margin {{ date.title }}
           p.q-pl-xl.no-margin {{ date.topic }}
       div.line-separator.full-width
       q-item.q-my-md(v-if="date.description") {{ date.description }}
-      q-item(v-for="(item, index_2) in groupOnDay(date.date)" :key="item.uuid", :src="item.media")
-        q-item-side.position-relative.self-start
+      q-item.col-12(v-for="(item, index_2) in groupOnDay(date.date)" :key="item.uuid", :src="item.media")
+        q-item-main.self-start.col-10
           q-btn.no-padding(@click="openPreview(item)")
-            img(:src="item.preview", style="width: 60vw; height: auto")
-        q-item-main.q-pl-md.self-end
+            img(:src="item.preview", style="width: 100%; height: auto")
+        q-item-side.self-end.col
           q-item-tile.no-margin.column
+            q-btn(flat round :icon="itemLikeStatus(item).icon" :color="itemLikeStatus(item).color" @click="likeItem(item, date)")
             q-btn(flat round icon="edit")
             q-btn(flat round icon="delete" @click="openDeleteModal()")
             q-btn(flat round icon="cloud_download")
@@ -49,14 +50,14 @@
         showImageModal: false,
         showDeleteModal: false,
         dates: [
-          { title: 'Termin 1',
-            topic: 'Portrait',
+          { title: 'Portrait',
+            topic: '16.08.2018',
             date: '2018-08-16',
             description: 'An unserem ersten Termin beschäftigen wir uns mit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue.',
             active: true
           },
-          { title: 'Termin 2',
-            topic: 'Remix Portrait',
+          { title: 'Remix Portrait',
+            topic: '24.08.2018',
             date: '2018-08-24',
             description: 'An unserem zweiten Termin machen wir daraus Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue.',
             active: true
@@ -85,7 +86,7 @@
             title: '',
             description: '',
             rating: '',
-            tags: 'Interessante Bewegungen',
+            tags: ['Interessante Bewegungen'],
             preview: 'https://pbs.twimg.com/profile_images/469017630796296193/R-bEN4UP.png',
             duration: 10,
             type: 'image/jpeg'
@@ -97,7 +98,7 @@
             title: '',
             description: '',
             rating: '',
-            tags: 'Interessante Bewegungen',
+            tags: ['Interessante Bewegungen'],
             preview: 'https://www.schilder-versand.com/assets/gfx/nav/images/verkehrsberuhigung-nach-stvo-106.jpg',
             duration: 10,
             type: 'image/jpeg'
@@ -109,7 +110,7 @@
             title: '',
             description: '',
             rating: '',
-            tags: 'Interessante Bewegungen',
+            tags: ['Interessante Bewegungen'],
             preview: 'https://cdn2.techadvisor.co.uk/cmsdata/features/3511087/how-to-fix-youtube-videos-that-wont-play_thumb800.jpg',
             duration: 10,
             type: 'video/mp4'
@@ -121,7 +122,7 @@
             title: '',
             description: '',
             rating: '',
-            tags: 'Gruppenchoreo',
+            tags: ['Gruppenchoreo'],
             preview: 'https://asset.re-in.de/isa/160267/c1/-/de/1305655_BB_02_FB/BIG-Traffic-Signs-Verkehrsschilder-Set.jpg?y=525&align=center',
             duration: 10,
             type: 'image/jpeg'
@@ -133,7 +134,7 @@
             title: '',
             description: '',
             rating: '',
-            tags: '',
+            tags: [],
             preview: 'https://www.br.de/br-fernsehen/sendungen/kunst-und-krempel/kunst-krempel-kuh-bild-100~_v-img__16__9__xl_-d31c35f8186ebeb80b0cd843a7c267a0e0c81647.jpg?version=1f3a1',
             duration: 10,
             type: 'video/mp4'
@@ -145,7 +146,7 @@
             title: '',
             description: '',
             rating: '',
-            tags: '',
+            tags: [],
             preview: 'assets/test_eins.png',
             duration: 10,
             type: 'image/jpeg'
@@ -157,7 +158,7 @@
             title: '',
             description: '',
             rating: '',
-            tags: '',
+            tags: [],
             preview: 'assets/test_eins.png',
             duration: 10,
             type: 'image/jpeg'
@@ -197,14 +198,51 @@
         }
         else if (item.type === 'image/jpeg') {
           this.showImageModal = true
+          this.preview = item.source
         }
       },
       openDeleteModal () {
         console.log('Hallo')
         this.showDeleteModal = true
       },
+      likeItem (thisItem, date) {
+        let likeValue = 'liked'
+        // if (!Array.isArray(item.tags)) {
+        //   item.tags = item.tags.split(' ')
+        // }
+        if (!thisItem.tags.includes(likeValue)) {
+          console.log('Liked Item: ' + thisItem.uuid)
+          this.groupedList[date.date].forEach(function (savedItem) {
+            savedItem.tags = savedItem.tags.filter(item => item !== likeValue)
+          })
+          thisItem.tags.push(likeValue)
+        }
+        else {
+          thisItem.tags = thisItem.tags.filter(item => item !== likeValue)
+        }
+        console.log(thisItem.tags)
+      },
       scrollToElement (index) {
-        document.getElementById(index).scrollIntoView({block: 'start', behavior: 'smooth'})
+        let element = document.getElementById(index)
+        let headerOffset = 50
+        let elementPosition = element.getBoundingClientRect().top
+        let offsetPosition = elementPosition - headerOffset
+        window.scroll({
+          top: offsetPosition,
+          behavior: 'smooth'
+        })
+        // let target = this.$q.getScrollTarget(el)
+        // let offset = el.offsetTop - el.scrollHeight
+        // let duration = 1000
+        // this.$g.setScrollPosition(target, offset, duration)
+      },
+      itemLikeStatus (item) {
+        if (item.tags.includes('liked')) {
+          return {color: 'primary', icon: 'favorite'}
+        }
+        else {
+          return {color: 'grey', icon: 'favorite_border'}
+        }
       }
     },
     computed: {
@@ -214,8 +252,9 @@
       }
     },
     async mounted () {
-      console.log('Hallo', this.groupedList)
       this.groupedList = this.groupedDates
+      console.log('Hallo', this.groupedList)
+      await this.$loginOrSignup(this.$store)
       /* const _this = this
       this.$store.dispatch('annotations/find', { query: { 'body.type': 'Composite' } }).then(composites => {
         console.log(composites, _this.$store)
