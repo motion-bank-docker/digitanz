@@ -35,12 +35,15 @@ Router.beforeEach((to, from, next) => {
         }
       }).then(result => {
         if (result) {
+          /*
           const { user, first } = result
           if (first) {
             console.debug('Auth0 first login', user)
             next({ name: 'users.manage', params: { isFirst: true, redirect: to } })
           }
           else next()
+          */
+          next()
         }
         else if (to.meta.private) {
           Router.app.$store.commit('auth/setRedirect', to)
