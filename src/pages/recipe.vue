@@ -28,18 +28,8 @@
 </template>
 
 <script>
-  import {QInput, QBtn, QList, QItem, QPage, QItemMain, QItemSide} from 'quasar'
   // import { required, minLength } from 'vuelidate/lib/validators'
   export default {
-    components: {
-      QInput,
-      QBtn,
-      QList,
-      QItem,
-      QPage,
-      QItemMain,
-      QItemSide
-    },
     data () {
       return {
         newRecipe: {
