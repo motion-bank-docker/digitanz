@@ -1,0 +1,66 @@
+{
+  "name": "digitanz-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for the #digitanz project",
+  "productName": "#digitanz",
+  "cordovaId": "org.cordova.quasar.app",
+  "author": "Mainz University of Applied Sciences (Motion Bank Project)",
+  "private": true,
+  "scripts": {
+    "build": "cross-env NODE_ENV=production quasar build",
+    "build-docker": "cross-env PARAM_HOST=http://params.digitanz.de API_HOST=http://api.digitanz.de npm run build",
+    "docker-image": "docker build -t motionbank/digitanz-frontend-quasar:latest .",
+    "docker-push": "docker push motionbank/digitanz-frontend-quasar:latest",
+    "docker-release": "npm run build-docker && npm run docker-image && npm run docker-push",
+    "dev": "cross-env NODE_ENV=production quasar dev",
+    "lint": "eslint --ext .js,.vue src",
+    "test": "echo \"pfffffff..... yeah, no.\" && exit 0"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "chance": "^1.0.16",
+    "cross-env": "^5.1.4",
+    "dragula": "^3.7.2",
+    "feathers-vuex": "^1.1.4",
+    "luxon": "^1.2.0",
+    "mbjs-api-client": "^1.0.5",
+    "mbjs-media": "0.0.18",
+    "mbjs-quasar": "0.0.8",
+    "mbjs-utils": "0.0.6",
+    "superagent": "^3.8.2",
+    "video.js": "^6.8.0",
+    "videojs-vimeo": "git+https://github.com/PieceMeta/videojs-vimeo.git",
+    "videojs-youtube": "^2.6.0",
+    "vue-dragula": "^1.3.1",
+    "vue-i18n": "^7.3.3",
+    "vue-video-player": "^5.0.2",
+    "vue2-dragula": "^2.5.4",
+    "vuelidate": "^0.6.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.18.2",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-plugin-vue": "^4.3.0",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
+    "quasar-cli": "^0.17.0",
+    "strip-ansi": "=3.0.1"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ]
+}
