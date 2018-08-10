@@ -1,6 +1,19 @@
 <template lang="pug">
-  q-uploader(auto-expand, clearable, :extensions="ext", :multiple="false", :url="url",
-    @add="onSelect", @uploaded="onUploaded", @fail="onFail", @start="onStart", @finish="onFinish", dark, ref="uploader")
+  .row
+    q-uploader.col-10( auto-expand,
+    clearable,
+    :extensions="ext",
+    :multiple="false",
+    :url="url",
+    hide-upload-button,
+    @add="onSelect",
+    @uploaded="onUploaded",
+    @fail="onFail",
+    @start="onStart",
+    @finish="onFinish",
+    dark,
+    ref="uploader")
+    q-btn.col-2(@click="() => {$refs.uploader.pick()}") 'Upload'
 </template>
 
 <script>
@@ -16,6 +29,7 @@
     methods: {
       onSelect (files) {
         this.$emit('select', files)
+        this.$refs.uploader.upload()
       },
       onUploaded (file, xhr) {
         let response
@@ -45,3 +59,9 @@
     }
   }
 </script>
+
+<style lang="stylus">
+  .q-uploader
+    .q-uploader-pick-button
+      display none
+</style>
