@@ -6,7 +6,9 @@ module.exports = function (ctx) {
     plugins: [
       'api',
       'auth',
-      'axios'
+      'axios',
+      'i18n',
+      'notifications'
       // 'dragula'
     ],
     css: [
@@ -43,10 +45,16 @@ module.exports = function (ctx) {
         })
       },
       env: {
+        //
+        // Hosts
+        //
         API_HOST: JSON.stringify(process.env.API_HOST || 'https://api.motionbank.org'),
         TRANSCODER_HOST: JSON.stringify(process.env.TRANSCODER_HOST || 'https://transcoder.motionbank.org'),
         UI_HOST: JSON.stringify(process.env.UI_HOST || 'http://app.digitanz.de'),
         ASSETS_BASE_PATH: JSON.stringify(process.env.ASSETS_BASE_PATH || 'https://assets.motionbank.org/piecemaker/'),
+        //
+        // Resources
+        //
         TIMELINE_BASE_URI: JSON.stringify(process.env.TIMELINE_BASE_URI || 'https://app.motionbank.org/piecemaker/timelines/'),
         GRID_BASE_URI: JSON.stringify(process.env.GRID_BASE_URI || 'https://app.motionbank.org/mosys/grids/'),
         ID_FIELD: JSON.stringify(process.env.ID_FIELD || 'uuid'),

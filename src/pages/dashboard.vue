@@ -254,7 +254,6 @@
     async mounted () {
       this.groupedList = this.groupedDates
       console.log('Hallo', this.groupedList)
-      await this.$loginOrSignup(this.$store)
       /* const _this = this
       this.$store.dispatch('annotations/find', { query: { 'body.type': 'Composite' } }).then(composites => {
         console.log(composites, _this.$store)

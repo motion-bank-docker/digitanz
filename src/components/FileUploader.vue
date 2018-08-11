@@ -1,22 +1,14 @@
 <template lang="pug">
-  .column(v-if="url")
+  .column(v-if="timeline")
     .q-pa-md
       q-input(placeholder="Video title", v-model="title", dark)
     .q-pa-md
-      uploader(:url="url", @finish="onFinish")
-  .row(v-for="key in Object.keys(responses)", :key="key")
-    div
-      h4 {{ responses[key].doc.uuid }}
-      p
-        | Duration: {{ responses[key].doc.ffprobe.format.duration }}s -
-        | Created: {{ responses[key].doc.stats.ctime }}
-      p
-        a(:href="getVideoURL(responses[key])") {{ getVideoURL(responses[key]) }}
+      uploader(:url="url", @finish="onFinish", ref="uploader")
 </template>
 
 <script>
   import Uploader from '../components/Uploader'
-  import { DateTime } from 'luxon'
+  import { mapGetters } from 'vuex'
   export default {
     components: {
       Uploader
@@ -25,47 +17,55 @@
       return {
         url: `${process.env.TRANSCODER_HOST}/uploads`,
         responses: {},
-        title: undefined
+        title: undefined,
+        timeline: undefined
+      }
+    },
+    computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      })
+    },
+    watch: {
+      async user () {
+        const query = {
+          'author.id': this.$store.state.auth.user.uuid,
+          'title': 'Meine Videos'
+        }
+        const results = await this.$store.dispatch('maps/find', query)
+        if (!results.items.length) {
+          this.timeline = await this.$store.dispatch('maps/post', { title: 'Meine Videos' })
+        }
+        else {
+          this.timeline = results.items[0]
+        }
       }
     },
     methods: {
-      getVideoURL (response) {
-        return `${process.env.ASSETS_BASE_PATH}/${response.doc.uuid}.mp4`
-      },
       async onFinish (responses) {
-        this.responses = responses
         console.debug('uploader finished', this.responses)
-        const _this = this
-        Object.keys(responses).forEach(async key => {
-          const response = responses[key]
-          const payload = {
-            body: {
-              source: _this.getVideoURL(response),
-              type: 'Video',
-              purpose: 'linking',
-              value: _this.title
+        const keys = Object.keys(responses)
+        for (let key of keys) {
+          const source = responses[key].file
+          const detail = {
+            title: this.title,
+            timeline: this.timeline.uuid
+          }
+          const conversion = {
+            source,
+            scale: {
+              width: 1280,
+              height: 720
             },
-            author: _this.$store.state.auth.payload.userId,
-            target: {
-              id: localStorage.localTimeline,
-              type: 'Timeline',
-              selector: {
-                type: 'Fragment',
-                value: DateTime.fromISO(response.doc.created).toISO()
-              }
+            metadata: {
+              title: this.title
             }
           }
-          console.log('create video', payload)
-          const data = await _this.$store.dispatch('annotations/create', payload)
-          this.$emit('finish', data)
-          // not working
-          // this.$refs.uploader.reset() //execute the method belong to child
-        })
+          const result = await this.$store.dispatch('conversions/post', { conversion, detail })
+          console.debug('created conversion', result)
+        }
+        this.title = undefined
       }
     }
   }
 </script>
-
-<style scoped>
-
-</style>

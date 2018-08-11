@@ -55,6 +55,9 @@
       onFinish () {
         this.$emit('finish', this.responses)
         this.$refs.uploader.reset()
+      },
+      reset () {
+        this.$refs.uploader.reset()
       }
     }
   }

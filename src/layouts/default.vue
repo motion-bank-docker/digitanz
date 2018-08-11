@@ -30,10 +30,16 @@
 
     q-page-container
       router-view
+    conversion-jobs
+    mb-notification-service
 </template>
 
 <script>
+  import ConversionJobs from '../components/ConversionJobs'
   export default {
+    components: {
+      ConversionJobs
+    },
     data () {
       return {
         env: process.env,

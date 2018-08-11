@@ -3,5 +3,9 @@
 
 export default {
   failed: 'Action failed',
-  success: 'Action was successful'
+  success: 'Action was successful',
+  messages: {
+    conversion_successful: 'Dein Video ist jetzt verfügbar',
+    conversion_failed: 'Video upload fehlgeschlagen'
+  }
 }
