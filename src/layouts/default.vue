@@ -9,7 +9,7 @@
       //q-list(dark, no-border, link, inset-delimiter, v-if="urls")
       q-list(dark, no-border, link, inset-delimiter)
         q-list-header Main Menu
-        q-item(@click.native="$router.push('/')")
+        q-item(@click.native="$router.push('/dashboard')")
           q-item-side(icon='list')
           q-item-main(label='Dashboard', sublabel='All your saved media')
         q-item(v-if="env.FEATURE_MR_GRIDDLE", @click.native="$router.push('/mr-griddle')", separator)

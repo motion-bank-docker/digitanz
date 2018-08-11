@@ -6,7 +6,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/default'),
     children: [
-      { path: '', component: () => import('pages/dashboard'), meta: {private: true} },
+      { path: '', component: () => import('pages/welcome') },
       { path: 'dashboard', component: () => import('pages/dashboard'), meta: {private: true} },
       { path: 'dashboard-alt', component: () => import('pages/dashboard_alt'), meta: {private: true} },
       { path: 'allrecipes', component: () => import('pages/allRecipes'), meta: {private: true} },
