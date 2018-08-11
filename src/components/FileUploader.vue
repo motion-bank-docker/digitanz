@@ -16,7 +16,6 @@
     data () {
       return {
         url: `${process.env.TRANSCODER_HOST}/uploads`,
-        responses: {},
         title: undefined,
         timeline: undefined
       }
@@ -43,7 +42,7 @@
     },
     methods: {
       async onFinish (responses) {
-        console.debug('uploader finished', this.responses)
+        console.debug('uploader finished', responses)
         const keys = Object.keys(responses)
         for (let key of keys) {
           const source = responses[key].file
