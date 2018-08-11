@@ -38,4 +38,4 @@ This project is still under active development and subject to non-backwards comp
 ## License
 
 :copyright: 2018 Mainz University of Applied Sciences (Motion Bank Project) – 
-Released under the [MIT](https://github.com/digitanz/dt-subapp-quasar/blob/master/LICENSE) license
+Released under the [MIT](https://gitlab.rlp.net/motionbank/digitanz/frontend/blob/master/LICENSE) license
