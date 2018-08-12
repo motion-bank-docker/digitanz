@@ -87,6 +87,7 @@
   import { VideoPlayer } from 'mbjs-quasar/src/components'
   import FileUploader from '../components/FileUploader'
   import url from 'url'
+
   export default {
     components: {
       ModalPreview,
@@ -146,17 +147,17 @@
           this.uploadedVideos = []
         }
 
-        for (let i in results) {
-          const annotation = results[i]
-          const { data } = await this.$axios.get(annotation.body.source.replace(/\.mp4$/, '.json'))
+        for (let i in results.items) {
+          const annotation = results.items[i]
+          const meta = await this.$store.dispatch('metadata/get', annotation.uuid)
           this.uploadedVideos.push(Object.assign({}, {
             weight: parseInt(i),
-            title: annotation.body.value,
+            title: annotation.body.value, // meta.title
             uuid: annotation.uuid,
             created: annotation.created,
-            source: { id: annotation.body.source, type: 'video/mp4' },
-            preview: annotation.body.source.replace(/\.mp4$/, '.png'),
-            duration: data.meta ? data.meta.ffprobe.format.duration : 1
+            source: { id: annotation.body.source.id, type: 'video/mp4' },
+            preview: annotation.body.source.id.replace(/\.mp4$/, '.png'),
+            duration: meta ? meta.duration : 1
           }))
           // this.listOfThings.push(annotation.uuid)
         }
@@ -164,15 +165,15 @@
         // this.uploadedVideos = uploadedVideos
       },
       async addUploadedVideo (vid) {
-        const { data } = await this.$axios.get(vid.body.source.replace(/\.mp4$/, '.json'))
+        const meta = await this.$store.dispatch('metadata/get', vid.uuid)
         this.uploadedVideos.push(Object.assign({}, {
           weight: 0,
           title: vid.body.value,
           uuid: vid.uuid,
           created: vid.created,
-          source: { id: vid.body.source, type: 'video/mp4' },
-          preview: vid.body.source.replace(/\.mp4$/, '.png'),
-          duration: data.meta ? data.meta.ffprobe.format.duration : 1
+          source: { id: vid.body.source.id, type: 'video/mp4' },
+          preview: vid.body.source.id.replace(/\.mp4$/, '.png'),
+          duration: meta ? meta.duration : 1
         }))
       },
       closeModal () {
@@ -190,6 +191,7 @@
         this.preview = this.uploadedVideos
       },
       openPreview (index) {
+        console.log(this.sequencedVideos[index])
         this.setVideoSource(this.sequencedVideos[index].source.id)
         this.currentPlay = index
       },
