@@ -26,7 +26,10 @@
         q-btn.full-width.fixed-bottom(v-else color="primary" @click="closeModal" icon="arrow_back" label="Zurück")
 
     // BIG VIDEO PREVIEW
-    video-player.full-width.self-center(:src="sourceVideo", ref="videoPlayer" @ended="playNext")
+    video-player.full-width.self-center(
+      :src="sourceVideo",
+      ref="videoPlayer",
+      @ended="playNext")
 
     // EDIT BUTTONS
     //.row.bg-red

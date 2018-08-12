@@ -25,22 +25,30 @@
         user: 'auth/getUserState'
       })
     },
+    async mounted () {
+      await this.getTimeline()
+    },
     watch: {
       async user () {
-        const query = {
-          'author.id': this.$store.state.auth.user.uuid,
-          'title': 'Meine Videos'
-        }
-        const results = await this.$store.dispatch('maps/find', query)
-        if (!results.items.length) {
-          this.timeline = await this.$store.dispatch('maps/post', { title: 'Meine Videos' })
-        }
-        else {
-          this.timeline = results.items[0]
-        }
+        this.getTimeline()
       }
     },
     methods: {
+      async getTimeline () {
+        if (this.user && !this.timeline) {
+          const query = {
+            'author.id': this.$store.state.auth.user.uuid,
+            'title': 'Meine Videos'
+          }
+          const results = await this.$store.dispatch('maps/find', query)
+          if (!results.items.length) {
+            this.timeline = await this.$store.dispatch('maps/post', {title: 'Meine Videos'})
+          }
+          else {
+            this.timeline = results.items[0]
+          }
+        }
+      },
       async onFinish (responses) {
         console.debug('uploader finished', responses)
         const keys = Object.keys(responses)
