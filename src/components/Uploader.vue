@@ -1,19 +1,23 @@
 <template lang="pug">
-  .row
-    q-uploader.col-10( auto-expand,
-    clearable,
-    :extensions="ext",
-    :multiple="false",
-    :url="url",
-    hide-upload-button,
-    @add="onSelect",
-    @uploaded="onUploaded",
-    @fail="onFail",
-    @start="onStart",
-    @finish="onFinish",
-    dark,
-    ref="uploader")
-    q-btn.col-2(@click="() => {$refs.uploader.pick()}") 'Upload'
+
+  q-uploader(
+        ref="uploader",
+        prefix="Select and Upload Video",
+        auto-expand,
+        clearable,
+        color="faded",
+        inverted,
+        :extensions="ext",
+        :multiple="false",
+        :url="url",
+        hide-upload-button,
+        @add="onSelect",
+        @uploaded="onUploaded",
+        @fail="onFail",
+        @start="onStart",
+        @finish="onFinish",
+        @click.native="handleUploaderClick()")
+
 </template>
 
 <script>
@@ -27,6 +31,9 @@
     },
     props: ['url'],
     methods: {
+      handleUploaderClick () {
+        this.$refs.uploader.pick()
+      },
       onSelect (files) {
         this.$emit('select', files)
         this.$refs.uploader.upload()
@@ -67,4 +74,18 @@
   .q-uploader
     .q-uploader-pick-button
       display none
+    .q-spinner
+      display none
+    .row:first-child
+      .q-icon
+        display none
+  .q-uploader:not(.q-uploader-expanded)
+      .q-input-target
+        display none
+  .q-uploader.q-uploader-expanded > .row
+    display none
+  .q-uploader-files-no-border .q-uploader-files
+    border-top-width: 1px !important;
+    border-top-style: solid !important;
+    border-top-color: inherit !important;
 </style>
