@@ -191,7 +191,6 @@
         this.preview = this.uploadedVideos
       },
       openPreview (index) {
-        console.log(this.sequencedVideos[index])
         this.setVideoSource(this.sequencedVideos[index].source.id)
         this.currentPlay = index
       },
