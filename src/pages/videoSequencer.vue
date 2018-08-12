@@ -153,18 +153,15 @@
         // const _this = this
         // const $drake = this.$dragula.$service
         // $service.options('checkedVideos', { direction: 'horizontal' })
+
         const query = { 'target.id': localStorage.localTimeline }
         const results = await this.$store.dispatch('annotations/find', query)
-        // const uplaodedVideos = []
 
-        if (this.uploadedVideos.length > 0) {
-          this.uploadedVideos = []
-        }
-
+        let newUploadedVideos = []
         for (let i in results.items) {
           const annotation = results.items[i]
           const meta = await this.$store.dispatch('metadata/get', annotation.uuid)
-          this.uploadedVideos.push(Object.assign({}, {
+          const newVideo = Object.assign({}, {
             weight: parseInt(i),
             title: annotation.body.value, // meta.title
             uuid: annotation.uuid,
@@ -172,14 +169,15 @@
             source: { id: annotation.body.source.id, type: 'video/mp4' },
             preview: annotation.body.source.id.replace(/\.mp4$/, '.png'),
             duration: meta ? meta.duration : 1
-          }))
+          })
+          newUploadedVideos.push(newVideo)
           // this.listOfThings.push(annotation.uuid)
         }
+        this.uploadedVideos = newUploadedVideos
+
         this.fetchedUserVideos = true
-        // this.uploadedVideos = uploadedVideos
       },
       async addUploadedVideo (video) {
-        console.log(video)
         const meta = await this.$store.dispatch('metadata/get', video.uuid)
         const newVideo = Object.assign({}, {
           weight: 0,
