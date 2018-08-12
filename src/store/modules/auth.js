@@ -5,7 +5,7 @@ export default {
   namespaced: true,
   state: {
     user: undefined,
-    redirectTo: localStorage.getItem('redirectTo') ? JSON.parse(localStorage.getItem('redirectTo')) : undefined
+    redirectTo: localStorage.getItem('redirectTo') ? localStorage.getItem('redirectTo') : undefined
   },
   getters: {
     getUserState: state => state.user
@@ -21,7 +21,7 @@ export default {
     setRedirect: (state, target) => {
       Assert.isType(target, 'object', 'redirect target must be object')
       state.redirectTo = target
-      localStorage.setItem('redirectTo', JSON.stringify(target))
+      localStorage.setItem('redirectTo', target)
     },
     clearRedirect: (state) => {
       state.redirectTo = undefined
