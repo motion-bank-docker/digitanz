@@ -3,22 +3,25 @@
 
     // POP UP MODAL TO ADD VIDEOS TO SEQUENCER-TIMELINE
     q-modal.row.maximized(v-model="opened", content-classes="bg-dark")
-      div.q-ma-md
+      .q-ma-md
         h1.q-title Upload Video
-        div
-          file-uploader.no-padding.no-margin.self-center(:url="url", style="width: 100%", @finish="addUploadedVideo")
-          h1.full-width.q-title Wähle deine Videos
-          q-list.row.no-border.relative-position(style="min-height:100px")
-            q-item.q-mb-md.full-width(v-for="video in reverseVideos", :key="video.uuid", :title="video.title",
-            :class="[{ 'moba-active-image': checkedVideos.includes(video)}, moba-inactive-image]", v-show="fetchedUserVideos")
-              q-checkbox(v-model="checkedVideos" :val="video")
-                q-item-side(:class="{'moba-inactive-image': !checkedVideos.includes(video)}")
-                  img(:src="video.preview", style="width: 150px", alt="video.title")
-                q-item-main
-                  p.no-margin.text-weight-medium {{ video.title }}
-                  q-chip.text-weight-light(small color="black") {{ video.duration }}
-            q-inner-loading.inner-loading(:visible="!fetchedUserVideos" dark)
-              q-spinner-mat(color="white" size="3em")
+        file-uploader.no-padding.no-margin.self-center(:url="url", style="width: 100%", @finish="addUploadedVideo")
+        template(v-if="jobIds.length")
+          h1.q-title(v-if="jobIds") Videos being processed
+          q-item(v-for="(jobId, index) in jobIds")
+            span {{jobId}}
+        h1.full-width.q-title Wähle deine Videos
+        q-list.row.no-border.relative-position(style="min-height:100px")
+          q-item.q-mb-md.full-width(v-for="video in reverseVideos", :key="video.uuid", :title="video.title",
+              :class="[{ 'moba-active-image': checkedVideos.includes(video)}, moba-inactive-image]", v-show="fetchedUserVideos")
+            q-checkbox(v-model="checkedVideos" :val="video")
+              q-item-side(:class="{'moba-inactive-image': !checkedVideos.includes(video)}")
+                img(:src="video.preview", style="width: 150px", alt="video.title")
+              q-item-main
+                p.no-margin.text-weight-medium {{ video.title }}
+                q-chip.text-weight-light(small color="black") {{ video.duration }}
+          q-inner-loading.inner-loading(:visible="!fetchedUserVideos" dark)
+            q-spinner-mat(color="white" size="3em")
         q-btn.full-width.fixed-bottom(v-if="checkedVideos.length > 0" color="primary" @click="closeModal" icon="add" label="Hinzufügen")
         q-btn.full-width.fixed-bottom(v-else color="primary" @click="closeModal" icon="arrow_back" label="Zurück")
 
@@ -26,10 +29,10 @@
     video-player.full-width.self-center(:src="sourceVideo", ref="videoPlayer" @ended="playNext")
 
     // EDIT BUTTONS
-    //div.row.bg-red
+    //.row.bg-red
       q-list.q-ml-lg(v-if="sequencedVideos.length > 0", no-border, style="touch-action:none")
         q-item.items-baseline.bg-primary(style="width: relativeSize + '%'" v-for="(video, index) in sequencedVideos", :key="video.uuid")
-    //div.row.q-pa-xs.full-width.justify-center
+    //.row.q-pa-xs.full-width.justify-center
       q-btn.q-ma-xs(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
       q-btn.q-ma-xs(round, color="primary", icon="arrow_back", outline, @click="moveUp(sequencedVideos, editIndex)")
       q-btn.q-ma-xs(round, color="primary", icon="arrow_forward", outline, @click="moveDown(sequencedVideos, editIndex)")
@@ -39,43 +42,46 @@
       //q-btn.q-ma-xs(round, color="primary", icon="delete", outline, @click="deleteItem(editIndex)")
 
     // Player controls
-    div.q-ma-md.full-width.row.justify-center(v-if="sequencedVideos.length > 0")
+    .q-ma-md.full-width.row.justify-center(v-if="sequencedVideos.length > 0")
       // q-btn.q-ma-xs(round, size="sm" color="white", icon="play_arrow", outline, @click="editIndex = index, moveUp(sequencedVideos, editIndex)")
       // q-btn.q-ma-xs(round, size="sm" color="white", icon="pause", outline, @click="editIndex = index, moveUp(sequencedVideos, editIndex)")
-      div.q-mr-sm
+      .q-mr-sm
         q-btn(round, size="sm" color="white", icon="skip_previous", outline, @click="playPrev")
-      div.q-ml-sm
+      .q-ml-sm
         q-btn(round, size="sm" color="white", icon="skip_next", outline, @click="playNext")
 
     // SENQUENCED VIDEOS
     q-list.no-padding.no-border(style="width: 100%")
       q-item.items-baseline
         q-item-main.vertical-center
-          div.q-mb-md.row.justify-between.items-center(v-if="sequencedVideos.length > 0")
+          .q-mb-md.row.justify-between.items-center(v-if="sequencedVideos.length > 0")
             h3.q-title.no-margin(v-if="sequencedVideos.length > 0") Videos
             q-btn.no-margin(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
-          div.q-mb-md(v-else, style="text-align:center")
-            div.q-ma-md.q-body-2 Füge deine ersten Videos hinzu
+          .q-mb-md(v-else, style="text-align:center")
+            .q-ma-md.q-body-2 Füge deine ersten Videos hinzu
             q-btn.q-ma-md(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
 
           q-list.q-mb-xl.no-border
             q-item.no-padding.mega(v-for="(video, index) in sequencedVideos")
-              div.col
+              .col
                 img.videoPreviewImg(:src="video.preview", style="width: 150px", alt="video.title", @click="openPreview(index), editIndex = index")
 
                 //q-btn.no-wrap.full-width(align="left", dark, color="primary", :class="{ 'bg-red': editIndex == index }", :key="index", @click="openPreview(video.source), editIndex = index") {{ video.title || video.uuid }}
-              div.col
+              .col
                 h2.q-subheading.videoTitel.no-margin.vertical-top(@click="openPreview(index), editIndex = index") {{ video.title || video.uuid }}
-                div.row
+                .row
                   q-btn.q-ma-xs(round, size="sm" color="white", icon="arrow_upward", outline, @click="editIndex = index, moveUp(sequencedVideos, editIndex)")
                   q-btn.q-ma-xs(round, size="sm" color="white", icon="arrow_downward", outline, @click="editIndex = index, moveDown(sequencedVideos, editIndex)")
                   q-btn.q-ma-xs(round, size="sm" color="white", icon="filter_none", outline, @click="editIndex = index, duplicateVideo(editIndex)")
                   q-btn.q-ma-xs(round, size="sm" color="white", icon="delete", outline, @click="editIndex = index, deleteItem(editIndex)")
 
     // BUTTONS BOTTOM
-    div.row.q-ma-md.full-width.justify-center.items-end
+    .row.q-ma-md.full-width.justify-center.items-end
       // q-btn.justify-center(icon="save", color="primary", label="Speichern", :loading="loading", :percentage="percentage2", @click="startComputing")
-      q-btn.full-width.fixed-bottom(v-if="sequencedVideos.length > 0" icon="save" color="primary" label="Speichern" :loadinv="loading", :percentage="percentage2",  @click="startComputing")
+      q-btn.full-width.fixed-bottom(v-if="sequencedVideos.length > 0" icon="save"
+        color="primary" label="Speichern"
+        :loadinv="loading", :percentage="percentage2",
+        @click="startComputing")
       // span(slot="loading")
          // q-spinner-gears(class="on-left") Laden ...
 
@@ -83,6 +89,7 @@
 </template>
 
 <script>
+  import Vue from 'vue'
   import ModalPreview from '../components/VideoModal'
   import { VideoPlayer } from 'mbjs-quasar/src/components'
   import FileUploader from '../components/FileUploader'
@@ -124,10 +131,17 @@
       reverseVideos () {
         return this.uploadedVideos.slice().reverse()
         // return this.uploadedVideos
+      },
+      jobIds () {
+        return this.$store.getters['conversions/getJobIds']
       }
     },
     mounted () {
+      this.$root.$on('updateVideos', this.fetchData)
       this.fetchData()
+    },
+    beforeDestroy () {
+      this.$root.$off('updateVideos', this.fetchData)
     },
     watch: {
       preview (val) {
@@ -164,17 +178,19 @@
         this.fetchedUserVideos = true
         // this.uploadedVideos = uploadedVideos
       },
-      async addUploadedVideo (vid) {
-        const meta = await this.$store.dispatch('metadata/get', vid.uuid)
-        this.uploadedVideos.push(Object.assign({}, {
+      async addUploadedVideo (video) {
+        console.log(video)
+        const meta = await this.$store.dispatch('metadata/get', video.uuid)
+        const newVideo = Object.assign({}, {
           weight: 0,
-          title: vid.body.value,
-          uuid: vid.uuid,
-          created: vid.created,
-          source: { id: vid.body.source.id, type: 'video/mp4' },
-          preview: vid.body.source.id.replace(/\.mp4$/, '.png'),
+          title: video.body.value,
+          uuid: video.uuid,
+          created: video.created,
+          source: { id: video.body.source.id, type: 'video/mp4' },
+          preview: video.body.source.id.replace(/\.mp4$/, '.png'),
           duration: meta ? meta.duration : 1
-        }))
+        })
+        Vue.set(this.uploadedVideos, this.uploadedVideos.length, newVideo)
       },
       closeModal () {
         this.opened = false
