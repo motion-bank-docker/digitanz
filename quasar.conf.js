@@ -120,6 +120,7 @@ module.exports = function (ctx) {
         'QScrollArea',
         'QInnerLoading',
         'QSpinnerMat',
+        'QSpinnerTail',
         'QChip'
       ],
       directives: [

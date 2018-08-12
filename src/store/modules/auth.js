@@ -19,13 +19,21 @@ export default {
       state.user = user
     },
     setRedirect: (state, target) => {
-      Assert.isType(target, 'object', 'redirect target must be object')
+      Assert.isType(target, 'string', 'redirect target must be object')
       state.redirectTo = target
       localStorage.setItem('redirectTo', target)
     },
     clearRedirect: (state) => {
       state.redirectTo = undefined
       localStorage.removeItem('redirectTo')
+    }
+  },
+  actions: {
+    storeRedirect ({ commit }, target) {
+      return new Promise(resolve => {
+        commit('setRedirect', target)
+        resolve()
+      })
     }
   }
 }
