@@ -1,8 +1,8 @@
 <template lang="pug">
-  q-modal(v-model="showVideoModal")
+  q-modal(v-model="showModal")
     q-modal-layout(dark, :content-class="{'bg-dark': true}")
       .layout-padding(v-if="preview")
-        video-player(v-if="video", :src="video.source", @ended="onEnded")
+        video-player(v-if="video", :annotation="video", @ended="onEnded")
       q-toolbar.bg-dark(slot="footer", dark)
         .col-12.layout-padding
           q-btn.on-right.float-right(color="primary", @click="closePreview", label="Close")
@@ -24,7 +24,7 @@ export default {
       if (Array.isArray(this.preview)) {
         this.index++
         if (this.index >= this.preview.length) this.index = 0
-        this.video = { source: { type: 'video/mp4', id: this.preview[this.index].source.source } }
+        this.video = this.preview[this.index]
       }
     }
   },
@@ -38,7 +38,7 @@ export default {
     preview () {
       if (Array.isArray(this.preview) && this.preview.length) {
         this.index = 0
-        this.video = { source: { type: 'video/mp4', id: this.preview[this.index].source.source } }
+        this.video = this.preview[this.index]
       }
       else if (this.preview) {
         this.video = this.preview
