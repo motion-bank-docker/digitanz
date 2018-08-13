@@ -7,14 +7,14 @@
     div.row
       q-btn.q-ma-xs(disable flat dark) Workshop Termin...
     div.row.q-mx-md.no-wrap
-      q-btn.q-ma-xs(color="faded" v-for="(date, index) in dates" @click="scrollToElement(date.date)") {{ index + 1 }}
+      q-btn.q-ma-xs(color="faded" v-for="(date, index) in dates" @click="scrollToElement(getDateLabel(date))") {{ index + 1 }}
 
     // MY SAVED ITEMS
-    q-list.row.no-border(v-for="date in dates", :id="date.date")
-      q-list-header.no-margin(:ref="date.date")
+    q-list.row.no-border(v-for="date in dates", :id="getDateLabel(date)")
+      q-list-header.no-margin(:ref="getDateLabel(date)")
         div.row.items-baseline
           h3.no-margin {{ date.title }}
-          p.q-pl-xl.no-margin {{ date.topic }}
+          p.q-pl-xl.no-margin {{ getDateLabel(date) }}
       div.line-separator.full-width
       q-item.q-my-md(v-if="date.description") {{ date.description }}
       q-item.col-12(v-for="item in date.entries" :key="item.annotation.uuid", :src="item.annotation.body.source.id")
@@ -26,14 +26,15 @@
             q-btn(flat round :icon="itemLikeStatus(item).icon" :color="itemLikeStatus(item).color" @click="likeItem(item, date)")
             q-btn(flat round icon="edit")
             q-btn(flat round icon="delete" @click="openDeleteModal()")
-            q-btn(flat round icon="cloud_download", @click="openURL(getDownloadURL(item.annotation.body.source.id))")
-      div.row.full-width(v-if="date.active")
+            q-btn(flat round icon="cloud_download", @click="download(item.annotation.body.source.id)")
+      div.row.full-width(v-if="isDateActive(date)")
         q-btn.q-ma-md(color="faded" style="flex-grow: 1") Ergebnisse von allen
 </template>
 
 <script>
   import path from 'path'
   import { openURL } from 'quasar'
+  import { DateTime, Interval } from 'luxon'
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
   import DeleteModal from '../components/DeleteModal'
@@ -54,42 +55,28 @@
           map: undefined,
           annotations: []
         },
-        dates: [
-          { title: 'Portrait',
-            topic: '17.08.2018',
-            date: '2018-08-17',
-            start: '2018-08-17T00:00:00.000+02:00',
-            end: '2018-08-17T23:59:59.000+02:00',
-            description: 'An unserem ersten Termin beschäftigen wir uns mit Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue.',
-            active: process.env.FEATURE_UPLOAD || false,
-            map_title: 'Meine Videos',
-            map: undefined,
-            entries: []
-          },
-          { title: 'Remix Portrait',
-            topic: '24.08.2018',
-            date: '2018-08-24',
-            start: '2018-08-24T00:00:00.000+02:00',
-            end: '2018-08-24T23:59:59.000+02:00',
-            description: 'An unserem zweiten Termin machen wir daraus Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue.',
-            active: process.env.FEATURE_SEQUENCER || false,
-            map_title: 'Meine Remixes',
-            map: undefined,
-            entries: []
-          }
-        ]
+        dates: undefined
       }
     },
     methods: {
-      openURL,
-      getDownloadURL (file) {
-        return `${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`
+      download (file) {
+        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
       },
-      deleteItem (index) {
-        this.groupedTools.splice(index, 1)
+      getDateLabel (date) {
+        const dt = DateTime.fromISO(date.start)
+        return `${dt.day}.${dt.month}.${dt.year}`
+      },
+      isDateActive (date) {
+        const
+          start = DateTime.fromISO(date.start),
+          end = DateTime.fromISO(date.end),
+          interval = Interval.fromDateTimes(start, end)
+        return interval.contains(DateTime.local())
+      },
+      deleteItem (/* index */) {
+        // this.groupedTools.splice(index, 1)
       },
       openPreview (item) {
-        console.log(item)
         this.preview = item.annotation
         if (item.annotation.body.source.type === 'video/mp4') this.showVideoModal = true
         else if (item.annotation.body.source.type === 'image/jpeg') this.showImageModal = true
@@ -137,6 +124,7 @@
       }
     },
     async mounted () {
+      this.dates = this.$dates()
       /**
        * Get the global portrait timeline and its contents
        */
@@ -166,6 +154,7 @@
           date.map = result.items[0]
           query = {
             'target.id': `${process.env.TIMELINE_BASE_URI}${date.map.uuid}`
+            // 'created': { $gte: date.start, $lte: date.end }
           }
           result = await this.$store.dispatch('annotations/find', query)
           const entries = []
