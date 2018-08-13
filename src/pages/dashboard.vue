@@ -26,17 +26,18 @@
             q-btn(flat round :icon="itemLikeStatus(item).icon" :color="itemLikeStatus(item).color" @click="likeItem(item, date)")
             q-btn(flat round icon="edit")
             q-btn(flat round icon="delete" @click="openDeleteModal()")
-            q-btn(flat round icon="cloud_download")
+            q-btn(flat round icon="cloud_download", @click="openURL(getDownloadURL(item.annotation.body.source.id))")
       div.row.full-width(v-if="date.active")
         q-btn.q-ma-md(color="faded" style="flex-grow: 1") Ergebnisse von allen
 </template>
 
 <script>
-  // import path from 'path'
-  // import url from 'url'
+  import path from 'path'
+  import { openURL } from 'quasar'
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
   import DeleteModal from '../components/DeleteModal'
+
   export default {
     components: {
       VideoModal,
@@ -80,6 +81,10 @@
       }
     },
     methods: {
+      openURL,
+      getDownloadURL (file) {
+        return `${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`
+      },
       deleteItem (index) {
         this.groupedTools.splice(index, 1)
       },
