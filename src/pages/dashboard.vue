@@ -5,36 +5,37 @@
 
     // SORT-BUTTONS
     div.row
-      q-btn.q-ma-xs(disable flat dark) Workshop Termin...
+      q-btn.q-ma-xs(disable flat dark) {{ $t('dates.sort_label') }}
     div.row.q-mx-md.no-wrap
       q-btn.q-ma-xs(color="faded" v-for="(date, index) in dates" @click="scrollToDate(date)") {{ index + 1 }}
 
     // MY SAVED ITEMS
-    q-list.row.no-border(v-for="date in dates", :ref="getDateLabel(date)")
-      q-list-header.no-margin()
+    q-list.row.no-border(v-for="date in dates", :ref="getDateLabel(date)", v-if="date.show")
+      q-list-header.no-margin
         div.row.items-baseline
-          h3.no-margin {{ date.title }}
+          h3.no-margin {{ $t(date.title) }}
           p.q-pl-xl.no-margin {{ getDateLabel(date) }}
       div.line-separator.full-width
-      q-item.q-my-md(v-if="date.description") {{ date.description }}
+      q-item.q-my-md(v-if="date.description") {{ $t(date.description) }}
       q-item.col-12(v-for="item in date.entries" :key="item.annotation.uuid", :src="item.annotation.body.source.id")
         q-item-main.self-start.col-10
           q-btn.no-padding(@click="openPreview(item)")
             img(:src="item.preview", style="width: 70vw; height: auto")
         q-item-side.self-end.col
           q-item-tile.no-margin.column
-            q-btn(flat round :icon="getItemStyle(item).icon" :color="getItemStyle(item).color" @click="setPortrait(item, date)")
+            q-btn(flat round :icon="getItemStyle(item).icon" :color="getItemStyle(item).color" @click="setAsPortrait(item)")
             q-btn(flat round icon="edit")
             q-btn(flat round icon="delete" @click="openDeleteModal()")
             q-btn(flat round icon="cloud_download", @click="download(item.annotation.body.source.id)")
       div.row.full-width(v-if="isDateActive(date)")
-        q-btn.q-ma-md(color="faded" style="flex-grow: 1") Ergebnisse von allen
+        q-btn.q-ma-md(color="faded" style="flex-grow: 1") {{ $t('dates.all_results') }}
 </template>
 
 <script>
   import path from 'path'
   import { openURL, scroll } from 'quasar'
   import { DateTime, Interval } from 'luxon'
+  import { ObjectUtil } from 'mbjs-utils'
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
   import DeleteModal from '../components/DeleteModal'
@@ -69,10 +70,7 @@
         return `${dt.day}.${dt.month}.${dt.year}`
       },
       isDateActive (date) {
-        const
-          start = DateTime.fromISO(date.start),
-          end = DateTime.fromISO(date.end),
-          interval = Interval.fromDateTimes(start, end)
+        const interval = Interval.fromDateTimes(DateTime.fromISO(date.start), DateTime.fromISO(date.end))
         return interval.contains(DateTime.local())
       },
       deleteItem (/* index */) {
@@ -87,22 +85,35 @@
         console.log('Hallo')
         this.showDeleteModal = true
       },
-      setPortrait (item, date) {
-        let likeValue = 'liked'
-        // if (!Array.isArray(item.tags)) {
-        //   item.tags = item.tags.split(' ')
-        // }
-        if (!item.tags.includes(likeValue)) {
-          console.log('Liked Item: ' + item.uuid)
-          this.groupedList[date.date].forEach(function (savedItem) {
-            savedItem.tags = savedItem.tags.filter(item => item !== likeValue)
-          })
-          item.tags.push(likeValue)
+      async setAsPortrait (item) {
+        console.debug('setting as portrait...', item, this.portraits)
+        const query = {
+          'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`,
+          'author.id': this.$store.state.auth.user.uuid
         }
-        else {
-          item.tags = item.tags.filter(item => item !== likeValue)
+        let result = await this.$store.dispatch('annotations/find', query)
+        let isCurrentPortrait = false
+        for (let portrait of result.items) {
+          if (portrait.body.source.id === item.annotation.body.source.id) isCurrentPortrait = true
+          await this.$store.dispatch('annotations/delete', portrait.uuid)
         }
-        console.log(item.tags)
+        console.debug('existing portrait removed', result)
+        if (!isCurrentPortrait) {
+          const portrait = {
+            body: ObjectUtil.merge({}, item.annotation.body),
+            target: {
+              id: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`,
+              type: 'Timeline',
+              selector: {
+                type: 'Fragment',
+                value: DateTime.local().toISO()
+              }
+            }
+          }
+          result = await this.$store.dispatch('annotations/post', portrait)
+          console.debug('new portrait set', result)
+        }
+        await this.loadPortraits()
       },
       scrollToDate (date, duration = 1000) {
         const el = this.$refs[this.getDateLabel(date)][0].$el
@@ -110,36 +121,35 @@
       },
       getItemStyle (item) {
         for (let portrait of this.portraits.annotations) {
-          if (item.annotation.uuid === portrait.uuid) return {color: 'primary', icon: 'favorite'}
+          if (item.annotation.body.source.id === portrait.body.source.id) return {color: 'primary', icon: 'favorite'}
         }
         return {color: 'grey', icon: 'favorite_border'}
+      },
+      async loadPortraits () {
+        /**
+         * Get the global portrait timeline and its contents
+         */
+        const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
+        if (portraitsMapResult) {
+          this.portraits.map = portraitsMapResult
+          const portraitsQuery = {
+            'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
+          }
+          const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
+          this.portraits.annotations = portraitsResult.items
+        }
       }
     },
     async mounted () {
       this.dates = this.$dates()
-      /**
-       * Get the global portrait timeline and its contents
-       */
-      const portraitsMapQuery = {
-        'author.id': process.env.SYSTEM_USER_UUID,
-        'title': 'Digitanz Portraits'
-      }
-      const portraitsMapResult = await this.$store.dispatch('maps/find', portraitsMapQuery)
-      if (portraitsMapResult.items.length) {
-        this.portraits.map = portraitsMapResult.items[0]
-        const portraitsQuery = {
-          'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
-        }
-        const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
-        this.portraits.annotations = portraitsResult.items
-      }
+      await this.loadPortraits()
       /**
        * Iterate over dates and fetch content for each one
        */
       for (let date of this.dates) {
         let query = {
           'author.id': this.$store.state.auth.user.uuid,
-          'title': date.map_title
+          'title': this.$t(date.map_title)
         }
         let result = await this.$store.dispatch('maps/find', query)
         if (result.items.length) {
