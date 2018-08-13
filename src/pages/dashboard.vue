@@ -6,7 +6,7 @@
     // SORT-BUTTONS
     div.row
       q-btn.q-ma-xs(disable flat dark) Workshop Termin...
-    div.row.q-mb-md.no-wrap
+    div.row.q-mx-md.no-wrap
       q-btn.q-ma-xs(color="faded" v-for="(date, index) in dates" @click="scrollToElement(date.date)") {{ index + 1 }}
 
     // MY SAVED ITEMS
@@ -20,7 +20,7 @@
       q-item.col-12(v-for="(item, index_2) in groupOnDay(date.date)" :key="item.uuid", :src="item.media")
         q-item-main.self-start.col-10
           q-btn.no-padding(@click="openPreview(item)")
-            img(:src="item.preview", style="width: 100%; height: auto")
+            img(:src="item.preview", style="width: 70vw; height: auto")
         q-item-side.self-end.col
           q-item-tile.no-margin.column
             q-btn(flat round :icon="itemLikeStatus(item).icon" :color="itemLikeStatus(item).color" @click="likeItem(item, date)")
