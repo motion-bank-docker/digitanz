@@ -96,6 +96,7 @@
         for (let portrait of result.items) {
           if (portrait.body.source.id === item.annotation.body.source.id) isCurrentPortrait = true
           await this.$store.dispatch('annotations/delete', portrait.uuid)
+          await this.$store.dispatch('acl/remove', {uuid: result.uuid, role: 'public', permission: 'get'})
         }
         console.debug('existing portrait removed', result)
         if (!isCurrentPortrait) {
@@ -111,6 +112,9 @@
             }
           }
           result = await this.$store.dispatch('annotations/post', portrait)
+          if (result) {
+            await this.$store.dispatch('acl/set', {uuid: result.uuid, role: 'public', permissions: ['get']})
+          }
           console.debug('new portrait set', result)
         }
         await this.loadPortraits()
