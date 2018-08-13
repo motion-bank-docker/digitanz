@@ -7,11 +7,11 @@
     div.row
       q-btn.q-ma-xs(disable flat dark) Workshop Termin...
     div.row.q-mx-md.no-wrap
-      q-btn.q-ma-xs(color="faded" v-for="(date, index) in dates" @click="scrollToElement(getDateLabel(date))") {{ index + 1 }}
+      q-btn.q-ma-xs(color="faded" v-for="(date, index) in dates" @click="scrollToDate(date)") {{ index + 1 }}
 
     // MY SAVED ITEMS
-    q-list.row.no-border(v-for="date in dates", :id="getDateLabel(date)")
-      q-list-header.no-margin(:ref="getDateLabel(date)")
+    q-list.row.no-border(v-for="date in dates", :ref="getDateLabel(date)")
+      q-list-header.no-margin()
         div.row.items-baseline
           h3.no-margin {{ date.title }}
           p.q-pl-xl.no-margin {{ getDateLabel(date) }}
@@ -23,7 +23,7 @@
             img(:src="item.preview", style="width: 70vw; height: auto")
         q-item-side.self-end.col
           q-item-tile.no-margin.column
-            q-btn(flat round :icon="itemLikeStatus(item).icon" :color="itemLikeStatus(item).color" @click="likeItem(item, date)")
+            q-btn(flat round :icon="getItemStyle(item).icon" :color="getItemStyle(item).color" @click="setPortrait(item, date)")
             q-btn(flat round icon="edit")
             q-btn(flat round icon="delete" @click="openDeleteModal()")
             q-btn(flat round icon="cloud_download", @click="download(item.annotation.body.source.id)")
@@ -33,11 +33,13 @@
 
 <script>
   import path from 'path'
-  import { openURL } from 'quasar'
+  import { openURL, scroll } from 'quasar'
   import { DateTime, Interval } from 'luxon'
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
   import DeleteModal from '../components/DeleteModal'
+
+  const { getScrollTarget, setScrollPosition } = scroll
 
   export default {
     components: {
@@ -85,42 +87,32 @@
         console.log('Hallo')
         this.showDeleteModal = true
       },
-      likeItem (thisItem, date) {
+      setPortrait (item, date) {
         let likeValue = 'liked'
         // if (!Array.isArray(item.tags)) {
         //   item.tags = item.tags.split(' ')
         // }
-        if (!thisItem.tags.includes(likeValue)) {
-          console.log('Liked Item: ' + thisItem.uuid)
+        if (!item.tags.includes(likeValue)) {
+          console.log('Liked Item: ' + item.uuid)
           this.groupedList[date.date].forEach(function (savedItem) {
             savedItem.tags = savedItem.tags.filter(item => item !== likeValue)
           })
-          thisItem.tags.push(likeValue)
+          item.tags.push(likeValue)
         }
         else {
-          thisItem.tags = thisItem.tags.filter(item => item !== likeValue)
+          item.tags = item.tags.filter(item => item !== likeValue)
         }
-        console.log(thisItem.tags)
+        console.log(item.tags)
       },
-      scrollToElement (index) {
-        let element = document.getElementById(index)
-        let headerOffset = 50
-        let elementPosition = element.getBoundingClientRect().top
-        let offsetPosition = elementPosition - headerOffset
-        window.scroll({
-          top: offsetPosition,
-          behavior: 'smooth'
-        })
-        // let target = this.$q.getScrollTarget(el)
-        // let offset = el.offsetTop - el.scrollHeight
-        // let duration = 1000
-        // this.$g.setScrollPosition(target, offset, duration)
+      scrollToDate (date, duration = 1000) {
+        const el = this.$refs[this.getDateLabel(date)][0].$el
+        setScrollPosition(getScrollTarget(el), el.offsetTop - el.scrollHeight, duration)
       },
-      itemLikeStatus (item) {
+      getItemStyle (item) {
         for (let portrait of this.portraits.annotations) {
-          if (item.annotation.uuid === portrait.uuid) return true
+          if (item.annotation.uuid === portrait.uuid) return {color: 'primary', icon: 'favorite'}
         }
-        return false
+        return {color: 'grey', icon: 'favorite_border'}
       }
     },
     async mounted () {
