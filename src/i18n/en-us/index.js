@@ -8,12 +8,17 @@ export default {
     conversion_successful: 'Dein Video ist jetzt verfügbar',
     conversion_failed: 'Video upload fehlgeschlagen'
   },
+  dashboard: {
+    title: 'Dashboard',
+    description: 'hier findest du die Videos zu allen Terminen, die Liste wird im Laufe der Zeit wachsen.',
+    map_title: 'Mein Dashboard'
+  },
   dates: {
     all_results: 'Ergebnisse von allen',
     sort_label: 'Workshop termin...',
     portrait: {
       title: 'Portrait',
-      description: 'Lorem ipsum dolor sit amet...',
+      description: 'Hier steht die Projektbeschreibung für den Portrait-Termin.',
       map_title: 'Meine Videos'
     },
     remix: {

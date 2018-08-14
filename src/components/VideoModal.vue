@@ -1,11 +1,14 @@
 <template lang="pug">
   q-modal(v-model="showModal")
     q-modal-layout(dark, :content-class="{'bg-dark': true}")
-      .layout-padding(v-if="preview")
+      // .layout-padding(v-if="preview")
+      span(v-if="preview")
         video-player(v-if="video", :annotation="video", @ended="onEnded")
-      q-toolbar.bg-dark(slot="footer", dark)
-        .col-12.layout-padding
-          q-btn.on-right.float-right(color="primary", @click="closePreview", label="Close")
+      q-btn.full-width.bg-dark.q-pa-lg(slot="footer", @click="closePreview", label="Close", flat)
+      //
+        q-toolbar.bg-dark(slot="footer", dark)
+          .col-12.layout-padding
+            q-btn.full-width.bg-dark(@click="closePreview", label="Close", flat)
 </template>
 
 <script>

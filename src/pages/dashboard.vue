@@ -3,30 +3,61 @@
     video-modal(:show="showVideoModal", :preview="preview", @canceled="showVideoModal = false")
     image-modal(:show="showImageModal", :source="preview", @canceled="showImageModal = false")
 
-    // SORT-BUTTONS
-    div.row
-      q-btn.q-ma-xs(disable flat dark) {{ $t('dates.sort_label') }}
-    div.row.q-mx-md.no-wrap
-      q-btn.q-ma-xs(color="faded" v-for="(date, index) in dates" @click="scrollToDate(date)") {{ index + 1 }}
+    // BUTTONS TERMINE
+    //
+    h4.text-center.q-ma-lg
+      // q-btn.q-ma-xs(disable flat dark) {{ $t('dates.sort_label') }}
+      | Hi &nbsp;
+      span.text-primary {{ $store.state.auth.user.nickname }}
+      | ,
+    div.q-mx-md.q-mb-lg
+      | {{ $t('dashboard.description') }}
+    q-list.no-border.q-px-md
+      q-item.no-padding(v-for="(date, index) in dates")
+        //
+          q-item-side
+            | {{ index + 1 }}
+        q-item-main
+          q-btn.full-width.q-ma-xs.q-py-sm.bg-dark.cursor-pointer.text-grey-5(color="faded", @click="scrollToDate(date)", no-caps)
+            q-item-side.text-left.vertical-top
+              | {{ index + 1 }}
+            q-item-main.text-right(style="line-height: 1.5rem;")
+              | {{ $t(date.title) }}
+              br
+              | {{ formatTime(date.start) }}
 
-    // MY SAVED ITEMS
-    q-list.row.no-border(v-for="date in dates", :ref="getDateLabel(date)", v-if="date.show")
-      q-list-header.no-margin
-        div.row.items-baseline
-          h3.no-margin {{ $t(date.title) }}
-          p.q-pl-xl.no-margin {{ getDateLabel(date) }}
+    // TERMINE DETAIL
+    //
+    q-list.row.no-border.q-mt-xl(v-for="date in dates", :ref="getDateLabel(date)", v-if="date.show")
+      div.line-separator.full-width
+      // q-list-header.no-margin.text-center bchjdbvcsd
+        // div.row.items-baseline
+      div.full-width.text-center.q-py-md
+        h3.no-margin {{ $t(date.title) }}
+        p {{ getDateLabel(date) }}
       div.line-separator.full-width
       q-item.q-my-md(v-if="date.description") {{ $t(date.description) }}
-      q-item.col-12(v-for="item in date.entries" :key="item.annotation.uuid", :src="item.annotation.body.source.id")
-        q-item-main.self-start.col-10
-          q-btn.no-padding(@click="openPreview(item)")
-            img(:src="item.preview", style="width: 70vw; height: auto")
-        q-item-side.self-end.col
-          q-item-tile.no-margin.column
-            q-btn(flat round :icon="getItemStyle(item).icon" :color="getItemStyle(item).color" @click="setAsPortrait(item)")
-            q-btn(flat round icon="edit")
-            q-btn(flat round icon="delete" @click="openDeleteModal()")
-            q-btn(flat round icon="cloud_download", @click="download(item.annotation.body.source.id)")
+      q-item.q-mt-md(v-for="item in date.entries" :key="item.annotation.uuid", :src="item.annotation.body.source.id")
+        q-item-main.self-start
+          q-item-tile.text-center
+            q-btn.no-padding(@click="openPreview(item)")
+              img(:src="item.preview", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
+          q-item-tile.no-margin.text-center.q-pt-sm
+            q-btn(flat, round, :icon="getItemStyle(item).icon", :color="getItemStyle(item).color", @click="setAsPortrait(item)")
+            q-btn(flat, round, icon="edit")
+            q-btn(flat, round, icon="delete", @click="openDeleteModal()")
+            q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
+      //
+        q-item.col-12(v-for="item in date.entries" :key="item.annotation.uuid", :src="item.annotation.body.source.id")
+          q-item-main.self-start.col-10
+            q-btn.no-padding(@click="openPreview(item)")
+              img(:src="item.preview", style="width: 70vw; height: auto; border-radius: 5px;")
+          q-item-side.self-end.col
+            q-item-tile.no-margin.column
+              q-btn(flat round :icon="getItemStyle(item).icon" :color="getItemStyle(item).color" @click="setAsPortrait(item)")
+              q-btn(flat round icon="edit")
+              q-btn(flat round icon="delete" @click="openDeleteModal()")
+              q-btn(flat round icon="cloud_download", @click="download(item.annotation.body.source.id)")
       div.row.full-width(v-if="isDateActive(date)")
         q-btn.q-ma-md(color="faded" style="flex-grow: 1") {{ $t('dates.all_results') }}
 </template>
@@ -62,6 +93,10 @@
       }
     },
     methods: {
+      formatTime (val) {
+        // console.log(val)
+        return DateTime.fromISO(val).toLocaleString()
+      },
       download (file) {
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
       },
