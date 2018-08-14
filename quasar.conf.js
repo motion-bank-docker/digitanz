@@ -125,7 +125,8 @@ module.exports = function (ctx) {
         'QInnerLoading',
         'QSpinnerMat',
         'QSpinnerTail',
-        'QChip'
+        'QChip',
+        'QCollapsible'
       ],
       directives: [
         'Ripple'
