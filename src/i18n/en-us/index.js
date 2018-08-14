@@ -26,5 +26,9 @@ export default {
       description: 'Lorem ipsum dolor sit amet...',
       map_title: 'Meine Remixes'
     }
+  },
+  navigation: {
+    login: 'Einloggen',
+    logout: 'Ausloggen'
   }
 }

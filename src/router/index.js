@@ -30,8 +30,8 @@ Router.beforeEach((to, from, next) => {
     if (!Router.app.$store.state.user) {
       Router.app.$auth.checkSession(Router.app.$store).catch(() => {
         if (to.meta.private) {
-          console.log('store redirect', to.fullPath)
-          Router.app.$store.commit('auth/setRedirect', to.fullPath)
+          // console.log('store redirect', to.fullPath)
+          // Router.app.$store.commit('auth/setRedirect', to.fullPath)
           Router.app.$auth.authenticate()
         }
       }).then(result => {
@@ -47,8 +47,8 @@ Router.beforeEach((to, from, next) => {
           next()
         }
         else if (to.meta.private) {
-          console.log('store redirect', to.fullPath)
-          Router.app.$store.commit('auth/setRedirect', to.fullPath)
+          // console.log('store redirect', to.fullPath)
+          // Router.app.$store.commit('auth/setRedirect', to.fullPath)
           Router.app.$auth.authenticate()
         }
         else next()
