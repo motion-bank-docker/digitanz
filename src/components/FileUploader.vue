@@ -54,21 +54,39 @@
         const keys = Object.keys(responses)
         for (let key of keys) {
           const source = responses[key].file
+          const headers = {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+          const metadataURL = `${process.env.TRANSCODER_HOST}/metadata/url?url=${encodeURIComponent(source)}`
+          let result = await this.$axios.get(metadataURL, { headers })
+          const metadata = result.data
+          console.log('metadata', metadata)
           const detail = {
             title: this.title,
             timeline: this.timeline.uuid
           }
+          let size = {
+            width: 1280,
+            height: 720
+          }
+          if (metadata.width < metadata.height || metadata.rotation === -90 || metadata.rotation === 90) {
+            size = {
+              width: 720,
+              height: 1280
+            }
+          }
           const conversion = {
             source,
+            rotate: metadata.rotation || 0,
             scale: {
-              width: 1280,
-              height: 720
+              width: size.width,
+              height: size.height
             },
             metadata: {
               title: this.title
             }
           }
-          const result = await this.$store.dispatch('conversions/post', { conversion, detail })
+          result = await this.$store.dispatch('conversions/post', { conversion, detail })
           console.debug('created conversion', result)
         }
         this.title = undefined
