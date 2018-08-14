@@ -1,9 +1,10 @@
 <template lang="pug">
-  q-modal(v-model="show", :content-css="{padding: '50px'}")
-    div.q-display-1.q-mb-md {{ $t('labels.confirm_delete') }}
-    div
-      q-btn(color="red", @click="confirm") {{ $t('buttons.delete') }}
-      q-btn(color="faded", @click="cancel") {{ $t('buttons.cancel') }}
+  q-modal(v-model="show", minimized)
+    .bg-dark.q-pa-md.text-center
+      | {{ $t('labels.confirm_delete') }}
+      .q-mt-md
+        q-btn(color="red", @click="confirm") {{ $t('buttons.delete') }}
+        q-btn(color="faded", @click="cancel") {{ $t('buttons.cancel') }}
 </template>
 
 <script>
