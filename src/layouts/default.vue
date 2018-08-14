@@ -5,7 +5,11 @@
         q-btn(flat, dense, round, @click='leftDrawerOpen = !leftDrawerOpen', aria-label='Menu')
           q-icon(name='menu')
         q-toolbar-title {{ info.productName }}
-    q-layout-drawer(dark, v-model='leftDrawerOpen', :content-class="$q.theme === 'mat' ? 'bg-dark' : null")
+        q-btn(color="primary", flat, icon="eject",
+          v-if="userState", @click="logout") {{ $t('navigation.logout') }}
+        q-btn(color="primary", flat, icon="arrow_forward",
+          v-if="!userState", @click="login") {{ $t('navigation.login') }}
+    q-layout-drawer(dark, v-model='leftDrawerOpen', :content-class="$q.theme === 'mat' ? 'bg-dark' : null", v-if="userState")
       //q-list(dark, no-border, link, inset-delimiter, v-if="urls")
       q-list(dark, no-border, link, inset-delimiter)
         q-list-header Main Menu
@@ -35,6 +39,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import ConversionJobs from '../components/ConversionJobs'
   export default {
     components: {
@@ -47,6 +52,20 @@
           productName: '#digitanz'
         },
         leftDrawerOpen: this.$q.platform.is.desktop
+      }
+    },
+    computed: {
+      ...mapGetters({
+        userState: 'auth/getUserState'
+      })
+    },
+    methods: {
+      login () {
+        this.$auth.authenticate()
+      },
+      logout () {
+        this.$store.commit('auth/setUser', undefined)
+        this.$auth.logout()
       }
     }
   }

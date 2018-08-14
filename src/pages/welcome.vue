@@ -1,5 +1,5 @@
 <template lang="pug">
-  router-link(to="/dashboard") Login
+  div
 </template>
 
 <script>
