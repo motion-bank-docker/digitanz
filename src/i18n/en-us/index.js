@@ -67,6 +67,8 @@ export default {
     }
   },
   upload: {
+    loading_up: 'Lädt hoch...',
+    my_videos: 'Meine Videos',
     title: 'Video hochladen'
   }
 }
