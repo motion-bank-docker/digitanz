@@ -4,7 +4,7 @@
       // .layout-padding(v-if="preview")
       span(v-if="preview")
         video-player(v-if="video", :annotation="video", @ended="onEnded")
-      q-btn.full-width.bg-dark.q-pa-lg(slot="footer", @click="closePreview", label="Close", flat)
+      q-btn.full-width.bg-dark.q-pa-lg(slot="footer", @click="closePreview", label="Close", flat, style="border-radius: 0;")
       //
         q-toolbar.bg-dark(slot="footer", dark)
           .col-12.layout-padding
