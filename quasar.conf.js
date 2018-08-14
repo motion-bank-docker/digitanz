@@ -123,6 +123,7 @@ module.exports = function (ctx) {
         'QPageSticky',
         'QScrollArea',
         'QInnerLoading',
+        'QSpinner',
         'QSpinnerMat',
         'QSpinnerTail',
         'QChip',
