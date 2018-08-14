@@ -5,7 +5,7 @@
 
     // HEADLINE
     //
-    h4.text-center
+    h3.text-center
       | Hi!
     div.q-mx-md.q-mb-xl.text-grey-8
       | {{ $t('dashboard.description') }}
@@ -13,7 +13,7 @@
     // TERMINE IM DETAIL
     //
     q-collapsible(
-    v-for="(date, i) in dates", :ref="getDateLabel(date)", v-if="date.show", style="border-top: 1px solid #333;")
+    v-for="(date, i) in dates", :ref="getDateLabel(date)", v-if="date.show", opened, style="border-top: 1px solid #333;")
       template(slot="header")
         q-item.full-width.q-pl-none
           // q-item-side {{ i + 1 }}.

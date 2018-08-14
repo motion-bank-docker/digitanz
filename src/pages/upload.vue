@@ -11,7 +11,8 @@
           ul
             li(v-for="jobId in jobIds", :key="jobId") {{ $store.state.conversions.jobDetails[jobId].title }}
       .col-12.q-px-md
-        h4.text-center {{ map.title }}
+        // h4.text-center {{ map.title }}
+        h4.text-center {{ $t('upload.my_videos') }}
         q-list.no-border.q-pb-md
           q-item.no-padding.q-mt-md.text-center(v-for="video in videos", :key="video.uuid")
             //
