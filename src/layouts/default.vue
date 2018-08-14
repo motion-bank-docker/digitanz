@@ -14,8 +14,17 @@
       q-list(dark, no-border, link, inset-delimiter)
         // q-list-header Main Menu
         q-item(@click.native="$router.push('/dashboard')")
-          q-item-side(icon='list')
+          q-item-side
+            q-item-tile(avatar)
+              q-icon(name='list')
           q-item-main(:label='$t(\'navigation.dashboard.label\')', :sublabel='$t(\'navigation.dashboard.sublabel\')')
+        //
+          q-item
+            q-item-side
+            q-item-main
+              q-list.no-border.no-margin
+                // q-item.no-padding(@click.native="$router.push('/dashboard')") 17.8.2018
+                q-item.no-padding(@click.native="$router.push('/dashboard?item_id=abc')") 17.8.2018
         q-item(v-if="env.FEATURE_MR_GRIDDLE", @click.native="$router.push('/mr-griddle')", separator)
           q-item-side(icon='accessibility')
           // q-item-main(label='Mr. Griddle', sublabel='Do the griddle')

@@ -52,6 +52,7 @@
     },
     data () {
       return {
+        // itemDate: this.$route.query.item_id,
         groupedList: '',
         showVideoModal: false,
         showImageModal: false,
@@ -151,6 +152,7 @@
       }
     },
     async mounted () {
+      // alert(this.$route.query.item_id)
       this.dates = this.$dates()
       await this.loadPortraits()
       /**

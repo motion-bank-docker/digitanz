@@ -8,6 +8,12 @@ export default {
     conversion_successful: 'Dein Video ist jetzt verfügbar',
     conversion_failed: 'Video upload fehlgeschlagen'
   },
+  placeholder: {
+    file_uploader: 'Video-Titel'
+  },
+  buttons: {
+    uploader: 'Video auswählen und hochladen'
+  },
   dashboard: {
     title: 'Dashboard',
     description: 'Als Teilnehmerin des Projekts #digitanz findest du hier deine gesammelten Videos zu allen Terminen.',
@@ -54,5 +60,8 @@ export default {
       label: 'Video-Sequenzer',
       sublabel: 'Lorem ipsum.'
     }
+  },
+  upload: {
+    title: 'Video hochladen'
   }
 }
