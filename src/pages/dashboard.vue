@@ -2,6 +2,7 @@
   q-page.flex.column
     video-modal(:show="showVideoModal", :preview="preview", @canceled="showVideoModal = false")
     image-modal(:show="showImageModal", :source="preview", @canceled="showImageModal = false")
+    delete-modal(:show="showDeleteModal", :item="itemToDelete", @cancel="cancelDelete", @confirm="deleteItem")
 
     // HEADLINE
     //
@@ -29,7 +30,7 @@
             q-item-tile.no-margin.text-center.q-pt-sm
               q-btn(flat, round, :icon="getItemStyle(item).icon", :color="getItemStyle(item).color", @click="setAsPortrait(item)")
               q-btn(flat, round, icon="edit")
-              q-btn(flat, round, icon="delete", @click="openDeleteModal()")
+              q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")
               q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
 </template>
 
@@ -58,6 +59,7 @@
         showVideoModal: false,
         showImageModal: false,
         showDeleteModal: false,
+        itemToDelete: undefined,
         portraits: {
           map: undefined,
           annotations: []
@@ -81,16 +83,42 @@
         const interval = Interval.fromDateTimes(DateTime.fromISO(date.start), DateTime.fromISO(date.end))
         return interval.contains(DateTime.local())
       },
-      deleteItem (/* index */) {
-        // this.groupedTools.splice(index, 1)
+      async deleteItem (item) {
+        console.log(item)
+        for (let portrait of this.portraits.annotations) {
+          if (item.annotation.body.source.id === portrait.body.source.id) {
+            await this.setAsPortrait(item)
+          }
+        }
+        const headers = {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+        try {
+          await this.$store.dispatch('annotations/delete', item.annotation.uuid)
+        }
+        catch (e) { console.error('Failed to remove annotation', e.message) }
+        try {
+          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview)}`, {headers})
+        }
+        catch (e) { console.error('Failed to remove preview', e.message) }
+        try {
+          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.annotation.body.source.id)}`, { headers })
+        }
+        catch (e) { console.error('Failed to remove video', e.message) }
+        await this.loadDates()
+        this.cancelDelete()
+      },
+      cancelDelete () {
+        this.itemToDelete = undefined
+        this.showDeleteModal = false
       },
       openPreview (item) {
         this.preview = item.annotation
         if (item.annotation.body.source.type === 'video/mp4') this.showVideoModal = true
         else if (item.annotation.body.source.type === 'image/jpeg') this.showImageModal = true
       },
-      openDeleteModal () {
-        console.log('Hallo')
+      openDeleteModal (item) {
+        this.itemToDelete = item
         this.showDeleteModal = true
       },
       async setAsPortrait (item) {
@@ -150,37 +178,40 @@
           const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
           this.portraits.annotations = portraitsResult.items
         }
+      },
+      async loadDates () {
+        /**
+         * Iterate over dates and fetch content for each one
+         */
+        for (let date of this.dates) {
+          let query = {
+            'author.id': this.$store.state.auth.user.uuid,
+            'title': this.$t(date.map_title)
+          }
+          let result = await this.$store.dispatch('maps/find', query)
+          if (result.items.length) {
+            date.map = result.items[0]
+            query = {
+              'target.id': `${process.env.TIMELINE_BASE_URI}${date.map.uuid}`
+              // 'created': { $gte: date.start, $lte: date.end }
+            }
+            result = await this.$store.dispatch('annotations/find', query)
+            const entries = []
+            for (let annotation of result.items) {
+              const metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
+              const preview = annotation.body.source.id.replace(/mp4$/, 'png')
+              entries.push({ annotation, metadata, preview })
+            }
+            date.entries = entries
+          }
+        }
       }
     },
     async mounted () {
       // alert(this.$route.query.item_id)
       this.dates = this.$dates()
       await this.loadPortraits()
-      /**
-       * Iterate over dates and fetch content for each one
-       */
-      for (let date of this.dates) {
-        let query = {
-          'author.id': this.$store.state.auth.user.uuid,
-          'title': this.$t(date.map_title)
-        }
-        let result = await this.$store.dispatch('maps/find', query)
-        if (result.items.length) {
-          date.map = result.items[0]
-          query = {
-            'target.id': `${process.env.TIMELINE_BASE_URI}${date.map.uuid}`
-            // 'created': { $gte: date.start, $lte: date.end }
-          }
-          result = await this.$store.dispatch('annotations/find', query)
-          const entries = []
-          for (let annotation of result.items) {
-            const metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
-            const preview = annotation.body.source.id.replace(/mp4$/, 'png')
-            entries.push({ annotation, metadata, preview })
-          }
-          date.entries = entries
-        }
-      }
+      await this.loadDates()
     }
   }
 </script>
