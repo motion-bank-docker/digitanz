@@ -20,8 +20,8 @@
           q-item-main
             h4.q-mt-md.q-mb-none(style="line-height: 1em;") {{ $t(date.title) }}
             p.q-caption.text-grey-8.no-padding.q-mt-sm {{ getDateLabel(date) }}
-      .q-mb-xl(style="border-top: 1px solid #333;")
-        q-item.q-my-xl.no-padding(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id")
+      .q-mb-xl(style="border-top: 0px solid #333;")
+        q-item.q-mb-xl.no-padding(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id")
           q-item-main.self-start
             q-item-tile.text-center
               q-btn.no-padding(@click="openPreview(item)")
