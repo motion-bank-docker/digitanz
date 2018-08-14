@@ -1,21 +1,25 @@
 <template lang="pug">
   q-page
     h4.q-mx-none.text-center {{ $t('upload.title') }}
-    file-uploader.full-width.self-center
+    file-uploader.full-width.self-center(v-if="!jobIds.length")
     .row.q-mt-xl(v-if="map")
       .col-12(v-if="jobIds.length")
-        h3 Uploading...
-        ul
-          li(v-for="jobId in jobIds", :key="jobId") {{ $store.state.conversions.jobDetails[jobId].title }}
+        div.text-center
+          q-spinner(size="40px")
+          | {{ $t('upload.loading_up') }}
+        //
+          ul
+            li(v-for="jobId in jobIds", :key="jobId") {{ $store.state.conversions.jobDetails[jobId].title }}
       .col-12.q-px-md
         h4.text-center {{ map.title }}
-        q-list.no-border
-          q-item.no-padding.q-mt-md(v-for="video in videos", :key="video.uuid")
+        q-list.no-border.q-pb-md
+          q-item.no-padding.q-mt-md.text-center(v-for="video in videos", :key="video.uuid")
             //
               p {{ video.metadata.title }}
               p {{ video.metadata.width }}x{{ video.metadata.height }}
               p {{ video.annotation.body.source.id }}
-            img(:src="video.preview", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
+            q-item-main.text-center
+              img(:src="video.preview", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
 </template>
 
 <script>
