@@ -12,7 +12,8 @@ const routes = [
       { path: 'allrecipes', component: () => import('pages/allRecipes'), meta: {private: true} },
       { path: 'slotmachine', component: () => import('pages/slotMachine'), meta: {private: true} },
       { path: 'upload', component: () => import('pages/upload'), meta: {private: true} },
-      { path: 'videosequencer', component: () => import('pages/videoSequencer'), meta: {private: true} }
+      { path: 'videosequencer', component: () => import('pages/videoSequencer'), meta: {private: true} },
+      { path: 'portrait', component: () => import('pages/portrait'), meta: {private: true} }
     ]
   }, {
     path: '/newrecipe/:uuid',

@@ -48,6 +48,10 @@ export default {
       label: 'Mr Griddle',
       sublabel: 'Do the griddle'
     },
+    portrait: {
+      label: 'Portrait',
+      sublabel: 'Hausaufgabe'
+    },
     recipe: {
       label: 'Rezepte',
       sublabel: 'Remix Motion-Recipesx'
@@ -60,6 +64,10 @@ export default {
       label: 'Video-Sequenzer',
       sublabel: 'Lorem ipsum.'
     }
+  },
+  portrait: {
+    title: 'Portrait',
+    description: 'Hier steht eine Beschreibung.'
   },
   upload: {
     loading_up: 'Lädt hoch...',
