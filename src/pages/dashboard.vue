@@ -47,17 +47,6 @@
             q-btn(flat, round, icon="edit")
             q-btn(flat, round, icon="delete", @click="openDeleteModal()")
             q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
-      //
-        q-item.col-12(v-for="item in date.entries" :key="item.annotation.uuid", :src="item.annotation.body.source.id")
-          q-item-main.self-start.col-10
-            q-btn.no-padding(@click="openPreview(item)")
-              img(:src="item.preview", style="width: 70vw; height: auto; border-radius: 5px;")
-          q-item-side.self-end.col
-            q-item-tile.no-margin.column
-              q-btn(flat round :icon="getItemStyle(item).icon" :color="getItemStyle(item).color" @click="setAsPortrait(item)")
-              q-btn(flat round icon="edit")
-              q-btn(flat round icon="delete" @click="openDeleteModal()")
-              q-btn(flat round icon="cloud_download", @click="download(item.annotation.body.source.id)")
       div.row.full-width(v-if="isDateActive(date)")
         q-btn.q-ma-md(color="faded" style="flex-grow: 1") {{ $t('dates.all_results') }}
 </template>
@@ -67,6 +56,7 @@
   import { openURL, scroll } from 'quasar'
   import { DateTime, Interval } from 'luxon'
   import { ObjectUtil } from 'mbjs-utils'
+
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
   import DeleteModal from '../components/DeleteModal'
