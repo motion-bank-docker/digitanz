@@ -38,6 +38,7 @@
   import { openURL, scroll } from 'quasar'
   import { DateTime, Interval } from 'luxon'
   import { ObjectUtil } from 'mbjs-utils'
+
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
   import DeleteModal from '../components/DeleteModal'
