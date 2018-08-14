@@ -10,7 +10,7 @@ export default {
   },
   dashboard: {
     title: 'Dashboard',
-    description: 'hier findest du die Videos zu allen Terminen, die Liste wird im Laufe der Zeit wachsen.',
+    description: 'Als Teilnehmerin des Projekts #digitanz findest du hier deine gesammelten Videos zu allen Terminen.',
     map_title: 'Mein Dashboard'
   },
   dates: {
@@ -29,6 +29,30 @@ export default {
   },
   navigation: {
     login: 'Einloggen',
-    logout: 'Ausloggen'
+    logout: 'Ausloggen',
+    dashboard: {
+      label: 'Übersicht',
+      sublabel: 'Deine gespeicherten Inhalte in einer Übersicht.'
+    },
+    lost_in_space: {
+      label: 'Lost in Space',
+      sublabel: 'Experience space.'
+    },
+    mr_griddle: {
+      label: 'Mr Griddle',
+      sublabel: 'Do the griddle'
+    },
+    recipe: {
+      label: 'Rezepte',
+      sublabel: 'Remix Motion-Recipesx'
+    },
+    upload: {
+      label: 'Upload',
+      sublabel: 'Videos hochladen.'
+    },
+    video_sequencer: {
+      label: 'Video-Sequenzer',
+      sublabel: 'Lorem ipsum.'
+    }
   }
 }
