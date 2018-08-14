@@ -8,11 +8,16 @@ export default {
     conversion_successful: 'Dein Video ist jetzt verfügbar',
     conversion_failed: 'Video upload fehlgeschlagen'
   },
+  labels: {
+    confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?'
+  },
   placeholder: {
     file_uploader: 'Video-Titel'
   },
   buttons: {
-    uploader: 'Video auswählen und hochladen'
+    uploader: 'Video auswählen und hochladen',
+    delete: 'Löschen',
+    cancel: 'Abbrechen'
   },
   dashboard: {
     title: 'Dashboard',
