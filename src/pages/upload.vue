@@ -3,7 +3,7 @@
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
     h4.q-mx-none.text-center {{ $t('upload.title') }}
-    file-uploader.full-width.self-center(v-if="!jobIds.length", :query="query")
+    file-uploader.full-width.self-center(:query="query")
     .row.q-mt-xl(v-if="map")
       job-list
       .col-12.q-px-md
@@ -65,7 +65,7 @@
           'title': 'Meine Videos'
         }
         let results = await this.$store.dispatch('maps/find', query)
-        if (results.items.length) {
+        if (results.items && results.items.length) {
           this.map = Object.assign({}, results.items[0])
           query = {
             'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
