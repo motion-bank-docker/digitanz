@@ -1,11 +1,12 @@
 <template lang="pug">
   q-modal.row.maximized(v-model="showModal", content-classes="bg-dark")
     .q-ma-md
-      h1.q-title {{ $t('portrait.upload_remix') }}
+      h3.text-center(style="line-height: 2rem;") {{ $t('portrait.upload_remix') }}
       file-uploader.no-padding.no-margin.self-center(v-if="!jobIds.length && target",
         :target="target", :purpose="purpose", :public="public", @convert="onConvert")
       job-list
-      q-btn.full-width.fixed-bottom(color="primary" @click="close" icon="arrow_back" :label="$t('buttons.close')")
+      .full-width.fixed-bottom.q-pa-md
+        q-btn.full-width(color="primary" @click="close" icon="arrow_back" :label="$t('buttons.close')")
 </template>
 
 <script>
