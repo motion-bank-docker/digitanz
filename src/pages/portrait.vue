@@ -16,9 +16,15 @@
       q-item.q-py-none
         q-item-main.text-center
           img.cursor-pointer.portrait-image(@click="openPreview(item.portrait)", :src="getPNG(item.portrait.body.source.id)")
-          q-btn(dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
-          ul
-            li(v-for="response in item.responses") {{ response.body.source.id }}
+          q-btn.cursor-pointer(dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
+          q-list.no-border
+            q-item {{ item.responses.length }}
+            q-item.no-padding(v-for="response in item.responses")
+              q-item-main
+                q-item-tile {{ response }}
+                q-item-tile {{ response.body.source.id }}
+                q-item-tile
+                  img(:src="getPNG(response.body.source.id)", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
 </template>
 
 <script>
