@@ -16,22 +16,25 @@
         // h4.text-center {{ map.title }}
         h4.text-center {{ $t('upload.my_videos') }}
         q-list.no-border.q-pb-md
-          q-item.no-padding.q-mt-md.text-center(v-for="video in videos", :key="video.uuid")
+          q-item.no-padding.q-mt-md.text-center(v-for="item in videos", :key="item.uuid")
             //
-              p {{ video.metadata.title }}
-              p {{ video.metadata.width }}x{{ video.metadata.height }}
-              p {{ video.annotation.body.source.id }}
+              p {{ item.metadata.title }}
+              p {{ item.metadata.width }}x{{ item.metadata.height }}
+              p {{ item.annotation.body.source.id }}
             q-item-main.text-center
               q-item-tile
-                img(:src="video.preview", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
+                img(:src="item.preview", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
               q-item-tile
-                q-btn(flat, round, icon="delete", @click="openDeleteModal(video)")
+                q-btn(flat, round, icon="edit")
+                q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")
+                q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
 </template>
 
 <script>
   import path from 'path'
-  import FileUploader from '../components/FileUploader'
+  import { openURL } from 'quasar'
   import { mapGetters } from 'vuex'
+  import FileUploader from '../components/FileUploader'
   import ConfirmModal from '../components/ConfirmModal'
 
   export default {
@@ -82,6 +85,9 @@
           }
           this.videos = videos
         }
+      },
+      download (file) {
+        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
       },
       async deleteItem (item) {
         console.log(item)
