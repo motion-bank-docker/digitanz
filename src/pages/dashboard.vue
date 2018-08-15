@@ -205,9 +205,12 @@
             const items = result.items.sort(this.$sort.onCreatedDesc)
             const entries = []
             for (let annotation of items) {
-              const metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
-              const preview = annotation.body.source.id.replace(/mp4$/, 'png')
-              entries.push({ annotation, metadata, preview })
+              try {
+                const metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
+                const preview = annotation.body.source.id.replace(/mp4$/, 'png')
+                entries.push({annotation, metadata, preview})
+              }
+              catch (e) { console.error('Failed to add item', annotation, e.message) }
             }
             date.entries = entries
           }
