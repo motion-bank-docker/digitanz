@@ -17,7 +17,8 @@ export default {
   buttons: {
     uploader: 'Video auswählen und hochladen',
     delete: 'Löschen',
-    cancel: 'Abbrechen'
+    cancel: 'Abbrechen',
+    confirm: 'OK'
   },
   dashboard: {
     title: 'Dashboard',
