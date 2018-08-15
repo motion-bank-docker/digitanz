@@ -15,7 +15,7 @@
     q-list.no-border(v-for="item in portraits.items")
       q-item.q-py-none
         q-item-main.text-center
-          img.cursor-pointer.portrait-image(@click="openPreview(item.portrait)", :src="getPNG(item.portrait.body.source.id)")
+          img.cursor-pointer.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
           q-btn(dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
           ul
             li(v-for="response in item.responses") {{ response.body.source.id }}
