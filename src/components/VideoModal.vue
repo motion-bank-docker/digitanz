@@ -3,7 +3,7 @@
     q-modal-layout.relative-position(dark, :content-class="{'bg-dark': true}")
       // .layout-padding(v-if="preview")
       span(v-if="preview")
-        video-player(v-if="video", :annotation="video", @ended="onEnded")
+        video-player(v-if="video", :annotation="video", @ended="onEnded", :autoplay="true")
       // q-btn.full-width.bg-dark.q-pa-lg(slot="footer", @click="closePreview", label="Close", flat, style="border-radius: 0;")
       .full-width.q-pa-md.absolute-top.text-right
         q-btn.bg-dark(@click="closePreview", icon="clear", flat, round)
@@ -20,10 +20,15 @@
     components: {
       VideoPlayer
     },
-    props: ['show', 'preview', 'source'],
+    props: ['source'],
     methods: {
+      show (preview) {
+        this.preview = preview
+        this.showModal = true
+      },
       closePreview () {
-        this.$emit('canceled')
+        this.showModal = false
+        this.preview = undefined
       },
       onEnded () {
         if (Array.isArray(this.preview)) {
@@ -36,7 +41,9 @@
     data () {
       return {
         index: -1,
-        video: undefined
+        video: undefined,
+        showModal: false,
+        preview: undefined
       }
     },
     watch: {
@@ -48,11 +55,6 @@
         else if (this.preview) {
           this.video = this.preview
         }
-      }
-    },
-    computed: {
-      showModal () {
-        return (this.show === true)
       }
     }
   }

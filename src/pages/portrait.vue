@@ -1,6 +1,6 @@
 <template lang="pug">
   q-page
-    video-modal(:show="showVideoModal", :preview="preview", @canceled="showVideoModal = false")
+    video-modal(ref="videoModal")
     upload-remix-modal(ref="uploadRemixModal")
 
     // HEAD
@@ -47,8 +47,6 @@
     data () {
       return {
         user: this.$store.state.auth.user.uuid,
-        showVideoModal: false,
-        preview: undefined,
         portraits: {
           map: undefined,
           items: []
@@ -72,9 +70,8 @@
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
       },
       openPreview (item) {
-        if (item.portrait) this.preview = item.portrait
-        else this.preview = item
-        if (this.preview.body.source.type === 'video/mp4') this.showVideoModal = true
+        const preview = item.portrait || item
+        if (preview.body.source.type === 'video/mp4') this.$refs.videoModal.show(preview)
       },
       uploadResponse (item) {
         this.$refs.uploadRemixModal.show(item)

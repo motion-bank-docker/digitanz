@@ -1,6 +1,6 @@
 <template lang="pug">
   q-page.flex.column
-    video-modal(:show="showVideoModal", :preview="preview", @canceled="showVideoModal = false")
+    video-modal(ref="videoModal")
     image-modal(:show="showImageModal", :source="preview", @canceled="showImageModal = false")
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
@@ -56,7 +56,6 @@
       return {
         // itemDate: this.$route.query.item_id,
         groupedList: '',
-        showVideoModal: false,
         showImageModal: false,
         showDeleteModal: false,
         portraits: {
@@ -110,7 +109,7 @@
       },
       openPreview (item) {
         this.preview = item.annotation
-        if (item.annotation.body.source.type === 'video/mp4') this.showVideoModal = true
+        if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item.annotation)
         else if (item.annotation.body.source.type === 'image/jpeg') this.showImageModal = true
       },
       openDeleteModal (item) {
