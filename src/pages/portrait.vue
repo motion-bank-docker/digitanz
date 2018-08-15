@@ -3,7 +3,7 @@
     video-modal(:show="showVideoModal", :preview="preview", @canceled="showVideoModal = false")
     upload-remix-modal(ref="uploadRemixModal")
 
-    // HEADLINE
+    // HEAD
     //
     h3.text-center
       | {{ $t('portrait.title') }}
@@ -12,14 +12,16 @@
 
     job-list
 
+    // SHOW RESULTS
+    //
     q-list.no-border(separator)
       q-item.q-py-none.q-pt-md(v-for="item in portraits.items")
         q-item-main.text-center
           img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
           q-btn.full-width.q-mt-sm(dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
-          q-collapsible.full-width.no-padding.q-my-sm(v-if="item.responses.length > 0", :label="item.responses.length.toString()")
+          q-collapsible.full-width.no-padding.q-my-sm(v-if="item.responses.length > 0", :label="getResponseLabel(item.responses.length)")
             img.portrait-image.q-mt-md(v-for="response in item.responses", @click="openPreview(response)", :src="getPNG(response.body.source.id)")
-          div.q-pa-md(v-else) {{ $t('portrait.no_remix') }}
+          div.q-pa-md.text-grey-8(v-else) {{ $t('portrait.no_remix') }}
 </template>
 
 <script>
@@ -51,6 +53,13 @@
       this.$root.$off('updateVideos', this.loadPortraits)
     },
     methods: {
+      getResponseLabel (val) {
+        console.log(val)
+        let strng
+        if (val === 1) strng = this.$t('portrait.remix_singular')
+        else strng = this.$t('portrait.remix_plural')
+        return val + ' ' + strng
+      },
       getPNG (url) {
         return url.replace(/\.mp4$/, '.png')
       },
@@ -60,9 +69,7 @@
       openPreview (item) {
         if (item.portrait) this.preview = item.portrait
         else this.preview = item
-        // this.preview = item.portrait
         if (this.preview.body.source.type === 'video/mp4') this.showVideoModal = true
-        // this.showVideoModal = true
       },
       uploadResponse (item) {
         this.$refs.uploadRemixModal.show(item)
