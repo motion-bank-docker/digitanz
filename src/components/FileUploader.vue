@@ -9,10 +9,12 @@
 <script>
   import Uploader from '../components/Uploader'
   import { mapGetters } from 'vuex'
+  import { ObjectUtil } from 'mbjs-utils'
   export default {
     components: {
       Uploader
     },
+    props: ['query'],
     data () {
       return {
         url: `${process.env.TRANSCODER_HOST}/uploads`,
@@ -36,10 +38,9 @@
     methods: {
       async getTimeline () {
         if (this.user && !this.timeline) {
-          const query = {
-            'author.id': this.$store.state.auth.user.uuid,
-            'title': 'Meine Videos'
-          }
+          const query = ObjectUtil.merge({
+            'author.id': this.$store.state.auth.user.uuid
+          }, this.query)
           const results = await this.$store.dispatch('maps/find', query)
           if (!results.items.length) {
             this.timeline = await this.$store.dispatch('maps/post', {title: 'Meine Videos'})
