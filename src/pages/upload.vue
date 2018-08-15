@@ -1,7 +1,7 @@
 <template lang="pug">
   q-page
     h4.q-mx-none.text-center {{ $t('upload.title') }}
-    file-uploader.full-width.self-center(v-if="!jobIds.length")
+    file-uploader.full-width.self-center(v-if="!jobIds.length", :query="query")
     .row.q-mt-xl(v-if="map")
       .col-12(v-if="jobIds.length")
         div.text-center
@@ -39,6 +39,9 @@
     data () {
       return {
         map: undefined,
+        query: {
+          'title': 'Meine Videos'
+        },
         videos: []
       }
     },
