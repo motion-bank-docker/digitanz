@@ -12,19 +12,14 @@
 
     job-list
 
-    q-list.no-border(v-for="item in portraits.items")
-      q-item.q-py-none
+    q-list.no-border(separator)
+      q-item.q-py-none.q-pt-md(v-for="item in portraits.items")
         q-item-main.text-center
-          img.cursor-pointer.portrait-image(@click="openPreview(item.portrait)", :src="getPNG(item.portrait.body.source.id)")
-          q-btn.cursor-pointer(dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
-          q-list.no-border
-            q-item {{ item.responses.length }}
-            q-item.no-padding(v-for="response in item.responses")
-              q-item-main
-                q-item-tile {{ response }}
-                q-item-tile {{ response.body.source.id }}
-                q-item-tile
-                  img(:src="getPNG(response.body.source.id)", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
+          img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
+          q-btn.full-width.q-mt-sm(dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
+          q-collapsible.full-width.no-padding.q-my-sm(v-if="item.responses.length > 0", :label="item.responses.length.toString()")
+            img.portrait-image.q-mt-md(v-for="response in item.responses", @click="openPreview(response)", :src="getPNG(response.body.source.id)")
+          div.q-pa-md(v-else) {{ $t('portrait.no_remix') }}
 </template>
 
 <script>
@@ -63,8 +58,11 @@
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
       },
       openPreview (item) {
-        this.preview = item.portrait
-        if (item.portrait.body.source.type === 'video/mp4') this.showVideoModal = true
+        if (item.portrait) this.preview = item.portrait
+        else this.preview = item
+        // this.preview = item.portrait
+        if (this.preview.body.source.type === 'video/mp4') this.showVideoModal = true
+        // this.showVideoModal = true
       },
       uploadResponse (item) {
         this.$refs.uploadRemixModal.show(item)
