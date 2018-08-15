@@ -148,8 +148,8 @@
         // return this.uploadedVideos
       },
       sortedByOrientation () {
-        let sorted = this.uploadedVideos
-          return sorted
+        // let sorted = this.uploadedVideos
+        return false
       },
       user () {
         return this.$store.getters['auth/getUserState']
