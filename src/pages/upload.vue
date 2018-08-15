@@ -73,8 +73,9 @@
             'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
           }
           results = await this.$store.dispatch('annotations/find', query)
+          const items = results.items.sort(this.$sort.onCreatedDesc)
           const videos = []
-          for (let annotation of results.items) {
+          for (let annotation of items) {
             const metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
             const preview = annotation.body.source.id.replace(/mp4$/, 'png')
             console.debug('fetched metadata', metadata)

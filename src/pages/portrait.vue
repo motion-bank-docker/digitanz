@@ -96,8 +96,9 @@
             'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
           }
           const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
+          const portraits = portraitsResult.items.sort(this.$sort.onCreatedDesc)
           const items = []
-          for (let portrait of portraitsResult.items) {
+          for (let portrait of portraits) {
             const item = {
               portrait,
               responses: []
@@ -107,7 +108,7 @@
               'body.purpose': 'commenting'
             }
             const responsesResult = await this.$store.dispatch('annotations/find', responsesQuery)
-            item.responses = responsesResult.items
+            item.responses = responsesResult.items.sort(this.$sort.onCreatedDesc)
             items.push(item)
           }
           this.portraits.items = items

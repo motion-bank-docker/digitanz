@@ -9,7 +9,8 @@ module.exports = function (ctx) {
       'axios',
       'i18n',
       'notifications',
-      'dates'
+      'dates',
+      'sort'
       // 'dragula'
     ],
     css: [

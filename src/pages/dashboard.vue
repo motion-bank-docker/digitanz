@@ -13,8 +13,7 @@
 
     // TERMINE IM DETAIL
     //
-    q-collapsible(
-    v-for="(date, i) in dates", :ref="getDateLabel(date)", v-if="date.show", opened, style="border-top: 1px solid #333;")
+    q-collapsible(v-for="(date, i) in dates", :ref="getDateLabel(date)", v-if="date.show", opened, style="border-top: 1px solid #333;")
       template(slot="header")
         q-item.full-width.q-pl-none
           // q-item-side {{ i + 1 }}.
@@ -39,6 +38,7 @@
   import { openURL, scroll } from 'quasar'
   import { DateTime, Interval } from 'luxon'
   import { ObjectUtil } from 'mbjs-utils'
+  import { mapGetters } from 'vuex'
 
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
@@ -64,6 +64,11 @@
         },
         dates: undefined
       }
+    },
+    computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      })
     },
     methods: {
       formatTime (val) {
@@ -120,7 +125,7 @@
         if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_portrait') })
         const query = {
           'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`,
-          'author.id': this.$store.state.auth.user.uuid
+          'author.id': this.user.uuid
         }
         let result = await this.$store.dispatch('annotations/find', query)
         let isCurrentPortrait = false
@@ -174,7 +179,7 @@
             'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
           }
           const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
-          this.portraits.annotations = portraitsResult.items
+          this.portraits.annotations = portraitsResult.items.sort(this.$sort.onCreatedDesc)
         }
         this.$q.loading.hide()
       },
@@ -185,19 +190,21 @@
         this.$q.loading.show({ message: this.$t('messages.loading_dates') })
         for (let date of this.dates) {
           let query = {
-            'author.id': this.$store.state.auth.user.uuid,
+            'author.id': this.user.uuid,
             'title': this.$t(date.map_title)
           }
           let result = await this.$store.dispatch('maps/find', query)
           if (result.items.length) {
             date.map = result.items[0]
             query = {
-              'target.id': `${process.env.TIMELINE_BASE_URI}${date.map.uuid}`
+              // 'target.id': `${process.env.TIMELINE_BASE_URI}${date.map.uuid}`
+              'author.id': this.user.uuid
               // 'created': { $gte: date.start, $lte: date.end }
             }
             result = await this.$store.dispatch('annotations/find', query)
+            const items = result.items.sort(this.$sort.onCreatedDesc)
             const entries = []
-            for (let annotation of result.items) {
+            for (let annotation of items) {
               const metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
               const preview = annotation.body.source.id.replace(/mp4$/, 'png')
               entries.push({ annotation, metadata, preview })
