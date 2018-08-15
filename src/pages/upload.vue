@@ -1,5 +1,7 @@
 <template lang="pug">
   q-page
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
+
     h4.q-mx-none.text-center {{ $t('upload.title') }}
     file-uploader.full-width.self-center(v-if="!jobIds.length", :query="query")
     .row.q-mt-xl(v-if="map")
@@ -20,15 +22,22 @@
               p {{ video.metadata.width }}x{{ video.metadata.height }}
               p {{ video.annotation.body.source.id }}
             q-item-main.text-center
-              img(:src="video.preview", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
+              q-item-tile
+                img(:src="video.preview", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
+              q-item-tile
+                q-btn(flat, round, icon="delete", @click="openDeleteModal(video)")
 </template>
 
 <script>
+  import path from 'path'
   import FileUploader from '../components/FileUploader'
   import { mapGetters } from 'vuex'
+  import ConfirmModal from '../components/ConfirmModal'
+
   export default {
     components: {
-      FileUploader
+      FileUploader,
+      ConfirmModal
     },
     mounted () {
       this.$root.$on('updateVideos', this.fetchVideos)
@@ -73,6 +82,28 @@
           }
           this.videos = videos
         }
+      },
+      async deleteItem (item) {
+        console.log(item)
+        const headers = {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+        try {
+          await this.$store.dispatch('annotations/delete', item.annotation.uuid)
+        }
+        catch (e) { console.error('Failed to remove annotation', e.message) }
+        try {
+          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview)}`, {headers})
+        }
+        catch (e) { console.error('Failed to remove preview', e.message) }
+        try {
+          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.annotation.body.source.id)}`, { headers })
+        }
+        catch (e) { console.error('Failed to remove video', e.message) }
+        await this.fetchVideos()
+      },
+      openDeleteModal (item) {
+        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       }
     },
     watch: {
