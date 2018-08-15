@@ -17,7 +17,8 @@ export default {
   buttons: {
     uploader: 'Video auswählen und hochladen',
     delete: 'Löschen',
-    cancel: 'Abbrechen'
+    cancel: 'Abbrechen',
+    confirm: 'OK'
   },
   dashboard: {
     title: 'Dashboard',
@@ -72,7 +73,7 @@ export default {
   },
   portrait: {
     title: 'Portrait',
-    description: 'Hier steht eine Beschreibung.'
+    description: 'Hier steht eine Beschreibung zu den Portraits.'
   },
   upload: {
     loading_up: 'Lädt hoch...',

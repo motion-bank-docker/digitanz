@@ -1,7 +1,7 @@
 <template lang="pug">
   .column(v-if="timeline")
-    // .q-pa-md
-    //   q-input(:placeholder="$t('placeholder.file_uploader')", v-model="title", dark)
+    <!--.q-pa-md-->
+      <!--q-input(:placeholder="$t('placeholder.file_uploader')", v-model="title", dark)-->
     .q-pa-md
       uploader(:url="url", @finish="onFinish", ref="uploader")
 </template>
@@ -9,10 +9,12 @@
 <script>
   import Uploader from '../components/Uploader'
   import { mapGetters } from 'vuex'
+  import { ObjectUtil } from 'mbjs-utils'
   export default {
     components: {
       Uploader
     },
+    props: ['query', 'target'],
     data () {
       return {
         url: `${process.env.TRANSCODER_HOST}/uploads`,
@@ -26,20 +28,19 @@
       })
     },
     async mounted () {
-      await this.getTimeline()
+      if (this.query) await this.getTimeline()
     },
     watch: {
       async user () {
-        this.getTimeline()
+        if (this.query) this.getTimeline()
       }
     },
     methods: {
       async getTimeline () {
         if (this.user && !this.timeline) {
-          const query = {
-            'author.id': this.$store.state.auth.user.uuid,
-            'title': 'Meine Videos'
-          }
+          const query = ObjectUtil.merge({
+            'author.id': this.$store.state.auth.user.uuid
+          }, this.query)
           const results = await this.$store.dispatch('maps/find', query)
           if (!results.items.length) {
             this.timeline = await this.$store.dispatch('maps/post', {title: 'Meine Videos'})
@@ -63,7 +64,8 @@
           console.log('metadata', metadata)
           const detail = {
             title: this.title,
-            timeline: this.timeline.uuid
+            timeline: this.timeline ? this.timeline.uuid : undefined,
+            target: this.target
           }
           let size = {
             width: 1280,

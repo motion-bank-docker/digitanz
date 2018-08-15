@@ -38,6 +38,14 @@
           else if (job.finished) {
             this.$store.commit('conversions/removeJobId', jobId)
             const detail = this.$store.state.conversions.jobDetails[jobId]
+            const target = detail.target || {
+              id: `${process.env.TIMELINE_BASE_URI}${detail.timeline}`,
+              type: 'Timeline',
+              selector: {
+                type: 'Fragment',
+                value: DateTime.local().toISO()
+              }
+            }
             const payload = {
               body: {
                 source: {
@@ -47,14 +55,7 @@
                 type: 'Video',
                 purpose: 'linking'
               },
-              target: {
-                id: `${process.env.TIMELINE_BASE_URI}${detail.timeline}`,
-                type: 'Timeline',
-                selector: {
-                  type: 'Fragment',
-                  value: DateTime.local().toISO()
-                }
-              }
+              target
             }
             console.debug('create annotation with payload', payload)
             const annotation = await this.$store.dispatch('annotations/post', payload)
