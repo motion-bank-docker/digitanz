@@ -48,15 +48,13 @@
 
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
-  import DeleteModal from '../components/DeleteModal'
 
   const { getScrollTarget, setScrollPosition } = scroll
 
   export default {
     components: {
       VideoModal,
-      ImageModal,
-      DeleteModal
+      ImageModal
     },
     data () {
       return {
@@ -64,7 +62,6 @@
         groupedList: '',
         showVideoModal: false,
         showImageModal: false,
-        showDeleteModal: false,
         portraits: {
           map: undefined,
           annotations: []
@@ -88,17 +85,10 @@
         const interval = Interval.fromDateTimes(DateTime.fromISO(date.start), DateTime.fromISO(date.end))
         return interval.contains(DateTime.local())
       },
-      deleteItem (/* index */) {
-        // this.groupedTools.splice(index, 1)
-      },
       openPreview (item) {
         this.preview = item.annotation
         if (item.annotation.body.source.type === 'video/mp4') this.showVideoModal = true
         else if (item.annotation.body.source.type === 'image/jpeg') this.showImageModal = true
-      },
-      openDeleteModal () {
-        console.log('Hallo')
-        this.showDeleteModal = true
       },
       async setAsPortrait (item) {
         console.debug('setting as portrait...', item, this.portraits)
