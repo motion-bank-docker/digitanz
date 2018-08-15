@@ -8,7 +8,7 @@
         q-btn-toggle(v-model="orientation" :options="[{label: 'Landscape', value: 'landscape'}, {label: 'Portrait', value: 'portrait'}]")
       .q-ma-md
         h1.q-title Video hochladen
-        file-uploader.no-padding.no-margin.self-center(:url="url", style="width: 100%", @finish="addUploadedVideo")
+        file-uploader.no-padding.no-margin.self-center(:url="url", :query="uploadQuery", style="width: 100%", @finish="addUploadedVideo")
         template(v-if="jobIds.length")
           h1.q-title(v-if="jobIds") Videos being processed
           q-item(v-for="(jobId, index) in jobIds")
@@ -99,6 +99,7 @@
 
 <script>
   import Vue from 'vue'
+  import { ObjectUtil } from 'mbjs-utils'
   import ModalPreview from '../components/VideoModal'
   import { VideoPlayer } from 'mbjs-quasar/src/components'
   // import VideoPlayer from '../components/VideoPlayer'
@@ -135,7 +136,10 @@
         newIndex: '',
         indexes: '',
         currentPlay: undefined,
-        orientation: undefined
+        orientation: undefined,
+        uploadQuery: {
+          'title': 'Meine Videos'
+        }
       }
     },
     computed: {
@@ -179,10 +183,9 @@
         // $service.options('checkedVideos', { direction: 'horizontal' })
 
         if (this.$store.state.auth.user) {
-          let query = {
-            'author.id': this.$store.state.auth.user.uuid,
-            'title': 'Meine Videos'
-          }
+          let query = ObjectUtil.merge({
+            'author.id': this.$store.state.auth.user.uuid
+          }, this.uploadQuery)
           const results = await this.$store.dispatch('maps/find', query)
           if (results.items && results.items.length) {
             this.map = Object.assign({}, results.items[0])
