@@ -3,7 +3,7 @@
 
     // POP UP MODAL TO ADD VIDEOS TO SEQUENCER-TIMELINE
     q-modal.row.maximized(v-model="opened", content-classes="bg-dark")
-      .q-ma-md(v-if="orientation==undefined")
+      .q-ma-md
         h1.q-title Format wählen
         q-btn-toggle(v-model="orientation" :options="[{label: 'Landscape', value: 'landscape'}, {label: 'Portrait', value: 'portrait'}]")
       .q-ma-md
@@ -31,6 +31,7 @@
 
     // BIG VIDEO PREVIEW
     video-player.full-width.self-center(
+    v-if="sourceVideo != undefined",
     :class="orientationClass",
     :src="sourceVideo",
     ref="videoPlayer",
