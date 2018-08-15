@@ -1,5 +1,7 @@
 <template lang="pug">
   q-page
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
+
     h4.q-mx-none.text-center {{ $t('upload.title') }}
     file-uploader.full-width.self-center(v-if="!jobIds.length", :query="query")
     .row.q-mt-xl(v-if="map")
@@ -8,22 +10,32 @@
         // h4.text-center {{ map.title }}
         h4.text-center {{ $t('upload.my_videos') }}
         q-list.no-border.q-pb-md
-          q-item.no-padding.q-mt-md.text-center(v-for="video in videos", :key="video.uuid")
+          q-item.no-padding.q-mt-md.text-center(v-for="item in videos", :key="item.uuid")
             //
-              p {{ video.metadata.title }}
-              p {{ video.metadata.width }}x{{ video.metadata.height }}
-              p {{ video.annotation.body.source.id }}
+              p {{ item.metadata.title }}
+              p {{ item.metadata.width }}x{{ item.metadata.height }}
+              p {{ item.annotation.body.source.id }}
             q-item-main.text-center
-              img(:src="video.preview", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
+              q-item-tile
+                img(:src="item.preview", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
+              q-item-tile
+                q-btn(flat, round, icon="edit")
+                q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")
+                q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
 </template>
 
 <script>
-  import FileUploader from '../components/FileUploader'
+  import path from 'path'
+  import { openURL } from 'quasar'
   import JobList from '../components/JobList'
   import { mapGetters } from 'vuex'
+  import FileUploader from '../components/FileUploader'
+  import ConfirmModal from '../components/ConfirmModal'
+
   export default {
     components: {
       FileUploader,
+      ConfirmModal,
       JobList
     },
     mounted () {
@@ -68,6 +80,31 @@
           }
           this.videos = videos
         }
+      },
+      download (file) {
+        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
+      },
+      async deleteItem (item) {
+        console.log(item)
+        const headers = {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+        try {
+          await this.$store.dispatch('annotations/delete', item.annotation.uuid)
+        }
+        catch (e) { console.error('Failed to remove annotation', e.message) }
+        try {
+          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview)}`, {headers})
+        }
+        catch (e) { console.error('Failed to remove preview', e.message) }
+        try {
+          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.annotation.body.source.id)}`, { headers })
+        }
+        catch (e) { console.error('Failed to remove video', e.message) }
+        await this.fetchVideos()
+      },
+      openDeleteModal (item) {
+        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       }
     },
     watch: {
