@@ -18,7 +18,12 @@
       q-item.q-py-none.q-pt-md(v-for="item in portraits.items")
         q-item-main.text-center
           img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
-          q-btn.full-width.q-mt-sm(dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
+          q-btn.full-width.q-mt-sm(
+          v-if="item.portrait.author.id != user"
+          dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
+          q-btn.full-width.q-mt-sm(
+          v-else, disabled,
+          dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
           q-collapsible.full-width.no-padding.q-my-sm(v-if="item.responses.length > 0", :label="getResponseLabel(item.responses.length)")
             img.portrait-image.q-mt-md(v-for="response in item.responses", @click="openPreview(response)", :src="getPNG(response.body.source.id)")
           div.q-pa-md.text-grey-8(v-else) {{ $t('portrait.no_remix') }}
@@ -41,6 +46,7 @@
     },
     data () {
       return {
+        user: this.$store.state.auth.user.uuid,
         showVideoModal: false,
         preview: undefined,
         portraits: {
