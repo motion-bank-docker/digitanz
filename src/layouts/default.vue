@@ -4,7 +4,8 @@
       q-toolbar(dark, color='black', :glossy="$q.theme === 'mat'", :inverted="$q.theme === 'ios'")
         q-btn(flat, dense, round, @click='leftDrawerOpen = !leftDrawerOpen', aria-label='Menu')
           q-icon(name='menu')
-        q-toolbar-title {{ info.productName }}
+        q-toolbar-title
+          span(@click="clickLogo()") {{ info.productName }}
         q-btn(color="primary", flat, icon="eject",
           v-if="userState", @click="logout") {{ $t('navigation.logout') }}
         q-btn(color="primary", flat, icon="arrow_forward",
@@ -77,6 +78,9 @@
       })
     },
     methods: {
+      clickLogo () {
+        this.$router.push('/')
+      },
       login () {
         this.$auth.authenticate()
       },
