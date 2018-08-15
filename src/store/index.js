@@ -5,6 +5,7 @@ import makeResourceModule from './modules/make-resource-module'
 import auth from './modules/auth'
 import acl from './modules/acl'
 import conversions from './modules/conversions'
+import logging from './modules/logging'
 
 import WebAuth from 'mbjs-api-client/src/web'
 import Vue from 'vue'
@@ -33,6 +34,7 @@ const store = new Vuex.Store({
     notifications,
     forms,
     conversions,
+    logging,
     mosysGridEditorStore,
     annotations: makeResourceModule(apiClient, 'annotation'),
     maps: makeResourceModule(apiClient, 'map'),

@@ -109,6 +109,12 @@
           await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.annotation.body.source.id)}`, { headers })
         }
         catch (e) { console.error('Failed to remove video', e.message) }
+        const message = {
+          annotation: item.annotation.uuid,
+          source: item.annotation.body.source.id,
+          user: this.user.uuid
+        }
+        await this.$store.dispatch('logging/log', { action: 'delete', message })
         this.$q.loading.hide()
         await this.loadDates()
       },
@@ -135,6 +141,10 @@
           await this.$store.dispatch('acl/remove', {uuid: result.uuid, role: 'public', permission: 'get'})
         }
         console.debug('existing portrait removed', result)
+        const message = {
+          video: item.annotation.body.source.id,
+          user: this.user.uuid
+        }
         if (!isCurrentPortrait) {
           const portrait = {
             body: ObjectUtil.merge({}, item.annotation.body),
@@ -152,10 +162,14 @@
             await this.$store.dispatch('acl/set', {uuid: result.uuid, role: 'public', permissions: ['get']})
           }
           console.debug('new portrait set', result)
+          await this.$store.dispatch('logging/log', { action: 'portrait', message })
           if (!silent) this.$q.loading.hide()
-          await this.loadPortraits()
         }
-        else if (!silent) this.$q.loading.hide()
+        else if (!silent) {
+          await this.$store.dispatch('logging/log', { action: 'portrait_unset', message })
+          this.$q.loading.hide()
+        }
+        await this.loadPortraits()
       },
       scrollToDate (date, duration = 1000) {
         const el = this.$refs[this.getDateLabel(date)][0].$el

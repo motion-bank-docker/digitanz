@@ -81,8 +81,13 @@
         const preview = item.portrait || item
         if (preview.body.source.type === 'video/mp4') this.$refs.videoModal.show(preview)
       },
-      uploadResponse (item) {
+      async uploadResponse (item) {
         this.$refs.uploadRemixModal.show(item)
+        const message = {
+          portrait: item.uuid,
+          user: this.user.uuid
+        }
+        await this.$store.dispatch('logging/log', { action: 'open_response', message })
       },
       async loadPortraits () {
         /**

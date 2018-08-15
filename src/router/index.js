@@ -22,6 +22,10 @@ const Router = new VueRouter({
 })
 
 Router.beforeEach((to, from, next) => {
+  const message = {
+    to: to ? to.fullPath : undefined,
+    from: from ? from.fullPath : undefined
+  }
   const waitForStore = (app, cb) => {
     if (app.$store === undefined) setTimeout(() => waitForStore(app, cb), 0)
     else cb()
@@ -36,8 +40,8 @@ Router.beforeEach((to, from, next) => {
         }
       }).then(result => {
         if (result) {
+          const { user } = result
           /*
-          const { user, first } = result
           if (first) {
             console.debug('Auth0 first login', user)
             next({ name: 'users.manage', params: { isFirst: true, redirect: to } })
@@ -45,6 +49,7 @@ Router.beforeEach((to, from, next) => {
           else next()
           */
           next()
+          message.user = user.uuid
         }
         else if (to.meta.private) {
           // console.log('store redirect', to.fullPath)
@@ -52,9 +57,14 @@ Router.beforeEach((to, from, next) => {
           Router.app.$auth.authenticate()
         }
         else next()
+        return Router.app.$store.dispatch('logging/log', { action: 'nav', message })
       })
     }
-    else next()
+    else {
+      next()
+      message.user = Router.app.$store.state.user.uuid
+      return Router.app.$store.dispatch('logging/log', { action: 'nav', message })
+    }
   })
 })
 
