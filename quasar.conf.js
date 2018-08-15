@@ -4,12 +4,14 @@ module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
     plugins: [
+      'dt-components',
       'api',
       'auth',
       'axios',
       'i18n',
       'notifications',
-      'dates'
+      'dates',
+      'sort'
       // 'dragula'
     ],
     css: [
@@ -140,9 +142,9 @@ module.exports = function (ctx) {
       ],
       config: {
         loading: {
-          spinner: 'QSpinnerHearts',
-          spinnerSize: 250,
-          spinnerColor: 'pink-13',
+          spinner: 'GriddleMoves',
+          spinnerSize: 300,
+          spinnerColor: 'primary',
           customClass: 'bg-dark half-transparent',
           messageColor: 'light-gray',
           delay: 400
