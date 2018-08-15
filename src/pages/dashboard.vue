@@ -154,9 +154,9 @@
       },
       getItemStyle (item) {
         for (let portrait of this.portraits.annotations) {
-          if (item.annotation.body.source.id === portrait.body.source.id) return {color: 'primary', icon: 'favorite'}
+          if (item.annotation.body.source.id === portrait.body.source.id) return {color: 'primary', icon: 'account_box'}
         }
-        return {color: 'grey', icon: 'favorite_border'}
+        return {color: 'grey', icon: 'portrait'}
       },
       async loadPortraits () {
         /**

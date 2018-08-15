@@ -5,7 +5,7 @@
         :prefix="$t('buttons.uploader')",
         auto-expand,
         clearable,
-        color="black",
+        color="primary",
         align="center",
         inverted,
         :extensions="ext",
