@@ -77,7 +77,8 @@ export default {
   portrait: {
     title: 'Portrait',
     description: 'Hier steht eine Beschreibung zu den Portraits.',
-    upload_remix: 'Remix für dieses Portrait hochladen'
+    upload_remix: 'Remix für dieses Portrait hochladen',
+    no_remix: 'Bisher noch kein Remix.'
   },
   upload: {
     loading_up: 'Lädt hoch...',
