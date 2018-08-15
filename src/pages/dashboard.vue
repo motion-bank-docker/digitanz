@@ -198,7 +198,9 @@
             date.map = result.items[0]
             query = {
               // 'target.id': `${process.env.TIMELINE_BASE_URI}${date.map.uuid}`
-              'author.id': this.user.uuid
+              'author.id': this.user.uuid,
+              'body.type': 'Video',
+              'body.source.type': 'video/mp4'
               // 'created': { $gte: date.start, $lte: date.end }
             }
             result = await this.$store.dispatch('annotations/find', query)
