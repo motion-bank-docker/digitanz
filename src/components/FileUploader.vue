@@ -1,7 +1,7 @@
 <template lang="pug">
   .column(v-if="timeline")
-    .q-pa-md
-      q-input(:placeholder="$t('placeholder.file_uploader')", v-model="title", dark)
+    // .q-pa-md
+    //   q-input(:placeholder="$t('placeholder.file_uploader')", v-model="title", dark)
     .q-pa-md
       uploader(:url="url", @finish="onFinish", ref="uploader")
 </template>
