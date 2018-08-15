@@ -124,9 +124,15 @@
       reset () {
         this.$refs.videoPlayer.player.reset()
       },
-      setPortraitMode () {
-        this.playerOptions.fluid = false
-        this.playerOptions.width = 200
+      isPaused () {
+        // console.log(this.$refs.videoPlayer.player.paused())
+        return this.$refs.videoPlayer.player.paused()
+      },
+      pause () {
+        this.$refs.videoPlayer.player.pause()
+      },
+      play () {
+        this.$refs.videoPlayer.player.play()
       }
     }
   }
