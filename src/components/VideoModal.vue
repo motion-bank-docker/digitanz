@@ -14,46 +14,46 @@
 </template>
 
 <script>
-import { VideoPlayer } from 'mbjs-quasar/src/components'
+  import { VideoPlayer } from 'mbjs-quasar/src/components'
 
-export default {
-  components: {
-    VideoPlayer
-  },
-  props: ['show', 'preview', 'source'],
-  methods: {
-    closePreview () {
-      this.$emit('canceled')
+  export default {
+    components: {
+      VideoPlayer
     },
-    onEnded () {
-      if (Array.isArray(this.preview)) {
-        this.index++
-        if (this.index >= this.preview.length) this.index = 0
-        this.video = this.preview[this.index]
+    props: ['show', 'preview', 'source'],
+    methods: {
+      closePreview () {
+        this.$emit('canceled')
+      },
+      onEnded () {
+        if (Array.isArray(this.preview)) {
+          this.index++
+          if (this.index >= this.preview.length) this.index = 0
+          this.video = this.preview[this.index]
+        }
       }
-    }
-  },
-  data () {
-    return {
-      index: -1,
-      video: undefined
-    }
-  },
-  watch: {
-    preview () {
-      if (Array.isArray(this.preview) && this.preview.length) {
-        this.index = 0
-        this.video = this.preview[this.index]
+    },
+    data () {
+      return {
+        index: -1,
+        video: undefined
       }
-      else if (this.preview) {
-        this.video = this.preview
+    },
+    watch: {
+      preview () {
+        if (Array.isArray(this.preview) && this.preview.length) {
+          this.index = 0
+          this.video = this.preview[this.index]
+        }
+        else if (this.preview) {
+          this.video = this.preview
+        }
       }
-    }
-  },
-  computed: {
-    showModal () {
-      return (this.show === true)
+    },
+    computed: {
+      showModal () {
+        return (this.show === true)
+      }
     }
   }
-}
 </script>
