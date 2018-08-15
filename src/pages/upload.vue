@@ -8,7 +8,7 @@
       .col-12(v-if="jobIds.length")
         h3 Uploading...
         ul
-          li(v-for="jobId in jobIds", :key="jobId") {{ $store.state.conversions.jobDetails[jobId].title }}
+          li(v-for="jobId in jobIds", :key="jobId") {{ $store.state.conversions.jobDetails[jobId].title || jobId }}
       .col-12
         h3 {{ map.title }}
         ul
