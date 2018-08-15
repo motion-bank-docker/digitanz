@@ -1,12 +1,36 @@
 <template lang="pug">
-  .position-relative(style="height: calc(100vh - 50px); overflow-y: hidden;")
-    svg(width="100%", height="100%")
-      line(v-for="n in 10", :x1="50 * n", y1="0", :x2="50 * n", y2="100%", style="stroke: rgba( 255, 255, 255, .05 ); stroke-width: 1;")
-      line(v-for="n in 30", x1="0", :y1="50 * n", x2="100%", :y2="50 * n", style="stroke: rgba( 255, 255, 255, .05 ); stroke-width: 1;")
-    // .text-white #digitanz
+  .position-relative.row(style="height: calc(100vh - 50px); overflow-y: hidden;")
+    img.full-width(:src="currentImg", style="transform: scale(.85) translateY(-5vh);")
 </template>
 
 <script>
   export default {
+    data () {
+      return {
+        currentImg: undefined,
+        images: ['statics/003-master-1.svg', 'statics/003-master-3.svg', 'statics/003-master-2.svg']
+      }
+    },
+    mounted () {
+      const _this = this
+      let i = 0
+      this.currentImg = this.images[0]
+      setInterval(function () {
+        if (i < _this.images.length - 1) i++
+        else i = 0
+        _this.currentImg = _this.images[i]
+      }, 1000)
+    }
   }
 </script>
+
+<style>
+  .st0 {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-miterlimit: 10;
+    }
+</style>

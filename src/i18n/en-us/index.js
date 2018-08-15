@@ -6,7 +6,12 @@ export default {
   success: 'Action was successful',
   messages: {
     conversion_successful: 'Dein Video ist jetzt verfügbar',
-    conversion_failed: 'Video upload fehlgeschlagen'
+    conversion_failed: 'Video upload fehlgeschlagen',
+    loading_videos: 'Lade videos...',
+    loading_dates: 'Lade Termine...',
+    loading_portraits: 'Lade Portraits...',
+    deleting_video: 'Lösche video...',
+    setting_portrait: 'Aktualisiere Dein Portrait...'
   },
   labels: {
     confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?'
@@ -15,10 +20,13 @@ export default {
     file_uploader: 'Video-Titel'
   },
   buttons: {
+    back: 'Zurück',
+    close: 'Schließen',
     uploader: 'Video auswählen und hochladen',
     delete: 'Löschen',
     cancel: 'Abbrechen',
-    confirm: 'OK'
+    confirm: 'OK',
+    upload_remix: 'Remix hochladen'
   },
   dashboard: {
     title: 'Dashboard',
@@ -73,7 +81,11 @@ export default {
   },
   portrait: {
     title: 'Portrait',
-    description: 'Hier steht eine Beschreibung zu den Portraits.'
+    description: 'Hier steht eine Beschreibung zu den Portraits.',
+    upload_remix: 'Remix für dieses Portrait hochladen',
+    no_remix: 'Bisher noch kein Remix.',
+    remix_singular: 'Eintrag',
+    remix_plural: 'Einträge'
   },
   upload: {
     loading_up: 'Lädt hoch...',

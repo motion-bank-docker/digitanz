@@ -57,7 +57,7 @@ module.exports = function (ctx) {
         // Resources
         //
         TIMELINE_BASE_URI: JSON.stringify(process.env.TIMELINE_BASE_URI || 'https://app.motionbank.org/piecemaker/timelines/'),
-        ANNOTATION_BASE_URI: JSON.stringify(process.env.TIMELINE_BASE_URI || 'https://app.motionbank.org/piecemaker/annotations/'),
+        ANNOTATION_BASE_URI: JSON.stringify(process.env.ANNOTATION_BASE_URI || 'https://app.motionbank.org/piecemaker/annotations/'),
         GRID_BASE_URI: JSON.stringify(process.env.GRID_BASE_URI || 'https://app.motionbank.org/mosys/grids/'),
         ID_FIELD: JSON.stringify(process.env.ID_FIELD || 'uuid'),
         SYSTEM_USER_UUID: JSON.stringify(process.env.SYSTEM_USER_UUID || 'aa5a24cc-dbd3-5b5d-8ca6-76552699cbd9'),
@@ -126,6 +126,7 @@ module.exports = function (ctx) {
         'QSpinner',
         'QSpinnerMat',
         'QSpinnerTail',
+        'QSpinnerHearts',
         'QChip',
         'QCollapsible'
       ],
@@ -134,12 +135,22 @@ module.exports = function (ctx) {
       ],
       // Quasar plugins
       plugins: [
-        'Notify'
-      ]
+        'Notify',
+        'Loading'
+      ],
+      config: {
+        loading: {
+          spinner: 'QSpinnerHearts',
+          spinnerSize: 250,
+          spinnerColor: 'pink-13',
+          customClass: 'bg-dark half-transparent',
+          messageColor: 'light-gray',
+          delay: 400
+        }
+      }
     },
     // animations: 'all' --- includes all animations
-    animations: [
-    ],
+    animations: 'all',
     pwa: {
       cacheExt: 'js,html,css,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
       manifest: {

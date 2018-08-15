@@ -53,15 +53,20 @@
                   type: 'video/mp4'
                 },
                 type: 'Video',
-                purpose: 'linking'
+                purpose: detail.purpose || 'linking'
               },
               target
             }
             console.debug('create annotation with payload', payload)
             const annotation = await this.$store.dispatch('annotations/post', payload)
             console.debug('created annotation', annotation)
+            if (detail.isPublic) {
+              console.debug('make annotation public')
+              await this.$store.dispatch('acl/set', {uuid: annotation.uuid, role: 'public', permissions: ['get']})
+            }
             this.$store.commit('conversions/removeJobDetail', jobId)
             this.$root.$emit('updateVideos')
+            this.$root.$emit('jobResult', { annotation, jobId, detail })
             this.$store.commit('notifications/addMessage', {
               body: 'messages.conversion_successful',
               type: 'success'

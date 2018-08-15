@@ -19,7 +19,7 @@
               q-item-tile
                 img(:src="item.preview", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
               q-item-tile
-                q-btn(flat, round, icon="edit")
+                // q-btn(flat, round, icon="edit")
                 q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")
                 q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
 </template>
@@ -38,8 +38,9 @@
       ConfirmModal,
       JobList
     },
-    mounted () {
+    async mounted () {
       this.$root.$on('updateVideos', this.fetchVideos)
+      if (this.user) await this.fetchVideos()
     },
     beforeDestroy () {
       this.$root.$off('updateVideos', this.fetchVideos)
@@ -60,6 +61,7 @@
     },
     methods: {
       async fetchVideos () {
+        this.$q.loading.show({ message: this.$t('messages.loading_videos') })
         let query = {
           'author.id': this.$store.state.auth.user.uuid,
           'title': 'Meine Videos'
@@ -80,11 +82,13 @@
           }
           this.videos = videos
         }
+        this.$q.loading.hide()
       },
       download (file) {
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
       },
       async deleteItem (item) {
+        this.$q.loading.show({ message: this.$t('messages.deleting_video') })
         console.log(item)
         const headers = {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
@@ -101,6 +105,7 @@
           await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.annotation.body.source.id)}`, { headers })
         }
         catch (e) { console.error('Failed to remove video', e.message) }
+        this.$q.loading.hide()
         await this.fetchVideos()
       },
       openDeleteModal (item) {

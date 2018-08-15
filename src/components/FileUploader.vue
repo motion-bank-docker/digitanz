@@ -1,5 +1,5 @@
 <template lang="pug">
-  .column(v-if="timeline")
+  .column(v-if="timeline || target")
     <!--.q-pa-md-->
       <!--q-input(:placeholder="$t('placeholder.file_uploader')", v-model="title", dark)-->
     .q-pa-md
@@ -14,7 +14,7 @@
     components: {
       Uploader
     },
-    props: ['query', 'target'],
+    props: ['query', 'target', 'purpose', 'public'],
     data () {
       return {
         url: `${process.env.TRANSCODER_HOST}/uploads`,
@@ -65,7 +65,9 @@
           const detail = {
             title: this.title,
             timeline: this.timeline ? this.timeline.uuid : undefined,
-            target: this.target
+            target: this.target,
+            purpose: this.purpose,
+            isPublic: this.public
           }
           let size = {
             width: 1280,
@@ -88,6 +90,7 @@
               title: this.title
             }
           }
+          this.$emit('convert', { conversion, detail })
           result = await this.$store.dispatch('conversions/post', { conversion, detail })
           console.debug('created conversion', result)
         }
