@@ -8,7 +8,10 @@ export default {
     conversion_successful: 'Dein Video ist jetzt verfügbar',
     conversion_failed: 'Video upload fehlgeschlagen',
     loading_videos: 'Lade videos...',
-    deleting_video: 'Lösche video...'
+    loading_dates: 'Lade Termine...',
+    loading_portraits: 'Lade Portraits...',
+    deleting_video: 'Lösche video...',
+    setting_portrait: 'Aktualisiere Dein Portrait...'
   },
   labels: {
     confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?'
