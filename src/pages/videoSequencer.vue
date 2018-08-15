@@ -143,6 +143,10 @@
         return this.uploadedVideos.slice().reverse()
         // return this.uploadedVideos
       },
+      sortedByOrientation () {
+        let sorted = this.uploadedVideos
+          return sorted
+      },
       user () {
         return this.$store.getters['auth/getUserState']
       },
@@ -302,7 +306,6 @@
         const newObject = Object.assign({}, this.sequencedVideos[video])
         this.sequencedVideos.splice(this.editIndex + 1, 0, newObject)
       },
-
       loadFirstVideo: function () {
         if (typeof this.sequencedVideos !== 'undefined' && this.sequencedVideos.length > 0) {
           this.openPreview(0)
