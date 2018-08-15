@@ -14,7 +14,7 @@
     components: {
       Uploader
     },
-    props: ['query'],
+    props: ['query', 'target'],
     data () {
       return {
         url: `${process.env.TRANSCODER_HOST}/uploads`,
@@ -28,11 +28,11 @@
       })
     },
     async mounted () {
-      await this.getTimeline()
+      if (this.query) await this.getTimeline()
     },
     watch: {
       async user () {
-        this.getTimeline()
+        if (this.query) this.getTimeline()
       }
     },
     methods: {
@@ -64,7 +64,8 @@
           console.log('metadata', metadata)
           const detail = {
             title: this.title,
-            timeline: this.timeline.uuid
+            timeline: this.timeline ? this.timeline.uuid : undefined,
+            target: this.target
           }
           let size = {
             width: 1280,

@@ -1,6 +1,7 @@
 <template lang="pug">
   q-page
     video-modal(:show="showVideoModal", :preview="preview", @canceled="showVideoModal = false")
+    upload-remix-modal(ref="uploadRemixModal")
 
     // HEADLINE
     //
@@ -20,15 +21,18 @@
   import { openURL } from 'quasar'
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
+  import UploadRemixModal from '../components/UploadRemixModal'
 
   export default {
     components: {
       VideoModal,
-      ImageModal
+      ImageModal,
+      UploadRemixModal
     },
     data () {
       return {
         showVideoModal: false,
+        preview: undefined,
         portraits: {
           map: undefined,
           items: []
@@ -43,7 +47,7 @@
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
       },
       openPreview (item) {
-        this.preview = item
+        this.preview = item.portrait
         if (item.portrait.body.source.type === 'video/mp4') this.showVideoModal = true
       },
       async loadPortraits () {

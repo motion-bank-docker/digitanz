@@ -3,13 +3,7 @@
     h4.q-mx-none.text-center {{ $t('upload.title') }}
     file-uploader.full-width.self-center(v-if="!jobIds.length", :query="query")
     .row.q-mt-xl(v-if="map")
-      .col-12(v-if="jobIds.length")
-        div.text-center
-          q-spinner(size="40px")
-          | {{ $t('upload.loading_up') }}
-        //
-          ul
-            li(v-for="jobId in jobIds", :key="jobId") {{ $store.state.conversions.jobDetails[jobId].title }}
+      job-list
       .col-12.q-px-md
         // h4.text-center {{ map.title }}
         h4.text-center {{ $t('upload.my_videos') }}
@@ -25,10 +19,12 @@
 
 <script>
   import FileUploader from '../components/FileUploader'
+  import JobList from '../components/JobList'
   import { mapGetters } from 'vuex'
   export default {
     components: {
-      FileUploader
+      FileUploader,
+      JobList
     },
     mounted () {
       this.$root.$on('updateVideos', this.fetchVideos)
@@ -47,8 +43,7 @@
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState',
-        jobIds: 'conversions/getJobIds'
+        user: 'auth/getUserState'
       })
     },
     methods: {
