@@ -1,7 +1,8 @@
 <template lang="pug">
   div
     .row(v-if="!enclosed")
-      img.full-width(:src="currentImg")
+      .col-md-12
+        img.full-width(:src="currentImg")
     .position-relative.row(v-else, style="height: calc(100vh - 50px); overflow-y: hidden;")
       img.full-width(:src="currentImg", style="transform: scale(.85) translateY(-5vh);")
 </template>
