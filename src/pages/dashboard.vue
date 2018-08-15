@@ -150,6 +150,7 @@
           if (!silent) this.$q.loading.hide()
           await this.loadPortraits()
         }
+        else if (!silent) this.$q.loading.hide()
       },
       scrollToDate (date, duration = 1000) {
         const el = this.$refs[this.getDateLabel(date)][0].$el

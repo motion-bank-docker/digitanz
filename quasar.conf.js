@@ -142,7 +142,7 @@ module.exports = function (ctx) {
         loading: {
           spinner: 'QSpinnerHearts',
           spinnerSize: 250,
-          spinnerColor: 'pink-13',
+          spinnerColor: 'primary',
           customClass: 'bg-dark half-transparent',
           messageColor: 'light-gray',
           delay: 400
