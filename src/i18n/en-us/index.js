@@ -15,10 +15,13 @@ export default {
     file_uploader: 'Video-Titel'
   },
   buttons: {
+    back: 'Zurück',
+    close: 'Schließen',
     uploader: 'Video auswählen und hochladen',
     delete: 'Löschen',
     cancel: 'Abbrechen',
-    confirm: 'OK'
+    confirm: 'OK',
+    upload_remix: 'Remix hochladen'
   },
   dashboard: {
     title: 'Dashboard',
@@ -73,7 +76,8 @@ export default {
   },
   portrait: {
     title: 'Portrait',
-    description: 'Hier steht eine Beschreibung zu den Portraits.'
+    description: 'Hier steht eine Beschreibung zu den Portraits.',
+    upload_remix: 'Remix für dieses Portrait hochladen'
   },
   upload: {
     loading_up: 'Lädt hoch...',

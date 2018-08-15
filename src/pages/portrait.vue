@@ -13,7 +13,8 @@
     q-list.no-border(v-for="item in portraits.items")
       q-item.q-py-none
         q-item-main.text-center
-          img.cursor-pointer(@click="openPreview(item.portrait)", :src="getPNG(item.portrait.body.source.id)", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
+          img.cursor-pointer.portrait-image(@click="openPreview(item.portrait)", :src="getPNG(item.portrait.body.source.id)")
+          q-btn(dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
 </template>
 
 <script>
@@ -50,6 +51,9 @@
         this.preview = item.portrait
         if (item.portrait.body.source.type === 'video/mp4') this.showVideoModal = true
       },
+      uploadResponse (item) {
+        this.$refs.uploadRemixModal.show(item)
+      },
       async loadPortraits () {
         /**
          * Get the global portrait timeline and its contents
@@ -84,3 +88,11 @@
     }
   }
 </script>
+
+<style scoped lang="stylus">
+  .portrait-image
+    height auto
+    max-height 50vh
+    width auto
+    max-width 100%
+</style>
