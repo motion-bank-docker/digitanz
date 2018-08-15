@@ -197,11 +197,11 @@
           if (result.items.length) {
             date.map = result.items[0]
             query = {
-              // 'target.id': `${process.env.TIMELINE_BASE_URI}${date.map.uuid}`
+              // 'created': { $gte: date.start, $lte: date.end },
               'author.id': this.user.uuid,
               'body.type': 'Video',
-              'body.source.type': 'video/mp4'
-              // 'created': { $gte: date.start, $lte: date.end }
+              'body.source.type': 'video/mp4',
+              'target.id': { $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}` }
             }
             result = await this.$store.dispatch('annotations/find', query)
             const items = result.items.sort(this.$sort.onCreatedDesc)

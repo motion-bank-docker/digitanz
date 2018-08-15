@@ -70,10 +70,10 @@
         if (results.items && results.items.length) {
           this.map = Object.assign({}, results.items[0])
           query = {
-            // 'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
             'author.id': this.user.uuid,
             'body.type': 'Video',
-            'body.source.type': 'video/mp4'
+            'body.source.type': 'video/mp4',
+            'target.id': { $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}` }
           }
           results = await this.$store.dispatch('annotations/find', query)
           const items = results.items.sort(this.$sort.onCreatedDesc)
