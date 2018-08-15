@@ -1,6 +1,6 @@
 <template lang="pug">
-  .position-relative(style="height: calc(100vh - 50px); overflow-y: hidden;")
-    img.vertical-middle.absolute(:src="currentImg", style="transform: scale(.7)")
+  .position-relative.row(style="height: calc(100vh - 50px); overflow-y: hidden;")
+    img.full-width(:src="currentImg", style="transform: scale(.7) translateY(-5vh);")
 </template>
 
 <script>
