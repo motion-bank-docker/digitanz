@@ -1,12 +1,54 @@
 <template lang="pug">
   .position-relative(style="height: calc(100vh - 50px); overflow-y: hidden;")
-    svg(width="100%", height="100%")
-      line(v-for="n in 10", :x1="50 * n", y1="0", :x2="50 * n", y2="100%", style="stroke: rgba( 255, 255, 255, .05 ); stroke-width: 1;")
-      line(v-for="n in 30", x1="0", :y1="50 * n", x2="100%", :y2="50 * n", style="stroke: rgba( 255, 255, 255, .05 ); stroke-width: 1;")
-    // .text-white #digitanz
+    img(:src="changeImg(currentImg)")
+    // img(:src="images[0]")
 </template>
 
 <script>
   export default {
+    data () {
+      return {
+        currentImg: 1,
+        images: ['statics/003-master-1.svg', 'statics/003-master-2.svg', 'statics/003-master-3.svg']
+      }
+    },
+    mounted () {
+      // this.changeImg()
+      let i = 0
+      setInterval(function () {
+        if (i < 2) i++
+        else i = 0
+        this.currentImg = i
+        console.log(i)
+        return this.currentImg
+      }, 1000)
+    },
+    methods: {
+      changeImg (val) {
+        console.log(val)
+        // let i = 0
+        // let imgs = this.images
+        /* setInterval(function () {
+          if (i < 2) i++
+          else i = 0
+          this.currentImg = i
+          // console.log(imgs[this.currentImg])
+          // return imgs[i]
+        }, 1000) */
+        return this.images[val]
+        // console.log(imgs[i])
+      }
+    }
   }
 </script>
+
+<style>
+  .st0 {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-miterlimit: 10;
+    }
+</style>
