@@ -2,10 +2,11 @@
 
   q-uploader(
         ref="uploader",
-        prefix="Select and Upload Video",
+        :prefix="$t('buttons.uploader')",
         auto-expand,
         clearable,
-        color="faded",
+        color="black",
+        align="center",
         inverted,
         :extensions="ext",
         :multiple="false",
