@@ -154,6 +154,7 @@
     },
     mounted () {
       this.$root.$on('updateVideos', this.fetchData)
+      this.fetchData()
     },
     beforeDestroy () {
       this.$root.$off('updateVideos', this.fetchData)
@@ -171,40 +172,43 @@
         // const _this = this
         // const $drake = this.$dragula.$service
         // $service.options('checkedVideos', { direction: 'horizontal' })
-        let query = {
-          'author.id': this.$store.state.auth.user.uuid,
-          'title': 'Meine Videos'
-        }
-        const results = await this.$store.dispatch('maps/find', query)
-        if (results.items.length) {
-          this.map = Object.assign({}, results.items[0])
-          query = {
-            'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
-          }
-          const results2 = await this.$store.dispatch('annotations/find', query)
-          let newUploadedVideos = []
-          for (let i in results2.items) {
-            const annotation = results2.items[i]
-            const meta = await this.$store.dispatch('metadata/get', annotation.uuid)
-            console.log('meta data', meta)
-            const newVideo = Object.assign({}, {
-              weight: parseInt(i),
-              title: annotation.body.value, // meta.title
-              uuid: annotation.uuid,
-              created: annotation.created,
-              source: {id: annotation.body.source.id, type: 'video/mp4'},
-              preview: annotation.body.source.id.replace(/\.mp4$/, '.png'),
-              duration: meta ? meta.duration : 1,
-              orientation: (meta.height === 720) ? 'landscape' : 'portrait'
-            })
-            newUploadedVideos.push(newVideo)
-            // this.listOfThings.push(annotation.uuid)
-            console.log('new', newVideo)
-          }
-          this.uploadedVideos = newUploadedVideos
-          console.log(this.uploadedVideos)
 
-          this.fetchedUserVideos = true
+        if (this.$store.state.auth.user) {
+          let query = {
+            'author.id': this.$store.state.auth.user.uuid,
+            'title': 'Meine Videos'
+          }
+          const results = await this.$store.dispatch('maps/find', query)
+          if (results.items && results.items.length) {
+            this.map = Object.assign({}, results.items[0])
+            query = {
+              'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
+            }
+            const results2 = await this.$store.dispatch('annotations/find', query)
+            let newUploadedVideos = []
+            for (let i in results2.items) {
+              const annotation = results2.items[i]
+              const meta = await this.$store.dispatch('metadata/get', annotation.uuid)
+              console.log('meta data', meta)
+              const newVideo = Object.assign({}, {
+                weight: parseInt(i),
+                title: annotation.body.value, // meta.title
+                uuid: annotation.uuid,
+                created: annotation.created,
+                source: {id: annotation.body.source.id, type: 'video/mp4'},
+                preview: annotation.body.source.id.replace(/\.mp4$/, '.png'),
+                duration: meta ? meta.duration : 1,
+                orientation: (meta.height === 720) ? 'landscape' : 'portrait'
+              })
+              newUploadedVideos.push(newVideo)
+              // this.listOfThings.push(annotation.uuid)
+              console.log('new', newVideo)
+            }
+            this.uploadedVideos = newUploadedVideos
+            console.log(this.uploadedVideos)
+
+            this.fetchedUserVideos = true
+          }
         }
       },
       async addUploadedVideo (video) {
