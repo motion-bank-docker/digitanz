@@ -1,7 +1,8 @@
 <template lang="pug">
   q-page.flex.column
-    video-modal(:show="showVideoModal", :preview="preview", @canceled="showVideoModal = false")
-    image-modal(:show="showImageModal", :source="preview", @canceled="showImageModal = false")
+    //
+      video-modal(:show="showVideoModal", :preview="preview", @canceled="showVideoModal = false")
+      image-modal(:show="showImageModal", :source="preview", @canceled="showImageModal = false")
 
     // HEADLINE
     //
@@ -14,8 +15,11 @@
     //
     // div {{ this.portraits.map }}
     // div {{ loadPortraits() }}
-    q-list(v-for="portrait in portraits")
-      q-item {{ portrait }}
+    q-list.no-border(v-for="portrait in portraits.annotations")
+      // q-item {{ portrait.body.source.id }}
+      q-item
+        q-item-main.text-center
+          img(:src="getPNG(portrait.body.source.id)", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
 
     // TERMINE IM DETAIL
     //
@@ -73,6 +77,9 @@
       }
     },
     methods: {
+      getPNG (url) {
+        return url.replace(/\.mp4$/, '.png')
+      },
       formatTime (val) {
         // console.log(val)
         return DateTime.fromISO(val).toLocaleString()
@@ -157,6 +164,7 @@
           const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
           this.portraits.annotations = portraitsResult.items
         }
+        console.log(this.portraits)
       }
     },
     async mounted () {
