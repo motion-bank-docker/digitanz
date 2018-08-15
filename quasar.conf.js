@@ -126,6 +126,7 @@ module.exports = function (ctx) {
         'QSpinner',
         'QSpinnerMat',
         'QSpinnerTail',
+        'QSpinnerHearts',
         'QChip',
         'QCollapsible'
       ],
@@ -134,12 +135,21 @@ module.exports = function (ctx) {
       ],
       // Quasar plugins
       plugins: [
-        'Notify'
-      ]
+        'Notify',
+        'Loading'
+      ],
+      config: {
+        loading: {
+          spinner: 'QSpinnerHearts',
+          spinnerSize: 250,
+          spinnerColor: 'pink-13',
+          customClass: 'bg-dark half-transparent',
+          messageColor: 'light-gray'
+        }
+      }
     },
     // animations: 'all' --- includes all animations
-    animations: [
-    ],
+    animations: 'all',
     pwa: {
       cacheExt: 'js,html,css,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
       manifest: {

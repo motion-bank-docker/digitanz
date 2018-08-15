@@ -6,7 +6,9 @@ export default {
   success: 'Action was successful',
   messages: {
     conversion_successful: 'Dein Video ist jetzt verfügbar',
-    conversion_failed: 'Video upload fehlgeschlagen'
+    conversion_failed: 'Video upload fehlgeschlagen',
+    loading_videos: 'Lade videos...',
+    deleting_video: 'Lösche video...'
   },
   labels: {
     confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?'
