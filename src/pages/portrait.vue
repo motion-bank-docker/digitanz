@@ -10,11 +10,15 @@
     div.q-mx-md.q-mb-xl.text-grey-8
       | {{ $t('portrait.description') }}
 
+    job-list
+
     q-list.no-border(v-for="item in portraits.items")
       q-item.q-py-none
         q-item-main.text-center
           img.cursor-pointer.portrait-image(@click="openPreview(item.portrait)", :src="getPNG(item.portrait.body.source.id)")
           q-btn(dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
+          ul
+            li(v-for="response in item.responses") {{ response.body.source.id }}
 </template>
 
 <script>
@@ -23,12 +27,14 @@
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
   import UploadRemixModal from '../components/UploadRemixModal'
+  import JobList from '../components/JobList'
 
   export default {
     components: {
       VideoModal,
       ImageModal,
-      UploadRemixModal
+      UploadRemixModal,
+      JobList
     },
     data () {
       return {
@@ -39,6 +45,9 @@
           items: []
         }
       }
+    },
+    beforeDestroy () {
+      this.$root.$off('updateVideos', this.loadPortraits)
     },
     methods: {
       getPNG (url) {
@@ -72,7 +81,8 @@
               responses: []
             }
             const responsesQuery = {
-              'target.id': `${process.env.ANNOTATION_BASE_URI}${portrait.uuid}`
+              'target.id': `${process.env.ANNOTATION_BASE_URI}${portrait.uuid}`,
+              'body.purpose': 'commenting'
             }
             const responsesResult = await this.$store.dispatch('annotations/find', responsesQuery)
             item.responses = responsesResult.items
@@ -84,6 +94,7 @@
       }
     },
     async mounted () {
+      this.$root.$on('updateVideos', this.loadPortraits)
       await this.loadPortraits()
     }
   }

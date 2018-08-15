@@ -2,8 +2,8 @@
   q-modal.row.maximized(v-model="showModal", content-classes="bg-dark")
     .q-ma-md
       h1.q-title {{ $t('portrait.upload_remix') }}
-      file-uploader.no-padding.no-margin.self-center(v-if="!jobIds.length && target", :target="target", :purpose="purpose",
-        style="width: 100%", @finish="addUploadedVideo")
+      file-uploader.no-padding.no-margin.self-center(v-if="!jobIds.length && target",
+        :target="target", :purpose="purpose", :public="public", @convert="onConvert")
       job-list
       q-btn.full-width.fixed-bottom(color="primary" @click="close" icon="arrow_back" :label="$t('buttons.close')")
 </template>
@@ -17,7 +17,8 @@
       return {
         showModal: false,
         target: undefined,
-        purpose: undefined
+        purpose: undefined,
+        public: true
       }
     },
     components: {
@@ -43,9 +44,8 @@
         this.purpose = undefined
         this.showModal = false
       },
-      addUploadedVideo (video) {
-        console.debug('remix uploaded', video)
-        this.$emit('uploaded', video)
+      onConvert (job) {
+        console.debug('remix converting', job)
         this.close()
       }
     }

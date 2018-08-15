@@ -14,7 +14,7 @@
     components: {
       Uploader
     },
-    props: ['query', 'target', 'purpose'],
+    props: ['query', 'target', 'purpose', 'public'],
     data () {
       return {
         url: `${process.env.TRANSCODER_HOST}/uploads`,
@@ -66,7 +66,8 @@
             title: this.title,
             timeline: this.timeline ? this.timeline.uuid : undefined,
             target: this.target,
-            purpose: this.purpose
+            purpose: this.purpose,
+            isPublic: this.public
           }
           let size = {
             width: 1280,
@@ -89,6 +90,7 @@
               title: this.title
             }
           }
+          this.$emit('convert', { conversion, detail })
           result = await this.$store.dispatch('conversions/post', { conversion, detail })
           console.debug('created conversion', result)
         }
