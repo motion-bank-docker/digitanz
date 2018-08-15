@@ -60,7 +60,6 @@
     },
     methods: {
       getResponseLabel (val) {
-        console.log(val)
         let strng
         if (val === 1) strng = this.$t('portrait.remix_singular')
         else strng = this.$t('portrait.remix_plural')
