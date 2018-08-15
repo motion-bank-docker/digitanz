@@ -4,6 +4,7 @@ module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
     plugins: [
+      'dt-components',
       'api',
       'auth',
       'axios',
@@ -141,8 +142,8 @@ module.exports = function (ctx) {
       ],
       config: {
         loading: {
-          spinner: 'QSpinnerHearts',
-          spinnerSize: 250,
+          spinner: 'GriddleMoves',
+          spinnerSize: 300,
           spinnerColor: 'primary',
           customClass: 'bg-dark half-transparent',
           messageColor: 'light-gray',
