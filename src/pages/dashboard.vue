@@ -84,9 +84,10 @@
       },
       async deleteItem (item) {
         console.log(item)
+        this.$q.loading.show({ message: this.$t('messages.deleting_video') })
         for (let portrait of this.portraits.annotations) {
           if (item.annotation.body.source.id === portrait.body.source.id) {
-            await this.setAsPortrait(item)
+            await this.setAsPortrait(item, true)
           }
         }
         const headers = {
@@ -104,6 +105,7 @@
           await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.annotation.body.source.id)}`, { headers })
         }
         catch (e) { console.error('Failed to remove video', e.message) }
+        this.$q.loading.hide()
         await this.loadDates()
       },
       openPreview (item) {
@@ -114,8 +116,9 @@
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
-      async setAsPortrait (item) {
+      async setAsPortrait (item, silent = false) {
         console.debug('setting as portrait...', item, this.portraits)
+        if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_portrait') })
         const query = {
           'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`,
           'author.id': this.$store.state.auth.user.uuid
@@ -145,8 +148,9 @@
             await this.$store.dispatch('acl/set', {uuid: result.uuid, role: 'public', permissions: ['get']})
           }
           console.debug('new portrait set', result)
+          if (!silent) this.$q.loading.hide()
+          await this.loadPortraits()
         }
-        await this.loadPortraits()
       },
       scrollToDate (date, duration = 1000) {
         const el = this.$refs[this.getDateLabel(date)][0].$el
@@ -162,6 +166,7 @@
         /**
          * Get the global portrait timeline and its contents
          */
+        this.$q.loading.show({ message: this.$t('messages.loading_portraits') })
         const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
         if (portraitsMapResult) {
           this.portraits.map = portraitsMapResult
@@ -171,11 +176,13 @@
           const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
           this.portraits.annotations = portraitsResult.items
         }
+        this.$q.loading.hide()
       },
       async loadDates () {
         /**
          * Iterate over dates and fetch content for each one
          */
+        this.$q.loading.show({ message: this.$t('messages.loading_dates') })
         for (let date of this.dates) {
           let query = {
             'author.id': this.$store.state.auth.user.uuid,
@@ -198,6 +205,7 @@
             date.entries = entries
           }
         }
+        this.$q.loading.hide()
       }
     },
     async mounted () {
