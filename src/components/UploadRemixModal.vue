@@ -1,10 +1,11 @@
 <template lang="pug">
-  q-modal.row.maximized(v-model="opened", content-classes="bg-dark")
+  q-modal.row.maximized(v-model="showModal", content-classes="bg-dark")
     .q-ma-md
       h1.q-title {{ $t('portrait.upload_remix') }}
-      file-uploader.no-padding.no-margin.self-center(v-if="!jobIds.length", :target="target",
+      file-uploader.no-padding.no-margin.self-center(v-if="!jobIds.length && target", :target="target", :purpose="purpose",
         style="width: 100%", @finish="addUploadedVideo")
       job-list
+      q-btn.full-width.fixed-bottom(color="primary" @click="close" icon="arrow_back" :label="$t('buttons.close')")
 </template>
 
 <script>
@@ -12,10 +13,11 @@
   import FileUploader from './FileUploader'
   import { mapGetters } from 'vuex'
   export default {
-    props: ['target'],
     data () {
       return {
-        showModal: false
+        showModal: false,
+        target: undefined,
+        purpose: undefined
       }
     },
     components: {
@@ -23,20 +25,28 @@
       FileUploader
     },
     computed: {
-      opened () {
-        return this.showModal
-      },
       ...mapGetters({
         jobIds: 'conversions/getJobIds'
       })
     },
     methods: {
-      show () {
+      show (target, purpose = 'commenting') {
+        this.target = {
+          id: `${process.env.ANNOTATION_BASE_URI}${target.uuid}`,
+          type: 'Annotation'
+        }
+        this.purpose = purpose
         this.showModal = true
+      },
+      close () {
+        this.target = undefined
+        this.purpose = undefined
+        this.showModal = false
       },
       addUploadedVideo (video) {
         console.debug('remix uploaded', video)
         this.$emit('uploaded', video)
+        this.close()
       }
     }
   }

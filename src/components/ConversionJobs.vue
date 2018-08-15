@@ -53,7 +53,7 @@
                   type: 'video/mp4'
                 },
                 type: 'Video',
-                purpose: 'linking'
+                purpose: detail.purpose || 'linking'
               },
               target
             }

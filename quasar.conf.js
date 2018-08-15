@@ -57,7 +57,7 @@ module.exports = function (ctx) {
         // Resources
         //
         TIMELINE_BASE_URI: JSON.stringify(process.env.TIMELINE_BASE_URI || 'https://app.motionbank.org/piecemaker/timelines/'),
-        ANNOTATION_BASE_URI: JSON.stringify(process.env.TIMELINE_BASE_URI || 'https://app.motionbank.org/piecemaker/annotations/'),
+        ANNOTATION_BASE_URI: JSON.stringify(process.env.ANNOTATION_BASE_URI || 'https://app.motionbank.org/piecemaker/annotations/'),
         GRID_BASE_URI: JSON.stringify(process.env.GRID_BASE_URI || 'https://app.motionbank.org/mosys/grids/'),
         ID_FIELD: JSON.stringify(process.env.ID_FIELD || 'uuid'),
         SYSTEM_USER_UUID: JSON.stringify(process.env.SYSTEM_USER_UUID || 'aa5a24cc-dbd3-5b5d-8ca6-76552699cbd9'),
