@@ -19,7 +19,7 @@
               q-item-tile
                 img(:src="item.preview", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
               q-item-tile
-                q-btn(flat, round, icon="edit")
+                // q-btn(flat, round, icon="edit")
                 q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")
                 q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
 </template>

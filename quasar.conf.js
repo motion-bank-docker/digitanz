@@ -144,7 +144,8 @@ module.exports = function (ctx) {
           spinnerSize: 250,
           spinnerColor: 'pink-13',
           customClass: 'bg-dark half-transparent',
-          messageColor: 'light-gray'
+          messageColor: 'light-gray',
+          delay: 400
         }
       }
     },
