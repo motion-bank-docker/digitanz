@@ -25,7 +25,12 @@
           v-else, disabled,
           dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
           q-collapsible.full-width.no-padding.q-my-sm(v-if="item.responses.length > 0", :label="getResponseLabel(item.responses.length)")
-            img.portrait-image.q-mt-md(v-for="response in item.responses", @click="openPreview(response)", :src="getPNG(response.body.source.id)")
+            // div.q-my-lg(v-for="portrait in item.responses") {{ portrait.author }}
+
+            div(v-for="response in item.responses")
+              img.portrait-image.q-mt-md(@click="openPreview(response)", :src="getPNG(response.body.source.id)")
+              .full-width.text-center
+                q-btn.q-my-sm(v-if="response.author.id === user", color="primary", icon="delete", :label="$t('buttons.delete')")
           div.q-pa-md.text-grey-8(v-else) {{ $t('portrait.no_remix') }}
 </template>
 
