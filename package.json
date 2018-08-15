@@ -24,7 +24,7 @@
     "luxon": "^1.2.0",
     "mbjs-api-client": "^1.0.5",
     "mbjs-media": "0.0.18",
-    "mbjs-quasar": "0.0.8",
+    "mbjs-quasar": "0.0.9",
     "mbjs-utils": "0.0.6",
     "superagent": "^3.8.2",
     "video.js": "^6.8.0",
