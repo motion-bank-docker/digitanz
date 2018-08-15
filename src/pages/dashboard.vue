@@ -2,7 +2,7 @@
   q-page.flex.column
     video-modal(:show="showVideoModal", :preview="preview", @canceled="showVideoModal = false")
     image-modal(:show="showImageModal", :source="preview", @canceled="showImageModal = false")
-    delete-modal(:show="showDeleteModal", :item="itemToDelete", @cancel="cancelDelete", @confirm="deleteItem")
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
     // HEADLINE
     //
@@ -42,7 +42,7 @@
 
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
-  import DeleteModal from '../components/DeleteModal'
+  import ConfirmModal from '../components/ConfirmModal'
 
   const { getScrollTarget, setScrollPosition } = scroll
 
@@ -50,7 +50,7 @@
     components: {
       VideoModal,
       ImageModal,
-      DeleteModal
+      ConfirmModal
     },
     data () {
       return {
@@ -59,7 +59,6 @@
         showVideoModal: false,
         showImageModal: false,
         showDeleteModal: false,
-        itemToDelete: undefined,
         portraits: {
           map: undefined,
           annotations: []
@@ -106,11 +105,6 @@
         }
         catch (e) { console.error('Failed to remove video', e.message) }
         await this.loadDates()
-        this.cancelDelete()
-      },
-      cancelDelete () {
-        this.itemToDelete = undefined
-        this.showDeleteModal = false
       },
       openPreview (item) {
         this.preview = item.annotation
@@ -118,8 +112,7 @@
         else if (item.annotation.body.source.type === 'image/jpeg') this.showImageModal = true
       },
       openDeleteModal (item) {
-        this.itemToDelete = item
-        this.showDeleteModal = true
+        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       async setAsPortrait (item) {
         console.debug('setting as portrait...', item, this.portraits)
