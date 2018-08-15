@@ -72,7 +72,7 @@ export default {
   },
   portrait: {
     title: 'Portrait',
-    description: 'Hier steht eine Beschreibung.'
+    description: 'Hier steht eine Beschreibung zu den Portraits.'
   },
   upload: {
     loading_up: 'Lädt hoch...',
