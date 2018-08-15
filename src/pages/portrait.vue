@@ -1,7 +1,7 @@
 <template lang="pug">
-  q-page.flex.column
+  q-page
+    video-modal(:show="showVideoModal", :preview="preview", @canceled="showVideoModal = false")
     //
-      video-modal(:show="showVideoModal", :preview="preview", @canceled="showVideoModal = false")
       image-modal(:show="showImageModal", :source="preview", @canceled="showImageModal = false")
 
     // HEADLINE
@@ -17,9 +17,9 @@
     // div {{ loadPortraits() }}
     q-list.no-border(v-for="portrait in portraits.annotations")
       // q-item {{ portrait.body.source.id }}
-      q-item
+      q-item.q-py-none
         q-item-main.text-center
-          img(:src="getPNG(portrait.body.source.id)", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
+          img.cursor-pointer(@click="openPreview(portrait)", :src="getPNG(portrait.body.source.id)", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
 
     // TERMINE IM DETAIL
     //
@@ -99,9 +99,11 @@
         // this.groupedTools.splice(index, 1)
       },
       openPreview (item) {
-        this.preview = item.annotation
-        if (item.annotation.body.source.type === 'video/mp4') this.showVideoModal = true
-        else if (item.annotation.body.source.type === 'image/jpeg') this.showImageModal = true
+        // this.preview = item.annotation
+        this.preview = item
+        // console.log(this.preview)
+        if (item.body.source.type === 'video/mp4') this.showVideoModal = true
+        else if (item.body.source.type === 'image/jpeg') this.showImageModal = true
       },
       openDeleteModal () {
         console.log('Hallo')
