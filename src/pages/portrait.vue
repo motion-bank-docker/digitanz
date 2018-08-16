@@ -7,10 +7,9 @@
     // HEAD
     //
     h3.text-center
-      | {{ $t('portrait.title') }}
-      // | cdscds
+      | {{ $t('pages.portrait.title') }}
     div.q-mx-md.q-mb-xl.text-grey-8
-      | {{ $t('portrait.description') }}
+      | {{ $t('pages.portrait.description') }}
 
     job-list
 
@@ -62,7 +61,7 @@
                 img.portrait-image.q-mt-md(@click="openPreview(response)", :src="getPNG(response.body.source.id)")
                 .full-width.text-center
                   q-btn.q-my-sm(@click="deleteItem(response)", v-if="response.author.id === user.uuid", icon="delete")
-          div.q-pa-md.text-grey-8(v-else) {{ $t('portrait.no_remix') }}
+          div.q-pa-md.text-grey-8(v-else) {{ $t('pages.portrait.no_remix') }}
 </template>
 
 <script>
@@ -102,8 +101,8 @@
     methods: {
       getResponseLabel (val) {
         let strng
-        if (val === 1) strng = this.$t('portrait.remix_singular')
-        else strng = this.$t('portrait.remix_plural')
+        if (val === 1) strng = this.$t('pages.portrait.remix_singular')
+        else strng = this.$t('pages.portrait.remix_plural')
         return val + ' ' + strng
       },
       getPNG (url) {
