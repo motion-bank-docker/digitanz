@@ -77,8 +77,18 @@
             h3.q-title.no-margin(v-if="sequencedVideos.length > 0") Videos
             q-btn.no-margin(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
           .q-mb-md(v-else, style="text-align:center")
-            .q-ma-md.q-body-2 Füge deine ersten Videos hinzu
+            .q-ma-md.q-body-2 Füge deine ersten Videos hinzu // Start new timeline
             q-btn.q-ma-md(round, color="primary", icon="add", @click="openModal")
+
+            // Timeline list
+            .q-ma-md-.q-body-2 Oder wähle ein existierende Sequenz aus
+            q-list.q-b-xl.no-border
+              q-item.row.no-padding
+                .col
+                  .q-title Hallo
+                .col
+                  .q-body-2.q-sm-md.uppercase My sequence
+                  q-chip.q-mb-sm.text-weight-light(small color="black") 3:06
 
           q-list.q-mb-xl.no-border
             q-item.no-padding.mega(v-for="(video, index) in sequencedVideos")
@@ -261,7 +271,6 @@
         return minutes.toString() + ':' + seconds.toString()
       },
       setPlayerStatePlay () {
-        console.log('set state')
         this.playing = true
       },
       setPlayerStatePause () {
@@ -294,7 +303,6 @@
         else player.play()
       },
       isPaused () {
-        console.log('quatsch ' + this.$refs.videoPlayer.isPaused())
         return this.$refs.videoPlayer.isPaused()
       },
       playNext () {
@@ -335,7 +343,6 @@
         if (this.newIndex < 0 || this.newIndex === array.length) return // Already at the top or bottom.
         this.indexes = [this.editIndex, this.newIndex].sort((a, b) => a - b) // Sort the indexes
         array.splice(this.indexes[0], 2, array[this.indexes[1]], array[this.indexes[0]]) // Replace from lowest index, two elements, reverting the order
-        console.log('old position: ' + element + ' new position: ' + this.newIndex)
       },
       moveUp: function (array, element) {
         this.moveItem(array, element, -1)
