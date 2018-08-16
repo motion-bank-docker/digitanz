@@ -24,8 +24,8 @@
         .text-grey-8
           | {{ $t('dashboard.no_entries') }}
 
-      .q-mb-xl(v-else, style="border-top: 0px solid #333;")
-        q-item.q-mb-xl.no-padding(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id")
+      .q-mb-xl.row.justify-between(v-else, style="border-top: 0px solid #333;")
+        q-item.q-mb-xl.no-padding.dashboard-grid(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id")
           q-item-main.self-start
             q-item-tile.text-center
               q-btn.no-padding(@click="openPreview(item)")
@@ -264,3 +264,12 @@
     }
   }
 </script>
+
+<style>
+  .dashboard-grid:nth-child(odd) {
+    padding-right: .5em !important;
+  }
+  .dashboard-grid:nth-child(even) {
+     padding-left: .5em !important;
+   }
+</style>
