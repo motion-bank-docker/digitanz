@@ -17,7 +17,7 @@
     q-list.no-border(separator)
       q-item.q-pt-xl(v-for="item in portraits.items")
         q-item-main.text-center
-          img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
+          img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="item.preview.medium")
           q-btn.full-width.q-my-md(
           v-if="item.portrait.author.id !== user.uuid"
           dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
@@ -101,7 +101,7 @@
         return val + ' ' + strng
       },
       getPNG (url) {
-        return url.replace(/\.mp4$/, '.png')
+        return url.replace(/\.mp4$/, '-m.jpg')
       },
       download (file) {
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
@@ -159,10 +159,13 @@
           await this.$store.dispatch('annotations/delete', item.uuid)
         }
         catch (e) { console.error('Failed to remove annotation', e.message) }
-        try {
-          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.body.source.id.replace(/mp4$/, 'png'))}`, {headers})
+        const previewKeys = Object.keys(item.preview)
+        for (let key of previewKeys) {
+          try {
+            await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview[key])}`, { headers })
+          }
+          catch (e) { console.error('Failed to remove preview', e.message) }
         }
-        catch (e) { console.error('Failed to remove preview', e.message) }
         try {
           await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.body.source.id)}`, { headers })
         }
