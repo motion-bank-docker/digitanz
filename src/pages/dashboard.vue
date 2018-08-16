@@ -23,7 +23,6 @@
       div(v-if="date.entries <= 0")
         .text-grey-8
           | {{ $t('dashboard.no_entries') }}
-          file-uploader.full-width.self-center(:query="query")
 
       .q-mb-xl(v-else, style="border-top: 0px solid #333;")
         q-item.q-mb-xl.no-padding(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id")
@@ -36,6 +35,10 @@
               // q-btn(flat, round, icon="edit")
               q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")
               q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
+      div(v-if="i === 0")
+        job-list
+        file-uploader.full-width.self-center(:query="query")
+
 </template>
 
 <script>
@@ -49,6 +52,7 @@
   import ImageModal from '../components/ImageModal'
   import ConfirmModal from '../components/ConfirmModal'
   import FileUploader from '../components/FileUploader'
+  import JobList from '../components/JobList'
 
   const { getScrollTarget, setScrollPosition } = scroll
 
@@ -57,7 +61,8 @@
       VideoModal,
       ImageModal,
       ConfirmModal,
-      FileUploader
+      FileUploader,
+      JobList
     },
     data () {
       return {

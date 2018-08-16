@@ -5,7 +5,8 @@
     q-modal.row.maximized(v-model="opened", content-classes="bg-dark")
       .q-ma-md(v-if="!orientation")
         h1.q-title Format wählen
-        q-btn-toggle(v-model="orientation" :options="[{label: 'Landscape', value: 'landscape'}, {label: 'Portrait', value: 'portrait'}]")
+        q-btn-toggle(v-model="orientation" :options="[{label: 'Querformat', value: 'landscape'}, {label: 'Hochformat', value: 'portrait'}]")
+      //
       // Upload
       .q-ma-md(v-if="orientation")
         h1.q-title Video hochladen
@@ -14,7 +15,7 @@
           h1.q-title(v-if="jobIds") Videos being processed
           q-item(v-for="(jobId, index) in jobIds")
             span {{jobId}}
-
+        //
         // Mediathek
         div(v-if="orientation")
           h1.full-width.q-title Wähle deine Videos
@@ -34,6 +35,9 @@
         q-btn.full-width.fixed-bottom(v-if="checkedVideos.length > 0" color="primary" @click="closeModal" icon="add" label="Hinzufügen")
         q-btn.full-width.fixed-bottom(v-else color="primary" @click="closeModal" icon="arrow_back" label="Zurück")
 
+    // Main View
+    //
+    //
     // BIG VIDEO PREVIEW
     video-player.full-width.self-center(
     v-show="sequencedVideos.length > 0",
@@ -44,19 +48,6 @@
     @ended="playNext",
     @play="setPlayerStatePlay()",
     @pause="setPlayerStatePause()")
-
-    // EDIT BUTTONS
-    //.row.bg-red
-      q-list.q-ml-lg(v-if="sequencedVideos.length > 0", no-border, style="touch-action:none")
-        q-item.items-baseline.bg-primary(style="width: relativeSize + '%'" v-for="(video, index) in sequencedVideos", :key="video.uuid")
-    //.row.q-pa-xs.full-width.justify-center
-      q-btn.q-ma-xs(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
-      q-btn.q-ma-xs(round, color="primary", icon="arrow_back", outline, @click="moveUp(sequencedVideos, editIndex)")
-      q-btn.q-ma-xs(round, color="primary", icon="arrow_forward", outline, @click="moveDown(sequencedVideos, editIndex)")
-      // q-btn.q-ma-xs(round, color="primary", icon="timer", outline)
-      // q-btn.q-ma-xs(round, color="primary", icon="fast_rewind", outline)
-      // q-btn.q-ma-xs(round, color="primary", icon="filter_none", outline, @click="duplicateVideo(editIndex)")
-      //q-btn.q-ma-xs(round, color="primary", icon="delete", outline, @click="deleteItem(editIndex)")
 
     // Player controls
     .q-ma-md.full-width.row.justify-center(v-if="sequencedVideos.length > 0")
@@ -69,31 +60,34 @@
       .q-ml-sm
         q-btn(round, size="sm" color="white", icon="skip_next", outline, @click="playNext")
 
-    // SENQUENCED VIDEOS
     q-list.no-padding.no-border(style="width: 100%")
       q-item.items-baseline
         q-item-main.vertical-center
-          .q-mb-md.row.justify-between.items-center(v-if="sequencedVideos.length > 0")
-            h3.q-title.no-margin(v-if="sequencedVideos.length > 0") Videos
-            q-btn.no-margin(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
-          .q-mb-md(v-else, style="text-align:center")
-            .q-ma-md.q-title.text-left Neue Sequenz
-            q-btn.q-ma-md(round, color="primary", icon="add", @click="openModal")
+          //
+          // NEW SEQUENCE
+          .q-mb-md(v-if="sequencedVideos.length == 0")
+            q-btn.q-ma-md.q-mb-xl(color="primary", icon="add_box", @click="openModal" label="Neue Sequenz")
 
             // Timeline list
             .q-ma-md.q-title.text-left Gespeicherte Sequenzen
-            q-list.q-b-xl.no-border
+            q-list.q-mb-xl.no-border
               q-item.row.q-mb-md(v-for="n in 3")
                 div.col-6.q-pr-md.relative-position
                   img(src="../assets/dancing.png" style="width: 100%")
                   q-chip.duration-video.text-weight-light(dense color="black") 3:06
-                div.col-6.self-stretch.column.justify-around(style="border-top: 1px solid grey")
-                    .q-body-2.q-mb-sm.q-mt-xs.uppercase My sequence
-                    div
-                      q-btn(round, color="primary", icon="edit", size="xs", outline)
-                      q-btn.q-ml-md(round, color="primary", icon="account_box" size="xs", outline)
-                      q-btn.q-ml-md(round, color="primary", icon="delete" size="xs", outline)
-
+                div.col-6.q-py-xs.self-stretch.column.justify-around(style="border-top: 1px solid grey")
+                  .q-body-2.q-mb-sm.q-mt-xs.uppercase My sequence
+                  div
+                    q-btn(round, icon="edit", size="md")
+                    q-btn(round, icon="account_box" size="md")
+                    q-btn(round, icon="delete" size="md")
+          //
+          // SENQUENCED VIDEOS
+          .q-mb-md.row.justify-between.items-center(v-if="sequencedVideos.length > 0")
+            h3.q-title.no-margin(v-if="sequencedVideos.length > 0") Videos
+            q-btn.no-margin(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
+          //
+          //
           q-list.q-mb-xl.no-border
             q-item.no-padding.mega(v-for="(video, index) in sequencedVideos")
               .col

@@ -32,6 +32,7 @@
                 q-context-menu(v-if="response.author.id === user.uuid")
                   q-btn.full-width.bg-red(color="white", @click="deleteItem(response)", icon="delete", flat) {{ $t('buttons.delete') }}?
                 img.card-image.no-margin(@click="openPreview(response)", :src="getPNG(response.body.source.id)")
+              // div bhjbxsa
                 //
                   q-btn.absolute-top-right(
                   color="primary",
