@@ -17,27 +17,29 @@
     props: ['source', 'dimensions'],
     methods: {
       onResize (size) {
-        if (this.preview.metadata) {
+        if (this.preview !== undefined) {
+          this.device.width = size.width
+          this.device.height = size.height
           let videoX = this.preview.metadata.width
           let videoY = this.preview.metadata.height
-          if (size.width > size.height) { // DEVICE LANDSCAPE
+          if (this.device.width > this.device.height) { // DEVICE LANDSCAPE
             if (videoX < videoY) {
-              this.playerWidth = size.height / (videoY / videoX)
+              this.playerWidth = this.device.height / (videoY / videoX)
               // this.playerHeight = this.playerWidth * (videoY / videoX)
             } // video hochformat
-            if (videoX > videoY) this.playerWidth = size.width // video querformat
+            if (videoX > videoY) this.playerWidth = this.device.width // video querformat
           }
           else if (size.width < size.height) { // DEVICE PORTRAIT
-            if (videoX < videoY) this.playerWidth = size.width // video hochformat
-            if (videoX > videoY) this.playerWidth = size.width // video querformat
-            this.playerHeight = size.height * (videoY / videoX)
+            if (videoX < videoY) this.playerWidth = this.device.width // video hochformat
+            if (videoX > videoY) this.playerWidth = this.device.width // video querformat
+            this.playerHeight = this.device.height * (videoY / videoX)
           }
-          this.distance.left = (size.width - this.playerWidth) / 2
+          this.distance.left = (this.device.width - this.playerWidth) / 2
           // this.distance.top = (size.width - this.playerHeight) / 2
         }
       },
       show (preview) {
-        console.log(preview, '-----')
+        // console.log(preview, '-----')
         if (preview.annotation !== undefined) this.src = preview.annotation
         else if (preview.portrait !== undefined) this.src = preview.portrait
         else this.src = preview.response
@@ -59,6 +61,10 @@
     },
     data () {
       return {
+        device: {
+          width: '',
+          height: ''
+        },
         distance: {
           left: '',
           top: ''
