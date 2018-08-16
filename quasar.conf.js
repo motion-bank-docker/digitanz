@@ -133,7 +133,8 @@ module.exports = function (ctx) {
         'QSpinnerTail',
         'QSpinnerHearts',
         'QChip',
-        'QCollapsible'
+        'QCollapsible',
+        'QContextMenu'
       ],
       directives: [
         'Ripple'
