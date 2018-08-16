@@ -36,8 +36,8 @@
               q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")
               q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
       div(v-if="i === 0")
-        job-list
         file-uploader.full-width.self-center(:query="query")
+        job-list
 
 </template>
 
@@ -85,6 +85,12 @@
         user: 'auth/getUserState'
       })
     },
+    async mounted () {
+      this.dates = this.$dates()
+      await this.loadPortraits()
+      await this.loadDates()
+      this.$root.$on('updateVideos', this.loadDates)
+    },
     methods: {
       formatTime (val) {
         // console.log(val)
@@ -102,7 +108,6 @@
         return interval.contains(DateTime.local())
       },
       async deleteItem (item) {
-        console.log(item)
         this.$q.loading.show({ message: this.$t('messages.deleting_video') })
         for (let portrait of this.portraits.annotations) {
           if (item.annotation.body.source.id === portrait.body.source.id) {
@@ -206,12 +211,12 @@
         this.$q.loading.show({ message: this.$t('messages.loading_portraits') })
         const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
         if (portraitsMapResult) {
-          this.portraits.map = portraitsMapResult
           const portraitsQuery = {
-            'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
+            'target.id': `${process.env.TIMELINE_BASE_URI}${portraitsMapResult.uuid}`
           }
           const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
-          this.portraits.annotations = portraitsResult.items.sort(this.$sort.onCreatedDesc)
+          const portraitAnnotations = portraitsResult.items.sort(this.$sort.onCreatedDesc)
+          this.portraits = Object.assign({}, this.portraits, {map: portraitsMapResult, annotations: portraitAnnotations})
         }
         this.$q.loading.hide()
       },
@@ -255,12 +260,6 @@
         }
         this.$q.loading.hide()
       }
-    },
-    async mounted () {
-      // alert(this.$route.query.item_id)
-      this.dates = this.$dates()
-      await this.loadPortraits()
-      await this.loadDates()
     }
   }
 </script>
