@@ -8,6 +8,7 @@
         .bg-red {{ video.annotation.width }}
         .gr-green {{ video.annotation.height }}
       div(:style="{width: playerWidth + 'px'}")
+        // video-player(v-if="video", :annotation="video.annotation", @ended="onEnded", :autoplay="true")
         video-player(v-if="video", :annotation="video.annotation", @ended="onEnded", :autoplay="true")
       // q-btn.full-width.bg-dark.q-pa-lg(slot="footer", @click="closePreview", label="Close", flat, style="border-radius: 0;")
       .full-width.q-pa-md.absolute-top.text-right

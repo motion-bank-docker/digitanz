@@ -16,10 +16,11 @@
     // SHOW RESULTS
     //
     q-list.no-border(separator)
-      q-item {{ portraits }}
+      // q-item {{ portraits }}
       q-item.q-pt-xl(v-for="item in portraits.items")
         q-item-main.text-center
-          .bg-red {{ item }}
+          .bg-red {{ item.portrait }}
+          .bg-red {{ item.responses[0] }}
           img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
           q-btn.full-width.q-my-md(
           v-if="item.portrait.author.id !== user.uuid"
