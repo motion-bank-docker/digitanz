@@ -10,19 +10,27 @@
       .col-12.q-px-md
         // h4.text-center {{ map.title }}
         h4.text-center {{ $t('upload.my_videos') }}
-        q-list.no-border.q-pb-md
-          q-item.no-padding.q-mt-md.text-center(v-for="item in videos", :key="item.uuid")
-            //
-              p {{ item.metadata.title }}
-              p {{ item.metadata.width }}x{{ item.metadata.height }}
-              p {{ item.annotation.body.source.id }}
-            q-item-main.text-center
-              q-item-tile
-                img(:src="item.preview.medium",
-                  @click="openPreview(item.annotation)",
-                  style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
-              q-item-tile
-                // q-btn(flat, round, icon="edit")
+        <!--q-list.no-border.q-pb-md-->
+          <!--q-item.no-padding.q-mt-md.text-center(v-for="item in videos", :key="item.uuid")-->
+            <!--//-->
+              <!--p {{ item.metadata.title }}-->
+              <!--p {{ item.metadata.width }}x{{ item.metadata.height }}-->
+              <!--p {{ item.annotation.body.source.id }}-->
+            <!--q-item-main.text-center-->
+              <!--q-item-tile-->
+                <!--img(:src="item.preview.medium",-->
+                  <!--@click="openPreview(item.annotation)",-->
+                  <!--style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")-->
+              <!--q-item-tile-->
+                <!--// q-btn(flat, round, icon="edit")-->
+                <!--q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")-->
+                <!--q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")-->
+        //
+        div.row.justify-center
+          q-card.q-pb-xl.q-px-md(v-for="item in videos", :key="item.uuid", style="width:280px", inline, flat)
+            div.bgsuper(:style="{ 'background-image': 'url(' + item.preview.medium + ')' }", @click="openPreview(item.annotation)")
+            q-card-main
+              q-item-tile.no-margin.text-center.q-pt-sm
                 q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")
                 q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
 </template>
@@ -80,9 +88,8 @@
           query = {
             'author.id': this.user.uuid,
             'body.type': 'Video',
-            'body.source.type': 'video/mp4'
-            // FIXME: portraits map id is undefined
-            // 'target.id': { $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}` }
+            'body.source.type': 'video/mp4',
+            'target.id': { $ne: `${process.env.TIMELINE_BASE_URI}${process.env.PORTRAITS_TIMELINE_UUID}` }
           }
           results = await this.$store.dispatch('annotations/find', query)
           const items = results.items.sort(this.$sort.onCreatedDesc)
@@ -110,6 +117,25 @@
       },
       async deleteItem (item) {
         this.$q.loading.show({ message: this.$t('messages.deleting_video') })
+        // remove portrait annotation (if any)
+        const query = {
+          'target.id': `${process.env.TIMELINE_BASE_URI}${process.env.PORTRAITS_TIMELINE_UUID}`,
+          'author.id': this.user.uuid,
+          'body.source.id': item.annotation.body.source.id
+        }
+        let result = await this.$store.dispatch('annotations/find', query)
+        if (result.items) {
+          for (const portrait of result.items) {
+            await this.$store.dispatch('annotations/delete', portrait.uuid)
+            await this.$store.dispatch('acl/remove', {uuid: result.uuid, role: 'public', permission: 'get'})
+          }
+          const message = {
+            video: item.annotation.body.source.id,
+            user: this.user.uuid
+          }
+          await this.$store.dispatch('logging/log', { action: 'portrait_unset', message })
+        }
+        // remove item / annotation
         const headers = {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -117,6 +143,7 @@
           await this.$store.dispatch('annotations/delete', item.annotation.uuid)
         }
         catch (e) { console.error('Failed to remove annotation', e.message) }
+        // remove assets
         const previewKeys = Object.keys(item.preview)
         for (let key of previewKeys) {
           try {
