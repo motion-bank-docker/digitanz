@@ -65,9 +65,8 @@
         q-item-main.vertical-center
           //
           // NEW SEQUENCE
-          .q-mb-md(v-if="sequencedVideos.length == 0", style="text-align:center")
-            .q-ma-md.q-title.text-left Neue Sequenz
-            q-btn.q-ma-md(round, color="primary", icon="add", @click="openModal")
+          .q-mb-md(v-if="sequencedVideos.length == 0")
+            q-btn.q-ma-md.q-mb-xl(color="primary", icon="add_box", @click="openModal" label="Neue Sequenz")
 
             // Timeline list
             .q-ma-md.q-title.text-left Gespeicherte Sequenzen
