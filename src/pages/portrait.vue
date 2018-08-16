@@ -35,7 +35,8 @@
               style="width: 19vw; height: 19vw; margin: .5vw;", :class="{'moba-border' : responseItem.response.author.id === user.uuid}")
                 q-context-menu(v-if="responseItem.response.author.id === user.uuid")
                   q-btn.full-width.bg-red(color="white", @click="deleteItem(responseItem.response)", icon="delete", flat) {{ $t('buttons.delete') }}?
-                img.card-image.no-margin(@click="openPreview(responseItem.response)", :src="getPNG(responseItem.response.body.source.id)")
+                // img.card-image.no-margin(@click="openPreview(responseItem.response)", :src="getPNG(responseItem.response.body.source.id)")
+                img.card-image.no-margin(@click="openPreview(responseItem)", :src="getPNG(responseItem.response.body.source.id)")
               // div bhjbxsa
                 //
                   q-btn.absolute-top-right(
@@ -118,8 +119,9 @@
       openPreview (item) {
         // const preview = item.portrait || item
         const preview = item
-        console.log(item)
-        if (preview.portrait.body.source.type === 'video/mp4') this.$refs.videoModal.show(preview)
+        // console.log(item.response.body.source.type)
+        this.$refs.videoModal.show(preview)
+        // if (preview.portrait.body.source.type === 'video/mp4') this.$refs.videoModal.show(preview)
       },
       async uploadResponse (item) {
         this.$refs.uploadRemixModal.show(item)
