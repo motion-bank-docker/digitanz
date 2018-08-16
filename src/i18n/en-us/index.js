@@ -27,7 +27,8 @@ export default {
     delete: 'Löschen',
     cancel: 'Abbrechen',
     confirm: 'OK',
-    upload_remix: 'Remix hochladen'
+    // upload_remix: 'Remix hochladen'
+    upload_remix: 'eigene Version hochladen'
   },
   dashboard: {
     title: 'Dashboard',
@@ -64,7 +65,7 @@ export default {
       sublabel: 'Do the griddle'
     },
     portrait: {
-      label: 'Portrait',
+      label: 'Portrait++',
       sublabel: '17.08.2018'
     },
     recipe: {
