@@ -23,7 +23,7 @@
             :class="[{ 'moba-active-image': checkedVideos.includes(video)}, moba-inactive-image]", v-show="fetchedUserVideos")
               q-checkbox(v-model="checkedVideos" :val="video" :disable="video.orientation != orientation")
                 q-item-side(:class="{'moba-inactive-image': !checkedVideos.includes(video)}")
-                  img(:src="video.preview", style="width: 150px", alt="video.title")
+                  img(:src="video.preview.small", style="width: 150px", alt="video.title")
                 q-item-main
                   p.no-margin.text-weight-medium {{ video.title }}
                   q-chip.text-weight-light(small color="black") {{ video.duration }}
@@ -83,7 +83,7 @@
           q-list.q-mb-xl.no-border
             q-item.no-padding.mega(v-for="(video, index) in sequencedVideos")
               .col
-                img.videoPreviewImg(:src="video.preview", style="width: 150px", alt="video.title", @click="openPreview(index), editIndex = index")
+                img.videoPreviewImg(:src="video.preview.small", style="width: 150px", alt="video.title", @click="openPreview(index), editIndex = index")
 
                 //q-btn.no-wrap.full-width(align="left", dark, color="primary", :class="{ 'bg-red': editIndex == index }", :key="index", @click="openPreview(video.source), editIndex = index") {{ video.title || video.uuid }}
               .col
@@ -159,6 +159,13 @@
         return this.uploadedVideos.slice().reverse()
         // return this.uploadedVideos
       },
+      getPreviewLinks (videoURL) {
+        return {
+          high: videoURL.replace(/\.mp4$/, '.jpg'),
+          medium: videoURL.replace(/\.mp4$/, '-m.jpg'),
+          small: videoURL.replace(/\.mp4$/, '-s.jpg')
+        }
+      },
       sortedByOrientation () {
         let direction = ''
         this.orientation === 'portrait' ? direction = '-' : direction = ''
@@ -220,7 +227,7 @@
                 uuid: annotation.uuid,
                 created: annotation.created,
                 source: {id: annotation.body.source.id, type: 'video/mp4'},
-                preview: annotation.body.source.id.replace(/\.mp4$/, '.png'),
+                preview: this.getPreviewLinks(annotation.body.source.id),
                 duration: meta ? meta.duration : 1,
                 orientation: (meta.height === 720) ? 'landscape' : 'portrait'
               })
@@ -240,7 +247,7 @@
           uuid: video.uuid,
           created: video.created,
           source: {id: video.body.source.id, type: 'video/mp4'},
-          preview: video.body.source.id.replace(/\.mp4$/, '.png'),
+          preview: this.getPreviewLinks(video.body.source.id),
           duration: meta ? meta.duration : 1
         })
         Vue.set(this.uploadedVideos, this.uploadedVideos.length, newVideo)
@@ -396,7 +403,7 @@
                 source: JSON.stringify({
                   type: 'video/mp4',
                   id: params.urls[0].streamer + '/' + response.data.uuid + '.mp4',
-                  preview: params.urls[0].streamer + '/' + response.data.uuid + '.png'
+                  preview: _this.getPreviewLinks(params.urls[0].streamer + '/' + response.data.uuid + '.mp4')
                 })
               }
             }
