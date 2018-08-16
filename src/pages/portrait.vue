@@ -2,6 +2,7 @@
   q-page
     video-modal(ref="videoModal")
     upload-remix-modal(ref="uploadRemixModal")
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
     // HEAD
     //
@@ -37,7 +38,7 @@
                   div.ellipsis(slot="subtitle", style="white-space: nowrap;") {{ response.author.id }}
               q-card-actions.no-padding.no-margin
                 .text-center.full-width
-                  q-btn(@click="deleteItem(response)", v-if="response.author.id === user.uuid", icon="delete", flat)
+                  q-btn(@click="openDeleteModal(response)", v-if="response.author.id === user.uuid", icon="delete", flat)
             //
               q-list.no-border
                 q-item.no-padding(v-for="(response, i) in item.responses")
@@ -148,6 +149,9 @@
           this.portraits.items = items
         }
         this.$q.loading.hide()
+      },
+      openDeleteModal (item) {
+        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       async deleteItem (item) {
         console.log(item)
