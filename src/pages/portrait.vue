@@ -71,13 +71,15 @@
   import ImageModal from '../components/ImageModal'
   import UploadRemixModal from '../components/UploadRemixModal'
   import JobList from '../components/JobList'
+  import ConfirmModal from '../components/ConfirmModal'
 
   export default {
     components: {
       VideoModal,
       ImageModal,
       UploadRemixModal,
-      JobList
+      JobList,
+      ConfirmModal
     },
     data () {
       return {
