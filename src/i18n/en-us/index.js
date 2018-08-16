@@ -51,7 +51,7 @@ export default {
     login: 'Einloggen',
     logout: 'Ausloggen',
     dashboard: {
-      label: 'Übersicht',
+      label: 'Alle Termine',
       sublabel: 'Deine gespeicherten Inhalte in einer Übersicht.'
     },
     lost_in_space: {
@@ -64,7 +64,7 @@ export default {
     },
     portrait: {
       label: 'Portrait',
-      sublabel: 'Hausaufgabe'
+      sublabel: '17.08.2018'
     },
     recipe: {
       label: 'Rezepte',

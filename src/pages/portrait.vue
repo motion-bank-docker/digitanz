@@ -15,18 +15,43 @@
     // SHOW RESULTS
     //
     q-list.no-border(separator)
-      q-item.q-py-xl(v-for="item in portraits.items")
+      q-item.q-pt-xl(v-for="item in portraits.items")
         q-item-main.text-center
           img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
-          q-btn.full-width.q-mt-sm(
+          q-btn.full-width.q-my-md(
           v-if="item.portrait.author.id !== user.uuid"
           dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
           q-btn.full-width.q-mt-sm(v-else, disabled, dark, color="primary") {{ $t('buttons.upload_remix') }}
-          q-collapsible.full-width.no-padding.q-my-sm(v-if="item.responses.length > 0", :label="getResponseLabel(item.responses.length)")
+
+          q-collapsible.text-left.full-width.no-padding.q-my-sm(v-if="item.responses.length > 0", :label="getResponseLabel(item.responses.length)")
             // div.q-my-lg(v-for="portrait in item.responses") {{ portrait.author }}
-            div.full-width.q-mb-lg(style="white-space: nowrap; overflow-x: scroll;")
-              img.q-mr-xl(v-for="(response, i) in item.responses", @click="openPreview(response)",
-              :src="getPNG(response.body.source.id)", style="height: 20vh;")
+            // q-card(v-for="(response, i) in item.responses", inline, flat, style="width: 46%; margin: 2%;")
+            q-card(v-for="(response, i) in item.responses", inline, flat)
+              // q-card-main // TESTING
+                | {{ response.author.id }}
+              q-card-media.bg-black.items-center.row.justify-center(overlay-position="bottom",
+              style="width: 40vw; margin: 2vw; height: 40vw;")
+                img.card-image.no-margin(@click="openPreview(response)", :src="getPNG(response.body.source.id)")
+                q-card-title.q-pa-sm(slot="overlay")
+                  // | vbhjsdbcs
+                  div.ellipsis(slot="subtitle", style="white-space: nowrap;") {{ response.author.id }}
+              q-card-actions.no-padding.no-margin
+                .text-center.full-width
+                  q-btn(@click="deleteItem(response)", v-if="response.author.id === user.uuid", icon="delete", flat)
+            //
+              q-list.no-border
+                q-item.no-padding(v-for="(response, i) in item.responses")
+                  q-item-side.relative-position(style="width: 30vw;")
+                    img.response-image(@click="openPreview(response)", :src="getPNG(response.body.source.id)")
+                  q-item-main
+                    | vdshcsdkj
+                  q-item-side
+                    q-btn.q-my-sm(@click="deleteItem(response)", v-if="response.author.id === user.uuid", icon="delete")
+
+            //
+              div.full-width.q-mb-lg(style="white-space: nowrap; overflow-x: scroll;")
+                img.q-mr-xl(v-for="(response, i) in item.responses", @click="openPreview(response)",
+                // :src="getPNG(response.body.source.id)", style="height: 20vh;")
 
             //
               div(v-for="response in item.responses")
@@ -151,6 +176,16 @@
   .portrait-image
     height auto
     max-height 50vh
+    width auto
+    max-width 100%
+  .response-image
+    height auto
+    max-height 15vh
+    width auto
+    max-width 30vw
+  .card-image
+    height auto
+    max-height 40vw
     width auto
     max-width 100%
 </style>
