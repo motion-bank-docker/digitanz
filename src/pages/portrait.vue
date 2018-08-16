@@ -18,11 +18,12 @@
     q-list.no-border(separator)
       q-item.q-pt-xl(v-for="item in portraits.items")
         q-item-main.text-center
+          .bg-red {{ item }}
           img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
           q-btn.full-width.q-my-md(
           v-if="item.portrait.author.id !== user.uuid"
           dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
-          q-btn.full-width.q-mt-sm(v-else, disabled, dark, color="primary") {{ $t('buttons.upload_remix') }}
+          // q-btn.full-width.q-mt-sm(v-else, disabled, dark, color="primary") {{ $t('buttons.upload_remix') }}
 
           q-collapsible.full-width.no-padding.q-my-sm(
           v-if="item.responses.length > 0", :label="getResponseLabel(item.responses.length)")

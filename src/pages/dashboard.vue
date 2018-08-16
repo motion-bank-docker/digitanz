@@ -31,9 +31,8 @@
       .q-mb-xl(v-else, style="border-top: 0px solid #333;")
         q-item.q-mb-xl.no-padding(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id")
           // div(v-for="i in item") {{ item.metadata.width }}
-
           q-item-main.self-start
-
+            q-item-tile {{ item }}
             q-item-tile.text-center
               q-btn.no-padding(@click="openPreview(item)")
                 img(:src="item.preview.medium", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
