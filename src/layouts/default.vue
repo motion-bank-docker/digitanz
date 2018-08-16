@@ -2,14 +2,14 @@
   q-layout(view='lHh Lpr lFf')
     q-layout-header
       q-toolbar(dark, color='black', :glossy="$q.theme === 'mat'", :inverted="$q.theme === 'ios'")
-        q-btn(flat, dense, round, @click='leftDrawerOpen = !leftDrawerOpen', aria-label='Menu')
+        q-btn(flat, dense, round, @click.native.prevent='leftDrawerOpen = !leftDrawerOpen', aria-label='Menu')
           q-icon(name='menu')
         q-toolbar-title
-          span(@click="clickLogo()") {{ info.productName }}
+          span(@click.prevent="clickTitle()") {{ info.productName }}
         q-btn(color="primary", flat, icon="eject",
-          v-if="userState", @click="logout") {{ $t('navigation.logout') }}
+          v-if="userState", @click.prevent="logout") {{ $t('navigation.logout') }}
         q-btn(color="primary", flat, icon="arrow_forward",
-          v-if="!userState", @click="login") {{ $t('navigation.login') }}
+          v-if="!userState", @click.prevent="login") {{ $t('navigation.login') }}
     q-layout-drawer(dark, v-model='leftDrawerOpen', :content-class="$q.theme === 'mat' ? 'bg-dark' : null", v-if="userState")
       //q-list(dark, no-border, link, inset-delimiter, v-if="urls")
       q-list(dark, no-border, link, inset-delimiter)
@@ -79,7 +79,7 @@
       })
     },
     methods: {
-      clickLogo () {
+      clickTitle () {
         this.$router.push('/')
       },
       login () {
