@@ -109,7 +109,6 @@
     },
     methods: {
       formatTime (val) {
-        // console.log(val)
         return DateTime.fromISO(val).toLocaleString()
       },
       download (file) {
@@ -178,7 +177,6 @@
           await this.$store.dispatch('annotations/delete', portrait.uuid)
           await this.$store.dispatch('acl/remove', {uuid: result.uuid, role: 'public', permission: 'get'})
         }
-        console.debug('existing portrait removed', result)
         const message = {
           video: item.annotation.body.source.id,
           user: this.user.uuid
@@ -199,7 +197,6 @@
           if (result) {
             await this.$store.dispatch('acl/set', {uuid: result.uuid, role: 'public', permissions: ['get']})
           }
-          console.debug('new portrait set', result)
           await this.$store.dispatch('logging/log', { action: 'portrait', message })
           if (!silent) this.$q.loading.hide()
         }
