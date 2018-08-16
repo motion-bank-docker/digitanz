@@ -24,19 +24,20 @@
           dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
           q-btn.full-width.q-mt-sm(v-else, disabled, dark, color="primary") {{ $t('buttons.upload_remix') }}
 
-          q-collapsible.text-left.full-width.no-padding.q-my-sm(v-if="item.responses.length > 0", :label="getResponseLabel(item.responses.length)")
-            // div.q-my-lg(v-for="portrait in item.responses") {{ portrait.author }}
-            // q-card(v-for="(response, i) in item.responses", inline, flat, style="width: 46%; margin: 2%;")
-            q-card(v-for="(response, i) in item.responses", inline, flat)
-              // q-card-main // TESTING
-                | {{ response.author.id }}
-              q-card-media.bg-black.items-center.row.justify-center(overlay-position="bottom",
-              style="width: 40vw; margin: 2vw; height: 40vw;")
+          q-collapsible.full-width.no-padding.q-my-sm(
+          v-if="item.responses.length > 0", :label="getResponseLabel(item.responses.length)")
+            q-card(v-for="(response, i) in item.responses", inline, square)
+              q-card-media.bg-dark.items-center.row.justify-center.text-left(overlay-position="bottom",
+              style="width: 19vw; height: 19vw; margin: .5vw;", :class="{'moba-border' : response.author.id === user.uuid}")
+                q-context-menu(v-if="response.author.id === user.uuid")
+                  q-btn.full-width.bg-red(color="white", @click="deleteItem(response)", icon="delete", flat) {{ $t('buttons.delete') }}?
                 img.card-image.no-margin(@click="openPreview(response)", :src="getPNG(response.body.source.id)")
-                q-card-title.q-pa-sm(slot="overlay")
-                  // | vbhjsdbcs
-                  div.ellipsis(slot="subtitle", style="white-space: nowrap;") {{ response.author.id }}
-              q-card-actions.no-padding.no-margin
+                //
+                  q-btn.absolute-top-right(
+                  color="primary",
+                  @click="deleteItem(response)", v-if="response.author.id === user.uuid", icon="delete", flat
+                  )
+              // q-card-actions.no-padding.no-margin
                 .text-center.full-width
                   q-btn(@click="openDeleteModal(response)", v-if="response.author.id === user.uuid", icon="delete", flat)
             //
@@ -70,13 +71,15 @@
   import ImageModal from '../components/ImageModal'
   import UploadRemixModal from '../components/UploadRemixModal'
   import JobList from '../components/JobList'
+  import ConfirmModal from '../components/ConfirmModal'
 
   export default {
     components: {
       VideoModal,
       ImageModal,
       UploadRemixModal,
-      JobList
+      JobList,
+      ConfirmModal
     },
     data () {
       return {
@@ -186,6 +189,7 @@
 </script>
 
 <style scoped lang="stylus">
+  @import '~variables'
   .portrait-image
     height auto
     max-height 50vh
@@ -198,7 +202,9 @@
     max-width 30vw
   .card-image
     height auto
-    max-height 40vw
+    max-height 19vw
     width auto
     max-width 100%
+  .moba-border
+    border 1px solid $primary
 </style>
