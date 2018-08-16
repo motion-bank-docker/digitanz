@@ -27,25 +27,82 @@ export default {
     delete: 'Löschen',
     cancel: 'Abbrechen',
     confirm: 'OK',
-    upload_remix: 'Remix hochladen'
+    // upload_remix: 'Remix hochladen'
+    upload_remix: 'eigene Version hochladen'
   },
   dashboard: {
     title: 'Dashboard',
     description: 'Als Teilnehmerin des Projekts #digitanz findest du hier deine gesammelten Videos zu allen Terminen.',
-    map_title: 'Mein Dashboard'
+    map_title: 'Mein Dashboard',
+    no_entries: 'Keine Einträge vorhanden.'
   },
   dates: {
     all_results: 'Ergebnisse von allen',
-    sort_label: 'Workshop termin...',
-    portrait: {
+    sort_label: 'Workshop Termin...',
+    date_1: {
       title: 'Portrait',
       description: 'Hier steht die Projektbeschreibung für den Portrait-Termin.',
       map_title: 'Meine Videos'
     },
-    remix: {
+    date_2: {
       title: 'Remix Portrait',
       description: 'Lorem ipsum dolor sit amet...',
       map_title: 'Meine Remixes'
+    },
+    date_4: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_5: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_6: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_7: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_8: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_9: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_10: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_11: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_12: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_13: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_14: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
     }
   },
   navigation: {
@@ -55,29 +112,29 @@ export default {
       label: 'Alle Termine',
       sublabel: 'Deine gespeicherten Inhalte in einer Übersicht.'
     },
+    portrait: {
+      label: 'Portraits',
+      sublabel: '17. August'
+    },
     lost_in_space: {
       label: 'Lost in Space',
-      sublabel: 'Experience space.'
+      sublabel: 'Experience space'
     },
     mr_griddle: {
       label: 'Mr Griddle',
       sublabel: 'Do the griddle'
     },
-    portrait: {
-      label: 'Portrait',
-      sublabel: '17.08.2018'
-    },
     recipe: {
       label: 'Rezepte',
-      sublabel: 'Remix Motion-Recipesx'
+      sublabel: 'Remix Motion-Recipes'
     },
     upload: {
       label: 'Upload',
-      sublabel: 'Videos hochladen.'
+      sublabel: 'Videos hochladen'
     },
     video_sequencer: {
       label: 'Video-Sequenzer',
-      sublabel: 'Lorem ipsum.'
+      sublabel: 'Lorem ipsum'
     }
   },
   portrait: {

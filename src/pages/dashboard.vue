@@ -20,7 +20,12 @@
           q-item-main
             h4.q-mt-md.q-mb-none(style="line-height: 1em;") {{ $t(date.title) }}
             p.q-caption.text-grey-8.no-padding.q-mt-sm {{ getDateLabel(date) }}
-      .q-mb-xl(style="border-top: 0px solid #333;")
+      div(v-if="date.entries <= 0")
+        .text-grey-8
+          | {{ $t('dashboard.no_entries') }}
+          file-uploader.full-width.self-center(:query="query")
+
+      .q-mb-xl(v-else, style="border-top: 0px solid #333;")
         q-item.q-mb-xl.no-padding(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id")
           q-item-main.self-start
             q-item-tile.text-center
@@ -43,6 +48,7 @@
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
   import ConfirmModal from '../components/ConfirmModal'
+  import FileUploader from '../components/FileUploader'
 
   const { getScrollTarget, setScrollPosition } = scroll
 
@@ -50,7 +56,8 @@
     components: {
       VideoModal,
       ImageModal,
-      ConfirmModal
+      ConfirmModal,
+      FileUploader
     },
     data () {
       return {
@@ -62,7 +69,10 @@
           map: undefined,
           annotations: []
         },
-        dates: undefined
+        dates: undefined,
+        query: {
+          'title': 'Meine Videos'
+        }
       }
     },
     computed: {
