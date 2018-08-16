@@ -8,6 +8,7 @@
     //
     h3.text-center
       | {{ $t('portrait.title') }}
+      // | cdscds
     div.q-mx-md.q-mb-xl.text-grey-8
       | {{ $t('portrait.description') }}
 
