@@ -37,15 +37,70 @@ export default {
   dates: {
     all_results: 'Ergebnisse von allen',
     sort_label: 'Workshop termin...',
-    portrait: {
+    date_1: {
       title: 'Portrait',
       description: 'Hier steht die Projektbeschreibung für den Portrait-Termin.',
       map_title: 'Meine Videos'
     },
-    remix: {
+    date_2: {
       title: 'Remix Portrait',
       description: 'Lorem ipsum dolor sit amet...',
       map_title: 'Meine Remixes'
+    },
+    date_4: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_5: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_6: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_7: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_8: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_9: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_10: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_11: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_12: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_13: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_14: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
     }
   },
   navigation: {
