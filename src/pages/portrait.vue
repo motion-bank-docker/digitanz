@@ -7,9 +7,9 @@
     // HEAD
     //
     h3.text-center
-      | {{ $t('portrait.title') }}
+      | {{ $t('dates.date_1.title') }}
     div.q-mx-md.q-mb-xl.text-grey-8
-      | {{ $t('portrait.description') }}
+      | {{ $t('dates.date_1.description') }}
 
     job-list
 

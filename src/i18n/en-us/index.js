@@ -40,8 +40,8 @@ export default {
     all_results: 'Ergebnisse von allen',
     sort_label: 'Workshop Termin...',
     date_1: {
-      title: 'Portrait',
-      description: 'Hier steht die Projektbeschreibung für den Portrait-Termin.',
+      title: 'Eure Portraits',
+      description: 'Auf dieser Seite findet ihr alle Portraits vom ersten Termin. Ihr könnt hier zudem eure eigenen Versionen der Portraits der anderen hochladen und sehen wie andere eure Portraits umsetzen.',
       map_title: 'Meine Videos'
     },
     date_2: {
@@ -113,7 +113,7 @@ export default {
       sublabel: 'Deine gespeicherten Inhalte in einer Übersicht.'
     },
     portrait: {
-      label: 'Portraits',
+      label: 'Eure Portraits',
       sublabel: '17. August'
     },
     lost_in_space: {
