@@ -123,6 +123,7 @@ module.exports = function (ctx) {
         'QCardTitle',
         'QCardMain',
         'QCardMedia',
+        'QCardSeparator',
         'QCheckbox',
         'QPageSticky',
         'QScrollArea',
