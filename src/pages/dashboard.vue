@@ -7,9 +7,9 @@
     // HEADLINE
     //
     h3.text-center
-      | {{ $t('dashboard.title') }}
+      | {{ $t('pages.dashboard.title') }}
     div.q-mx-md.q-mb-xl.text-grey-8
-      | {{ $t('dashboard.description') }}
+      | {{ $t('pages.dashboard.description') }}
 
     // TERMINE IM DETAIL
     //
@@ -19,10 +19,11 @@
           // q-item-side {{ i + 1 }}.
           q-item-main
             h4.q-mt-md.q-mb-none(style="line-height: 1em;") {{ $t(date.title) }}
-            p.q-caption.text-grey-8.no-padding.q-mt-sm {{ getDateLabel(date) }}
+            p.q-caption.text-grey-8.no-padding.q-mt-sm {{ $t('pages.dashboard.date_at') }} {{ getDateLabel(date) }}
+      p.q-mt-sm {{ $t(date.description) }}
       div(v-if="date.entries <= 0")
         .text-grey-8
-          | {{ $t('dashboard.no_entries') }}
+          | {{ $t('pages.dashboard.no_portraits') }}
 
       <!--div.overflow-hidden(v-else)-->
         <!--.q-mb-xl.row.justify-center(style="border-top: 0px solid #333;")-->

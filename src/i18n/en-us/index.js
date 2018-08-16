@@ -30,22 +30,16 @@ export default {
     // upload_remix: 'Remix hochladen'
     upload_remix: 'eigene Version hochladen'
   },
-  dashboard: {
-    title: 'Hallo!',
-    description: 'Hier findest du deine gesammelten Ergebnisse von allen Kursterminen.',
-    map_title: 'Mein Dashboard',
-    no_entries: 'Keine Einträge vorhanden.'
-  },
   dates: {
     all_results: 'Ergebnisse von allen',
     sort_label: 'Workshop Termin...',
     date_1: {
       title: 'Deine Portraits',
-      description: '',
+      description: 'Neben dem Kennenlernen und der Einführung in das #digitanz Projekt geht es in diesem Termin um persönliche Tanz-Portraits von euch.',
       map_title: 'Meine Videos'
     },
     date_2: {
-      title: 'Remix Portrait',
+      title: 'Portrait++',
       description: 'Lorem ipsum dolor sit amet...',
       map_title: 'Meine Remixes'
     },
@@ -150,6 +144,14 @@ export default {
       no_remix: 'Bisher noch keine anderen Versionen',
       remix_singular: 'andere Version',
       remix_plural: 'andere Versionen'
+    },
+    dashboard: {
+      title: 'Hallo!',
+      description: 'Hier findest du deine gesammelten Ergebnisse von allen Kursterminen.',
+      map_title: 'Mein Dashboard',
+      no_portraits: 'Noch kein Portrait von dir hier … lade eines hoch!',
+      no_entries: 'Keine Einträge vorhanden.',
+      date_at: 'Termin am'
     }
   },
   upload: {
