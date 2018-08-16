@@ -1,7 +1,7 @@
 <template lang="pug">
   q-modal.row.maximized(v-model="showModal", content-classes="bg-dark")
     .q-ma-md
-      h3.text-center(style="line-height: 2rem;") {{ $t('portrait.upload_remix') }}
+      h3.text-center(style="line-height: 2rem;") {{ $t('pages.portrait.upload_remix') }}
       file-uploader.no-padding.no-margin.self-center(v-if="!jobIds.length && target",
         :target="target", :purpose="purpose", :public="public", @convert="onConvert")
       job-list
