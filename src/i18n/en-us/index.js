@@ -38,7 +38,7 @@ export default {
   },
   dates: {
     all_results: 'Ergebnisse von allen',
-    sort_label: 'Workshop termin...',
+    sort_label: 'Workshop Termin...',
     date_1: {
       title: 'Portrait',
       description: 'Hier steht die Projektbeschreibung für den Portrait-Termin.',
@@ -112,29 +112,29 @@ export default {
       label: 'Alle Termine',
       sublabel: 'Deine gespeicherten Inhalte in einer Übersicht.'
     },
+    portrait: {
+      label: 'Portraits',
+      sublabel: '17. August'
+    },
     lost_in_space: {
       label: 'Lost in Space',
-      sublabel: 'Experience space.'
+      sublabel: 'Experience space'
     },
     mr_griddle: {
       label: 'Mr Griddle',
       sublabel: 'Do the griddle'
     },
-    portrait: {
-      label: 'Portrait++',
-      sublabel: '17.08.2018'
-    },
     recipe: {
       label: 'Rezepte',
-      sublabel: 'Remix Motion-Recipesx'
+      sublabel: 'Remix Motion-Recipes'
     },
     upload: {
       label: 'Upload',
-      sublabel: 'Videos hochladen.'
+      sublabel: 'Videos hochladen'
     },
     video_sequencer: {
       label: 'Video-Sequenzer',
-      sublabel: 'Lorem ipsum.'
+      sublabel: 'Lorem ipsum'
     }
   },
   portrait: {
