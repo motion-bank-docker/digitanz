@@ -169,6 +169,7 @@
         // return this.uploadedVideos
       },
       getPreviewLinks (videoURL) {
+        if (typeof videoURL !== 'string') return {}
         return {
           high: videoURL.replace(/\.mp4$/, '.jpg'),
           medium: videoURL.replace(/\.mp4$/, '-m.jpg'),
