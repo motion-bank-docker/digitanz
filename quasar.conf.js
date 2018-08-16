@@ -134,7 +134,8 @@ module.exports = function (ctx) {
         'QSpinnerHearts',
         'QChip',
         'QCollapsible',
-        'QContextMenu'
+        'QContextMenu',
+        'QWindowResizeObservable'
       ],
       directives: [
         'Ripple'
