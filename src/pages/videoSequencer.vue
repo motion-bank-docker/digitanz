@@ -173,14 +173,6 @@
         return this.uploadedVideos.slice().reverse()
         // return this.uploadedVideos
       },
-      getPreviewLinks (videoURL) {
-        if (typeof videoURL !== 'string') return {}
-        return {
-          high: videoURL.replace(/\.mp4$/, '.jpg'),
-          medium: videoURL.replace(/\.mp4$/, '-m.jpg'),
-          small: videoURL.replace(/\.mp4$/, '-s.jpg')
-        }
-      },
       sortedByOrientation () {
         let direction = ''
         this.orientation === 'portrait' ? direction = '-' : direction = ''
@@ -266,6 +258,14 @@
           duration: meta ? meta.duration : 1
         })
         Vue.set(this.uploadedVideos, this.uploadedVideos.length, newVideo)
+      },
+      getPreviewLinks (videoURL) {
+        if (typeof videoURL !== 'string') return {}
+        return {
+          high: videoURL.replace(/\.mp4$/, '.jpg'),
+          medium: videoURL.replace(/\.mp4$/, '-m.jpg'),
+          small: videoURL.replace(/\.mp4$/, '-s.jpg')
+        }
       },
       openModal () {
         this.checkedVideos = []
