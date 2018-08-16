@@ -77,18 +77,22 @@
             h3.q-title.no-margin(v-if="sequencedVideos.length > 0") Videos
             q-btn.no-margin(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
           .q-mb-md(v-else, style="text-align:center")
-            .q-ma-md.q-body-2 Füge deine ersten Videos hinzu // Start new timeline
+            .q-ma-md.q-title.text-left Neue Sequenz
             q-btn.q-ma-md(round, color="primary", icon="add", @click="openModal")
 
             // Timeline list
-            .q-ma-md-.q-body-2 Oder wähle ein existierende Sequenz aus
+            .q-ma-md.q-title.text-left Gespeicherte Sequenzen
             q-list.q-b-xl.no-border
-              q-item.row.no-padding
-                .col
-                  .q-title Hallo
-                .col
-                  .q-body-2.q-sm-md.uppercase My sequence
-                  q-chip.q-mb-sm.text-weight-light(small color="black") 3:06
+              q-item.row.q-mb-md(v-for="n in 3")
+                div.col-6.q-pr-md.relative-position
+                  img(src="../assets/dancing.png" style="width: 100%")
+                  q-chip.duration-video.text-weight-light(dense color="black") 3:06
+                div.col-6.self-stretch.column.justify-around(style="border-top: 1px solid grey")
+                    .q-body-2.q-mb-sm.q-mt-xs.uppercase My sequence
+                    div
+                      q-btn(round, color="primary", icon="edit", size="xs", outline)
+                      q-btn.q-ml-md(round, color="primary", icon="account_box" size="xs", outline)
+                      q-btn.q-ml-md(round, color="primary", icon="delete" size="xs", outline)
 
           q-list.q-mb-xl.no-border
             q-item.no-padding.mega(v-for="(video, index) in sequencedVideos")
@@ -465,5 +469,11 @@
 
   .seq-video-player {
     padding: 0 25%;
+  }
+
+  .duration-video {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
   }
 </style>
