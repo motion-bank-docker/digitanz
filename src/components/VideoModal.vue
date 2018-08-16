@@ -1,13 +1,13 @@
 <template lang="pug">
   q-modal(v-model="showModal", maximized)
-    q-window-resize-observable(@resize="onResize")
-    q-modal-layout.relative-position(dark, :content-class="{'bg-dark': true}")
+    q-window-resize-observable.text-center(@resize="onResize")
+    q-modal-layout.relative-position.bg-red(dark, :content-class="{'bg-dark': true}")
       // .layout-padding(v-if="preview")
       // span(v-if="preview")
       //
         .bg-red {{ video.annotation.width }}
         .gr-green {{ video.annotation.height }}
-      div(:style="{width: playerWidth + 'px'}")
+      div.text-center(:style="{width: playerWidth + 'px'}")
         // video-player(v-if="video", :annotation="video.annotation", @ended="onEnded", :autoplay="true")
         // video-player(v-if="video", :annotation="video", @ended="onEnded", :autoplay="true")
         video-player(v-if="video", :annotation="src", @ended="onEnded", :autoplay="true")
@@ -35,21 +35,27 @@
         console.log(size.width, size.height)
         console.log(videoX, videoY)
         if (size.width > size.height) { // DEVICE LANDSCAPE
-          if (videoX > videoY) { // video quer
+          this.playerWidth = size.height / (videoY / videoX)
+          /*
+          if (videoX > videoY) { // video querformat
             this.playerWidth = size.width
           }
-          else if (videoX < videoY) { // video hoch
-            let ratio = videoY / size.height
-            this.playerWidth = size.width / ratio
+          else if (videoX < videoY) { // video hochformat
+            this.playerWidth = size.width / 2
           }
+          */
         }
         else if (size.width < size.height) { // DEVICE PORTRAIT
-          if (videoX > videoY) { // video quer
-            this.playerWidth = size.width
+          this.playerWidth = size.width
+          /*
+          if (videoX > videoY) { // video querformat
+            this.playerWidth = size.width / 2
           }
-          else if (videoX < videoY) { // video hoch
-            this.playerWidth = size.width
+          else if (videoX < videoY) { // video hochformat
+            if (videoY > size.height) this.playerWidth = size.width
+            else this.playerWidth = size.width
           }
+          */
         }
       },
       show (preview) {
