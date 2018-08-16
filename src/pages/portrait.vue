@@ -127,7 +127,7 @@
         /**
          * Get the global portrait timeline and its contents
          */
-        // this.$q.loading.show({ message: this.$t('messages.loading_portraits') })
+        this.$q.loading.show({ message: this.$t('messages.loading_portraits') })
         const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
         if (portraitsMapResult) {
           this.portraits.map = portraitsMapResult
