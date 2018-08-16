@@ -127,7 +127,7 @@
         /**
          * Get the global portrait timeline and its contents
          */
-        this.$q.loading.show({ message: this.$t('messages.loading_portraits') })
+        // this.$q.loading.show({ message: this.$t('messages.loading_portraits') })
         const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
         if (portraitsMapResult) {
           this.portraits.map = portraitsMapResult
@@ -152,7 +152,7 @@
               item.preview = preview
               item.metadata = metadata
             }
-            catch (e) { console.error('Failed to add item', portrait, e.message) }
+            catch (e) { console.error('Failed to add portrait', portrait, e.message) }
             const responsesQuery = {
               'target.id': `${process.env.ANNOTATION_BASE_URI}${portrait.uuid}`,
               'body.purpose': 'commenting'
@@ -165,19 +165,19 @@
               try {
                 const metadata = await this.$store.dispatch('metadata/get', resp.uuid)
                 const preview = {
-                  high: portrait.body.source.id.replace(/\.mp4$/, '.jpg'),
-                  medium: portrait.body.source.id.replace(/\.mp4$/, '-m.jpg'),
-                  small: portrait.body.source.id.replace(/\.mp4$/, '-s.jpg')
+                  high: resp.body.source.id.replace(/\.mp4$/, '.jpg'),
+                  medium: resp.body.source.id.replace(/\.mp4$/, '-m.jpg'),
+                  small: resp.body.source.id.replace(/\.mp4$/, '-s.jpg')
                 }
                 respItem.preview = preview
                 respItem.metadata = metadata
               }
-              catch (e) { console.error('Failed to add item', portrait, e.message) }
+              catch (e) { console.error('Failed to add response', portrait, e.message) }
               responseItems.push(respItem)
             }
             item.responses = responseItems
+            items.push(item)
           }
-          items.push(item)
           this.portraits.items = items
         }
         this.$q.loading.hide()
