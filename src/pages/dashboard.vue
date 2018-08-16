@@ -20,7 +20,7 @@
           q-item-main
             h4.q-mt-md.q-mb-none(style="line-height: 1em;") {{ $t(date.title) }}
             p.q-caption.text-grey-8.no-padding.q-mt-sm {{ $t('pages.dashboard.date_at') }} {{ getDateLabel(date) }}
-      p {{ $t(date.description) }}
+      p(style="padding-bottom: 1em") {{ $t(date.description) }}
       div(v-if="date.entries <= 0")
         .text-grey-8
           | {{ $t('pages.dashboard.no_portraits') }}
