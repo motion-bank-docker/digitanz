@@ -67,7 +67,8 @@
             timeline: this.timeline ? this.timeline.uuid : undefined,
             target: this.target,
             purpose: this.purpose,
-            isPublic: this.public
+            isPublic: this.public,
+            source
           }
           let size = {
             width: 1280,

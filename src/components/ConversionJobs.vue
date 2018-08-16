@@ -5,6 +5,7 @@
 <script>
   import { DateTime } from 'luxon'
   import { mapGetters } from 'vuex'
+  import path from 'path'
   export default {
     data () {
       return {
@@ -42,8 +43,15 @@
             })
           }
           else if (job.finished) {
+            const headers = {
+              Authorization: `Bearer ${localStorage.getItem('access_token')}`
+            }
             this.$store.commit('conversions/removeJobId', jobId)
             const detail = this.$store.state.conversions.jobDetails[jobId]
+            try {
+              await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(detail.source)}`, { headers })
+            }
+            catch (e) { console.error('Failed to remove video', e.message) }
             const target = detail.target || {
               id: `${process.env.TIMELINE_BASE_URI}${detail.timeline}`,
               type: 'Timeline',
