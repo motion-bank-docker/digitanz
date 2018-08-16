@@ -18,7 +18,7 @@
               p {{ item.annotation.body.source.id }}
             q-item-main.text-center
               q-item-tile
-                img(:src="item.preview",
+                img(:src="item.preview.medium",
                   @click="openPreview(item.annotation)",
                   style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
               q-item-tile
@@ -88,8 +88,16 @@
           const items = results.items.sort(this.$sort.onCreatedDesc)
           const videos = []
           for (let annotation of items) {
-            const metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
-            const preview = annotation.body.source.id.replace(/mp4$/, 'png')
+            let metadata = {}
+            try {
+              metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
+            }
+            catch (e) { console.error(`Failed to fetch metadata: ${e.message}`) }
+            const preview = {
+              high: annotation.body.source.id.replace(/\.mp4$/, '.jpg'),
+              medium: annotation.body.source.id.replace(/\.mp4$/, '-m.jpg'),
+              small: annotation.body.source.id.replace(/\.mp4$/, '-s.jpg')
+            }
             console.debug('fetched metadata', metadata)
             videos.push({ annotation, metadata, preview })
           }
@@ -102,7 +110,6 @@
       },
       async deleteItem (item) {
         this.$q.loading.show({ message: this.$t('messages.deleting_video') })
-        console.log(item)
         const headers = {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -110,10 +117,13 @@
           await this.$store.dispatch('annotations/delete', item.annotation.uuid)
         }
         catch (e) { console.error('Failed to remove annotation', e.message) }
-        try {
-          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview)}`, {headers})
+        const previewKeys = Object.keys(item.preview)
+        for (let key of previewKeys) {
+          try {
+            await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview[key])}`, { headers })
+          }
+          catch (e) { console.error('Failed to remove preview', e.message) }
         }
-        catch (e) { console.error('Failed to remove preview', e.message) }
         try {
           await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.annotation.body.source.id)}`, { headers })
         }

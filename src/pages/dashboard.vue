@@ -25,7 +25,7 @@
           q-item-main.self-start
             q-item-tile.text-center
               q-btn.no-padding(@click="openPreview(item)")
-                img(:src="item.preview", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
+                img(:src="item.preview.medium", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
             q-item-tile.no-margin.text-center.q-pt-sm
               q-btn(flat, round, :icon="getItemStyle(item).icon", :color="getItemStyle(item).color", @click="setAsPortrait(item)")
               // q-btn(flat, round, icon="edit")
@@ -101,10 +101,13 @@
           await this.$store.dispatch('annotations/delete', item.annotation.uuid)
         }
         catch (e) { console.error('Failed to remove annotation', e.message) }
-        try {
-          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview)}`, {headers})
+        const previewKeys = Object.keys(item.preview)
+        for (let key of previewKeys) {
+          try {
+            await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview[key])}`, { headers })
+          }
+          catch (e) { console.error('Failed to remove preview', e.message) }
         }
-        catch (e) { console.error('Failed to remove preview', e.message) }
         try {
           await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.annotation.body.source.id)}`, { headers })
         }
@@ -223,7 +226,11 @@
             for (let annotation of items) {
               try {
                 const metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
-                const preview = annotation.body.source.id.replace(/mp4$/, 'png')
+                const preview = {
+                  high: annotation.body.source.id.replace(/\.mp4$/, '.jpg'),
+                  medium: annotation.body.source.id.replace(/\.mp4$/, '-m.jpg'),
+                  small: annotation.body.source.id.replace(/\.mp4$/, '-s.jpg')
+                }
                 entries.push({annotation, metadata, preview})
               }
               catch (e) { console.error('Failed to add item', annotation, e.message) }
