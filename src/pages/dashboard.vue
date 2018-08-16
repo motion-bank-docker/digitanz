@@ -1,6 +1,6 @@
 <template lang="pug">
   q-page.flex.column
-    video-modal(ref="videoModal")
+    video-modal(ref="videoModal", :dimensions="dimensions")
     image-modal(:show="showImageModal", :source="preview", @canceled="showImageModal = false")
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
@@ -10,6 +10,10 @@
       | {{ $t('dashboard.title') }}
     div.q-mx-md.q-mb-xl.text-grey-8
       | {{ $t('dashboard.description') }}
+
+    //
+      .orientation-portrait portrait
+      .orientation-landscape landscape
 
     // TERMINE IM DETAIL
     //
@@ -26,10 +30,14 @@
 
       .q-mb-xl(v-else, style="border-top: 0px solid #333;")
         q-item.q-mb-xl.no-padding(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id")
+          // div(v-for="i in item") {{ item.metadata.width }}
+
           q-item-main.self-start
+
             q-item-tile.text-center
               q-btn.no-padding(@click="openPreview(item)")
                 img(:src="item.preview.medium", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
+
             q-item-tile.no-margin.text-center.q-pt-sm
               q-btn(flat, round, :icon="getItemStyle(item).icon", :color="getItemStyle(item).color", @click="setAsPortrait(item)")
               // q-btn(flat, round, icon="edit")
@@ -67,6 +75,10 @@
     data () {
       return {
         // itemDate: this.$route.query.item_id,
+        dimensions: {
+          width: '',
+          height: ''
+        },
         groupedList: '',
         showImageModal: false,
         showDeleteModal: false,
@@ -138,7 +150,10 @@
       },
       openPreview (item) {
         this.preview = item.annotation
-        if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item.annotation)
+        // alert(item.metadata.width)
+        this.dimensions.width = 300
+        // if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item.annotation)
+        if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item)
         else if (item.annotation.body.source.type === 'image/jpeg') this.showImageModal = true
       },
       openDeleteModal (item) {

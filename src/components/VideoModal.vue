@@ -1,9 +1,13 @@
 <template lang="pug">
-  q-modal(v-model="showModal")
+  q-modal(v-model="showModal", maximized)
+    q-window-resize-observable(@resize="onResize")
     q-modal-layout.relative-position(dark, :content-class="{'bg-dark': true}")
       // .layout-padding(v-if="preview")
-      span(v-if="preview")
-        video-player(v-if="video", :annotation="video", @ended="onEnded", :autoplay="true")
+      // span(v-if="preview")
+      .bg-red {{ video.annotation.width }}
+      .gr-green {{ video.annotation.height }}
+      div(:style="{width: playerWidth + 'px'}")
+        video-player(v-if="video", :annotation="video.annotation", @ended="onEnded", :autoplay="true")
       // q-btn.full-width.bg-dark.q-pa-lg(slot="footer", @click="closePreview", label="Close", flat, style="border-radius: 0;")
       .full-width.q-pa-md.absolute-top.text-right
         q-btn.bg-dark(@click="closePreview", icon="clear", flat, round)
@@ -20,8 +24,33 @@
     components: {
       VideoPlayer
     },
-    props: ['source'],
+    props: ['source', 'dimensions'],
     methods: {
+      onResize (size) {
+        // alert(this.dimensions.width)
+        console.log(this.video.metadata.width, this.video.metadata.height)
+        let videoX = this.video.metadata.width
+        let videoY = this.video.metadata.height
+        if (size.width > size.height) { // DEVICE LANDSCAPE
+          if (videoX > videoY) { // video quer
+            this.playerWidth = size.width
+          }
+          else if (videoX < videoY) { // video hoch
+            let ratio = videoY / size.height
+            // alert(ratio)
+            this.playerWidth = size.width / ratio
+          }
+        }
+        else if (size.width < size.height) { // DEVICE PORTRAIT
+          if (videoX > videoY) { // video quer
+            this.playerWidth = size.width
+          }
+          else if (videoX < videoY) { // video hoch
+            // let ratio = videoY / size.height
+            this.playerWidth = size.width
+          }
+        }
+      },
       show (preview) {
         this.preview = preview
         this.showModal = true
@@ -40,6 +69,7 @@
     },
     data () {
       return {
+        playerWidth: '',
         index: -1,
         video: undefined,
         showModal: false,
