@@ -32,7 +32,7 @@ export default {
   },
   dashboard: {
     title: 'Hallo!',
-    description: 'Hier findest du deine gesammelten Ergebnisse von allen Terminen.',
+    description: 'Hier findest du deine gesammelten Ergebnisse von allen Kursterminen.',
     map_title: 'Mein Dashboard',
     no_entries: 'Keine Einträge vorhanden.'
   },
@@ -109,8 +109,8 @@ export default {
     login: 'Einloggen',
     logout: 'Ausloggen',
     dashboard: {
-      label: 'Alle Termine',
-      sublabel: 'Deine gespeicherten Inhalte in einer Übersicht.'
+      label: 'Kursübersicht',
+      sublabel: 'Deine Inhalte in einer Übersicht'
     },
     portrait: {
       label: 'Eure Portraits',
