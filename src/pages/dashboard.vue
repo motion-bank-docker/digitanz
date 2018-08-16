@@ -11,10 +11,6 @@
     div.q-mx-md.q-mb-xl.text-grey-8
       | {{ $t('dashboard.description') }}
 
-    //
-      .orientation-portrait portrait
-      .orientation-landscape landscape
-
     // TERMINE IM DETAIL
     //
     q-collapsible(v-for="(date, i) in dates", :ref="getDateLabel(date)", v-if="date.show", opened, style="border-top: 1px solid #333;")
@@ -28,6 +24,8 @@
         .text-grey-8
           | {{ $t('dashboard.no_entries') }}
 
+      .q-mb-xl.row.justify-between(v-else, style="border-top: 0px solid #333;")
+        q-item.q-mb-xl.no-padding.dashboard-grid(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id")
       .q-mb-xl(v-else, style="border-top: 0px solid #333;")
         q-item.q-mb-xl.no-padding(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id")
           // div(v-for="i in item") {{ item.metadata.width }}
@@ -44,8 +42,8 @@
               q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")
               q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
       div(v-if="i === 0")
-        job-list
         file-uploader.full-width.self-center(:query="query")
+        job-list
 
 </template>
 
@@ -97,9 +95,30 @@
         user: 'auth/getUserState'
       })
     },
+    watch: {
+      async user () {
+        if (!this.portraits.map) {
+          await this.loadPortraits()
+        }
+        if (!this.dates[0].map) {
+          await this.loadDates()
+        }
+      }
+    },
+    async mounted () {
+      const _this = this
+      this.dates = this.$dates()
+      if (this.user) {
+        await this.loadPortraits()
+        await this.loadDates()
+      }
+      this.$root.$on('updateVideos', async () => {
+        await _this.loadPortraits()
+        await _this.loadDates()
+      })
+    },
     methods: {
       formatTime (val) {
-        // console.log(val)
         return DateTime.fromISO(val).toLocaleString()
       },
       download (file) {
@@ -114,7 +133,6 @@
         return interval.contains(DateTime.local())
       },
       async deleteItem (item) {
-        console.log(item)
         this.$q.loading.show({ message: this.$t('messages.deleting_video') })
         for (let portrait of this.portraits.annotations) {
           if (item.annotation.body.source.id === portrait.body.source.id) {
@@ -160,7 +178,6 @@
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       async setAsPortrait (item, silent = false) {
-        console.debug('setting as portrait...', item, this.portraits)
         if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_portrait') })
         const query = {
           'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`,
@@ -173,7 +190,6 @@
           await this.$store.dispatch('annotations/delete', portrait.uuid)
           await this.$store.dispatch('acl/remove', {uuid: result.uuid, role: 'public', permission: 'get'})
         }
-        console.debug('existing portrait removed', result)
         const message = {
           video: item.annotation.body.source.id,
           user: this.user.uuid
@@ -194,7 +210,6 @@
           if (result) {
             await this.$store.dispatch('acl/set', {uuid: result.uuid, role: 'public', permissions: ['get']})
           }
-          console.debug('new portrait set', result)
           await this.$store.dispatch('logging/log', { action: 'portrait', message })
           if (!silent) this.$q.loading.hide()
         }
@@ -221,12 +236,13 @@
         this.$q.loading.show({ message: this.$t('messages.loading_portraits') })
         const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
         if (portraitsMapResult) {
-          this.portraits.map = portraitsMapResult
           const portraitsQuery = {
-            'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
+            'target.id': `${process.env.TIMELINE_BASE_URI}${portraitsMapResult.uuid}`,
+            'author.id': this.user.uuid
           }
           const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
-          this.portraits.annotations = portraitsResult.items.sort(this.$sort.onCreatedDesc)
+          const portraitAnnotations = portraitsResult.items.sort(this.$sort.onCreatedDesc)
+          this.portraits = Object.assign({}, this.portraits, {map: portraitsMapResult, annotations: portraitAnnotations})
         }
         this.$q.loading.hide()
       },
@@ -270,12 +286,15 @@
         }
         this.$q.loading.hide()
       }
-    },
-    async mounted () {
-      // alert(this.$route.query.item_id)
-      this.dates = this.$dates()
-      await this.loadPortraits()
-      await this.loadDates()
     }
   }
 </script>
+
+<style>
+  .dashboard-grid:nth-child(odd) {
+    padding-right: .5em !important;
+  }
+  .dashboard-grid:nth-child(even) {
+     padding-left: .5em !important;
+   }
+</style>
