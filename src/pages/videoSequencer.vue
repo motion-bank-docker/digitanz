@@ -60,31 +60,35 @@
       .q-ml-sm
         q-btn(round, size="sm" color="white", icon="skip_next", outline, @click="playNext")
 
-    // SENQUENCED VIDEOS
     q-list.no-padding.no-border(style="width: 100%")
       q-item.items-baseline
         q-item-main.vertical-center
-          .q-mb-md.row.justify-between.items-center(v-if="sequencedVideos.length > 0")
-            h3.q-title.no-margin(v-if="sequencedVideos.length > 0") Videos
-            q-btn.no-margin(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
-          .q-mb-md(v-else, style="text-align:center")
+          //
+          // NEW SEQUENCE
+          .q-mb-md(v-if="sequencedVideos.length == 0", style="text-align:center")
             .q-ma-md.q-title.text-left Neue Sequenz
             q-btn.q-ma-md(round, color="primary", icon="add", @click="openModal")
 
             // Timeline list
             .q-ma-md.q-title.text-left Gespeicherte Sequenzen
-            q-list.q-b-xl.no-border
+            q-list.q-mb-xl.no-border
               q-item.row.q-mb-md(v-for="n in 3")
                 div.col-6.q-pr-md.relative-position
                   img(src="../assets/dancing.png" style="width: 100%")
                   q-chip.duration-video.text-weight-light(dense color="black") 3:06
                 div.col-6.q-py-xs.self-stretch.column.justify-around(style="border-top: 1px solid grey")
-                    .q-body-2.q-mb-sm.q-mt-xs.uppercase My sequence
-                    div
-                      q-btn(round, icon="edit", size="md")
-                      q-btn(round, icon="account_box" size="md")
-                      q-btn(round, icon="delete" size="md")
-
+                  .q-body-2.q-mb-sm.q-mt-xs.uppercase My sequence
+                  div
+                    q-btn(round, icon="edit", size="md")
+                    q-btn(round, icon="account_box" size="md")
+                    q-btn(round, icon="delete" size="md")
+          //
+          // SENQUENCED VIDEOS
+          .q-mb-md.row.justify-between.items-center(v-if="sequencedVideos.length > 0")
+            h3.q-title.no-margin(v-if="sequencedVideos.length > 0") Videos
+            q-btn.no-margin(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
+          //
+          //
           q-list.q-mb-xl.no-border
             q-item.no-padding.mega(v-for="(video, index) in sequencedVideos")
               .col
