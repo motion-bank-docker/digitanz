@@ -26,7 +26,7 @@
   export default {
     data () {
       return {
-        ext: '.mp4,.mov,.mpg,.3pg',
+        ext: 'video/*',
         responses: {}
       }
     },
