@@ -77,8 +77,22 @@
             h3.q-title.no-margin(v-if="sequencedVideos.length > 0") Videos
             q-btn.no-margin(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
           .q-mb-md(v-else, style="text-align:center")
-            .q-ma-md.q-body-2 Füge deine ersten Videos hinzu
+            .q-ma-md.q-title.text-left Neue Sequenz
             q-btn.q-ma-md(round, color="primary", icon="add", @click="openModal")
+
+            // Timeline list
+            .q-ma-md.q-title.text-left Gespeicherte Sequenzen
+            q-list.q-b-xl.no-border
+              q-item.row.q-mb-md(v-for="n in 3")
+                div.col-6.q-pr-md.relative-position
+                  img(src="../assets/dancing.png" style="width: 100%")
+                  q-chip.duration-video.text-weight-light(dense color="black") 3:06
+                div.col-6.self-stretch.column.justify-around(style="border-top: 1px solid grey")
+                    .q-body-2.q-mb-sm.q-mt-xs.uppercase My sequence
+                    div
+                      q-btn(round, color="primary", icon="edit", size="xs", outline)
+                      q-btn.q-ml-md(round, color="primary", icon="account_box" size="xs", outline)
+                      q-btn.q-ml-md(round, color="primary", icon="delete" size="xs", outline)
 
           q-list.q-mb-xl.no-border
             q-item.no-padding.mega(v-for="(video, index) in sequencedVideos")
@@ -221,9 +235,10 @@
                 created: annotation.created,
                 source: {id: annotation.body.source.id, type: 'video/mp4'},
                 preview: annotation.body.source.id.replace(/\.mp4$/, '.png'),
-                duration: meta ? meta.duration : 1,
+                duration: meta ? this.formatDuration(meta.duration) : 1,
                 orientation: (meta.height === 720) ? 'landscape' : 'portrait'
               })
+              // console.log('new: ' + this.formatDuration(newVideo.duration))
               newUploadedVideos.push(newVideo)
               // this.listOfThings.push(annotation.uuid)
             }
@@ -253,8 +268,13 @@
           this.orientation = undefined
         }
       },
+      formatDuration (duration) {
+        let minutes = Math.floor(duration / 60).toString()
+        let seconds = (duration - minutes * 60).toString().split('.')[0]
+        if (seconds.length < 2) seconds = '0' + seconds
+        return minutes.toString() + ':' + seconds.toString()
+      },
       setPlayerStatePlay () {
-        console.log('set state')
         this.playing = true
       },
       setPlayerStatePause () {
@@ -287,7 +307,6 @@
         else player.play()
       },
       isPaused () {
-        console.log('quatsch ' + this.$refs.videoPlayer.isPaused())
         return this.$refs.videoPlayer.isPaused()
       },
       playNext () {
@@ -318,7 +337,7 @@
         this.editIndex = -1
         // this.playNext()
         this.loadFirstVideo()
-        //  this.sourceVideo = undefined
+        // this.sourceVideo = undefined
       },
       // MOVING ITEMS THROUGH ARROWS (REPLACE THIS WITH DRAGNDROP AS SOON AS IT WORKS)
       moveItem: function (array, element, delta) {
@@ -328,7 +347,6 @@
         if (this.newIndex < 0 || this.newIndex === array.length) return // Already at the top or bottom.
         this.indexes = [this.editIndex, this.newIndex].sort((a, b) => a - b) // Sort the indexes
         array.splice(this.indexes[0], 2, array[this.indexes[1]], array[this.indexes[0]]) // Replace from lowest index, two elements, reverting the order
-        console.log('old position: ' + element + ' new position: ' + this.newIndex)
       },
       moveUp: function (array, element) {
         this.moveItem(array, element, -1)
@@ -451,5 +469,11 @@
 
   .seq-video-player {
     padding: 0 25%;
+  }
+
+  .duration-video {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
   }
 </style>
