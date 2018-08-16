@@ -84,7 +84,8 @@
       login () {
         this.$auth.authenticate()
       },
-      logout () {
+      async logout () {
+        await this.$store.dispatch('logging/log', { action: 'logout', message: this.userState.uuid })
         this.$store.commit('auth/setUser', undefined)
         this.$auth.logout()
       }

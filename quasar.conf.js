@@ -4,12 +4,14 @@ module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
     plugins: [
+      'dt-components',
       'api',
       'auth',
       'axios',
       'i18n',
       'notifications',
-      'dates'
+      'dates',
+      'sort'
       // 'dragula'
     ],
     css: [
@@ -51,6 +53,7 @@ module.exports = function (ctx) {
         //
         API_HOST: JSON.stringify(process.env.API_HOST || 'https://api.motionbank.org'),
         TRANSCODER_HOST: JSON.stringify(process.env.TRANSCODER_HOST || 'https://transcoder.motionbank.org'),
+        LOGGER_HOST: JSON.stringify(process.env.LOGGER_HOST || 'https://logging.motionbank.org'),
         UI_HOST: JSON.stringify(process.env.UI_HOST || 'http://app.digitanz.de'),
         ASSETS_BASE_PATH: JSON.stringify(process.env.ASSETS_BASE_PATH || 'https://assets.motionbank.org/piecemaker/'),
         //
@@ -62,6 +65,7 @@ module.exports = function (ctx) {
         ID_FIELD: JSON.stringify(process.env.ID_FIELD || 'uuid'),
         SYSTEM_USER_UUID: JSON.stringify(process.env.SYSTEM_USER_UUID || 'aa5a24cc-dbd3-5b5d-8ca6-76552699cbd9'),
         PORTRAITS_TIMELINE_UUID: JSON.stringify(process.env.PORTRAITS_TIMELINE_UUID || 'dfceff69-75a8-4087-b3cc-0bbd23c833c3'),
+        APP_NAME: JSON.stringify(process.env.APP_NAME || 'digitanz'),
         //
         // Auth0
         //
@@ -141,9 +145,9 @@ module.exports = function (ctx) {
       ],
       config: {
         loading: {
-          spinner: 'QSpinnerHearts',
-          spinnerSize: 250,
-          spinnerColor: 'pink-13',
+          spinner: 'GriddleMoves',
+          spinnerSize: 300,
+          spinnerColor: 'primary',
           customClass: 'bg-dark half-transparent',
           messageColor: 'light-gray',
           delay: 400

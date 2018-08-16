@@ -70,11 +70,16 @@
         if (results.items && results.items.length) {
           this.map = Object.assign({}, results.items[0])
           query = {
-            'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
+            'author.id': this.user.uuid,
+            'body.type': 'Video',
+            'body.source.type': 'video/mp4'
+            // FIXME: portraits map id is undefined
+            // 'target.id': { $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}` }
           }
           results = await this.$store.dispatch('annotations/find', query)
+          const items = results.items.sort(this.$sort.onCreatedDesc)
           const videos = []
-          for (let annotation of results.items) {
+          for (let annotation of items) {
             const metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
             const preview = annotation.body.source.id.replace(/mp4$/, 'png')
             console.debug('fetched metadata', metadata)

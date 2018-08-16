@@ -22,7 +22,7 @@
     "dragula": "^3.7.2",
     "feathers-vuex": "^1.1.4",
     "luxon": "^1.2.0",
-    "mbjs-api-client": "^1.0.5",
+    "mbjs-api-client": "^1.0.6",
     "mbjs-media": "0.0.18",
     "mbjs-quasar": "0.0.9",
     "mbjs-utils": "0.0.6",

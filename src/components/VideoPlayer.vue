@@ -78,6 +78,9 @@
     computed: {
       player () {
         return this.$refs.videoPlayer.player
+      },
+      paused () {
+        return this.player ? this.player.paused() : false
       }
     },
     methods: {
@@ -126,7 +129,7 @@
       },
       isPaused () {
         // console.log(this.$refs.videoPlayer.player.paused())
-        return this.$refs.videoPlayer.player.paused()
+        return this.player ? this.player.paused() : false
       },
       pause () {
         this.$refs.videoPlayer.player.pause()

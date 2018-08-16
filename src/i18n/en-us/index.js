@@ -5,6 +5,7 @@ export default {
   failed: 'Action failed',
   success: 'Action was successful',
   messages: {
+    login_success: 'Erfolgreich eingeloggt',
     conversion_successful: 'Dein Video ist jetzt verfügbar',
     conversion_failed: 'Video upload fehlgeschlagen',
     loading_videos: 'Lade videos...',

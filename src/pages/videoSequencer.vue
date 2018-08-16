@@ -41,7 +41,9 @@
     :src="sourceVideo",
     ref="videoPlayer",
     autoplay="true",
-    @ended="playNext")
+    @ended="playNext",
+    @play="setPlayerStatePlay()",
+    @pause="setPlayerStatePause()")
 
     // EDIT BUTTONS
     //.row.bg-red
@@ -61,7 +63,7 @@
       // q-btn.q-ma-xs(round, size="sm" color="white", icon="play_arrow", outline, @click="editIndex = index, moveUp(sequencedVideos, editIndex)")
       // q-btn.q-ma-xs(round, size="sm" color="white", icon="pause", outline, @click="editIndex = index, moveUp(sequencedVideos, editIndex)")
       .q-mr-xl
-        q-btn(round, size="sm" color="white", :icon="isPaused ? 'play_arrow' : 'paused'", outline, @click="togglePlay")
+        q-btn(:icon="playing ? 'play_arrow' : 'pause'", round, size="sm" color="white", outline, @click="togglePlay")
       .q-mr-sm
         q-btn(round, size="sm" color="white", icon="skip_previous", outline, @click="playPrev")
       .q-ml-sm
@@ -146,6 +148,7 @@
         indexes: '',
         currentPlay: undefined,
         orientation: undefined,
+        playing: undefined,
         uploadQuery: {
           'title': 'Meine Videos'
         }
@@ -169,6 +172,10 @@
       },
       orientationClass () {
         if (this.orientation === 'portrait') return 'seq-video-player'
+      },
+      controlIcon () {
+        if (this.$refs.videoPlayer.paused) return 'play_arrow'
+        return 'pause'
       }
     },
     mounted () {
@@ -246,6 +253,13 @@
           this.orientation = undefined
         }
       },
+      setPlayerStatePlay () {
+        console.log('set state')
+        this.playing = true
+      },
+      setPlayerStatePause () {
+        this.playing = false
+      },
       closeModal () {
         this.opened = false
         this.sequencedVideos = this.sequencedVideos.concat(this.checkedVideos)
@@ -273,6 +287,7 @@
         else player.play()
       },
       isPaused () {
+        console.log('quatsch ' + this.$refs.videoPlayer.isPaused())
         return this.$refs.videoPlayer.isPaused()
       },
       playNext () {

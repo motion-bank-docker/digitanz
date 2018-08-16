@@ -110,8 +110,13 @@
         const preview = item.portrait || item
         if (preview.body.source.type === 'video/mp4') this.$refs.videoModal.show(preview)
       },
-      uploadResponse (item) {
+      async uploadResponse (item) {
         this.$refs.uploadRemixModal.show(item)
+        const message = {
+          portrait: item.uuid,
+          user: this.user.uuid
+        }
+        await this.$store.dispatch('logging/log', { action: 'open_response', message })
       },
       async loadPortraits () {
         /**
@@ -125,8 +130,9 @@
             'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
           }
           const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
+          const portraits = portraitsResult.items.sort(this.$sort.onCreatedDesc)
           const items = []
-          for (let portrait of portraitsResult.items) {
+          for (let portrait of portraits) {
             const item = {
               portrait,
               responses: []
@@ -136,7 +142,7 @@
               'body.purpose': 'commenting'
             }
             const responsesResult = await this.$store.dispatch('annotations/find', responsesQuery)
-            item.responses = responsesResult.items
+            item.responses = responsesResult.items.sort(this.$sort.onCreatedDesc)
             items.push(item)
           }
           this.portraits.items = items

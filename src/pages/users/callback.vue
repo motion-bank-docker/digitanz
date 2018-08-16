@@ -8,8 +8,20 @@
     props: ['auth'],
     mounted () {
       const _this = this
-      this.$auth.handleAuthentication(this.$store).then(({ user }) => {
+      this.$auth.handleAuthentication(this.$store).then(async ({ user }) => {
         console.debug('Auth0 authenticated user', user)
+        const nav = {
+          appCodeName: navigator.appCodeName,
+          appName: navigator.appName,
+          appVersion: navigator.appVersion,
+          cookieEnabled: navigator.cookieEnabled,
+          language: navigator.language,
+          platform: navigator.platform,
+          product: navigator.product,
+          userAgent: navigator.userAgent
+        }
+        Object.keys(navigator).forEach(key => { nav[key] = navigator[key] })
+        await _this.$store.dispatch('logging/log', { action: 'login', message: { user: user.uuid, navigator: nav } })
         _this.$store.commit('notifications/addMessage', {
           body: _this.$t('messages.login_success'),
           type: 'success'

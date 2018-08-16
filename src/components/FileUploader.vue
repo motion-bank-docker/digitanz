@@ -93,6 +93,12 @@
           this.$emit('convert', { conversion, detail })
           result = await this.$store.dispatch('conversions/post', { conversion, detail })
           console.debug('created conversion', result)
+          const message = {
+            source,
+            metadata,
+            user: this.user.uuid
+          }
+          await this.$store.dispatch('logging/log', { action: 'upload', message })
         }
         this.title = undefined
       }
