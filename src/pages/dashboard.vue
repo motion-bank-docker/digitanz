@@ -39,7 +39,7 @@
                 q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
       //
       q-card.inline.bigger.q-mb-md(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id", dark)
-        div.bgsuper(:style="{ backgroundImage: url(item.preview.medium) }")
+        div.bgsuper(:style="{ backgroundImage: url(item.preview.medium) }", @click="openPreview(item)")
         q-card-main
           q-item-tile.no-margin.text-center.q-pt-sm
             q-btn(flat, round, :icon="getItemStyle(item).icon", :color="getItemStyle(item).color", @click="setAsPortrait(item)")
