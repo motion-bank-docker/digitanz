@@ -15,9 +15,7 @@
       q-list(dark, no-border, link, inset-delimiter)
         // q-list-header Main Menu
         q-item(@click.native="$router.push('/dashboard')")
-          q-item-side
-            q-item-tile(avatar)
-              q-icon(name='list')
+          q-item-side(icon="list")
           q-item-main(:label='$t(\'navigation.dashboard.label\')', :sublabel='$t(\'navigation.dashboard.sublabel\')')
         //
           q-item
@@ -27,25 +25,28 @@
                 // q-item.no-padding(@click.native="$router.push('/dashboard')") 17.8.2018
                 q-item.no-padding(@click.native="$router.push('/dashboard?item_id=abc')") 17.8.2018
         q-item(@click.native="$router.push('/portrait')")
-          q-item-side
-            q-item-tile(avatar)
-              q-icon(name='flip_to_front')
+          q-item-side(icon='account_box')
           q-item-main(:label='$t(\'navigation.portrait.label\')', :sublabel='$t(\'navigation.portrait.sublabel\')')
+
         q-item(v-if="env.FEATURE_MR_GRIDDLE", @click.native="$router.push('/mr-griddle')", separator)
           q-item-side(icon='accessibility')
           // q-item-main(label='Mr. Griddle', sublabel='Do the griddle')
           q-item-main(:label='$t(\'navigation.mr_griddle.label\')', :sublabel='$t(\'navigation.mr_griddle.sublabel\')')
-        q-item(v-if="env.FEATURE_RECIPES", @click.native="$router.push('/allrecipes')")
+
+        q-item(v-if="env.FEATURE_RECIPES", @click.native="$router.push('/allrecipes')", separator)
           q-item-side(icon='list')
           // q-item-main(label='Rezepte', sublabel='Remix Motion-Recipes')
           q-item-main(:label='$t(\'navigation.recipe.label\')', :sublabel='$t(\'navigation.recipe.sublabel\')')
-        q-item(v-if="env.FEATURE_SPACE", @click.native="urlClick('/lost-in-space')")
+
+        q-item(v-if="env.FEATURE_SPACE", @click.native="urlClick('/lost-in-space')", separator)
           q-item-side(icon='explore')
           // q-item-main(label='Lost in Space', sublabel='Experience space')
           q-item-main(:label='$t(\'navigation.lost_in_space.label\')', :sublabel='$t(\'navigation.lost_in_space.sublabel\')')
-        q-item(v-if="env.FEATURE_SEQUENCER", @click.native="$router.push('/videosequencer')")
+
+        q-item(v-if="env.FEATURE_SEQUENCER", @click.native="$router.push('/videosequencer')", separator)
           q-item-side(icon='movie')
           q-item-main(:label='$t(\'navigation.video_sequencer.label\')', :sublabel='$t(\'navigation.video_sequencer.sublabel\')')
+
         q-item(v-if="env.FEATURE_UPLOAD", @click.native="$router.push('/upload')", separator)
           q-item-side(icon='cloud upload')
           q-item-main(:label='$t(\'navigation.upload.label\')', :sublabel='$t(\'navigation.upload.sublabel\')')
