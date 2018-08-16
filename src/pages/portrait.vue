@@ -2,6 +2,7 @@
   q-page
     video-modal(ref="videoModal")
     upload-remix-modal(ref="uploadRemixModal")
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
     // HEAD
     //
@@ -17,7 +18,7 @@
     q-list.no-border(separator)
       q-item.q-pt-xl(v-for="item in portraits.items")
         q-item-main.text-center
-          img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
+          img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="item.preview.medium")
           q-btn.full-width.q-my-md(
           v-if="item.portrait.author.id !== user.uuid"
           dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
@@ -37,7 +38,7 @@
                   div.ellipsis(slot="subtitle", style="white-space: nowrap;") {{ response.author.id }}
               q-card-actions.no-padding.no-margin
                 .text-center.full-width
-                  q-btn(@click="deleteItem(response)", v-if="response.author.id === user.uuid", icon="delete", flat)
+                  q-btn(@click="openDeleteModal(response)", v-if="response.author.id === user.uuid", icon="delete", flat)
             //
               q-list.no-border
                 q-item.no-padding(v-for="(response, i) in item.responses")
@@ -101,7 +102,7 @@
         return val + ' ' + strng
       },
       getPNG (url) {
-        return url.replace(/\.mp4$/, '.png')
+        return url.replace(/\.mp4$/, '-m.jpg')
       },
       download (file) {
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
@@ -149,6 +150,9 @@
         }
         this.$q.loading.hide()
       },
+      openDeleteModal (item) {
+        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
+      },
       async deleteItem (item) {
         console.log(item)
         this.$q.loading.show({ message: this.$t('messages.deleting_video') })
@@ -159,10 +163,13 @@
           await this.$store.dispatch('annotations/delete', item.uuid)
         }
         catch (e) { console.error('Failed to remove annotation', e.message) }
-        try {
-          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.body.source.id.replace(/mp4$/, 'png'))}`, {headers})
+        const previewKeys = Object.keys(item.preview)
+        for (let key of previewKeys) {
+          try {
+            await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview[key])}`, { headers })
+          }
+          catch (e) { console.error('Failed to remove preview', e.message) }
         }
-        catch (e) { console.error('Failed to remove preview', e.message) }
         try {
           await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.body.source.id)}`, { headers })
         }
