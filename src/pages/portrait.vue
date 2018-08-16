@@ -15,7 +15,7 @@
     // SHOW RESULTS
     //
     q-list.no-border(separator)
-      q-item.q-py-none.q-pt-md(v-for="item in portraits.items")
+      q-item.q-py-xl(v-for="item in portraits.items")
         q-item-main.text-center
           img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
           q-btn.full-width.q-mt-sm(
@@ -24,11 +24,15 @@
           q-btn.full-width.q-mt-sm(v-else, disabled, dark, color="primary") {{ $t('buttons.upload_remix') }}
           q-collapsible.full-width.no-padding.q-my-sm(v-if="item.responses.length > 0", :label="getResponseLabel(item.responses.length)")
             // div.q-my-lg(v-for="portrait in item.responses") {{ portrait.author }}
+            div.full-width.q-mb-lg(style="white-space: nowrap; overflow-x: scroll;")
+              img.q-mr-xl(v-for="(response, i) in item.responses", @click="openPreview(response)",
+              :src="getPNG(response.body.source.id)", style="height: 20vh;")
 
-            div(v-for="response in item.responses")
-              img.portrait-image.q-mt-md(@click="openPreview(response)", :src="getPNG(response.body.source.id)")
-              .full-width.text-center
-                q-btn.q-my-sm(@click="deleteItem(response)", v-if="response.author.id === user.uuid", color="primary", icon="delete", :label="$t('buttons.delete')")
+            //
+              div(v-for="response in item.responses")
+                img.portrait-image.q-mt-md(@click="openPreview(response)", :src="getPNG(response.body.source.id)")
+                .full-width.text-center
+                  q-btn.q-my-sm(@click="deleteItem(response)", v-if="response.author.id === user.uuid", icon="delete")
           div.q-pa-md.text-grey-8(v-else) {{ $t('portrait.no_remix') }}
 </template>
 
