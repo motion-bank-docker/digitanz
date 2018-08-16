@@ -49,6 +49,11 @@ export default {
       description: 'Lorem ipsum dolor sit amet...',
       map_title: 'Meine Remixes'
     },
+    date_3: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
     date_4: {
       title: 'Needs Title',
       description: 'Needs Description … Lorem ipsum dolor sit amet',
