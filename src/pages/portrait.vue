@@ -18,7 +18,7 @@
     q-list.no-border(separator)
       q-item.q-pt-xl(v-for="item in portraits.items")
         q-item-main.text-center
-          img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.preview)")
+          img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
           q-btn.full-width.q-my-md(
           v-if="item.portrait.author.id !== user.uuid"
           dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
