@@ -16,6 +16,7 @@
     // SHOW RESULTS
     //
     q-list.no-border(separator)
+      q-item {{ portraits }}
       q-item.q-pt-xl(v-for="item in portraits.items")
         q-item-main.text-center
           .bg-red {{ item }}
@@ -177,8 +178,8 @@
               responseItems.push(respItem)
             }
             item.responses = responseItems
+            items.push(item)
           }
-          items.push(item)
           this.portraits.items = items
         }
         this.$q.loading.hide()
