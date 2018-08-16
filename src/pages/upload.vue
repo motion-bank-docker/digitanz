@@ -80,9 +80,8 @@
           query = {
             'author.id': this.user.uuid,
             'body.type': 'Video',
-            'body.source.type': 'video/mp4'
-            // FIXME: portraits map id is undefined
-            // 'target.id': { $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}` }
+            'body.source.type': 'video/mp4',
+            'target.id': { $ne: `${process.env.TIMELINE_BASE_URI}${process.env.PORTRAITS_TIMELINE_UUID}` }
           }
           results = await this.$store.dispatch('annotations/find', query)
           const items = results.items.sort(this.$sort.onCreatedDesc)
@@ -110,6 +109,25 @@
       },
       async deleteItem (item) {
         this.$q.loading.show({ message: this.$t('messages.deleting_video') })
+        // remove portrait annotation (if any)
+        const query = {
+          'target.id': `${process.env.TIMELINE_BASE_URI}${process.env.PORTRAITS_TIMELINE_UUID}`,
+          'author.id': this.user.uuid,
+          'body.source.id': item.annotation.body.source.id
+        }
+        let result = await this.$store.dispatch('annotations/find', query)
+        if (result.items) {
+          for (const portrait of result.items) {
+            await this.$store.dispatch('annotations/delete', portrait.uuid)
+            await this.$store.dispatch('acl/remove', {uuid: result.uuid, role: 'public', permission: 'get'})
+          }
+          const message = {
+            video: item.annotation.body.source.id,
+            user: this.user.uuid
+          }
+          await this.$store.dispatch('logging/log', { action: 'portrait_unset', message })
+        }
+        // remove item / annotation
         const headers = {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -117,6 +135,7 @@
           await this.$store.dispatch('annotations/delete', item.annotation.uuid)
         }
         catch (e) { console.error('Failed to remove annotation', e.message) }
+        // remove assets
         const previewKeys = Object.keys(item.preview)
         for (let key of previewKeys) {
           try {
