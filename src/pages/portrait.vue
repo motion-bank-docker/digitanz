@@ -130,7 +130,10 @@
         /**
          * Get the global portrait timeline and its contents
          */
-        // this.$q.loading.show({ message: this.$t('messages.loading_portraits') })
+        const headers = {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+        this.$q.loading.show({ message: this.$t('messages.loading_portraits') })
         const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
         if (portraitsMapResult) {
           this.portraits.map = portraitsMapResult
@@ -146,14 +149,15 @@
               responses: []
             }
             try {
-              const metadata = await this.$store.dispatch('metadata/get', portrait.uuid)
+              const metadataURL = `${process.env.TRANSCODER_HOST}/metadata/url?url=${encodeURIComponent(portrait.body.source.id)}`
+              let result = await this.$axios.get(metadataURL, { headers })
               const preview = {
                 high: portrait.body.source.id.replace(/\.mp4$/, '.jpg'),
                 medium: portrait.body.source.id.replace(/\.mp4$/, '-m.jpg'),
                 small: portrait.body.source.id.replace(/\.mp4$/, '-s.jpg')
               }
               item.preview = preview
-              item.metadata = metadata
+              item.metadata = result.data
             }
             catch (e) { console.error('Failed to add portrait', portrait, e.message) }
             const responsesQuery = {
@@ -166,14 +170,15 @@
             for (let resp of responses) {
               const respItem = { response: resp }
               try {
-                const metadata = await this.$store.dispatch('metadata/get', resp.uuid)
+                const metadataURL = `${process.env.TRANSCODER_HOST}/metadata/url?url=${encodeURIComponent(resp.body.source.id)}`
+                let result = await this.$axios.get(metadataURL, { headers })
                 const preview = {
                   high: resp.body.source.id.replace(/\.mp4$/, '.jpg'),
                   medium: resp.body.source.id.replace(/\.mp4$/, '-m.jpg'),
                   small: resp.body.source.id.replace(/\.mp4$/, '-s.jpg')
                 }
                 respItem.preview = preview
-                respItem.metadata = metadata
+                respItem.metadata = result.data
               }
               catch (e) { console.error('Failed to add response', portrait, e.message) }
               responseItems.push(respItem)
