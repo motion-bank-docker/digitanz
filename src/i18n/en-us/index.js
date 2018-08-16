@@ -33,7 +33,8 @@ export default {
   dashboard: {
     title: 'Dashboard',
     description: 'Als Teilnehmerin des Projekts #digitanz findest du hier deine gesammelten Videos zu allen Terminen.',
-    map_title: 'Mein Dashboard'
+    map_title: 'Mein Dashboard',
+    no_entries: 'Keine Einträge vorhanden.'
   },
   dates: {
     all_results: 'Ergebnisse von allen',
