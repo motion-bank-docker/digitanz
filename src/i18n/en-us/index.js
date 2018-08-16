@@ -31,8 +31,8 @@ export default {
     upload_remix: 'eigene Version hochladen'
   },
   dashboard: {
-    title: 'Dashboard',
-    description: 'Als Teilnehmerin des Projekts #digitanz findest du hier deine gesammelten Videos zu allen Terminen.',
+    title: 'Hallo!',
+    description: 'Hier findest du deine gesammelten Ergebnisse von allen Terminen.',
     map_title: 'Mein Dashboard',
     no_entries: 'Keine Einträge vorhanden.'
   },
@@ -40,8 +40,8 @@ export default {
     all_results: 'Ergebnisse von allen',
     sort_label: 'Workshop Termin...',
     date_1: {
-      title: 'Eure Portraits',
-      description: 'Auf dieser Seite findet ihr alle Portraits vom ersten Termin. Ihr könnt hier zudem eure eigenen Versionen der Portraits der anderen hochladen und sehen wie andere eure Portraits umsetzen.',
+      title: 'Deine Portraits',
+      description: '',
       map_title: 'Meine Videos'
     },
     date_2: {
@@ -134,16 +134,18 @@ export default {
     },
     video_sequencer: {
       label: 'Video-Sequenzer',
-      sublabel: 'Lorem ipsum'
+      sublabel: 'Füge Videos zusammen'
     }
   },
-  portrait: {
-    title: 'Portrait',
-    description: 'Hier steht eine Beschreibung zu den Portraits.',
-    upload_remix: 'Remix für dieses Portrait hochladen',
-    no_remix: 'Bisher noch kein Remix.',
-    remix_singular: 'Eintrag',
-    remix_plural: 'Einträge'
+  pages: {
+    portrait: {
+      title: 'Eure Portraits',
+      description: 'Auf dieser Seite findet ihr alle Portraits vom ersten Termin. Ihr könnt hier zudem eure eigenen Versionen der Portraits der anderen hochladen und sehen wie andere eure Portraits umsetzen.',
+      upload_remix: 'Eigene Version von diesem Portrait hochladen',
+      no_remix: 'Bisher noch keine anderen Versionen',
+      remix_singular: 'andere Version',
+      remix_plural: 'andere Versionen'
+    }
   },
   upload: {
     loading_up: 'Lädt hoch...',

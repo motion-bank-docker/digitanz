@@ -7,7 +7,7 @@
     // HEADLINE
     //
     h3.text-center
-      | Hi!
+      | {{ $t('dashboard.title') }}
     div.q-mx-md.q-mb-xl.text-grey-8
       | {{ $t('dashboard.description') }}
 
