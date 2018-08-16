@@ -26,12 +26,12 @@
 
           q-collapsible.full-width.no-padding.q-my-sm(
           v-if="item.responses.length > 0", :label="getResponseLabel(item.responses.length)")
-            q-card(v-for="(response, i) in item.responses", inline, square)
+            q-card(v-for="(responseItem, i) in item.responses", inline, square)
               q-card-media.bg-dark.items-center.row.justify-center.text-left(overlay-position="bottom",
-              style="width: 19vw; height: 19vw; margin: .5vw;", :class="{'moba-border' : response.author.id === user.uuid}")
-                q-context-menu(v-if="response.author.id === user.uuid")
-                  q-btn.full-width.bg-red(color="white", @click="deleteItem(response)", icon="delete", flat) {{ $t('buttons.delete') }}?
-                img.card-image.no-margin(@click="openPreview(response)", :src="getPNG(response.body.source.id)")
+              style="width: 19vw; height: 19vw; margin: .5vw;", :class="{'moba-border' : responseItem.response.author.id === user.uuid}")
+                q-context-menu(v-if="responseItem.response.author.id === user.uuid")
+                  q-btn.full-width.bg-red(color="white", @click="deleteItem(responseItem.response)", icon="delete", flat) {{ $t('buttons.delete') }}?
+                img.card-image.no-margin(@click="openPreview(responseItem.response)", :src="getPNG(responseItem.response.body.source.id)")
               // div bhjbxsa
                 //
                   q-btn.absolute-top-right(
@@ -142,12 +142,40 @@
               portrait,
               responses: []
             }
+            try {
+              const metadata = await this.$store.dispatch('metadata/get', portrait.uuid)
+              const preview = {
+                high: portrait.body.source.id.replace(/\.mp4$/, '.jpg'),
+                medium: portrait.body.source.id.replace(/\.mp4$/, '-m.jpg'),
+                small: portrait.body.source.id.replace(/\.mp4$/, '-s.jpg')
+              }
+              item.preview = preview
+              item.metadata = metadata
+            }
+            catch (e) { console.error('Failed to add portrait', portrait, e.message) }
             const responsesQuery = {
               'target.id': `${process.env.ANNOTATION_BASE_URI}${portrait.uuid}`,
               'body.purpose': 'commenting'
             }
             const responsesResult = await this.$store.dispatch('annotations/find', responsesQuery)
-            item.responses = responsesResult.items.sort(this.$sort.onCreatedDesc)
+            const responses = responsesResult.items.sort(this.$sort.onCreatedDesc)
+            const responseItems = []
+            for (let resp of responses) {
+              const respItem = { response: resp }
+              try {
+                const metadata = await this.$store.dispatch('metadata/get', resp.uuid)
+                const preview = {
+                  high: resp.body.source.id.replace(/\.mp4$/, '.jpg'),
+                  medium: resp.body.source.id.replace(/\.mp4$/, '-m.jpg'),
+                  small: resp.body.source.id.replace(/\.mp4$/, '-s.jpg')
+                }
+                respItem.preview = preview
+                respItem.metadata = metadata
+              }
+              catch (e) { console.error('Failed to add response', portrait, e.message) }
+              responseItems.push(respItem)
+            }
+            item.responses = responseItems
             items.push(item)
           }
           this.portraits.items = items

@@ -32,7 +32,7 @@ export default {
   },
   dashboard: {
     title: 'Hallo!',
-    description: 'Hier findest du deine gesammelten Ergebnisse von allen Terminen.',
+    description: 'Hier findest du deine gesammelten Ergebnisse von allen Kursterminen.',
     map_title: 'Mein Dashboard',
     no_entries: 'Keine Einträge vorhanden.'
   },
@@ -48,6 +48,11 @@ export default {
       title: 'Remix Portrait',
       description: 'Lorem ipsum dolor sit amet...',
       map_title: 'Meine Remixes'
+    },
+    date_3: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
     },
     date_4: {
       title: 'Needs Title',
@@ -109,8 +114,8 @@ export default {
     login: 'Einloggen',
     logout: 'Ausloggen',
     dashboard: {
-      label: 'Alle Termine',
-      sublabel: 'Deine gespeicherten Inhalte in einer Übersicht.'
+      label: 'Kursübersicht',
+      sublabel: 'Deine Inhalte in einer Übersicht'
     },
     portrait: {
       label: 'Eure Portraits',
