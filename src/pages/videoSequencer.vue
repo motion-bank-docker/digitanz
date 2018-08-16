@@ -221,9 +221,10 @@
                 created: annotation.created,
                 source: {id: annotation.body.source.id, type: 'video/mp4'},
                 preview: annotation.body.source.id.replace(/\.mp4$/, '.png'),
-                duration: meta ? meta.duration : 1,
+                duration: meta ? this.formatDuration(meta.duration) : 1,
                 orientation: (meta.height === 720) ? 'landscape' : 'portrait'
               })
+              // console.log('new: ' + this.formatDuration(newVideo.duration))
               newUploadedVideos.push(newVideo)
               // this.listOfThings.push(annotation.uuid)
             }
@@ -252,6 +253,12 @@
         if (this.sequencedVideos.length === 0) {
           this.orientation = undefined
         }
+      },
+      formatDuration (duration) {
+        let minutes = Math.floor(duration / 60).toString()
+        let seconds = (duration - minutes * 60).toString().split('.')[0]
+        if (seconds.length < 2) seconds = '0' + seconds
+        return minutes.toString() + ':' + seconds.toString()
       },
       setPlayerStatePlay () {
         console.log('set state')
@@ -318,7 +325,7 @@
         this.editIndex = -1
         // this.playNext()
         this.loadFirstVideo()
-        //  this.sourceVideo = undefined
+        // this.sourceVideo = undefined
       },
       // MOVING ITEMS THROUGH ARROWS (REPLACE THIS WITH DRAGNDROP AS SOON AS IT WORKS)
       moveItem: function (array, element, delta) {
