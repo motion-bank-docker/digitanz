@@ -39,7 +39,7 @@
                 <!--q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")-->
       //
       div.row.justify-center(v-else)
-        q-card.q-pb-xl.q-px-md(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id", style="width:300px", inline, flat)
+        q-card.q-pb-xl.q-px-md(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id", style="width:280px", inline, flat)
           div.bgsuper(:style="{ 'background-image': 'url(' + item.preview.medium + ')' }", @click="openPreview(item)")
           q-card-main
             q-item-tile.no-margin.text-center.q-pt-sm
