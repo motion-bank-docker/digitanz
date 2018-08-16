@@ -19,8 +19,9 @@
       // q-item {{ portraits }}
       q-item.q-pt-xl(v-for="item in portraits.items")
         q-item-main.text-center
-          .bg-red {{ item.portrait }}
-          .bg-red {{ item.responses[0] }}
+          //
+            .bg-red {{ item.portrait }}
+            .bg-red {{ item.responses[0] }}
           img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
           q-btn.full-width.q-my-md(
           v-if="item.portrait.author.id !== user.uuid"
@@ -115,8 +116,10 @@
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
       },
       openPreview (item) {
-        const preview = item.portrait || item
-        if (preview.body.source.type === 'video/mp4') this.$refs.videoModal.show(preview)
+        // const preview = item.portrait || item
+        const preview = item
+        console.log(item)
+        if (preview.portrait.body.source.type === 'video/mp4') this.$refs.videoModal.show(preview)
       },
       async uploadResponse (item) {
         this.$refs.uploadRemixModal.show(item)

@@ -1,6 +1,6 @@
 <template lang="pug">
   q-modal(v-model="showModal", maximized)
-    // q-window-resize-observable(@resize="onResize")
+    q-window-resize-observable(@resize="onResize")
     q-modal-layout.relative-position(dark, :content-class="{'bg-dark': true}")
       // .layout-padding(v-if="preview")
       // span(v-if="preview")
@@ -9,7 +9,8 @@
         .gr-green {{ video.annotation.height }}
       div(:style="{width: playerWidth + 'px'}")
         // video-player(v-if="video", :annotation="video.annotation", @ended="onEnded", :autoplay="true")
-        video-player(v-if="video", :annotation="video.annotation", @ended="onEnded", :autoplay="true")
+        // video-player(v-if="video", :annotation="video", @ended="onEnded", :autoplay="true")
+        video-player(v-if="video", :annotation="src", @ended="onEnded", :autoplay="true")
       // q-btn.full-width.bg-dark.q-pa-lg(slot="footer", @click="closePreview", label="Close", flat, style="border-radius: 0;")
       .full-width.q-pa-md.absolute-top.text-right
         q-btn.bg-dark(@click="closePreview", icon="clear", flat, round)
@@ -29,17 +30,16 @@
     props: ['source', 'dimensions'],
     methods: {
       onResize (size) {
-        alert(this.video.metadata)
-        console.log(this.video.metadata.width, this.video.metadata.height)
-        let videoX = this.video.metadata.width
-        let videoY = this.video.metadata.height
+        let videoX = this.preview.metadata.width
+        let videoY = this.preview.metadata.height
+        console.log(size.width, size.height)
+        console.log(videoX, videoY)
         if (size.width > size.height) { // DEVICE LANDSCAPE
           if (videoX > videoY) { // video quer
             this.playerWidth = size.width
           }
           else if (videoX < videoY) { // video hoch
             let ratio = videoY / size.height
-            // alert(ratio)
             this.playerWidth = size.width / ratio
           }
         }
@@ -48,12 +48,15 @@
             this.playerWidth = size.width
           }
           else if (videoX < videoY) { // video hoch
-            // let ratio = videoY / size.height
             this.playerWidth = size.width
           }
         }
       },
       show (preview) {
+        // console.log(preview, '-----')
+        if (preview.annotation !== undefined) this.src = preview.annotation
+        else this.src = preview.portrait
+        // console.log(this.src)
         this.preview = preview
         this.showModal = true
       },
@@ -71,6 +74,7 @@
     },
     data () {
       return {
+        src: '',
         playerWidth: '',
         index: -1,
         video: undefined,

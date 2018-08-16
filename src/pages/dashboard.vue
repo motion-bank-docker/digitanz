@@ -32,7 +32,6 @@
         q-item.q-mb-xl.no-padding(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id")
           // div(v-for="i in item") {{ item.metadata.width }}
           q-item-main.self-start
-            q-item-tile {{ item }}
             q-item-tile.text-center
               q-btn.no-padding(@click="openPreview(item)")
                 img(:src="item.preview.medium", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")
@@ -150,7 +149,7 @@
       openPreview (item) {
         this.preview = item.annotation
         // alert(item.metadata.width)
-        this.dimensions.width = 300
+        // this.dimensions.width = 300
         // if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item.annotation)
         if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item)
         else if (item.annotation.body.source.type === 'image/jpeg') this.showImageModal = true
