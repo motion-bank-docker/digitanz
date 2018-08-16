@@ -73,6 +73,12 @@
 
 <style lang="stylus">
   .q-uploader
+    span.q-if-addon
+      width 100%
+      text-align center
+      text-transform uppercase
+      font-weight 500
+      font-size 14px
     .q-uploader-pick-button
       display none
     .q-spinner
