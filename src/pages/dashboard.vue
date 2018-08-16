@@ -150,7 +150,6 @@
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       async setAsPortrait (item, silent = false) {
-        console.debug('setting as portrait...', item, this.portraits)
         if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_portrait') })
         const query = {
           'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`,
@@ -212,7 +211,8 @@
         const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
         if (portraitsMapResult) {
           const portraitsQuery = {
-            'target.id': `${process.env.TIMELINE_BASE_URI}${portraitsMapResult.uuid}`
+            'target.id': `${process.env.TIMELINE_BASE_URI}${portraitsMapResult.uuid}`,
+            'author.id': this.user.uuid
           }
           const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
           const portraitAnnotations = portraitsResult.items.sort(this.$sort.onCreatedDesc)
