@@ -30,13 +30,16 @@
 
           q-collapsible.full-width.no-padding.q-my-sm(
           v-if="item.responses.length > 0", :label="getResponseLabel(item.responses.length)")
+            // q-card(v-for="(responseItem, i) in item.responses", inline, square, :class="{'moba-border' : responseItem.response.author.id === user.uuid}")
             q-card(v-for="(responseItem, i) in item.responses", inline, square)
               q-card-media.bg-dark.items-center.row.justify-center.text-left(overlay-position="bottom",
-              style="width: 19vw; height: 19vw; margin: .5vw;", :class="{'moba-border' : responseItem.response.author.id === user.uuid}")
-                q-context-menu(v-if="responseItem.response.author.id === user.uuid")
-                  q-btn.full-width.bg-red(color="white", @click="deleteItem(responseItem.response)", icon="delete", flat) {{ $t('buttons.delete') }}?
+              style="width: 19vw; height: 19vw; margin: .5vw;")
+                //
+                  q-context-menu(v-if="responseItem.response.author.id === user.uuid")
+                    q-btn.full-width.bg-red(color="white", @click="deleteItem(responseItem.response)", icon="delete", flat) {{ $t('buttons.delete') }}?
                 // img.card-image.no-margin(@click="openPreview(responseItem.response)", :src="getPNG(responseItem.response.body.source.id)")
                 img.card-image.no-margin(@click="openPreview(responseItem)", :src="getPNG(responseItem.response.body.source.id)")
+              q-btn.q-py-md(v-if="responseItem.response.author.id === user.uuid", color="white", @click="deleteItem(responseItem.response)", icon="delete", flat)
               // div bhjbxsa
                 //
                   q-btn.absolute-top-right(
