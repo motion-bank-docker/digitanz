@@ -54,15 +54,18 @@
     q-page-container
       router-view
     conversion-jobs
+    sequence-jobs
     mb-notification-service
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import ConversionJobs from '../components/ConversionJobs'
+  import SequenceJobs from '../components/SequenceJobs'
   export default {
     components: {
-      ConversionJobs
+      ConversionJobs,
+      SequenceJobs
     },
     data () {
       return {
