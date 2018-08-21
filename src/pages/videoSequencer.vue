@@ -459,7 +459,6 @@
   .moba-active-image {
     outline: solid cornflowerblue 1px;
     outline: solid white 1px;
-    border-radius: 50%;
     color: white;
   }
 
