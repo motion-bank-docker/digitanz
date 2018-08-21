@@ -1,13 +1,15 @@
 <template lang="pug">
+
   q-page.row.flex.no-margin.no-scroll
 
     // POP UP MODAL TO ADD VIDEOS TO SEQUENCER-TIMELINE
-    q-modal.row.maximized(v-model="opened", content-classes="bg-dark")
+    q-modal(v-model="opened", content-classes="bg-dark", minimized)
       .q-ma-md(v-if="!orientation")
         h1.q-title Format wählen
         q-btn-toggle(v-model="orientation" :options="[{label: 'Querformat', value: 'landscape'}, {label: 'Hochformat', value: 'portrait'}]")
+
+      // UPLOAD
       //
-      // Upload
       .q-ma-md(v-if="orientation")
         h1.q-title Video hochladen
         file-uploader.no-padding.no-margin.self-center(:url="url", :query="uploadQuery", style="width: 100%", @finish="addUploadedVideo")
@@ -15,8 +17,9 @@
           h1.q-title(v-if="jobIds") Videos being processed
           q-item(v-for="(jobId, index) in jobIds")
             span {{jobId}}
+
+        // MEDIATHEK
         //
-        // Mediathek
         div(v-if="orientation")
           h1.full-width.q-title Wähle deine Videos
           q-list.row.no-border.relative-position(style="min-height:100px")
@@ -31,14 +34,17 @@
             q-inner-loading.inner-loading(:visible="!fetchedUserVideos" dark)
               q-spinner-mat(color="white" size="3em")
 
-        // Buttons
+        // BUTTONS
+        //
         q-btn.full-width.fixed-bottom(v-if="checkedVideos.length > 0" color="primary" @click="closeModal" icon="add" label="Hinzufügen")
         q-btn.full-width.fixed-bottom(v-else color="primary" @click="closeModal" icon="arrow_back" label="Zurück")
 
-    // Main View
+    // MAIN VIEW
     //
     //
+
     // BIG VIDEO PREVIEW
+    //
     video-player.full-width.self-center(
     v-show="sequencedVideos.length > 0",
     :class="orientationClass",
@@ -49,7 +55,8 @@
     @play="setPlayerStatePlay()",
     @pause="setPlayerStatePause()")
 
-    // Player controls
+    // PLAYER CONTROLS
+    //
     .q-ma-md.full-width.row.justify-center(v-if="sequencedVideos.length > 0")
       // q-btn.q-ma-xs(round, size="sm" color="white", icon="play_arrow", outline, @click="editIndex = index, moveUp(sequencedVideos, editIndex)")
       // q-btn.q-ma-xs(round, size="sm" color="white", icon="pause", outline, @click="editIndex = index, moveUp(sequencedVideos, editIndex)")
@@ -63,12 +70,14 @@
     q-list.no-padding.no-border(style="width: 100%")
       q-item.items-baseline
         q-item-main.vertical-center
-          //
+
           // NEW SEQUENCE
+          //
           .q-mb-md(v-if="sequencedVideos.length == 0")
             q-btn.q-ma-md.q-mb-xl(color="primary", icon="add_box", @click="openModal" label="Neue Sequenz")
 
-            // Timeline list
+            // TIMELINE LIST
+            //
             .q-ma-md.q-title.text-left Gespeicherte Sequenzen
             q-list.q-mb-xl.no-border
               q-item.row.q-mb-md(v-for="n in 3")
@@ -81,11 +90,13 @@
                     q-btn(round, icon="edit", size="md")
                     q-btn(round, icon="account_box" size="md")
                     q-btn(round, icon="delete" size="md")
-          //
+
           // SENQUENCED VIDEOS
+          //
           .q-mb-md.row.justify-between.items-center(v-if="sequencedVideos.length > 0")
-            h3.q-title.no-margin(v-if="sequencedVideos.length > 0") Videos
+            h3.q-title.no-margin Videos
             q-btn.no-margin(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
+
           //
           //
           q-list.q-mb-xl.no-border
@@ -104,16 +115,18 @@
                   q-btn.q-ma-xs(round, size="sm" color="white", icon="delete", outline, @click="editIndex = index, deleteItem(editIndex)")
 
     // BUTTONS BOTTOM
+    //
     .row.q-ma-md.full-width.justify-center.items-end
       // q-btn.justify-center(icon="save", color="primary", label="Speichern", :loading="loading", :percentage="percentage2", @click="startComputing")
-      q-btn.full-width.fixed-bottom(v-if="sequencedVideos.length > 0" icon="save"
-      color="primary" label="Speichern"
+      q-btn.full-width.fixed-bottom(v-if="sequencedVideos.length > 0", icon="save",
+      color="primary", label="Speichern",
       :loadinv="loading", :percentage="percentage2",
       @click="startComputing")
       // span(slot="loading")
          // q-spinner-gears(class="on-left") Laden ...
 
     modal-preview(:show="showPreviewModal", :preview="preview", @canceled="closePreview")
+
 </template>
 
 <script>
