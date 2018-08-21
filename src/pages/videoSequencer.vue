@@ -36,8 +36,8 @@
 
         // BUTTONS
         //
-        q-btn.full-width.fixed-bottom(v-if="checkedVideos.length > 0" color="primary" @click="closeModal" icon="add" label="Hinzufügen")
-        q-btn.full-width.fixed-bottom(v-else color="primary" @click="closeModal" icon="arrow_back" label="Zurück")
+        q-btn.full-width.fixed-bottom(v-if="checkedVideos.length > 0", color="primary", @click="closeModal", icon="add", label="Hinzufügen")
+        q-btn.full-width.fixed-bottom(v-else color="primary", @click="closeModal", icon="arrow_back", label="Zurück")
 
     // MAIN VIEW
     //
@@ -75,6 +75,7 @@
           //
           .q-mb-md(v-if="sequencedVideos.length == 0")
             q-btn.q-ma-md.q-mb-xl(color="primary", icon="add_box", @click="openModal" label="Neue Sequenz")
+            q-btn.q-ma-md.q-mb-xl(color="primary", icon="add_box", @click="$router.push({path: 'videosequencer/newsequence'})" label="Neue Sequenz neu")
 
             // TIMELINE LIST
             //
