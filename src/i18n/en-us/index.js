@@ -115,6 +115,10 @@ export default {
       label: 'Eure Portraits',
       sublabel: '17. August'
     },
+    portraitplusplus: {
+      label: 'Portrait++',
+      sublabel: '24. August'
+    },
     lost_in_space: {
       label: 'Lost in Space',
       sublabel: 'Experience space'
