@@ -31,9 +31,10 @@ export default {
     // upload_remix: 'Remix hochladen'
     upload_remix: 'eigene Version hochladen',
     orientation: {
-      landscape: 'querformat',
-      portrait: 'hochformat'
-    }
+      landscape: 'Querformat',
+      portrait: 'Hochformat'
+    },
+    next: 'weiter'
   },
   dates: {
     all_results: 'Ergebnisse von allen',
