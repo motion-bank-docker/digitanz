@@ -6,9 +6,9 @@
           q-icon(name='menu')
         q-toolbar-title
           span(@click.prevent="clickTitle()") {{ info.productName }}
-        q-btn(color="primary", flat, icon="eject",
+        q-btn(color="primary", flat, icon-right="eject",
           v-if="userState", @click.prevent="logout", :label="$t('navigation.logout')")
-        q-btn(color="primary", flat, icon="arrow_forward",
+        q-btn(color="primary", flat, icon-right="arrow_forward",
           v-if="!userState", @click.prevent="login", :label="$t('navigation.login')")
     q-layout-drawer(dark, v-model='leftDrawerOpen', :content-class="$q.theme === 'mat' ? 'bg-dark' : null", v-if="userState")
       //q-list(dark, no-border, link, inset-delimiter, v-if="urls")
