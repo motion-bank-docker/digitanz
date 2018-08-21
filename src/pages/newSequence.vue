@@ -1,5 +1,7 @@
 <template lang="pug">
-  q-page
+
+  q-page.relative-position
+
     q-btn.q-ma-md(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
     icon="keyboard_backspace", o-caps)
 
@@ -7,7 +9,7 @@
     // file-uploader(:url="url", :query="uploadQuery", @finish="addUploadedVideo")
     file-uploader(:url="url", :query="uploadQuery", @finish="")
 
-    // BUTTONS -- ORIENTATION
+    // BUTTONS -- FILTER ORIENTATION
     //
     .text-center
       q-btn.q-mx-sm.text-white(@click="orientation = 'portrait'", :class="{'bg-primary' : orientation === 'portrait'}",
@@ -15,13 +17,18 @@
       q-btn.q-mx-sm.text-white(@click="orientation = 'landscape'", :class="{'bg-primary' : orientation === 'landscape'}",
       icon="stay_current_landscape", :label="$t('buttons.orientation.landscape')", no-caps)
 
-    // DISPLAY VIDEOS
+    // DISPLAY FILTERED VIDEOS
     //
       div {{ checkedVideos.length }}
     q-list.no-padding.no-border.q-mt-lg
-      q-item.q-caption(v-for="video in uploadedVideos", tag="label", v-if="video.orientation === orientation")
+      q-item.q-ma-md.no-padding.q-caption.relative-position(
+      v-for="video in uploadedVideos", tag="label", v-if="video.orientation === orientation")
         q-checkbox.hidden(v-model="checkedVideos", :val="video")
-        img.fit(:src="video.preview.high", :class="{'moba-active-image': checkedVideos.includes(video)}")
+        img.fit(:src="video.preview.high", :class="{'moba-highlight-image': checkedVideos.includes(video)}")
+        q-btn.absolute-top-right.bg-white.q-ma-sm.text-dark(round, size="sm") {{ video.duration }}
+
+    .fixed-bottom.full-with.q-ma-md.text-center(v-if="checkedVideos.length > 1")
+      q-btn.bg-primary.text-white(icon-right="arrow_forward", :label="$t('buttons.next')")
 
 </template>
 
@@ -78,6 +85,13 @@
       this.$root.$off('updateVideos', this.fetchData)
     },
     watch: {
+      orientation (val) {
+        console.log(val)
+        this.checkedVideos = []
+      },
+      checkedVideos (val) {
+        console.log(val)
+      },
       preview (val) {
         this.showPreviewModal = typeof val !== 'undefined'
       },
@@ -321,6 +335,8 @@
 </script>
 
 <style scoped lang="stylus">
-  .moba-active-image
-    border 1px solid white
+  @import '~variables'
+
+  .moba-highlight-image
+    border 2px solid $primary
 </style>
