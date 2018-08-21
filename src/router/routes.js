@@ -12,7 +12,7 @@ const routes = [
       { path: 'slotmachine', component: () => import('pages/slotMachine'), meta: {private: true} },
       { path: 'upload', component: () => import('pages/upload'), meta: {private: true} },
       { path: 'videosequencer', component: () => import('pages/videoSequencer'), meta: {private: true} },
-      { path: 'newsequence', component: () => import('pages/newSequence'), meta: {private: true} },
+      { path: 'videoSequencer/newsequence', component: () => import('pages/newSequence'), meta: {private: true} },
       { path: 'portrait', component: () => import('pages/portrait'), meta: {private: true} },
       { path: 'portraitplusplus', component: () => import('pages/portraitplusplus'), meta: {private: true} }
     ]
