@@ -23,12 +23,17 @@ export default {
   buttons: {
     back: 'Zurück',
     close: 'Schließen',
-    uploader: 'Video auswählen und hochladen',
+    // uploader: 'Video auswählen und hochladen',
+    uploader: 'Video hinzufügen',
     delete: 'Löschen',
     cancel: 'Abbrechen',
     confirm: 'OK',
     // upload_remix: 'Remix hochladen'
-    upload_remix: 'eigene Version hochladen'
+    upload_remix: 'eigene Version hochladen',
+    orientation: {
+      landscape: 'querformat',
+      portrait: 'hochformat'
+    }
   },
   dates: {
     all_results: 'Ergebnisse von allen',
@@ -148,6 +153,10 @@ export default {
       no_remix: 'Bisher noch keine anderen Versionen',
       remix_singular: 'andere Version',
       remix_plural: 'andere Versionen'
+    },
+    new_sequence: {
+      title: 'Neue Sequenz erstellen',
+      description: 'Lorem Ipsum, hier steht eine Beschreibung.'
     },
     dashboard: {
       title: 'Hallo!',
