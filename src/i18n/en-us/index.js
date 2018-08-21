@@ -41,7 +41,7 @@ export default {
     date_2: {
       title: 'Portrait++',
       description: 'Lorem ipsum dolor sit amet...',
-      map_title: 'Meine Remixes'
+      map_title: 'Meine Portraits++'
     },
     date_3: {
       title: 'Needs Title',

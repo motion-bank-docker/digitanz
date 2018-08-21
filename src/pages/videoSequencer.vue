@@ -121,9 +121,10 @@
   import {ObjectUtil} from 'mbjs-utils'
   import ModalPreview from '../components/VideoModal'
   // import { VideoPlayer } from 'mbjs-quasar/src/components'
+  import { mapGetters } from 'vuex'
   import VideoPlayer from '../components/VideoPlayer'
   import FileUploader from '../components/FileUploader'
-  import url from 'url'
+  // import url from 'url'
 
   export default {
     components: {
@@ -163,6 +164,9 @@
       }
     },
     computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      }),
       reverseVideos () {
         return this.uploadedVideos.slice().reverse()
         // return this.uploadedVideos
@@ -186,9 +190,10 @@
         return 'pause'
       }
     },
-    mounted () {
+    async mounted () {
       this.$root.$on('updateVideos', this.fetchData)
-      this.fetchData()
+      await this.getTimeline()
+      await this.fetchData()
     },
     beforeDestroy () {
       this.$root.$off('updateVideos', this.fetchData)
@@ -198,10 +203,28 @@
         this.showPreviewModal = typeof val !== 'undefined'
       },
       async user (val) {
-        if (val) await this.fetchData()
+        if (val) {
+          await this.getTimeline()
+          await this.fetchData()
+        }
       }
     },
     methods: {
+      async getTimeline () {
+        if (this.user && !this.timeline) {
+          const query = ObjectUtil.merge({
+            'author.id': this.$store.state.auth.user.uuid,
+            title: 'Meine Portraits++'
+          }, this.query)
+          const results = await this.$store.dispatch('maps/find', query)
+          if (!results.items.length) {
+            this.timeline = await this.$store.dispatch('maps/post', {title: 'Meine Portraits++'})
+          }
+          else {
+            this.timeline = results.items[0]
+          }
+        }
+      },
       async fetchData () {
         // const _this = this
         // const $drake = this.$dragula.$service
@@ -223,6 +246,7 @@
               const annotation = results2.items[i]
               const meta = await this.$store.dispatch('metadata/get', annotation.uuid)
               const newVideo = Object.assign({}, {
+                annotation,
                 weight: parseInt(i),
                 title: '', // annotation.body.value, // meta.title
                 uuid: annotation.uuid,
@@ -243,6 +267,7 @@
       async addUploadedVideo (video) {
         const meta = await this.$store.dispatch('metadata/get', video.uuid)
         const newVideo = Object.assign({}, {
+          annotation: video,
           weight: 0,
           title: video.body.value,
           uuid: video.uuid,
@@ -393,40 +418,20 @@
           return result
         }
       },
-      // LOADING PROCESS BUTTON
-      startComputing () {
-        this.loading = true
-        const payload = {
+      async startComputing () {
+        const detail = {
+          title: 'Meine Sequenz',
+          timeline: this.timeline ? this.timeline.uuid : undefined
+        }
+        const sequence = {
+          map: {
+            title: 'Meine Sequenz'
+          },
           sources: this.checkedVideos.map(entry => {
-            const parsed = url.parse(entry.source.id)
-            return parsed.pathname
+            return entry.annotation
           })
         }
-        const _this = this
-        this.$params().then(params => {
-          console.log('payload', payload, params)
-          _this.$axios.post(`${params.urls[0].transcoder}/concat`, payload).then(response => {
-            console.log(response.data)
-            const composite = {
-              author: _this.$store.state.auth.payload.userId,
-              body: {
-                type: 'Composite',
-                purpose: 'personal',
-                source: JSON.stringify({
-                  type: 'video/mp4',
-                  id: params.urls[0].streamer + '/' + response.data.uuid + '.mp4',
-                  preview: _this.getPreviewLinks(params.urls[0].streamer + '/' + response.data.uuid + '.mp4')
-                })
-              }
-            }
-            return _this.$store.dispatch('annotations/create', composite)
-              .then(composite => {
-                console.log('added composite', composite)
-                _this.loading = false
-                _this.$router.push('/')
-              })
-          })
-        })
+        await this.$store.dispatch('sequences/post', { sequence, detail })
       }
     }
   }

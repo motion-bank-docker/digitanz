@@ -36,7 +36,7 @@ const sequences = {
   actions: {
     async post ({ commit }, { sequence, detail }) {
       const result = await axios.post(`${process.env.TRANSCODER_HOST}/sequences`, sequence)
-      console.debug('sequence job added', sequence, result)
+      console.debug('sequence job added', sequence, detail, result)
       if (result.data.jobId) {
         commit('addJobDetail', { jobId: result.data.jobId, detail })
         commit('addJobId', result.data.jobId)
