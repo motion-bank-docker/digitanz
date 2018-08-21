@@ -26,6 +26,7 @@
     "mbjs-media": "0.0.18",
     "mbjs-quasar": "0.0.9",
     "mbjs-utils": "0.0.6",
+    "raven-js": "^3.26.4",
     "superagent": "^3.8.2",
     "video.js": "^6.8.0",
     "videojs-vimeo": "git+https://github.com/PieceMeta/videojs-vimeo.git",
