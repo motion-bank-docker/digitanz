@@ -43,8 +43,8 @@
 
 <script>
   import {ObjectUtil} from 'mbjs-utils'
-  import { VideoHelper } from '../lib'
-  import FileUploader from '../components/FileUploader'
+  import { VideoHelper } from '../../lib/index'
+  import FileUploader from '../../components/FileUploader'
 
   export default {
     components: {
