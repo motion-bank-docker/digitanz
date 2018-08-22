@@ -2,10 +2,10 @@
 
   q-page.relative-position
 
-    q-btn.q-ma-md(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
-    icon="keyboard_backspace", o-caps)
-
-    h4.text-center {{ $t('pages.new_sequence.title') }}
+    h4.text-center.q-mb-none
+      span(v-if="!hasUuid") {{ $t('pages.new_sequence.title') }}
+      span(v-else) {{ $t('pages.edit_sequence.title') }}
+    q-input.q-mx-md(value='', :float-label="$t('labels.insert_title')", dark)
     // file-uploader(:url="url", :query="uploadQuery", @finish="addUploadedVideo")
     file-uploader(:url="url", :query="uploadQuery", @finish="")
 
@@ -19,25 +19,56 @@
 
     // DISPLAY FILTERED VIDEOS
     //
-      div {{ checkedVideos.length }}
-    q-list.no-padding.no-border.q-mt-lg
-      q-item.q-ma-md.no-padding.q-caption.relative-position(
-      v-for="video in uploadedVideos", tag="label", v-if="video.orientation === orientation")
-        q-checkbox.hidden(v-model="checkedVideos", :val="video")
-        img.fit(:src="video.preview.high", :class="{'moba-highlight-image': checkedVideos.includes(video)}")
-        q-btn.absolute-top-right.bg-white.q-ma-sm.text-dark(round, size="sm") {{ video.duration }}
+    q-list.no-border.q-mt-xl.q-mb-xl
+      div(
+      v-for="video in uploadedVideos",
+      v-if="video.orientation === orientation",
+      @click="selectedUuid = video.annotation.uuid",
+      style="width: 33.333%; display: inline-block; margin-top: -4px;")
+        q-item.no-padding.q-caption.relative-position(tag="label")
+          q-item-main
+            q-item-tile
+              q-checkbox.hidden(v-model="checkedVideos", :val="video")
+              // img.fit(:src="video.preview.high", :class="{'moba-highlight-image': checkedVideos.includes(video)}")
+              img.fit(:src="video.preview.high")
+              span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders(
+              :class="{'moba-highlight-image': checkedVideos.includes(video)}"
+              )
+                | {{ formatDuration(video.metadata.duration) }}
 
-    .fixed-bottom.full-with.q-ma-md.text-center(v-if="checkedVideos.length > 1")
-      q-btn.bg-primary.text-white(icon-right="arrow_forward", :label="$t('buttons.next')")
+    // DISPLAY CHECKED VIDEOS
+    //
+      .full-width
+        | {{ selectedUuid }}
+        q-list.no-border.q-mt-lg.q-mb-xl
+          div(
+          v-for="video in checkedVideos",
+          style="margin-top: -4px;")
+            q-item.no-margin.no-padding
+              q-item-main
+                img(:src="video.preview.high", style="width: 50vw;")
+              q-item-side.column
+                q-btn(round, icon="edit", size="md")
+                q-btn(round, icon="account_box" size="md")
+                q-btn(round, icon="delete" size="md")
+
+    .fixed-bottom-left
+      q-btn.q-mb-md.bg-body-background(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat)
+      // q-btn.q-mb-md.bg-dark(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
+        icon="keyboard_backspace", flat)
+
+    .text-right.q-ma-md
+      q-btn.bg-primary.text-white(@click="$router.push({path: 'preview'})", icon-right="arrow_forward", :label="$t('buttons.next')", flat)
+
+    // q-btn.fixed-bottom.bg-black(@click="toggleHasUuid") dev switch
 
 </template>
 
 <script>
   import {ObjectUtil} from 'mbjs-utils'
-  import Vue from 'vue'
-
-  import FileUploader from '../components/FileUploader'
-  import url from 'url'
+  import { VideoHelper } from '../../lib'
+  import FileUploader from '../../components/FileUploader'
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -46,14 +77,24 @@
     data () {
       return {
         checkedVideos: [],
+        hasUuid: false,
         orientation: 'portrait',
+        selectedUuid: 'hallo',
         uploadQuery: {
           'title': 'Meine Videos'
         },
-        uploadedVideos: []
+        uploadedVideos: [],
+        videos: [],
+        timeline: {
+          title: undefined,
+          type: ['Timeline']
+        }
       }
     },
     computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      }),
       reverseVideos () {
         return this.uploadedVideos.slice().reverse()
         // return this.uploadedVideos
@@ -78,11 +119,11 @@
       }
     },
     mounted () {
-      this.$root.$on('updateVideos', this.fetchData)
-      this.fetchData()
+      this.$root.$on('updateVideos', this.loadUploadedVideos)
+      this.loadData()
     },
     beforeDestroy () {
-      this.$root.$off('updateVideos', this.fetchData)
+      this.$root.$off('updateVideos', this.loadUploadedVideos)
     },
     watch: {
       orientation (val) {
@@ -96,70 +137,81 @@
         this.showPreviewModal = typeof val !== 'undefined'
       },
       async user (val) {
-        if (val) await this.fetchData()
+        if (val) await this.loadData()
       }
     },
     methods: {
+      async loadData () {
+        if (!this.user) return
+        this.$q.loading.show({ message: this.$t('messages.loading_data') })
+        if (this.$route.params.uuid && !this.timeline.uuid) {
+          const prefix = 'Sequenz: '
+          const timeline = await this.$store.dispatch('maps/get', this.$route.params.uuid)
+          timeline.title = timeline.title.substr(prefix.length)
+          this.timeline = timeline
+          const query = {
+            'target.id': `${process.env.TIMELINE_BASE_URI}${this.$route.params.uuid}`
+          }
+          const items = await VideoHelper.fetchVideoItems(this, query, this.$sort.onRef)
+          this.videos = items.map((item, i) => {
+            item.weight = parseInt(i)
+            item.title = ''
+            item.orientation = item.metadata.height < item.metadata.width ? 'landscape' : 'portrait'
+            return item
+          })
+        }
+        await this.loadUploadedVideos()
+        this.$q.loading.hide()
+      },
+      async saveSequence () {
+        const prefix = 'Sequenz: '
+        let payload = this.timeline
+        payload.title = `${prefix}${payload.title}`
+        if (payload.uuid) {
+          await this.$store.dispatch('maps/patch', [payload.uuid, payload])
+        }
+        else {
+          payload = await this.$store.dispatch('maps/post', payload)
+        }
+        const detail = {
+          title: this.timeline.title,
+          timeline: payload.uuid
+        }
+        const sequence = {
+          map: {
+            title: this.timeline.title
+          },
+          sources: this.videos.map(entry => {
+            return entry.annotation
+          })
+        }
+        // await this.$store.dispatch('sequences/post', { sequence, detail })
+        console.debug('dummy render sequence', detail, sequence)
+      },
+      toggleHasUuid () {
+        this.hasUuid = !this.hasUuid
+      },
       checkOrientation () {
         alert('bla')
       },
-      async fetchData () {
-        // const _this = this
-        // const $drake = this.$dragula.$service
-        // $service.options('checkedVideos', { direction: 'horizontal' })
-
-        if (this.$store.state.auth.user) {
-          let query = ObjectUtil.merge({
-            'author.id': this.$store.state.auth.user.uuid
-          }, this.uploadQuery)
-          const results = await this.$store.dispatch('maps/find', query)
-          if (results.items && results.items.length) {
-            this.map = Object.assign({}, results.items[0])
-            query = {
-              'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
-            }
-            const results2 = await this.$store.dispatch('annotations/find', query)
-            let newUploadedVideos = []
-            for (let i in results2.items) {
-              const annotation = results2.items[i]
-              const meta = await this.$store.dispatch('metadata/get', annotation.uuid)
-              const newVideo = Object.assign({}, {
-                weight: parseInt(i),
-                title: '', // annotation.body.value, // meta.title
-                uuid: annotation.uuid,
-                created: annotation.created,
-                source: {id: annotation.body.source.id, type: 'video/mp4'},
-                preview: this.getPreviewLinks(annotation.body.source.id),
-                duration: meta ? this.formatDuration(meta.duration) : 1,
-                orientation: (meta.height === 720) ? 'landscape' : 'portrait'
-              })
-              newUploadedVideos.push(newVideo)
-              // this.listOfThings.push(annotation.uuid)
-            }
-            this.uploadedVideos = newUploadedVideos
-            this.fetchedUserVideos = true
+      async loadUploadedVideos () {
+        if (!this.user) return
+        let query = ObjectUtil.merge({
+          'author.id': this.user.uuid
+        }, this.uploadQuery)
+        const results = await this.$store.dispatch('maps/find', query)
+        if (results.items && results.items.length) {
+          this.map = Object.assign({}, results.items[0])
+          query = {
+            'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
           }
-        }
-      },
-      async addUploadedVideo (video) {
-        const meta = await this.$store.dispatch('metadata/get', video.uuid)
-        const newVideo = Object.assign({}, {
-          weight: 0,
-          title: video.body.value,
-          uuid: video.uuid,
-          created: video.created,
-          source: {id: video.body.source.id, type: 'video/mp4'},
-          preview: this.getPreviewLinks(video.body.source.id),
-          duration: meta ? meta.duration : 1
-        })
-        Vue.set(this.uploadedVideos, this.uploadedVideos.length, newVideo)
-      },
-      getPreviewLinks (videoURL) {
-        if (typeof videoURL !== 'string') return {}
-        return {
-          high: videoURL.replace(/\.mp4$/, '.jpg'),
-          medium: videoURL.replace(/\.mp4$/, '-m.jpg'),
-          small: videoURL.replace(/\.mp4$/, '-s.jpg')
+          const videos = await VideoHelper.fetchVideoItems(this, query)
+          for (let i in videos) {
+            videos[i].weight = parseInt(i)
+            videos[i].title = ''
+            videos[i].orientation = videos[i].metadata.height < videos[i].metadata.width ? 'landscape' : 'portrait'
+          }
+          this.uploadedVideos = videos
         }
       },
       openModal () {
@@ -293,50 +345,26 @@
           }
           return result
         }
-      },
-      // LOADING PROCESS BUTTON
-      startComputing () {
-        this.loading = true
-        const payload = {
-          sources: this.checkedVideos.map(entry => {
-            const parsed = url.parse(entry.source.id)
-            return parsed.pathname
-          })
-        }
-        const _this = this
-        this.$params().then(params => {
-          console.log('payload', payload, params)
-          _this.$axios.post(`${params.urls[0].transcoder}/concat`, payload).then(response => {
-            console.log(response.data)
-            const composite = {
-              author: _this.$store.state.auth.payload.userId,
-              body: {
-                type: 'Composite',
-                purpose: 'personal',
-                source: JSON.stringify({
-                  type: 'video/mp4',
-                  id: params.urls[0].streamer + '/' + response.data.uuid + '.mp4',
-                  preview: _this.getPreviewLinks(params.urls[0].streamer + '/' + response.data.uuid + '.mp4')
-                })
-              }
-            }
-            return _this.$store.dispatch('annotations/create', composite)
-              .then(composite => {
-                console.log('added composite', composite)
-                _this.loading = false
-                _this.$router.push('/')
-              })
-          })
-        })
       }
-    },
-    name: 'new-sequence'
+    }
   }
 </script>
 
 <style scoped lang="stylus">
   @import '~variables'
 
+  .bg-body-background
+    background-color $body-background
+
   .moba-highlight-image
-    border 2px solid $primary
+    // border 2px solid $primary
+    background-color $primary
+
+  .moba-inline
+    max-width 20%
+    // float left
+
+  .moba-image
+    max-width 50%
+
 </style>

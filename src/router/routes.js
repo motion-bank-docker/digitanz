@@ -10,14 +10,17 @@ const routes = [
       { path: 'dashboard', component: () => import('pages/dashboard'), meta: {private: true} },
       { path: 'allrecipes', component: () => import('pages/allRecipes'), meta: {private: true} },
       { path: 'slotmachine', component: () => import('pages/slotMachine'), meta: {private: true} },
+      { path: 'sequences', component: () => import('pages/sequences/list'), meta: {private: true} },
+      { path: 'sequences/create', component: () => import('pages/sequences/edit'), meta: {private: true} },
+      { path: 'sequences/preview', component: () => import('pages/sequences/preview'), meta: {private: true} },
+      { path: 'sequences/:uuid/edit', component: () => import('pages/sequences/edit'), meta: {private: true} },
       { path: 'upload', component: () => import('pages/upload'), meta: {private: true} },
-      { path: 'videosequencer', component: () => import('pages/videoSequencer'), meta: {private: true} },
-      { path: 'videoSequencer/newsequence', component: () => import('pages/newSequence'), meta: {private: true} },
       { path: 'portrait', component: () => import('pages/portrait'), meta: {private: true} },
       { path: 'portraitplusplus', component: () => import('pages/portraitplusplus'), meta: {private: true} },
       { path: 'dk', component: () => import('pages/devtestdk'), meta: {private: true} }
     ]
-  }, {
+  },
+  {
     path: '/newrecipe/:uuid',
     component: () => import('layouts/none'),
     children: [

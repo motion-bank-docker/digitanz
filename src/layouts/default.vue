@@ -47,9 +47,9 @@
           // q-item-main(label='Lost in Space', sublabel='Experience space')
           q-item-main(:label='$t(\'navigation.lost_in_space.label\')', :sublabel='$t(\'navigation.lost_in_space.sublabel\')')
 
-        q-item(v-if="env.FEATURE_SEQUENCER", @click.native="$router.push('/videosequencer')", separator)
+        q-item(v-if="env.FEATURE_SEQUENCER", @click.native="$router.push('/sequences')", separator)
           q-item-side(icon='movie')
-          q-item-main(:label='$t(\'navigation.video_sequencer.label\')', :sublabel='$t(\'navigation.video_sequencer.sublabel\')')
+          q-item-main(:label="$t('navigation.video_sequencer.label')", :sublabel="$t('navigation.video_sequencer.sublabel')")
 
         q-item(v-if="env.FEATURE_UPLOAD", @click.native="$router.push('/upload')", separator)
           q-item-side(icon='cloud upload')

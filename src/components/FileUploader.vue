@@ -28,15 +28,15 @@
       })
     },
     async mounted () {
-      if (this.query) await this.getTimeline()
+      if (this.query) await this.getRenderTimeline()
     },
     watch: {
       async user () {
-        if (this.query) this.getTimeline()
+        if (this.query) this.getRenderTimeline()
       }
     },
     methods: {
-      async getTimeline () {
+      async getRenderTimeline () {
         if (this.user && !this.timeline) {
           const query = ObjectUtil.merge({
             'author.id': this.$store.state.auth.user.uuid,
