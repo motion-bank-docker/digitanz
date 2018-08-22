@@ -58,7 +58,7 @@
         icon="keyboard_backspace", flat)
 
     .text-right.q-ma-md
-      q-btn.bg-primary.text-white(@click="$router.push({path: '../sequences'})", icon-right="arrow_forward", :label="$t('buttons.next')", flat)
+      q-btn.bg-primary.text-white(@click="$router.push({path: 'preview'})", icon-right="arrow_forward", :label="$t('buttons.next')", flat)
 
     // q-btn.fixed-bottom.bg-black(@click="toggleHasUuid") dev switch
 

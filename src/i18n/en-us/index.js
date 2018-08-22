@@ -165,6 +165,10 @@ export default {
       title: 'Neue Sequenz erstellen',
       description: 'Lorem Ipsum, hier steht eine Beschreibung.'
     },
+    preview_sequence: {
+      title: 'Sequenz-Preview',
+      description: 'Lorem Ipsum, hier steht eine Beschreibung.'
+    },
     video_sequencer: {
       title: 'Video-Sequenzer',
       description: 'Lorem Ipsum, hier steht eine Beschreibung.'

@@ -2,8 +2,28 @@
 
   q-page.relative-position
 
-    h4.text-center.q-mb-none
-      span(v-if="!hasUuid") {{ $t('pages.new_sequence.title') }}
+    //
+      video-player.full-width.self-center(
+      v-show="sequencedVideos.length > 0",
+      // :class="orientationClass",
+      // :src="sourceVideo",
+      ref="videoPlayer",
+      autoplay="true",
+      @ended="playNext",
+      @play="setPlayerStatePlay()",
+      @pause="setPlayerStatePause()")
+
+    video-player.full-width.self-center(
+    :class="orientationClass",
+    :src="sourceVideo",
+    ref="videoPlayer",
+    autoplay="true",
+    @ended="playNext",
+    @play="setPlayerStatePlay()",
+    @pause="setPlayerStatePause()")
+
+    // h4.text-center.q-mb-none
+      span(v-if="!hasUuid") {{ $t('pages.preview_sequence.title') }}
       span(v-else) {{ $t('pages.edit_sequence.title') }}
     q-input.q-mx-md(value='', :float-label="$t('labels.insert_title')", dark)
     // file-uploader(:url="url", :query="uploadQuery", @finish="addUploadedVideo")
@@ -11,30 +31,27 @@
 
     // BUTTONS -- FILTER ORIENTATION
     //
-    .text-center
-      q-btn.q-mx-sm.text-white(@click="orientation = 'portrait'", :class="{'bg-primary' : orientation === 'portrait'}",
-      icon="stay_current_portrait", :label="$t('buttons.orientation.portrait')", no-caps)
-      q-btn.q-mx-sm.text-white(@click="orientation = 'landscape'", :class="{'bg-primary' : orientation === 'landscape'}",
-      icon="stay_current_landscape", :label="$t('buttons.orientation.landscape')", no-caps)
+      .text-center
+        q-btn.q-mx-sm.text-white(@click="orientation = 'portrait'", :class="{'bg-primary' : orientation === 'portrait'}",
+        icon="stay_current_portrait", :label="$t('buttons.orientation.portrait')", no-caps)
+        q-btn.q-mx-sm.text-white(@click="orientation = 'landscape'", :class="{'bg-primary' : orientation === 'landscape'}",
+        icon="stay_current_landscape", :label="$t('buttons.orientation.landscape')", no-caps)
 
-    // DISPLAY FILTERED VIDEOS
+    // DISPLAY VIDEOS
     //
     q-list.no-border.q-mt-xl.q-mb-xl
       div(
       v-for="video in uploadedVideos",
       v-if="video.orientation === orientation",
-      @click="selectedUuid = video.annotation.uuid",
-      style="width: 33.333%; display: inline-block; margin-top: -4px;")
-        q-item.no-padding.q-caption.relative-position(tag="label")
+      @click="selectedUuid = video.annotation.uuid")
+        q-item
           q-item-main
-            q-item-tile
-              q-checkbox.hidden(v-model="checkedVideos", :val="video")
-              // img.fit(:src="video.preview.high", :class="{'moba-highlight-image': checkedVideos.includes(video)}")
-              img.fit(:src="video.preview.high")
-              span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders(
-              :class="{'moba-highlight-image': checkedVideos.includes(video)}"
-              )
-                | {{ formatDuration(video.metadata.duration) }}
+            img(:src="video.preview.high", style="max-height: 180px; max-width: 50vw;")
+          q-item-side.column
+            q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveUp(sequencedVideos, editIndex)", round, size="sm", icon="arrow_upward", dark)
+            q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveDown(sequencedVideos, editIndex)", round, size="sm", icon="arrow_downward", dark)
+            q-btn.q-ma-xs.bg-dark(@click="editIndex = index, duplicateVideo(editIndex)", round, size="sm", icon="filter_none", dark)
+            q-btn.q-ma-xs.bg-dark(@click="editIndex = index, deleteItem(editIndex)", round, size="sm", icon="delete", dark)
 
     // DISPLAY CHECKED VIDEOS
     //
@@ -53,12 +70,12 @@
                 q-btn(round, icon="delete" size="md")
 
     .fixed-bottom-left
-      q-btn.q-mb-md.bg-body-background(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat)
+      q-btn.q-mb-md.bg-body-background(@click="$router.push({path: 'create'})", icon="keyboard_backspace", flat)
       // q-btn.q-mb-md.bg-dark(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
         icon="keyboard_backspace", flat)
 
     .text-right.q-ma-md
-      q-btn.bg-primary.text-white(@click="$router.push({path: '../sequences'})", icon-right="arrow_forward", :label="$t('buttons.next')", flat)
+      q-btn.bg-primary.text-white(@click="$router.push({path: '../sequences'})", icon="check", :label="$t('buttons.save')", flat)
 
     // q-btn.fixed-bottom.bg-black(@click="toggleHasUuid") dev switch
 
@@ -68,10 +85,12 @@
   import {ObjectUtil} from 'mbjs-utils'
   import { VideoHelper } from '../../lib/index'
   import FileUploader from '../../components/FileUploader'
+  import VideoPlayer from '../../components/VideoPlayer'
 
   export default {
     components: {
-      FileUploader
+      FileUploader,
+      VideoPlayer
     },
     data () {
       return {
