@@ -38,6 +38,7 @@
 <script>
   import path from 'path'
   import { openURL } from 'quasar'
+  import { VideoHelper } from '../lib'
   import JobList from '../components/JobList'
   import { mapGetters } from 'vuex'
   import FileUploader from '../components/FileUploader'
@@ -93,24 +94,7 @@
             'body.source.type': 'video/mp4',
             'target.id': { $ne: `${process.env.TIMELINE_BASE_URI}${process.env.PORTRAITS_TIMELINE_UUID}` }
           }
-          results = await this.$store.dispatch('annotations/find', query)
-          const items = results.items.sort(this.$sort.onCreatedDesc)
-          const videos = []
-          for (let annotation of items) {
-            let metadata = {}
-            try {
-              metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
-            }
-            catch (e) { console.error(`Failed to fetch metadata: ${e.message}`) }
-            const preview = {
-              high: annotation.body.source.id.replace(/\.mp4$/, '.jpg'),
-              medium: annotation.body.source.id.replace(/\.mp4$/, '-m.jpg'),
-              small: annotation.body.source.id.replace(/\.mp4$/, '-s.jpg')
-            }
-            console.debug('fetched metadata', metadata)
-            videos.push({ annotation, metadata, preview })
-          }
-          this.videos = videos
+          this.videos = await VideoHelper.fetchVideoItems(this, query)
         }
         this.$q.loading.hide()
       },
@@ -138,25 +122,7 @@
           await this.$store.dispatch('logging/log', { action: 'portrait_unset', message })
         }
         // remove item / annotation
-        const headers = {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-        try {
-          await this.$store.dispatch('annotations/delete', item.annotation.uuid)
-        }
-        catch (e) { console.error('Failed to remove annotation', e.message) }
-        // remove assets
-        const previewKeys = Object.keys(item.preview)
-        for (let key of previewKeys) {
-          try {
-            await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview[key])}`, { headers })
-          }
-          catch (e) { console.error('Failed to remove preview', e.message) }
-        }
-        try {
-          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.annotation.body.source.id)}`, { headers })
-        }
-        catch (e) { console.error('Failed to remove video', e.message) }
+        await VideoHelper.deleteVideoItem(this, item)
         this.$q.loading.hide()
         await this.fetchVideos()
       },
