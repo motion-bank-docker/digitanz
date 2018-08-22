@@ -1,6 +1,6 @@
 <template lang="pug">
 
-  q-page.relative-position.q-mb-xl
+  q-page.relative-position
 
     h4.text-center.q-mb-none
       span(v-if="!hasUuid") {{ $t('pages.new_sequence.title') }}
@@ -24,7 +24,7 @@
       v-for="video in uploadedVideos",
       v-if="video.orientation === orientation",
       @click="selectedUuid = video.annotation.uuid",
-      style="width: 33.333%; display: inline-block;")
+      style="width: 33.333%; display: inline-block; margin-top: -4px;")
         q-item.no-padding.q-caption.relative-position(tag="label")
           q-item-main
             q-item-tile
@@ -38,31 +38,26 @@
 
     // DISPLAY CHECKED VIDEOS
     //
-    .full-width
-      q-list.no-border.q-mt-lg.q-mb-xl
-        div(v-for="video in checkedVideos", @click="selectedUuid = video.annotation.uuid")
-          q-item.no-margin.no-padding
-            q-item-main
-              img(:src="video.preview.high", style="width: 50vw;")
-            q-item-side.column
-              q-btn(round, icon="edit", size="md")
-              q-btn(round, icon="account_box" size="md")
-              q-btn(round, icon="delete" size="md")
-
-          // q-item.q-ma-md.no-padding.q-caption.relative-position(tag="label", :class="{'bg-black': video.annotation.uuid === selectedUuid}")
-            q-item-main
-              q-item-tile
-                q-checkbox.hidden(v-model="checkedVideosSelected", :val="video")
-                img.fit(:src="video.preview.high")
-                q-btn.absolute-top-left.bg-body-background.q-ma-sm.text-white(
-                round, size="sm", @click="selectedUuid = video.annotation.uuid") {{ formatDuration(video.metadata.duration) }}
+      .full-width
+        | {{ selectedUuid }}
+        q-list.no-border.q-mt-lg.q-mb-xl
+          div(
+          v-for="video in checkedVideos",
+          style="margin-top: -4px;")
+            q-item.no-margin.no-padding
+              q-item-main
+                img(:src="video.preview.high", style="width: 50vw;")
+              q-item-side.column
+                q-btn(round, icon="edit", size="md")
+                q-btn(round, icon="account_box" size="md")
+                q-btn(round, icon="delete" size="md")
 
     .fixed-bottom-left
       q-btn.q-mb-md.bg-body-background(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat)
       // q-btn.q-mb-md.bg-dark(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
         icon="keyboard_backspace", flat)
 
-    // .fixed-bottom-right.q-mb-md(v-if="checkedVideos.length > 0")
+    .text-right.q-ma-md
       q-btn.bg-primary.text-white(@click="$router.push({path: '../sequences'})", icon-right="arrow_forward", :label="$t('buttons.next')", flat)
 
     // q-btn.fixed-bottom.bg-black(@click="toggleHasUuid") dev switch
