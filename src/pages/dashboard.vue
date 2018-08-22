@@ -66,7 +66,7 @@
   import { ObjectUtil } from 'mbjs-utils'
   import { mapGetters } from 'vuex'
 
-  import VideoHelper from '../lib/video-helper'
+  import { VideoHelper } from '../lib'
 
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'

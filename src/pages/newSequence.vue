@@ -6,8 +6,7 @@
     icon="keyboard_backspace", o-caps)
 
     h4.text-center {{ $t('pages.new_sequence.title') }}
-    // file-uploader(:url="url", :query="uploadQuery", @finish="addUploadedVideo")
-    file-uploader(:url="url", :query="uploadQuery", @finish="")
+    file-uploader(:url="url", :query="uploadQuery")
 
     // BUTTONS -- FILTER ORIENTATION
     //
@@ -34,10 +33,8 @@
 
 <script>
   import {ObjectUtil} from 'mbjs-utils'
-  import Vue from 'vue'
-
+  import { VideoHelper } from '../lib'
   import FileUploader from '../components/FileUploader'
-  import url from 'url'
 
   export default {
     components: {
@@ -78,11 +75,11 @@
       }
     },
     mounted () {
-      this.$root.$on('updateVideos', this.loadVideos)
-      this.loadVideos()
+      this.$root.$on('updateVideos', this.loadUploadedVideos)
+      this.loadUploadedVideos()
     },
     beforeDestroy () {
-      this.$root.$off('updateVideos', this.loadVideos)
+      this.$root.$off('updateVideos', this.loadUploadedVideos)
     },
     watch: {
       orientation (val) {
@@ -96,18 +93,14 @@
         this.showPreviewModal = typeof val !== 'undefined'
       },
       async user (val) {
-        if (val) await this.loadVideos()
+        if (val) await this.loadUploadedVideos()
       }
     },
     methods: {
       checkOrientation () {
         alert('bla')
       },
-      async loadVideos () {
-        // const _this = this
-        // const $drake = this.$dragula.$service
-        // $service.options('checkedVideos', { direction: 'horizontal' })
-
+      async loadUploadedVideos () {
         if (this.$store.state.auth.user) {
           let query = ObjectUtil.merge({
             'author.id': this.$store.state.auth.user.uuid
@@ -118,48 +111,14 @@
             query = {
               'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
             }
-            const results2 = await this.$store.dispatch('annotations/find', query)
-            let newUploadedVideos = []
-            for (let i in results2.items) {
-              const annotation = results2.items[i]
-              const meta = await this.$store.dispatch('metadata/get', annotation.uuid)
-              const newVideo = Object.assign({}, {
-                weight: parseInt(i),
-                title: '', // annotation.body.value, // meta.title
-                uuid: annotation.uuid,
-                created: annotation.created,
-                source: {id: annotation.body.source.id, type: 'video/mp4'},
-                preview: this.getPreviewLinks(annotation.body.source.id),
-                duration: meta ? this.formatDuration(meta.duration) : 1,
-                orientation: (meta.height === 720) ? 'landscape' : 'portrait'
-              })
-              newUploadedVideos.push(newVideo)
-              // this.listOfThings.push(annotation.uuid)
+            const videos = await VideoHelper.fetchVideoItems(this, query)
+            for (let i in videos) {
+              videos[i].weight = parseInt(i)
+              videos[i].title = ''
+              videos[i].orientation = videos[i].metadata.height < videos[i].metadata.width ? 'landscape' : 'portrait'
             }
-            this.uploadedVideos = newUploadedVideos
-            this.fetchedUserVideos = true
+            this.uploadedVideos = videos
           }
-        }
-      },
-      async addUploadedVideo (video) {
-        const meta = await this.$store.dispatch('metadata/get', video.uuid)
-        const newVideo = Object.assign({}, {
-          weight: 0,
-          title: video.body.value,
-          uuid: video.uuid,
-          created: video.created,
-          source: {id: video.body.source.id, type: 'video/mp4'},
-          preview: this.getPreviewLinks(video.body.source.id),
-          duration: meta ? meta.duration : 1
-        })
-        Vue.set(this.uploadedVideos, this.uploadedVideos.length, newVideo)
-      },
-      getPreviewLinks (videoURL) {
-        if (typeof videoURL !== 'string') return {}
-        return {
-          high: videoURL.replace(/\.mp4$/, '.jpg'),
-          medium: videoURL.replace(/\.mp4$/, '-m.jpg'),
-          small: videoURL.replace(/\.mp4$/, '-s.jpg')
         }
       },
       openModal () {
@@ -294,43 +253,23 @@
           return result
         }
       },
-      // LOADING PROCESS BUTTON
-      startComputing () {
-        this.loading = true
-        const payload = {
+      async saveSequence () {
+        const detail = {
+          title: 'Meine Sequenz',
+          timeline: this.timeline ? this.timeline.uuid : undefined
+        }
+        const sequence = {
+          map: {
+            title: 'Meine Sequenz'
+          },
           sources: this.checkedVideos.map(entry => {
-            const parsed = url.parse(entry.source.id)
-            return parsed.pathname
+            return entry.annotation
           })
         }
-        const _this = this
-        this.$params().then(params => {
-          console.log('payload', payload, params)
-          _this.$axios.post(`${params.urls[0].transcoder}/concat`, payload).then(response => {
-            console.log(response.data)
-            const composite = {
-              author: _this.$store.state.auth.payload.userId,
-              body: {
-                type: 'Composite',
-                purpose: 'personal',
-                source: JSON.stringify({
-                  type: 'video/mp4',
-                  id: params.urls[0].streamer + '/' + response.data.uuid + '.mp4',
-                  preview: _this.getPreviewLinks(params.urls[0].streamer + '/' + response.data.uuid + '.mp4')
-                })
-              }
-            }
-            return _this.$store.dispatch('annotations/create', composite)
-              .then(composite => {
-                console.log('added composite', composite)
-                _this.loading = false
-                _this.$router.push('/')
-              })
-          })
-        })
+        // await this.$store.dispatch('sequences/post', { sequence, detail })
+        console.debug('dummy save sequence', detail, sequence)
       }
-    },
-    name: 'new-sequence'
+    }
   }
 </script>
 

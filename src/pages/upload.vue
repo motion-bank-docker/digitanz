@@ -38,7 +38,7 @@
 <script>
   import path from 'path'
   import { openURL } from 'quasar'
-  import VideoHelper from '../lib/video-helper'
+  import { VideoHelper } from '../lib'
   import JobList from '../components/JobList'
   import { mapGetters } from 'vuex'
   import FileUploader from '../components/FileUploader'
