@@ -103,6 +103,10 @@
         user: 'auth/getUserState'
       })
     },
+    async mounted () {
+      this.$root.$on('updateVideos', this.loadPortraits)
+      await this.loadPortraits()
+    },
     beforeDestroy () {
       this.$root.$off('updateVideos', this.loadPortraits)
     },
@@ -225,10 +229,6 @@
         this.$q.loading.hide()
         await this.loadPortraits()
       }
-    },
-    async mounted () {
-      this.$root.$on('updateVideos', this.loadPortraits)
-      await this.loadPortraits()
     }
   }
 </script>

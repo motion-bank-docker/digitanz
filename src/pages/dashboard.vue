@@ -25,7 +25,7 @@
             h4.q-mt-md.q-mb-none(style="line-height: 1em;") {{ $t(date.title) }}
             p.q-caption.text-grey-8.no-padding.q-mt-sm {{ $t('pages.dashboard.date_at') }} {{ getDateLabel(date) }}
       p(style="padding-bottom: 1em") {{ $t(date.description) }}
-      div(v-if="date.entries <= 0")
+      div(v-if="!date.entries.length")
         .text-grey-8
           | {{ $t('pages.dashboard.no_portraits') }}
 
@@ -91,17 +91,14 @@
           width: '',
           height: ''
         },
-        groupedList: '',
+        groupedList: undefined,
         showImageModal: false,
         showDeleteModal: false,
         portraits: {
           map: undefined,
           annotations: []
         },
-        dates: undefined,
-        query: {
-          'title': 'Meine Videos'
-        }
+        dates: undefined
       }
     },
     computed: {
@@ -128,6 +125,9 @@
       }
       this.$root.$on('updateVideos', async () => {
         await _this.loadPortraits()
+        await _this.loadDates()
+      })
+      this.$root.$on('updateSequences', async () => {
         await _this.loadDates()
       })
     },
@@ -278,7 +278,10 @@
               'author.id': this.user.uuid,
               'body.type': 'Video',
               'body.source.type': 'video/mp4',
-              'target.id': { $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}` }
+              'target.id': {
+                $eq: `${process.env.TIMELINE_BASE_URI}${date.map.uuid}`,
+                $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
+              }
             }
             result = await this.$store.dispatch('annotations/find', query)
             const items = result.items.sort(this.$sort.onCreatedDesc)
