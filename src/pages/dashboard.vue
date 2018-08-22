@@ -66,6 +66,8 @@
   import { ObjectUtil } from 'mbjs-utils'
   import { mapGetters } from 'vuex'
 
+  import VideoHelper from '../lib/video-helper'
+
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
   import ConfirmModal from '../components/ConfirmModal'
@@ -153,30 +155,7 @@
             await this.setAsPortrait(item, true)
           }
         }
-        const headers = {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-        try {
-          await this.$store.dispatch('annotations/delete', item.annotation.uuid)
-        }
-        catch (e) { console.error('Failed to remove annotation', e.message) }
-        const previewKeys = Object.keys(item.preview)
-        for (let key of previewKeys) {
-          try {
-            await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview[key])}`, { headers })
-          }
-          catch (e) { console.error('Failed to remove preview', e.message) }
-        }
-        try {
-          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.annotation.body.source.id)}`, { headers })
-        }
-        catch (e) { console.error('Failed to remove video', e.message) }
-        const message = {
-          annotation: item.annotation.uuid,
-          source: item.annotation.body.source.id,
-          user: this.user.uuid
-        }
-        await this.$store.dispatch('logging/log', { action: 'delete', message })
+        await VideoHelper.deleteVideoItem(this, item)
         this.$q.loading.hide()
         await this.loadDates()
       },
@@ -283,22 +262,7 @@
                 $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
               }
             }
-            result = await this.$store.dispatch('annotations/find', query)
-            const items = result.items.sort(this.$sort.onCreatedDesc)
-            const entries = []
-            for (let annotation of items) {
-              try {
-                const metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
-                const preview = {
-                  high: annotation.body.source.id.replace(/\.mp4$/, '.jpg'),
-                  medium: annotation.body.source.id.replace(/\.mp4$/, '-m.jpg'),
-                  small: annotation.body.source.id.replace(/\.mp4$/, '-s.jpg')
-                }
-                entries.push({annotation, metadata, preview})
-              }
-              catch (e) { console.error('Failed to add item', annotation, e.message) }
-            }
-            date.entries = entries
+            date.entries = await VideoHelper.fetchVideoItems(this, query)
           }
         }
         this.$q.loading.hide()

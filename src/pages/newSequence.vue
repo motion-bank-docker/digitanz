@@ -78,11 +78,11 @@
       }
     },
     mounted () {
-      this.$root.$on('updateVideos', this.fetchData)
-      this.fetchData()
+      this.$root.$on('updateVideos', this.loadVideos)
+      this.loadVideos()
     },
     beforeDestroy () {
-      this.$root.$off('updateVideos', this.fetchData)
+      this.$root.$off('updateVideos', this.loadVideos)
     },
     watch: {
       orientation (val) {
@@ -96,14 +96,14 @@
         this.showPreviewModal = typeof val !== 'undefined'
       },
       async user (val) {
-        if (val) await this.fetchData()
+        if (val) await this.loadVideos()
       }
     },
     methods: {
       checkOrientation () {
         alert('bla')
       },
-      async fetchData () {
+      async loadVideos () {
         // const _this = this
         // const $drake = this.$dragula.$service
         // $service.options('checkedVideos', { direction: 'horizontal' })

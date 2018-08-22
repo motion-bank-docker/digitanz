@@ -76,6 +76,7 @@
   import path from 'path'
   import { openURL } from 'quasar'
   import { mapGetters } from 'vuex'
+  import VideoHelper from '../lib/video-helper'
   import VideoModal from '../components/VideoModal'
   import ImageModal from '../components/ImageModal'
   import UploadRemixModal from '../components/UploadRemixModal'
@@ -142,60 +143,24 @@
         /**
          * Get the global portrait timeline and its contents
          */
-        const headers = {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
         this.$q.loading.show({ message: this.$t('messages.loading_portraits') })
+        const items = []
         const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
         if (portraitsMapResult) {
           this.portraits.map = portraitsMapResult
           const portraitsQuery = {
             'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
           }
-          const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
-          const portraits = portraitsResult.items.sort(this.$sort.onCreatedDesc)
-          const items = []
+          const portraits = await VideoHelper.fetchVideoItems(this, portraitsQuery)
           for (let portrait of portraits) {
             const item = {
-              portrait,
-              responses: []
+              portrait
             }
-            try {
-              const metadataURL = `${process.env.TRANSCODER_HOST}/metadata/url?url=${encodeURIComponent(portrait.body.source.id)}`
-              let result = await this.$axios.get(metadataURL, { headers })
-              const preview = {
-                high: portrait.body.source.id.replace(/\.mp4$/, '.jpg'),
-                medium: portrait.body.source.id.replace(/\.mp4$/, '-m.jpg'),
-                small: portrait.body.source.id.replace(/\.mp4$/, '-s.jpg')
-              }
-              item.preview = preview
-              item.metadata = result.data
-            }
-            catch (e) { console.error('Failed to add portrait', portrait, e.message) }
             const responsesQuery = {
               'target.id': `${process.env.ANNOTATION_BASE_URI}${portrait.uuid}`,
               'body.purpose': 'commenting'
             }
-            const responsesResult = await this.$store.dispatch('annotations/find', responsesQuery)
-            const responses = responsesResult.items.sort(this.$sort.onCreatedDesc)
-            const responseItems = []
-            for (let resp of responses) {
-              const respItem = { response: resp }
-              try {
-                const metadataURL = `${process.env.TRANSCODER_HOST}/metadata/url?url=${encodeURIComponent(resp.body.source.id)}`
-                let result = await this.$axios.get(metadataURL, { headers })
-                const preview = {
-                  high: resp.body.source.id.replace(/\.mp4$/, '.jpg'),
-                  medium: resp.body.source.id.replace(/\.mp4$/, '-m.jpg'),
-                  small: resp.body.source.id.replace(/\.mp4$/, '-s.jpg')
-                }
-                respItem.preview = preview
-                respItem.metadata = result.data
-              }
-              catch (e) { console.error('Failed to add response', portrait, e.message) }
-              responseItems.push(respItem)
-            }
-            item.responses = responseItems
+            item.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
             items.push(item)
           }
           this.portraits.items = items
@@ -206,26 +171,8 @@
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       async deleteItem (item) {
-        console.log(item)
         this.$q.loading.show({ message: this.$t('messages.deleting_video') })
-        const headers = {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-        try {
-          await this.$store.dispatch('annotations/delete', item.uuid)
-        }
-        catch (e) { console.error('Failed to remove annotation', e.message) }
-        const previewKeys = Object.keys(item.preview)
-        for (let key of previewKeys) {
-          try {
-            await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview[key])}`, { headers })
-          }
-          catch (e) { console.error('Failed to remove preview', e.message) }
-        }
-        try {
-          await this.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.body.source.id)}`, { headers })
-        }
-        catch (e) { console.error('Failed to remove video', e.message) }
+        await VideoHelper.deleteVideoItem(this, item)
         this.$q.loading.hide()
         await this.loadPortraits()
       }
