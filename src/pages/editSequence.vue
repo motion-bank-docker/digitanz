@@ -31,7 +31,7 @@
         icon="keyboard_backspace", flat)
 
     .fixed-bottom-right.q-mb-md(v-if="checkedVideos.length > 0")
-      q-btn.bg-primary.text-white(@click="$router.push({path: 'editsequence'})", icon-right="arrow_forward", :label="$t('buttons.next')", flat)
+      q-btn.bg-primary.text-white(icon-right="arrow_forward", :label="$t('buttons.next')", flat)
 
 </template>
 
