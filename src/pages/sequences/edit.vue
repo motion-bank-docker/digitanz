@@ -1,18 +1,17 @@
 <template lang="pug">
 
   q-page.relative-position.q-mb-xl
-    q-modal() preview
 
     h4.text-center.q-mb-none
       span(v-if="!hasUuid") {{ $t('pages.new_sequence.title') }}
       span(v-else) {{ $t('pages.edit_sequence.title') }}
-    q-input.q-mx-md(:float-label="$t('labels.insert_title')", dark)
+    q-input.q-mx-md(value='', :float-label="$t('labels.insert_title')", dark)
     // file-uploader(:url="url", :query="uploadQuery", @finish="addUploadedVideo")
     file-uploader(:url="url", :query="uploadQuery", @finish="")
 
     // BUTTONS -- FILTER ORIENTATION
     //
-    .text-center(v-if="!hasUuid")
+    .text-center
       q-btn.q-mx-sm.text-white(@click="orientation = 'portrait'", :class="{'bg-primary' : orientation === 'portrait'}",
       icon="stay_current_portrait", :label="$t('buttons.orientation.portrait')", no-caps)
       q-btn.q-mx-sm.text-white(@click="orientation = 'landscape'", :class="{'bg-primary' : orientation === 'landscape'}",
@@ -20,24 +19,53 @@
 
     // DISPLAY FILTERED VIDEOS
     //
-    q-list.no-border.q-mt-lg.q-mb-xl
-      q-item.q-ma-md.no-padding.q-caption.relative-position(
-      :class="{'moba-inline' : !hasUuid, 'bg-green': checkedVideos.includes(video)}"
-      v-for="video in uploadedVideos", tag="label", v-if="video.orientation === orientation")
-        q-checkbox.hidden(v-model="checkedVideos", :val="video")
-        // img.fit(:src="video.preview.high", :class="{'moba-highlight-image': checkedVideos.includes(video)}")
-        img.fit(:src="video.preview.high", :class="{'moba-image' : hasUuid, 'moba-highlight-image': checkedVideos.includes(video)}")
-        q-btn.absolute-top-left.bg-body-background.q-ma-sm(round, size="sm") {{ video.duration }}
+    q-list.no-border.q-mt-xl.q-mb-xl
+      div(
+      v-for="video in uploadedVideos",
+      v-if="video.orientation === orientation",
+      @click="selectedUuid = video.annotation.uuid",
+      style="width: 33.333%; display: inline-block;")
+        q-item.no-padding.q-caption.relative-position(tag="label")
+          q-item-main
+            q-item-tile
+              q-checkbox.hidden(v-model="checkedVideos", :val="video")
+              // img.fit(:src="video.preview.high", :class="{'moba-highlight-image': checkedVideos.includes(video)}")
+              img.fit(:src="video.preview.high")
+              span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders(
+              :class="{'moba-highlight-image': checkedVideos.includes(video)}"
+              )
+                | {{ formatDuration(video.metadata.duration) }}
+
+    // DISPLAY CHECKED VIDEOS
+    //
+    .full-width
+      q-list.no-border.q-mt-lg.q-mb-xl
+        div(v-for="video in checkedVideos", @click="selectedUuid = video.annotation.uuid")
+          q-item.no-margin.no-padding
+            q-item-main
+              img(:src="video.preview.high", style="width: 50vw;")
+            q-item-side.column
+              q-btn(round, icon="edit", size="md")
+              q-btn(round, icon="account_box" size="md")
+              q-btn(round, icon="delete" size="md")
+
+          // q-item.q-ma-md.no-padding.q-caption.relative-position(tag="label", :class="{'bg-black': video.annotation.uuid === selectedUuid}")
+            q-item-main
+              q-item-tile
+                q-checkbox.hidden(v-model="checkedVideosSelected", :val="video")
+                img.fit(:src="video.preview.high")
+                q-btn.absolute-top-left.bg-body-background.q-ma-sm.text-white(
+                round, size="sm", @click="selectedUuid = video.annotation.uuid") {{ formatDuration(video.metadata.duration) }}
 
     .fixed-bottom-left
-      q-btn.q-mb-md.bg-body-background(@click="$router.push({path: '../videosequencer'})", icon="keyboard_backspace", flat)
+      q-btn.q-mb-md.bg-body-background(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat)
       // q-btn.q-mb-md.bg-dark(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
         icon="keyboard_backspace", flat)
 
-    .fixed-bottom-right.q-mb-md(v-if="checkedVideos.length > 0")
-      q-btn.bg-primary.text-white(@click="$router.push({path: 'editsequence'})", icon-right="arrow_forward", :label="$t('buttons.next')", flat)
+    // .fixed-bottom-right.q-mb-md(v-if="checkedVideos.length > 0")
+      q-btn.bg-primary.text-white(@click="$router.push({path: '../sequences'})", icon-right="arrow_forward", :label="$t('buttons.next')", flat)
 
-    q-btn.fixed-bottom.bg-black(@click="toggleHasUuid") dev switch
+    // q-btn.fixed-bottom.bg-black(@click="toggleHasUuid") dev switch
 
 </template>
 
@@ -55,6 +83,7 @@
         checkedVideos: [],
         hasUuid: false,
         orientation: 'portrait',
+        selectedUuid: 'hallo',
         uploadQuery: {
           'title': 'Meine Videos'
         },
@@ -132,6 +161,7 @@
               videos[i].orientation = videos[i].metadata.height < videos[i].metadata.width ? 'landscape' : 'portrait'
             }
             this.uploadedVideos = videos
+            // console.log(this.uploadedVideos)
           }
         }
       },
@@ -294,11 +324,12 @@
     background-color $body-background
 
   .moba-highlight-image
-    border 2px solid $primary
+    // border 2px solid $primary
+    background-color $primary
 
   .moba-inline
-    max-width 40%
-    float left
+    max-width 20%
+    // float left
 
   .moba-image
     max-width 50%

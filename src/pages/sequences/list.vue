@@ -1,6 +1,7 @@
 <template lang="pug">
-  div
+  q-page
     q-btn(@click="$router.push('/sequences/create')") create sequence
+    div {{ sequences.length }}
     ul
       li(v-for="sequence in sequences") {{ sequence.title }}
 </template>
