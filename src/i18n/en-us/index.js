@@ -15,7 +15,8 @@ export default {
     setting_portrait: 'Aktualisiere Dein Portrait...'
   },
   labels: {
-    confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?'
+    confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?',
+    insert_title: 'Titel'
   },
   placeholder: {
     file_uploader: 'Video-Titel'
