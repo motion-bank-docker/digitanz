@@ -2,10 +2,10 @@ import path from 'path'
 import { Assert } from 'mbjs-utils'
 
 class VideoHelper {
-  static async fetchVideoItems (context, query) {
+  static async fetchVideoItems (context, query, sortFunc = undefined) {
     Assert.isInstance(context, 'VueComponent', 'fetchVideoItems context')
     const results = await context.$store.dispatch('annotations/find', query)
-    const items = results.items.sort(context.$sort.onCreatedDesc)
+    const items = results.items.sort(sortFunc || context.$sort.onCreatedDesc)
     const videos = []
     for (let annotation of items) {
       let metadata = {}

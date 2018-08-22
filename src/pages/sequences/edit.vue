@@ -66,8 +66,9 @@
 
 <script>
   import {ObjectUtil} from 'mbjs-utils'
-  import { VideoHelper } from '../../lib/index'
+  import { VideoHelper } from '../../lib'
   import FileUploader from '../../components/FileUploader'
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -82,10 +83,18 @@
         uploadQuery: {
           'title': 'Meine Videos'
         },
-        uploadedVideos: []
+        uploadedVideos: [],
+        videos: [],
+        timeline: {
+          title: undefined,
+          type: ['Timeline']
+        }
       }
     },
     computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      }),
       reverseVideos () {
         return this.uploadedVideos.slice().reverse()
         // return this.uploadedVideos
@@ -111,7 +120,7 @@
     },
     mounted () {
       this.$root.$on('updateVideos', this.loadUploadedVideos)
-      this.loadUploadedVideos()
+      this.loadData()
     },
     beforeDestroy () {
       this.$root.$off('updateVideos', this.loadUploadedVideos)
@@ -128,10 +137,57 @@
         this.showPreviewModal = typeof val !== 'undefined'
       },
       async user (val) {
-        if (val) await this.loadUploadedVideos()
+        if (val) await this.loadData()
       }
     },
     methods: {
+      async loadData () {
+        if (!this.user) return
+        this.$q.loading.show({ message: this.$t('messages.loading_data') })
+        if (this.$route.params.uuid && !this.timeline.uuid) {
+          const prefix = 'Sequenz: '
+          const timeline = await this.$store.dispatch('maps/get', this.$route.params.uuid)
+          timeline.title = timeline.title.substr(prefix.length)
+          this.timeline = timeline
+          const query = {
+            'target.id': `${process.env.TIMELINE_BASE_URI}${this.$route.params.uuid}`
+          }
+          const items = await VideoHelper.fetchVideoItems(this, query, this.$sort.onRef)
+          this.videos = items.map((item, i) => {
+            item.weight = parseInt(i)
+            item.title = ''
+            item.orientation = item.metadata.height < item.metadata.width ? 'landscape' : 'portrait'
+            return item
+          })
+        }
+        await this.loadUploadedVideos()
+        this.$q.loading.hide()
+      },
+      async saveSequence () {
+        const prefix = 'Sequenz: '
+        let payload = this.timeline
+        payload.title = `${prefix}${payload.title}`
+        if (payload.uuid) {
+          await this.$store.dispatch('maps/patch', [payload.uuid, payload])
+        }
+        else {
+          payload = await this.$store.dispatch('maps/post', payload)
+        }
+        const detail = {
+          title: this.timeline.title,
+          timeline: payload.uuid
+        }
+        const sequence = {
+          map: {
+            title: this.timeline.title
+          },
+          sources: this.videos.map(entry => {
+            return entry.annotation
+          })
+        }
+        // await this.$store.dispatch('sequences/post', { sequence, detail })
+        console.debug('dummy render sequence', detail, sequence)
+      },
       toggleHasUuid () {
         this.hasUuid = !this.hasUuid
       },
@@ -139,25 +195,23 @@
         alert('bla')
       },
       async loadUploadedVideos () {
-        if (this.$store.state.auth.user) {
-          let query = ObjectUtil.merge({
-            'author.id': this.$store.state.auth.user.uuid
-          }, this.uploadQuery)
-          const results = await this.$store.dispatch('maps/find', query)
-          if (results.items && results.items.length) {
-            this.map = Object.assign({}, results.items[0])
-            query = {
-              'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
-            }
-            const videos = await VideoHelper.fetchVideoItems(this, query)
-            for (let i in videos) {
-              videos[i].weight = parseInt(i)
-              videos[i].title = ''
-              videos[i].orientation = videos[i].metadata.height < videos[i].metadata.width ? 'landscape' : 'portrait'
-            }
-            this.uploadedVideos = videos
-            // console.log(this.uploadedVideos)
+        if (!this.user) return
+        let query = ObjectUtil.merge({
+          'author.id': this.user.uuid
+        }, this.uploadQuery)
+        const results = await this.$store.dispatch('maps/find', query)
+        if (results.items && results.items.length) {
+          this.map = Object.assign({}, results.items[0])
+          query = {
+            'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
           }
+          const videos = await VideoHelper.fetchVideoItems(this, query)
+          for (let i in videos) {
+            videos[i].weight = parseInt(i)
+            videos[i].title = ''
+            videos[i].orientation = videos[i].metadata.height < videos[i].metadata.width ? 'landscape' : 'portrait'
+          }
+          this.uploadedVideos = videos
         }
       },
       openModal () {
@@ -291,22 +345,6 @@
           }
           return result
         }
-      },
-      async saveSequence () {
-        const detail = {
-          title: 'Meine Sequenz',
-          timeline: this.timeline ? this.timeline.uuid : undefined
-        }
-        const sequence = {
-          map: {
-            title: 'Meine Sequenz'
-          },
-          sources: this.checkedVideos.map(entry => {
-            return entry.annotation
-          })
-        }
-        // await this.$store.dispatch('sequences/post', { sequence, detail })
-        console.debug('dummy save sequence', detail, sequence)
       }
     }
   }
