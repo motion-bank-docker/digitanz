@@ -14,7 +14,8 @@ const routes = [
       { path: 'videosequencer', component: () => import('pages/videoSequencer'), meta: {private: true} },
       { path: 'videoSequencer/newsequence', component: () => import('pages/newSequence'), meta: {private: true} },
       { path: 'portrait', component: () => import('pages/portrait'), meta: {private: true} },
-      { path: 'portraitplusplus', component: () => import('pages/portraitplusplus'), meta: {private: true} }
+      { path: 'portraitplusplus', component: () => import('pages/portraitplusplus'), meta: {private: true} },
+      { path: 'dk', component: () => import('pages/devtestdk'), meta: {private: true} }
     ]
   }, {
     path: '/newrecipe/:uuid',
