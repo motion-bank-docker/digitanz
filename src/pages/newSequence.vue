@@ -1,12 +1,10 @@
 <template lang="pug">
 
-  q-page.relative-position
+  q-page.relative-position.q-mb-xl
 
-    q-btn.q-ma-md(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
-    icon="keyboard_backspace", o-caps)
-
-    h4.text-center {{ $t('pages.new_sequence.title') }}
+    h4.text-center.q-mb-none {{ $t('pages.new_sequence.title') }}
     // file-uploader(:url="url", :query="uploadQuery", @finish="addUploadedVideo")
+    q-input.q-mx-md(:float-label="$t('labels.insert_title')", dark)
     file-uploader(:url="url", :query="uploadQuery", @finish="")
 
     // BUTTONS -- FILTER ORIENTATION
@@ -20,15 +18,20 @@
     // DISPLAY FILTERED VIDEOS
     //
       div {{ checkedVideos.length }}
-    q-list.no-padding.no-border.q-mt-lg
+    q-list.no-border.q-mt-lg
       q-item.q-ma-md.no-padding.q-caption.relative-position(
       v-for="video in uploadedVideos", tag="label", v-if="video.orientation === orientation")
         q-checkbox.hidden(v-model="checkedVideos", :val="video")
         img.fit(:src="video.preview.high", :class="{'moba-highlight-image': checkedVideos.includes(video)}")
-        q-btn.absolute-top-right.bg-white.q-ma-sm.text-dark(round, size="sm") {{ video.duration }}
+        q-btn.absolute-top-right.bg-body-background.q-ma-sm(round, size="sm") {{ video.duration }}
 
-    .fixed-bottom.full-with.q-ma-md.text-center(v-if="checkedVideos.length > 1")
-      q-btn.bg-primary.text-white(icon-right="arrow_forward", :label="$t('buttons.next')")
+    .fixed-bottom-left
+      q-btn.q-mb-md.bg-body-background(@click="$router.push({path: '../videosequencer'})", icon="keyboard_backspace", flat)
+      // q-btn.q-mb-md.bg-dark(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
+        icon="keyboard_backspace", flat)
+
+    .fixed-bottom-right.q-mb-md(v-if="checkedVideos.length > 0")
+      q-btn.bg-primary.text-white(icon-right="arrow_forward", :label="$t('buttons.next')", flat)
 
 </template>
 
@@ -336,6 +339,9 @@
 
 <style scoped lang="stylus">
   @import '~variables'
+
+  .bg-body-background
+    background-color $body-background
 
   .moba-highlight-image
     border 2px solid $primary
