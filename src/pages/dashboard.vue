@@ -1,15 +1,19 @@
 <template lang="pug">
   q-page.flex.column
-    video-modal(ref="videoModal")
+    video-modal(ref="videoModal", :dimensions="dimensions")
     image-modal(:show="showImageModal", :source="preview", @canceled="showImageModal = false")
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
     // HEADLINE
     //
     h3.text-center
-      | {{ $t('dashboard.title') }}
+      | {{ $t('pages.dashboard.title') }}
     div.q-mx-md.q-mb-xl.text-grey-8
-      | {{ $t('dashboard.description') }}
+      | {{ $t('pages.dashboard.description') }}
+
+    //
+      .orientation-portrait portrait
+      .orientation-landscape landscape
 
     // TERMINE IM DETAIL
     //
@@ -19,10 +23,11 @@
           // q-item-side {{ i + 1 }}.
           q-item-main
             h4.q-mt-md.q-mb-none(style="line-height: 1em;") {{ $t(date.title) }}
-            p.q-caption.text-grey-8.no-padding.q-mt-sm {{ getDateLabel(date) }}
-      div(v-if="date.entries <= 0")
+            p.q-caption.text-grey-8.no-padding.q-mt-sm {{ $t('pages.dashboard.date_at') }} {{ getDateLabel(date) }}
+      p(style="padding-bottom: 1em") {{ $t(date.description) }}
+      div(v-if="!date.entries.length")
         .text-grey-8
-          | {{ $t('dashboard.no_entries') }}
+          | {{ $t('pages.dashboard.no_portraits') }}
 
       <!--div.overflow-hidden(v-else)-->
         <!--.q-mb-xl.row.justify-center(style="border-top: 0px solid #333;")-->
@@ -82,17 +87,18 @@
     data () {
       return {
         // itemDate: this.$route.query.item_id,
-        groupedList: '',
+        dimensions: {
+          width: '',
+          height: ''
+        },
+        groupedList: undefined,
         showImageModal: false,
         showDeleteModal: false,
         portraits: {
           map: undefined,
           annotations: []
         },
-        dates: undefined,
-        query: {
-          'title': 'Meine Videos'
-        }
+        dates: undefined
       }
     },
     computed: {
@@ -119,6 +125,9 @@
       }
       this.$root.$on('updateVideos', async () => {
         await _this.loadPortraits()
+        await _this.loadDates()
+      })
+      this.$root.$on('updateSequences', async () => {
         await _this.loadDates()
       })
     },
@@ -173,7 +182,10 @@
       },
       openPreview (item) {
         this.preview = item.annotation
-        if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item.annotation)
+        // alert(item.metadata.width)
+        // this.dimensions.width = 300
+        // if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item.annotation)
+        if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item)
         else if (item.annotation.body.source.type === 'image/jpeg') this.showImageModal = true
       },
       openDeleteModal (item) {
@@ -231,9 +243,6 @@
         }
         return {color: 'grey', icon: 'portrait'}
       },
-      getImgClass () {
-        return 'shit'
-      },
       async loadPortraits () {
         /**
          * Get the global portrait timeline and its contents
@@ -269,7 +278,10 @@
               'author.id': this.user.uuid,
               'body.type': 'Video',
               'body.source.type': 'video/mp4',
-              'target.id': { $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}` }
+              'target.id': {
+                $eq: `${process.env.TIMELINE_BASE_URI}${date.map.uuid}`,
+                $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
+              }
             }
             result = await this.$store.dispatch('annotations/find', query)
             const items = result.items.sort(this.$sort.onCreatedDesc)
@@ -299,13 +311,11 @@
   .foo {
     width: 200px;
     height: 200px;
-    background-color: red;
     position: relative;
   }
   .bgsuper {
     width: 100%;
     height: 200px;
-    background-color: red;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

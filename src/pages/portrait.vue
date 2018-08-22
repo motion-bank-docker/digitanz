@@ -16,22 +16,30 @@
     // SHOW RESULTS
     //
     q-list.no-border(separator)
+      // q-item {{ portraits }}
       q-item.q-pt-xl(v-for="item in portraits.items")
         q-item-main.text-center
+          //
+            .bg-red {{ item.portrait }}
+            .bg-red {{ item.responses[0] }}
           img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
           q-btn.full-width.q-my-md(
           v-if="item.portrait.author.id !== user.uuid"
           dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
-          q-btn.full-width.q-mt-sm(v-else, disabled, dark, color="primary") {{ $t('buttons.upload_remix') }}
+          // q-btn.full-width.q-mt-sm(v-else, disabled, dark, color="primary") {{ $t('buttons.upload_remix') }}
 
           q-collapsible.full-width.no-padding.q-my-sm(
           v-if="item.responses.length > 0", :label="getResponseLabel(item.responses.length)")
+            // q-card(v-for="(responseItem, i) in item.responses", inline, square, :class="{'moba-border' : responseItem.response.author.id === user.uuid}")
             q-card(v-for="(responseItem, i) in item.responses", inline, square)
               q-card-media.bg-dark.items-center.row.justify-center.text-left(overlay-position="bottom",
-              style="width: 19vw; height: 19vw; margin: .5vw;", :class="{'moba-border' : responseItem.response.author.id === user.uuid}")
-                q-context-menu(v-if="responseItem.response.author.id === user.uuid")
-                  q-btn.full-width.bg-red(color="white", @click="deleteItem(responseItem.response)", icon="delete", flat) {{ $t('buttons.delete') }}?
-                img.card-image.no-margin(@click="openPreview(responseItem.response)", :src="getPNG(responseItem.response.body.source.id)")
+              style="width: 19vw; height: 19vw; margin: .5vw;")
+                //
+                  q-context-menu(v-if="responseItem.response.author.id === user.uuid")
+                    q-btn.full-width.bg-red(color="white", @click="deleteItem(responseItem.response)", icon="delete", flat) {{ $t('buttons.delete') }}?
+                // img.card-image.no-margin(@click="openPreview(responseItem.response)", :src="getPNG(responseItem.response.body.source.id)")
+                img.card-image.no-margin(@click="openPreview(responseItem)", :src="getPNG(responseItem.response.body.source.id)")
+              q-btn.q-py-md(v-if="responseItem.response.author.id === user.uuid", color="white", @click="deleteItem(responseItem.response)", icon="delete", flat)
               // div bhjbxsa
                 //
                   q-btn.absolute-top-right(
@@ -95,6 +103,10 @@
         user: 'auth/getUserState'
       })
     },
+    async mounted () {
+      this.$root.$on('updateVideos', this.loadPortraits)
+      await this.loadPortraits()
+    },
     beforeDestroy () {
       this.$root.$off('updateVideos', this.loadPortraits)
     },
@@ -112,8 +124,11 @@
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
       },
       openPreview (item) {
-        const preview = item.portrait || item
-        if (preview.body.source.type === 'video/mp4') this.$refs.videoModal.show(preview)
+        // const preview = item.portrait || item
+        const preview = item
+        // console.log(item.response.body.source.type)
+        this.$refs.videoModal.show(preview)
+        // if (preview.portrait.body.source.type === 'video/mp4') this.$refs.videoModal.show(preview)
       },
       async uploadResponse (item) {
         this.$refs.uploadRemixModal.show(item)
@@ -214,10 +229,6 @@
         this.$q.loading.hide()
         await this.loadPortraits()
       }
-    },
-    async mounted () {
-      this.$root.$on('updateVideos', this.loadPortraits)
-      await this.loadPortraits()
     }
   }
 </script>

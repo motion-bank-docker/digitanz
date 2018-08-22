@@ -1,16 +1,10 @@
 <template lang="pug">
-  q-modal(v-model="showModal")
-    q-modal-layout.relative-position(dark, :content-class="{'bg-dark': true}")
-      // .layout-padding(v-if="preview")
-      span(v-if="preview")
-        video-player(v-if="video", :annotation="video", @ended="onEnded", :autoplay="true")
-      // q-btn.full-width.bg-dark.q-pa-lg(slot="footer", @click="closePreview", label="Close", flat, style="border-radius: 0;")
-      .full-width.q-pa-md.absolute-top.text-right
-        q-btn.bg-dark(@click="closePreview", icon="clear", flat, round)
-      //
-        q-toolbar.bg-dark(slot="footer", dark)
-          .col-12.layout-padding
-            q-btn.full-width.bg-dark(@click="closePreview", label="Close", flat)
+  q-modal(v-model="showModal", maximized)
+    q-window-resize-observable(@resize="onResize")
+    q-modal-layout(dark, :content-class="{'bg-dark': true}")
+      div(v-if="preview", :style="{width: playerWidth + 'px', marginLeft: distance.left + 'px', marginTop: distance.top + 'px'}")
+        video-player(v-if="video", :annotation="src", @ended="onEnded", :autoplay="true")
+    q-btn.bg-dark.fixed-top-right.q-ma-md(@click="closePreview", icon="clear", flat, round)
 </template>
 
 <script>
@@ -20,9 +14,36 @@
     components: {
       VideoPlayer
     },
-    props: ['source'],
+    props: ['source', 'dimensions'],
     methods: {
+      onResize (size) {
+        if (this.preview !== undefined) {
+          this.device.width = size.width
+          this.device.height = size.height
+          let videoX = this.preview.metadata.width
+          let videoY = this.preview.metadata.height
+          if (this.device.width > this.device.height) { // DEVICE LANDSCAPE
+            if (videoX < videoY) {
+              this.playerWidth = this.device.height / (videoY / videoX)
+              // this.playerHeight = this.playerWidth * (videoY / videoX)
+            } // video hochformat
+            if (videoX > videoY) this.playerWidth = this.device.width // video querformat
+          }
+          else if (size.width < size.height) { // DEVICE PORTRAIT
+            if (videoX < videoY) this.playerWidth = this.device.width // video hochformat
+            if (videoX > videoY) this.playerWidth = this.device.width // video querformat
+            this.playerHeight = this.device.height * (videoY / videoX)
+          }
+          this.distance.left = (this.device.width - this.playerWidth) / 2
+          // this.distance.top = (size.width - this.playerHeight) / 2
+        }
+      },
       show (preview) {
+        // console.log(preview, '-----')
+        if (preview.annotation !== undefined) this.src = preview.annotation
+        else if (preview.portrait !== undefined) this.src = preview.portrait
+        else this.src = preview.response
+        // console.log(this.src)
         this.preview = preview
         this.showModal = true
       },
@@ -40,6 +61,17 @@
     },
     data () {
       return {
+        device: {
+          width: '',
+          height: ''
+        },
+        distance: {
+          left: '',
+          top: ''
+        },
+        src: '',
+        playerWidth: '',
+        playerHeight: '',
         index: -1,
         video: undefined,
         showModal: false,

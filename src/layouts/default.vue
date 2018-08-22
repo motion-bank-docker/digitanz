@@ -2,14 +2,14 @@
   q-layout(view='lHh Lpr lFf')
     q-layout-header
       q-toolbar(dark, color='black', :glossy="$q.theme === 'mat'", :inverted="$q.theme === 'ios'")
-        q-btn(flat, dense, round, @click.native.prevent='leftDrawerOpen = !leftDrawerOpen', aria-label='Menu')
+        q-btn(v-if="userState", flat, dense, round, @click.native.prevent='leftDrawerOpen = !leftDrawerOpen', aria-label='Menu')
           q-icon(name='menu')
         q-toolbar-title
           span(@click.prevent="clickTitle()") {{ info.productName }}
-        q-btn(color="primary", flat, icon="eject",
-          v-if="userState", @click.prevent="logout") {{ $t('navigation.logout') }}
-        q-btn(color="primary", flat, icon="arrow_forward",
-          v-if="!userState", @click.prevent="login") {{ $t('navigation.login') }}
+        q-btn(color="primary", flat, icon-right="eject",
+          v-if="userState", @click.prevent="logout", :label="$t('navigation.logout')")
+        q-btn(color="primary", flat, icon-right="arrow_forward",
+          v-if="!userState", @click.prevent="login", :label="$t('navigation.login')")
     q-layout-drawer(dark, v-model='leftDrawerOpen', :content-class="$q.theme === 'mat' ? 'bg-dark' : null", v-if="userState")
       //q-list(dark, no-border, link, inset-delimiter, v-if="urls")
       q-list(dark, no-border, link, inset-delimiter)
@@ -27,6 +27,10 @@
         q-item(@click.native="$router.push('/portrait')")
           q-item-side(icon='account_box')
           q-item-main(:label='$t(\'navigation.portrait.label\')', :sublabel='$t(\'navigation.portrait.sublabel\')')
+
+        q-item(@click.native="$router.push('/portraitplusplus')")
+          q-item-side(icon='account_box')
+          q-item-main(:label='$t(\'navigation.portraitplusplus.label\')', :sublabel='$t(\'navigation.portraitplusplus.sublabel\')')
 
         q-item(v-if="env.FEATURE_MR_GRIDDLE", @click.native="$router.push('/mr-griddle')", separator)
           q-item-side(icon='accessibility')
@@ -54,15 +58,18 @@
     q-page-container
       router-view
     conversion-jobs
+    sequence-jobs
     mb-notification-service
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import ConversionJobs from '../components/ConversionJobs'
+  import SequenceJobs from '../components/SequenceJobs'
   export default {
     components: {
-      ConversionJobs
+      ConversionJobs,
+      SequenceJobs
     },
     data () {
       return {

@@ -23,31 +23,31 @@ export default {
   buttons: {
     back: 'Zurück',
     close: 'Schließen',
-    uploader: 'Video auswählen und hochladen',
+    // uploader: 'Video auswählen und hochladen',
+    uploader: 'Video hinzufügen',
     delete: 'Löschen',
     cancel: 'Abbrechen',
     confirm: 'OK',
     // upload_remix: 'Remix hochladen'
-    upload_remix: 'eigene Version hochladen'
-  },
-  dashboard: {
-    title: 'Hallo!',
-    description: 'Hier findest du deine gesammelten Ergebnisse von allen Kursterminen.',
-    map_title: 'Mein Dashboard',
-    no_entries: 'Keine Einträge vorhanden.'
+    upload_remix: 'eigene Version hochladen',
+    orientation: {
+      landscape: 'Querformat',
+      portrait: 'Hochformat'
+    },
+    next: 'weiter'
   },
   dates: {
     all_results: 'Ergebnisse von allen',
     sort_label: 'Workshop Termin...',
     date_1: {
       title: 'Deine Portraits',
-      description: '',
+      description: 'Neben dem Kennenlernen und der Einführung in das #digitanz Projekt geht es in diesem Termin um persönliche Tanz-Portraits von euch.',
       map_title: 'Meine Videos'
     },
     date_2: {
-      title: 'Remix Portrait',
+      title: 'Portrait++',
       description: 'Lorem ipsum dolor sit amet...',
-      map_title: 'Meine Remixes'
+      map_title: 'Meine Portraits++'
     },
     date_3: {
       title: 'Needs Title',
@@ -121,6 +121,10 @@ export default {
       label: 'Eure Portraits',
       sublabel: '17. August'
     },
+    portraitplusplus: {
+      label: 'Portrait++',
+      sublabel: '24. August'
+    },
     lost_in_space: {
       label: 'Lost in Space',
       sublabel: 'Experience space'
@@ -150,6 +154,18 @@ export default {
       no_remix: 'Bisher noch keine anderen Versionen',
       remix_singular: 'andere Version',
       remix_plural: 'andere Versionen'
+    },
+    new_sequence: {
+      title: 'Neue Sequenz erstellen',
+      description: 'Lorem Ipsum, hier steht eine Beschreibung.'
+    },
+    dashboard: {
+      title: 'Hallo!',
+      description: 'Hier findest du deine gesammelten Ergebnisse von allen Kursterminen.',
+      map_title: 'Mein Dashboard',
+      no_portraits: 'Noch kein Portrait von dir hier … lade eines hoch!',
+      no_entries: 'Keine Einträge vorhanden.',
+      date_at: 'Termin am'
     }
   },
   upload: {

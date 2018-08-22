@@ -53,10 +53,12 @@
     },
     async mounted () {
       this.$root.$on('updateVideos', this.fetchVideos)
+      this.$root.$on('updateSequences', this.fetchVideos)
       if (this.user) await this.fetchVideos()
     },
     beforeDestroy () {
       this.$root.$off('updateVideos', this.fetchVideos)
+      this.$root.$off('updateSequences', this.fetchVideos)
     },
     data () {
       return {
@@ -170,7 +172,7 @@
   }
 </script>
 
-<style scoped>
+<style>
   .bgsuper {
     width: 100%;
     height: 200px;

@@ -4,6 +4,7 @@ module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
     plugins: [
+      'raven',
       'dt-components',
       'api',
       'auth',
@@ -74,6 +75,10 @@ module.exports = function (ctx) {
         AUTH0_REDIRECT_URL: JSON.stringify(process.env.AUTH0_REDIRECT_URL || 'https://app.digitanz.de/users/callback'),
         AUTH0_AUDIENCE: JSON.stringify(process.env.AUTH0_AUDIENCE || 'https://api.motionbank.org'),
         //
+        //
+        //
+        SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN || null),
+        //
         // Toggle tools/features
         //
         FEATURE_MR_GRIDDLE: JSON.stringify(process.env.FEATURE_MR_GRIDDLE || false),
@@ -134,7 +139,8 @@ module.exports = function (ctx) {
         'QSpinnerHearts',
         'QChip',
         'QCollapsible',
-        'QContextMenu'
+        'QContextMenu',
+        'QWindowResizeObservable'
       ],
       directives: [
         'Ripple'

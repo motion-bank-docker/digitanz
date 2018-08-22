@@ -39,7 +39,8 @@
       async getTimeline () {
         if (this.user && !this.timeline) {
           const query = ObjectUtil.merge({
-            'author.id': this.$store.state.auth.user.uuid
+            'author.id': this.$store.state.auth.user.uuid,
+            title: 'Meine Videos'
           }, this.query)
           const results = await this.$store.dispatch('maps/find', query)
           if (!results.items.length) {

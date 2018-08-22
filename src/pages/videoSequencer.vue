@@ -1,13 +1,15 @@
 <template lang="pug">
+
   q-page.row.flex.no-margin.no-scroll
 
     // POP UP MODAL TO ADD VIDEOS TO SEQUENCER-TIMELINE
-    q-modal.row.maximized(v-model="opened", content-classes="bg-dark")
+    q-modal(v-model="opened", content-classes="bg-dark", minimized)
       .q-ma-md(v-if="!orientation")
         h1.q-title Format wählen
         q-btn-toggle(v-model="orientation" :options="[{label: 'Querformat', value: 'landscape'}, {label: 'Hochformat', value: 'portrait'}]")
+
+      // UPLOAD
       //
-      // Upload
       .q-ma-md(v-if="orientation")
         h1.q-title Video hochladen
         file-uploader.no-padding.no-margin.self-center(:url="url", :query="uploadQuery", style="width: 100%", @finish="addUploadedVideo")
@@ -15,8 +17,9 @@
           h1.q-title(v-if="jobIds") Videos being processed
           q-item(v-for="(jobId, index) in jobIds")
             span {{jobId}}
+
+        // MEDIATHEK
         //
-        // Mediathek
         div(v-if="orientation")
           h1.full-width.q-title Wähle deine Videos
           q-list.row.no-border.relative-position(style="min-height:100px")
@@ -31,14 +34,17 @@
             q-inner-loading.inner-loading(:visible="!fetchedUserVideos" dark)
               q-spinner-mat(color="white" size="3em")
 
-        // Buttons
-        q-btn.full-width.fixed-bottom(v-if="checkedVideos.length > 0" color="primary" @click="closeModal" icon="add" label="Hinzufügen")
-        q-btn.full-width.fixed-bottom(v-else color="primary" @click="closeModal" icon="arrow_back" label="Zurück")
+        // BUTTONS
+        //
+        q-btn.full-width.fixed-bottom(v-if="checkedVideos.length > 0", color="primary", @click="closeModal", icon="add", label="Hinzufügen")
+        q-btn.full-width.fixed-bottom(v-else color="primary", @click="closeModal", icon="arrow_back", label="Zurück")
 
-    // Main View
+    // MAIN VIEW
     //
     //
+
     // BIG VIDEO PREVIEW
+    //
     video-player.full-width.self-center(
     v-show="sequencedVideos.length > 0",
     :class="orientationClass",
@@ -49,7 +55,8 @@
     @play="setPlayerStatePlay()",
     @pause="setPlayerStatePause()")
 
-    // Player controls
+    // PLAYER CONTROLS
+    //
     .q-ma-md.full-width.row.justify-center(v-if="sequencedVideos.length > 0")
       // q-btn.q-ma-xs(round, size="sm" color="white", icon="play_arrow", outline, @click="editIndex = index, moveUp(sequencedVideos, editIndex)")
       // q-btn.q-ma-xs(round, size="sm" color="white", icon="pause", outline, @click="editIndex = index, moveUp(sequencedVideos, editIndex)")
@@ -63,12 +70,15 @@
     q-list.no-padding.no-border(style="width: 100%")
       q-item.items-baseline
         q-item-main.vertical-center
-          //
+
           // NEW SEQUENCE
+          //
           .q-mb-md(v-if="sequencedVideos.length == 0")
             q-btn.q-ma-md.q-mb-xl(color="primary", icon="add_box", @click="openModal" label="Neue Sequenz")
+            q-btn.q-ma-md.q-mb-xl(color="primary", icon="add_box", @click="$router.push({path: 'videosequencer/newsequence'})" label="Neue Sequenz neu")
 
-            // Timeline list
+            // TIMELINE LIST
+            //
             .q-ma-md.q-title.text-left Gespeicherte Sequenzen
             q-list.q-mb-xl.no-border
               q-item.row.q-mb-md(v-for="n in 3")
@@ -81,11 +91,13 @@
                     q-btn(round, icon="edit", size="md")
                     q-btn(round, icon="account_box" size="md")
                     q-btn(round, icon="delete" size="md")
-          //
+
           // SENQUENCED VIDEOS
+          //
           .q-mb-md.row.justify-between.items-center(v-if="sequencedVideos.length > 0")
-            h3.q-title.no-margin(v-if="sequencedVideos.length > 0") Videos
+            h3.q-title.no-margin Videos
             q-btn.no-margin(round, color="primary", icon="add", @click="checkedVideos=[], opened = true")
+
           //
           //
           q-list.q-mb-xl.no-border
@@ -104,16 +116,18 @@
                   q-btn.q-ma-xs(round, size="sm" color="white", icon="delete", outline, @click="editIndex = index, deleteItem(editIndex)")
 
     // BUTTONS BOTTOM
+    //
     .row.q-ma-md.full-width.justify-center.items-end
       // q-btn.justify-center(icon="save", color="primary", label="Speichern", :loading="loading", :percentage="percentage2", @click="startComputing")
-      q-btn.full-width.fixed-bottom(v-if="sequencedVideos.length > 0" icon="save"
-      color="primary" label="Speichern"
+      q-btn.full-width.fixed-bottom(v-if="sequencedVideos.length > 0", icon="save",
+      color="primary", label="Speichern",
       :loadinv="loading", :percentage="percentage2",
       @click="startComputing")
       // span(slot="loading")
          // q-spinner-gears(class="on-left") Laden ...
 
     modal-preview(:show="showPreviewModal", :preview="preview", @canceled="closePreview")
+
 </template>
 
 <script>
@@ -121,9 +135,10 @@
   import {ObjectUtil} from 'mbjs-utils'
   import ModalPreview from '../components/VideoModal'
   // import { VideoPlayer } from 'mbjs-quasar/src/components'
+  import { mapGetters } from 'vuex'
   import VideoPlayer from '../components/VideoPlayer'
   import FileUploader from '../components/FileUploader'
-  import url from 'url'
+  // import url from 'url'
 
   export default {
     components: {
@@ -163,6 +178,9 @@
       }
     },
     computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      }),
       reverseVideos () {
         return this.uploadedVideos.slice().reverse()
         // return this.uploadedVideos
@@ -186,9 +204,10 @@
         return 'pause'
       }
     },
-    mounted () {
+    async mounted () {
       this.$root.$on('updateVideos', this.fetchData)
-      this.fetchData()
+      await this.getTimeline()
+      await this.fetchData()
     },
     beforeDestroy () {
       this.$root.$off('updateVideos', this.fetchData)
@@ -198,10 +217,28 @@
         this.showPreviewModal = typeof val !== 'undefined'
       },
       async user (val) {
-        if (val) await this.fetchData()
+        if (val) {
+          await this.getTimeline()
+          await this.fetchData()
+        }
       }
     },
     methods: {
+      async getTimeline () {
+        if (this.user && !this.timeline) {
+          const query = ObjectUtil.merge({
+            'author.id': this.$store.state.auth.user.uuid,
+            title: 'Meine Portraits++'
+          }, this.query)
+          const results = await this.$store.dispatch('maps/find', query)
+          if (!results.items.length) {
+            this.timeline = await this.$store.dispatch('maps/post', {title: 'Meine Portraits++'})
+          }
+          else {
+            this.timeline = results.items[0]
+          }
+        }
+      },
       async fetchData () {
         // const _this = this
         // const $drake = this.$dragula.$service
@@ -223,6 +260,7 @@
               const annotation = results2.items[i]
               const meta = await this.$store.dispatch('metadata/get', annotation.uuid)
               const newVideo = Object.assign({}, {
+                annotation,
                 weight: parseInt(i),
                 title: '', // annotation.body.value, // meta.title
                 uuid: annotation.uuid,
@@ -243,6 +281,7 @@
       async addUploadedVideo (video) {
         const meta = await this.$store.dispatch('metadata/get', video.uuid)
         const newVideo = Object.assign({}, {
+          annotation: video,
           weight: 0,
           title: video.body.value,
           uuid: video.uuid,
@@ -393,40 +432,20 @@
           return result
         }
       },
-      // LOADING PROCESS BUTTON
-      startComputing () {
-        this.loading = true
-        const payload = {
+      async startComputing () {
+        const detail = {
+          title: 'Meine Sequenz',
+          timeline: this.timeline ? this.timeline.uuid : undefined
+        }
+        const sequence = {
+          map: {
+            title: 'Meine Sequenz'
+          },
           sources: this.checkedVideos.map(entry => {
-            const parsed = url.parse(entry.source.id)
-            return parsed.pathname
+            return entry.annotation
           })
         }
-        const _this = this
-        this.$params().then(params => {
-          console.log('payload', payload, params)
-          _this.$axios.post(`${params.urls[0].transcoder}/concat`, payload).then(response => {
-            console.log(response.data)
-            const composite = {
-              author: _this.$store.state.auth.payload.userId,
-              body: {
-                type: 'Composite',
-                purpose: 'personal',
-                source: JSON.stringify({
-                  type: 'video/mp4',
-                  id: params.urls[0].streamer + '/' + response.data.uuid + '.mp4',
-                  preview: _this.getPreviewLinks(params.urls[0].streamer + '/' + response.data.uuid + '.mp4')
-                })
-              }
-            }
-            return _this.$store.dispatch('annotations/create', composite)
-              .then(composite => {
-                console.log('added composite', composite)
-                _this.loading = false
-                _this.$router.push('/')
-              })
-          })
-        })
+        await this.$store.dispatch('sequences/post', { sequence, detail })
       }
     }
   }
@@ -445,7 +464,6 @@
   .moba-active-image {
     outline: solid cornflowerblue 1px;
     outline: solid white 1px;
-    border-radius: 50%;
     color: white;
   }
 
