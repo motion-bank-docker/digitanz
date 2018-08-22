@@ -43,10 +43,11 @@
       div(
       v-for="video in uploadedVideos",
       v-if="video.orientation === orientation",
-      @click="selectedUuid = video.annotation.uuid")
+      @click="selectedUuid = video.annotation.uuid",
+      :class="{'bg-red' : selectedUuid = video.annotation.uuid}")
         q-item
           q-item-main
-            img(:src="video.preview.high", style="max-height: 180px; max-width: 50vw;")
+            img(:src="video.preview.high", style="max-height: 160px; max-width: 50vw;")
           q-item-side.column
             q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveUp(sequencedVideos, editIndex)", round, size="sm", icon="arrow_upward", dark)
             q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveDown(sequencedVideos, editIndex)", round, size="sm", icon="arrow_downward", dark)
