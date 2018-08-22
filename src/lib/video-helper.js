@@ -48,7 +48,7 @@ class VideoHelper {
     const message = {
       annotation: item.annotation.uuid,
       source: item.annotation.body.source.id,
-      user: context.$store.state.user.uuid
+      user: context.$store.state.auth.user.uuid
     }
     await context.$store.dispatch('logging/log', { action: 'delete', message })
   }
