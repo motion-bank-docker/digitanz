@@ -1,9 +1,12 @@
 <template lang="pug">
-  q-page
-    q-btn(@click="$router.push('/sequences/create')") create sequence
-    div {{ sequences.length }}
-    ul
-      li(v-for="sequence in sequences") {{ sequence.title }}
+  q-page.q-px-md
+    h4.text-center {{ $t('pages.video_sequencer.title') }}
+    div.q-mb-xl.text-grey-8 {{ $t('pages.video_sequencer.description') }}
+
+    q-btn.full-width(@click="$router.push('/sequences/create')", :label="$t('buttons.uploader')", color="primary")
+    // div {{ sequences.length }}
+    q-list.no-border
+      q-item.no-margin(v-for="sequence in sequences") {{ sequence.title }}
 </template>
 
 <script>
