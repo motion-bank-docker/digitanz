@@ -35,7 +35,8 @@ export default {
       landscape: 'Querformat',
       portrait: 'Hochformat'
     },
-    next: 'weiter'
+    next: 'weiter',
+    save: 'speichern'
   },
   dates: {
     all_results: 'Ergebnisse von allen',
@@ -148,6 +149,10 @@ export default {
     }
   },
   pages: {
+    edit_sequence: {
+      title: 'Sequenz bearbeiten',
+      description: 'Lorem Ipsum, hier steht eine Beschreibung.'
+    },
     portrait: {
       title: 'Eure Portraits',
       description: 'Auf dieser Seite findet ihr alle Portraits vom ersten Termin. Ihr könnt hier zudem eure eigenen Versionen der Portraits der anderen hochladen und sehen wie andere eure Portraits umsetzen.',
