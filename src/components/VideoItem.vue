@@ -19,6 +19,9 @@
         q-btn(round, flat, size="sm", icon="delete", @click="openDeleteModal(video)")
       slot(v-if="displayDownloadButton" name="downloadButton" :video="video")
         q-btn(round, flat, size="sm", icon="cloud_download", @click="downloadItem(video)")
+      slot(v-if="video.responses" name="downloadButton" :video="video")
+        q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
+          q-chip(floating, color="red") {{ video.responses.length }}
       slot(name="customButtons" :video="video")
 </template>
 
@@ -66,6 +69,9 @@
       },
       downloadItem (video) {
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.annotation.body.source.id)}`)
+      },
+      showResponses (video) {
+        this.$router.push(`/responses/${video.annotation.uuid}`)
       },
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')

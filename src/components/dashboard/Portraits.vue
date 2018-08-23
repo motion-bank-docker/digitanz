@@ -2,8 +2,8 @@
 
   .row
     video-list-view(
-      v-if="date.entries.length > 0",
-      :videos="date.entries", layoutStyle="sm")
+      v-if="entries.length > 0",
+      :videos="entries", layoutStyle="sm")
         template(slot="customButtons" slot-scope="{ video }")
           q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
           q-btn(flat, size="sm" round, icon="delete")
@@ -34,6 +34,8 @@
     ],
     data () {
       return {
+        entries: [],
+        map: undefined,
         dimensions: {
           width: '',
           height: ''
@@ -186,19 +188,30 @@
           'title': this.$t(this.date.map_title)
         }
         let result = await this.$store.dispatch('maps/find', query)
+        const items = []
         if (result.items.length) {
-          this.date.map = result.items[0]
+          this.map = result.items[0]
           query = {
             'created': { $gte: this.date.start, $lte: this.date.end },
             'author.id': this.user.uuid,
             'body.type': 'Video',
             'body.source.type': 'video/mp4',
             'target.id': {
-              $eq: `${process.env.TIMELINE_BASE_URI}${this.date.map.uuid}`,
+              $eq: `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`,
               $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
             }
           }
-          this.date.entries = await VideoHelper.fetchVideoItems(this, query)
+          const portraits = await VideoHelper.fetchVideoItems(this, query)
+          for (let portrait of portraits) {
+            const responsesQuery = {
+              'target.id': `${process.env.ANNOTATION_BASE_URI}${portrait.annotation.uuid}`,
+              'body.purpose': 'commenting'
+            }
+            portrait.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+            console.debug('portrait', portrait)
+            items.push(portrait)
+          }
+          this.entries = items
         }
         // }
         this.$q.loading.hide()
