@@ -5,7 +5,7 @@
       v-if="sequences && sequences.length > 0",
       :videos="sequences", layoutStyle="sm")
         template(slot="customButtons" slot-scope="{ video }")
-          q-btn(flat, size="sm" round, :icon="getItemStyle(item).icon", :color="getItemStyle(item).color", @click="toggleItemFavorite(item)")
+          q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
           q-btn(flat, size="sm" round, icon="delete")
           q-btn(flat, size="sm" round, icon="cloud_download")
     template(v-else)
@@ -16,6 +16,8 @@
 <script>
   import VideoListView from '../../components/VideoListView'
   import { mapGetters } from 'vuex'
+  import { DateTime } from 'luxon'
+  import { ObjectUtil } from 'mbjs-utils'
 
   export default {
     name: 'dashboard-portraits-plus-plus',
@@ -59,8 +61,9 @@
       },
       async toggleItemFavorite (item, silent = true) {
         if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_sequence') })
+        const publicSequencesMapUUID = `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`
         const query = {
-          'target.id': `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`,
+          'target.id': publicSequencesMapUUID,
           'author.id': this.user.uuid
         }
         let result = await this.$store.dispatch('annotations/find', query)
@@ -76,10 +79,10 @@
           user: this.user.uuid
         }
         if (!isCurrentItem) {
-          const portrait = {
+          const annotation = {
             body: ObjectUtil.merge({}, item.annotation.body),
             target: {
-              id: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`,
+              id: publicSequencesMapUUID,
               type: 'Timeline',
               selector: {
                 type: 'Fragment',
@@ -87,15 +90,15 @@
               }
             }
           }
-          result = await this.$store.dispatch('annotations/post', portrait)
-          if (result) {
-            await this.$store.dispatch('acl/set', {uuid: result.uuid, role: 'public', permissions: ['get']})
+          const favouredItem = await this.$store.dispatch('annotations/post', annotation)
+          if (favouredItem) {
+            await this.$store.dispatch('acl/set', {uuid: favouredItem.uuid, role: 'public', permissions: ['get']})
           }
-          await this.$store.dispatch('logging/log', { action: 'portrait', message })
+          await this.$store.dispatch('logging/log', { action: 'sequence_favourite_set', message })
           if (!silent) this.$q.loading.hide()
         }
         else if (!silent) {
-          await this.$store.dispatch('logging/log', { action: 'portrait_unset', message })
+          await this.$store.dispatch('logging/log', { action: 'sequence_favourite_unset', message })
           this.$q.loading.hide()
         }
 
