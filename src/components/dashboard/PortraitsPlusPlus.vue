@@ -106,6 +106,9 @@
         }
         if (!isCurrentItem) {
           const annotation = {
+            author: {
+              id: this.user.uuid
+            },
             body: ObjectUtil.merge({}, item.annotation.body),
             target: {
               id: this.sequencesFavouritesMapUUID,
@@ -153,6 +156,9 @@
             if (this.sequenceJobDetails[jobId].uuid === map.uuid) processing = true
           }
           const annotation = {
+            author: {
+              id: this.user.uuid
+            },
             uuid: map.uuid,
             body: {
               source: {
