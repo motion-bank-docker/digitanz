@@ -166,6 +166,14 @@ export default {
       remix_singular: 'andere Version',
       remix_plural: 'andere Versionen'
     },
+    portraitplusplus: {
+      title: 'Eure Video-Sequenzen',
+      description: 'Lorem',
+      upload_remix: 'Eigene Version von dieser Video-Sequenz hochladen',
+      no_remix: 'Bisher noch keine anderen Versionen',
+      remix_singular: 'andere Version',
+      remix_plural: 'andere Versionen'
+    },
     new_sequence: {
       title: 'Neue Sequenz erstellen',
       description: 'Lorem Ipsum, hier steht eine Beschreibung.'
