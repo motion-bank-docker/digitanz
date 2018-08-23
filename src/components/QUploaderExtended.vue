@@ -491,9 +491,8 @@
         this.__computeTotalSize()
         this.$emit('reset')
       }
-    },
-
-    off__render (h) {
+    }
+    /* , render (h) {
       const child = [
         h('div', {
           staticClass: 'col q-input-target ellipsis',
@@ -685,6 +684,6 @@
           }
         })) || void 0
       ])
-    }
+    } */
   }
 </script>
