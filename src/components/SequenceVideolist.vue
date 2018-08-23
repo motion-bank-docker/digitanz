@@ -19,7 +19,10 @@
                 | {{ formatDuration(video.metadata.duration) }}
 
     .q-ma-md
-      q-btn.full-width.bg-primary.text-white.q-py-sm(@click="submit", :label="$t('buttons.add_to_sequence')", no-caps)
+      q-btn.full-width.bg-primary.text-white.q-py-sm(
+      @click="submit", :label="$t('buttons.add_to_sequence')",
+      :class="{'disabled bg-grey-8': selection.length <= 0}"
+      )
 
 </template>
 
@@ -49,7 +52,7 @@
     },
     methods: {
       submit () {
-        this.$emit('submit', this.selection)
+        if (this.selection.length > 0) this.$emit('submit', this.selection)
       },
       formatDuration (duration) {
         let minutes = Math.floor(duration / 60).toString()

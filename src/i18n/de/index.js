@@ -28,7 +28,7 @@ export default {
     file_uploader: 'Video-Titel'
   },
   buttons: {
-    add_to_sequence: 'Ausgewählte Videos zur Sequenz hinzufügen',
+    add_to_sequence: 'Zur Sequenz hinzufügen',
     add_sequence: 'Sequenz hinzufügen',
     add_video: 'Video hinzufügen',
     back: 'Zurück',
