@@ -16,6 +16,7 @@
           q-btn(v-if="!video.processing", flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
           q-btn(v-if="!video.processing", flat, size="sm", round, icon="delete", @click="deleteVideo(video)")
           q-btn(v-if="!video.processing", flat, size="sm", round, icon="cloud_download", @click="download(video)")
+          span(v-if="video.processing") Rendering...
 
     // q-list.no-border
       q-item.no-margin(v-for="sequence in sequences")
