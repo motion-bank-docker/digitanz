@@ -6,7 +6,7 @@ export default ({ app, Vue }) => {
 
   // Set i18n instance on app
   app.i18n = new VueI18n({
-    locale: 'en-us',
+    locale: 'de',
     fallbackLocale: 'en-us',
     messages
   })

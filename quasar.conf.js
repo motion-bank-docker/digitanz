@@ -162,7 +162,8 @@ module.exports = function (ctx) {
           messageColor: 'light-gray',
           delay: 400
         }
-      }
+      },
+      i18n: 'de'
     },
     // animations: 'all' --- includes all animations
     animations: 'all',

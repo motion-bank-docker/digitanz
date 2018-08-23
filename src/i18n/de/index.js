@@ -13,14 +13,13 @@ export default {
     loading_data: 'Lade Daten...',
     loading_portraits: 'Lade Portraits...',
     deleting_video: 'Lösche video...',
-    empty: 'Es wurde noch keine Auswahl getroffen.',
     setting_portrait: 'Aktualisiere Dein Portrait...'
   },
   labels: {
     confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?',
-    edit_sequence: 'Sequenz bearbeiten',
     insert_title: 'Titel',
-    video_selection: 'Video-Auswahl'
+    insert_sequence_title: 'Sequenze-Titel (optional)',
+    more_videos: 'Weitere verfügbare Videos'
   },
   placeholder: {
     file_uploader: 'Video-Titel'

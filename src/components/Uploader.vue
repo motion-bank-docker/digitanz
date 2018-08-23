@@ -9,13 +9,14 @@
       align="center",
       inverted,
       :extensions="ext",
+      :multiple="true",
       :url="url",
       @add="onSelect",
       @uploaded="onUploaded",
       @fail="onFail",
       @start="onStart",
       @finish="onFinish",
-      @click.native="handleUploaderClick()")
+      @click="handleUploaderClick()")
 
 </template>
 
@@ -40,7 +41,6 @@
       },
       onSelect (files) {
         this.$emit('select', files)
-        this.$refs.uploader.upload()
       },
       onUploaded (file, xhr) {
         let response
