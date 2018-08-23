@@ -11,15 +11,13 @@
         q-item.no-padding.q-caption.relative-position(tag="label")
           q-item-main
             q-item-tile
-              q-checkbox.hidden(v-model="checkedVideos", :val="video")
-              // img.fit(:src="video.preview.high", :class="{'moba-highlight-image': checkedVideos.includes(video)}")
-              img.fit(:src="video.preview.high")
+              q-checkbox.hidden(v-model="allChecked", :val="video")
+              img.fit(:src="video.preview.medium")
               span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders(
-              :class="{'moba-highlight-image': checkedVideos.includes(video)}"
-              )
+              :class="{'moba-highlight-image': allChecked.includes(video)}")
                 | {{ formatDuration(video.metadata.duration) }}
-    .q-ma-md
-      q-btn.full-width.bg-primary.text-white.q-py-md(:label="$t('buttons.add_to_sequence')", no-caps)
+    // .q-ma-md
+      q-btn.full-width.bg-primary.text-white.q-py-sm(:label="$t('buttons.add_to_sequence')", no-caps)
 
 </template>
 
@@ -35,7 +33,7 @@
     },
     data () {
       return {
-        checkedVideos: [],
+        allChecked: [],
         hasUuid: false,
         orientation: 'portrait',
         selectedUuid: 'hallo',
@@ -86,6 +84,9 @@
       this.$root.$off('updateVideos', this.loadUploadedVideos)
     },
     watch: {
+      allChecked (val) {
+        this.$emit('checkedVideos', val)
+      },
       orientation (val) {
         console.log(val)
         this.checkedVideos = []

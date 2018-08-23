@@ -1,76 +1,89 @@
 <template lang="pug">
 
-  q-page.relative-position
+  q-page.relative-position.q-pb-lg
 
-    // h4.text-center.q-mb-none
-      span(v-if="!hasUuid") {{ $t('pages.new_sequence.title') }}
-      span(v-else) {{ $t('pages.edit_sequence.title') }}
-    // file-uploader(:url="url", :query="uploadQuery", @finish="addUploadedVideo")
-    file-uploader(:url="url", :query="uploadQuery", @finish="")
+    q-collapsible.no-padding(group="seq", :label="$t('labels.video_selection')", opened)
 
-    // BUTTONS -- FILTER ORIENTATION
-    //
-    .text-center
       //
-        q-btn.q-mx-sm.text-white(@click="orientation = 'portrait'", :class="{'bg-primary' : orientation === 'portrait'}",
-        icon="stay_current_portrait", :label="$t('buttons.orientation.portrait')", no-caps)
-        q-btn.q-mx-sm.text-white(@click="orientation = 'landscape'", :class="{'bg-primary' : orientation === 'landscape'}",
-        icon="stay_current_landscape", :label="$t('buttons.orientation.landscape')", no-caps)
-      q-btn.q-mx-sm.text-white(@click="toggleOrientation", :class="{'bg-primary' : orientation === 'landscape'}", no-caps)
-        div(v-if="orientation === 'portrait'")
-          q-icon.q-mr-sm(name="stay_current_portrait")
-          | {{ $t('buttons.orientation.portrait') }}
-        div(v-else)
-          q-icon.q-mr-sm(name="stay_current_landscape")
-          | {{ $t('buttons.orientation.landscape') }}
+      template(slot="header")
+        q-item-side
+        q-item-main.text-center
+          | {{ $t('labels.video_selection') }}
 
-    // DISPLAY FILTERED VIDEOS
-    //
-    sequence-videolist.q-my-xl(:imgorientation="orientation")
+      // FILE UPLOADER
+      //
+      file-uploader(:url="url", :query="uploadQuery", @finish="")
 
-    // DISPLAY VIDEOS
-    //
-    q-list.no-border.q-mt-xl
-      div.shadow-6.q-ma-md(
-      v-for="video in uploadedVideos",
-      v-if="video.orientation === orientation")
-        q-item.no-padding(style="overflow: hidden;")
-          q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;")
-            img(:src="video.preview.high", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
-            span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
-              | {{ formatDuration(video.metadata.duration) }}
+      // BUTTONS -- FILTER ORIENTATION
+      //
+      .text-left
+        q-btn.q-mt-lg.text-white.bg-primary(@click="toggleOrientation", no-caps,
+        :class="{'disabled':this.checkedVideos.length > 0}")
+          div(v-if="orientation === 'portrait'")
+            q-icon.q-mr-sm(name="stay_current_portrait")
+            | {{ $t('buttons.orientation.portrait') }}
+          div(v-else)
+            q-icon.q-mr-sm(name="stay_current_landscape")
+            | {{ $t('buttons.orientation.landscape') }}
 
-          q-item-side.column
-            q-item-tile
-              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveUp(sequencedVideos, editIndex)", round, icon="arrow_upward", dark)
-              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveDown(sequencedVideos, editIndex)", round, icon="arrow_downward", dark)
-            q-item-tile
-              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, duplicateVideo(editIndex)", round, icon="filter_none", dark)
-              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, deleteItem(editIndex)", round, icon="delete", dark)
+      // DISPLAY FILTERED VIDEOS
+      //
+      sequence-videolist.q-mt-md(:imgorientation="orientation", @checkedVideos="vids")
 
-    // DISPLAY CHECKED VIDEOS
-    //
-      .full-width
-        | {{ selectedUuid }}
-        q-list.no-border.q-mt-lg.q-mb-xl
-          div(
-          v-for="video in checkedVideos",
-          style="margin-top: -4px;")
-            q-item.no-margin.no-padding
-              q-item-main
-                img(:src="video.preview.high", style="width: 50vw;")
+    q-collapsible.q-mb-mb(group="seq", :label="$t('labels.edit_sequence')")
+      //
+      template(slot="header")
+        q-item-side
+        q-item-main.text-center
+          | {{ $t('labels.edit_sequence') }}
+          // q-chip(color="primary", small) {{ $t('labels.edit_sequence') }}
+
+      div(v-if="checkedVideos.length > 0")
+        //
+          video-player.full-width.self-center(
+          v-show="sequencedVideos.length > 0",
+          // :class="orientationClass",
+          // :src="sourceVideo",
+          ref="videoPlayer",
+          autoplay="true",
+          @ended="playNext",
+          @play="setPlayerStatePlay()",
+          @pause="setPlayerStatePause()")
+
+        video-player.full-width.self-center.q-mb-sm(
+        :class="orientationClass",
+        :src="sourceVideo",
+        ref="videoPlayer",
+        autoplay="true",
+        @ended="playNext",
+        @play="setPlayerStatePlay()",
+        @pause="setPlayerStatePause()")
+
+        // DISPLAY VIDEOS
+        //
+        q-list.no-border
+          div.shadow-6.q-mb-md(v-for="video in checkedVideos")
+            q-item.no-padding(style="overflow: hidden;")
+              q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;")
+                img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
+                span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
+                  | {{ formatDuration(video.metadata.duration) }}
+
               q-item-side.column
-                q-btn(round, icon="edit", size="md")
-                q-btn(round, icon="account_box" size="md")
-                q-btn(round, icon="delete" size="md")
+                q-item-tile
+                  q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveUp(sequencedVideos, editIndex)", round, icon="arrow_upward", dark)
+                  q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveDown(sequencedVideos, editIndex)", round, icon="arrow_downward", dark)
+                q-item-tile
+                  q-btn.q-ma-xs.bg-dark(@click="editIndex = index, duplicateVideo(editIndex)", round, icon="filter_none", dark)
+                  q-btn.q-ma-xs.bg-dark(@click="editIndex = index, deleteItem(editIndex)", round, icon="delete", dark)
+
+          div.text-right(v-if="checkedVideos.length > 0")
+            q-btn.bg-green.text-white(@click="$router.push({path: 'preview'})", icon="check", :label="$t('buttons.save')", flat)
+
+      .text-center.text-grey-8(v-else) {{ $t('messages.empty') }}
 
     .fixed-bottom-left.q-ma-md
       q-btn.bg-white(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat, round)
-      // q-btn.q-mb-md.bg-dark(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
-        icon="keyboard_backspace", flat)
-
-    .text-right.q-ma-md
-      q-btn.bg-primary.text-white(@click="$router.push({path: 'preview'})", icon-right="arrow_forward", :label="$t('buttons.next')", flat)
 
     // q-btn.fixed-bottom.bg-black(@click="toggleHasUuid") dev switch
 
@@ -81,12 +94,14 @@
   import { VideoHelper } from '../../lib'
   import FileUploader from '../../components/FileUploader'
   import SequenceVideolist from '../../components/SequenceVideolist'
+  import VideoPlayer from '../../components/VideoPlayer'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
       FileUploader,
-      SequenceVideolist
+      SequenceVideolist,
+      VideoPlayer
     },
     data () {
       return {
@@ -155,9 +170,14 @@
       }
     },
     methods: {
+      vids (val) {
+        this.checkedVideos = val
+      },
       toggleOrientation () {
-        if (this.orientation === 'portrait') this.orientation = 'landscape'
-        else this.orientation = 'portrait'
+        if (this.checkedVideos.length <= 0) {
+          if (this.orientation === 'portrait') this.orientation = 'landscape'
+          else this.orientation = 'portrait'
+        }
       },
       async loadData () {
         if (!this.user) return
