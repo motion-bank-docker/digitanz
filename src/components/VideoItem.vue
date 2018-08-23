@@ -82,7 +82,7 @@
         if (result.items) {
           for (const portrait of result.items) {
             await this.$store.dispatch('annotations/delete', portrait.uuid)
-            await this.$store.dispatch('acl/remove', {uuid: result.uuid, role: 'public', permission: 'get'})
+            await this.$store.dispatch('acl/remove', {uuid: portrait.uuid, role: 'public', permission: 'get'})
           }
           const message = {
             video: item.annotation.body.source.id,

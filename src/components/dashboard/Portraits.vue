@@ -117,7 +117,7 @@
         for (let portrait of result.items) {
           if (portrait.body.source.id === item.annotation.body.source.id) isCurrentPortrait = true
           await this.$store.dispatch('annotations/delete', portrait.uuid)
-          await this.$store.dispatch('acl/remove', {uuid: result.uuid, role: 'public', permission: 'get'})
+          await this.$store.dispatch('acl/remove', {uuid: portrait.uuid, role: 'public', permission: 'get'})
         }
         const message = {
           video: item.annotation.body.source.id,
