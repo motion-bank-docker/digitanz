@@ -58,6 +58,7 @@
       async user () {
         if (!this.portraits.map) {
           await this.loadPortraits()
+          await this.loadDates()
         }
       }
     },
@@ -69,6 +70,7 @@
       }
       this.$root.$on('updateVideos', async () => {
         await _this.loadPortraits()
+        await this.loadDates()
       })
     },
     methods: {
