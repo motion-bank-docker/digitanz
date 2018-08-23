@@ -44,9 +44,9 @@
               q-btn.q-ma-xs.bg-dark(@click="editIndex = index, duplicateVideo(editIndex)", round, icon="filter_none", dark)
               q-btn.q-ma-xs.bg-dark(@click="editIndex = index, deleteItem(editIndex)", round, icon="delete", dark)
 
-    q-collapsible.q-my-sm.bg-black
+    q-collapsible.q-my-xl.bg-black
       template(slot="header")
-        q-chip(color="dark", small, class="q-mr-sm") {{ $t('labels.more_videos') }}
+        q-chip.q-my-sm(color="dark", small, class="q-mr-sm") {{ $t('labels.more_videos') }}
         q-item-side(right)
           // q-icon(name="star" color="red" size="24px")
       file-uploader(:url="url", :query="uploadQuery", @finish="")
