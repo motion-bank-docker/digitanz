@@ -73,14 +73,14 @@
 
               q-item-side.column
                 q-item-tile
-                  q-btn.q-ma-xs.bg-dark(@click="moveUp(index)", round, icon="arrow_upward", dark)
-                  q-btn.q-ma-xs.bg-dark(@click="moveDown(index)", round, icon="arrow_downward", dark)
+                  q-btn.q-ma-xs(@click="moveUp(index)", round, icon="arrow_upward", dark, flat)
+                  q-btn.q-ma-xs(@click="moveDown(index)", round, icon="arrow_downward", dark, flat)
                 q-item-tile
-                  q-btn.q-ma-xs.bg-dark(@click="duplicateVideo(index)", round, icon="filter_none", dark)
-                  q-btn.q-ma-xs.bg-dark(@click="deleteItem(index)", round, icon="delete", dark)
+                  q-btn.q-ma-xs(@click="duplicateVideo(index)", round, icon="filter_none", dark, flat)
+                  q-btn.q-ma-xs(@click="deleteItem(index)", round, icon="delete", dark, flat)
 
           .text-center(v-if="videos.length > 0")
-            q-btn.q-mt-lg.bg-green.text-white(@click="saveSequence", icon="check", :label="$t('buttons.save')", flat)
+            q-btn.q-mt-lg.bg-primary.text-white(@click="saveSequence", icon="check", :label="$t('buttons.save')", flat)
 
       .text-center.text-grey-8.q-caption.q-pa-lg.bg-grey-10(v-else) {{ $t('messages.empty') }}
 
