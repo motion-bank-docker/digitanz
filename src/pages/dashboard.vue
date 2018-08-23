@@ -39,7 +39,7 @@
   import FileUploader from '../components/FileUploader'
   import JobList from '../components/JobList'
 
-  import { DashboardPortraits } from '../components/dashboard'
+  import { DashboardPortraits, DashboardPortraitsPlusPlus } from '../components/dashboard'
 
   import VideoListView from '../components/VideoListView'
 
@@ -48,6 +48,7 @@
   export default {
     components: {
       DashboardPortraits,
+      DashboardPortraitsPlusPlus,
       VideoModal,
       ImageModal,
       ConfirmModal,

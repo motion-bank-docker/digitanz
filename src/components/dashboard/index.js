@@ -1,6 +1,7 @@
 import DashboardPortraits from './Portraits'
-// import PortraitsPlusPlus from './PortraitsPlusPlus'
+import DashboardPortraitsPlusPlus from './PortraitsPlusPlus'
 
 export {
-  DashboardPortraits
+  DashboardPortraits,
+  DashboardPortraitsPlusPlus
 }
