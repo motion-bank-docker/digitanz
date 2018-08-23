@@ -212,7 +212,7 @@
         /**
          * Iterate over dates and fetch content for each one
          */
-        this.$q.loading.show({ message: this.$t('messages.loading_dates') })
+        /* this.$q.loading.show({ message: this.$t('messages.loading_dates') })
         for (let date of this.dates) {
           let query = {
             'author.id': this.user.uuid,
@@ -235,6 +235,7 @@
           }
         }
         this.$q.loading.hide()
+        */
       }
     }
   }

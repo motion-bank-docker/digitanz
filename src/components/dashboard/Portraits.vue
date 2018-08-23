@@ -189,7 +189,7 @@
         if (result.items.length) {
           this.date.map = result.items[0]
           query = {
-            // 'created': { $gte: date.start, $lte: date.end },
+            'created': { $gte: this.date.start, $lte: this.date.end },
             'author.id': this.user.uuid,
             'body.type': 'Video',
             'body.source.type': 'video/mp4',
