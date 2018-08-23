@@ -5,7 +5,8 @@
       video-item(v-for="video in videos"
                 :key="video.annotation.uuid"
                 :video="video"
-                :buttons="buttons")
+                :buttons="buttons"
+                @changed="changed")
         template(slot="customButtons" slot-scope="{ video }")
           slot(name="customButtons" :video="video")
 
@@ -30,6 +31,11 @@
     data () {
       return {
         foo: undefined
+      }
+    },
+    methods: {
+      changed () {
+        this.$emit('changed')
       }
     }
   }
