@@ -16,7 +16,8 @@
           q-btn(v-if="!video.processing", flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
           q-btn(v-if="!video.processing", flat, size="sm", round, icon="delete", @click="deleteVideo(video)")
           q-btn(v-if="!video.processing", flat, size="sm", round, icon="cloud_download", @click="download(video)")
-          span(v-if="video.processing") Rendering...
+          // span(v-if="video.processing") Rendering...
+          q-spinner-mat(v-if="video.processing", color="primary", size="1.5em")
 
     // q-list.no-border
       q-item.no-margin(v-for="sequence in sequences")
@@ -59,7 +60,11 @@
       })
     },
     async mounted () {
+      this.$root.$on('updateSequences', this.loadData)
       await this.loadData()
+    },
+    beforeDestroy () {
+      this.$root.$off('updateSequences', this.loadData)
     },
     watch: {
       async user (val) {
@@ -73,6 +78,7 @@
     methods: {
       async loadData () {
         if (!this.user) return
+        this.sequences = []
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
         const prefix = 'Sequenz: '
         const query = {

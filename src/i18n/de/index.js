@@ -13,7 +13,9 @@ export default {
     loading_data: 'Lade Daten...',
     loading_portraits: 'Lade Portraits...',
     deleting_video: 'Lösche video...',
+    deleting_sequence: 'Die Sequenz wird gelöscht.',
     setting_portrait: 'Aktualisiere Dein Portrait...',
+    sequencing_successful: 'Die Sequenz wurde erfolgreich angelegt.',
     no_videos: 'Keine Videos vorhanden'
   },
   labels: {
