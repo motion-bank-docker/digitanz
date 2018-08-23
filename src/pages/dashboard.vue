@@ -79,28 +79,28 @@
     },
     watch: {
       async user () {
-        if (!this.portraits.map) {
-          await this.loadPortraits()
-        }
-        if (!this.dates[0].map) {
-          await this.loadDates()
-        }
+        // if (!this.portraits.map) {
+        //   await this.loadPortraits()
+        // }
+        // if (!this.dates[0].map) {
+        //   await this.loadDates()
+        // }
       }
     },
     async mounted () {
-      const _this = this
+      // const _this = this
       this.dates = this.$dates()
-      if (this.user) {
-        await this.loadPortraits()
-        await this.loadDates()
-      }
-      this.$root.$on('updateVideos', async () => {
-        await _this.loadPortraits()
-        await _this.loadDates()
-      })
-      this.$root.$on('updateSequences', async () => {
-        await _this.loadDates()
-      })
+      // if (this.user) {
+      //   await this.loadPortraits()
+      //   await this.loadDates()
+      // }
+      // this.$root.$on('updateVideos', async () => {
+      //   await _this.loadPortraits()
+      //   await _this.loadDates()
+      // })
+      // this.$root.$on('updateSequences', async () => {
+      //   await _this.loadDates()
+      // })
     },
     methods: {
       formatTime (val) {
