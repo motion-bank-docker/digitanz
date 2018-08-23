@@ -10,7 +10,7 @@
         dark, color="primary", @click="uploadResponse(item)") {{ $t('buttons.upload_remix') }}
 
     .row
-      video-list-view(v-if="entries.length > 0", :videos="entries", layoutStyle="sm")
+      video-list-view(v-if="responses.length > 0", :videos="responses", layoutStyle="sm")
         template(slot="customButtons" slot-scope="{ video }")
           q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
           q-btn(flat, size="sm" round, icon="cloud_download")
@@ -38,19 +38,19 @@
     },
     data () {
       return {
-        map: undefined,
-        entries: []
+        annotation: undefined,
+        responses: []
       }
     },
     async mounted () {
       this.$q.loading.show({ message: this.$t('messages.loading_responses') })
-      this.source = await this.$store.dispatch('annotations/get', this.$route.params.uuid)
+      this.annotation = await this.$store.dispatch('annotations/get', this.$route.params.uuid)
       if (this.annotation) {
         const responsesQuery = {
           'target.id': `${process.env.ANNOTATION_BASE_URI}${this.annotation.uuid}`,
           'body.purpose': 'commenting'
         }
-        this.entries = await VideoHelper.fetchVideoItems(this, responsesQuery)
+        this.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
       }
       this.$q.loading.hide()
     },
