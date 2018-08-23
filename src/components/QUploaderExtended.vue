@@ -1,8 +1,68 @@
-<!--<template lang="pug">-->
-  <!--div Nothign here-->
-<!--</template>-->
+<!-- <template lang="pug">
+  .q-uploader.relative-position(:class="classes", @dragover="__onDragOver")
+    q-input-frame(ref="input",
+                  :prefix="prefix",
+                  :suffix="suffix",
+                  :stackLabel="stackLabel",
+                  :floatLabel="floatLabel",
+                  :error="error",
+                  :warning="warning",
+                  :readonly="readonly",
+                  :inverted="inverted",
+                  :invertedLight="invertedLight",
+                  :dark="dark",
+                  :hideUnderline="hideUnderline",
+                  :before="before",
+                  :after="after",
+                  :color="color",
+                  :align="align",
+                  :noParentField="noParentField",
+                  :length="queueLength",
+                  :additionalLength="true")
+      .col.q-input-target.ellipsis(:class="alignClass") {{label}}
+        template(v-if="uploading")
+          q-spinner.q-if-end.self-center(slot="after", size="24px")
+          q-icon.q-if-end.self-center.q-if-control(
+            slot="after",
+            :name="$q.icon.uploader[`clear${this.isInverted ? 'Inverted' : ''}`]",
+            @ckick.native="abort")
+        template(v-else)
+          q-icon.q-uploader-pick-button.self-center.q-if-control.relative-position.overflow-hidden(
+            slot="after",
+            :name="$q.icon.uploader.add",
+            :disabled="addDisabled")
+            input.q-uploader-input.absolute-full.cursor-pointer(ref="file", type="file", :accept="extensions", :multiple="multiple", @change="__add")
+
+    q-slide-transition
+      div(:class="expandClass", :style="expandStyle", v-show="expanded")
+        q-list.q-uploader-files.q-py-none.scroll(:style="fileStyle", :dark="dark")
+          template(v-for="file in files")
+            q-item.q-uploader-file.q-pa-xs(:key="file.name + file.__timestamp")
+              template(v-if="!hideUploadProgress")
+                q-progress.q-uploader-progress-bg.absolute-full(
+                  :color="file.__failed ? 'negative' : progressColor",
+                  :percentage="file.__progress",
+                  height="100%")
+                .q-uploader-progress-text.absolute {{file.__progress}} %
+              q-item-side(:props="file.__img ? { image: file.__img.src } : { icon: $q.icon.uploader.file, color: color }")
+              q-item-main(:label="file.name", :subLabel="file.__size")
+              q-item-side(:right="true")
+                q-item-tile.cursor-pointer(:icon="$q.icon.uploader[file.__doneUploading ? 'done' : 'clear']", :color="color", @click.native="__remove(file)")
+    template(v-if="dnd")
+      .q-uploader-dnd.flex.row.items-center.justify-center.absolute-full(
+        :class="dndClass",
+        @dragenter="stopAndPrevent",
+        @dragover="stopAndPrevent",
+        @dragleave="__onDragLeave",
+        @drop="__onDrop")
+</template> -->
 
 <script>
+  /**
+   * This is a custom version of QUploader (of QF v0.17.9) found here:
+   * https://github.com/quasarframework/quasar/blob/fc6d5e1549b59ba87f27a8188686f9a2e6cee90c/src/components/uploader/QUploader.js
+   */
+
   import { QSpinner, QIcon, QInputFrame, QSlideTransition, QList, QProgress, QItem, QItemSide, QItemMain, QItemTile } from 'quasar'
   import FrameMixin from 'quasar-framework/src/mixins/input-frame'
   import { humanStorageSize } from 'quasar-framework/src/utils/format'
