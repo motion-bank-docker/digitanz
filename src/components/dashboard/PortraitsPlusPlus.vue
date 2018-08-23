@@ -29,7 +29,9 @@
     ],
     data () {
       return {
-        sequences: []
+        sequencesFavouritesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`,
+        sequences: [],
+        favouriteSequences: []
       }
     },
     computed: {
@@ -44,35 +46,56 @@
     },
     watch: {
       async user () {
-        if (!this.sequences) await this.loadVideoSequences()
+        if (!this.sequences) {
+          await this.loadVideoSequences()
+          await this.loadFavouriteSequences()
+        }
       }
     },
     async mounted () {
       if (this.user) {
         await this.loadVideoSequences()
+        await this.loadFavouriteSequences()
       }
     },
     methods: {
-      getItemStyle () {
-        return {
-          color: 'primary',
-          icon: 'favorite'
+      getItemStyle (item) {
+        if (this.favouriteSequences.items && this.favouriteSequences.items.filter(seq => {
+          return seq.body.source.id === item.annotation.body.source.id
+        }).length > 0) {
+          return {
+            color: 'primary',
+            icon: 'favorite'
+          }
         }
+        return {
+          color: 'grey-5',
+          icon: 'favorite_outline'
+        }
+      },
+      async loadFavouriteSequences () {
+        const query = {
+          'target.id': this.sequencesFavouritesMapUUID,
+          'author.id': this.user.uuid
+        }
+        this.favouriteSequences = await this.$store.dispatch('annotations/find', query)
       },
       async toggleItemFavorite (item, silent = true) {
         if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_sequence') })
-        const publicSequencesMapUUID = `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`
         const query = {
-          'target.id': publicSequencesMapUUID,
+          'target.id': this.sequencesFavouritesMapUUID,
           'author.id': this.user.uuid
         }
         let result = await this.$store.dispatch('annotations/find', query)
 
         let isCurrentItem = false
         for (let favouredItem of result.items) {
-          if (favouredItem.body.source.id === item.annotation.body.source.id) isCurrentItem = true
-          await this.$store.dispatch('annotations/delete', favouredItem.uuid)
-          await this.$store.dispatch('acl/remove', {uuid: favouredItem.uuid, role: 'public', permission: 'get'})
+          // remove only this current item
+          if (favouredItem.body.source.id === item.annotation.body.source.id) {
+            isCurrentItem = true
+            await this.$store.dispatch('annotations/delete', favouredItem.uuid)
+            await this.$store.dispatch('acl/remove', {uuid: favouredItem.uuid, role: 'public', permission: 'get'})
+          }
         }
         const message = {
           video: item.annotation.body.source.id,
@@ -82,7 +105,7 @@
           const annotation = {
             body: ObjectUtil.merge({}, item.annotation.body),
             target: {
-              id: publicSequencesMapUUID,
+              id: this.sequencesFavouritesMapUUID,
               type: 'Timeline',
               selector: {
                 type: 'Fragment',
@@ -103,6 +126,7 @@
         }
 
         await this.loadVideoSequences()
+        await this.loadFavouriteSequences()
       },
       async loadVideoSequences () {
         if (!this.user) return
