@@ -21,11 +21,11 @@
           .col-2.q-pt-xs
             q-btn.text-white.bg-primary(no-caps,
             icon="stay_current_landscape",
-            :class="{'disabled bg-grey-8': this.checkedVideos.length > 0, 'rotate-90': orientation === 'portrait'}",
+            :class="{'disabled bg-grey-8': this.sequencedVideos.length > 0, 'rotate-90': orientation === 'portrait'}",
             round, size="sm")
           .col-5.q-pt-sm
-            p(v-if="orientation === 'portrait'", :class="{'text-grey-8': this.checkedVideos.length > 0}") {{ $t('buttons.orientation.portrait') }}
-            p(v-else, :class="{'text-grey-8': this.checkedVideos.length > 0}") {{ $t('buttons.orientation.landscape') }}
+            p(v-if="orientation === 'portrait'", :class="{'text-grey-8': this.sequencedVideos.length > 0}") {{ $t('buttons.orientation.portrait') }}
+            p(v-else, :class="{'text-grey-8': this.sequencedVideos.length > 0}") {{ $t('buttons.orientation.landscape') }}
 
       // DISPLAY FILTERED VIDEOS
       //
@@ -39,7 +39,7 @@
           | {{ $t('labels.edit_sequence') }}
           // q-chip(color="primary", small) {{ $t('labels.edit_sequence') }}
 
-      div(v-if="checkedVideos.length > 0")
+      div(v-if="sequencedVideos.length > 0")
         //
           video-player.full-width.self-center(
           v-show="sequencedVideos.length > 0",
@@ -63,7 +63,7 @@
         // DISPLAY VIDEOS
         //
         q-list.no-border
-          div.shadow-6.q-mb-md(v-for="video in checkedVideos")
+          div.shadow-6.q-mb-md(v-for="(video, i) in sequencedVideos")
             q-item.no-padding(style="overflow: hidden;")
               q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;")
                 img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
@@ -78,10 +78,10 @@
                   q-btn.q-ma-xs.bg-dark(@click="editIndex = index, duplicateVideo(editIndex)", round, icon="filter_none", dark)
                   q-btn.q-ma-xs.bg-dark(@click="editIndex = index, deleteItem(editIndex)", round, icon="delete", dark)
 
-          .text-center(v-if="checkedVideos.length > 0")
+          .text-center(v-if="sequencedVideos.length > 0")
             q-btn.q-mt-lg.bg-green.text-white(@click="$router.push({path: '../sequences'})", icon="check", :label="$t('buttons.save')", flat)
 
-      .text-center.text-grey-8(v-else) {{ $t('messages.empty') }}
+      .text-center.text-grey-8.q-caption.q-pa-lg.bg-grey-10(v-else) {{ $t('messages.empty') }}
 
     // .fixed-bottom-left.q-ma-md
       q-btn.bg-white(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat, round)
@@ -110,6 +110,7 @@
         hasUuid: false,
         orientation: 'portrait',
         selectedUuid: 'hallo',
+        sequencedVideos: [],
         uploadQuery: {
           'title': 'Meine Videos'
         },
@@ -172,7 +173,8 @@
     },
     methods: {
       vids (val) {
-        this.checkedVideos = val
+        // this.checkedVideos = val
+        this.sequencedVideos = val
       },
       toggleOrientation () {
         if (this.checkedVideos.length <= 0) {
