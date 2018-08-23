@@ -13,16 +13,20 @@
       q-window-resize-observable(@resize="setPreviewHeight()")
     // card actions
     q-card-actions.row.justify-around(v-if="video.annotation.uuid")
+      slot(name="customButtons" :video="video")
       slot(v-if="displayStartButton" name="starButton" :video="video")
         q-btn(round, flat, size="sm", icon="star", @click="starItem(video)")
       slot(v-if="displayDeleteButton" name="deleteButton" :video="video")
         q-btn(round, flat, size="sm", icon="delete", @click="openDeleteModal(video)")
       slot(v-if="displayDownloadButton" name="downloadButton" :video="video")
         q-btn(round, flat, size="sm", icon="cloud_download", @click="downloadItem(video)")
+<<<<<<< Updated upstream
       slot(v-if="video.responses" name="downloadButton" :video="video")
         q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
           q-chip(floating, color="red") {{ video.responses.length }}
       slot(name="customButtons" :video="video")
+=======
+>>>>>>> Stashed changes
 </template>
 
 <script>
@@ -77,6 +81,7 @@
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       async deleteItem (item) {
+        console.log('item should get deleted')
         this.$q.loading.show({ message: this.$t('messages.deleting_video') })
         // remove portrait annotation (if any)
         const query = {

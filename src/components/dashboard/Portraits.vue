@@ -6,8 +6,7 @@
       :videos="entries", layoutStyle="sm")
         template(slot="customButtons" slot-scope="{ video }")
           q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
-          q-btn(flat, size="sm" round, icon="delete")
-          q-btn(flat, size="sm" round, icon="cloud_download")
+          q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
     template(v-else)
       | {{ $t('messages.no_videos') }}
 
@@ -21,13 +20,15 @@
   import { mapGetters } from 'vuex'
   import { VideoHelper } from '../../lib'
   import VideoListView from '../../components/VideoListView'
+  import ConfirmModal from '../../components/ConfirmModal'
 
   const { getScrollTarget, setScrollPosition } = scroll
 
   export default {
     name: 'dashboard-portraits',
     components: {
-      VideoListView
+      VideoListView,
+      ConfirmModal
     },
     props: [
       'date'
