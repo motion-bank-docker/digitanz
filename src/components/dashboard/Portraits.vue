@@ -1,12 +1,15 @@
 <template lang="pug">
 
   .row
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
     video-list-view(
       v-if="entries.length > 0",
-      :videos="entries", layoutStyle="sm")
+      :videos="entries",
+      layoutStyle="sm",
+      :buttons="['download']")
         template(slot="customButtons" slot-scope="{ video }")
-          q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
-          q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
+          q-btn.q-px-none(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
+          q-btn.q-px-none(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
     template(v-else)
       | {{ $t('messages.no_videos') }}
 
@@ -223,17 +226,8 @@
   }
 </script>
 
-<style>
-  .foo {
-    width: 200px;
-    height: 200px;
-    position: relative;
-  }
-  .bgsuper {
-    width: 100%;
-    height: 200px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+<style scoped>
+  .q-px-none {
+    padding: 0 !important;
   }
 </style>
