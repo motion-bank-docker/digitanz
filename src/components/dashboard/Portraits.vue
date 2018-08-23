@@ -4,10 +4,10 @@
     video-list-view(
       v-if="date.entries.length > 0",
       :videos="date.entries", layoutStyle="sm")
-      template(slot="customButtons" slot-scope="{ video }")
-        q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
-        q-btn(flat, size="sm" round, icon="delete")
-        q-btn(flat, size="sm" round, icon="cloud_download")
+        template(slot="customButtons" slot-scope="{ video }")
+          q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
+          q-btn(flat, size="sm" round, icon="delete")
+          q-btn(flat, size="sm" round, icon="cloud_download")
     template(v-else)
       | {{ $t('messages.no_videos') }}
 
