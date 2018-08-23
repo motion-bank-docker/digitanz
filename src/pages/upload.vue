@@ -1,7 +1,6 @@
 <template lang="pug">
   q-page
     video-modal(ref="videoModal")
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
     h4.q-mx-none.text-center {{ $t('upload.title') }}
     file-uploader.full-width.self-center(:query="query")
@@ -12,10 +11,10 @@
         h4.text-center {{ $t('upload.my_videos') }}
         //
         // Meine Videos Liste
-        video-list-view(:videos="videos", layoutStyle="sm")
-          template(slot="customButtons" slot-scope="{ video }")
-            q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
-            q-btn(flat, size="sm" round, icon="cloud_download", @click="download(video.annotation.body.source.id)")
+        video-list-view(:videos="videos",
+                        layoutStyle="sm",
+                        :buttons="['delete', 'download']",
+                        @changed="fetchVideos")
 </template>
 
 <script>
@@ -25,14 +24,12 @@
   import JobList from '../components/JobList'
   import { mapGetters } from 'vuex'
   import FileUploader from '../components/FileUploader'
-  import ConfirmModal from '../components/ConfirmModal'
   import VideoModal from '../components/VideoModal'
   import VideoListView from '../components/VideoListView'
 
   export default {
     components: {
       FileUploader,
-      ConfirmModal,
       VideoModal,
       JobList,
       VideoListView
@@ -85,34 +82,6 @@
       },
       download (file) {
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
-      },
-      async deleteItem (item) {
-        this.$q.loading.show({ message: this.$t('messages.deleting_video') })
-        // remove portrait annotation (if any)
-        const query = {
-          'target.id': `${process.env.TIMELINE_BASE_URI}${process.env.PORTRAITS_TIMELINE_UUID}`,
-          'author.id': this.user.uuid,
-          'body.source.id': item.annotation.body.source.id
-        }
-        let result = await this.$store.dispatch('annotations/find', query)
-        if (result.items) {
-          for (const portrait of result.items) {
-            await this.$store.dispatch('annotations/delete', portrait.uuid)
-            await this.$store.dispatch('acl/remove', {uuid: result.uuid, role: 'public', permission: 'get'})
-          }
-          const message = {
-            video: item.annotation.body.source.id,
-            user: this.user.uuid
-          }
-          await this.$store.dispatch('logging/log', { action: 'portrait_unset', message })
-        }
-        // remove item / annotation
-        await VideoHelper.deleteVideoItem(this, item)
-        this.$q.loading.hide()
-        await this.fetchVideos()
-      },
-      openDeleteModal (item) {
-        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       }
     },
     watch: {
