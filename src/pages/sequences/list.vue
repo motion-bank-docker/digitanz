@@ -3,7 +3,7 @@
     h4.text-center {{ $t('pages.video_sequencer.title') }}
     div.q-mb-xl.text-grey-8 {{ $t('pages.video_sequencer.description') }}
 
-    q-btn.full-width(@click="$router.push('/sequences/create')", :label="$t('buttons.add_video')", color="primary")
+    q-btn.full-width(@click="$router.push('/sequences/create')", :label="$t('buttons.add_sequence')", color="primary")
     // div {{ sequences.length }}
     .q-mt-md
       video-list-view(:videos="sequences", layoutStyle="sm")
