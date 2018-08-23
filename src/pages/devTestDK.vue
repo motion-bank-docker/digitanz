@@ -1,8 +1,8 @@
 <template lang="pug">
   q-page
-    list-view.q-ma-lg(:videos="videos", size="sm", :buttons="['delete', 'star']")
-      template(slot="customButtons" slot-scope="{ video }")
-        q-btn(round, flat, size="sm" color="primary", icon="delete", @click="customAction(video)")
+    list-view.q-ma-lg(:videos="videos", size="sm", :buttons="['delete', 'star', 'download']")
+      // template(slot="customButtons" slot-scope="{ video }")
+        // q-btn(round, flat, size="sm" color="primary", icon="delete", @click="customAction(video)")
 </template>
 
 <script>

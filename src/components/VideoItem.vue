@@ -16,11 +16,15 @@
         q-btn(round, flat, size="sm" color="white", icon="star", @click="starItem(video)")
       slot(v-if="displayDeleteButton" name="deleteButton" :video="video")
         q-btn(round, flat, size="sm" color="white", icon="delete", @click="deleteItem(video)")
+      slot(v-if="displayDownloadButton" name="downloadButton" :video="video")
+        q-btn(round, flat, size="sm" color="white", icon="cloud_download", @click="downloadItem(video)")
       slot(name="customButtons" :video="video")
 </template>
 
 <script>
   import VideoModal from '../components/VideoModal'
+  import path from 'path'
+  import { openURL } from 'quasar'
 
   export default {
     components: {
@@ -53,8 +57,14 @@
       deleteItem (video) {
         console.log('delete video: ' + video.annotation.uuid)
       },
+      openDeleteModal (item) {
+        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
+      },
       starItem (video) {
         console.log('high five to item: ' + video.annotation.uuid)
+      },
+      downloadItem (video) {
+        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.annotation.body.source.id)}`)
       }
     },
     computed: {
@@ -64,6 +74,10 @@
       },
       displayStartButton () {
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('star') > -1)
+        else return false
+      },
+      displayDownloadButton () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('download') > -1)
         else return false
       }
     }
