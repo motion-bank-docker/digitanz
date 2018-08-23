@@ -1,4 +1,4 @@
-<!-- <template lang="pug">
+<template lang="pug">
   .q-uploader.relative-position(:class="classes", @dragover="__onDragOver")
     q-input-frame(ref="input",
                   :prefix="prefix",
@@ -20,18 +20,30 @@
                   :length="queueLength",
                   :additionalLength="true")
       .col.q-input-target.ellipsis(:class="alignClass") {{label}}
-        template(v-if="uploading")
-          q-spinner.q-if-end.self-center(slot="after", size="24px")
-          q-icon.q-if-end.self-center.q-if-control(
-            slot="after",
-            :name="$q.icon.uploader[`clear${this.isInverted ? 'Inverted' : ''}`]",
-            @ckick.native="abort")
-        template(v-else)
-          q-icon.q-uploader-pick-button.self-center.q-if-control.relative-position.overflow-hidden(
-            slot="after",
-            :name="$q.icon.uploader.add",
-            :disabled="addDisabled")
-            input.q-uploader-input.absolute-full.cursor-pointer(ref="file", type="file", :accept="extensions", :multiple="multiple", @change="__add")
+      template(v-if="uploading")
+        q-spinner.q-if-end.self-center(slot="after", size="24px")
+        q-icon.q-if-end.self-center.q-if-control(
+          slot="after",
+          :name="$q.icon.uploader[`clear${this.isInverted ? 'Inverted' : ''}`]",
+          @ckick.native="abort")
+      template(v-else)
+        q-icon.q-uploader-pick-button.self-center.q-if-control.relative-position.overflow-hidden(
+          slot='after',
+          :name="$q.icon.uploader.add",
+          :disabled="addDisabled")
+          input.q-uploader-input.absolute-full.cursor-pointer(ref="file", type="file", :accept="extensions", :multiple="multiple", @change="__add")
+        q-icon.q-if-control.self-center(
+          slot="after",
+          v-if="!hideUploadButton",
+          :name="$q.icon.uploader.upload",
+          :disabled="queueLength === 0",
+          @click.native="upload")
+      q-icon.q-if-control.generic_transition.self-center(
+        v-if="hasExpandedContent",
+        slot="after",
+        :class="{'rotate-180': expanded}",
+        :name="$q.icon.uploader.expand",
+        @click.native="expanded = !expanded")
 
     q-slide-transition
       div(:class="expandClass", :style="expandStyle", v-show="expanded")
@@ -44,10 +56,11 @@
                   :percentage="file.__progress",
                   height="100%")
                 .q-uploader-progress-text.absolute {{file.__progress}} %
-              q-item-side(:props="file.__img ? { image: file.__img.src } : { icon: $q.icon.uploader.file, color: color }")
-              q-item-main(:label="file.name", :subLabel="file.__size")
+              q-item-side(v-bind="file.__img ? { image: file.__img.src } : { icon: $q.icon.uploader.file, color: color }")
+              q-item-main(:label="file.name", :sublabel="file.__size")
               q-item-side(:right="true")
                 q-item-tile.cursor-pointer(:icon="$q.icon.uploader[file.__doneUploading ? 'done' : 'clear']", :color="color", @click.native="__remove(file)")
+
     template(v-if="dnd")
       .q-uploader-dnd.flex.row.items-center.justify-center.absolute-full(
         :class="dndClass",
@@ -55,7 +68,7 @@
         @dragover="stopAndPrevent",
         @dragleave="__onDragLeave",
         @drop="__onDrop")
-</template> -->
+</template>
 
 <script>
   /**
@@ -480,7 +493,7 @@
       }
     },
 
-    render (h) {
+    off__render (h) {
       const child = [
         h('div', {
           staticClass: 'col q-input-target ellipsis',

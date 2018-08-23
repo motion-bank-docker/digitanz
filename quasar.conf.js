@@ -141,7 +141,9 @@ module.exports = function (ctx) {
         'QCollapsible',
         'QContextMenu',
         'QWindowResizeObservable',
-        'QSlideTransition'
+        'QSlideTransition',
+        'QInputFrame',
+        'QProgress'
       ],
       directives: [
         'Ripple'
