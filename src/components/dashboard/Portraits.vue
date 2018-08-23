@@ -1,31 +1,6 @@
 <template lang="pug">
-  q-page.flex.column
-    video-modal(ref="videoModal", :dimensions="dimensions")
-    image-modal(:show="showImageModal", :source="preview", @canceled="showImageModal = false")
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
-    // HEADLINE
-    //
-    h3.text-center
-      | {{ $t('pages.dashboard.title') }}
-    div.q-mx-md.q-mb-xl.text-grey-8
-      | {{ $t('pages.dashboard.description') }}
-
-    // TERMINE IM DETAIL
-    //
-    q-collapsible(v-for="(date, i) in dates", :ref="getDateLabel(date)", v-if="date.show", opened, style="border-top: 1px solid #333;")
-      template(slot="header")
-        q-item.full-width.q-pl-none
-          q-item-main
-            h4.q-mt-md.q-mb-none(style="line-height: 1em;") {{ $t(date.title) }}
-            p.q-caption.text-grey-8.no-padding.q-mt-sm {{ $t('pages.dashboard.date_at') }} {{ getDateLabel(date) }}
-      p(style="padding-bottom: 1em") {{ $t(date.description) }}
-      div.row.justify-center
-        component(:is="`dashboard-${date.componentName}`")
-
-      <!--div(v-if="i === 0")-->
-        <!--file-uploader.full-width.self-center(:query="query")-->
-        <!--job-list-->
+  div aksdjh akjsdh akjsdh akjsdhakj sdkjashdkjh
 
 </template>
 
@@ -36,26 +11,13 @@
   import { ObjectUtil } from 'mbjs-utils'
   import { mapGetters } from 'vuex'
 
-  import { VideoHelper } from '../lib'
-
-  import VideoModal from '../components/VideoModal'
-  import ImageModal from '../components/ImageModal'
-  import ConfirmModal from '../components/ConfirmModal'
-  import FileUploader from '../components/FileUploader'
-  import JobList from '../components/JobList'
-
-  import { DashboardPortraits } from '../components/dashboard'
+  import { VideoHelper } from '../../lib'
 
   const { getScrollTarget, setScrollPosition } = scroll
 
   export default {
+    name: 'dashboard-portraits',
     components: {
-      DashboardPortraits,
-      VideoModal,
-      ImageModal,
-      ConfirmModal,
-      FileUploader,
-      JobList
     },
     data () {
       return {
