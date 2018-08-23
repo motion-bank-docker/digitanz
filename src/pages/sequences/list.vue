@@ -73,6 +73,7 @@
             if (this.sequenceJobDetails[jobId].uuid === map.uuid) processing = true
           }
           const annotation = {
+            uuid: map.uuid,
             body: {
               source: {
                 id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
