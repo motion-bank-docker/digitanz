@@ -179,6 +179,10 @@ export default {
       remix_singular: 'andere Version',
       remix_plural: 'andere Versionen'
     },
+    responses: {
+      title: 'Responses',
+      description: 'Lorem Ipsum, hier steht eine Beschreibung.'
+    },
     new_sequence: {
       title: 'Neue Sequenz erstellen',
       description: 'Lorem Ipsum, hier steht eine Beschreibung.'
