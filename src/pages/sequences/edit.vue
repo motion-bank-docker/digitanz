@@ -165,6 +165,7 @@
           timeline: payload.uuid
         }
         const sequence = {
+          uuid: payload.uuid,
           map: {
             title: this.timeline.title
           },

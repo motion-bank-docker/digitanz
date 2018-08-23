@@ -22,10 +22,10 @@
           //
             .bg-red {{ item.portrait }}
             .bg-red {{ item.responses[0] }}
-          img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="getPNG(item.portrait.body.source.id)")
+          img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="item.preview.medium")
           q-btn.full-width.q-my-md(
-          v-if="item.portrait.author.id !== user.uuid"
-          dark, color="primary", @click="uploadResponse(item.portrait)") {{ $t('buttons.upload_remix') }}
+          v-if="item.annotation.author.id !== user.uuid"
+          dark, color="primary", @click="uploadResponse(item.annotation)") {{ $t('buttons.upload_remix') }}
           // q-btn.full-width.q-mt-sm(v-else, disabled, dark, color="primary") {{ $t('buttons.upload_remix') }}
 
           q-collapsible.full-width.no-padding.q-my-sm(
@@ -38,8 +38,8 @@
                   q-context-menu(v-if="responseItem.response.author.id === user.uuid")
                     q-btn.full-width.bg-red(color="white", @click="deleteItem(responseItem.response)", icon="delete", flat) {{ $t('buttons.delete') }}?
                 // img.card-image.no-margin(@click="openPreview(responseItem.response)", :src="getPNG(responseItem.response.body.source.id)")
-                img.card-image.no-margin(@click="openPreview(responseItem)", :src="getPNG(responseItem.response.body.source.id)")
-              q-btn.q-py-md(v-if="responseItem.response.author.id === user.uuid", color="white", @click="deleteItem(responseItem.response)", icon="delete", flat)
+                img.card-image.no-margin(@click="openPreview(responseItem)", :src="responseItem.preview.medium")
+              q-btn.q-py-md(v-if="responseItem.annotation.author.id === user.uuid", color="white", @click="deleteItem(responseItem)", icon="delete", flat)
               // div bhjbxsa
                 //
                   q-btn.absolute-top-right(
@@ -153,15 +153,12 @@
           }
           const portraits = await VideoHelper.fetchVideoItems(this, portraitsQuery)
           for (let portrait of portraits) {
-            const item = {
-              portrait
-            }
             const responsesQuery = {
               'target.id': `${process.env.ANNOTATION_BASE_URI}${portrait.uuid}`,
               'body.purpose': 'commenting'
             }
-            item.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
-            items.push(item)
+            portrait.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+            items.push(portrait)
           }
           this.portraits.items = items
         }

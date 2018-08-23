@@ -1,29 +1,32 @@
 <template lang="pug">
 
-  q-uploader(
-        ref="uploader",
-        :prefix="$t('buttons.uploader')",
-        auto-expand,
-        clearable,
-        color="primary",
-        align="center",
-        inverted,
-        :extensions="ext",
-        :multiple="false",
-        :url="url",
-        hide-upload-button,
-        @add="onSelect",
-        @uploaded="onUploaded",
-        @fail="onFail",
-        @start="onStart",
-        @finish="onFinish",
-        @click.native="handleUploaderClick()")
+  q-uploader-extended(
+      ref="uploader",
+      :prefix="$t('buttons.uploader')",
+      auto-expand,
+      clearable,
+      color="primary",
+      align="center",
+      inverted,
+      :extensions="ext",
+      :url="url",
+      @add="onSelect",
+      @uploaded="onUploaded",
+      @fail="onFail",
+      @start="onStart",
+      @finish="onFinish",
+      @click.native="handleUploaderClick()")
 
 </template>
 
 <script>
   import { ObjectUtil } from 'mbjs-utils'
+  import QUploaderExtended from '../components/QUploaderExtended'
+
   export default {
+    components: {
+      QUploaderExtended
+    },
     data () {
       return {
         ext: 'video/*',
@@ -72,6 +75,7 @@
 </script>
 
 <style lang="stylus">
+  /*
   .q-uploader
     span.q-if-addon
       width 100%
@@ -95,4 +99,5 @@
     border-top-width: 1px !important;
     border-top-style: solid !important;
     border-top-color: inherit !important;
+    */
 </style>

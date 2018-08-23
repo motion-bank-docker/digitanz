@@ -16,7 +16,8 @@ const routes = [
       { path: 'sequences/:uuid/edit', component: () => import('pages/sequences/edit'), meta: {private: true} },
       { path: 'upload', component: () => import('pages/upload'), meta: {private: true} },
       { path: 'portrait', component: () => import('pages/portrait'), meta: {private: true} },
-      { path: 'portraitplusplus', component: () => import('pages/portraitplusplus'), meta: {private: true} }
+      { path: 'portraitplusplus', component: () => import('pages/portraitplusplus'), meta: {private: true} },
+      { path: 'dk', component: () => import('pages/devtestdk'), meta: {private: true} }
     ]
   },
   {
