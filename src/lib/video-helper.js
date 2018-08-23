@@ -51,7 +51,13 @@ class VideoHelper {
         const prefix = 'Sequenz: '
         const parsed = parseURI(annotation.target.id)
         const map = await context.$store.dispatch('maps/get', parsed.uuid)
-        if (map.title.indexOf(prefix) === 0) sequences.push(map)
+        if (map.title.indexOf(prefix) === 0) {
+          let exists = false
+          for (let sequence of sequences) {
+            if (sequence.uuid === map.uuid) exists = true
+          }
+          if (!exists) sequences.push(map)
+        }
       }
       try {
         await context.$store.dispatch('annotations/delete', annotation.uuid)
