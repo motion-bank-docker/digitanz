@@ -1,8 +1,8 @@
 <template lang="pug">
   q-page
-    list-view.q-ma-lg(:videos="videos", :buttons="['star', 'delete']", size="s")
+    list-view.q-ma-lg(:videos="videos", size="sm", :buttons="['delete', 'star']")
       template(slot="customButtons" slot-scope="{ video }")
-        q-btn(round, flat, size="sm" color="primary" icon="add" @click="customAction(video)")
+        q-btn(round, flat, size="sm" color="primary", icon="delete", @click="customAction(video)")
 </template>
 
 <script>
@@ -31,9 +31,6 @@
       })
     },
     methods: {
-      deleteItem (uuid) {
-        console.log('uuid ' + uuid)
-      },
       customAction (video) {
         console.log('custom action triggerd for: ' + video.annotation.uuid)
       },
