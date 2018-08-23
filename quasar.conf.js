@@ -55,7 +55,7 @@ module.exports = function (ctx) {
         API_HOST: JSON.stringify(process.env.API_HOST || 'https://api.motionbank.org'),
         TRANSCODER_HOST: JSON.stringify(process.env.TRANSCODER_HOST || 'https://transcoder.motionbank.org'),
         LOGGER_HOST: JSON.stringify(process.env.LOGGER_HOST || 'https://logging.motionbank.org'),
-        UI_HOST: JSON.stringify(process.env.UI_HOST || 'http://app.digitanz.de'),
+        UI_HOST: JSON.stringify(process.env.UI_HOST || 'https://app.digitanz.de'),
         ASSETS_BASE_PATH: JSON.stringify(process.env.ASSETS_BASE_PATH || 'https://assets.motionbank.org/piecemaker/'),
         //
         // Resources
@@ -141,7 +141,9 @@ module.exports = function (ctx) {
         'QCollapsible',
         'QContextMenu',
         'QWindowResizeObservable',
-        'QSlideTransition'
+        'QSlideTransition',
+        'QInputFrame',
+        'QProgress'
       ],
       directives: [
         'Ripple'
