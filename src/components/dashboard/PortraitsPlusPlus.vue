@@ -10,7 +10,7 @@
         template(slot="customButtons" slot-scope="{ video }")
           q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
           q-btn(flat, size="sm" round, icon="delete" @click="openDeleteModal(video)")
-          // q-btn(flat, size="sm" round, icon="cloud_download")
+          q-btn(flat, size="sm" round, icon="cloud_download" @click="download")
     template(v-else)
       | {{ $t('messages.no_videos') }}
 
@@ -23,6 +23,9 @@
   import { ObjectUtil } from 'mbjs-utils'
   import { SequenceHelper } from '../../lib'
   import ConfirmModal from '../../components/ConfirmModal'
+
+  import path from 'path'
+  import { openURL } from 'quasar'
 
   export default {
     name: 'dashboard-portraits-plus-plus',
@@ -142,6 +145,9 @@
         await SequenceHelper.deleteSequence(this, video.map.uuid)
         this.$q.loading.hide()
         await this.loadVideoSequences()
+      },
+      download (video) {
+        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.media)}`)
       },
       async loadVideoSequences () {
         if (!this.user) return
