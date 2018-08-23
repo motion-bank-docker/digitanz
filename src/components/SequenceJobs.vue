@@ -44,37 +44,40 @@
           else if (job.finished) {
             this.$store.commit('sequences/removeJobId', jobId)
             const detail = this.$store.state.sequences.jobDetails[jobId]
-            const target = detail.target || {
-              id: `${process.env.TIMELINE_BASE_URI}${detail.timeline}`,
-              type: 'Timeline',
-              selector: {
-                type: 'Fragment',
-                value: DateTime.local().toISO()
+            let annotation
+            if (detail.target || detail.timeline) {
+              const target = detail.target || {
+                id: `${process.env.TIMELINE_BASE_URI}${detail.timeline}`,
+                type: 'Timeline',
+                selector: {
+                  type: 'Fragment',
+                  value: DateTime.local().toISO()
+                }
               }
-            }
-            const payload = {
-              body: {
-                source: {
-                  id: job.result.video,
-                  type: 'video/mp4'
+              const payload = {
+                body: {
+                  source: {
+                    id: job.result.video,
+                    type: 'video/mp4'
+                  },
+                  type: 'Video',
+                  purpose: detail.purpose || 'linking'
                 },
-                type: 'Video',
-                purpose: detail.purpose || 'linking'
-              },
-              target
-            }
-            console.debug('create annotation with payload', payload)
-            const annotation = await this.$store.dispatch('annotations/post', payload)
-            console.debug('created annotation', annotation)
-            if (detail.isPublic) {
-              console.debug('make annotation public')
-              await this.$store.dispatch('acl/set', {uuid: annotation.uuid, role: 'public', permissions: ['get']})
+                target
+              }
+              console.debug('create annotation with payload', payload)
+              annotation = await this.$store.dispatch('annotations/post', payload)
+              console.debug('created annotation', annotation)
+              if (detail.isPublic) {
+                console.debug('make annotation public')
+                await this.$store.dispatch('acl/set', {uuid: annotation.uuid, role: 'public', permissions: ['get']})
+              }
             }
             this.$store.commit('sequences/removeJobDetail', jobId)
             const message = {
               video: job.result.video,
               detail,
-              annotation: annotation.uuid,
+              annotation: annotation ? annotation.uuid : undefined,
               user: this.user.uuid
             }
             await this.$store.dispatch('logging/log', { action: 'convert', message })

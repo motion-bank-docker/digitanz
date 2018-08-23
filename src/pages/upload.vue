@@ -74,7 +74,9 @@
             'author.id': this.user.uuid,
             'body.type': 'Video',
             'body.source.type': 'video/mp4',
-            'target.id': { $ne: `${process.env.TIMELINE_BASE_URI}${process.env.PORTRAITS_TIMELINE_UUID}` }
+            'target.id': {
+              $eq: `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
+            }
           }
           this.videos = await VideoHelper.fetchVideoItems(this, query)
         }

@@ -94,7 +94,7 @@
 <script>
   import { DateTime } from 'luxon'
   import { ObjectUtil } from 'mbjs-utils'
-  import { VideoHelper } from '../../lib'
+  import { VideoHelper, SequenceHelper } from '../../lib'
   import FileUploader from '../../components/FileUploader'
   import SequenceVideolist from '../../components/SequenceVideolist'
   import VideoPlayer from '../../components/VideoPlayer'
@@ -216,12 +216,14 @@
         this.$q.loading.show({ message: this.$t('messages.saving_sequence') })
         const prefix = 'Sequenz: '
         let payload = this.timeline
+        let initial = false
         payload.title = `${prefix}${payload.title}`
         if (payload.uuid) {
           await this.$store.dispatch('maps/patch', [payload.uuid, payload])
         }
         else {
           payload = await this.$store.dispatch('maps/post', payload)
+          initial = true
         }
         const query = {
           'target.id': `${process.env.TIMELINE_BASE_URI}${payload.uuid}`
@@ -247,22 +249,7 @@
           results = await this.$store.dispatch('annotations/post', annotation)
           console.debug('added video annotation', results)
         }
-        const detail = {
-          title: this.timeline.title,
-          timeline: this.targetTimeline.uuid,
-          uuid: payload.uuid
-        }
-        const sequence = {
-          uuid: payload.uuid,
-          map: {
-            title: this.timeline.title
-          },
-          sources: this.videos.map(entry => {
-            return entry.annotation
-          })
-        }
-        const job = await this.$store.dispatch('sequences/post', { sequence, detail })
-        console.debug('render sequence', job, detail, sequence)
+        await SequenceHelper.renderSequence(this, payload, initial ? this.targetTimeline : undefined, this.videos)
         this.$q.loading.hide()
         this.$router.push('/sequences')
       },

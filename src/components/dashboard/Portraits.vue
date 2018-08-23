@@ -6,8 +6,8 @@
       :videos="date.entries", layoutStyle="sm")
       template(slot="customButtons" slot-scope="{ video }")
         q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
-        q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
-        q-btn(flat, size="sm" round, icon="cloud_download", @click="download(video.annotation.body.source.id)")
+        q-btn(flat, size="sm" round, icon="delete")
+        q-btn(flat, size="sm" round, icon="cloud_download")
     template(v-else)
       | {{ $t('messages.no_videos') }}
 
@@ -180,27 +180,27 @@
          * Iterate over dates and fetch content for each one
          */
         this.$q.loading.show({ message: this.$t('messages.loading_dates') })
-        for (let date of this.dates) {
-          let query = {
-            'author.id': this.user.uuid,
-            'title': this.$t(date.map_title)
-          }
-          let result = await this.$store.dispatch('maps/find', query)
-          if (result.items.length) {
-            date.map = result.items[0]
-            query = {
-              // 'created': { $gte: date.start, $lte: date.end },
-              'author.id': this.user.uuid,
-              'body.type': 'Video',
-              'body.source.type': 'video/mp4',
-              'target.id': {
-                $eq: `${process.env.TIMELINE_BASE_URI}${date.map.uuid}`,
-                $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
-              }
-            }
-            date.entries = await VideoHelper.fetchVideoItems(this, query)
-          }
+        // for (let date of this.dates) {
+        let query = {
+          'author.id': this.user.uuid,
+          'title': this.$t(this.date.map_title)
         }
+        let result = await this.$store.dispatch('maps/find', query)
+        if (result.items.length) {
+          this.date.map = result.items[0]
+          query = {
+            // 'created': { $gte: date.start, $lte: date.end },
+            'author.id': this.user.uuid,
+            'body.type': 'Video',
+            'body.source.type': 'video/mp4',
+            'target.id': {
+              $eq: `${process.env.TIMELINE_BASE_URI}${this.date.map.uuid}`,
+              $ne: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`
+            }
+          }
+          this.date.entries = await VideoHelper.fetchVideoItems(this, query)
+        }
+        // }
         this.$q.loading.hide()
       }
     }
