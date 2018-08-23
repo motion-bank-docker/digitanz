@@ -5,21 +5,48 @@
     // h4.text-center.q-mb-none
       span(v-if="!hasUuid") {{ $t('pages.new_sequence.title') }}
       span(v-else) {{ $t('pages.edit_sequence.title') }}
-    q-input.q-ma-md(value='', :float-label="$t('labels.insert_sequence_title')", dark)
     // file-uploader(:url="url", :query="uploadQuery", @finish="addUploadedVideo")
     file-uploader(:url="url", :query="uploadQuery", @finish="")
 
     // BUTTONS -- FILTER ORIENTATION
     //
     .text-center
-      q-btn.q-mx-sm.text-white(@click="orientation = 'portrait'", :class="{'bg-primary' : orientation === 'portrait'}",
-      icon="stay_current_portrait", :label="$t('buttons.orientation.portrait')", no-caps)
-      q-btn.q-mx-sm.text-white(@click="orientation = 'landscape'", :class="{'bg-primary' : orientation === 'landscape'}",
-      icon="stay_current_landscape", :label="$t('buttons.orientation.landscape')", no-caps)
+      //
+        q-btn.q-mx-sm.text-white(@click="orientation = 'portrait'", :class="{'bg-primary' : orientation === 'portrait'}",
+        icon="stay_current_portrait", :label="$t('buttons.orientation.portrait')", no-caps)
+        q-btn.q-mx-sm.text-white(@click="orientation = 'landscape'", :class="{'bg-primary' : orientation === 'landscape'}",
+        icon="stay_current_landscape", :label="$t('buttons.orientation.landscape')", no-caps)
+      q-btn.q-mx-sm.text-white(@click="toggleOrientation", :class="{'bg-primary' : orientation === 'landscape'}", no-caps)
+        div(v-if="orientation === 'portrait'")
+          q-icon.q-mr-sm(name="stay_current_portrait")
+          | {{ $t('buttons.orientation.portrait') }}
+        div(v-else)
+          q-icon.q-mr-sm(name="stay_current_landscape")
+          | {{ $t('buttons.orientation.landscape') }}
 
     // DISPLAY FILTERED VIDEOS
     //
     sequence-videolist.q-my-xl(:imgorientation="orientation")
+
+    // DISPLAY VIDEOS
+    //
+    q-list.no-border.q-mt-xl
+      div.shadow-6.q-ma-md(
+      v-for="video in uploadedVideos",
+      v-if="video.orientation === orientation")
+        q-item.no-padding(style="overflow: hidden;")
+          q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;")
+            img(:src="video.preview.high", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
+            span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
+              | {{ formatDuration(video.metadata.duration) }}
+
+          q-item-side.column
+            q-item-tile
+              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveUp(sequencedVideos, editIndex)", round, icon="arrow_upward", dark)
+              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveDown(sequencedVideos, editIndex)", round, icon="arrow_downward", dark)
+            q-item-tile
+              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, duplicateVideo(editIndex)", round, icon="filter_none", dark)
+              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, deleteItem(editIndex)", round, icon="delete", dark)
 
     // DISPLAY CHECKED VIDEOS
     //
@@ -128,6 +155,10 @@
       }
     },
     methods: {
+      toggleOrientation () {
+        if (this.orientation === 'portrait') this.orientation = 'landscape'
+        else this.orientation = 'portrait'
+      },
       async loadData () {
         if (!this.user) return
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
