@@ -28,7 +28,6 @@
   import path from 'path'
   import { openURL, scroll } from 'quasar'
   import { DateTime, Interval } from 'luxon'
-  import { ObjectUtil } from 'mbjs-utils'
   import { mapGetters } from 'vuex'
 
   import { VideoHelper } from '../lib'
