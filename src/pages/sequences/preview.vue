@@ -40,19 +40,18 @@
     // DISPLAY VIDEOS
     //
     q-list.no-border.q-mt-xl.q-mb-xl
-      div(
-      v-for="video in uploadedVideos",
-      v-if="video.orientation === orientation",
-      @click="selectedUuid = video.annotation.uuid",
-      :class="{'bg-red' : selectedUuid = video.annotation.uuid}")
-        q-item
-          q-item-main
-            img(:src="video.preview.high", style="max-height: 160px; max-width: 50vw;")
+      div.shadow-6.q-ma-md(
+      v-for="video in uploadedVideos")
+        q-item.no-padding(style="overflow: hidden;")
+          q-item-main(style="margin-bottom: -10px; overflow: hidden;")
+            img(:src="video.preview.high", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
           q-item-side.column
-            q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveUp(sequencedVideos, editIndex)", round, size="sm", icon="arrow_upward", dark)
-            q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveDown(sequencedVideos, editIndex)", round, size="sm", icon="arrow_downward", dark)
-            q-btn.q-ma-xs.bg-dark(@click="editIndex = index, duplicateVideo(editIndex)", round, size="sm", icon="filter_none", dark)
-            q-btn.q-ma-xs.bg-dark(@click="editIndex = index, deleteItem(editIndex)", round, size="sm", icon="delete", dark)
+            q-item-tile
+              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveUp(sequencedVideos, editIndex)", round, icon="arrow_upward", dark)
+              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveDown(sequencedVideos, editIndex)", round, icon="arrow_downward", dark)
+            q-item-tile
+              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, duplicateVideo(editIndex)", round, icon="filter_none", dark)
+              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, deleteItem(editIndex)", round, icon="delete", dark)
 
     // DISPLAY CHECKED VIDEOS
     //
@@ -70,12 +69,12 @@
                 q-btn(round, icon="account_box" size="md")
                 q-btn(round, icon="delete" size="md")
 
-    .fixed-bottom-left
-      q-btn.q-mb-md.bg-body-background(@click="$router.push({path: 'create'})", icon="keyboard_backspace", flat)
+    .fixed-bottom-left.q-ma-sm
+      q-btn.bg-body-background(@click="$router.push({path: 'create'})", icon="keyboard_backspace", flat, round)
       // q-btn.q-mb-md.bg-dark(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
         icon="keyboard_backspace", flat)
 
-    .text-right.q-ma-md
+    .text-center.q-ma-md
       q-btn.bg-primary.text-white(@click="$router.push({path: '../sequences'})", icon="check", :label="$t('buttons.save')", flat)
 
     // q-btn.fixed-bottom.bg-black(@click="toggleHasUuid") dev switch

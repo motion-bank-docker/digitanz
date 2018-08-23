@@ -24,7 +24,7 @@
       v-for="video in uploadedVideos",
       v-if="video.orientation === orientation",
       @click="selectedUuid = video.annotation.uuid",
-      style="width: 33.333%; display: inline-block; margin-top: -4px;")
+      :class="[orientation === 'landscape' ? 'moba-landscape' : 'moba-portrait']")
         q-item.no-padding.q-caption.relative-position(tag="label")
           q-item-main
             q-item-tile
@@ -52,8 +52,8 @@
                 q-btn(round, icon="account_box" size="md")
                 q-btn(round, icon="delete" size="md")
 
-    .fixed-bottom-left
-      q-btn.q-mb-md.bg-body-background(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat)
+    .fixed-bottom-left.q-ma-sm
+      q-btn.bg-body-background(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat, round)
       // q-btn.q-mb-md.bg-dark(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
         icon="keyboard_backspace", flat)
 
@@ -367,4 +367,13 @@
   .moba-image
     max-width 50%
 
+  .moba-landscape
+    width 50%
+    display inline-block
+    margin-top -4px
+
+  .moba-portrait
+    width 33.3333%
+    display inline-block
+    margin-top -4px
 </style>
