@@ -20,13 +20,9 @@
         q-btn(round, flat, size="sm", icon="delete", @click="openDeleteModal(video)")
       slot(v-if="displayDownloadButton" name="downloadButton" :video="video")
         q-btn(round, flat, size="sm", icon="cloud_download", @click="downloadItem(video)")
-<<<<<<< Updated upstream
       slot(v-if="video.responses" name="downloadButton" :video="video")
         q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
           q-chip(floating, color="red") {{ video.responses.length }}
-      slot(name="customButtons" :video="video")
-=======
->>>>>>> Stashed changes
 </template>
 
 <script>
