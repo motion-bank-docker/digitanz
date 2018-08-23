@@ -14,11 +14,11 @@
     // card actions
     q-card-actions(v-if="video.annotation.uuid")
       slot(v-if="displayStartButton" name="starButton" :video="video")
-        q-btn(round, flat, size="sm" color="white", icon="star", @click="starItem(video)")
+        q-btn(round, flat, size="sm", icon="star", @click="starItem(video)")
       slot(v-if="displayDeleteButton" name="deleteButton" :video="video")
-        q-btn(round, flat, size="sm" color="white", icon="delete", @click="openDeleteModal(video)")
+        q-btn(round, flat, size="sm", icon="delete", @click="openDeleteModal(video)")
       slot(v-if="displayDownloadButton" name="downloadButton" :video="video")
-        q-btn(round, flat, size="sm" color="white", icon="cloud_download", @click="downloadItem(video)")
+        q-btn(round, flat, size="sm", icon="cloud_download", @click="downloadItem(video)")
       slot(name="customButtons" :video="video")
 </template>
 
