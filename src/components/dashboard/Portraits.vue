@@ -206,15 +206,16 @@
           }
           const portraits = await VideoHelper.fetchVideoItems(this, query)
           for (let portrait of portraits) {
-            const responsesQuery = {
-              'target.id': `${process.env.ANNOTATION_BASE_URI}${portrait.annotation.uuid}`,
-              'body.purpose': 'commenting'
-            }
-            portrait.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
-            console.debug('portrait', portrait)
+            // const responsesQuery = {
+            //   'target.id': `${process.env.ANNOTATION_BASE_URI}${portrait.annotation.uuid}`,
+            //   'body.purpose': 'commenting'
+            // }
+            // portrait.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+            // console.debug('portrait', portrait)
             items.push(portrait)
           }
           this.entries = items
+          console.log(this.entries)
         }
         // }
         this.$q.loading.hide()
