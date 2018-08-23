@@ -6,7 +6,11 @@
     q-btn.full-width(@click="$router.push('/sequences/create')", :label="$t('buttons.uploader')", color="primary")
     // div {{ sequences.length }}
     q-list.no-border
-      q-item.no-margin(v-for="sequence in sequences") {{ sequence.title }}
+      q-item.no-margin(v-for="sequence in sequences")
+        q-btn(@click="$router.push(`/sequences/${sequence.map.uuid}/edit`)", v-if="!sequence.processing") {{ sequence.title }}
+        span(v-if="sequence.processing") {{ sequence.title }} Rendering..........
+        span(v-if="!sequence.processing") {{ getVideoURL(sequence) }}
+        img(v-if="!sequence.processing", :src="sequence.preview.medium")
 </template>
 
 <script>
@@ -29,7 +33,9 @@
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState'
+        user: 'auth/getUserState',
+        sequenceJobIds: 'sequences/getJobIds',
+        sequenceJobDetails: 'sequences/getJobDetails'
       })
     },
     async mounted () {
@@ -38,6 +44,10 @@
     watch: {
       async user (val) {
         if (val) await this.loadData()
+      },
+      async sequenceJobIds (val) {
+        console.debug('sequence jobs updated', val)
+        this.updateProcessingStatus()
       }
     },
     methods: {
@@ -58,13 +68,39 @@
             medium: media.replace(/\.mp4$/, '-m.jpg'),
             small: media.replace(/\.mp4$/, '-s.jpg')
           }
+          let processing = false
+          for (let jobId of this.sequenceJobIds) {
+            if (this.sequenceJobDetails[jobId].uuid === map.uuid) processing = true
+          }
+          const annotation = {
+            body: {
+              source: {
+                id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
+                type: 'video/mp4'
+              }
+            }
+          }
           return {
+            processing,
+            annotation,
             title: map.title.substr(prefix.length),
             preview,
             media,
             map
           }
         })
+      },
+      updateProcessingStatus () {
+        for (let sequence of this.sequences) {
+          let processing = false
+          for (let jobId of this.sequenceJobIds) {
+            if (this.sequenceJobDetails[jobId].uuid === sequence.map.uuid) processing = true
+          }
+          sequence.processing = processing
+        }
+      },
+      getVideoURL (sequence) {
+        return `${process.env.ASSETS_BASE_PATH}${sequence.map.uuid}.mp4`
       }
     }
   }
