@@ -12,7 +12,7 @@
           q-spinner-mat(color="primary" size="3em")
       q-window-resize-observable(@resize="setPreviewHeight()")
     // card actions
-    q-card-actions(v-if="video.annotation.uuid")
+    q-card-actions.row.justify-around(v-if="video.annotation.uuid")
       slot(v-if="displayStartButton" name="starButton" :video="video")
         q-btn(round, flat, size="sm", icon="star", @click="starItem(video)")
       slot(v-if="displayDeleteButton" name="deleteButton" :video="video")
