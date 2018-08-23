@@ -137,4 +137,8 @@
     background-position: center
     background-repeat: no-repeat
     background-size: cover
+  .q-card-actions
+    padding-left 0
+    padding-right 0
+
 </style>

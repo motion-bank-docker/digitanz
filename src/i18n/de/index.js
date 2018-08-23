@@ -134,7 +134,7 @@ export default {
       sublabel: '17. August'
     },
     portraitplusplus: {
-      label: 'Sequenzen',
+      label: 'Eure Sequenzen',
       sublabel: '24. August'
     },
     lost_in_space: {
