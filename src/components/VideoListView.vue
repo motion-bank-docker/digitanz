@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  div.full-width
     // size s
     div.row.justify-between(v-if="layoutStyle === 'sm'")
       video-item(v-for="video in videos"
@@ -35,6 +35,6 @@
   }
 </script>
 
-<style scoped>
+<style lang="stylus" scoped>
 
 </style>
