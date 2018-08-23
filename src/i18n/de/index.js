@@ -57,8 +57,8 @@ export default {
       map_title: 'Meine Videos'
     },
     date_2: {
-      title: 'Portrait++',
-      description: 'Lorem ipsum dolor sit amet...',
+      title: 'Deine Sequenzen',
+      description: 'An diesem Termin erstellen wir erste Choreographien aus kurzen Bewegungs-Aufnahmen.',
       map_title: 'Meine Portraits++'
     },
     date_3: {
@@ -134,7 +134,7 @@ export default {
       sublabel: '17. August'
     },
     portraitplusplus: {
-      label: 'Portrait++',
+      label: 'Sequenzen',
       sublabel: '24. August'
     },
     lost_in_space: {
@@ -172,8 +172,8 @@ export default {
       remix_plural: 'andere Versionen'
     },
     portraitplusplus: {
-      title: 'Eure Video-Sequenzen',
-      description: 'Lorem',
+      title: 'Eure Sequenzen',
+      description: 'Hier siehst du alle deine Video-Sequenzen aus dem zweiten Termin. Mit dem Favorisieren-Knopf (Herz) kannst du deine Sequenzen für die Übersichtsseite freigeben.',
       upload_remix: 'Eigene Version von dieser Video-Sequenz hochladen',
       no_remix: 'Bisher noch keine anderen Versionen',
       remix_singular: 'andere Version',
@@ -189,7 +189,7 @@ export default {
     },
     video_sequencer: {
       title: 'Video-Sequenzer',
-      description: 'Lorem Ipsum, hier steht eine Beschreibung.'
+      description: 'Mit dem Video-Sequenzer Tool kannst Du mehrere Videos zu einem zusammenfügen. Nutze es um bspw. einzelne Bewegungen zu einer kurzen Choreographie zu vereinen.'
     },
     dashboard: {
       title: 'Hallo!',
