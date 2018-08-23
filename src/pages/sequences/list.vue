@@ -5,16 +5,21 @@
 
     q-btn.full-width(@click="$router.push('/sequences/create')", :label="$t('buttons.uploader')", color="primary")
     // div {{ sequences.length }}
-    q-list.no-border
+    .q-mt-md
+      video-list-view(:videos="sequences", layoutStyle="sm")
+    // q-list.no-border
       q-item.no-margin(v-for="sequence in sequences")
-        q-btn(@click="$router.push(`/sequences/${sequence.map.uuid}/edit`)", v-if="!sequence.processing") {{ sequence.title }}
-        span(v-if="sequence.processing") {{ sequence.title }} Rendering..........
-        span(v-if="!sequence.processing") {{ getVideoURL(sequence) }}
-        img(v-if="!sequence.processing", :src="sequence.preview.medium")
+        .q-caption {{ sequence }}
+        //
+          q-btn(@click="$router.push(`/sequences/${sequence.map.uuid}/edit`)", v-if="!sequence.processing") {{ sequence.title }}
+          span(v-if="sequence.processing") {{ sequence.title }} Rendering..........
+          span(v-if="!sequence.processing") {{ getVideoURL(sequence) }}
+          img(v-if="!sequence.processing", :src="sequence.preview.medium")
 </template>
 
 <script>
   import ModalPreview from '../../components/VideoModal'
+  import VideoListView from '../../components/VideoListView'
   // import { VideoPlayer } from 'mbjs-quasar/src/components'
   import { mapGetters } from 'vuex'
   import VideoPlayer from '../../components/VideoPlayer'
@@ -24,7 +29,8 @@
     components: {
       ModalPreview,
       VideoPlayer,
-      FileUploader
+      FileUploader,
+      VideoListView
     },
     data () {
       return {
