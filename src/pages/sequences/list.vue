@@ -59,7 +59,11 @@
       })
     },
     async mounted () {
+      this.$root.$on('updateSequences', this.loadData)
       await this.loadData()
+    },
+    beforeDestroy () {
+      this.$root.$off('updateSequences', this.loadData)
     },
     watch: {
       async user (val) {
@@ -73,6 +77,7 @@
     methods: {
       async loadData () {
         if (!this.user) return
+        this.sequences = []
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
         const prefix = 'Sequenz: '
         const query = {

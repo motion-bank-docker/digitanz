@@ -5,7 +5,7 @@
     q-card-media.no-padding
       // show video preview
       video-modal(ref="videoModal")
-      div.previewImage(v-if="video.annotation.uuid" ref="previewImage" :style="{ 'background-image': 'url(' + video.preview.medium + ')', 'height':previewHeight }", @click="openPreview(video)")
+      div.previewImage(v-if="video.annotation.uuid && video.preview" ref="previewImage" :style="{ 'background-image': 'url(' + video.preview.medium + ')', 'height':previewHeight }", @click="openPreview(video)")
       // or show spinner
       div.item(v-else)
         q-inner-loading.bg-dark(:visible="true")
