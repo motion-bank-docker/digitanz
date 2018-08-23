@@ -1,9 +1,9 @@
 <template lang="pug">
   div
     video-modal(ref="videoModal")
-    div.previewImage(v-if="video.annotation.uuid" ref="previewImage" :style="{ 'background-image': 'url(' + video.preview.medium + ')', 'height':previewHeight }", @click="openPreview(video.annotation)")
+    div.previewImage(v-if="video.annotation.uuid" ref="previewImage" :style="{ 'background-image': 'url(' + video.preview.medium + ')', 'height':previewHeight }", @click="openPreview(video)")
     div.item(v-else)
-      q-inner-loading(:visible="true")
+      q-inner-loading.bg-dark(:visible="true")
         q-spinner-mat(color="primary" size="3em")
     q-window-resize-observable(@resize="setPreviewHeight()")
 </template>
@@ -37,8 +37,8 @@
       setPreviewHeight () {
         this.previewHeight = this.getPreviewWidth()
       },
-      openPreview (preview) {
-        if (preview.body.source.type === 'video/mp4') this.$refs.videoModal.show(preview)
+      openPreview (item) {
+        if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item)
       }
     }
   }
@@ -51,8 +51,6 @@
   div.item
     height 150px
     position relative
-  .q-inner-loading
-      background-color: transparent !important;
   .previewImage
     width: 100%
     height: 200px

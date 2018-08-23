@@ -1,10 +1,12 @@
 <template lang="pug">
   q-page
-    list-view.q-ma-lg(:videos="videos")
+    list-view.q-ma-lg(:videos="videos", :buttons="['star', 'delete']", size="s")
+      template(slot="customButtons" slot-scope="{ video }")
+        q-btn(round, flat, size="sm" color="primary" icon="add" @click="customAction(video)")
 </template>
 
 <script>
-  import ListView from '../components/listView'
+  import ListView from '../components/VideoListView'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -29,6 +31,12 @@
       })
     },
     methods: {
+      deleteItem (uuid) {
+        console.log('uuid ' + uuid)
+      },
+      customAction (video) {
+        console.log('custom action triggerd for: ' + video.annotation.uuid)
+      },
       async fetchVideos () {
         this.$q.loading.show({ message: this.$t('messages.loading_videos') })
         let query = {
