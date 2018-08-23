@@ -173,11 +173,15 @@ export default {
     },
     portraitplusplus: {
       title: 'Eure Sequenzen',
-      description: 'Hier siehst du alle deine Video-Sequenzen aus dem zweiten Termin. Mit dem Favorisieren-Knopf (Herz) kannst du deine Sequenzen für die Übersichtsseite freigeben.',
+      description: 'Hier siehst du alle freigegebenen Video-Sequenzen aus dem zweiten Termin. Mit dem Favorisieren-Knopf (Herz) auf der Kursseite kannst du deine Sequenzen für diese Seite freigeben.',
       upload_remix: 'Eigene Version von dieser Video-Sequenz hochladen',
       no_remix: 'Bisher noch keine anderen Versionen',
       remix_singular: 'andere Version',
       remix_plural: 'andere Versionen'
+    },
+    responses: {
+      title: 'Responses',
+      description: 'Lorem Ipsum, hier steht eine Beschreibung.'
     },
     new_sequence: {
       title: 'Neue Sequenz erstellen',
