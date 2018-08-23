@@ -13,9 +13,10 @@
           //
             q-btn(flat, size="sm", round, icon="edit",
             @click="$router.push(`/sequences/${sequence.map.uuid}/edit`)", v-if="!sequence.processing")
-          q-btn(flat, size="sm", round, icon="edit")
-          q-btn(flat, size="sm", round, icon="delete")
-          q-btn(flat, size="sm", round, icon="cloud_download")
+          q-btn(v-if="!video.processing", flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
+          q-btn(v-if="!video.processing", flat, size="sm", round, icon="delete", @click="deleteVideo(video)")
+          q-btn(v-if="!video.processing", flat, size="sm", round, icon="cloud_download", @click="download(video)")
+          span(v-if="video.processing") Rendering...
 
     // q-list.no-border
       q-item.no-margin(v-for="sequence in sequences")
@@ -31,7 +32,10 @@
   import ModalPreview from '../../components/VideoModal'
   import VideoListView from '../../components/VideoListView'
   // import { VideoPlayer } from 'mbjs-quasar/src/components'
+  import { SequenceHelper } from '../../lib'
   import { mapGetters } from 'vuex'
+  import { openURL } from 'quasar'
+  import path from 'path'
   import VideoPlayer from '../../components/VideoPlayer'
   import FileUploader from '../../components/FileUploader'
 
@@ -69,6 +73,7 @@
     methods: {
       async loadData () {
         if (!this.user) return
+        this.$q.loading.show({ message: this.$t('messages.loading_data') })
         const prefix = 'Sequenz: '
         const query = {
           type: 'Timeline',
@@ -106,6 +111,7 @@
             map
           }
         })
+        this.$q.loading.hide()
       },
       updateProcessingStatus () {
         for (let sequence of this.sequences) {
@@ -116,8 +122,14 @@
           sequence.processing = processing
         }
       },
-      getVideoURL (sequence) {
-        return `${process.env.ASSETS_BASE_PATH}${sequence.map.uuid}.mp4`
+      async deleteVideo (video) {
+        this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
+        await SequenceHelper.deleteSequence(this, video.map.uuid)
+        this.$q.loading.hide()
+        await this.loadData()
+      },
+      download (video) {
+        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.media)}`)
       }
     }
   }
