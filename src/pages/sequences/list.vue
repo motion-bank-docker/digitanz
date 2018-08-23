@@ -6,7 +6,8 @@
     q-btn.full-width(@click="$router.push('/sequences/create')", :label="$t('buttons.uploader')", color="primary")
     // div {{ sequences.length }}
     q-list.no-border
-      q-item.no-margin(v-for="sequence in sequences") {{ sequence.title }}
+      q-item.no-margin(v-for="sequence in sequences")
+        q-btn(@click="$router.push(`/sequences/${sequence.map.uuid}/edit`)") {{ sequence.title }}
 </template>
 
 <script>
