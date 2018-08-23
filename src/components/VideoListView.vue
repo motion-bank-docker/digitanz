@@ -1,7 +1,7 @@
 <template lang="pug">
-  q-page
+  div
     // size s
-    div.row.justify-between(v-if="size === 'sm'")
+    div.row.justify-between(v-if="layoutStyle === 'sm'")
       video-item(v-for="video in videos"
                 :key="video.annotation.uuid"
                 :video="video"
@@ -24,7 +24,7 @@
     props: {
       videos: Array,
       // sm, md, l, xl ?
-      size: String,
+      layoutStyle: String,
       buttons: Array
     },
     data () {

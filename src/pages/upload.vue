@@ -10,29 +10,12 @@
       .col-12.q-px-md
         // h4.text-center {{ map.title }}
         h4.text-center {{ $t('upload.my_videos') }}
-        <!--q-list.no-border.q-pb-md-->
-          <!--q-item.no-padding.q-mt-md.text-center(v-for="item in videos", :key="item.uuid")-->
-            <!--//-->
-              <!--p {{ item.metadata.title }}-->
-              <!--p {{ item.metadata.width }}x{{ item.metadata.height }}-->
-              <!--p {{ item.annotation.body.source.id }}-->
-            <!--q-item-main.text-center-->
-              <!--q-item-tile-->
-                <!--img(:src="item.preview.medium",-->
-                  <!--@click="openPreview(item.annotation)",-->
-                  <!--style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")-->
-              <!--q-item-tile-->
-                <!--// q-btn(flat, round, icon="edit")-->
-                <!--q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")-->
-                <!--q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")-->
         //
-        div.row.justify-center
-          q-card.q-pb-xl.q-px-md(v-for="item in videos", :key="item.uuid", style="width:280px", inline, flat)
-            div.bgsuper(:style="{ 'background-image': 'url(' + item.preview.medium + ')' }", @click="openPreview(item.annotation)")
-            q-card-main
-              q-item-tile.no-margin.text-center.q-pt-sm
-                q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")
-                q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
+        // Meine Videos Liste
+        video-list-view(:videos="videos", layoutStyle="sm")
+          template(slot="customButtons" slot-scope="{ video }")
+            q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
+            q-btn(flat, size="sm" round, icon="cloud_download", @click="download(video.annotation.body.source.id)")
 </template>
 
 <script>
@@ -44,13 +27,15 @@
   import FileUploader from '../components/FileUploader'
   import ConfirmModal from '../components/ConfirmModal'
   import VideoModal from '../components/VideoModal'
+  import VideoListView from '../components/VideoListView'
 
   export default {
     components: {
       FileUploader,
       ConfirmModal,
       VideoModal,
-      JobList
+      JobList,
+      VideoListView
     },
     async mounted () {
       this.$root.$on('updateVideos', this.fetchVideos)

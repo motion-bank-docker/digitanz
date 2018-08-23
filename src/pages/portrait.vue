@@ -25,7 +25,7 @@
           img.cursor-pointer.q-mt-sm.portrait-image(@click="openPreview(item)", :src="item.preview.medium")
           q-btn.full-width.q-my-md(
           v-if="item.annotation.author.id !== user.uuid"
-          dark, color="primary", @click="uploadResponse(item.annotation)") {{ $t('buttons.upload_remix') }}
+          dark, color="primary", @click="uploadResponse(item)") {{ $t('buttons.upload_remix') }}
           // q-btn.full-width.q-mt-sm(v-else, disabled, dark, color="primary") {{ $t('buttons.upload_remix') }}
 
           q-collapsible.full-width.no-padding.q-my-sm(
@@ -134,7 +134,7 @@
       async uploadResponse (item) {
         this.$refs.uploadRemixModal.show(item)
         const message = {
-          portrait: item.uuid,
+          portrait: item.annotation.uuid,
           user: this.user.uuid
         }
         await this.$store.dispatch('logging/log', { action: 'open_response', message })
@@ -154,10 +154,11 @@
           const portraits = await VideoHelper.fetchVideoItems(this, portraitsQuery)
           for (let portrait of portraits) {
             const responsesQuery = {
-              'target.id': `${process.env.ANNOTATION_BASE_URI}${portrait.uuid}`,
+              'target.id': `${process.env.ANNOTATION_BASE_URI}${portrait.annotation.uuid}`,
               'body.purpose': 'commenting'
             }
             portrait.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+            console.debug('portrait', portrait)
             items.push(portrait)
           }
           this.portraits.items = items

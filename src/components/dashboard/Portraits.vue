@@ -1,6 +1,15 @@
 <template lang="pug">
 
-  div aksdjh akjsdh akjsdh akjsdhakj sdkjashdkjh
+  .row
+    video-list-view(
+      v-if="date.entries.length > 0",
+      :videos="date.entries", layoutStyle="sm")
+      template(slot="customButtons" slot-scope="{ video }")
+        q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
+        q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
+        q-btn(flat, size="sm" round, icon="cloud_download", @click="download(video.annotation.body.source.id)")
+    template(v-else)
+      | {{ $t('messages.no_videos') }}
 
 </template>
 
@@ -10,18 +19,21 @@
   import { DateTime, Interval } from 'luxon'
   import { ObjectUtil } from 'mbjs-utils'
   import { mapGetters } from 'vuex'
-
   import { VideoHelper } from '../../lib'
+  import VideoListView from '../../components/VideoListView'
 
   const { getScrollTarget, setScrollPosition } = scroll
 
   export default {
     name: 'dashboard-portraits',
     components: {
+      VideoListView
     },
+    props: [
+      'date'
+    ],
     data () {
       return {
-        // itemDate: this.$route.query.item_id,
         dimensions: {
           width: '',
           height: ''
@@ -32,8 +44,7 @@
         portraits: {
           map: undefined,
           annotations: []
-        },
-        dates: undefined
+        }
       }
     },
     computed: {
@@ -46,24 +57,16 @@
         if (!this.portraits.map) {
           await this.loadPortraits()
         }
-        if (!this.dates[0].map) {
-          await this.loadDates()
-        }
       }
     },
     async mounted () {
       const _this = this
-      this.dates = this.$dates()
       if (this.user) {
         await this.loadPortraits()
         await this.loadDates()
       }
       this.$root.$on('updateVideos', async () => {
         await _this.loadPortraits()
-        await _this.loadDates()
-      })
-      this.$root.$on('updateSequences', async () => {
-        await _this.loadDates()
       })
     },
     methods: {

@@ -20,12 +20,7 @@
             h4.q-mt-md.q-mb-none(style="line-height: 1em;") {{ $t(date.title) }}
             p.q-caption.text-grey-8.no-padding.q-mt-sm {{ $t('pages.dashboard.date_at') }} {{ getDateLabel(date) }}
       p(style="padding-bottom: 1em") {{ $t(date.description) }}
-      div.row.justify-center
-        component(:is="`dashboard-${date.componentName}`")
-
-      <!--div(v-if="i === 0")-->
-        <!--file-uploader.full-width.self-center(:query="query")-->
-        <!--job-list-->
+      component(:is="`dashboard-${date.componentName}`", :date="date")
 
 </template>
 
@@ -46,6 +41,8 @@
 
   import { DashboardPortraits } from '../components/dashboard'
 
+  import VideoListView from '../components/VideoListView'
+
   const { getScrollTarget, setScrollPosition } = scroll
 
   export default {
@@ -55,7 +52,8 @@
       ImageModal,
       ConfirmModal,
       FileUploader,
-      JobList
+      JobList,
+      VideoListView
     },
     data () {
       return {
@@ -242,17 +240,7 @@
   }
 </script>
 
-<style>
-  .foo {
-    width: 200px;
-    height: 200px;
-    position: relative;
-  }
-  .bgsuper {
-    width: 100%;
-    height: 200px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+<style lang="stylus">
+  .q-card.q-mb-lg
+    margin-bottom: 24px !important;
 </style>
