@@ -3,8 +3,8 @@
   .row
     | {{ sequences }}
     video-list-view(
-      v-if="date.entries && date.entries.length > 0",
-      :videos="date.entries", layoutStyle="sm")
+      v-if="sequences && sequences.length > 0",
+      :videos="sequences", layoutStyle="sm")
         template(slot="customButtons" slot-scope="{ video }")
           q-btn(flat, size="sm" round, :icon="getItemStyle(item).icon", :color="getItemStyle(item).color")
           q-btn(flat, size="sm" round, icon="delete")
@@ -77,8 +77,18 @@
           for (let jobId of this.sequenceJobIds) {
             if (this.sequenceJobDetails[jobId].uuid === map.uuid) processing = true
           }
+          const annotation = {
+            uuid: map.uuid,
+            body: {
+              source: {
+                id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
+                type: 'video/mp4'
+              }
+            }
+          }
           return {
             processing,
+            annotation,
             title: map.title.substr(prefix.length),
             preview,
             media,
