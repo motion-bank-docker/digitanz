@@ -21,7 +21,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_2.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'portraits-plus-plus'
       },
       {
         title: 'dates.date_3.title',
@@ -32,7 +32,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_3.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'default'
       },
       {
         title: 'dates.date_4.title',
@@ -43,7 +43,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_4.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'default'
       },
       {
         title: 'dates.date_5.title',
@@ -54,7 +54,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_5.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'default'
       },
       {
         title: 'dates.date_6.title',
@@ -65,7 +65,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_6.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'default'
       },
       {
         title: 'dates.date_7.title',
@@ -76,7 +76,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_7.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'default'
       },
       {
         title: 'dates.date_8.title',
@@ -87,7 +87,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_8.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'default'
       },
       {
         title: 'dates.date_9.title',
@@ -98,7 +98,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_9.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'default'
       },
       {
         title: 'dates.date_10.title',
@@ -109,7 +109,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_10.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'default'
       },
       {
         title: 'dates.date_11.title',
@@ -120,7 +120,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_11.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'default'
       },
       {
         title: 'dates.date_12.title',
@@ -131,7 +131,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_12.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'default'
       },
       {
         title: 'dates.date_13.title',
@@ -142,7 +142,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_13.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'default'
       },
       {
         title: 'dates.date_14.title',
@@ -153,7 +153,7 @@ export default ({ Vue }) => {
         map_title: 'dates.date_14.map_title',
         map: undefined,
         entries: [],
-        componentName: 'portraits'
+        componentName: 'default'
       }
     ]
   }
