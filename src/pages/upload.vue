@@ -124,11 +124,5 @@
 </script>
 
 <style>
-  .bgsuper {
-    width: 100%;
-    height: 200px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+
 </style>
