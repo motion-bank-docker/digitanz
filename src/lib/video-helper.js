@@ -12,7 +12,10 @@ class VideoHelper {
       try {
         metadata = await context.$store.dispatch('metadata/get', annotation.uuid)
       }
-      catch (e) { console.error(`Failed to fetch metadata: ${e.message}`) }
+      catch (e) {
+        console.error(`Failed to fetch metadata: ${e.message}`)
+        context.$captureException(e)
+      }
       const preview = {
         high: annotation.body.source.id.replace(/\.mp4$/, '.jpg'),
         medium: annotation.body.source.id.replace(/\.mp4$/, '-m.jpg'),
@@ -33,18 +36,27 @@ class VideoHelper {
     try {
       await context.$store.dispatch('annotations/delete', item.annotation.uuid)
     }
-    catch (e) { console.error('Failed to remove annotation', e.message) }
+    catch (e) {
+      console.error('Failed to remove annotation', e.message)
+      context.$captureException(e)
+    }
     const previewKeys = Object.keys(item.preview)
     for (let key of previewKeys) {
       try {
         await context.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.preview[key])}`, { headers })
       }
-      catch (e) { console.error('Failed to remove preview', e.message) }
+      catch (e) {
+        console.error('Failed to remove preview', e.message)
+        context.$captureException(e)
+      }
     }
     try {
       await context.$axios.delete(`${process.env.TRANSCODER_HOST}/uploads/${path.basename(item.annotation.body.source.id)}`, { headers })
     }
-    catch (e) { console.error('Failed to remove video', e.message) }
+    catch (e) {
+      console.error('Failed to remove video', e.message)
+      context.$captureException(e)
+    }
     const message = {
       annotation: item.annotation.uuid,
       source: item.annotation.body.source.id,
