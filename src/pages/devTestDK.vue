@@ -1,17 +1,17 @@
 <template lang="pug">
   q-page
-    list-view.q-ma-lg(:videos="videos", size="sm", :buttons="['delete', 'star', 'download']")
+    video-list-view.q-ma-lg(:videos="videos", layoutStyle="sm", :buttons="['delete', 'star', 'download']")
       // template(slot="customButtons" slot-scope="{ video }")
         // q-btn(round, flat, size="sm" color="primary", icon="delete", @click="customAction(video)")
 </template>
 
 <script>
-  import ListView from '../components/VideoListView'
+  import VideoListView from '../components/VideoListView'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
-      ListView
+      VideoListView
     },
     async mounted () {
       if (this.user) await this.fetchVideos()
