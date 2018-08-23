@@ -183,8 +183,8 @@
       },
       async loadData () {
         if (!this.user) return
-        await this.initTimeline()
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
+        await this.initTimeline()
         if (this.$route.params.uuid && !this.timeline.uuid) {
           const prefix = 'Sequenz: '
           const timeline = await this.$store.dispatch('maps/get', this.$route.params.uuid)
@@ -199,6 +199,7 @@
             item.orientation = item.metadata.height < item.metadata.width ? 'landscape' : 'portrait'
             return item
           }))
+          if (this.videos.length) this.orientation = this.videos[0].orientation
         }
         console.debug('loaded map data', this.timeline, this.videos)
         await this.loadUploadedVideos()
@@ -212,7 +213,7 @@
         return items
       },
       async saveSequence () {
-        this.$q.loading.show({ message: this.$t('messages.loading_data') })
+        this.$q.loading.show({ message: this.$t('messages.saving_sequence') })
         const prefix = 'Sequenz: '
         let payload = this.timeline
         payload.title = `${prefix}${payload.title}`
@@ -342,38 +343,31 @@
         }
       },
       // METHODS TO EDIT SELECTED VIDEO
-      deleteItem: function (item) {
-        this.$refs.videoPlayer.reset()
-        this.videos.splice(item, 1)
-        this.editIndex = -1
-        // this.playNext()
-        this.loadFirstVideo()
-        // this.sourceVideo = undefined
+      deleteItem: function (index) {
+        // this.$refs.videoPlayer.reset()
+        const copy = [].concat(this.videos)
+        copy.splice(index, 1)
+        this.videos = this.updateWeights(copy)
+        // this.loadFirstVideo()
       },
-      // MOVING ITEMS THROUGH ARROWS (REPLACE THIS WITH DRAGNDROP AS SOON AS IT WORKS)
-      moveItem: function (array, element, delta) {
-        this.newIndex = this.editIndex + delta
-        // moving a playing video requires to update currentPlay..
-        if (element === this.currentPlay) this.currentPlay = this.newIndex
-        if (this.newIndex < 0 || this.newIndex === array.length) return // Already at the top or bottom.
-        this.indexes = [this.editIndex, this.newIndex].sort((a, b) => a - b) // Sort the indexes
-        array.splice(this.indexes[0], 2, array[this.indexes[1]], array[this.indexes[0]]) // Replace from lowest index, two elements, reverting the order
+      moveUp: function (index) {
+        if (index === 0) return
+        const copy = [].concat(this.videos)
+        const moved = copy.splice(index, 1)
+        copy.splice(index - 1, 0, moved[0])
+        this.videos = this.updateWeights(copy)
       },
-      moveUp: function (element) {
-        this.moveItem(this.videos, element, -1)
-        if (this.editIndex > 0) {
-          this.editIndex -= 1
-        }
+      moveDown: function (index) {
+        if (index === this.videos.length - 1) return
+        const copy = [].concat(this.videos)
+        const moved = copy.splice(index, 1)
+        copy.splice(index + 1, 0, moved[0])
+        this.videos = this.updateWeights(copy)
       },
-      moveDown: function (element) {
-        this.moveItem(this.videos, element, 1)
-        if (this.editIndex < this.videos.length - 1) {
-          this.editIndex += 1
-        }
-      },
-      duplicateVideo: function (video) {
-        const newObject = Object.assign({}, this.videos[video])
-        this.videos.splice(this.editIndex + 1, 0, newObject)
+      duplicateVideo: function (index) {
+        const newObject = Object.assign({}, this.videos[index])
+        newObject.weight = this.videos.length
+        this.videos.push(newObject)
       },
       loadFirstVideo: function () {
         if (typeof this.videos !== 'undefined' && this.videos.length > 0) {
