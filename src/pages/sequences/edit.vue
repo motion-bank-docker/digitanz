@@ -199,6 +199,7 @@
             item.orientation = item.metadata.height < item.metadata.width ? 'landscape' : 'portrait'
             return item
           }))
+          if (this.videos.length) this.orientation = this.videos[0].orientation
         }
         console.debug('loaded map data', this.timeline, this.videos)
         await this.loadUploadedVideos()
