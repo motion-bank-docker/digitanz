@@ -177,7 +177,7 @@
         this.sequencedVideos = val
       },
       toggleOrientation () {
-        if (this.checkedVideos.length <= 0) {
+        if (this.sequencedVideos.length <= 0) {
           if (this.orientation === 'portrait') this.orientation = 'landscape'
           else this.orientation = 'portrait'
         }
