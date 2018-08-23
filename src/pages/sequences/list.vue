@@ -3,10 +3,20 @@
     h4.text-center {{ $t('pages.video_sequencer.title') }}
     div.q-mb-xl.text-grey-8 {{ $t('pages.video_sequencer.description') }}
 
-    q-btn.full-width(@click="$router.push('/sequences/create')", :label="$t('buttons.uploader')", color="primary")
+    q-btn.full-width(@click="$router.push('/sequences/create')", :label="$t('buttons.add_video')", color="primary")
     // div {{ sequences.length }}
     .q-mt-md
       video-list-view(:videos="sequences", layoutStyle="sm")
+        // template(slot="customButtons")
+        template(slot="customButtons" slot-scope="{ video }")
+          // q-btn(flat, size="sm", round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
+          //
+            q-btn(flat, size="sm", round, icon="edit",
+            @click="$router.push(`/sequences/${sequence.map.uuid}/edit`)", v-if="!sequence.processing")
+          q-btn(flat, size="sm", round, icon="edit")
+          q-btn(flat, size="sm", round, icon="delete")
+          q-btn(flat, size="sm", round, icon="cloud_download")
+
     // q-list.no-border
       q-item.no-margin(v-for="sequence in sequences")
         .q-caption {{ sequence }}

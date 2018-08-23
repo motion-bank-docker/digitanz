@@ -27,6 +27,7 @@ export default {
   },
   buttons: {
     add_to_sequence: 'Ausgewählte Videos zur Sequenz hinzufügen',
+    add_video: 'Video hinzufügen',
     back: 'Zurück',
     close: 'Schließen',
     // uploader: 'Video auswählen und hochladen',
