@@ -3,11 +3,14 @@
   .row
     video-list-view(
       v-if="sequences && sequences.length > 0",
-      :videos="sequences", layoutStyle="sm")
+      :videos="sequences",
+      layoutStyle="sm",
+      :buttons="['delete', 'download']",
+      @changed="loadVideoSequences")
         template(slot="customButtons" slot-scope="{ video }")
           q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
-          q-btn(flat, size="sm" round, icon="delete")
-          q-btn(flat, size="sm" round, icon="cloud_download")
+          // q-btn(flat, size="sm" round, icon="delete")
+          // q-btn(flat, size="sm" round, icon="cloud_download")
     template(v-else)
       | {{ $t('messages.no_videos') }}
 
