@@ -40,26 +40,16 @@
           // q-chip(color="primary", small) {{ $t('labels.edit_sequence') }}
 
       div(v-if="videos.length")
-        //
-          video-player.full-width.self-center(
-          v-show="videos.length > 0",
-          // :class="orientationClass",
-          // :src="sourceVideo",
+
+        video-player.full-width.self-center.q-mb-sm(
+          v-if="currentVideo",
+          :class="orientationClass",
+          :annotation="currentVideo",
           ref="videoPlayer",
           autoplay="true",
           @ended="playNext",
           @play="setPlayerStatePlay()",
           @pause="setPlayerStatePause()")
-
-        video-player.full-width.self-center.q-mb-sm(
-        v-if="currentVideo",
-        :class="orientationClass",
-        :annotation="currentVideo",
-        ref="videoPlayer",
-        autoplay="true",
-        @ended="playNext",
-        @play="setPlayerStatePlay()",
-        @pause="setPlayerStatePause()")
 
         // DISPLAY VIDEOS
         //
@@ -203,7 +193,11 @@
         }
         console.debug('loaded map data', this.timeline, this.videos)
         await this.loadUploadedVideos()
-        if (this.videos.length) this.$refs.sequenceGroup.show()
+        if (this.videos.length) {
+          this.$refs.sequenceGroup.show()
+          this.currentPlay = 0
+          this.openPreview(this.currentPlay)
+        }
         this.$q.loading.hide()
       },
       updateWeights (items) {
@@ -293,6 +287,10 @@
       },
       setPreview (annotation) {
         this.preview = annotation.source.source
+      },
+      openPreview (index) {
+        this.currentVideo = this.videos[index].annotation
+        this.currentPlay = index
       },
       setSequence () {
         this.preview = this.uploadedVideos
