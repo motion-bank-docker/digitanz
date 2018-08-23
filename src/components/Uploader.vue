@@ -1,6 +1,6 @@
 <template lang="pug">
 
-  q-uploader(
+  q-uploader-extended(
         ref="uploader",
         :prefix="$t('buttons.uploader')",
         auto-expand,
@@ -23,7 +23,12 @@
 
 <script>
   import { ObjectUtil } from 'mbjs-utils'
+  import QUploaderExtended from '../components/QUploaderExtended'
+
   export default {
+    components: {
+      QUploaderExtended
+    },
     data () {
       return {
         ext: 'video/*',
