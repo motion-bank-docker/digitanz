@@ -28,30 +28,15 @@
       div(v-if="!date.entries.length")
         .text-grey-8
           | {{ $t('pages.dashboard.no_portraits') }}
-
-      <!--div.overflow-hidden(v-else)-->
-        <!--.q-mb-xl.row.justify-center(style="border-top: 0px solid #333;")-->
-          <!--q-item.foo.q-mb-xl.no-padding(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id")-->
-            <!--q-item-main-->
-              <!--q-item-tile.text-center-->
-                <!--q-btn.no-padding(@click="openPreview(item)")-->
-                  <!--// img(:src="item.preview.medium", style="height: auto; max-height: 50vh; width: auto; max-width: 100%;")-->
-                  <!--img(:src="item.preview.medium", style="max-height:150px; max-width:200px")-->
-              <!--q-item-tile.no-margin.text-center.q-pt-sm-->
-                <!--q-btn(flat, round, :icon="getItemStyle(item).icon", :color="getItemStyle(item).color", @click="setAsPortrait(item)")-->
-                <!--// q-btn(flat, round, icon="edit")-->
-                <!--q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")-->
-                <!--q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")-->
       //
-      div.row.justify-center(v-else)
-        q-card.q-pb-xl.q-px-md(v-for="item in date.entries", :key="item.annotation.uuid", :src="item.annotation.body.source.id", style="width:280px", inline, flat)
-          div.bgsuper(:style="{ 'background-image': 'url(' + item.preview.medium + ')' }", @click="openPreview(item)")
-          q-card-main
-            q-item-tile.no-margin.text-center.q-pt-sm
-              q-btn(flat, round, :icon="getItemStyle(item).icon", :color="getItemStyle(item).color", @click="setAsPortrait(item)")
-              // q-btn(flat, round, icon="edit")
-              q-btn(flat, round, icon="delete", @click="openDeleteModal(item)")
-              q-btn(flat, round, icon="cloud_download", @click="download(item.annotation.body.source.id)")
+      // SHOW PORTRAITS
+      div(v-else)
+        video-list-view(:videos="date.entries", layoutStyle="sm")
+          template(slot="customButtons" slot-scope="{ video }")
+            q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
+            q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
+            q-btn(flat, size="sm" round, icon="cloud_download", @click="download(video.annotation.body.source.id)")
+      //
       //
       div(v-if="i === 0")
         file-uploader.full-width.self-center(:query="query")
@@ -75,6 +60,8 @@
   import JobList from '../components/JobList'
   import Portrait from './portrait'
 
+  import VideoListView from '../components/VideoListView'
+
   const { getScrollTarget, setScrollPosition } = scroll
 
   export default {
@@ -84,7 +71,8 @@
       ImageModal,
       ConfirmModal,
       FileUploader,
-      JobList
+      JobList,
+      VideoListView
     },
     data () {
       return {
@@ -271,17 +259,7 @@
   }
 </script>
 
-<style>
-  .foo {
-    width: 200px;
-    height: 200px;
-    position: relative;
-  }
-  .bgsuper {
-    width: 100%;
-    height: 200px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+<style lang="stylus">
+  .q-card.q-mb-lg
+    margin-bottom: 24px !important;
 </style>
