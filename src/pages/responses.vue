@@ -1,10 +1,10 @@
 <template lang="pug">
-  q-page
+  q-page.q-px-md
     video-modal(ref="videoModal")
     upload-remix-modal(ref="uploadRemixModal")
 
-    .row
-      h3 Responsen
+    div
+      h3.text-center {{ $t('pages.responses.title') }}
 
       q-btn.full-width.q-my-md(v-if="annotation && annotation.author.id !== user.uuid",
         dark, color="primary", @click="uploadResponse(annotation)") {{ $t('buttons.upload_remix') }}
