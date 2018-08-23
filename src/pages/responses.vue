@@ -12,8 +12,6 @@
     .row
       video-list-view(v-if="responses.length > 0", :videos="responses", layoutStyle="sm")
         template(slot="customButtons" slot-scope="{ video }")
-          q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
-          q-btn(flat, size="sm" round, icon="cloud_download")
       template(v-else)
         | {{ $t('messages.no_videos') }}
 </template>
@@ -51,6 +49,7 @@
           'body.purpose': 'commenting'
         }
         this.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+        console.debug(this.responses)
       }
       this.$q.loading.hide()
     },
