@@ -1,12 +1,11 @@
 <template lang="pug">
 
   .row
-    | {{ sequences }}
     video-list-view(
       v-if="sequences && sequences.length > 0",
       :videos="sequences", layoutStyle="sm")
         template(slot="customButtons" slot-scope="{ video }")
-          q-btn(flat, size="sm" round, :icon="getItemStyle(item).icon", :color="getItemStyle(item).color")
+          q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
           q-btn(flat, size="sm" round, icon="delete")
           q-btn(flat, size="sm" round, icon="cloud_download")
     template(v-else)
@@ -17,6 +16,8 @@
 <script>
   import VideoListView from '../../components/VideoListView'
   import { mapGetters } from 'vuex'
+  import { DateTime } from 'luxon'
+  import { ObjectUtil } from 'mbjs-utils'
 
   export default {
     name: 'dashboard-portraits-plus-plus',
@@ -47,7 +48,9 @@
       }
     },
     async mounted () {
-      if (this.user) this.loadVideoSequences()
+      if (this.user) {
+        await this.loadVideoSequences()
+      }
     },
     methods: {
       getItemStyle () {
@@ -55,6 +58,51 @@
           color: 'primary',
           icon: 'favorite'
         }
+      },
+      async toggleItemFavorite (item, silent = true) {
+        if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_sequence') })
+        const publicSequencesMapUUID = `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`
+        const query = {
+          'target.id': publicSequencesMapUUID,
+          'author.id': this.user.uuid
+        }
+        let result = await this.$store.dispatch('annotations/find', query)
+
+        let isCurrentItem = false
+        for (let favouredItem of result.items) {
+          if (favouredItem.body.source.id === item.annotation.body.source.id) isCurrentItem = true
+          await this.$store.dispatch('annotations/delete', favouredItem.uuid)
+          await this.$store.dispatch('acl/remove', {uuid: favouredItem.uuid, role: 'public', permission: 'get'})
+        }
+        const message = {
+          video: item.annotation.body.source.id,
+          user: this.user.uuid
+        }
+        if (!isCurrentItem) {
+          const annotation = {
+            body: ObjectUtil.merge({}, item.annotation.body),
+            target: {
+              id: publicSequencesMapUUID,
+              type: 'Timeline',
+              selector: {
+                type: 'Fragment',
+                value: DateTime.local().toISO()
+              }
+            }
+          }
+          const favouredItem = await this.$store.dispatch('annotations/post', annotation)
+          if (favouredItem) {
+            await this.$store.dispatch('acl/set', {uuid: favouredItem.uuid, role: 'public', permissions: ['get']})
+          }
+          await this.$store.dispatch('logging/log', { action: 'sequence_favourite_set', message })
+          if (!silent) this.$q.loading.hide()
+        }
+        else if (!silent) {
+          await this.$store.dispatch('logging/log', { action: 'sequence_favourite_unset', message })
+          this.$q.loading.hide()
+        }
+
+        await this.loadVideoSequences()
       },
       async loadVideoSequences () {
         if (!this.user) return

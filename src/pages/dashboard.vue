@@ -28,7 +28,6 @@
   import path from 'path'
   import { openURL, scroll } from 'quasar'
   import { DateTime, Interval } from 'luxon'
-  import { ObjectUtil } from 'mbjs-utils'
   import { mapGetters } from 'vuex'
 
   import { VideoHelper } from '../lib'
@@ -140,48 +139,48 @@
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
-      async setAsPortrait (item, silent = false) {
-        if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_portrait') })
-        const query = {
-          'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`,
-          'author.id': this.user.uuid
-        }
-        let result = await this.$store.dispatch('annotations/find', query)
-        let isCurrentPortrait = false
-        for (let portrait of result.items) {
-          if (portrait.body.source.id === item.annotation.body.source.id) isCurrentPortrait = true
-          await this.$store.dispatch('annotations/delete', portrait.uuid)
-          await this.$store.dispatch('acl/remove', {uuid: result.uuid, role: 'public', permission: 'get'})
-        }
-        const message = {
-          video: item.annotation.body.source.id,
-          user: this.user.uuid
-        }
-        if (!isCurrentPortrait) {
-          const portrait = {
-            body: ObjectUtil.merge({}, item.annotation.body),
-            target: {
-              id: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`,
-              type: 'Timeline',
-              selector: {
-                type: 'Fragment',
-                value: DateTime.local().toISO()
-              }
-            }
-          }
-          result = await this.$store.dispatch('annotations/post', portrait)
-          if (result) {
-            await this.$store.dispatch('acl/set', {uuid: result.uuid, role: 'public', permissions: ['get']})
-          }
-          await this.$store.dispatch('logging/log', { action: 'portrait', message })
-          if (!silent) this.$q.loading.hide()
-        }
-        else if (!silent) {
-          await this.$store.dispatch('logging/log', { action: 'portrait_unset', message })
-          this.$q.loading.hide()
-        }
-        await this.loadPortraits()
-      },
+      // async setAsPortrait (item, silent = false) {
+      //   if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_portrait') })
+      //   const query = {
+      //     'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`,
+      //     'author.id': this.user.uuid
+      //   }
+      //   let result = await this.$store.dispatch('annotations/find', query)
+      //   let isCurrentPortrait = false
+      //   for (let portrait of result.items) {
+      //     if (portrait.body.source.id === item.annotation.body.source.id) isCurrentPortrait = true
+      //     await this.$store.dispatch('annotations/delete', portrait.uuid)
+      //     await this.$store.dispatch('acl/remove', {uuid: result.uuid, role: 'public', permission: 'get'})
+      //   }
+      //   const message = {
+      //     video: item.annotation.body.source.id,
+      //     user: this.user.uuid
+      //   }
+      //   if (!isCurrentPortrait) {
+      //     const portrait = {
+      //       body: ObjectUtil.merge({}, item.annotation.body),
+      //       target: {
+      //         id: `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`,
+      //         type: 'Timeline',
+      //         selector: {
+      //           type: 'Fragment',
+      //           value: DateTime.local().toISO()
+      //         }
+      //       }
+      //     }
+      //     result = await this.$store.dispatch('annotations/post', portrait)
+      //     if (result) {
+      //       await this.$store.dispatch('acl/set', {uuid: result.uuid, role: 'public', permissions: ['get']})
+      //     }
+      //     await this.$store.dispatch('logging/log', { action: 'portrait', message })
+      //     if (!silent) this.$q.loading.hide()
+      //   }
+      //   else if (!silent) {
+      //     await this.$store.dispatch('logging/log', { action: 'portrait_unset', message })
+      //     this.$q.loading.hide()
+      //   }
+      //   await this.loadPortraits()
+      // },
       scrollToDate (date, duration = 1000) {
         const el = this.$refs[this.getDateLabel(date)][0].$el
         setScrollPosition(getScrollTarget(el), el.offsetTop - el.scrollHeight, duration)
