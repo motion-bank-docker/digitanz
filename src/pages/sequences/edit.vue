@@ -16,19 +16,20 @@
 
       // BUTTONS -- FILTER ORIENTATION
       //
-      .text-left
-        q-btn.q-mt-lg.text-white.bg-primary(@click="toggleOrientation", no-caps,
-        :class="{'disabled':this.checkedVideos.length > 0}")
-          div(v-if="orientation === 'portrait'")
-            q-icon.q-mr-sm(name="stay_current_portrait")
-            | {{ $t('buttons.orientation.portrait') }}
-          div(v-else)
-            q-icon.q-mr-sm(name="stay_current_landscape")
-            | {{ $t('buttons.orientation.landscape') }}
+      .text-left.q-mt-md
+        .row(@click="toggleOrientation")
+          .col-2.q-pt-xs
+            q-btn.text-white.bg-primary(no-caps,
+            icon="stay_current_landscape",
+            :class="{'disabled bg-grey-8': this.checkedVideos.length > 0, 'rotate-90': orientation === 'portrait'}",
+            round, size="sm")
+          .col-5.q-pt-sm
+            p(v-if="orientation === 'portrait'", :class="{'text-grey-8': this.checkedVideos.length > 0}") {{ $t('buttons.orientation.portrait') }}
+            p(v-else, :class="{'text-grey-8': this.checkedVideos.length > 0}") {{ $t('buttons.orientation.landscape') }}
 
       // DISPLAY FILTERED VIDEOS
       //
-      sequence-videolist.q-mt-md(:imgorientation="orientation", @checkedVideos="vids")
+      sequence-videolist(:imgorientation="orientation", @checkedVideos="vids")
 
     q-collapsible.q-mb-mb(group="seq", :label="$t('labels.edit_sequence')")
       //
@@ -77,12 +78,12 @@
                   q-btn.q-ma-xs.bg-dark(@click="editIndex = index, duplicateVideo(editIndex)", round, icon="filter_none", dark)
                   q-btn.q-ma-xs.bg-dark(@click="editIndex = index, deleteItem(editIndex)", round, icon="delete", dark)
 
-          div.text-right(v-if="checkedVideos.length > 0")
-            q-btn.bg-green.text-white(@click="$router.push({path: 'preview'})", icon="check", :label="$t('buttons.save')", flat)
+          .text-center(v-if="checkedVideos.length > 0")
+            q-btn.q-mt-lg.bg-green.text-white(@click="$router.push({path: '../sequences'})", icon="check", :label="$t('buttons.save')", flat)
 
       .text-center.text-grey-8(v-else) {{ $t('messages.empty') }}
 
-    .fixed-bottom-left.q-ma-md
+    // .fixed-bottom-left.q-ma-md
       q-btn.bg-white(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat, round)
 
     // q-btn.fixed-bottom.bg-black(@click="toggleHasUuid") dev switch

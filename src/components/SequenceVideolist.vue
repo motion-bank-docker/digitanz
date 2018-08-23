@@ -12,7 +12,8 @@
           q-item-main
             q-item-tile
               q-checkbox.hidden(v-model="allChecked", :val="video")
-              img.fit(:src="video.preview.medium")
+              img.fit(:src="video.preview.medium",
+              :class="{'moba-gray-image': !allChecked.includes(video)}")
               span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders(
               :class="{'moba-highlight-image': allChecked.includes(video)}")
                 | {{ formatDuration(video.metadata.duration) }}
@@ -337,4 +338,8 @@
     width 33.3333%
     display inline-block
     margin-top -4px
+
+  .moba-gray-image
+    filter grayscale(1)
+
 </style>
