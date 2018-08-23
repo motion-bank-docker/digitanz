@@ -5,9 +5,9 @@
     q-list.no-border
       div(
       v-for="video in uploadedVideos",
-      v-if="video.orientation === orientation",
+      v-if="video.orientation === imgorientation",
       @click="selectedUuid = video.annotation.uuid",
-      :class="[orientation === 'landscape' ? 'moba-landscape' : 'moba-portrait']")
+      :class="[imgorientation === 'landscape' ? 'moba-landscape' : 'moba-portrait']")
         q-item.no-padding.q-caption.relative-position(tag="label")
           q-item-main
             q-item-tile
@@ -19,7 +19,7 @@
               )
                 | {{ formatDuration(video.metadata.duration) }}
     .q-ma-md
-      q-btn.full-width.bg-primary.text-white(:label="$t('buttons.add_to_sequence')")
+      q-btn.full-width.bg-primary.text-white.q-py-md(:label="$t('buttons.add_to_sequence')", no-caps)
 
 </template>
 

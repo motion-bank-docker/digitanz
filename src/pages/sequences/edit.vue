@@ -2,10 +2,10 @@
 
   q-page.relative-position
 
-    h4.text-center.q-mb-none
+    // h4.text-center.q-mb-none
       span(v-if="!hasUuid") {{ $t('pages.new_sequence.title') }}
       span(v-else) {{ $t('pages.edit_sequence.title') }}
-    q-input.q-mx-md(value='', :float-label="$t('labels.insert_title')", dark)
+    q-input.q-ma-md(value='', :float-label="$t('labels.insert_sequence_title')", dark)
     // file-uploader(:url="url", :query="uploadQuery", @finish="addUploadedVideo")
     file-uploader(:url="url", :query="uploadQuery", @finish="")
 
@@ -37,7 +37,7 @@
                 q-btn(round, icon="account_box" size="md")
                 q-btn(round, icon="delete" size="md")
 
-    .fixed-bottom-left.q-ma-sm
+    .fixed-bottom-left.q-ma-md
       q-btn.bg-white(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat, round)
       // q-btn.q-mb-md.bg-dark(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
         icon="keyboard_backspace", flat)

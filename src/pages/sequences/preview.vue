@@ -2,6 +2,8 @@
 
   q-page.relative-position
 
+    q-input.q-ma-md(value='', :float-label="$t('labels.insert_title')", dark)
+
     //
       video-player.full-width.self-center(
       v-show="sequencedVideos.length > 0",
@@ -22,17 +24,12 @@
     @play="setPlayerStatePlay()",
     @pause="setPlayerStatePause()")
 
-    // h4.text-center.q-mb-none
-      span(v-if="!hasUuid") {{ $t('pages.preview_sequence.title') }}
-      span(v-else) {{ $t('pages.edit_sequence.title') }}
-    q-input.q-mx-md(value='', :float-label="$t('labels.insert_title')", dark)
-    // file-uploader(:url="url", :query="uploadQuery", @finish="addUploadedVideo")
-
     // DISPLAY VIDEOS
     //
     q-list.no-border.q-mt-xl
       div.shadow-6.q-ma-md(
-      v-for="video in uploadedVideos")
+      v-for="video in uploadedVideos",
+      v-if="video.orientation === orientation")
         q-item.no-padding(style="overflow: hidden;")
           q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;")
             img(:src="video.preview.high", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
@@ -47,9 +44,13 @@
               q-btn.q-ma-xs.bg-dark(@click="editIndex = index, duplicateVideo(editIndex)", round, icon="filter_none", dark)
               q-btn.q-ma-xs.bg-dark(@click="editIndex = index, deleteItem(editIndex)", round, icon="delete", dark)
 
-    q-collapsible.q-my-sm.bg-black(:label="$t('labels.more_videos')")
+    q-collapsible.q-my-sm.bg-black
+      template(slot="header")
+        q-chip(color="dark", small, class="q-mr-sm") {{ $t('labels.more_videos') }}
+        q-item-side(right)
+          // q-icon(name="star" color="red" size="24px")
       file-uploader(:url="url", :query="uploadQuery", @finish="")
-      sequence-videolist(:imgorientation="portrait")
+      sequence-videolist(:imgorientation="orientation")
 
     .fixed-bottom-left.q-ma-md
       q-btn.bg-white.text-bg-background(@click="$router.push({path: 'create'})", icon="keyboard_backspace", flat, round)
@@ -80,7 +81,7 @@
       return {
         checkedVideos: [],
         hasUuid: false,
-        orientation: 'portrait',
+        orientation: 'landscape',
         selectedUuid: 'hallo',
         uploadQuery: {
           'title': 'Meine Videos'

@@ -18,13 +18,14 @@ export default {
   labels: {
     confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?',
     insert_title: 'Titel',
-    more_videos: 'Verfügbare Videos'
+    insert_sequence_title: 'Sequenze-Titel (optional)',
+    more_videos: 'Weitere verfügbare Videos'
   },
   placeholder: {
     file_uploader: 'Video-Titel'
   },
   buttons: {
-    add_to_sequence: 'Zur Sequenz hinzufügen',
+    add_to_sequence: 'Ausgewählte Videos zur Sequenz hinzufügen',
     back: 'Zurück',
     close: 'Schließen',
     // uploader: 'Video auswählen und hochladen',
