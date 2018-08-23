@@ -10,22 +10,26 @@ export default {
     conversion_failed: 'Video upload fehlgeschlagen',
     loading_videos: 'Lade videos...',
     loading_dates: 'Lade Termine...',
+    loading_data: 'Lade Daten...',
     loading_portraits: 'Lade Portraits...',
     deleting_video: 'Lösche video...',
     setting_portrait: 'Aktualisiere Dein Portrait...'
   },
   labels: {
     confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?',
-    insert_title: 'Titel'
+    insert_title: 'Titel',
+    insert_sequence_title: 'Sequenze-Titel (optional)',
+    more_videos: 'Weitere verfügbare Videos'
   },
   placeholder: {
     file_uploader: 'Video-Titel'
   },
   buttons: {
+    add_to_sequence: 'Ausgewählte Videos zur Sequenz hinzufügen',
     back: 'Zurück',
     close: 'Schließen',
     // uploader: 'Video auswählen und hochladen',
-    uploader: 'Video hinzufügen',
+    uploader: 'Video hochladen',
     delete: 'Löschen',
     cancel: 'Abbrechen',
     confirm: 'OK',
@@ -36,6 +40,7 @@ export default {
       portrait: 'Hochformat'
     },
     next: 'weiter',
+    okay: 'Okay',
     save: 'speichern'
   },
   dates: {

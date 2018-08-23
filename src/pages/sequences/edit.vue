@@ -2,10 +2,10 @@
 
   q-page.relative-position
 
-    h4.text-center.q-mb-none
+    // h4.text-center.q-mb-none
       span(v-if="!hasUuid") {{ $t('pages.new_sequence.title') }}
       span(v-else) {{ $t('pages.edit_sequence.title') }}
-    q-input.q-mx-md(value='', :float-label="$t('labels.insert_title')", dark)
+    q-input.q-ma-md(value='', :float-label="$t('labels.insert_sequence_title')", dark)
     // file-uploader(:url="url", :query="uploadQuery", @finish="addUploadedVideo")
     file-uploader(:url="url", :query="uploadQuery", @finish="")
 
@@ -19,22 +19,7 @@
 
     // DISPLAY FILTERED VIDEOS
     //
-    q-list.no-border.q-mt-xl.q-mb-xl
-      div(
-      v-for="video in uploadedVideos",
-      v-if="video.orientation === orientation",
-      @click="selectedUuid = video.annotation.uuid",
-      style="width: 33.333%; display: inline-block; margin-top: -4px;")
-        q-item.no-padding.q-caption.relative-position(tag="label")
-          q-item-main
-            q-item-tile
-              q-checkbox.hidden(v-model="checkedVideos", :val="video")
-              // img.fit(:src="video.preview.high", :class="{'moba-highlight-image': checkedVideos.includes(video)}")
-              img.fit(:src="video.preview.high")
-              span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders(
-              :class="{'moba-highlight-image': checkedVideos.includes(video)}"
-              )
-                | {{ formatDuration(video.metadata.duration) }}
+    sequence-videolist.q-my-xl(:imgorientation="orientation")
 
     // DISPLAY CHECKED VIDEOS
     //
@@ -52,8 +37,8 @@
                 q-btn(round, icon="account_box" size="md")
                 q-btn(round, icon="delete" size="md")
 
-    .fixed-bottom-left
-      q-btn.q-mb-md.bg-body-background(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat)
+    .fixed-bottom-left.q-ma-md
+      q-btn.bg-white(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat, round)
       // q-btn.q-mb-md.bg-dark(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
         icon="keyboard_backspace", flat)
 
@@ -68,11 +53,13 @@
   import {ObjectUtil} from 'mbjs-utils'
   import { VideoHelper } from '../../lib'
   import FileUploader from '../../components/FileUploader'
+  import SequenceVideolist from '../../components/SequenceVideolist'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
-      FileUploader
+      FileUploader,
+      SequenceVideolist
     },
     data () {
       return {
@@ -178,6 +165,7 @@
           timeline: payload.uuid
         }
         const sequence = {
+          uuid: payload.uuid,
           map: {
             title: this.timeline.title
           },
@@ -367,4 +355,13 @@
   .moba-image
     max-width 50%
 
+  .moba-landscape
+    width 50%
+    display inline-block
+    margin-top -4px
+
+  .moba-portrait
+    width 33.3333%
+    display inline-block
+    margin-top -4px
 </style>
