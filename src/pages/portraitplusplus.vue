@@ -15,7 +15,7 @@
 
     // SHOW RESULTS
     //
-    .row
+    .row.q-ma-md
       video-list-view(
         v-if="favouriteSequences && favouriteSequences.length > 0",
         :videos="favouriteSequences", layoutStyle="sm")
@@ -97,8 +97,7 @@
       },
       async loadFavouriteSequences () {
         const query = {
-          'target.id': this.sequencesFavouritesMapUUID,
-          'author.id': this.user.uuid
+          'target.id': this.sequencesFavouritesMapUUID
         }
         const result = await this.$store.dispatch('annotations/find', query)
         this.favouriteSequences = result.items.map(annotation => {
