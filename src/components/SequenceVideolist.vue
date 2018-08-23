@@ -1,95 +1,60 @@
 <template lang="pug">
-
-  q-page.relative-position
-
-    q-input.q-ma-md(value='', :float-label="$t('labels.insert_title')", dark)
-
+  div
+    // DISPLAY FILTERED VIDEOS
     //
-      video-player.full-width.self-center(
-      v-show="sequencedVideos.length > 0",
-      // :class="orientationClass",
-      // :src="sourceVideo",
-      ref="videoPlayer",
-      autoplay="true",
-      @ended="playNext",
-      @play="setPlayerStatePlay()",
-      @pause="setPlayerStatePause()")
-
-    video-player.full-width.self-center(
-    :class="orientationClass",
-    :src="sourceVideo",
-    ref="videoPlayer",
-    autoplay="true",
-    @ended="playNext",
-    @play="setPlayerStatePlay()",
-    @pause="setPlayerStatePause()")
-
-    // DISPLAY VIDEOS
-    //
-    q-list.no-border.q-mt-xl
-      div.shadow-6.q-ma-md(
+    q-list.no-border
+      div(
       v-for="video in uploadedVideos",
-      v-if="video.orientation === orientation")
-        q-item.no-padding(style="overflow: hidden;")
-          q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;")
-            img(:src="video.preview.high", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
-            span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
-              | {{ formatDuration(video.metadata.duration) }}
-
-          q-item-side.column
+      v-if="video.orientation === imgorientation",
+      @click="selectedUuid = video.annotation.uuid",
+      :class="[imgorientation === 'landscape' ? 'moba-landscape' : 'moba-portrait']")
+        q-item.no-padding.q-caption.relative-position(tag="label")
+          q-item-main
             q-item-tile
-              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveUp(sequencedVideos, editIndex)", round, icon="arrow_upward", dark)
-              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, moveDown(sequencedVideos, editIndex)", round, icon="arrow_downward", dark)
-            q-item-tile
-              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, duplicateVideo(editIndex)", round, icon="filter_none", dark)
-              q-btn.q-ma-xs.bg-dark(@click="editIndex = index, deleteItem(editIndex)", round, icon="delete", dark)
-
-    q-collapsible.q-my-xl.bg-black
-      template(slot="header")
-        q-chip.q-my-sm(color="dark", small, class="q-mr-sm") {{ $t('labels.more_videos') }}
-        q-item-side(right)
-          // q-icon(name="star" color="red" size="24px")
-      file-uploader(:url="url", :query="uploadQuery", @finish="")
-      sequence-videolist(:imgorientation="orientation")
-
-    .fixed-bottom-left.q-ma-md
-      q-btn.bg-white.text-bg-background(@click="$router.push({path: 'create'})", icon="keyboard_backspace", flat, round)
-      // q-btn.q-mb-md.bg-dark(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
-        icon="keyboard_backspace", flat)
-
-    .text-right.q-ma-md.q-mt-lg
-      q-btn.bg-green.text-white(@click="$router.push({path: '../sequences'})", icon="check", :label="$t('buttons.save')", flat)
-
-    // q-btn.fixed-bottom.bg-black(@click="toggleHasUuid") dev switch
+              q-checkbox.hidden(v-model="checkedVideos", :val="video")
+              // img.fit(:src="video.preview.high", :class="{'moba-highlight-image': checkedVideos.includes(video)}")
+              img.fit(:src="video.preview.high")
+              span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders(
+              :class="{'moba-highlight-image': checkedVideos.includes(video)}"
+              )
+                | {{ formatDuration(video.metadata.duration) }}
+    .q-ma-md
+      q-btn.full-width.bg-primary.text-white.q-py-md(:label="$t('buttons.add_to_sequence')", no-caps)
 
 </template>
 
 <script>
   import {ObjectUtil} from 'mbjs-utils'
-  import { VideoHelper } from '../../lib/index'
-  import FileUploader from '../../components/FileUploader'
-  import VideoPlayer from '../../components/VideoPlayer'
-  import SequenceVideolist from '../../components/SequenceVideolist'
+  import { VideoHelper } from '../lib'
+  // import FileUploader from '../../components/FileUploader'
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
-      FileUploader,
-      VideoPlayer,
-      SequenceVideolist
+      // FileUploader
     },
     data () {
       return {
         checkedVideos: [],
         hasUuid: false,
-        orientation: 'landscape',
+        orientation: 'portrait',
         selectedUuid: 'hallo',
         uploadQuery: {
           'title': 'Meine Videos'
         },
-        uploadedVideos: []
+        uploadedVideos: [],
+        videos: [],
+        timeline: {
+          title: undefined,
+          type: ['Timeline']
+        }
       }
     },
+    props: ['imgorientation'],
     computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      }),
       reverseVideos () {
         return this.uploadedVideos.slice().reverse()
         // return this.uploadedVideos
@@ -115,7 +80,7 @@
     },
     mounted () {
       this.$root.$on('updateVideos', this.loadUploadedVideos)
-      this.loadUploadedVideos()
+      this.loadData()
     },
     beforeDestroy () {
       this.$root.$off('updateVideos', this.loadUploadedVideos)
@@ -132,10 +97,57 @@
         this.showPreviewModal = typeof val !== 'undefined'
       },
       async user (val) {
-        if (val) await this.loadUploadedVideos()
+        if (val) await this.loadData()
       }
     },
     methods: {
+      async loadData () {
+        if (!this.user) return
+        this.$q.loading.show({ message: this.$t('messages.loading_data') })
+        if (this.$route.params.uuid && !this.timeline.uuid) {
+          const prefix = 'Sequenz: '
+          const timeline = await this.$store.dispatch('maps/get', this.$route.params.uuid)
+          timeline.title = timeline.title.substr(prefix.length)
+          this.timeline = timeline
+          const query = {
+            'target.id': `${process.env.TIMELINE_BASE_URI}${this.$route.params.uuid}`
+          }
+          const items = await VideoHelper.fetchVideoItems(this, query, this.$sort.onRef)
+          this.videos = items.map((item, i) => {
+            item.weight = parseInt(i)
+            item.title = ''
+            item.orientation = item.metadata.height < item.metadata.width ? 'landscape' : 'portrait'
+            return item
+          })
+        }
+        await this.loadUploadedVideos()
+        this.$q.loading.hide()
+      },
+      async saveSequence () {
+        const prefix = 'Sequenz: '
+        let payload = this.timeline
+        payload.title = `${prefix}${payload.title}`
+        if (payload.uuid) {
+          await this.$store.dispatch('maps/patch', [payload.uuid, payload])
+        }
+        else {
+          payload = await this.$store.dispatch('maps/post', payload)
+        }
+        const detail = {
+          title: this.timeline.title,
+          timeline: payload.uuid
+        }
+        const sequence = {
+          map: {
+            title: this.timeline.title
+          },
+          sources: this.videos.map(entry => {
+            return entry.annotation
+          })
+        }
+        // await this.$store.dispatch('sequences/post', { sequence, detail })
+        console.debug('dummy render sequence', detail, sequence)
+      },
       toggleHasUuid () {
         this.hasUuid = !this.hasUuid
       },
@@ -143,25 +155,23 @@
         alert('bla')
       },
       async loadUploadedVideos () {
-        if (this.$store.state.auth.user) {
-          let query = ObjectUtil.merge({
-            'author.id': this.$store.state.auth.user.uuid
-          }, this.uploadQuery)
-          const results = await this.$store.dispatch('maps/find', query)
-          if (results.items && results.items.length) {
-            this.map = Object.assign({}, results.items[0])
-            query = {
-              'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
-            }
-            const videos = await VideoHelper.fetchVideoItems(this, query)
-            for (let i in videos) {
-              videos[i].weight = parseInt(i)
-              videos[i].title = ''
-              videos[i].orientation = videos[i].metadata.height < videos[i].metadata.width ? 'landscape' : 'portrait'
-            }
-            this.uploadedVideos = videos
-            // console.log(this.uploadedVideos)
+        if (!this.user) return
+        let query = ObjectUtil.merge({
+          'author.id': this.user.uuid
+        }, this.uploadQuery)
+        const results = await this.$store.dispatch('maps/find', query)
+        if (results.items && results.items.length) {
+          this.map = Object.assign({}, results.items[0])
+          query = {
+            'target.id': `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
           }
+          const videos = await VideoHelper.fetchVideoItems(this, query)
+          for (let i in videos) {
+            videos[i].weight = parseInt(i)
+            videos[i].title = ''
+            videos[i].orientation = videos[i].metadata.height < videos[i].metadata.width ? 'landscape' : 'portrait'
+          }
+          this.uploadedVideos = videos
         }
       },
       openModal () {
@@ -295,22 +305,6 @@
           }
           return result
         }
-      },
-      async saveSequence () {
-        const detail = {
-          title: 'Meine Sequenz',
-          timeline: this.timeline ? this.timeline.uuid : undefined
-        }
-        const sequence = {
-          map: {
-            title: 'Meine Sequenz'
-          },
-          sources: this.checkedVideos.map(entry => {
-            return entry.annotation
-          })
-        }
-        // await this.$store.dispatch('sequences/post', { sequence, detail })
-        console.debug('dummy save sequence', detail, sequence)
       }
     }
   }
@@ -322,18 +316,24 @@
   .bg-body-background
     background-color $body-background
 
-  .text-body-background
-    color $body-background
-
   .moba-highlight-image
     // border 2px solid $primary
     background-color $primary
 
   .moba-inline
     max-width 20%
-    // float left
+  // float left
 
   .moba-image
     max-width 50%
 
+  .moba-landscape
+    width 50%
+    display inline-block
+    margin-top -4px
+
+  .moba-portrait
+    width 33.3333%
+    display inline-block
+    margin-top -4px
 </style>
