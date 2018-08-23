@@ -13,7 +13,8 @@ export default {
     loading_data: 'Lade Daten...',
     loading_portraits: 'Lade Portraits...',
     deleting_video: 'Lösche video...',
-    setting_portrait: 'Aktualisiere Dein Portrait...'
+    setting_portrait: 'Aktualisiere Dein Portrait...',
+    no_videos: 'Keine Videos vorhanden'
   },
   labels: {
     confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?',

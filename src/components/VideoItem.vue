@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-card.q-mb-lg(style="width: 46%")
+  q-card.q-mb-lg.bg-dark(style="width: 46%")
     // card media
     q-card-media.no-padding
       // show video preview

@@ -1,26 +1,15 @@
 <template lang="pug">
-  q-page.flex.column
-    video-modal(ref="videoModal", :dimensions="dimensions")
-    image-modal(:show="showImageModal", :source="preview", @canceled="showImageModal = false")
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
-    // HEADLINE
-    //
-    h3.text-center
-      | {{ $t('pages.dashboard.title') }}
-    div.q-mx-md.q-mb-xl.text-grey-8
-      | {{ $t('pages.dashboard.description') }}
-
-    // TERMINE IM DETAIL
-    //
-    q-collapsible(v-for="(date, i) in dates", :ref="getDateLabel(date)", v-if="date.show", opened, style="border-top: 1px solid #333;")
-      template(slot="header")
-        q-item.full-width.q-pl-none
-          q-item-main
-            h4.q-mt-md.q-mb-none(style="line-height: 1em;") {{ $t(date.title) }}
-            p.q-caption.text-grey-8.no-padding.q-mt-sm {{ $t('pages.dashboard.date_at') }} {{ getDateLabel(date) }}
-      p(style="padding-bottom: 1em") {{ $t(date.description) }}
-      component(:is="`dashboard-${date.componentName}`", :date="date")
+  .row
+    video-list-view(
+      v-if="date.entries.length > 0",
+      :videos="date.entries", layoutStyle="sm")
+      template(slot="customButtons" slot-scope="{ video }")
+        q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
+        q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
+        q-btn(flat, size="sm" round, icon="cloud_download", @click="download(video.annotation.body.source.id)")
+    template(v-else)
+      | {{ $t('messages.no_videos') }}
 
 </template>
 
@@ -30,34 +19,21 @@
   import { DateTime, Interval } from 'luxon'
   import { ObjectUtil } from 'mbjs-utils'
   import { mapGetters } from 'vuex'
-
-  import { VideoHelper } from '../lib'
-
-  import VideoModal from '../components/VideoModal'
-  import ImageModal from '../components/ImageModal'
-  import ConfirmModal from '../components/ConfirmModal'
-  import FileUploader from '../components/FileUploader'
-  import JobList from '../components/JobList'
-
-  import { DashboardPortraits } from '../components/dashboard'
-
-  import VideoListView from '../components/VideoListView'
+  import { VideoHelper } from '../../lib'
+  import VideoListView from '../../components/VideoListView'
 
   const { getScrollTarget, setScrollPosition } = scroll
 
   export default {
+    name: 'dashboard-portraits',
     components: {
-      DashboardPortraits,
-      VideoModal,
-      ImageModal,
-      ConfirmModal,
-      FileUploader,
-      JobList,
       VideoListView
     },
+    props: [
+      'date'
+    ],
     data () {
       return {
-        // itemDate: this.$route.query.item_id,
         dimensions: {
           width: '',
           height: ''
@@ -68,8 +44,7 @@
         portraits: {
           map: undefined,
           annotations: []
-        },
-        dates: undefined
+        }
       }
     },
     computed: {
@@ -82,24 +57,16 @@
         if (!this.portraits.map) {
           await this.loadPortraits()
         }
-        if (!this.dates[0].map) {
-          await this.loadDates()
-        }
       }
     },
     async mounted () {
       const _this = this
-      this.dates = this.$dates()
       if (this.user) {
         await this.loadPortraits()
         await this.loadDates()
       }
       this.$root.$on('updateVideos', async () => {
         await _this.loadPortraits()
-        await _this.loadDates()
-      })
-      this.$root.$on('updateSequences', async () => {
-        await _this.loadDates()
       })
     },
     methods: {
@@ -240,7 +207,17 @@
   }
 </script>
 
-<style lang="stylus">
-  .q-card.q-mb-lg
-    margin-bottom: 24px !important;
+<style>
+  .foo {
+    width: 200px;
+    height: 200px;
+    position: relative;
+  }
+  .bgsuper {
+    width: 100%;
+    height: 200px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 </style>
