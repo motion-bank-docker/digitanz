@@ -19,22 +19,7 @@
 
     // DISPLAY FILTERED VIDEOS
     //
-    q-list.no-border.q-mt-xl.q-mb-xl
-      div(
-      v-for="video in uploadedVideos",
-      v-if="video.orientation === orientation",
-      @click="selectedUuid = video.annotation.uuid",
-      :class="[orientation === 'landscape' ? 'moba-landscape' : 'moba-portrait']")
-        q-item.no-padding.q-caption.relative-position(tag="label")
-          q-item-main
-            q-item-tile
-              q-checkbox.hidden(v-model="checkedVideos", :val="video")
-              // img.fit(:src="video.preview.high", :class="{'moba-highlight-image': checkedVideos.includes(video)}")
-              img.fit(:src="video.preview.high")
-              span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders(
-              :class="{'moba-highlight-image': checkedVideos.includes(video)}"
-              )
-                | {{ formatDuration(video.metadata.duration) }}
+    sequence-videolist.q-my-xl(:imgorientation="orientation")
 
     // DISPLAY CHECKED VIDEOS
     //
@@ -53,7 +38,7 @@
                 q-btn(round, icon="delete" size="md")
 
     .fixed-bottom-left.q-ma-sm
-      q-btn.bg-body-background(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat, round)
+      q-btn.bg-white(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat, round)
       // q-btn.q-mb-md.bg-dark(@click="$router.push({path: '../videosequencer'})", :label="$t('buttons.back')",
         icon="keyboard_backspace", flat)
 
@@ -68,11 +53,13 @@
   import {ObjectUtil} from 'mbjs-utils'
   import { VideoHelper } from '../../lib'
   import FileUploader from '../../components/FileUploader'
+  import SequenceVideolist from '../../components/SequenceVideolist'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
-      FileUploader
+      FileUploader,
+      SequenceVideolist
     },
     data () {
       return {
