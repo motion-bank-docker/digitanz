@@ -76,7 +76,6 @@
    * https://github.com/quasarframework/quasar/blob/fc6d5e1549b59ba87f27a8188686f9a2e6cee90c/src/components/uploader/QUploader.js
    */
 
-  import { QSpinner, QIcon, QInputFrame, QSlideTransition, QList, QProgress, QItem, QItemSide, QItemMain, QItemTile } from 'quasar'
   import FrameMixin from 'quasar-framework/src/mixins/input-frame'
   import { humanStorageSize } from 'quasar-framework/src/utils/format'
   import { stopAndPrevent } from 'quasar-framework/src/utils/event'
