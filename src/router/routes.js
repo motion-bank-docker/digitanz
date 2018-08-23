@@ -12,7 +12,6 @@ const routes = [
       { path: 'slotmachine', component: () => import('pages/slotMachine'), meta: {private: true} },
       { path: 'sequences', component: () => import('pages/sequences/list'), meta: {private: true} },
       { path: 'sequences/create', component: () => import('pages/sequences/edit'), meta: {private: true} },
-      { path: 'sequences/preview', component: () => import('pages/sequences/preview'), meta: {private: true} },
       { path: 'sequences/:uuid/edit', component: () => import('pages/sequences/edit'), meta: {private: true} },
       { path: 'upload', component: () => import('pages/upload'), meta: {private: true} },
       { path: 'portrait', component: () => import('pages/portrait'), meta: {private: true} },

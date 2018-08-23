@@ -1,43 +1,52 @@
 <template lang="pug">
   .q-uploader.relative-position(:class="classes", @dragover="__onDragOver")
-    q-input-frame(ref="input",
-                  :prefix="prefix",
-                  :suffix="suffix",
-                  :stackLabel="stackLabel",
-                  :floatLabel="floatLabel",
-                  :error="error",
-                  :warning="warning",
-                  :readonly="readonly",
-                  :inverted="inverted",
-                  :invertedLight="invertedLight",
-                  :dark="dark",
-                  :hideUnderline="hideUnderline",
-                  :before="before",
-                  :after="after",
-                  :color="color",
-                  :align="align",
-                  :noParentField="noParentField",
-                  :length="queueLength",
-                  :additionalLength="true")
+    q-input-frame(
+      ref="input",
+      :prefix="prefix",
+      :suffix="suffix",
+      :stackLabel="stackLabel",
+      :floatLabel="floatLabel",
+      :error="error",
+      :warning="warning",
+      :readonly="readonly",
+      :inverted="inverted",
+      :invertedLight="invertedLight",
+      :dark="dark",
+      :hideUnderline="hideUnderline",
+      :before="before",
+      :after="after",
+      :color="color",
+      :align="align",
+      :noParentField="noParentField",
+      :length="queueLength",
+      :additionalLength="true")
+
       .col.q-input-target.ellipsis(:class="alignClass") {{label}}
+
       template(v-if="uploading")
         q-spinner.q-if-end.self-center(slot="after", size="24px")
         q-icon.q-if-end.self-center.q-if-control(
           slot="after",
           :name="$q.icon.uploader[`clear${this.isInverted ? 'Inverted' : ''}`]",
-          @ckick.native="abort")
+          @click.native="abort")
+
       template(v-else)
         q-icon.q-uploader-pick-button.self-center.q-if-control.relative-position.overflow-hidden(
           slot='after',
           :name="$q.icon.uploader.add",
           :disabled="addDisabled")
-          input.q-uploader-input.absolute-full.cursor-pointer(ref="file", type="file", :accept="extensions", :multiple="multiple", @change="__add")
+          input.q-uploader-input.absolute-full.cursor-pointer(
+            ref="file", type="file",
+            :accept="extensions",
+            :multiple="multiple",
+            @change="__add")
         q-icon.q-if-control.self-center(
           slot="after",
           v-if="!hideUploadButton",
           :name="$q.icon.uploader.upload",
           :disabled="queueLength === 0",
           @click.native="upload")
+
       q-icon.q-if-control.generic_transition.self-center(
         v-if="hasExpandedContent",
         slot="after",
