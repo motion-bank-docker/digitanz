@@ -4,7 +4,7 @@
     q-modal-layout(dark, :content-class="{'bg-dark': true}")
       div(v-if="preview", :style="{width: playerWidth + 'px', marginLeft: distance.left + 'px', marginTop: distance.top + 'px'}")
         video-player(v-if="video", :annotation="src", @ended="onEnded", :autoplay="true")
-    q-btn.bg-dark.fixed-top-right.q-ma-md(@click="closePreview", icon="clear", flat, round)
+    q-btn.bg-dark.fixed-top-right.q-ma-md(@click="closePreview", icon="clear", flat, round, size="sm")
 </template>
 
 <script>
