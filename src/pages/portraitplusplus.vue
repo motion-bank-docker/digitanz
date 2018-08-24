@@ -1,5 +1,6 @@
 <template lang="pug">
   q-page
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteVideo")
     video-modal(ref="videoModal")
     <!--upload-remix-modal(ref="uploadRemixModal")-->
     <!--confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")-->
@@ -20,8 +21,8 @@
         v-if="favouriteSequences && favouriteSequences.length > 0",
         :videos="favouriteSequences", layoutStyle="sm")
           template(slot="customButtons" slot-scope="{ video }")
-            q-btn(flat, size="sm" round, icon="delete")
-            q-btn(flat, size="sm" round, icon="cloud_download")
+            q-btn(flat, size="sm" round, icon="delete" @click="openDeleteModal(video)")
+            q-btn(flat, size="sm" round, icon="cloud_download" @click="download(video)")
 
     <!--q-list.no-border(separator)-->
       <!--q-item.q-pt-xl(v-for="item in favouriteSequences")-->
@@ -57,12 +58,18 @@
   import { mapGetters } from 'vuex'
   import VideoListView from '../components/VideoListView'
   import VideoModal from '../components/VideoModal'
+  import { SequenceHelper } from '../lib'
+  import ConfirmModal from '../components/ConfirmModal'
+
+  import path from 'path'
+  import { openURL } from 'quasar'
 
   export default {
     name: 'portraitplusplus',
     components: {
       VideoModal,
-      VideoListView
+      VideoListView,
+      ConfirmModal
     },
     data () {
       return {
@@ -94,6 +101,18 @@
         this.preview = item.annotation
         if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item)
         else if (item.annotation.body.source.type === 'image/jpeg') this.showImageModal = true
+      },
+      openDeleteModal (item) {
+        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
+      },
+      download (video) {
+        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.media)}`)
+      },
+      async deleteVideo (video) {
+        this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
+        await SequenceHelper.deleteSequence(this, video.map.uuid)
+        this.$q.loading.hide()
+        await this.loadFavouriteSequences()
       },
       async loadFavouriteSequences () {
         const query = {
