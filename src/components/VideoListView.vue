@@ -7,7 +7,8 @@
                 :video="video"
                 :buttons="buttons",
                 :allowSelfResponse="allowSelfResponse",
-                @changed="changed")
+                @changed="changed",
+                :hideButtons="hideButtons")
         template(slot="customButtons" slot-scope="{ video }")
           slot(name="customButtons" :video="video")
 
@@ -28,7 +29,8 @@
       // sm, md, l, xl ?
       layoutStyle: String,
       buttons: Array,
-      allowSelfResponse: Boolean
+      allowSelfResponse: Boolean,
+      hideButtons: undefined
     },
     data () {
       return {
