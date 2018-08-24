@@ -2,10 +2,11 @@
   div.full-width
     // size s
     div.row.justify-between(v-if="layoutStyle === 'sm'")
-      video-item(v-for="video in videos",
-                :key="video.annotation.uuid",
-                :video="video",
+      video-item(v-for="video in videos"
+                :key="video.annotation.uuid"
+                :video="video"
                 :buttons="buttons",
+                :allowSelfResponse="allowSelfResponse",
                 @changed="changed",
                 :hideButtons="hideButtons")
         template(slot="customButtons" slot-scope="{ video }")
@@ -28,6 +29,7 @@
       // sm, md, l, xl ?
       layoutStyle: String,
       buttons: Array,
+      allowSelfResponse: Boolean,
       hideButtons: undefined
     },
     data () {
