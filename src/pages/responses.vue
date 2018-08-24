@@ -6,6 +6,9 @@
     .row
       h3 Responsen
 
+      div(:style="videoPlayerStyle")
+        video-player(v-if="annotation", :annotation="annotation", :autoplay="true")
+
       q-btn.full-width.q-my-md(v-if="annotation && annotation.author.id !== user.uuid",
         dark, color="primary", @click="uploadResponse(item)") {{ $t('buttons.upload_remix') }}
 
@@ -22,27 +25,59 @@
   import VideoListView from '../components/VideoListView'
   import { VideoHelper } from '../lib'
   import { mapGetters } from 'vuex'
+  import { VideoPlayer } from 'mbjs-quasar/src/components'
 
   export default {
     components: {
       VideoModal,
       UploadRemixModal,
-      VideoListView
+      VideoListView,
+      VideoPlayer
     },
     computed: {
       ...mapGetters({
         user: 'auth/getUserState'
-      })
+      }),
+      videoPlayerStyle () {
+        if (this.annotationMetadata) {
+          if (this.annotationMetadata.width > this.annotationMetadata.height) {
+            return {
+              width: '100%',
+              height: 'auto'
+            }
+          }
+          else {
+            return {
+              width: 'auto',
+              height: '300px'
+            }
+          }
+        }
+        return {
+          width: '100%',
+          height: '300px'
+        }
+      }
     },
     data () {
       return {
         annotation: undefined,
+        annotationMetadata: undefined,
         responses: []
       }
     },
     async mounted () {
       this.$q.loading.show({ message: this.$t('messages.loading_responses') })
       this.annotation = await this.$store.dispatch('annotations/get', this.$route.params.uuid)
+
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      }
+      const metadataURL = `${process.env.TRANSCODER_HOST}/metadata/url?url=${encodeURIComponent(this.annotation.body.source.id)}`
+      let result = await this.$axios.get(metadataURL, { headers })
+      this.annotationMetadata = result.data
+      console.log('metadata', this.annotationMetadata)
+
       if (this.annotation) {
         const responsesQuery = {
           'target.id': `${process.env.ANNOTATION_BASE_URI}${this.annotation.uuid}`,
