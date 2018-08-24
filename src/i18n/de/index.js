@@ -12,6 +12,7 @@ export default {
     loading_dates: 'Lade Termine...',
     loading_data: 'Lade Daten...',
     loading_portraits: 'Lade Portraits...',
+    loading_responses: 'Lade Responses...',
     deleting_video: 'Lösche video...',
     deleting_sequence: 'Die Sequenz wird gelöscht.',
     setting_portrait: 'Aktualisiere Dein Portrait...',
