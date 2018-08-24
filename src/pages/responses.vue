@@ -39,6 +39,7 @@
       }),
       videoPlayerStyle () {
         if (this.annotationMetadata) {
+          const ratio = this.annotationMetadata.width / this.annotationMetadata.height
           if (this.annotationMetadata.width > this.annotationMetadata.height) {
             return {
               width: '100%',
@@ -47,14 +48,11 @@
           }
           else {
             return {
-              width: 'auto',
-              height: '300px'
+              width: `calc(80vw*${ratio})`,
+              height: 'auto',
+              'margin-left': `calc(40vw*${ratio})`
             }
           }
-        }
-        return {
-          width: '100%',
-          height: '300px'
         }
       }
     },
@@ -76,6 +74,15 @@
       async loadResponses () {
         this.$q.loading.show({ message: this.$t('messages.loading_responses') })
         this.annotation = await this.$store.dispatch('annotations/get', this.$route.params.uuid)
+
+        const headers = {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+        const metadataURL = `${process.env.TRANSCODER_HOST}/metadata/url?url=${encodeURIComponent(this.annotation.body.source.id)}`
+        let result = await this.$axios.get(metadataURL, { headers })
+        this.annotationMetadata = result.data
+        console.log('metadata', this.annotationMetadata)
+
         if (this.annotation) {
           const responsesQuery = {
             'target.id': `${process.env.ANNOTATION_BASE_URI}${this.annotation.uuid}`,
