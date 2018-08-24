@@ -49,7 +49,8 @@
       uuid: undefined,
       jobId: undefined,
       video: undefined,
-      buttons: Array
+      buttons: Array,
+      allowSelfResponse: Boolean
     },
     mounted () {
       this.setPreviewHeight()
@@ -71,7 +72,9 @@
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.annotation.body.source.id)}`)
       },
       showResponses (video) {
-        this.$router.push(`/responses/${video.annotation.uuid}`)
+        // FIXME: this needs to be implemented propery!!!
+        if (this.allowSelfResponse) this.$router.push(`/portraitplusplus/responses/${video.annotation.uuid}`)
+        else this.$router.push(`/portrait/responses/${video.annotation.uuid}`)
       },
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
