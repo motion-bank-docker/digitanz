@@ -57,7 +57,11 @@
         //
         q-list.no-border
           div.shadow-6.q-mb-md(v-for="(video, index) in videos")
-            q-item.no-padding.overflow-hidden(:style="{border: currentVideo === videos[index].annotation ? '1px solid grey' : ''}")
+            // q-item.no-padding.overflow-hidden(:class="[currentVideo === videos[index].annotation ? 'bg-grey-9' : '']")
+            // q-item.no-padding.overflow-hidden(:style="{border: currentVideo === videos[index].annotation && currentPlay === index ? '1px solid grey' : ''}")
+            // q-item.no-padding.overflow-hidden(:style="{border: currentPlay === index ? '1px solid grey' : ''}")
+            // q-item.no-padding.overflow-hidden(:style="{border: currentVideo === videos[index].annotation ? '1px solid grey' : ''}")
+            q-item.no-padding.overflow-hidden(:style="{border: currentVideoWeight === videos[index].weight ? '1px solid grey' : ''}")
               q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;", @click.native="openPreview(index)")
                 img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
                 span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
@@ -115,7 +119,8 @@
           title: undefined,
           type: ['Timeline']
         },
-        currentVideo: undefined
+        currentVideo: undefined,
+        currentVideoWeight: undefined
       }
     },
     computed: {
@@ -295,7 +300,10 @@
       },
       openPreview (index) {
         this.currentVideo = this.videos[index].annotation
+        this.currentVideoWeight = this.videos[index].weight
         this.currentPlay = index
+        console.log('###', index, this.currentPlay)
+        console.log(this.videos[index])
       },
       setSequence () {
         this.preview = this.uploadedVideos
