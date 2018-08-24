@@ -65,7 +65,8 @@
       return {
         annotation: undefined,
         annotationMetadata: undefined,
-        responses: []
+        responses: [],
+        hideButtons: true
       }
     },
     async mounted () {
