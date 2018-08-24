@@ -9,10 +9,10 @@
       div(:style="videoPlayerStyle").q-mb-md
         video-player(v-if="annotation", :annotation="annotation", :autoplay="true")
 
-      job-list
-
       q-btn.full-width.q-mb-md(v-if="$route.meta.allowSelfResponse || annotation && annotation.author.id !== user.uuid",
         dark, color="primary", @click="uploadResponse(annotation)") {{ $t('buttons.upload_remix') }}
+
+      job-list
 
     .row
       video-list-view(v-if="responses.length > 0", :videos="responses", layoutStyle="sm", :hideButtons="hideButtons",
