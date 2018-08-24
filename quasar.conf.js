@@ -85,7 +85,7 @@ module.exports = function (ctx) {
         FEATURE_MR_GRIDDLE: JSON.stringify(process.env.FEATURE_MR_GRIDDLE || false),
         FEATURE_RECIPES: JSON.stringify(process.env.FEATURE_RECIPES || false),
         FEATURE_SPACE: JSON.stringify(process.env.FEATURE_SPACE || false),
-        FEATURE_SEQUENCER: JSON.stringify(process.env.FEATURE_SEQUENCER || false),
+        FEATURE_SEQUENCER: JSON.stringify(process.env.FEATURE_SEQUENCER || true),
         FEATURE_UPLOAD: JSON.stringify(process.env.FEATURE_MR_GRIDDLE || true)
       }
     },
