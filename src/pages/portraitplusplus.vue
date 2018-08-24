@@ -18,7 +18,7 @@
     //
     .row.q-ma-md
       video-list-view(
-        v-if="favouriteSequences && favouriteSequences.length > 0",
+        v-if="favouriteSequences && favouriteSequences.length > 0", :allowSelfResponse="true",
         :videos="favouriteSequences", layoutStyle="sm")
           template(slot="customButtons" slot-scope="{ video }")
             q-btn(flat, size="sm" round, icon="delete" @click="openDeleteModal(video)")

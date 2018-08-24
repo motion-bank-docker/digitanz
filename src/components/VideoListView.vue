@@ -5,8 +5,10 @@
       video-item(v-for="video in videos"
                 :key="video.annotation.uuid"
                 :video="video"
-                :buttons="buttons"
-                @changed="changed")
+                :buttons="buttons",
+                :allowSelfResponse="allowSelfResponse",
+                @changed="changed",
+                :hideButtons="hideButtons")
         template(slot="customButtons" slot-scope="{ video }")
           slot(name="customButtons" :video="video")
 
@@ -26,7 +28,9 @@
       videos: Array,
       // sm, md, l, xl ?
       layoutStyle: String,
-      buttons: Array
+      buttons: Array,
+      allowSelfResponse: Boolean,
+      hideButtons: undefined
     },
     data () {
       return {

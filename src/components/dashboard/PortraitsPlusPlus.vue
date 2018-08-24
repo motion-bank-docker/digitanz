@@ -6,6 +6,7 @@
       v-if="sequences && sequences.length > 0",
       :videos="sequences",
       layoutStyle="sm",
+      :allowSelfResponse="true",
       @changed="loadVideoSequences")
         template(slot="customButtons" slot-scope="{ video }")
           q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")

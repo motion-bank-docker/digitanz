@@ -9,11 +9,12 @@
       div(:style="videoPlayerStyle")
         video-player(v-if="annotation", :annotation="annotation", :autoplay="true")
 
-      q-btn.full-width.q-my-md(v-if="annotation && annotation.author.id !== user.uuid",
+      q-btn.full-width.q-my-md(v-if="$route.meta.allowSelfResponse || annotation && annotation.author.id !== user.uuid",
         dark, color="primary", @click="uploadResponse(annotation)") {{ $t('buttons.upload_remix') }}
 
     .row
-      video-list-view(v-if="responses.length > 0", :videos="responses", layoutStyle="sm")
+      video-list-view(v-if="responses.length > 0", :videos="responses", layoutStyle="sm", :hideButtons="hideButtons",
+        :allowSelfResponse="$route.meta.allowSelfResponse")
       template(v-else)
         | {{ $t('messages.no_videos') }}
 </template>
