@@ -13,6 +13,7 @@ export default {
     loading_data: 'Lade Daten...',
     loading_portraits: 'Lade Portraits...',
     loading_responses: 'Lade Responses...',
+    loading_sequences: 'Lade Sequenzen...',
     rejected_selfresponse: 'Responses auf das eigene Portrait sind nicht möglich.',
     deleting_video: 'Lösche video...',
     deleting_sequence: 'Die Sequenz wird gelöscht.',
