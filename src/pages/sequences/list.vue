@@ -100,6 +100,9 @@
             if (this.sequenceJobDetails[jobId].uuid === map.uuid) processing = true
           }
           const annotation = {
+            author: {
+              id: this.user.uuid
+            },
             uuid: map.uuid,
             body: {
               source: {

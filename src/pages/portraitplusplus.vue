@@ -57,6 +57,7 @@
   import { mapGetters } from 'vuex'
   import VideoListView from '../components/VideoListView'
   import VideoModal from '../components/VideoModal'
+  import { VideoHelper } from '../lib'
 
   export default {
     name: 'portraitplusplus',
@@ -66,14 +67,17 @@
     },
     data () {
       return {
-        sequencesFavouritesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`,
         favouriteSequences: []
       }
     },
     async mounted () {
+      this.$root.$on('updateSequences', this.loadFavouriteSequences)
       if (this.user) {
         await this.loadFavouriteSequences()
       }
+    },
+    beforeDestroy () {
+      this.$root.$off('updateSequences', this.loadFavouriteSequences)
     },
     computed: {
       ...mapGetters({
@@ -93,30 +97,23 @@
       openPreview (item) {
         this.preview = item.annotation
         if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item)
-        else if (item.annotation.body.source.type === 'image/jpeg') this.showImageModal = true
       },
       async loadFavouriteSequences () {
+        this.$q.loading.show({ message: this.$t('messages.loading_sequences') })
         const query = {
-          'target.id': this.sequencesFavouritesMapUUID
+          'target.id': `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`
         }
-        const result = await this.$store.dispatch('annotations/find', query)
-        this.favouriteSequences = result.items.map(annotation => {
-          const media = annotation.body.source.id
-          const preview = {
-            high: media.replace(/\.mp4$/, '.jpg'),
-            medium: media.replace(/\.mp4$/, '-m.jpg'),
-            small: media.replace(/\.mp4$/, '-s.jpg')
+        const sequences = await VideoHelper.fetchVideoItems(this, query)
+        for (let sequence of sequences) {
+          const responsesQuery = {
+            'target.id': `${process.env.ANNOTATION_BASE_URI}${sequence.annotation.uuid}`,
+            'body.purpose': 'commenting'
           }
-          return {
-            media,
-            preview,
-            annotation
-          }
-        })
+          sequence.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+        }
+        this.favouriteSequences = sequences
+        this.$q.loading.hide()
       }
     }
   }
 </script>
-
-<style scoped>
-</style>

@@ -106,6 +106,7 @@
     },
     computed: {
       displayDeleteButton () {
+        if (!this.user || (this.video && this.video.annotation && this.user.uuid !== this.video.annotation.author.id)) return false
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('delete') > -1)
         else return false
       },
