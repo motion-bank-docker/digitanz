@@ -98,15 +98,28 @@
         this.preview = item.annotation
         if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item)
       },
+      async uploadResponse (item) {
+        this.$refs.uploadRemixModal.show(item)
+        const message = {
+          portrait: item.annotation.uuid,
+          user: this.user.uuid
+        }
+        await this.$store.dispatch('logging/log', { action: 'open_response', message })
+      },
       async loadFavouriteSequences () {
         const query = {
           'target.id': `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`
         }
-        this.favouriteSequences = await VideoHelper.fetchVideoItems(this, query)
+        const sequences = await VideoHelper.fetchVideoItems(this, query)
+        for (let sequence of sequences) {
+          const responsesQuery = {
+            'target.id': `${process.env.ANNOTATION_BASE_URI}${sequence.annotation.uuid}`,
+            'body.purpose': 'commenting'
+          }
+          sequence.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+        }
+        this.favouriteSequences = sequences
       }
     }
   }
 </script>
-
-<style scoped>
-</style>
