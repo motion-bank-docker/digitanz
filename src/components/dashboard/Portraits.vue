@@ -218,7 +218,6 @@
             items.push(portrait)
           }
           this.entries = items
-          console.log(this.entries)
         }
         // }
         this.$q.loading.hide()

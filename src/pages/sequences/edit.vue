@@ -12,7 +12,9 @@
 
       // FILE UPLOADER
       //
-      file-uploader(:url="url", :query="uploadQuery", @finish="")
+      file-uploader(:url="url", :query="uploadQuery")
+
+      job-list
 
       // BUTTONS -- FILTER ORIENTATION
       //
@@ -89,12 +91,14 @@
   import SequenceVideolist from '../../components/SequenceVideolist'
   import VideoPlayer from '../../components/VideoPlayer'
   import { mapGetters } from 'vuex'
+  import JobList from '../../components/JobList'
 
   export default {
     components: {
       FileUploader,
       SequenceVideolist,
-      VideoPlayer
+      VideoPlayer,
+      JobList
     },
     data () {
       return {

@@ -6,6 +6,9 @@
     div
       h3.text-center {{ $t('pages.responses.title') }}
 
+      div(:style="videoPlayerStyle")
+        video-player(v-if="annotation", :annotation="annotation", :autoplay="true")
+
       q-btn.full-width.q-my-md(v-if="annotation && annotation.author.id !== user.uuid",
         dark, color="primary", @click="uploadResponse(annotation)") {{ $t('buttons.upload_remix') }}
 
@@ -21,23 +24,45 @@
   import VideoListView from '../components/VideoListView'
   import { VideoHelper } from '../lib'
   import { mapGetters } from 'vuex'
+  import { VideoPlayer } from 'mbjs-quasar/src/components'
 
   export default {
     components: {
       VideoModal,
       UploadRemixModal,
-      VideoListView
+      VideoListView,
+      VideoPlayer
     },
     computed: {
       ...mapGetters({
         user: 'auth/getUserState'
-      })
+      }),
+      videoPlayerStyle () {
+        if (this.annotationMetadata) {
+          if (this.annotationMetadata.width > this.annotationMetadata.height) {
+            return {
+              width: '100%',
+              height: 'auto'
+            }
+          }
+          else {
+            return {
+              width: 'auto',
+              height: '300px'
+            }
+          }
+        }
+        return {
+          width: '100%',
+          height: '300px'
+        }
+      }
     },
     data () {
       return {
         annotation: undefined,
-        responses: [],
-        hideButtons: true
+        annotationMetadata: undefined,
+        responses: []
       }
     },
     async mounted () {
