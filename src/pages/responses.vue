@@ -10,7 +10,7 @@
         dark, color="primary", @click="uploadResponse(annotation)") {{ $t('buttons.upload_remix') }}
 
     .row
-      video-list-view(v-if="responses.length > 0", :videos="responses", layoutStyle="sm")
+      video-list-view(v-if="responses.length > 0", :videos="responses", layoutStyle="sm", :hideButtons="hideButtons")
       template(v-else)
         | {{ $t('messages.no_videos') }}
 </template>
@@ -36,7 +36,8 @@
     data () {
       return {
         annotation: undefined,
-        responses: []
+        responses: [],
+        hideButtons: true
       }
     },
     async mounted () {
