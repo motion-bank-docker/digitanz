@@ -45,7 +45,7 @@
             this.$store.commit('sequences/removeJobId', jobId)
             const detail = this.$store.state.sequences.jobDetails[jobId]
             let annotation
-            if (detail.target || detail.timeline) {
+            if (job.result && (detail.target || detail.timeline)) {
               const target = detail.target || {
                 id: `${process.env.TIMELINE_BASE_URI}${detail.timeline}`,
                 type: 'Timeline',
@@ -75,7 +75,7 @@
             }
             this.$store.commit('sequences/removeJobDetail', jobId)
             const message = {
-              video: job.result.video,
+              video: job.result ? job.result.video : undefined,
               detail,
               annotation: annotation ? annotation.uuid : undefined,
               user: this.user.uuid

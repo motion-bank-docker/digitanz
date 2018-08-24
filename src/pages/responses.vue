@@ -6,6 +6,8 @@
     div
       h3.text-center {{ $t('pages.responses.title') }}
 
+      job-list
+
       div(:style="videoPlayerStyle")
         video-player(v-if="annotation", :annotation="annotation", :autoplay="true")
 
@@ -26,13 +28,15 @@
   import { VideoHelper } from '../lib'
   import { mapGetters } from 'vuex'
   import { VideoPlayer } from 'mbjs-quasar/src/components'
+  import JobList from '../components/JobList'
 
   export default {
     components: {
       VideoModal,
       UploadRemixModal,
       VideoListView,
-      VideoPlayer
+      VideoPlayer,
+      JobList
     },
     computed: {
       ...mapGetters({
