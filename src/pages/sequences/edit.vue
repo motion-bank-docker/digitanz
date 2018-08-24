@@ -57,8 +57,8 @@
         //
         q-list.no-border
           div.shadow-6.q-mb-md(v-for="(video, index) in videos")
-            q-item.no-padding(style="overflow: hidden;")
-              q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;")
+            q-item.no-padding.overflow-hidden(:style="{border: currentVideo === videos[index].annotation ? '1px solid grey' : ''}")
+              q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;", @click.native="openPreview(index)")
                 img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
                 span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
                   | {{ formatDuration(video.metadata.duration) }}
@@ -152,6 +152,7 @@
         this.videos = this.updateWeights(this.videos.concat(selectedVideos))
         console.debug('added videos', selectedVideos, this.videos)
         if (this.videos.length) this.$refs.sequenceGroup.show()
+        this.openPreview(0)
       },
       toggleOrientation () {
         if (this.videos.length <= 0) {
