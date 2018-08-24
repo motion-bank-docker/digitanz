@@ -11,13 +11,14 @@
 
       q-btn.full-width.q-mb-md(v-if="$route.meta.allowSelfResponse || annotation && annotation.author.id !== user.uuid",
         dark, color="primary", @click="uploadResponse(annotation)") {{ $t('buttons.upload_remix') }}
+      q-card.q-pa-md.q-mb-md.text-grey-8(v-else) {{ $t('messages.rejected_selfresponse') }}
 
       job-list
 
-    .row
+    div
       video-list-view(v-if="responses.length > 0", :videos="responses", layoutStyle="sm", :hideButtons="hideButtons",
         :allowSelfResponse="$route.meta.allowSelfResponse")
-      template(v-else)
+      q-card.q-pa-md.q-mb-md.text-grey-8.text-center(v-else)
         | {{ $t('messages.no_videos') }}
 </template>
 
@@ -65,7 +66,8 @@
       return {
         annotation: undefined,
         annotationMetadata: undefined,
-        responses: []
+        responses: [],
+        hideButtons: true
       }
     },
     async mounted () {
