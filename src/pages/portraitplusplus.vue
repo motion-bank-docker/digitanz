@@ -58,11 +58,10 @@
   import { mapGetters } from 'vuex'
   import VideoListView from '../components/VideoListView'
   import VideoModal from '../components/VideoModal'
-  import { SequenceHelper } from '../lib'
+  import { SequenceHelper, VideoHelper } from '../lib'
   import ConfirmModal from '../components/ConfirmModal'
   import path from 'path'
   import { openURL } from 'quasar'
-  import { VideoHelper } from '../lib'
 
   export default {
     name: 'portraitplusplus',
