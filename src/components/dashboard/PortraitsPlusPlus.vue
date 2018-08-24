@@ -1,16 +1,16 @@
 <template lang="pug">
 
   .row
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteVideo")
     video-list-view(
       v-if="sequences && sequences.length > 0",
       :videos="sequences",
       layoutStyle="sm",
-      :buttons="['delete', 'download']",
       @changed="loadVideoSequences")
         template(slot="customButtons" slot-scope="{ video }")
           q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
-          // q-btn(flat, size="sm" round, icon="delete")
-          // q-btn(flat, size="sm" round, icon="cloud_download")
+          q-btn(flat, size="sm" round, icon="delete" @click="openDeleteModal(video)")
+          q-btn(flat, size="sm" round, icon="cloud_download" @click="download")
     template(v-else)
       | {{ $t('messages.no_videos') }}
 
@@ -21,11 +21,17 @@
   import { mapGetters } from 'vuex'
   import { DateTime } from 'luxon'
   import { ObjectUtil } from 'mbjs-utils'
+  import { SequenceHelper } from '../../lib'
+  import ConfirmModal from '../../components/ConfirmModal'
+
+  import path from 'path'
+  import { openURL } from 'quasar'
 
   export default {
     name: 'dashboard-portraits-plus-plus',
     components: {
-      VideoListView
+      VideoListView,
+      ConfirmModal
     },
     props: [
       'date'
@@ -75,6 +81,9 @@
           color: 'grey-5',
           icon: 'favorite_outline'
         }
+      },
+      openDeleteModal (item) {
+        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       async loadFavouriteSequences () {
         const query = {
@@ -133,6 +142,15 @@
 
         await this.loadVideoSequences()
         await this.loadFavouriteSequences()
+      },
+      async deleteVideo (video) {
+        this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
+        await SequenceHelper.deleteSequence(this, video.map.uuid)
+        this.$q.loading.hide()
+        await this.loadVideoSequences()
+      },
+      download (video) {
+        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.media)}`)
       },
       async loadVideoSequences () {
         if (!this.user) return
