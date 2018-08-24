@@ -1,6 +1,6 @@
 <template lang="pug">
   .col-12(v-if="jobIds.length")
-    div.text-center
+    div.text-center.q-pb-md
       q-spinner(size="40px") {{ $t('upload.loading_up') }}
 </template>
 

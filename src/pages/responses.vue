@@ -6,12 +6,12 @@
     div
       h3.text-center {{ $t('pages.responses.title') }}
 
-      job-list
-
-      div(:style="videoPlayerStyle")
+      div(:style="videoPlayerStyle").q-mb-md
         video-player(v-if="annotation", :annotation="annotation", :autoplay="true")
 
-      q-btn.full-width.q-my-md(v-if="$route.meta.allowSelfResponse || annotation && annotation.author.id !== user.uuid",
+      job-list
+
+      q-btn.full-width.q-mb-md(v-if="$route.meta.allowSelfResponse || annotation && annotation.author.id !== user.uuid",
         dark, color="primary", @click="uploadResponse(annotation)") {{ $t('buttons.upload_remix') }}
 
     .row
