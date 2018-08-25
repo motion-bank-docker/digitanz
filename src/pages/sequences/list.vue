@@ -15,7 +15,6 @@
             @click="$router.push(`/sequences/${sequence.map.uuid}/edit`)", v-if="!sequence.processing")
           q-btn(v-if="!video.processing", flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
           q-btn(v-if="!video.processing", flat, size="sm", round, icon="delete", @click="deleteVideo(video)")
-          q-btn(v-if="!video.processing", flat, size="sm", round, icon="cloud_download", @click="download(video)")
           // span(v-if="video.processing") Rendering...
           q-spinner-mat(v-if="video.processing", color="primary", size="1.5em")
 
@@ -35,8 +34,6 @@
   // import { VideoPlayer } from 'mbjs-quasar/src/components'
   import { SequenceHelper } from '../../lib'
   import { mapGetters } from 'vuex'
-  import { openURL } from 'quasar'
-  import path from 'path'
   import VideoPlayer from '../../components/VideoPlayer'
   import FileUploader from '../../components/FileUploader'
 
@@ -136,9 +133,6 @@
         await SequenceHelper.deleteSequence(this, video.map.uuid)
         this.$q.loading.hide()
         await this.loadData()
-      },
-      download (video) {
-        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.media)}`)
       }
     }
   }

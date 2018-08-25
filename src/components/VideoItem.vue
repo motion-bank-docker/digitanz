@@ -19,8 +19,6 @@
         q-btn(round, flat, size="sm", icon="star", @click="starItem(video)")
       slot(v-if="displayDeleteButton" name="deleteButton" :video="video")
         q-btn(round, flat, size="sm", icon="delete", @click="openDeleteModal(video)")
-      slot(v-if="displayDownloadButton" name="downloadButton" :video="video")
-        q-btn(round, flat, size="sm", icon="cloud_download", @click="downloadItem(video)")
       slot(v-if="video.responses" name="downloadButton" :video="video")
         q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
           q-chip(floating, color="red") {{ video.responses.length }}
@@ -29,8 +27,6 @@
 <script>
   import VideoModal from '../components/VideoModal'
   import ConfirmModal from '../components/ConfirmModal'
-  import path from 'path'
-  import { openURL } from 'quasar'
 
   import { mapGetters } from 'vuex'
 
@@ -69,9 +65,6 @@
       },
       starItem (video) {
         console.log('high five to item: ' + video.annotation.uuid)
-      },
-      downloadItem (video) {
-        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.annotation.body.source.id)}`)
       },
       showResponses (video) {
         // FIXME: this needs to be implemented propery!!!
@@ -117,10 +110,6 @@
       },
       displayStartButton () {
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('star') > -1)
-        else return false
-      },
-      displayDownloadButton () {
-        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('download') > -1)
         else return false
       },
       ...mapGetters({

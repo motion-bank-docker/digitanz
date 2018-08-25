@@ -19,9 +19,6 @@
       video-list-view(
       v-if="portraits && portraits.items.length > 0",
       :videos="portraits.items", layoutStyle="sm")
-        template(slot="customButtons" slot-scope="{ video }")
-          q-btn(flat, size="sm" round, icon="delete")
-          q-btn(flat, size="sm" round, icon="cloud_download")
     <!--q-list.no-border(separator)-->
       <!--// q-item {{ portraits }}-->
       <!--q-item.q-pt-xl(v-for="item in portraits.items")-->
@@ -80,8 +77,6 @@
 </template>
 
 <script>
-  import path from 'path'
-  import { openURL } from 'quasar'
   import { mapGetters } from 'vuex'
   import { VideoHelper } from '../lib'
   import VideoModal from '../components/VideoModal'
@@ -121,18 +116,6 @@
       this.$root.$off('updateVideos', this.loadPortraits)
     },
     methods: {
-      getResponseLabel (val) {
-        let strng
-        if (val === 1) strng = this.$t('pages.portrait.remix_singular')
-        else strng = this.$t('pages.portrait.remix_plural')
-        return val + ' ' + strng
-      },
-      getPNG (url) {
-        return url.replace(/\.mp4$/, '-m.jpg')
-      },
-      download (file) {
-        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
-      },
       openPreview (item) {
         // const preview = item.portrait || item
         const preview = item

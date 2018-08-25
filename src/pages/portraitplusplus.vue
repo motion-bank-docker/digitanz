@@ -22,7 +22,6 @@
         :videos="favouriteSequences", layoutStyle="sm")
           template(slot="customButtons" slot-scope="{ video }")
             q-btn(flat, size="sm" round, icon="delete" @click="openDeleteModal(video)")
-            q-btn(flat, size="sm" round, icon="cloud_download" @click="download(video)")
 
     <!--q-list.no-border(separator)-->
       <!--q-item.q-pt-xl(v-for="item in favouriteSequences")-->
@@ -60,8 +59,6 @@
   import VideoModal from '../components/VideoModal'
   import { SequenceHelper, VideoHelper } from '../lib'
   import ConfirmModal from '../components/ConfirmModal'
-  import path from 'path'
-  import { openURL } from 'quasar'
 
   export default {
     name: 'portraitplusplus',
@@ -105,9 +102,6 @@
       },
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
-      },
-      download (video) {
-        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.media)}`)
       },
       async deleteVideo (video) {
         this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
