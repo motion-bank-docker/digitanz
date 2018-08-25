@@ -5,8 +5,7 @@
     video-list-view(
       v-if="entries.length > 0",
       :videos="entries",
-      layoutStyle="sm",
-      :buttons="['download']")
+      layoutStyle="sm")
         template(slot="customButtons" slot-scope="{ video }")
           q-btn.q-px-none(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
           q-btn.q-px-none(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
@@ -16,8 +15,6 @@
 </template>
 
 <script>
-  import path from 'path'
-  import { openURL } from 'quasar'
   import { DateTime, Interval } from 'luxon'
   import { ObjectUtil } from 'mbjs-utils'
   import { mapGetters } from 'vuex'
@@ -80,9 +77,6 @@
     methods: {
       formatTime (val) {
         return DateTime.fromISO(val).toLocaleString()
-      },
-      download (file) {
-        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
       },
       getDateLabel (date) {
         const dt = DateTime.fromISO(date.start)
