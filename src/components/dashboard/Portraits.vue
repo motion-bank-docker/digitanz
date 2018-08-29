@@ -5,7 +5,7 @@
     video-list-view(
       v-if="entries.length > 0",
       :videos="entries",
-      layoutStyle="sm")
+      layoutStyle="sm", :buttons="['download']")
         template(slot="customButtons" slot-scope="{ video }")
           q-btn.q-px-none(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
           q-btn.q-px-none(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
@@ -156,7 +156,7 @@
       },
       getItemStyle (item) {
         for (let portrait of this.portraits.annotations) {
-          if (item.annotation.body.source.id === portrait.body.source.id) return {color: 'primary', icon: 'account_box'}
+          if (portrait.body.source && item.annotation.body.source.id === portrait.body.source.id) return {color: 'primary', icon: 'account_box'}
         }
         return {color: 'grey-5', icon: 'portrait'}
       },
