@@ -334,11 +334,17 @@
       },
       // METHODS TO EDIT SELECTED VIDEO
       deleteItem: function (index) {
-        // this.$refs.videoPlayer.reset()
+        let nextCurrentVideo
+        if (this.videos[index] === this.currentVideo && index > 0) {
+          nextCurrentVideo = index - 1
+        }
+        else if (index === 0 && this.videos.length > 1) {
+          nextCurrentVideo = 0
+        }
         const copy = [].concat(this.videos)
         copy.splice(index, 1)
         this.videos = this.updateWeights(copy)
-        // this.loadFirstVideo()
+        this.openPreview(nextCurrentVideo)
       },
       moveUp: function (index) {
         if (index === 0) return
@@ -346,6 +352,7 @@
         const moved = copy.splice(index, 1)
         copy.splice(index - 1, 0, moved[0])
         this.videos = this.updateWeights(copy)
+        this.openPreview(index)
       },
       moveDown: function (index) {
         if (index === this.videos.length - 1) return
@@ -353,9 +360,10 @@
         const moved = copy.splice(index, 1)
         copy.splice(index + 1, 0, moved[0])
         this.videos = this.updateWeights(copy)
+        this.openPreview(index)
       },
       duplicateVideo: function (index) {
-        const newObject = Object.assign({}, this.videos[index])
+        const newObject = ObjectUtil.merge({}, this.videos[index])
         newObject.weight = this.videos.length
         this.videos.push(newObject)
       },
