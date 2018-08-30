@@ -1,7 +1,9 @@
-import DashboardPortraits from './Portraits'
-import DashboardPortraitsPlusPlus from './PortraitsPlusPlus'
+import Portraits from './Portraits'
+import PortraitsPlusPlus from './PortraitsPlusPlus'
+import GroupVideoSequences from './GroupVideoSequences'
 
 export {
-  DashboardPortraits,
-  DashboardPortraitsPlusPlus
+  Portraits,
+  PortraitsPlusPlus,
+  GroupVideoSequences
 }

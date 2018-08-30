@@ -32,6 +32,10 @@
           q-item-side(icon='account_box')
           q-item-main(:label='$t(\'navigation.portraitplusplus.label\')', :sublabel='$t(\'navigation.portraitplusplus.sublabel\')')
 
+        q-item(@click.native="$router.push('/groupsequences')")
+          q-item-side(icon='account_box')
+          q-item-main(:label="$t('navigation.groupsequences.label')", :sublabel="$t('navigation.groupsequences.sublabel')")
+
         q-item(v-if="env.FEATURE_MR_GRIDDLE", @click.native="$router.push('/mr-griddle')", separator)
           q-item-side(icon='accessibility')
           // q-item-main(label='Mr. Griddle', sublabel='Do the griddle')
