@@ -68,7 +68,6 @@
         await this.loadVideoSequences()
         await this.loadFavouriteSequences()
       }
-      console.log(this.$props)
     },
     methods: {
       getItemStyle (item) {
@@ -155,16 +154,14 @@
       async loadVideoSequences () {
         if (!this.user) return
         const prefix = 'Sequenz: '
-        const startDateMillis = DateTime.fromISO(this.$props.date.start).toMillis()
-        const endDateMillis = DateTime.fromISO(this.$props.date.end).toMillis()
         const query = {
+          created: { $gte: this.$props.date.start, $lte: this.$props.date.end },
           type: 'Timeline',
           'author.id': this.user.uuid
         }
         const result = await this.$store.dispatch('maps/find', query)
         this.sequences = result.items.filter(map => {
-          const mapCreatedMillis = DateTime.fromISO(map.created).toMillis()
-          return map.title.indexOf(prefix) === 0 && mapCreatedMillis >= startDateMillis && mapCreatedMillis <= endDateMillis
+          return map.title.indexOf(prefix) === 0
         }).sort(this.$sort.onCreatedDesc).map(map => {
           const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
           const preview = {
