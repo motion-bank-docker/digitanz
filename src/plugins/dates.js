@@ -15,7 +15,7 @@ export default ({ Vue }) => {
       {
         title: 'dates.date_2.title',
         start: '2018-08-24T00:00:00.000+02:00',
-        end: '2018-08-29T23:59:59.000+02:00',
+        end: '2018-08-30T23:59:59.000+02:00',
         description: 'dates.date_2.description',
         show: process.env.FEATURE_SEQUENCER || false,
         map_title: 'dates.date_2.map_title',
@@ -25,7 +25,7 @@ export default ({ Vue }) => {
       },
       {
         title: 'dates.date_3.title',
-        start: '2018-08-30T00:00:00.000+02:00',
+        start: '2018-08-31T00:00:00.000+02:00',
         end: '2018-09-06T23:59:59.000+02:00',
         description: 'dates.date_3.description',
         show: process.env.FEATURE_SEQUENCER || false,
