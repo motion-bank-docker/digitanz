@@ -131,7 +131,7 @@ export default {
   navigation: {
     team: {
       label: 'Team',
-      sublabel: 'Meldet euch beu uns'
+      sublabel: 'Meldet euch bei uns'
     },
     login: 'Einloggen',
     logout: 'Ausloggen',
