@@ -10,7 +10,7 @@
             q-btn.q-px-none(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
             q-btn.q-px-none(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
       p
-        router-link(:to="{path: 'portrait'}") {{ $t('dates.date_1.page_link') }}
+        router-link.page-link(:to="{path: 'portrait'}") {{ $t('dates.date_1.page_link') }}
     template(v-else)
       | {{ $t('messages.no_videos') }}
 
@@ -222,8 +222,13 @@
   }
 </script>
 
-<style scoped>
-  .q-px-none {
-    padding: 0 !important;
-  }
+<style scoped lang="stylus">
+  .q-px-none
+    padding 0 !important
+
+  .page-link
+    &
+    &:hover
+    &:visited
+      color white
 </style>
