@@ -1,6 +1,6 @@
 <template lang="pug">
   q-page
-    q-card(v-for="(media, index) in savedFiles", :media="media" inline class="q-ma-sm")
+    q-card.q-ma-sm(v-for="(media, index) in savedFiles", :media="media" inline)
       q-card-media
         img(:src="media")
       q-card-actions(align="around")
