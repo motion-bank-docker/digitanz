@@ -55,6 +55,10 @@
           q-item-side(icon='cloud upload')
           q-item-main(:label='$t(\'navigation.upload.label\')', :sublabel='$t(\'navigation.upload.sublabel\')')
 
+        q-item(@click.native="$router.push('/team')", separator)
+          q-item-side(icon='help')
+          q-item-main(:label="$t('navigation.team.label')", :sublabel="$t('navigation.team.sublabel')")
+
     q-page-container
       router-view
     conversion-jobs

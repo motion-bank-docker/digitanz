@@ -126,6 +126,10 @@ export default {
     }
   },
   navigation: {
+    team: {
+      label: 'Team',
+      sublabel: 'Meldet euch beu uns'
+    },
     login: 'Einloggen',
     logout: 'Ausloggen',
     dashboard: {
@@ -162,6 +166,9 @@ export default {
     }
   },
   pages: {
+    team: {
+      headline: 'Das Team'
+    },
     edit_sequence: {
       title: 'Sequenz bearbeiten',
       description: 'Lorem Ipsum, hier steht eine Beschreibung.'
