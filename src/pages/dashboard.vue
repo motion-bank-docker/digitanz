@@ -24,13 +24,14 @@
 <script>
   import { DateTime } from 'luxon'
   import { mapGetters } from 'vuex'
-  import { DashboardPortraits, DashboardPortraitsPlusPlus } from '../components/dashboard'
+  import { Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
   import VideoListView from '../components/VideoListView'
 
   export default {
     components: {
-      DashboardPortraits,
-      DashboardPortraitsPlusPlus,
+      'dashboard-portraits': Portraits,
+      'dashboard-portraits-plus-plus': PortraitsPlusPlus,
+      'dashboard-group-video-sequences': GroupVideoSequences,
       VideoListView
     },
     data () {
@@ -62,5 +63,5 @@
 
 <style lang="stylus">
   .q-card.q-mb-lg
-    margin-bottom: 24px !important;
+    margin-bottom 24px !important
 </style>

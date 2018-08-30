@@ -6,9 +6,9 @@
     // HEAD
     //
     h3.text-center
-      | {{ $t('pages.portraitplusplus.title') }}
+      | {{ $t('pages.' + $options.name + '.title') }}
     .q-mx-md.q-mb-xl.text-grey-8
-      | {{ $t('pages.portraitplusplus.description') }}
+      | {{ $t('pages.' + $options.name + '.description') }}
 
     //job-list
 
@@ -39,7 +39,8 @@
     },
     data () {
       return {
-        favouriteSequences: []
+        favouriteSequences: [],
+        date: this.$dates()[1]
       }
     },
     async mounted () {
@@ -82,6 +83,7 @@
       async loadFavouriteSequences () {
         this.$q.loading.show({ message: this.$t('messages.loading_sequences') })
         const query = {
+          'created': { $gte: this.date.start, $lte: this.date.end },
           'target.id': `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`
         }
         const sequences = await VideoHelper.fetchVideoItems(this, query)

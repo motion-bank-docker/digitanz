@@ -2,17 +2,20 @@
 
   .row
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteVideo")
-    video-list-view(
-      v-if="sequences && sequences.length > 0",
-      :videos="sequences",
-      layoutStyle="sm",
-      :allowSelfResponse="true",
-      @changed="loadVideoSequences",
-      :buttons="['download']")
-        template(slot="customButtons" slot-scope="{ video }")
-          q-btn(flat, size="sm", round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
-          q-btn(flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
-          q-btn(flat, size="sm", round, icon="delete" @click="openDeleteModal(video)")
+    template(v-if="")
+      video-list-view(
+        v-if="sequences && sequences.length > 0",
+        :videos="sequences",
+        layoutStyle="sm",
+        :allowSelfResponse="true",
+        @changed="loadVideoSequences",
+        :buttons="['download']")
+          template(slot="customButtons" slot-scope="{ video }")
+            q-btn(flat, size="sm", round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
+            q-btn(flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
+            q-btn(flat, size="sm", round, icon="delete" @click="openDeleteModal(video)")
+      p
+        router-link(:to="{path: 'portraitplusplus'}") {{ $t('dates.date_2.page_link') }}
     template(v-else)
       | {{ $t('messages.no_videos') }}
 
@@ -65,6 +68,7 @@
         await this.loadVideoSequences()
         await this.loadFavouriteSequences()
       }
+      console.log(this.$props)
     },
     methods: {
       getItemStyle (item) {
@@ -151,13 +155,16 @@
       async loadVideoSequences () {
         if (!this.user) return
         const prefix = 'Sequenz: '
+        const startDateMillis = DateTime.fromISO(this.$props.date.start).toMillis()
+        const endDateMillis = DateTime.fromISO(this.$props.date.end).toMillis()
         const query = {
           type: 'Timeline',
           'author.id': this.user.uuid
         }
         const result = await this.$store.dispatch('maps/find', query)
         this.sequences = result.items.filter(map => {
-          return map.title.indexOf(prefix) === 0
+          const mapCreatedMillis = DateTime.fromISO(map.created).toMillis()
+          return map.title.indexOf(prefix) === 0 && mapCreatedMillis >= startDateMillis && mapCreatedMillis <= endDateMillis
         }).sort(this.$sort.onCreatedDesc).map(map => {
           const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
           const preview = {
