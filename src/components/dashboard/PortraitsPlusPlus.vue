@@ -15,7 +15,7 @@
             q-btn(flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
             q-btn(flat, size="sm", round, icon="delete" @click="openDeleteModal(video)")
       p
-        router-link(:to="{path: 'portraitplusplus'}") {{ $t('dates.date_2.page_link') }}
+        router-link.page-link(:to="{path: 'portraitplusplus'}") {{ $t('dates.' + date.id + '.page_link') }}
     template(v-else)
       | {{ $t('messages.no_videos') }}
 
@@ -200,5 +200,9 @@
 </script>
 
 <style lang="stylus">
-
+  .page-link
+    &
+    &:hover
+    &:visited
+      color white
 </style>
