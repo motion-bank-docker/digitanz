@@ -60,9 +60,9 @@ module.exports = function (ctx) {
         //
         // Resources
         //
-        TIMELINE_BASE_URI: JSON.stringify(process.env.TIMELINE_BASE_URI || 'https://app.motionbank.org/piecemaker/timelines/'),
-        ANNOTATION_BASE_URI: JSON.stringify(process.env.ANNOTATION_BASE_URI || 'https://app.motionbank.org/piecemaker/annotations/'),
-        GRID_BASE_URI: JSON.stringify(process.env.GRID_BASE_URI || 'https://app.motionbank.org/mosys/grids/'),
+        TIMELINE_BASE_URI: JSON.stringify(process.env.TIMELINE_BASE_URI || 'http://id.motionbank.org/maps/'),
+        ANNOTATION_BASE_URI: JSON.stringify(process.env.ANNOTATION_BASE_URI || 'http://id.motionbank.org/annotations/'),
+        GRID_BASE_URI: JSON.stringify(process.env.GRID_BASE_URI || 'http://id.motionbank.org/maps/'),
         ID_FIELD: JSON.stringify(process.env.ID_FIELD || 'uuid'),
         SYSTEM_USER_UUID: JSON.stringify(process.env.SYSTEM_USER_UUID || 'aa5a24cc-dbd3-5b5d-8ca6-76552699cbd9'),
         PORTRAITS_TIMELINE_UUID: JSON.stringify(process.env.PORTRAITS_TIMELINE_UUID || 'dfceff69-75a8-4087-b3cc-0bbd23c833c3'),
