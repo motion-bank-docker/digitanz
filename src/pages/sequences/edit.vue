@@ -56,14 +56,8 @@
         // DISPLAY VIDEOS
         //
         q-list.no-border
-          div.shadow-6.q-mb-md(v-for="(video, index) in videos",
-          :class="[currentVideoWeight === videos[index].weight ? 'bg-grey-9' : '']")
-            // q-item.no-padding.overflow-hidden(:class="[currentVideo === videos[index].annotation ? 'bg-grey-9' : '']")
-            // q-item.no-padding.overflow-hidden(:style="{border: currentVideo === videos[index].annotation && currentPlay === index ? '1px solid grey' : ''}")
-            // q-item.no-padding.overflow-hidden(:style="{border: currentPlay === index ? '1px solid grey' : ''}")
-            // q-item.no-padding.overflow-hidden(:style="{border: currentVideo === videos[index].annotation ? '1px solid grey' : ''}")
-            // q-item.no-padding.overflow-hidden(:style="{border: currentVideoWeight === videos[index].weight ? '1px solid grey' : ''}")
-            q-item.no-padding.overflow-hidden
+          div.shadow-6.q-mb-md(v-for="(video, index) in videos")
+            q-item.no-padding.overflow-hidden(:style="{border: currentVideo === videos[index].annotation ? '1px solid grey' : ''}")
               q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;", @click.native="openPreview(index)")
                 img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
                 span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
@@ -80,7 +74,7 @@
           .text-center(v-if="videos.length > 0")
             q-btn.q-mt-lg.bg-primary.text-white(@click="saveSequence", icon="check", :label="$t('buttons.save')", flat)
 
-      q-card.q-pa-md.q-mb-md.text-grey-8.text-center(v-else) {{ $t('messages.empty') }}
+      .text-center.text-grey-8.q-caption.q-pa-lg.bg-grey-10(v-else) {{ $t('messages.empty') }}
 
     // .fixed-bottom-left.q-ma-md
       q-btn.bg-white(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat, round)
@@ -121,8 +115,7 @@
           title: undefined,
           type: ['Timeline']
         },
-        currentVideo: undefined,
-        currentVideoWeight: undefined
+        currentVideo: undefined
       }
     },
     computed: {
@@ -302,10 +295,7 @@
       },
       openPreview (index) {
         this.currentVideo = this.videos[index].annotation
-        this.currentVideoWeight = this.videos[index].weight
         this.currentPlay = index
-        console.log('###', index, this.currentPlay)
-        console.log(this.videos[index])
       },
       setSequence () {
         this.preview = this.uploadedVideos
@@ -344,11 +334,17 @@
       },
       // METHODS TO EDIT SELECTED VIDEO
       deleteItem: function (index) {
-        // this.$refs.videoPlayer.reset()
+        let nextCurrentVideo
+        if (this.videos[index] === this.currentVideo && index > 0) {
+          nextCurrentVideo = index - 1
+        }
+        else if (index === 0 && this.videos.length > 1) {
+          nextCurrentVideo = 0
+        }
         const copy = [].concat(this.videos)
         copy.splice(index, 1)
         this.videos = this.updateWeights(copy)
-        // this.loadFirstVideo()
+        this.openPreview(nextCurrentVideo)
       },
       moveUp: function (index) {
         if (index === 0) return
@@ -356,7 +352,7 @@
         const moved = copy.splice(index, 1)
         copy.splice(index - 1, 0, moved[0])
         this.videos = this.updateWeights(copy)
-        if (this.currentVideoWeight === index) this.currentVideoWeight--
+        this.openPreview(index)
       },
       moveDown: function (index) {
         if (index === this.videos.length - 1) return
@@ -364,10 +360,10 @@
         const moved = copy.splice(index, 1)
         copy.splice(index + 1, 0, moved[0])
         this.videos = this.updateWeights(copy)
-        if (this.currentVideoWeight === index) this.currentVideoWeight++
+        this.openPreview(index)
       },
       duplicateVideo: function (index) {
-        const newObject = Object.assign({}, this.videos[index])
+        const newObject = ObjectUtil.merge({}, this.videos[index])
         newObject.weight = this.videos.length
         this.videos.push(newObject)
       },

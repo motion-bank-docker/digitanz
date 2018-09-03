@@ -2,16 +2,20 @@
 
   .row
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteVideo")
-    video-list-view(
-      v-if="sequences && sequences.length > 0",
-      :videos="sequences",
-      layoutStyle="sm",
-      :allowSelfResponse="true",
-      @changed="loadVideoSequences")
-        template(slot="customButtons" slot-scope="{ video }")
-          q-btn(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
-          q-btn(flat, size="sm" round, icon="delete" @click="openDeleteModal(video)")
-          q-btn(flat, size="sm" round, icon="cloud_download" @click="download")
+    template(v-if="")
+      video-list-view(
+        v-if="sequences && sequences.length > 0",
+        :videos="sequences",
+        layoutStyle="sm",
+        :allowSelfResponse="true",
+        @changed="loadVideoSequences",
+        :buttons="['download']")
+          template(slot="customButtons" slot-scope="{ video }")
+            q-btn(flat, size="sm", round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
+            q-btn(flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
+            q-btn(flat, size="sm", round, icon="delete" @click="openDeleteModal(video)")
+      p
+        router-link.page-link(:to="{path: 'portraitplusplus'}") {{ $t('dates.' + date.id + '.page_link') }}
     template(v-else)
       | {{ $t('messages.no_videos') }}
 
@@ -24,9 +28,6 @@
   import { ObjectUtil } from 'mbjs-utils'
   import { SequenceHelper } from '../../lib'
   import ConfirmModal from '../../components/ConfirmModal'
-
-  import path from 'path'
-  import { openURL } from 'quasar'
 
   export default {
     name: 'dashboard-portraits-plus-plus',
@@ -150,13 +151,11 @@
         this.$q.loading.hide()
         await this.loadVideoSequences()
       },
-      download (video) {
-        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.media)}`)
-      },
       async loadVideoSequences () {
         if (!this.user) return
         const prefix = 'Sequenz: '
         const query = {
+          created: { $gte: this.$props.date.start, $lte: this.$props.date.end },
           type: 'Timeline',
           'author.id': this.user.uuid
         }
@@ -201,5 +200,9 @@
 </script>
 
 <style lang="stylus">
-
+  .page-link
+    &
+    &:hover
+    &:visited
+      color white
 </style>

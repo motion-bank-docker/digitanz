@@ -1,11 +1,11 @@
 import path from 'path'
 import parseURI from 'mbjs-data-models/src/lib/parse-uri'
-import { Assert } from 'mbjs-utils'
+// import { Assert } from 'mbjs-utils'
 import { SequenceHelper } from './index'
 
 class VideoHelper {
   static async fetchVideoItems (context, query, sortFunc = undefined) {
-    Assert.isInstance(context, 'VueComponent', 'fetchVideoItems context')
+    // Assert.isInstance(context, 'VueComponent', 'fetchVideoItems context')
 
     /** Fetch query results (annotations) */
     const results = await context.$store.dispatch('annotations/find', query)
@@ -38,7 +38,7 @@ class VideoHelper {
   }
 
   static async deleteVideoItem (context, item) {
-    Assert.isInstance(context, 'VueComponent', 'deleteVideoItem context')
+    // Assert.isInstance(context, 'VueComponent', 'deleteVideoItem context')
 
     let sequences = []
 

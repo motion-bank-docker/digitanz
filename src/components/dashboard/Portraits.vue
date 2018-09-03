@@ -2,22 +2,21 @@
 
   .row
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
-    video-list-view(
-      v-if="entries.length > 0",
-      :videos="entries",
-      layoutStyle="sm",
-      :buttons="['download']")
-        template(slot="customButtons" slot-scope="{ video }")
-          q-btn.q-px-none(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
-          q-btn.q-px-none(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
+    template(v-if="entries.length > 0")
+      video-list-view(
+        :videos="entries",
+        layoutStyle="sm", :buttons="['download']")
+          template(slot="customButtons" slot-scope="{ video }")
+            q-btn.q-px-none(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
+            q-btn.q-px-none(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
+      p
+        router-link.page-link(:to="{path: 'portrait'}") {{ $t('dates.date_1.page_link') }}
     template(v-else)
       | {{ $t('messages.no_videos') }}
 
 </template>
 
 <script>
-  import path from 'path'
-  import { openURL } from 'quasar'
   import { DateTime, Interval } from 'luxon'
   import { ObjectUtil } from 'mbjs-utils'
   import { mapGetters } from 'vuex'
@@ -80,9 +79,6 @@
     methods: {
       formatTime (val) {
         return DateTime.fromISO(val).toLocaleString()
-      },
-      download (file) {
-        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(file)}`)
       },
       getDateLabel (date) {
         const dt = DateTime.fromISO(date.start)
@@ -162,7 +158,7 @@
       },
       getItemStyle (item) {
         for (let portrait of this.portraits.annotations) {
-          if (item.annotation.body.source.id === portrait.body.source.id) return {color: 'primary', icon: 'account_box'}
+          if (portrait.body.source && item.annotation.body.source.id === portrait.body.source.id) return {color: 'primary', icon: 'account_box'}
         }
         return {color: 'grey-5', icon: 'portrait'}
       },
@@ -226,8 +222,13 @@
   }
 </script>
 
-<style scoped>
-  .q-px-none {
-    padding: 0 !important;
-  }
+<style scoped lang="stylus">
+  .q-px-none
+    padding 0 !important
+
+  .page-link
+    &
+    &:hover
+    &:visited
+      color white
 </style>

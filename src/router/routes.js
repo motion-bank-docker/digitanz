@@ -17,7 +17,9 @@ const routes = [
       { path: 'portrait', component: () => import('pages/portrait'), meta: {private: true} },
       { path: 'portrait/responses/:uuid', component: () => import('pages/responses'), meta: {private: true} },
       { path: 'portraitplusplus', component: () => import('pages/portraitplusplus'), meta: {private: true} },
+      { path: 'groupsequences', component: () => import('pages/groupSequences'), meta: {private: true} },
       { path: 'portraitplusplus/responses/:uuid', component: () => import('pages/responses'), meta: {private: true, allowSelfResponse: true} },
+      { path: 'team', component: () => import('pages/team'), meta: {private: true} },
       { path: 'dk', component: () => import('pages/devtestdk'), meta: {private: true} }
     ]
   },

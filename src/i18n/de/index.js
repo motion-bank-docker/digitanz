@@ -57,17 +57,20 @@ export default {
     date_1: {
       title: 'Deine Portraits',
       description: 'Neben dem Kennenlernen und der Einführung in das #digitanz Projekt geht es in diesem Termin um persönliche Tanz-Portraits von euch.',
-      map_title: 'Meine Videos'
+      map_title: 'Meine Videos',
+      page_link: 'Eure Portraits'
     },
     date_2: {
       title: 'Deine Sequenzen',
-      description: 'An diesem Termin erstellen wir erste Choreographien aus kurzen Bewegungs-Aufnahmen.',
-      map_title: 'Meine Portraits++'
+      description: 'An diesem Termin erstellen wir kurzen Bewegungs-Aufnahmen und fügen diese mit dem Video Sequenzer Tool zusammen.',
+      map_title: 'Meine Portraits++',
+      page_link: 'Eure Sequenzen'
     },
     date_3: {
-      title: 'Needs Title',
-      description: 'Needs Description … Lorem ipsum dolor sit amet',
-      map_title: 'Braucht auch einen Titel'
+      title: 'Eure Gruppen Sequenzen',
+      description: 'Diese Woche arbeitet ihr in kleinen Gruppen mit dem Video Sequenzer und erstellt eine kurze Choreographie',
+      map_title: 'Meine Gruppen Sequenzen',
+      page_link: 'Eure Gruppen-Sequenzen'
     },
     date_4: {
       title: 'Needs Title',
@@ -126,6 +129,10 @@ export default {
     }
   },
   navigation: {
+    team: {
+      label: 'Team',
+      sublabel: 'Meldet euch bei uns'
+    },
     login: 'Einloggen',
     logout: 'Ausloggen',
     dashboard: {
@@ -139,6 +146,10 @@ export default {
     portraitplusplus: {
       label: 'Eure Sequenzen',
       sublabel: '24. August'
+    },
+    groupsequences: {
+      label: 'Eure Gruppen-Sequenzen',
+      sublabel: '31. August'
     },
     lost_in_space: {
       label: 'Lost in Space',
@@ -162,6 +173,9 @@ export default {
     }
   },
   pages: {
+    team: {
+      headline: 'Das Team'
+    },
     edit_sequence: {
       title: 'Sequenz bearbeiten',
       description: 'Lorem Ipsum, hier steht eine Beschreibung.'
@@ -177,6 +191,14 @@ export default {
     portraitplusplus: {
       title: 'Eure Sequenzen',
       description: 'Hier siehst du alle freigegebenen Video-Sequenzen aus dem zweiten Termin. Mit dem Favorisieren-Knopf (Herz) auf der Kursseite kannst du deine Sequenzen für diese Seite freigeben.',
+      upload_remix: 'Eigene Version von dieser Video-Sequenz hochladen',
+      no_remix: 'Bisher noch keine anderen Versionen',
+      remix_singular: 'andere Version',
+      remix_plural: 'andere Versionen'
+    },
+    groupsequences: {
+      title: 'Eure Gruppen Sequenzen',
+      description: 'Hier siehst du alle freigegebenen Video-Sequenzen aus dem dritten Termin. Mit dem Favorisieren-Knopf (Herz) auf der Kursseite kannst du deine Sequenzen für diese Seite freigeben.',
       upload_remix: 'Eigene Version von dieser Video-Sequenz hochladen',
       no_remix: 'Bisher noch keine anderen Versionen',
       remix_singular: 'andere Version',

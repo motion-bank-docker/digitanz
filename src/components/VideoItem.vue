@@ -21,7 +21,7 @@
         q-btn(round, flat, size="sm", icon="delete", @click="openDeleteModal(video)")
       slot(v-if="displayDownloadButton" name="downloadButton" :video="video")
         q-btn(round, flat, size="sm", icon="cloud_download", @click="downloadItem(video)")
-      slot(v-if="video.responses" name="downloadButton" :video="video")
+      slot(v-if="video.responses" name="responsesButton" :video="video")
         q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
           q-chip(floating, color="red") {{ video.responses.length }}
 </template>
@@ -31,9 +31,7 @@
   import ConfirmModal from '../components/ConfirmModal'
   import path from 'path'
   import { openURL } from 'quasar'
-
   import { mapGetters } from 'vuex'
-
   import { VideoHelper } from '../lib'
 
   export default {
@@ -58,6 +56,9 @@
       this.setPreviewHeight()
     },
     methods: {
+      downloadItem (video) {
+        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.annotation.body.source.id)}`)
+      },
       getPreviewWidth () {
         return this.$refs.previewImage.offsetWidth + 'px'
       },
@@ -69,9 +70,6 @@
       },
       starItem (video) {
         console.log('high five to item: ' + video.annotation.uuid)
-      },
-      downloadItem (video) {
-        openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.annotation.body.source.id)}`)
       },
       showResponses (video) {
         // FIXME: this needs to be implemented propery!!!
@@ -111,7 +109,6 @@
     },
     computed: {
       displayDeleteButton () {
-        if (!this.user || (this.video && this.video.annotation && this.user.uuid !== this.video.annotation.author.id)) return false
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('delete') > -1)
         else return false
       },
@@ -120,6 +117,7 @@
         else return false
       },
       displayDownloadButton () {
+        if (!this.user || (this.video && this.video.annotation && this.user.uuid !== this.video.annotation.author.id)) return false
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('download') > -1)
         else return false
       },
