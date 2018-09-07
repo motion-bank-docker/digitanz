@@ -14,6 +14,7 @@
                         layoutStyle="sm",
                         :buttons="['delete', 'download']",
                         :jobIds="jobIds",
+                        :showDuration="true",
                         @changed="fetchVideos")
 </template>
 
