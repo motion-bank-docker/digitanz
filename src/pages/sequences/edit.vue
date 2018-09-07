@@ -43,7 +43,7 @@
 
       div(v-if="videos.length")
 
-        video-player.full-width.self-center.q-mb-sm(
+        video-player.self-center.q-mb-sm(
           v-if="currentVideo",
           :class="orientationClass",
           :annotation="currentVideo",
@@ -51,13 +51,14 @@
           autoplay="true",
           @ended="playNext",
           @play="setPlayerStatePlay()",
-          @pause="setPlayerStatePause()")
+          @pause="setPlayerStatePause()",
+          style="height: 50vh; overflow: hidden")
 
         // DISPLAY VIDEOS
         //
-        q-list.no-border
+        q-list.no-border.scroll(style="height: 23vh")
           div.shadow-6.q-mb-md(v-for="(video, index) in videos")
-            q-item.no-padding.overflow-hidden(:style="{border: currentVideo === videos[index].annotation ? '1px solid grey' : ''}")
+            q-item.no-padding.overflow-hidden(:style="{border: currentVideo === videos[index].annotation ? '1px solid grey' : '1px solid transparent'}")
               q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;", @click.native="openPreview(index)")
                 img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
                 span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
