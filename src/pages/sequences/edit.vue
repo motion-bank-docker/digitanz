@@ -58,17 +58,23 @@
         //
         q-list.no-border.scroll(style="height: 23vh")
           div.shadow-6.q-mb-md(v-for="(video, index) in videos")
-            q-item.no-padding.overflow-hidden(:style="{border: currentVideo === videos[index].annotation ? '1px solid grey' : '1px solid transparent'}")
-              q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;", @click.native="openPreview(index)")
+            q-item.no-margin.no-padding.overflow-hidden(:style="{border: currentVideo === video.annotation ? '1px solid grey' : '1px solid transparent'}")
+              q-item-main.relative-position(@click.native="openPreview(index)")
+                video-item(
+                :key="video.annotation.uuid"
+                :video="video"
+                :allowSelfResponse="allowSelfResponse",
+                :hideButtons="true"
+                style="height: 50px")
+              //
                 img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
                 span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
                   | {{ formatDuration(video.metadata.duration) }}
 
-              q-item-side.column
+              q-item-side.row
                 q-item-tile
                   q-btn.q-ma-xs(@click="moveUp(index)", round, icon="arrow_upward", dark, flat, size="sm")
                   q-btn.q-ma-xs(@click="moveDown(index)", round, icon="arrow_downward", dark, flat, size="sm")
-                q-item-tile
                   q-btn.q-ma-xs(@click="duplicateVideo(index)", round, icon="filter_none", dark, flat, size="sm")
                   q-btn.q-ma-xs(@click="deleteItem(index)", round, icon="delete", dark, flat, size="sm")
 
@@ -93,13 +99,15 @@
   import VideoPlayer from '../../components/VideoPlayer'
   import { mapGetters } from 'vuex'
   import JobList from '../../components/JobList'
+  import VideoItem from '../../components/VideoItem'
 
   export default {
     components: {
       FileUploader,
       SequenceVideolist,
       VideoPlayer,
-      JobList
+      JobList,
+      VideoItem
     },
     data () {
       return {
