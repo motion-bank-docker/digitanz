@@ -5,14 +5,14 @@
     q-card-media.no-padding
       // show video preview
       video-modal(ref="videoModal")
-      div.previewImage(v-if="video.annotation.uuid && video.preview" ref="previewImage" :style="{ 'background-image': 'url(' + video.preview.medium + ')', 'height':previewHeight }", @click="openPreview(video)")
+      div.previewImage(v-if="isReady" ref="previewImage" :style="{ 'background-image': 'url(' + video.preview.medium + ')', 'height':previewHeight }", @click="openPreview(video)")
       // or show spinner
       div.item(v-else)
         q-inner-loading.bg-dark(:visible="true")
           q-spinner-mat(color="primary" size="3em")
       q-window-resize-observable(@resize="setPreviewHeight()")
     // card actions
-    q-card-actions.row.justify-around(v-if="video.annotation.uuid",
+    q-card-actions.row.justify-around(v-if="video.annotation",
     :class="{'q-py-none' : hideButtons}")
       slot(name="customButtons" :video="video")
       slot(v-if="displayStartButton" name="starButton" :video="video")
@@ -63,7 +63,9 @@
         return this.$refs.previewImage.offsetWidth + 'px'
       },
       setPreviewHeight () {
-        this.previewHeight = this.getPreviewWidth()
+        if (this.isReady) {
+          this.previewHeight = this.getPreviewWidth()
+        }
       },
       openPreview (item) {
         if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item)
@@ -119,6 +121,12 @@
       displayDownloadButton () {
         if (!this.user || (this.video && this.video.annotation && this.user.uuid !== this.video.annotation.author.id)) return false
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('download') > -1)
+        else return false
+      },
+      isReady () {
+        if (typeof this.video.annotation !== 'undefined' && typeof this.video.preview !== 'undefined') {
+          return true
+        }
         else return false
       },
       ...mapGetters({
