@@ -8,8 +8,9 @@
                 :video="video"
                 :buttons="buttons",
                 :allowSelfResponse="allowSelfResponse",
-                @changed="changed",
-                :hideButtons="hideButtons")
+                :hideButtons="hideButtons",
+                :showDuration="showDuration",
+                @changed="changed")
         template(slot="customButtons" slot-scope="{ video }")
           slot(name="customButtons" :video="video")
 
@@ -32,7 +33,8 @@
       buttons: Array,
       allowSelfResponse: Boolean,
       hideButtons: undefined,
-      jobIds: undefined
+      jobIds: undefined,
+      showDuration: Boolean
     },
     data () {
       return {

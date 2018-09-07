@@ -6,6 +6,8 @@
       // show video preview
       video-modal(ref="videoModal")
       div.previewImage(v-if="isReady" ref="previewImage" :style="{ 'background-image': 'url(' + video.preview.medium + ')', 'height':previewHeight }", @click="openPreview(video)")
+        span(v-if="showDuration").absolute-bottom-right.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
+          | {{ formatDuration(video.metadata.duration) }}
       // or show spinner
       div.item(v-else)
         q-inner-loading.bg-dark(:visible="true")
@@ -50,7 +52,8 @@
       video: undefined,
       buttons: Array,
       allowSelfResponse: Boolean,
-      hideButtons: undefined
+      hideButtons: undefined,
+      showDuration: Boolean
     },
     mounted () {
       this.setPreviewHeight()
@@ -72,6 +75,12 @@
       },
       starItem (video) {
         console.log('high five to item: ' + video.annotation.uuid)
+      },
+      formatDuration (duration) {
+        let minutes = Math.floor(duration / 60).toString()
+        let seconds = (duration - minutes * 60).toString().split('.')[0]
+        if (seconds.length < 2) seconds = '0' + seconds
+        return minutes.toString() + ':' + seconds.toString()
       },
       showResponses (video) {
         // FIXME: this needs to be implemented propery!!!
@@ -137,6 +146,9 @@
 </script>
 
 <style lang="stylus" scoped>
+  @import '~variables'
+  .bg-body-background
+    background-color $body-background
   /* for dev purpose */
   .item
     width 100%
