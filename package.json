@@ -31,6 +31,7 @@
     "mbjs-utils": "0.0.6",
     "raven-js": "^3.26.4",
     "superagent": "^3.8.2",
+    "tiny-emitter": "^2.0.2",
     "video.js": "^6.8.0",
     "videojs-vimeo": "git+https://github.com/PieceMeta/videojs-vimeo.git",
     "videojs-youtube": "^2.6.0",
