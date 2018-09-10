@@ -5,9 +5,9 @@
     h3.text-center
       | {{ $t('upload.title') }}
     file-uploader.full-width.self-center(:query="query")
-    .row.q-mt-md(v-if="map")
+    .row.q-pt-xs(v-if="map")
       job-list
-      .col-12.q-px-md.q-mt-md
+      .col-12.q-px-md.q-pt-xs
         // h4.text-center {{ map.title }}
         // h4.text-center {{ $t('upload.my_videos') }}
         //

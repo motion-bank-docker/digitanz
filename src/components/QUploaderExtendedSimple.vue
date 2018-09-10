@@ -46,11 +46,11 @@
           q-item-side
             q-spinner.q-if-end.self-center(size="24px", color="white")
           q-item-main(:label="files[0].name", :sublabel="files[0].__size")
-          q-item-side(:right="true").q-pr-sm
+          q-item-side.q-pr-sm(:right="true")
             q-item-tile.cursor-pointer.text-white(:icon="$q.icon.uploader[files[0].__doneUploading ? 'done' : 'clear']",
             :color="white",
             @click.native="__remove(files[0])",
-            size="sm")
+            size="md")
         //
           q-icon.q-if-end.self-center.q-if-control(
           slot="after",
