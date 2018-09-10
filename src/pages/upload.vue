@@ -2,13 +2,14 @@
   q-page
     video-modal(ref="videoModal")
 
-    h4.q-mx-none.text-center {{ $t('upload.title') }}
+    h3.text-center
+      | {{ $t('upload.title') }}
     file-uploader.full-width.self-center(:query="query")
-    .row.q-mt-xl(v-if="map")
+    .row.q-mt-md(v-if="map")
       job-list
-      .col-12.q-px-md
+      .col-12.q-px-md.q-mt-md
         // h4.text-center {{ map.title }}
-        h4.text-center {{ $t('upload.my_videos') }}
+        // h4.text-center {{ $t('upload.my_videos') }}
         //
         // Meine Videos Liste
         video-list-view(:videos="videos",
