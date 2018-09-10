@@ -1,6 +1,6 @@
 <template lang="pug">
   q-page.relative-position
-    q-tabs(animated, swipeable, color="transparent", text-color="secondary", align="justify" v-model="selectedTab")
+    q-tabs(animated, swipeable, color="transparent", text-color="primary", align="justify" v-model="selectedTab")
       q-tab(default name="tab-1" slot="title" icon="add")
       q-tab(name="tab-2" slot="title" icon="edit")
 
@@ -60,7 +60,7 @@
           //
           q-list.no-border.scroll(style="height: 30vh")
             div.shadow-6.q-mb-md(v-for="(video, index) in videos")
-              q-item.no-margin.no-padding.overflow-hidden(:style="{border: currentVideo === video.annotation ? '1px solid grey' : '1px solid transparent'}")
+              q-item.no-margin.no-padding.overflow-hidden(:style="{border: currentPlay === index ? '1px solid grey' : '1px solid transparent'}")
                 q-item-main.relative-position(@click.native="openPreview(index)")
                   video-item(
                   :key="video.annotation.uuid"
@@ -109,7 +109,7 @@
       return {
         hasUuid: false,
         orientation: 'portrait',
-        selectedUuid: 'hallo',
+        selectedUuid: undefined,
         uploadQuery: {
           'title': 'Meine Videos'
         },
@@ -151,13 +151,16 @@
       },
       async user (val) {
         if (val) await this.loadData()
+      },
+      currentVideo () {
+        console.log(this.currentVideo)
       }
     },
     methods: {
       addVideos (selectedVideos) {
         this.videos = this.updateWeights(this.videos.concat(selectedVideos))
         console.debug('added videos', selectedVideos, this.videos)
-        //if (this.videos.length) this.$refs.sequenceGroup.show()
+        // if (this.videos.length) this.$refs.sequenceGroup.show()
         this.openPreview(0)
         this.selectedTab = 'tab-2'
       },
