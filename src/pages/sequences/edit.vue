@@ -157,7 +157,7 @@
       addVideos (selectedVideos) {
         this.videos = this.updateWeights(this.videos.concat(selectedVideos))
         console.debug('added videos', selectedVideos, this.videos)
-        if (this.videos.length) this.$refs.sequenceGroup.show()
+        //if (this.videos.length) this.$refs.sequenceGroup.show()
         this.openPreview(0)
         this.selectedTab = 'tab-2'
       },
