@@ -6,7 +6,7 @@
 
     template(v-else)
       q-icon(
-      :name="$q.icon.uploader.add",
+      name="arrow_upward",
       :disabled="addDisabled",
       flat)
 
