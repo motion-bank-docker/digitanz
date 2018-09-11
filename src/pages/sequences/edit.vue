@@ -59,15 +59,15 @@
           // DISPLAY VIDEOS
           //
           q-list.no-border.scroll(style="height: 30vh")
-            div.shadow-6.q-mb-md(v-for="(video, index) in videos")
-              q-item.no-margin.no-padding.overflow-hidden(:style="{border: currentPlay === index ? '1px solid grey' : '1px solid transparent'}")
+            div.shadow-6.q-mb-xs(v-for="(video, index) in videos")
+              q-item.no-margin.no-padding.overflow-hidden(:class="{'bg-grey-9': currentPlay === index}")
                 q-item-main.relative-position(@click.native="openPreview(index)")
                   video-item(
                   :key="video.annotation.uuid"
                   :video="video"
                   :allowSelfResponse="allowSelfResponse",
                   :hideButtons="true"
-                  style="height: 50px")
+                  style="height: 30px")
                 //
                   img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
                   span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
@@ -75,10 +75,10 @@
 
                 q-item-side.row
                   q-item-tile
-                    q-btn.q-ma-xs(@click="moveUp(index)", round, icon="arrow_upward", dark, flat, size="sm")
-                    q-btn.q-ma-xs(@click="moveDown(index)", round, icon="arrow_downward", dark, flat, size="sm")
-                    q-btn.q-ma-xs(@click="duplicateVideo(index)", round, icon="filter_none", dark, flat, size="sm")
-                    q-btn.q-ma-xs(@click="deleteItem(index)", round, icon="delete", dark, flat, size="sm")
+                    q-btn.q-ma-xs(@click="moveUp(index)", color="grey-5", round, icon="arrow_upward", dark, flat, size="sm")
+                    q-btn.q-ma-xs(@click="moveDown(index)", color="grey-5", round, icon="arrow_downward", dark, flat, size="sm")
+                    q-btn.q-ma-xs(@click="duplicateVideo(index)", color="grey-5", round, icon="filter_none", dark, flat, size="sm")
+                    q-btn.q-ma-xs(@click="deleteItem(index)", color="grey-5", round, icon="delete", dark, flat, size="sm")
 
             .text-center.fixed-bottom(v-if="videos.length > 0")
               q-btn.full-width.q-mt-lg.bg-primary.text-white(@click="saveSequence", icon="check", :label="$t('buttons.save')", flat)
