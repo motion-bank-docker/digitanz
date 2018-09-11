@@ -80,8 +80,8 @@
                     q-btn.q-ma-xs(@click="duplicateVideo(index)", round, icon="filter_none", dark, flat, size="sm")
                     q-btn.q-ma-xs(@click="deleteItem(index)", round, icon="delete", dark, flat, size="sm")
 
-            .text-center(v-if="videos.length > 0")
-              q-btn.q-mt-lg.bg-primary.text-white(@click="saveSequence", icon="check", :label="$t('buttons.save')", flat)
+            .text-center.fixed-bottom(v-if="videos.length > 0")
+              q-btn.full-width.q-mt-lg.bg-primary.text-white(@click="saveSequence", icon="check", :label="$t('buttons.save')", flat)
             .text-center.text-grey-8.q-caption.q-pa-lg.bg-grey-10(v-else) {{ $t('messages.empty') }}
 
 </template>
