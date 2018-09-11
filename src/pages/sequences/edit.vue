@@ -375,9 +375,11 @@
         }
       },
       duplicateVideo: function (index) {
+        // const newObject = Object.assign({}, this.sequencedVideos[video])
+        // this.sequencedVideos.splice(this.editIndex + 1, 0, newObject)
         const newObject = ObjectUtil.merge({}, this.videos[index])
         newObject.weight = this.videos.length
-        this.videos.push(newObject)
+        this.videos.splice(index + 1, 0, newObject)
       },
       loadFirstVideo: function () {
         if (typeof this.videos !== 'undefined' && this.videos.length > 0) {
