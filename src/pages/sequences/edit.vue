@@ -54,11 +54,11 @@
           @ended="playNext",
           @play="setPlayerStatePlay()",
           @pause="setPlayerStatePause()",
-          style="height: 50vh; overflow: hidden")
+          style="height: 45vh; overflow: hidden")
 
           // DISPLAY VIDEOS
           //
-          q-list.no-border.scroll(style="height: 30vh")
+          q-list.no-border.scroll.q-mb-md(style="height: 29vh")
             div.shadow-6.q-mb-xs(v-for="(video, index) in videos")
               q-item.no-margin.no-padding.overflow-hidden(:class="{'bg-grey-9': currentPlay === index}")
                 q-item-main.relative-position(@click.native="openPreview(index)")
@@ -67,7 +67,7 @@
                   :video="video"
                   :allowSelfResponse="allowSelfResponse",
                   :hideButtons="true"
-                  style="height: 30px")
+                  style="height: 25px")
                 //
                   img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
                   span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
