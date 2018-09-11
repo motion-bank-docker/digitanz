@@ -152,9 +152,6 @@
       },
       async user (val) {
         if (val) await this.loadData()
-      },
-      currentPlay () {
-        console.log(this.currentPlay)
       }
     },
     methods: {
@@ -363,15 +360,8 @@
         const moved = copy.splice(index, 1)
         copy.splice(index - 1, 0, moved[0])
         this.videos = this.updateWeights(copy)
-        // this.openPreview(index)
         if (typeof this.currentPlay !== 'undefined' && this.currentPlay === index) {
-          if (this.currentPlay > 0) {
-            this.openPreview(this.currentPlay -= 1)
-          }
-          else {
-            this.currentPlay = this.videos.length - 1
-            this.openPreview(this.currentPlay)
-          }
+          this.openPreview(this.currentPlay -= 1)
         }
       },
       moveDown: function (index) {
@@ -380,14 +370,8 @@
         const moved = copy.splice(index, 1)
         copy.splice(index + 1, 0, moved[0])
         this.videos = this.updateWeights(copy)
-        // this.openPreview(index)
         if (typeof this.currentPlay !== 'undefined' && this.videos.length > 0 && this.currentPlay === index) {
-          if (this.currentPlay < this.videos.length - 1) {
-            this.openPreview(this.currentPlay += 1)
-          }
-          else {
-            this.openPreview(0)
-          }
+          this.openPreview(this.currentPlay += 1)
         }
       },
       duplicateVideo: function (index) {
