@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-btn(@dragover="__onDragOver", flat, round, size="sm")
+  q-btn(@dragover="__onDragOver", flat, round, size="sm", :color="color")
 
     template(v-if="uploading")
       q-spinner

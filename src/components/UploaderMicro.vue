@@ -2,12 +2,7 @@
 
   q-uploader-extended-simple-micro(
       ref="uploader",
-      :prefix="$t('buttons.uploader')",
-      auto-expand,
-      clearable,
-      color="primary",
-      align="center",
-      inverted,
+      color="",
       :extensions="ext",
       :multiple="false",
       :url="url",
@@ -17,6 +12,24 @@
       @start="onStart",
       @finish="onFinish",
       @click="handleUploaderClick()")
+
+  <!--q-uploader-extended-simple-micro(-->
+      <!--ref="uploader",-->
+      <!--:prefix="$t('buttons.uploader')",-->
+      <!--auto-expand,-->
+      <!--clearable,-->
+      <!--color="primary",-->
+      <!--align="center",-->
+      <!--inverted,-->
+      <!--:extensions="ext",-->
+      <!--:multiple="false",-->
+      <!--:url="url",-->
+      <!--@add="onSelect",-->
+      <!--@uploaded="onUploaded",-->
+      <!--@fail="onFail",-->
+      <!--@start="onStart",-->
+      <!--@finish="onFinish",-->
+      <!--@click="handleUploaderClick()")-->
 
 </template>
 
