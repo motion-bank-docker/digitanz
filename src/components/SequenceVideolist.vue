@@ -18,8 +18,8 @@
               :class="{'moba-highlight-image': selection.includes(video)}")
                 | {{ formatDuration(video.metadata.duration) }}
 
-    .q-ma-md
-      q-btn.full-width.bg-primary.text-white.q-py-sm(
+    .full-width.bg-body-background.fixed-bottom.row.justify-around.q-py-sm
+      q-btn.bg-primary.text-white(
       @click="submit", :label="$t('buttons.add_to_sequence')",
       :class="{'disabled bg-grey-8': selection.length <= 0}"
       )

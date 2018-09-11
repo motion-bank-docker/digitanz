@@ -144,7 +144,10 @@ module.exports = function (ctx) {
         'QWindowResizeObservable',
         'QSlideTransition',
         'QInputFrame',
-        'QProgress'
+        'QProgress',
+        'QTabs',
+        'QTab',
+        'QTabPane'
       ],
       directives: [
         'Ripple'

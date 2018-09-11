@@ -1,49 +1,51 @@
 <template lang="pug">
+  q-page.relative-position
+    q-tabs(animated, swipeable, color="transparent", text-color="primary", align="justify" v-model="selectedTab")
+      q-tab(default name="tab-1" slot="title" icon="add")
+      q-tab(name="tab-2" slot="title" icon="edit")
 
-  q-page.relative-position.q-pb-lg
-
-    q-collapsible.no-padding(group="seq", :label="$t('labels.video_selection')", opened)
-
+      // ADD VIDEOS
       //
-      template(slot="header")
-        q-item-side
-        q-item-main.text-center
-          | {{ $t('labels.video_selection') }}
+      q-tab-pane(keep alive, name="tab-1")
+        //
+        template(slot="header")
+          q-item-side
+          q-item-main.text-center
+            | {{ $t('labels.video_selection') }}
+        // FILE UPLOADER
+        //
+        file-uploader(:url="url", :query="uploadQuery")
 
-      // FILE UPLOADER
+        job-list
+
+        // BUTTONS -- FILTER ORIENTATION
+        //
+        .text-left.q-mt-md
+          .row(@click="toggleOrientation")
+            .col-2.q-pt-xs
+              q-btn.text-white.bg-primary(no-caps,
+              icon="stay_current_landscape",
+              :class="{'disabled bg-grey-8': this.videos.length > 0, 'rotate-90': orientation === 'portrait'}",
+              round, size="sm")
+            .col-5.q-pt-sm
+              p(v-if="orientation === 'portrait'", :class="{'text-grey-8': this.videos.length > 0}") {{ $t('buttons.orientation.portrait') }}
+              p(v-else, :class="{'text-grey-8': this.videos.length > 0}") {{ $t('buttons.orientation.landscape') }}
+
+        // DISPLAY FILTERED VIDEOS
+        //
+        sequence-videolist(:orientation="orientation", @submit="addVideos", :videos="uploadedVideos")
+
+      // .fixed-bottom-left.q-ma-md
+        q-btn.bg-white(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat, round)
+
+      // q-btn.fixed-bottom.bg-black(@click="toggleHasUuid") dev switch
       //
-      file-uploader(:url="url", :query="uploadQuery")
-
-      job-list
-
-      // BUTTONS -- FILTER ORIENTATION
+      // SEQUENCER
       //
-      .text-left.q-mt-md
-        .row(@click="toggleOrientation")
-          .col-2.q-pt-xs
-            q-btn.text-white.bg-primary(no-caps,
-            icon="stay_current_landscape",
-            :class="{'disabled bg-grey-8': this.videos.length > 0, 'rotate-90': orientation === 'portrait'}",
-            round, size="sm")
-          .col-5.q-pt-sm
-            p(v-if="orientation === 'portrait'", :class="{'text-grey-8': this.videos.length > 0}") {{ $t('buttons.orientation.portrait') }}
-            p(v-else, :class="{'text-grey-8': this.videos.length > 0}") {{ $t('buttons.orientation.landscape') }}
+      q-tab-pane(keep alive, name="tab-2")
+        div(v-if="videos.length")
 
-      // DISPLAY FILTERED VIDEOS
-      //
-      sequence-videolist(:orientation="orientation", @submit="addVideos", :videos="uploadedVideos")
-
-    q-collapsible.q-mb-mb(group="seq", :label="$t('labels.edit_sequence')", ref="sequenceGroup")
-      //
-      template(slot="header")
-        q-item-side
-        q-item-main.text-center
-          | {{ $t('labels.edit_sequence') }}
-          // q-chip(color="primary", small) {{ $t('labels.edit_sequence') }}
-
-      div(v-if="videos.length")
-
-        video-player.full-width.self-center.q-mb-sm(
+          video-player.self-center.q-mb-sm(
           v-if="currentVideo",
           :class="orientationClass",
           :annotation="currentVideo",
@@ -51,35 +53,35 @@
           autoplay="true",
           @ended="playNext",
           @play="setPlayerStatePlay()",
-          @pause="setPlayerStatePause()")
+          @pause="setPlayerStatePause()",
+          style="height: 45vh; overflow: hidden")
 
-        // DISPLAY VIDEOS
-        //
-        q-list.no-border
-          div.shadow-6.q-mb-md(v-for="(video, index) in videos")
-            q-item.no-padding.overflow-hidden(:style="{border: currentVideo === videos[index].annotation ? '1px solid grey' : ''}")
-              q-item-main.relative-position(style="margin-bottom: -10px; overflow: hidden;", @click.native="openPreview(index)")
-                img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
-                span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
-                  | {{ formatDuration(video.metadata.duration) }}
+          // DISPLAY VIDEOS
+          //
+          q-list.no-border.scroll.q-mb-md(style="height: 29vh")
+            div.shadow-6.q-mb-xs(v-for="(video, index) in videos")
+              q-item.no-margin.no-padding.overflow-hidden(:class="{'bg-grey-9': currentPlay === index}")
+                q-item-main.relative-position(@click.native="openPreview(index)")
+                  video-item(
+                  :key="video.annotation.uuid"
+                  :video="video"
+                  :allowSelfResponse="allowSelfResponse",
+                  :hideButtons="true"
+                  style="height: 25px")
+                //
+                  img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
+                  span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
+                    | {{ formatDuration(video.metadata.duration) }}
 
-              q-item-side.column
-                q-item-tile
-                  q-btn.q-ma-xs(@click="moveUp(index)", round, icon="arrow_upward", dark, flat, size="sm")
-                  q-btn.q-ma-xs(@click="moveDown(index)", round, icon="arrow_downward", dark, flat, size="sm")
-                q-item-tile
-                  q-btn.q-ma-xs(@click="duplicateVideo(index)", round, icon="filter_none", dark, flat, size="sm")
-                  q-btn.q-ma-xs(@click="deleteItem(index)", round, icon="delete", dark, flat, size="sm")
-
-          .text-center(v-if="videos.length > 0")
-            q-btn.q-mt-lg.bg-primary.text-white(@click="saveSequence", icon="check", :label="$t('buttons.save')", flat)
-
-      .text-center.text-grey-8.q-caption.q-pa-lg.bg-grey-10(v-else) {{ $t('messages.empty') }}
-
-    // .fixed-bottom-left.q-ma-md
-      q-btn.bg-white(@click="$router.push({path: '../sequences'})", icon="keyboard_backspace", flat, round)
-
-    // q-btn.fixed-bottom.bg-black(@click="toggleHasUuid") dev switch
+                q-item-side.row
+                  q-item-tile
+                    q-btn.q-ma-xs(@click="moveUp(index)", color="grey-5", round, icon="arrow_upward", dark, flat, size="sm")
+                    q-btn.q-ma-xs(@click="moveDown(index)", color="grey-5", round, icon="arrow_downward", dark, flat, size="sm")
+                    q-btn.q-ma-xs(@click="duplicateVideo(index)", color="grey-5", round, icon="filter_none", dark, flat, size="sm")
+                    q-btn.q-ma-xs(@click="deleteItem(index)", color="grey-5", round, icon="delete", dark, flat, size="sm")
+            .full-width.bg-body-background.text-center.fixed-bottom.q-py-sm(v-if="videos.length > 0")
+              q-btn.bg-primary.text-white(@click="saveSequence", icon="check", :label="$t('buttons.save')", flat)
+            .text-center.text-grey-8.q-caption.q-pa-lg.bg-grey-10(v-else) {{ $t('messages.empty') }}
 
 </template>
 
@@ -92,19 +94,21 @@
   import VideoPlayer from '../../components/VideoPlayer'
   import { mapGetters } from 'vuex'
   import JobList from '../../components/JobList'
+  import VideoItem from '../../components/VideoItem'
 
   export default {
     components: {
       FileUploader,
       SequenceVideolist,
       VideoPlayer,
-      JobList
+      JobList,
+      VideoItem
     },
     data () {
       return {
         hasUuid: false,
         orientation: 'portrait',
-        selectedUuid: 'hallo',
+        selectedUuid: undefined,
         uploadQuery: {
           'title': 'Meine Videos'
         },
@@ -115,7 +119,9 @@
           title: undefined,
           type: ['Timeline']
         },
-        currentVideo: undefined
+        currentVideo: undefined,
+        currentPlay: undefined,
+        selectedTab: 'tab-1'
       }
     },
     computed: {
@@ -151,8 +157,9 @@
       addVideos (selectedVideos) {
         this.videos = this.updateWeights(this.videos.concat(selectedVideos))
         console.debug('added videos', selectedVideos, this.videos)
-        if (this.videos.length) this.$refs.sequenceGroup.show()
+        // if (this.videos.length) this.$refs.sequenceGroup.show()
         this.openPreview(0)
+        this.selectedTab = 'tab-2'
       },
       toggleOrientation () {
         if (this.videos.length <= 0) {
@@ -352,7 +359,9 @@
         const moved = copy.splice(index, 1)
         copy.splice(index - 1, 0, moved[0])
         this.videos = this.updateWeights(copy)
-        this.openPreview(index)
+        if (typeof this.currentPlay !== 'undefined' && this.currentPlay === index) {
+          this.openPreview(this.currentPlay -= 1)
+        }
       },
       moveDown: function (index) {
         if (index === this.videos.length - 1) return
@@ -360,12 +369,16 @@
         const moved = copy.splice(index, 1)
         copy.splice(index + 1, 0, moved[0])
         this.videos = this.updateWeights(copy)
-        this.openPreview(index)
+        if (typeof this.currentPlay !== 'undefined' && this.videos.length > 0 && this.currentPlay === index) {
+          this.openPreview(this.currentPlay += 1)
+        }
       },
       duplicateVideo: function (index) {
+        // const newObject = Object.assign({}, this.sequencedVideos[video])
+        // this.sequencedVideos.splice(this.editIndex + 1, 0, newObject)
         const newObject = ObjectUtil.merge({}, this.videos[index])
         newObject.weight = this.videos.length
-        this.videos.push(newObject)
+        this.videos.splice(index + 1, 0, newObject)
       },
       loadFirstVideo: function () {
         if (typeof this.videos !== 'undefined' && this.videos.length > 0) {
@@ -411,7 +424,7 @@
 
   .moba-inline
     max-width 20%
-    // float left
+  // float left
 
   .moba-image
     max-width 50%
