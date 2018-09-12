@@ -25,7 +25,8 @@ export default {
     confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?',
     insert_title: 'Titel',
     insert_sequence_title: 'Sequenze-Titel (optional)',
-    more_videos: 'Weitere verfügbare Videos'
+    more_videos: 'Weitere verfügbare Videos',
+    video_selection: 'Video-Auswahl'
   },
   placeholder: {
     file_uploader: 'Video-Titel'
