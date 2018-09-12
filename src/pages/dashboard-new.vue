@@ -2,11 +2,12 @@
   q-page.flex.column
 
     date-block(v-for="comp in components")
-      q-btn.bg-green.text-white.q-pa-sm.q-caption(slot="label", rounded) {{ comp.date }}
-      template(slot="label")
-        div
+      template(slot="date")
+        span {{ comp.description }}
+      template(slot="title")
+        h4 {{ comp.title }}
       template(slot="sublabel")
-        div
+        // div {{ comp.description }}
       component(slot="content", :is="comp.component")
       //
         template(slot="buttons")
@@ -29,19 +30,15 @@
       return {
         dates: this.$dates(),
         components: [{
-          buttons: [{
-            label: 'neu'
-          }],
           component: 'all-portraits',
-          date: '17. August',
-          title: 'Termin 1'
+          date: this.$t('navigation.portrait.sublabel'),
+          title: this.$t('navigation.portrait.label'),
+          description: this.$t('navigation.portrait.sublabel')
         }, {
-          buttons: [{
-            label: 'neu cdscsd'
-          }],
           component: 'all-sequences',
-          date: '24. August',
-          title: 'Termin 2'
+          date: this.$t('navigation.portraitplusplus.sublabel'),
+          title: this.$t('navigation.portraitplusplus.label'),
+          description: this.$t('navigation.portraitplusplus.sublabel')
         }]
       }
     },
