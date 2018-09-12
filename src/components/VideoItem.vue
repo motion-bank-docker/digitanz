@@ -5,14 +5,16 @@
     q-card-media.no-padding
       // show video preview
       video-modal(ref="videoModal")
-      div.previewImage(v-if="video.annotation.uuid && video.preview" ref="previewImage" :style="{ 'background-image': 'url(' + video.preview.medium + ')', 'height':previewHeight }", @click="openPreview(video)")
+      div.previewImage(v-if="isReady" ref="previewImage" :style="{ 'background-image': 'url(' + video.preview.medium + ')', 'height':previewHeight }", @click="openPreview(video)")
+        span(v-if="showDuration").absolute-bottom-right.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
+          | {{ formatDuration(video.metadata.duration) }}
       // or show spinner
       div.item(v-else)
         q-inner-loading.bg-dark(:visible="true")
           q-spinner-mat(color="primary" size="3em")
       q-window-resize-observable(@resize="setPreviewHeight()")
     // card actions
-    q-card-actions.row.justify-around(v-if="video.annotation.uuid",
+    q-card-actions.row.justify-around(v-if="video.annotation",
     :class="{'q-py-none' : hideButtons}")
       slot(name="customButtons" :video="video")
       slot(v-if="displayStartButton" name="starButton" :video="video")
@@ -50,7 +52,8 @@
       video: undefined,
       buttons: Array,
       allowSelfResponse: Boolean,
-      hideButtons: undefined
+      hideButtons: undefined,
+      showDuration: Boolean
     },
     mounted () {
       this.setPreviewHeight()
@@ -63,13 +66,21 @@
         return this.$refs.previewImage.offsetWidth + 'px'
       },
       setPreviewHeight () {
-        this.previewHeight = this.getPreviewWidth()
+        if (this.isReady) {
+          this.previewHeight = this.getPreviewWidth()
+        }
       },
       openPreview (item) {
         if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item)
       },
       starItem (video) {
         console.log('high five to item: ' + video.annotation.uuid)
+      },
+      formatDuration (duration) {
+        let minutes = Math.floor(duration / 60).toString()
+        let seconds = (duration - minutes * 60).toString().split('.')[0]
+        if (seconds.length < 2) seconds = '0' + seconds
+        return minutes.toString() + ':' + seconds.toString()
       },
       showResponses (video) {
         // FIXME: this needs to be implemented propery!!!
@@ -121,6 +132,12 @@
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('download') > -1)
         else return false
       },
+      isReady () {
+        if (typeof this.video.annotation !== 'undefined' && typeof this.video.preview !== 'undefined') {
+          return true
+        }
+        else return false
+      },
       ...mapGetters({
         user: 'auth/getUserState'
       })
@@ -129,6 +146,9 @@
 </script>
 
 <style lang="stylus" scoped>
+  @import '~variables'
+  .bg-body-background
+    background-color $body-background
   /* for dev purpose */
   .item
     width 100%

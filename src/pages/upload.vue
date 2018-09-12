@@ -2,18 +2,18 @@
   q-page
     video-modal(ref="videoModal")
 
-    h4.q-mx-none.text-center {{ $t('upload.title') }}
+    h4.q-mx-none.q-mb-sm.text-center {{ $t('upload.title') }}
     file-uploader.full-width.self-center(:query="query")
-    .row.q-mt-xl(v-if="map")
-      job-list
+    .row.q-mt-lg(v-if="map")
       .col-12.q-px-md
-        // h4.text-center {{ map.title }}
         h4.text-center {{ $t('upload.my_videos') }}
         //
         // Meine Videos Liste
         video-list-view(:videos="videos",
                         layoutStyle="sm",
                         :buttons="['delete', 'download']",
+                        :jobIds="jobIds",
+                        :showDuration="true",
                         @changed="fetchVideos")
 </template>
 
@@ -54,7 +54,8 @@
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState'
+        user: 'auth/getUserState',
+        jobIds: 'conversions/getJobIds'
       })
     },
     methods: {
@@ -79,6 +80,7 @@
             }
           }
           this.videos = await VideoHelper.fetchVideoItems(this, query)
+          // this.videos.unshift({jobId: '000'})
         }
         this.$q.loading.hide()
       },
