@@ -1,6 +1,6 @@
 <template lang="pug">
 
-  q-uploader-extended(
+  q-uploader-extended-simple(
       ref="uploader",
       :prefix="$t('buttons.uploader')",
       auto-expand,
@@ -9,7 +9,7 @@
       align="center",
       inverted,
       :extensions="ext",
-      :multiple="true",
+      :multiple="false",
       :url="url",
       @add="onSelect",
       @uploaded="onUploaded",
@@ -22,11 +22,11 @@
 
 <script>
   import { ObjectUtil } from 'mbjs-utils'
-  import QUploaderExtended from '../components/QUploaderExtended'
+  import QUploaderExtendedSimple from '../components/QUploaderExtendedSimple'
 
   export default {
     components: {
-      QUploaderExtended
+      QUploaderExtendedSimple
     },
     data () {
       return {
@@ -41,6 +41,7 @@
       },
       onSelect (files) {
         this.$emit('select', files)
+        if (files.length) this.$refs.uploader.upload()
       },
       onUploaded (file, xhr) {
         let response
