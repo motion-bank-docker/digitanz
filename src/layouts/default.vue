@@ -2,8 +2,9 @@
   q-layout(view='lHh Lpr lFf')
     q-layout-header
       q-toolbar(dark, color='black', :glossy="$q.theme === 'mat'", :inverted="$q.theme === 'ios'")
-        q-btn(v-if="userState", flat, dense, round, @click.native.prevent='leftDrawerOpen = !leftDrawerOpen', aria-label='Menu')
-          q-icon(name='menu')
+        //
+          q-btn(v-if="userState", flat, dense, round, @click.native.prevent='leftDrawerOpen = !leftDrawerOpen', aria-label='Menu')
+            q-icon(name='menu')
         q-toolbar-title
           span(@click.prevent="clickTitle()") {{ info.productName }}
         q-btn(color="primary", flat, icon-right="eject",
@@ -63,12 +64,12 @@
           q-item-side(icon='help')
           q-item-main(:label="$t('navigation.team.label')", :sublabel="$t('navigation.team.sublabel')")
 
-    q-layout-footer.bg-dark.text-center
-      q-btn.q-mx-md(@click="$router.push('my-digitanz')", round, flat)
+    q-layout-footer.text-center.bg-dark
+      q-btn.q-mx-md(@click="$router.push('my-digitanz')", round, flat, size="lg")
         q-icon(name="person")
-      q-btn.q-mx-md(@click="$router.push('dashboard-new')", round, flat)
+      q-btn.q-mx-md(@click="$router.push('dashboard-new')", round, flat, size="lg")
         q-icon(name="home")
-      q-btn.q-mx-md(@click="$router.push('tools')", round, flat)
+      q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
         q-icon(name="add")
 
     q-page-container
