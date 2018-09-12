@@ -147,7 +147,8 @@ module.exports = function (ctx) {
         'QProgress',
         'QTabs',
         'QTab',
-        'QTabPane'
+        'QTabPane',
+        'QBtnDropdown'
       ],
       directives: [
         'Ripple'
