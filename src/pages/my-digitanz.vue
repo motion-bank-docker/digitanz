@@ -4,7 +4,7 @@
 </template>
 
 <script>
-  import VideoItem from '../../components/VideoItem'
+  import VideoItem from '../components/VideoItem'
 
   export default {
     components: {
