@@ -63,6 +63,14 @@
           q-item-side(icon='help')
           q-item-main(:label="$t('navigation.team.label')", :sublabel="$t('navigation.team.sublabel')")
 
+    q-layout-footer.bg-dark.text-center
+      q-btn.q-mx-md(@click="$router.push('my-digitanz')", round, flat)
+        q-icon(name="person")
+      q-btn.q-mx-md(@click="$router.push('dashboard-new')", round, flat)
+        q-icon(name="home")
+      q-btn.q-mx-md(@click="$router.push('tools')", round, flat)
+        q-icon(name="add")
+
     q-page-container
       router-view
     conversion-jobs
