@@ -2,11 +2,11 @@
   q-page
     q-list.no-border.q-mt-md.row
       .column.items-center.q-mb-xs.col-xs-6.col-md-2
-        q-btn.q-ma-xs(@click.native="$router.push('/sequences')", round, size="xl")
+        q-btn.q-ma-xs(@click.native="$router.push('/sequences')", color="grey-9", round, size="xl")
           q-icon(name="extension", size="xl")
-        p Choreographie
+        p Sequenz
       .column.items-center.q-mb-xs.col-xs-6.col-md-2
-        q-btn.q-ma-xs(@click.native="$router.push('/mr-griddle')", round, size="xl")
+        q-btn.q-ma-xs(@click.native="$router.push('/mr-griddle')", color="grey-9", round, size="xl")
           q-icon(name="accessibility", size="xl")
         p Form
       .column.items-center.q-mb-xs.col-xs-6.col-md-2(style="opacity: 0.2")

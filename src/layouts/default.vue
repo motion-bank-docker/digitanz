@@ -69,17 +69,17 @@
         :class="{ 'text-white bg-grey-9': currentApp === 'dashboard-new' }",
         @click="executeApp('dashboard-new')")
         q-icon(name="home")
-      q-btn.q-mx-md.q-pa-xs(round, flat, size="lg",
+      q-btn.q-mx-sm(round, flat, size="lg",
       :class="{ 'text-white bg-grey-9': currentApp === 'my-digitanz' }",
       @click="executeApp('my-digitanz')")
         q-icon(name="person")
       // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
-      q-btn.q-mx-md(round, flat, size="lg",
+      q-btn.q-mx-sm(round, flat, size="lg",
         :class="{ 'text-white bg-grey-9': currentApp === 'tools' }",
         @click="executeApp('tools')")
         q-icon(name="explore")
       // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
-      q-uploader-extended-simple-micro.q-mx-md(round, flat, :size="lg", outline, color="grey-5")
+      q-uploader-extended-simple-micro.q-mx-sm(round, flat, size="lg", outline, color="grey-5")
 
     q-page-container
       router-view
