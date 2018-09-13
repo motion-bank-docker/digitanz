@@ -10,7 +10,7 @@
         // q-item-side.no-padding.q-caption.text-right
           slot(name="date")
       slot(name="sublabel")
-    slot(name="content")
+    slot(name="content").bg-grey-4
     // .row.q-ma-md
       slot(name="buttons")
 </template>

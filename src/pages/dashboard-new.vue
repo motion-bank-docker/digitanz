@@ -5,7 +5,7 @@
       // date-block.bg-dark.text-white.q-caption
         div(slot="description") vbjdfhkvbsjkhcd
 
-      date-block(v-for="(comp, i) in components", style="border-radius: .25rem;")
+      date-block.bg-grey-2(v-for="(comp, i) in components", style="border-radius: .25rem; overflow: hidden;")
         // template(slot="date")
           // | {{ components.length }} - {{ i }}
           div {{ comp.description }}
@@ -38,7 +38,7 @@
           component: 'all-portraits',
           day: '2018-08-17',
           date: this.$t('navigation.portrait.sublabel'),
-          title: 'Teilnehmer',
+          title: 'Teilnehmerinnen',
           description: this.$t('navigation.portrait.sublabel')
         }, {
           component: 'all-sequences',
