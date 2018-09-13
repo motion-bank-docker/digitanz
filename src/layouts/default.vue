@@ -64,12 +64,22 @@
           q-item-side(icon='help')
           q-item-main(:label="$t('navigation.team.label')", :sublabel="$t('navigation.team.sublabel')")
 
-    q-layout-footer.text-center.bg-dark(v-if="userState")
-      q-btn.q-mx-md(@click="$router.push('my-digitanz')", round, flat, size="lg")
+    q-layout-footer.text-center.bg-dark.q-py-xs(v-if="userState")
+      q-btn.q-mx-md.q-pa-xs(round, flat, size="lg",
+        :class="{ 'text-white bg-grey-9': currentApp === 'my-digitanz' }",
+        @click="executeApp('my-digitanz')")
         q-icon(name="person")
-      q-btn.q-mx-md(@click="$router.push('dashboard-new')", round, flat, size="lg")
+
+      // q-btn.q-mx-md(@click="$router.push('dashboard-new')", round, flat, size="lg")
+      q-btn.q-mx-md(round, flat, size="lg",
+        :class="{ 'text-white bg-grey-9': currentApp === 'dashboard-new' }",
+        @click="executeApp('dashboard-new')")
         q-icon(name="home")
-      q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
+
+      // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
+      q-btn.q-mx-md(round, flat, size="lg",
+        :class="{ 'text-white bg-grey-9': currentApp === 'tools' }",
+        @click="executeApp('tools')")
         q-icon(name="add")
 
     q-page-container
@@ -90,6 +100,7 @@
     },
     data () {
       return {
+        currentApp: null,
         env: process.env,
         info: {
           productName: '#digitanz'
@@ -105,6 +116,10 @@
     methods: {
       clickTitle () {
         this.$router.push('/')
+      },
+      executeApp (appName) {
+        this.currentApp = appName
+        this.$router.push(appName)
       },
       login () {
         this.$auth.authenticate()
