@@ -48,15 +48,6 @@ module.exports = function (ctx) {
           loader: 'pug-plain-loader'
         })
       },
-      hallo: {
-        lalal () {
-          const ids = this.$dates.map(date => date.map_uuid).filter(id => id !== undefined)
-          const query = {
-            'target.id': { $or: ids }
-          }
-          const annos = await this.$store.dispatch('annotations/find', query)
-        }
-      },
       env: {
         //
         // Hosts
