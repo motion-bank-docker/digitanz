@@ -32,6 +32,11 @@
           stroke-width="2", @mousedown="initSetFrameLength")
         rect(:x="svgSize.width-20-200 + frameLength", :y="svgSize.height - 40",
           width="20", height="20", fill="grey", stroke="none")
+        rect(:x="svgSize.width-20-200-40", :y="svgSize.height - 40",
+          width="20", height="20",
+          :fill="storeStates ? 'red' : 'lightgray'", :stroke="storeStates ? 'grey' : 'red'",
+          stroke-width="2"
+          @mousedown="storeStates = !storeStates")
 </template>
 
 <script>
