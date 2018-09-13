@@ -1,11 +1,16 @@
 <template lang="pug">
-  q-card(v-if="layoutStyle === 'sm'").q-mb-lg.bg-dark(:style="{'width':cardWidth}")
+  q-card(v-if="layoutStyle === 'sm'",
+  :style="{'width':cardWidth}",
+  :class="{'bg-dark': !roundImage, 'no-shadow': roundImage}").q-mb-lg
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
     // card media
-    q-card-media.no-padding
+    q-card-media.no-padding(:class="{'round-image': roundImage}")
       // show video preview
       video-modal(ref="videoModal")
-      div.previewImage(v-if="isReady" ref="previewImage" :style="{ 'background-image': 'url(' + video.preview.medium + ')', 'height':previewHeight }", @click="openPreview(video)")
+      div.previewImage(v-if="isReady",
+      ref="previewImage",
+      :style="{ 'background-image': 'url(' + video.preview.medium + ')', 'height':previewHeight }",
+      @click="openPreview(video)")
         span(v-if="showDuration").absolute-bottom-right.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
           | {{ formatDuration(video.metadata.duration) }}
       // or show spinner
@@ -15,7 +20,7 @@
       q-window-resize-observable(@resize="setPreviewHeight()")
     // card actions
     q-card-actions.row.justify-around(v-if="video.annotation",
-    :class="{'q-py-none' : hideButtons}")
+    :class="{'q-py-none hidden' : hideButtons}")
       slot(name="customButtons" :video="video")
       slot(v-if="displayStartButton" name="starButton" :video="video")
         q-btn(round, flat, size="sm", icon="star", @click="starItem(video)")
@@ -53,6 +58,7 @@
       buttons: Array,
       allowSelfResponse: Boolean,
       hideButtons: undefined,
+      roundImage: true,
       showDuration: Boolean,
       layoutStyle: undefined,
       cardWidth: String
@@ -166,5 +172,6 @@
   .q-card-actions
     padding-left 0
     padding-right 0
-
+  .round-image
+    border-radius 100%
 </style>
