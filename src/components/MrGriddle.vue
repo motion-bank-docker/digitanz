@@ -18,7 +18,7 @@
           :x="60 + k * 40", :y="svgSize.height - 40", width="20", height="20",
           :fill="currentState === k ? 'black' : 'white'", stroke="black", stroke-width="2",
           @mouseup="handleClickLike(k)")
-      g#resize-handle(:transform="`translate(${gridCell.width},${gridCell.height})`")
+      g#resize-handle(:transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
         rect(
           x="-12", y="-12", width="24", height="24",
           @mousedown="initResizeCell", :class="{resizing: resizingCell}")
@@ -27,9 +27,10 @@
         polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
         polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
       g#speed-handle
-        rect(:x="svgSize.width-20-200", :y="20",
-          width="200", height="20", fill="white", stroke="grey", stroke-width="2", @mousedown="initSetFrameLength")
-        rect(:x="svgSize.width-20-200 + frameLength", :y="20",
+        rect(:x="svgSize.width-20-200", :y="svgSize.height - 40",
+          width="200", height="20", fill="white", stroke="grey",
+          stroke-width="2", @mousedown="initSetFrameLength")
+        rect(:x="svgSize.width-20-200 + frameLength", :y="svgSize.height - 40",
           width="20", height="20", fill="grey", stroke="none")
 </template>
 
@@ -37,6 +38,7 @@
   import Skeleton from '../lib/skeleton'
 
   const skeleton = new Skeleton()
+  const UI_RESIZER_FACTOR = 2
 
   export default {
     data () {
@@ -45,14 +47,16 @@
           columns: 9,
           rows: 16
         },
+        resizerFactor: UI_RESIZER_FACTOR,
         currentTime: 0,
         resizingCell: false,
         settingFrameLength: false,
         lastFrameTime: -1,
-        frameLength: 100,
+        frameLength: 20,
         lines: [],
         storedStates: [],
-        currentState: -1
+        currentState: -1,
+        timerId: undefined
       }
     },
     computed: {
@@ -71,18 +75,34 @@
       skeletonScale () {
         return Math.min(1, this.svgSize.width / 900)
       },
-      nextFrame () {
-        let fps = (this.frameLength / 180) * 2
-        return (this.$store.state.time - this.lastFrameTime) >= 1000 / fps
+      timerInterval () {
+        return (1000 / 60.0) * this.frameLength
       }
+      // nextFrame () {
+      //   let fps = (this.frameLength / 180) * 2
+      //   return (this.$store.state.time - this.lastFrameTime) >= 1000 / fps
+      // }
+    },
+    mounted () {
+      this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+    },
+    beforeDestroy () {
+      clearInterval(this.timerId)
     },
     watch: {
-      nextFrame () {
-        this.lastFrameTime = this.$store.state.time
-        this.updateFrame()
+      // nextFrame () {
+      //   this.lastFrameTime = this.$store.state.time
+      //   this.updateFrame()
+      // }
+      frameLength () {
+        clearInterval(this.timerId)
+        this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
       }
     },
     methods: {
+      timerIntervalHandler () {
+        this.updateFrame()
+      },
       handleClickLike (which) {
         this.currentState = which === this.currentState ? -1 : which
         this.storeState()
@@ -132,8 +152,8 @@
       },
       doDragging (event) {
         if (this.resizingCell) {
-          this.grid.columns = Math.round(this.svgSize.width / event.clientX)
-          this.grid.rows = Math.round(this.svgSize.height / event.clientY)
+          this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
+          this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
           this.updateSkeleton()
         }
         if (this.settingFrameLength) {
@@ -142,8 +162,8 @@
       },
       stopDragging (event) {
         if (this.resizingCell) {
-          this.grid.columns = Math.round(this.svgSize.width / event.clientX)
-          this.grid.rows = Math.round(this.svgSize.height / event.clientY)
+          this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
+          this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
         }
         if (this.resizingCell || this.settingFrameLength) {
           this.updateFrame()
