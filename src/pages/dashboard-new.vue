@@ -5,6 +5,9 @@
       // date-block.bg-dark.text-white.q-caption
         div(slot="description") vbjdfhkvbsjkhcd
 
+      date-block
+        h3.text-center(slot="title") Kursübersicht
+
       date-block.bg-grey-2(v-for="(comp, i) in components", style="border-radius: .25rem; overflow: hidden;")
         // template(slot="date")
           // | {{ components.length }} - {{ i }}
