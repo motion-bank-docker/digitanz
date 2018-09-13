@@ -1,18 +1,12 @@
 <template lang="pug">
   q-page.q-ma-md
-    section
-      // h5.q-mb-none Dein Bewegungsportrait
-      video-list-view(:videos="portrait",
-      layoutStyle="sm",
-      cardWidth="65%",
-      :showDuration="false",
-      :hideButtons="true",
-      @changed="fetchVideos")
-
+    section.column.items-center
+      div.portrait(ref="previewImage" :style="{ 'background-image': 'url(' + portrait[0].preview.medium + ')' }", @click="openPreview(video)")
+      h3.text-center Hallo <br> {{ user.nickname }}!
     q-btn-group(push).q-mt-xl
-      q-btn(push label="Datum" flat icon="watch_later" @click="orderByTime")
-      q-btn(push label="Art" flat icon="timeline" @click="orderByType")
-      q-btn(push label="Geteilt" flat icon="visibility" @click="orderByVisibility")
+      q-btn(push label="Art" color="primary" icon="timeline" @click="orderByType")
+      q-btn(push label="Datum" color="primary" icon="watch_later" @click="orderByTime")
+      q-btn(push label="Geteilt" color="primary" icon="visibility" @click="orderByVisibility")
     // ORDER BY TIME
     div(v-if="displayType =='type'")
       <!--section-->
@@ -82,6 +76,7 @@
       if (this.user) {
         await this.fetchVideos()
         await this.fetchSequences()
+        console.log(this.user)
       }
     },
     methods: {
@@ -116,7 +111,9 @@
           this.videos = await VideoHelper.fetchVideoItems(this, query)
         }
         // for dev purpose
-        this.portrait.push(this.videos[0])
+        if (this.portrait.length === 0) {
+          this.portrait.push(this.videos[0])
+        }
       },
       async fetchSequences () {
         console.log('fetching sequences')
@@ -174,4 +171,14 @@
 </script>
 
 <style scoped lang="stylus">
+  .portrait
+    display block
+    width 50vw
+    height 50vw
+    background-position center
+    background-repeat no-repeat
+    background-size cover
+    border-radius 50%
+  h3
+    line-height 1.3em
 </style>
