@@ -79,7 +79,7 @@
                     q-btn.q-ma-xs(@click="moveDown(index)", color="grey-5", round, icon="arrow_downward", dark, flat, size="sm")
                     q-btn.q-ma-xs(@click="duplicateVideo(index)", color="grey-5", round, icon="filter_none", dark, flat, size="sm")
                     q-btn.q-ma-xs(@click="deleteItem(index)", color="grey-5", round, icon="delete", dark, flat, size="sm")
-            .full-width.bg-body-background.text-center.fixed-bottom.q-py-sm(v-if="videos.length > 0")
+            .full-width.bg-body-background.text-center.absolute-bottom.q-py-sm(v-if="videos.length > 0")
               q-btn.bg-primary.text-white(@click="saveSequence", icon="check", :label="$t('buttons.save')", flat)
             .text-center.text-grey-8.q-caption.q-pa-lg.bg-grey-10(v-else) {{ $t('messages.empty') }}
 
