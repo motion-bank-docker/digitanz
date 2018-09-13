@@ -1,7 +1,7 @@
 <template lang="pug">
-  q-card(v-if="layoutStyle === 'sm'",
-  :style="{'width':cardWidth}",
-  :class="{'bg-dark': !roundImage, 'no-shadow': roundImage}").q-mb-lg
+  q-card(v-if="hasStandardStyle",
+        :style="{'width':cardWidth}",
+        :class="{'bg-dark': !roundImage, 'no-shadow': roundImage}").q-mb-lg
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
     // card media
     q-card-media.no-padding(:class="{'round-image': roundImage}")
@@ -145,6 +145,11 @@
           return true
         }
         else return false
+      },
+      hasStandardStyle () {
+        if (this.layoutStyle === 'sm' || this.layoutStyle === 'singleCenter') {
+          return true
+        }
       },
       ...mapGetters({
         user: 'auth/getUserState'
