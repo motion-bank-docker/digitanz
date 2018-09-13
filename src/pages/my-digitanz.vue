@@ -1,19 +1,19 @@
 <template lang="pug">
   q-page.q-ma-md
     q-btn-group(push)
-      q-btn(push label="Verlauf" flat icon="watch_later" @click="orderByTime")
-      q-btn(push label="Thema" flat icon="timeline" @click="orderByType")
-      q-btn(push label="öffentlich" flat icon="visibility" @click="orderByVisibility")
+      q-btn(push label="Datum" flat icon="watch_later" @click="orderByTime")
+      q-btn(push label="Art" flat icon="timeline" @click="orderByType")
+      q-btn(push label="Geteilt" flat icon="visibility" @click="orderByVisibility")
     // ORDER BY TIME
     div(v-if="displayType =='type'")
-      section
-        h4 Bewegungsportrait
-        video-list-view(:videos="videos",
-        layoutStyle="sm",
-        :buttons="['delete', 'download']",
-        :jobIds="jobIds",
-        :showDuration="true",
-        @changed="fetchVideos")
+      <!--section-->
+        <!--h4 Bewegungsportrait-->
+        <!--video-list-view(:videos="videos",-->
+        <!--layoutStyle="sm",-->
+        <!--:buttons="['delete', 'download']",-->
+        <!--:jobIds="jobIds",-->
+        <!--:showDuration="true",-->
+        <!--@changed="fetchVideos")-->
       //
       // Meine Videos Liste
       section
