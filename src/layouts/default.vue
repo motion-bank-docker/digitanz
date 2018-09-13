@@ -1,7 +1,7 @@
 <template lang="pug">
   q-layout(view='lHh Lpr lFf')
     q-layout-header
-      q-toolbar(dark, color='black', :glossy="$q.theme === 'mat'", :inverted="$q.theme === 'ios'")
+      // q-toolbar(dark, color='black', :glossy="$q.theme === 'mat'", :inverted="$q.theme === 'ios'")
         //
           q-btn(v-if="userState", flat, dense, round, @click.native.prevent='leftDrawerOpen = !leftDrawerOpen', aria-label='Menu')
             q-icon(name='menu')
@@ -81,8 +81,7 @@
         @click="executeApp('tools')")
         q-icon(name="explore")
       // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
-      q-uploader-extended-simple-micro.q-mx-md(round, flat, :size="lg", outline, color="grey-5"
-      :class="{ 'text-white bg-grey-9': currentApp === 'dashboard-new' }")
+      q-uploader-extended-simple-micro.q-mx-md(round, flat, :size="lg", outline, color="grey-5")
 
     q-page-container
       router-view
