@@ -17,7 +17,8 @@
       :videos="portraits.items", layoutStyle="sm",
       :buttons="['download']",
       :hideButtons="true",
-      :roundImage="true")
+      :roundImage="true",
+      cardWidth="15%")
       // q-btn.full-width.bg-dark(@click="$router.push('dashboard-new')", label="portrait hinzufügen")
 
 </template>
