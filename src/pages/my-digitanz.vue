@@ -1,28 +1,19 @@
 <template lang="pug">
   q-page.q-ma-md
-    section
-      // h5.q-mb-none Dein Bewegungsportrait
+    section.column.items-center
       video-list-view(:videos="portrait",
-      layoutStyle="sm",
-      cardWidth="65%",
-      :showDuration="false",
-      :hideButtons="true",
-      @changed="fetchVideos")
-
+                      layoutStyle="singleCenter",
+                      :roundImage="true",
+                      cardWidth="65%",
+                      :showDuration="false",
+                      @changed="fetchVideos")
+      h3.q-my-none.text-center Hallo <br> {{ user.nickname }}!
     q-btn-group(push).q-mt-xl
-      q-btn(push label="Datum" flat icon="watch_later" @click="orderByTime")
-      q-btn(push label="Art" flat icon="timeline" @click="orderByType")
-      q-btn(push label="Geteilt" flat icon="visibility" @click="orderByVisibility")
-    // ORDER BY TIME
+      q-btn(push label="Art" :color="iconColor('type')" icon="timeline" @click="orderByType")
+      q-btn(push label="Datum" :color="iconColor('time')" icon="watch_later" @click="orderByTime")
+      q-btn(push label="Geteilt" :color="iconColor('visibility')" icon="visibility" @click="orderByVisibility")
+    // ORDER BY TYPE
     div(v-if="displayType =='type'")
-      <!--section-->
-        <!--h4 Bewegungsportrait-->
-        <!--video-list-view(:videos="videos",-->
-        <!--layoutStyle="sm",-->
-        <!--:buttons="['delete', 'download']",-->
-        <!--:jobIds="jobIds",-->
-        <!--:showDuration="true",-->
-        <!--@changed="fetchVideos")-->
       //
       // Meine Sequenzen Liste
       section
@@ -44,7 +35,7 @@
         :showDuration="true",
         @changed="fetchVideos")
       //
-      // ORDER BY TYPE
+      // ORDER BY TIME
     div(v-else-if="displayType =='time'")
       h4 1. Woche
       h4 2. Woche
@@ -82,9 +73,16 @@
       if (this.user) {
         await this.fetchVideos()
         await this.fetchSequences()
+        console.log(this.user)
       }
     },
     methods: {
+      iconColor (btn) {
+        if (this.displayType === btn) {
+          return 'primary'
+        }
+        else return 'grey-9'
+      },
       orderByTime () {
         this.displayType = 'time'
         console.log('by time')
@@ -116,7 +114,9 @@
           this.videos = await VideoHelper.fetchVideoItems(this, query)
         }
         // for dev purpose
-        this.portrait.push(this.videos[0])
+        if (this.portrait.length === 0) {
+          this.portrait.push(this.videos[0])
+        }
       },
       async fetchSequences () {
         console.log('fetching sequences')
@@ -174,4 +174,20 @@
 </script>
 
 <style scoped lang="stylus">
+  .portrait
+    display block
+    width 50vw
+    height 50vw
+    background-position center
+    background-repeat no-repeat
+    background-size cover
+    border-radius 50%
+  h3
+    line-height 1.3em
+  .singleCenter div
+    margin-bottom 0!important
+    .q-card-actions
+      padding 0!important
+    .q-card.q-mb-lg
+      margin-bottom 0!important
 </style>
