@@ -8,20 +8,27 @@
       // .bg-blue
         .bg-black.q-mb-sm(v-for="portrait in portraits.items")
           // backgroundImage: portrait.preview.small,
-      q-tabs(color="transparent")
-        q-tab.no-padding.q-mr-md(v-for="(portrait, i) in portraits.items", slot="title", color="white",
-        :class="{'bg-red': portraits.items.length <= i}")
-          div(
-          :style="{backgroundImage: 'url(' + portrait.preview.small + ')', backgroundSize: 'cover', width: '50px', height: '50px', borderRadius: '100%'}",
+      // TODO: Use QTabs instead (temporary solution)
+      div(style="overflow-y: scroll;")
+        div(style="white-space: nowrap;")
+          template(v-for="(portrait, i) in portraits.items")
+            div.q-mr-sm(
+            :style="{backgroundImage: 'url(' + portrait.preview.small + ')', backgroundSize: 'cover', width: '4rem', height: '4rem', borderRadius: '100%', display: 'inline-block'}",
+            @click="openPreview(portrait)"
+            )
+      // q-tabs(color="transparent")
+        q-tab.q-px-none.q-pt-none.q-pb-md.q-mr-md(v-for="(portrait, i) in portraits.items", slot="title", color="black",
+        underline-color="red")
+          div(:style="{backgroundImage: 'url(' + portrait.preview.small + ')', backgroundSize: 'cover', width: '50px', height: '50px', borderRadius: '100%'}",
           @click="openPreview(portrait)"
           )
-        <!--video-list-view(-->
-        <!--v-if="portraits && portraits.items.length > 0",-->
-        <!--:videos="portraits.items", layoutStyle="sm",-->
-        <!--:buttons="['download']",-->
-        <!--:hideButtons="true",-->
-        <!--:roundImage="true",-->
-        <!--cardWidth="15%")-->
+        video-list-view(
+        v-if="portraits && portraits.items.length > 0",
+        // :videos="portraits.items", layoutStyle="sm",
+        // :buttons="['download']",
+        // :hideButtons="true",
+        // :roundImage="true",
+        cardWidth="15%")
 
 </template>
 
