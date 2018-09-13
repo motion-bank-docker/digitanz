@@ -1,17 +1,22 @@
 <template lang="pug">
-  q-page.q-ma-md
+  q-page.q-ma-md.relative-position
+    q-btn.q-pa-none.absolute-top-right(color="primary", flat, icon-right="eject",
+    v-if="user", @click.prevent="logout")
+    q-btn.q-pa-none.absolute-top-right(color="primary", flat, icon-right="arrow_forward",
+    v-if="!user", @click.prevent="login")
     section.column.items-center
-      video-list-view(:videos="portrait",
+      video-list-view.q-mt-md(:videos="portrait",
                       layoutStyle="singleCenter",
                       :roundImage="true",
                       cardWidth="65%",
                       :showDuration="false",
                       @changed="fetchVideos")
       h3.q-my-none.text-center Hallo <br> {{ user.nickname }}!
-    q-btn-group(push).q-mt-xl
-      q-btn(push label="Art" :color="iconColor('type')" icon="timeline" @click="orderByType")
-      q-btn(push label="Datum" :color="iconColor('time')" icon="watch_later" @click="orderByTime")
-      q-btn(push label="Geteilt" :color="iconColor('visibility')" icon="visibility" @click="orderByVisibility")
+    div.row.justify-center
+      q-btn-group(push).q-mt-xl
+        q-btn(push label="Art" :color="iconColor('type')" icon="timeline" @click="orderByType")
+        q-btn(push label="Datum" :color="iconColor('time')" icon="watch_later" @click="orderByTime")
+        q-btn(push label="Geteilt" :color="iconColor('visibility')" icon="visibility" @click="orderByVisibility")
     // ORDER BY TYPE
     div(v-if="displayType =='type'")
       //
@@ -37,19 +42,33 @@
       //
       // ORDER BY TIME
     div(v-else-if="displayType =='time'")
-      h4 1. Woche
-      h4 2. Woche
+      // from previous dashboard
+      // TERMINE IM DETAIL
+      q-collapsible(v-for="(date, i) in dates", :ref="getDateLabel(date)", v-if="date.show", opened, style="border-top: 1px solid #333;")
+        template(slot="header")
+          q-item.full-width.q-pl-none
+            q-item-main
+              h4.q-mt-md.q-mb-none(style="line-height: 1em;") {{ $t(date.title) }}
+              p.q-caption.text-grey-8.no-padding.q-mt-sm {{ $t('pages.dashboard.date_at') }} {{ getDateLabel(date) }}
+        p(style="padding-bottom: 1em") {{ $t(date.description) }}
+        component(:is="`dashboard-${date.componentName}`", :date="date")
+    //
     div(v-else-if="displayType == 'visibility'")
       h4 Öffentlich Beiträge
 </template>
 
 <script>
+  import { DateTime } from 'luxon'
+  import { Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
   import VideoListView from '../components/VideoListView'
   import { VideoHelper } from '../lib'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
+      'dashboard-portraits': Portraits,
+      'dashboard-portraits-plus-plus': PortraitsPlusPlus,
+      'dashboard-group-video-sequences': GroupVideoSequences,
       VideoListView
     },
     computed: {
@@ -66,14 +85,15 @@
         sequences: [],
         favouriteSequences: [],
         displayType: 'type',
-        portrait: []
+        portrait: [],
+        dates: undefined
       }
     },
     async mounted () {
+      this.dates = this.$dates()
       if (this.user) {
         await this.fetchVideos()
         await this.fetchSequences()
-        console.log(this.user)
       }
     },
     methods: {
@@ -162,6 +182,18 @@
             map
           }
         })
+      },
+      login () {
+        this.$auth.authenticate()
+      },
+      async logout () {
+        await this.$store.dispatch('logging/log', { action: 'logout', message: this.user.uuid })
+        this.$store.commit('auth/setUser', undefined)
+        this.$auth.logout()
+      },
+      getDateLabel (date) {
+        const dt = DateTime.fromISO(date.start)
+        return `${dt.day}.${dt.month}.${dt.year}`
       }
     },
     watch: {
@@ -190,4 +222,9 @@
       padding 0!important
     .q-card.q-mb-lg
       margin-bottom 0!important
+  .mega
+    display block
+    width 20px
+    height 20px
+    background-color red
 </style>
