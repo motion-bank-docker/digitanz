@@ -11,7 +11,7 @@
            :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
            :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
     g#interface
-      g#liking
+      g#liking(style="display:none")
         ellipse(cx="30", :cy="svgSize.height-30",
           rx="14", ry="14", @mousedown="handleLike", fill="red")
         rect(v-for="(state, k) in storedStates",
@@ -57,7 +57,8 @@
         lines: [],
         storedStates: [],
         currentState: -1,
-        timerId: undefined
+        timerId: undefined,
+        storeStates: false
       }
     },
     computed: {
@@ -115,27 +116,27 @@
         this.updateSkeleton()
       },
       storeState () {
-      // if (this.$store.state.auth.payload && this.$store.state.auth.payload.userId) {
-        let annotation = {
-          body: {
-            type: 'MrGriddleSkeleton',
-            purpose: 'linking',
-            value: JSON.stringify(this.getState())
-          },
-          target: {
-            type: 'Timeline',
-            id: `${process.env.TIMELINE_BASE_URI}${process.env.MR_GRIDDLE_TIMELINE_UUID}`,
-            selector: {
-              type: 'Fragment',
-              value: DateTime.local().toISO()
+        if (this.storeStates) {
+          let annotation = {
+            body: {
+              type: 'MrGriddleSkeleton',
+              purpose: 'linking',
+              value: JSON.stringify(this.getState())
+            },
+            target: {
+              type: 'Timeline',
+              id: `${process.env.TIMELINE_BASE_URI}${process.env.MR_GRIDDLE_TIMELINE_UUID}`,
+              selector: {
+                type: 'Fragment',
+                value: DateTime.local().toISO()
+              }
             }
           }
+          // console.log(annotation)
+          this.$store.dispatch('annotations/post', annotation).then((resp) => {
+            console.log(resp)
+          })
         }
-        // console.log(annotation)
-        this.$store.dispatch('annotations/post', annotation).then((resp) => {
-          console.log(resp)
-        })
-      // }
       },
       getState () {
         return {
