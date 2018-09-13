@@ -10,13 +10,11 @@
                 :allowSelfResponse="allowSelfResponse",
                 :hideButtons="hideButtons",
                 :showDuration="showDuration",
+                :layoutStyle="layoutStyle",
+                :cardWidth="cardWidth",
                 @changed="changed")
         template(slot="customButtons" slot-scope="{ video }")
           slot(name="customButtons" :video="video")
-
-    // size m
-    div(v-else-if="size === 'm'")
-      p size m not defined yet
 </template>
 
 <script>
@@ -34,7 +32,11 @@
       allowSelfResponse: Boolean,
       hideButtons: undefined,
       jobIds: undefined,
-      showDuration: Boolean
+      showDuration: Boolean,
+      cardWidth: {
+        type: String,
+        default: '46%'
+      }
     },
     data () {
       return {
