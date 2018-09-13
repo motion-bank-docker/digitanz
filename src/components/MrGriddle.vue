@@ -224,29 +224,29 @@
 </script>
 
 <style scoped lang="stylus">
-  svg {
-    position: absolute;
-    top: 0;
-    right: 0;
-     bottom: 0;
-    left: 0;
-  }
+  svg
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+
   #mr-griddle
-    line {
+    line
       stroke mediumvioletred
       stroke-width 20px
       stroke-linecap round
-    }
+
   #mr-griddle.random
     line
       stroke white
-  #resize-handle {
-    fill: white;
-    stroke: gray;
+
+  #resize-handle
+    fill: white
+    stroke: gray
     stroke-width: 2
-  }
+
   #resize-handle *:hover,
-  #resize-handle.resizing {
-    fill: gray;
-  }
+  #resize-handle.resizing
+    fill: gray
 </style>
