@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-card.q-mb-lg.bg-dark(style="width: 46%")
+  q-card(v-if="layoutStyle === 'sm'").q-mb-lg.bg-dark(:style="{'width':cardWidth}")
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
     // card media
     q-card-media.no-padding
@@ -53,7 +53,9 @@
       buttons: Array,
       allowSelfResponse: Boolean,
       hideButtons: undefined,
-      showDuration: Boolean
+      showDuration: Boolean,
+      layoutStyle: undefined,
+      cardWidth: String
     },
     mounted () {
       this.setPreviewHeight()

@@ -1,6 +1,15 @@
 <template lang="pug">
   q-page.q-ma-md
-    q-btn-group(push)
+    section
+      // h5.q-mb-none Dein Bewegungsportrait
+      video-list-view(:videos="portrait",
+      layoutStyle="sm",
+      cardWidth="65%",
+      :showDuration="false",
+      :hideButtons="true",
+      @changed="fetchVideos")
+
+    q-btn-group(push).q-mt-xl
       q-btn(push label="Datum" flat icon="watch_later" @click="orderByTime")
       q-btn(push label="Art" flat icon="timeline" @click="orderByType")
       q-btn(push label="Geteilt" flat icon="visibility" @click="orderByVisibility")
@@ -15,9 +24,9 @@
         <!--:showDuration="true",-->
         <!--@changed="fetchVideos")-->
       //
-      // Meine Videos Liste
+      // Meine Sequenzen Liste
       section
-        h4 Sequenzen
+        h4.q-mb-sm Sequenzen
         video-list-view(:videos="sequences",
                         layoutStyle="sm",
                         :buttons="['delete', 'download']",
@@ -25,9 +34,9 @@
                         :showDuration="false",
                         @changed="fetchVideos")
       //
-      // Meine Videos Liste
+      // Meine Uploads Liste
       section
-        h4 Andere Uploads
+        h4.q-mb-sm Uploads
         video-list-view(:videos="videos",
         layoutStyle="sm",
         :buttons="['delete', 'download']",
@@ -37,8 +46,8 @@
       //
       // ORDER BY TYPE
     div(v-else-if="displayType =='time'")
-      h4 2. Woche
       h4 1. Woche
+      h4 2. Woche
     div(v-else-if="displayType == 'visibility'")
       h4 Öffentlich Beiträge
 </template>
@@ -65,7 +74,8 @@
         sequencesFavouritesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`,
         sequences: [],
         favouriteSequences: [],
-        displayType: 'time'
+        displayType: 'type',
+        portrait: []
       }
     },
     async mounted () {
@@ -88,7 +98,6 @@
         console.log('by visibility')
       },
       async fetchVideos () {
-        this.$q.loading.show({ message: this.$t('messages.loading_videos') })
         let query = {
           'author.id': this.$store.state.auth.user.uuid,
           'title': 'Meine Videos'
@@ -106,7 +115,8 @@
           }
           this.videos = await VideoHelper.fetchVideoItems(this, query)
         }
-        this.$q.loading.hide()
+        // for dev purpose
+        this.portrait.push(this.videos[0])
       },
       async fetchSequences () {
         console.log('fetching sequences')
@@ -157,6 +167,7 @@
     watch: {
       async user (val) {
         if (val) await this.fetchVideos()
+        if (val) await this.fetchSequences()
       }
     }
   }
