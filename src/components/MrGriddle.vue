@@ -36,6 +36,7 @@
 
 <script>
   import Skeleton from '../lib/skeleton'
+  import { DateTime } from 'luxon'
 
   const skeleton = new Skeleton()
   const UI_RESIZER_FACTOR = 2
@@ -114,21 +115,27 @@
         this.updateSkeleton()
       },
       storeState () {
-        /*
-        if (this.$store.state.auth.payload && this.$store.state.auth.payload.userId) {
-          let annotation = {
-            body: {
-              type: 'MrGriddleSkeleton',
-              purpose: 'linking',
-              value: JSON.stringify(this.getState())
-            },
-            author: this.$store.state.auth.payload.userId
+      // if (this.$store.state.auth.payload && this.$store.state.auth.payload.userId) {
+        let annotation = {
+          body: {
+            type: 'MrGriddleSkeleton',
+            purpose: 'linking',
+            value: JSON.stringify(this.getState())
+          },
+          target: {
+            type: 'Timeline',
+            id: `${process.env.TIMELINE_BASE_URI}${process.env.MR_GRIDDLE_TIMELINE_UUID}`,
+            selector: {
+              type: 'Fragment',
+              value: DateTime.local().toISO()
+            }
           }
-          this.$store.dispatch('annotations/create', annotation).then((resp) => {
-            console.log(resp)
-          })
         }
-        */
+        // console.log(annotation)
+        this.$store.dispatch('annotations/post', annotation).then((resp) => {
+          console.log(resp)
+        })
+      // }
       },
       getState () {
         return {
