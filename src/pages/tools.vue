@@ -4,7 +4,7 @@
       .column.items-center.q-mb-xs.col-xs-6.col-md-2
         q-btn.q-ma-xs(@click.native="$router.push('/sequences')", round, size="xl")
           q-icon(name="extension", size="xl")
-        p Choreographie
+        p Sequenz
       .column.items-center.q-mb-xs.col-xs-6.col-md-2
         q-btn.q-ma-xs(@click.native="$router.push('/mr-griddle')", round, size="xl")
           q-icon(name="accessibility", size="xl")

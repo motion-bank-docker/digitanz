@@ -32,8 +32,8 @@
 
   export default {
     extends: QUploaderExtended,
-    props: [
-      'size'
-    ]
+    props: {
+      size: undefined
+    }
   }
 </script>
