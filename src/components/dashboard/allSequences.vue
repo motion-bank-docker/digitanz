@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.bg-grey-3.q-pt-md
+  div
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteVideo")
     video-modal(ref="videoModal")
 
@@ -9,10 +9,13 @@
       :videos="favouriteSequences", layoutStyle="sm", :buttons="['download']")
         template(slot="customButtons" slot-scope="{ video }")
           q-btn(flat, size="sm" round, icon="delete" @click="openDeleteModal(video)")
-    .bg-white.q-pt-md.q-px-md.text-center
-      q-btn.q-mb-md(
-      @click="handlerAddButton",
-      label="Sequenz hinzufügen", color="primary", rounded)
+
+    //
+      .bg-white.q-pt-md.q-px-md.text-center
+        q-btn.q-mb-md(
+        slot="buttons",
+        @click="handlerAddButton",
+        label="Sequenz hinzufügen", color="primary", rounded)
 
 </template>
 
