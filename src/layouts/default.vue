@@ -122,7 +122,7 @@
       },
       executeApp (appName) {
         this.currentApp = appName
-        this.$router.push(appName)
+        this.$router.push({path: '/' + appName})
       },
       login () {
         this.$auth.authenticate()
