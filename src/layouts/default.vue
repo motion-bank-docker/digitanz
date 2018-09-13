@@ -11,7 +11,7 @@
           v-if="userState", @click.prevent="logout", :label="$t('navigation.logout')")
         q-btn(color="primary", flat, icon-right="arrow_forward",
           v-if="!userState", @click.prevent="login", :label="$t('navigation.login')")
-    q-layout-drawer(dark, v-model='leftDrawerOpen', :content-class="$q.theme === 'mat' ? 'bg-dark' : null", v-if="userState")
+    // q-layout-drawer(dark, v-model='leftDrawerOpen', :content-class="$q.theme === 'mat' ? 'bg-dark' : null", v-if="userState")
       //q-list(dark, no-border, link, inset-delimiter, v-if="urls")
       q-list(dark, no-border, link, inset-delimiter)
         // q-list-header Main Menu
