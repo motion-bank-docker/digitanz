@@ -6,8 +6,8 @@
 
     template(v-else)
       q-icon(
-      name="add",
-      :size="size"
+      name="add_circle",
+      :size="size",
       :disabled="addDisabled",
       :color="color"
       flat)
@@ -32,8 +32,8 @@
 
   export default {
     extends: QUploaderExtended,
-    props: [
-      'size'
-    ]
+    props: {
+      size: undefined
+    }
   }
 </script>
