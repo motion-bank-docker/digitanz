@@ -64,7 +64,7 @@
           q-item-side(icon='help')
           q-item-main(:label="$t('navigation.team.label')", :sublabel="$t('navigation.team.sublabel')")
 
-    q-layout-footer.text-center.bg-dark
+    q-layout-footer.text-center.bg-dark(v-if="userState")
       q-btn.q-mx-md(@click="$router.push('my-digitanz')", round, flat, size="lg")
         q-icon(name="person")
       q-btn.q-mx-md(@click="$router.push('dashboard-new')", round, flat, size="lg")
