@@ -43,6 +43,7 @@
       if (this.user) {
         await this.loadFavouriteSequences()
       }
+      console.log(this.favouriteSequences)
     },
     beforeDestroy () {
       this.$root.$off('updateSequences', this.loadFavouriteSequences)

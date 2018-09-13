@@ -5,13 +5,23 @@
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
     .row.q-mx-md(style="width: auto;")
-      video-list-view(
-      v-if="portraits && portraits.items.length > 0",
-      :videos="portraits.items", layoutStyle="sm",
-      :buttons="['download']",
-      :hideButtons="true",
-      :roundImage="true",
-      cardWidth="15%")
+      // .bg-blue
+        .bg-black.q-mb-sm(v-for="portrait in portraits.items")
+          // backgroundImage: portrait.preview.small,
+      q-tabs(color="transparent")
+        q-tab.no-padding.q-mr-md(v-for="(portrait, i) in portraits.items", slot="title", color="white",
+        :class="{'bg-red': portraits.items.length <= i}")
+          div(
+          :style="{backgroundImage: 'url(' + portrait.preview.small + ')', backgroundSize: 'cover', width: '50px', height: '50px', borderRadius: '100%'}",
+          @click="openPreview(portrait)"
+          )
+        <!--video-list-view(-->
+        <!--v-if="portraits && portraits.items.length > 0",-->
+        <!--:videos="portraits.items", layoutStyle="sm",-->
+        <!--:buttons="['download']",-->
+        <!--:hideButtons="true",-->
+        <!--:roundImage="true",-->
+        <!--cardWidth="15%")-->
 
 </template>
 
@@ -52,6 +62,7 @@
     async mounted () {
       this.$root.$on('updateVideos', this.loadPortraits)
       await this.loadPortraits()
+      console.log('+++++', this.portraits)
     },
     beforeDestroy () {
       this.$root.$off('updateVideos', this.loadPortraits)

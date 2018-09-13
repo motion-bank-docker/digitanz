@@ -32,12 +32,12 @@
     },
     data () {
       return {
-        dates: this.$dates(),
+        // dates: this.$dates(),
         components: [{
           component: 'all-sequences',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
-          title: this.$t('navigation.portraitplusplus.label'),
+          title: 'Geteilte Sequenzen',
           description: this.$t('navigation.portraitplusplus.sublabel')
         }]
         // components: [{
@@ -60,6 +60,7 @@
         let x = a.day > b.day ? -1 : 1
         return x
       })
+      console.log('#####', this.$dates)
     },
     methods () {
     }
