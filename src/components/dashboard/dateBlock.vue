@@ -1,11 +1,17 @@
 <template lang="pug">
-  q-card.q-my-xl
-    .row.q-ma-md.q-mt-lg
-      slot(name="date")
-      slot(name="title")
+  q-card.q-mb-md.q-mx-md
+    .row.q-mx-md
+      q-item.full-width.no-padding
+        q-item-main.no-padding
+          q-item-tile
+            slot(name="title")
+          q-item-tile
+            slot(name="description")
+        q-item-side.no-padding.q-caption.text-right
+          slot(name="date")
       slot(name="sublabel")
     slot(name="content")
-    .row.q-ma-md
+    // .row.q-ma-md
       slot(name="buttons")
 </template>
 
@@ -14,6 +20,7 @@
     props: {
       comp: undefined,
       date: undefined,
+      description: undefined,
       title: undefined,
       sublabel: undefined,
       buttons: undefined

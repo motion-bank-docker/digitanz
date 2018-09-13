@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.q-pt-md
+  div
     video-modal(ref="videoModal")
     upload-remix-modal(ref="uploadRemixModal")
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
