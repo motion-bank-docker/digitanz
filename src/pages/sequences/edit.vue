@@ -66,8 +66,7 @@
                   :key="video.annotation.uuid"
                   :video="video"
                   :allowSelfResponse="allowSelfResponse",
-                  :hideButtons="true"
-                  style="height: 25px")
+                  :hideButtons="true")
                 //
                   img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
                   span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption

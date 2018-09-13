@@ -9,6 +9,7 @@ export default ({ Vue }) => {
         description: 'dates.date_1.description',
         show: process.env.FEATURE_UPLOAD || false,
         map_title: 'dates.date_1.map_title',
+        map_uuid: process.env.PORTRAITS_TIMELINE_UUID,
         map: undefined,
         entries: [],
         componentName: 'portraits'
@@ -20,6 +21,7 @@ export default ({ Vue }) => {
         end: '2018-08-30T23:59:59.000+02:00',
         description: 'dates.date_2.description',
         show: process.env.FEATURE_SEQUENCER || false,
+        map_uuid: process.env.SEQUENCES_TIMELINE_UUID,
         map_title: 'dates.date_2.map_title',
         map: undefined,
         entries: [],
