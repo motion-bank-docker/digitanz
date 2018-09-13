@@ -156,9 +156,9 @@
         this.currentState = this.storedStates.length - 1
         this.updateFrame()
       },
-      handleKeyUp (event) {
-        console.log(event)
-      },
+      // handleKeyUp (event) {
+      //   console.log(event)
+      // },
       updateSkeleton () {
         let skeletonLines = []
         if (this.currentState === -1) {
@@ -206,7 +206,7 @@
     }
   #mr-griddle.random
     line
-      stroke: cornflowerblue
+      stroke white
   #resize-handle {
     fill: white;
     stroke: gray;
