@@ -7,7 +7,7 @@
             slot(name="title")
           q-item-tile
             slot(name="description")
-        q-item-side.no-padding.q-caption.text-right
+        // q-item-side.no-padding.q-caption.text-right
           slot(name="date")
       slot(name="sublabel")
     slot(name="content")

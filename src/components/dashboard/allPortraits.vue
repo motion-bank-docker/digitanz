@@ -15,7 +15,9 @@
       video-list-view(
       v-if="portraits && portraits.items.length > 0",
       :videos="portraits.items", layoutStyle="sm",
-      :buttons="['download']")
+      :buttons="['download']",
+      :hideButtons="true",
+      :roundImage="true")
       // q-btn.full-width.bg-dark(@click="$router.push('dashboard-new')", label="portrait hinzufügen")
 
 </template>
