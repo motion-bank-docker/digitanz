@@ -63,7 +63,6 @@
         q-item(@click.native="$router.push('/team')", separator)
           q-item-side(icon='help')
           q-item-main(:label="$t('navigation.team.label')", :sublabel="$t('navigation.team.sublabel')")
-
     q-layout-footer.text-center.bg-dark.q-py-xs(v-if="userState")
       q-btn.q-mx-md.q-pa-xs(round, flat, size="lg",
         :class="{ 'text-white bg-grey-9': currentApp === 'my-digitanz' }",
@@ -80,7 +79,10 @@
       q-btn.q-mx-md(round, flat, size="lg",
         :class="{ 'text-white bg-grey-9': currentApp === 'tools' }",
         @click="executeApp('tools')")
-        q-icon(name="add")
+        q-icon(name="explore")
+      // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
+      q-uploader-extended-simple-micro.q-mx-md(round, flat, :size="lg", outline, color="grey-5"
+      :class="{ 'text-white bg-grey-9': currentApp === 'dashboard-new' }")
 
     q-page-container
       router-view
@@ -93,10 +95,12 @@
   import { mapGetters } from 'vuex'
   import ConversionJobs from '../components/ConversionJobs'
   import SequenceJobs from '../components/SequenceJobs'
+  import QUploaderExtendedSimpleMicro from '../components/QUploaderExtendedSimpleMicro'
   export default {
     components: {
       ConversionJobs,
-      SequenceJobs
+      SequenceJobs,
+      QUploaderExtendedSimpleMicro
     },
     data () {
       return {

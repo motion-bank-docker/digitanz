@@ -1,13 +1,15 @@
 <template lang="pug">
-  q-btn(@dragover="__onDragOver", flat, round, size="sm", :color="color")
+  q-btn(@dragover="__onDragOver", flat, round, :size="size", :color="color")
 
     template(v-if="uploading")
       q-spinner
 
     template(v-else)
       q-icon(
-      name="arrow_upward",
+      name="add",
+      :size="size"
       :disabled="addDisabled",
+      :color="color"
       flat)
 
       input.q-uploader-input.absolute-full.cursor-pointer(
@@ -29,6 +31,9 @@
   import QUploaderExtended from './QUploaderExtended'
 
   export default {
-    extends: QUploaderExtended
+    extends: QUploaderExtended,
+    props: [
+      'size'
+    ]
   }
 </script>

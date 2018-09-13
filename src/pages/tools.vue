@@ -1,10 +1,6 @@
 <template lang="pug">
   q-page
-    q-list.no-border.q-mt-sm.row
-      .column.items-center.q-mb-xs.col-12
-        q-btn.q-ma-xs(@click.native="$router.push('/upload')", round, outline, size="xl")
-          q-icon(name="cloud_upload", outline, size="xl")
-        p Upload
+    q-list.no-border.q-mt-md.row
       .column.items-center.q-mb-xs.col-xs-6.col-md-2
         q-btn.q-ma-xs(@click.native="$router.push('/sequences')", round, outline, size="xl")
           q-icon(name="extension", size="xl")
