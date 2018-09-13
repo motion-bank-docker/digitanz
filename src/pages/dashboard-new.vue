@@ -1,12 +1,14 @@
 <template lang="pug">
-  q-page.flex.column.bg-grey-3
+  q-page.flex.column
 
     .q-mt-md
       // date-block.bg-dark.text-white.q-caption
         div(slot="description") vbjdfhkvbsjkhcd
 
-      date-block.bg-grey-1(v-for="comp in components", style="border-radius: .25rem;")
+      date-block.bg-dark(v-for="(comp, i) in components", style="border-radius: .25rem;",
+        :class="{'bg-yellow': components.length <= i}")
         template(slot="date")
+          // | {{ components.length }} - {{ i }}
           div {{ comp.description }}
         template(slot="title")
           div {{ comp.title }}
