@@ -1,15 +1,16 @@
 <template lang="pug">
-  q-page.flex.column.bg-grey-3
+  q-page.flex.column
 
     .q-mt-md
       // date-block.bg-dark.text-white.q-caption
         div(slot="description") vbjdfhkvbsjkhcd
 
-      date-block.bg-grey-1(v-for="comp in components", style="border-radius: .25rem;")
-        template(slot="date")
+      date-block(v-for="(comp, i) in components", style="border-radius: .25rem;")
+        // template(slot="date")
+          // | {{ components.length }} - {{ i }}
           div {{ comp.description }}
         template(slot="title")
-          div {{ comp.title }}
+          h4.text-center {{ comp.title }}
         template(slot="sublabel")
           // div {{ comp.description }}
         component(slot="content", :is="comp.component")
@@ -37,7 +38,7 @@
           component: 'all-portraits',
           day: '2018-08-17',
           date: this.$t('navigation.portrait.sublabel'),
-          title: this.$t('navigation.portrait.label'),
+          title: 'Teilnehmer',
           description: this.$t('navigation.portrait.sublabel')
         }, {
           component: 'all-sequences',
@@ -45,12 +46,6 @@
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: this.$t('navigation.portraitplusplus.label'),
           description: this.$t('navigation.portraitplusplus.sublabel')
-        }, {
-          component: 'all-group-sequences',
-          day: '2018-08-31',
-          date: this.$t('navigation.portraitplusplus.sublabel') + ' xxxxxxxx',
-          title: this.$t('navigation.portraitplusplus.label'),
-          description: '31.8.'
         }]
       }
     },

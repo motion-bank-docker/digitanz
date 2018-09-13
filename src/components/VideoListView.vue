@@ -3,12 +3,13 @@
     // size sm
     div.row.justify-between(v-if="layoutStyle === 'sm'")
       video-item.placeholder(v-if="showVideoPlaceholder" :video="{}")
-      video-item(v-for="video in videos"
-                :key="setKey(video)"
-                :video="video"
+      video-item(v-for="video in videos",
+                :key="setKey(video)",
+                :video="video",
                 :buttons="buttons",
                 :allowSelfResponse="allowSelfResponse",
                 :hideButtons="hideButtons",
+                :roundImage="roundImage",
                 :showDuration="showDuration",
                 :layoutStyle="layoutStyle",
                 :cardWidth="cardWidth",
@@ -31,6 +32,7 @@
       buttons: Array,
       allowSelfResponse: Boolean,
       hideButtons: undefined,
+      roundImage: undefined,
       jobIds: undefined,
       showDuration: Boolean,
       cardWidth: {
