@@ -9,6 +9,9 @@
       :videos="favouriteSequences", layoutStyle="sm", :buttons="['download']")
         template(slot="customButtons" slot-scope="{ video }")
           q-btn(flat, size="sm" round, icon="delete" @click="openDeleteModal(video)")
+      q-btn.full-width.q-mb-md(
+      @click="handlerAddButton",
+      label="Sequenz hinzufügen", color="primary")
 
 </template>
 
@@ -55,6 +58,9 @@
       }
     },
     methods: {
+      handlerAddButton () {
+        this.$router.push('sequences')
+      },
       openPreview (item) {
         this.preview = item.annotation
         if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item)
