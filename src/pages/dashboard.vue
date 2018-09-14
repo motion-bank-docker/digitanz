@@ -10,7 +10,7 @@
 
     // TERMINE IM DETAIL
     //
-    q-collapsible(v-for="(date, i) in dates", :ref="getDateLabel(date)", v-if="date.show", opened, style="border-top: 1px solid #333;")
+    q-collapsible(v-for="(date, i) in dates" :ref="getDateLabel(date)", v-if="date.show", opened, style="border-top: 1px solid #333;")
       template(slot="header")
         q-item.full-width.q-pl-none
           q-item-main
@@ -24,14 +24,13 @@
 <script>
   import { DateTime } from 'luxon'
   import { mapGetters } from 'vuex'
-  // import { Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
-  import { Portraits, GroupVideoSequences } from '../components/dashboard'
+  import { Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
   import VideoListView from '../components/VideoListView'
 
   export default {
     components: {
       'dashboard-portraits': Portraits,
-      // 'dashboard-portraits-plus-plus': PortraitsPlusPlus,
+      'dashboard-portraits-plus-plus': PortraitsPlusPlus,
       'dashboard-group-video-sequences': GroupVideoSequences,
       VideoListView
     },
