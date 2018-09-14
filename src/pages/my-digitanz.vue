@@ -42,16 +42,12 @@
       //
       // ORDER BY TIME
     div(v-else-if="displayType =='time'")
-      // from previous dashboard
-      // TERMINE IM DETAIL
-      q-collapsible(v-for="(date, i) in dates", :ref="getDateLabel(date)", v-if="date.show", opened, style="border-top: 1px solid #333;")
-        template(slot="header")
-          q-item.full-width.q-pl-none
-            q-item-main
-              h4.q-mt-md.q-mb-none(style="line-height: 1em;") {{ $t(date.title) }}
-              p.q-caption.text-grey-8.no-padding.q-mt-sm {{ $t('pages.dashboard.date_at') }} {{ getDateLabel(date) }}
-        p(style="padding-bottom: 1em") {{ $t(date.description) }}
-        component(:is="`dashboard-${date.componentName}`", :date="date")
+      video-list-view.q-mt-xl(:videos="allVideos",
+                      layoutStyle="sm",
+                      :buttons="['delete', 'download']",
+                      :showDuration="false",
+                      @changed="fetchAllVideos")
+
     //
     div(v-else-if="displayType == 'visibility'")
       h4 Öffentlich Beiträge
@@ -86,12 +82,16 @@
         favouriteSequences: [],
         displayType: 'type',
         portrait: [],
-        dates: undefined
+        dates: undefined,
+        allVideos: [],
+        nickname: undefined
       }
     },
     async mounted () {
       this.dates = this.$dates()
       if (this.user) {
+        this.nickname = this.user.nickname
+        await this.lala()
         await this.fetchVideos()
         await this.fetchSequences()
       }
@@ -138,6 +138,40 @@
           this.portrait.push(this.videos[0])
         }
       },
+      async lala () {
+        console.log('running lala function')
+        const ids = this.$dates().map(date => date.map_uuid)
+          .filter(id => id !== undefined)
+          .map(id => { return { 'target.id': `http://id.motionbank.org/maps/${id}` } })
+        const query = { $or: ids }
+        const result = await this.$store.dispatch('annotations/find', query)
+        this.allVideos = result.items.sort(this.$sort.onCreatedDesc).map(map => {
+          const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
+          const preview = {
+            high: media.replace(/\.mp4$/, '.jpg'),
+            medium: media.replace(/\.mp4$/, '-m.jpg'),
+            small: media.replace(/\.mp4$/, '-s.jpg')
+          }
+          const annotation = {
+            author: {
+              id: this.user.uuid
+            },
+            uuid: map.uuid,
+            body: {
+              source: {
+                id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
+                type: 'video/mp4'
+              }
+            }
+          }
+          return {
+            annotation,
+            preview,
+            media,
+            map
+          }
+        })
+      },
       async fetchSequences () {
         console.log('fetching sequences')
         if (!this.user) return
@@ -148,6 +182,7 @@
           'author.id': this.user.uuid
         }
         const result = await this.$store.dispatch('maps/find', query)
+        console.log(result)
         this.sequences = result.items.filter(map => {
           return map.title.indexOf(prefix) === 0
         }).sort(this.$sort.onCreatedDesc).map(map => {
@@ -200,6 +235,7 @@
       async user (val) {
         if (val) await this.fetchVideos()
         if (val) await this.fetchSequences()
+        if (val) await this.lala()
       }
     }
   }
