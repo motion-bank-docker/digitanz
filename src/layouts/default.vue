@@ -28,7 +28,7 @@
           q-item-side(icon='account_box')
           q-item-main(:label='$t(\'navigation.portrait.label\')', :sublabel='$t(\'navigation.portrait.sublabel\')')
 
-        q-item(@click.native="$router.push('/portraitplusplus')")
+        // q-item(@click.native="$router.push('/portraitplusplus')")
           q-item-side(icon='account_box')
           q-item-main(:label='$t(\'navigation.portraitplusplus.label\')', :sublabel='$t(\'navigation.portraitplusplus.sublabel\')')
 
