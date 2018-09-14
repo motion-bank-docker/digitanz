@@ -17,7 +17,7 @@
             h4.q-mt-md.q-mb-none(style="line-height: 1em;") {{ $t(date.title) }}
             p.q-caption.text-grey-8.no-padding.q-mt-sm {{ $t('pages.dashboard.date_at') }} {{ getDateLabel(date) }}
       p(style="padding-bottom: 1em") {{ $t(date.description) }}
-      component(:is="`dashboard-${date.componentName}`", :date="date")
+      component(:is="`dashboard-${date.componentName}`", :date="date", :path="date.path")
 
 </template>
 

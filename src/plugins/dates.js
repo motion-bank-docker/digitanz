@@ -29,13 +29,14 @@ export default ({ Vue }) => {
         id: 'date_3',
         title: 'dates.date_3.title',
         start: '2018-08-31T00:00:00.000+02:00',
-        end: '2018-09-06T23:59:59.000+02:00',
+        end: '2018-09-20T23:59:59.000+02:00',
         description: 'dates.date_3.description',
         show: process.env.FEATURE_SEQUENCER || false,
         map_title: 'dates.date_3.map_title',
         map: undefined,
         entries: [],
-        componentName: 'group-video-sequences'
+        componentName: 'group-video-sequences',
+        path: 'groupsequences'
       },
       {
         id: 'date_4',
