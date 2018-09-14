@@ -50,7 +50,7 @@
           :class="orientationClass",
           :annotation="currentVideo",
           ref="videoPlayer",
-          autoplay="true",
+          :autoplay="true",
           @ended="playNext",
           @play="setPlayerStatePlay()",
           @pause="setPlayerStatePause()",
