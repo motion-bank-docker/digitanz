@@ -12,7 +12,7 @@
       div(style="overflow-y: scroll;")
         div(style="white-space: nowrap;")
           template(v-for="(portrait, i) in portraits.items")
-            div.q-mr-sm(
+            div.q-mr-md(
             :style="{backgroundImage: 'url(' + portrait.preview.small + ')', backgroundSize: 'cover', width: '4rem', height: '4rem', borderRadius: '100%', display: 'inline-block'}",
             @click="openPreview(portrait)"
             )
