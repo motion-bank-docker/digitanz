@@ -24,13 +24,14 @@
 <script>
   import { DateTime } from 'luxon'
   import { mapGetters } from 'vuex'
-  import { Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
+  // import { Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
+  import { Portraits, GroupVideoSequences } from '../components/dashboard'
   import VideoListView from '../components/VideoListView'
 
   export default {
     components: {
       'dashboard-portraits': Portraits,
-      'dashboard-portraits-plus-plus': PortraitsPlusPlus,
+      // 'dashboard-portraits-plus-plus': PortraitsPlusPlus,
       'dashboard-group-video-sequences': GroupVideoSequences,
       VideoListView
     },
