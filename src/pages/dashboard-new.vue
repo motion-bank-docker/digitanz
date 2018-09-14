@@ -1,13 +1,13 @@
 <template lang="pug">
   q-page.flex.column
 
+    // h3.text-center Kursübersicht
+
     all-portraits
 
-    h3.text-center Kursübersicht
-
     .q-mt-md
-
-      date-block.bg-grey-9(v-for="(comp, i) in components", style="border-radius: .25rem; overflow: hidden;")
+      // date-block.bg-grey-9(v-for="(comp, i) in components", style="border-radius: .25rem; overflow: hidden;")
+      date-block.bg-dark(v-for="(comp, i) in components", style="border-radius: .25rem; overflow: hidden;")
         template(slot="title")
           h4.text-center {{ comp.title }}
         template(slot="sublabel")
