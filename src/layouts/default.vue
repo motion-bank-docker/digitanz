@@ -125,11 +125,6 @@
         userState: 'auth/getUserState'
       })
     },
-    watch: {
-      pathLength () {
-        console.log(this.pathLength)
-      }
-    },
     methods: {
       clickTitle () {
         this.$router.push('/')
