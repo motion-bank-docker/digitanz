@@ -1,25 +1,34 @@
 <template lang="pug">
-  div.bg-grey-3.q-pt-md
+  div.q-pt-md(style="overflow-x: scroll;")
     video-modal(ref="videoModal")
-    upload-remix-modal(ref="uploadRemixModal")
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
+    // upload-remix-modal(ref="uploadRemixModal")
+    // confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
-    // HEAD
-    //
-      h3.text-center
-        | {{ $t('pages.portrait.title') }}
-      div.q-mx-md.q-mb-xl.text-grey-8
-        | {{ $t('pages.portrait.description') }}
-
-    .row.q-mx-md
-      video-list-view(
-      v-if="portraits && portraits.items.length > 0",
-      :videos="portraits.items", layoutStyle="sm",
-      :buttons="['download']",
-      :hideButtons="true",
-      :roundImage="true",
-      cardWidth="15%")
-      // q-btn.full-width.bg-dark(@click="$router.push('dashboard-new')", label="portrait hinzufügen")
+    .row.q-mx-md(style="width: auto;")
+      // .bg-blue
+        .bg-black.q-mb-sm(v-for="portrait in portraits.items")
+          // backgroundImage: portrait.preview.small,
+      // TODO: Use QTabs instead (temporary solution)
+      div(style="overflow-y: scroll;")
+        div(style="white-space: nowrap;")
+          template(v-for="(portrait, i) in portraits.items")
+            div.q-mr-md(
+            :style="{backgroundImage: 'url(' + portrait.preview.small + ')', backgroundSize: 'cover', width: '4rem', height: '4rem', borderRadius: '100%', display: 'inline-block'}",
+            @click="openPreview(portrait)"
+            )
+      // q-tabs(color="transparent")
+        q-tab.q-px-none.q-pt-none.q-pb-md.q-mr-md(v-for="(portrait, i) in portraits.items", slot="title", color="black",
+        underline-color="red")
+          div(:style="{backgroundImage: 'url(' + portrait.preview.small + ')', backgroundSize: 'cover', width: '50px', height: '50px', borderRadius: '100%'}",
+          @click="openPreview(portrait)"
+          )
+        video-list-view(
+        v-if="portraits && portraits.items.length > 0",
+        // :videos="portraits.items", layoutStyle="sm",
+        // :buttons="['download']",
+        // :hideButtons="true",
+        // :roundImage="true",
+        cardWidth="15%")
 
 </template>
 
@@ -27,20 +36,20 @@
   import { mapGetters } from 'vuex'
   import { VideoHelper } from '../../lib'
   import VideoModal from '../VideoModal'
-  import ImageModal from '../ImageModal'
-  import UploadRemixModal from '../UploadRemixModal'
-  import JobList from '../JobList'
-  import ConfirmModal from '../ConfirmModal'
   import VideoListView from '../VideoListView'
   import VideoItem from '../VideoItem'
+  // import ImageModal from '../ImageModal'
+  // import UploadRemixModal from '../UploadRemixModal'
+  // import JobList from '../JobList'
+  // import ConfirmModal from '../ConfirmModal'
 
   export default {
     components: {
       VideoModal,
-      ImageModal,
-      UploadRemixModal,
-      JobList,
-      ConfirmModal,
+      // ImageModal,
+      // UploadRemixModal,
+      // JobList,
+      // ConfirmModal,
       VideoListView,
       VideoItem
     },
@@ -60,6 +69,7 @@
     async mounted () {
       this.$root.$on('updateVideos', this.loadPortraits)
       await this.loadPortraits()
+      console.log('+++++', this.portraits)
     },
     beforeDestroy () {
       this.$root.$off('updateVideos', this.loadPortraits)
@@ -106,7 +116,7 @@
           this.portraits.items = items
         }
         this.$q.loading.hide()
-      },
+      }/* ,
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
@@ -115,14 +125,14 @@
         await VideoHelper.deleteVideoItem(this, item)
         this.$q.loading.hide()
         await this.loadPortraits()
-      }
+      } */
     }
   }
 </script>
 
 <style scoped lang="stylus">
   @import '~variables'
-  .portrait-image
+  /* .portrait-image
     height auto
     max-height 50vh
     width auto
@@ -138,5 +148,5 @@
     width auto
     max-width 100%
   .moba-border
-    border 1px solid $primary
+    border 1px solid $primary */
 </style>
