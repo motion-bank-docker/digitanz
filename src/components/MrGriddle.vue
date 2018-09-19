@@ -9,8 +9,9 @@
       g#mr-griddle(:class="{'random': currentState === -1}")
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
         line(v-for="(line, i) in lines", :key="`line-${i}`",
-             :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
-             :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
+          :stroke-width="strokeWidth"
+          :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
+          :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
         //g#resize-handle(:transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
           rect(
             x="-12", y="-12", width="24", height="24",
@@ -40,7 +41,7 @@
           height: 0
         },
         grid: {
-          columns: 9,
+          columns: 10,
           rows: 16
         },
         gridCell: {
@@ -61,9 +62,11 @@
       }
     },
     computed: {
+      strokeWidth () {
+        return 20 * this.skeletonScale
+      },
       skeletonScale () {
         const scale = Math.min(1, this.svgSize.width / 900)
-        console.log(scale)
         return scale
       },
       timerInterval () {
@@ -194,8 +197,8 @@
           this.grid.width = state.grid.width
           this.grid.height = state.grid.height
         }
-        let x = Math.round(this.grid.columns / 2)
-        let y = Math.round(this.grid.rows / 2)
+        let x = Math.floor(this.grid.columns / 2)
+        let y = Math.floor(this.grid.rows / 2)
         let w = this.svgSize.width / this.grid.columns
         let h = this.svgSize.height / this.grid.rows
         this.lines = skeletonLines.map(line => {
@@ -221,7 +224,6 @@
   #mr-griddle
     line
       stroke mediumvioletred
-      stroke-width 20px
       stroke-linecap round
 
   #mr-griddle.random
