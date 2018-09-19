@@ -85,7 +85,7 @@
         q-btn.q-ml-md(round, flat, size="lg",
         :class="{ 'text-white bg-grey-9': currentApp === 'tools' }",
         @click="executeApp('tools')")
-          q-icon(name="explore")
+          q-icon(name="build")
         // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
 
         q-uploader-extended-simple-micro.q-mx-md(round, flat, size="lg", outline, color="grey-5")
@@ -93,7 +93,9 @@
       template(v-else)
         q-btn.q-mx-md(round, flat, size="lg",
         @click="$router.go(-1)")
-          q-icon.rotate-90(name="local_pizza")
+          // q-icon.rotate-90(name="local_pizza")
+          // q-icon.rotate-45(name="call_received")
+          q-icon.rotate-270(name="navigation")
 
     q-page-container
       router-view
@@ -117,7 +119,16 @@
     data () {
       return {
         rootPaths: ['my-digitanz', 'dashboard-new', 'tools'],
-        // rootPaths: [{path: 'my-digitanz', icon: 'home'}, {path: 'dashboard-new', icon: 'person'}, {path: 'tools', icon: 'explore'}],
+        /* rootPaths: [{
+          path: 'my-digitanz',
+          icon: 'home'
+        }, {
+          path: 'dashboard-new',
+          icon: 'person'
+        }, {
+          path: 'tools',
+          icon: 'explore'
+        }], */
         hideBackButton: true,
         currentApp: null,
         env: process.env
@@ -142,6 +153,11 @@
       $route (to, from) {
         console.log(to, from)
         this.hideBackButton = this.rootPaths.indexOf(to.fullPath.substr(1)) > -1
+        // this.hideBackButton = this.rootPaths.map(x => x.path.indexOf(to.fullPath.substr(1)) > -1)
+        /* this.rootPaths.map(x => {
+          // console.log('#++##++#', x.path)
+          if (x.path.indexOf(to.fullPath.substr(1)) > -1) console.log(x)
+        }) */
       }
     },
     methods: {
