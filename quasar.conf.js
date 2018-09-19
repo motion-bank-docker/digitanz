@@ -153,7 +153,8 @@ module.exports = function (ctx) {
         'QRadio'
       ],
       directives: [
-        'Ripple'
+        'Ripple',
+        'TouchHold'
       ],
       // Quasar plugins
       plugins: [
