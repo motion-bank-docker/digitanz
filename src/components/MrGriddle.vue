@@ -6,7 +6,7 @@
         pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
           path(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
                fill="none", stroke="gray", stroke-width="3")
-      g#mr-griddle(:class="{'random': currentState === -1}")
+      g#mr-griddle(:class="{'random': currentState === -1}" @click="handleSkeletonClick")
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
         line(v-for="(line, i) in lines", :key="`line-${i}`",
           :stroke-width="strokeWidth"
@@ -32,8 +32,9 @@
   const UI_RESIZER_FACTOR = 2
 
   export default {
-    props: {
-    },
+    props: [
+      'play'
+    ],
     data () {
       return {
         svgSize: {
@@ -82,7 +83,7 @@
         width: this.svgSize.width / this.grid.columns,
         height: this.svgSize.height / this.grid.rows
       }
-      this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+      this.updateFrame()
     },
     beforeDestroy () {
       clearInterval(this.timerId)
@@ -95,6 +96,15 @@
       frameLength () {
         clearInterval(this.timerId)
         this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+      },
+      play (playing) {
+        if (playing) {
+          this.timerIntervalHandler()
+          this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+        }
+        else {
+          clearInterval(this.timerId)
+        }
       }
     },
     methods: {
@@ -105,6 +115,11 @@
         this.currentState = which === this.currentState ? -1 : which
         this.storeState()
         this.updateSkeleton()
+      },
+      handleSkeletonClick () {
+        clearInterval(this.timerId)
+        this.updateFrame()
+        this.$emit('stateChanged')
       },
       updateFrame () {
         skeleton.rotate()
@@ -175,10 +190,12 @@
         this.resizingCell = false
         this.settingFrameLength = false
       },
-      handleLike () {
+      handleStoreState () {
         this.storedStates.push(this.getState())
-        this.currentState = this.storedStates.length - 1
-        this.updateFrame()
+        // this.currentState = this.storedStates.length - 1
+      },
+      handleRemoveStoredState (i) {
+        if (i >= 0 && i < this.storedStates.length) this.storedStates.splice(i, 1)
       },
       // handleKeyUp (event) {
       //   console.log(event)

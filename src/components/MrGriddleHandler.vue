@@ -1,15 +1,23 @@
 <template lang="pug">
   .bg-dark.row.items-center.q-pa-xs.justify-between(style="width: 100vw; height: 10vh")
+
     .col-xs-2.col-sm-1
-      q-btn.q-ma-xs(icon="play_arrow", size="lg")
+      q-btn.q-ma-xs(icon="play_arrow" size="lg" @click="$emit('clickPlay')")
+
     q-list.no-border.col-xs-8.col-sm-15
-      q-radio.q-mx-xs(v-for="(state, index) in storedStates", v-model="selectedState", val="'opt' + {{index}}", size="xl",
-      v-touch-hold.prevent="openDeleteModal")
-      q-btn.q-ma-xs(icon="add", size="sm", round, style="border-style: dashed", color="grey-6", text-color="dark")
+
+      q-radio.q-mx-xs(v-for="(state, index) in states", v-model="selectedStates", val="'option-' + {{index}}", size="xl",
+        v-touch-hold.prevent="() => {openDeleteModal({state, index})}")
+
+      q-btn.q-ma-xs(icon="add", size="sm", round,
+        style="border-style: dashed", color="grey-6", text-color="dark"
+        @click="$emit('clickAdd')")
+
     .col-xs-2.col-sm-1
       q-btn.q-ma-xs(icon="save", size="lg")
 
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
+
 </template>
 
 <script>
@@ -19,18 +27,20 @@
     components: {
       ConfirmModal
     },
+    props: [
+      'states'
+    ],
     data () {
       return {
-        storedStates: [
-          'state1', 'state2', 'state3', 'state1', 'state2'
-        ]
+        selectedStates: []
       }
     },
     methods: {
       openDeleteModal (item) {
-        console.log(item.position) // {x: 22, y: 451}
-        console.log(item.duration) // 600
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
+      },
+      deleteItem (item) {
+        this.$emit('deleteItem', item)
       }
       // },
       // async deleteItem (item) {

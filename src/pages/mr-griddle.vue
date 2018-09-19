@@ -1,7 +1,9 @@
 <template lang="pug">
   q-page.row
-    mr-griddle#mr-griddle-container
-    mr-griddle-handler.fixed-bottom
+    mr-griddle#mr-griddle-container(ref="mrGriddleContainer"
+      :play="playing"  @stateChanged="handleStateChanged")
+    mr-griddle-handler.fixed-bottom(:states="storedStates"
+      @clickPlay="handleClickPlay" @clickAdd="handleClickAdd" @deleteItem="handleDeleteItem")
 </template>
 
 <script>
@@ -11,6 +13,30 @@
     components: {
       MrGriddle,
       MrGriddleHandler
+    },
+    data () {
+      return {
+        playing: false,
+        storedStates: []
+      }
+    },
+    methods: {
+      handleClickPlay () {
+        this.playing = !this.playing
+      },
+      handleClickAdd () {
+        const _griddle = this.$refs.mrGriddleContainer
+        _griddle.handleStoreState()
+        this.storedStates = _griddle.storedStates
+      },
+      handleStateChanged () {
+        this.playing = false
+      },
+      handleDeleteItem (item) {
+        console.log('remove item', item)
+        const _griddle = this.$refs.mrGriddleContainer
+        _griddle.handleRemoveStoredState(item.index)
+      }
     }
   }
 </script>
