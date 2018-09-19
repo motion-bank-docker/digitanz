@@ -5,10 +5,13 @@
 
     .row.q-mx-md
       video-list-view(
-      v-if="favouriteSequences && favouriteSequences.length > 0", :allowSelfResponse="true",
-      :videos="favouriteSequences", layoutStyle="sm", :buttons="['download']")
+      v-if="favouriteSequences && favouriteSequences.length > 0",
+      :allowSelfResponse="true",
+      :videos="favouriteSequences",
+      layoutStyle="sm",
+      :buttons="['download']")
         template(slot="customButtons" slot-scope="{ video }")
-          q-btn(flat, size="sm" round, icon="delete" @click="openDeleteModal(video)")
+          q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
 
     //
       .bg-white.q-pt-md.q-px-md.text-center
