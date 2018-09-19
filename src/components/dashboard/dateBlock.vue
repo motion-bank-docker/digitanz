@@ -1,6 +1,6 @@
 <template lang="pug">
   q-card.q-mb-md.q-mx-md
-    q-card-header
+    q-card-title
       slot(name="title")
 
     q-card-separator
