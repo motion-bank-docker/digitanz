@@ -10,6 +10,7 @@
       template(slot="customButtons" slot-scope="{ video }")
         q-btn(flat, size="sm", round, icon="delete", @click="openDeleteModal(video)")
         q-btn(flat, size="sm", round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
+        q-btn(flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
 
 </template>
 
