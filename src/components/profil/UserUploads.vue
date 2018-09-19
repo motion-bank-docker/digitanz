@@ -118,9 +118,7 @@
         /**
          * Get the global portrait timeline and its contents
          */
-        console.log('loading portraits')
         const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
-        console.log('heyyy')
         if (portraitsMapResult) {
           const portraitsQuery = {
             'target.id': `${process.env.TIMELINE_BASE_URI}${portraitsMapResult.uuid}`,
