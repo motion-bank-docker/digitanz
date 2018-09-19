@@ -50,7 +50,7 @@
           :class="orientationClass",
           :annotation="currentVideo",
           ref="videoPlayer",
-          autoplay="true",
+          :autoplay="true",
           @ended="playNext",
           @play="setPlayerStatePlay()",
           @pause="setPlayerStatePause()",
@@ -205,7 +205,8 @@
         console.debug('loaded map data', this.timeline, this.videos)
         await this.loadUploadedVideos()
         if (this.videos.length) {
-          this.$refs.sequenceGroup.show()
+          this.selectedTab = 'tab-2'
+          // this.$refs.sequenceGroup.show()
           this.currentPlay = 0
           this.openPreview(this.currentPlay)
         }

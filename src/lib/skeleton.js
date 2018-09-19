@@ -2,6 +2,7 @@ const PI = Math.PI
 const TWO_PI = Math.PI * 2
 const HALF_PI = Math.PI / 2.0
 // const QUARTER_PI = Math.PI / 4.0
+const PI_6 = Math.PI / 6
 const PI_12 = Math.PI / 12
 
 class Joint {
@@ -66,7 +67,7 @@ class Joint {
     return edges
   }
   rotate () {
-    this._radians += ((Math.random() * TWO_PI) - Math.PI) * 0.1
+    this._radians += ((Math.random() * TWO_PI) - Math.PI) * 0.3 /* strength */
     this.applyConstraints()
     this.children.forEach(child => {
       child.rotate()
@@ -80,8 +81,8 @@ class Joint {
 
 class Skeleton {
   constructor () {
-    let hip = new Joint('hip', 0, [0, 0], 0)
-    let spine = new Joint('spine', 3 * HALF_PI, [3 * HALF_PI - PI_12, 3 * HALF_PI + PI_12], 20)
+    let hip = new Joint('hip', 0, [-PI_12, PI_12], 0)
+    let spine = new Joint('spine', 3 * HALF_PI, [3 * HALF_PI - PI_6, 3 * HALF_PI + PI_6], 20)
     Joint.link(hip, spine)
     let centerShoulder = new Joint('center-shoulder', 0, [PI_12 * -2, PI_12 * 2], 50)
     Joint.link(spine, centerShoulder)

@@ -29,7 +29,7 @@
           q-item-side(icon='account_box')
           q-item-main(:label='$t(\'navigation.portrait.label\')', :sublabel='$t(\'navigation.portrait.sublabel\')')
 
-        q-item(@click.native="$router.push('/portraitplusplus')")
+        // q-item(@click.native="$router.push('/portraitplusplus')")
           q-item-side(icon='account_box')
           q-item-main(:label='$t(\'navigation.portraitplusplus.label\')', :sublabel='$t(\'navigation.portraitplusplus.sublabel\')')
 
@@ -65,21 +65,26 @@
           q-item-main(:label="$t('navigation.team.label')", :sublabel="$t('navigation.team.sublabel')")
     q-layout-footer.text-center.bg-dark.q-py-xs(v-if="userState")
       // q-btn.q-mx-md(@click="$router.push('dashboard-new')", round, flat, size="lg")
-      q-btn.q-mx-md(round, flat, size="lg",
-        :class="{ 'text-white bg-grey-9': currentApp === 'dashboard-new' }",
-        @click="executeApp('dashboard-new')")
-        q-icon(name="home")
-      q-btn.q-mx-sm(round, flat, size="lg",
-      :class="{ 'text-white bg-grey-9': currentApp === 'my-digitanz' }",
-      @click="executeApp('my-digitanz')")
-        q-icon(name="person")
-      // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
-      q-btn.q-mx-sm(round, flat, size="lg",
-        :class="{ 'text-white bg-grey-9': currentApp === 'tools' }",
-        @click="executeApp('tools')")
-        q-icon(name="explore")
-      // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
-      q-uploader-extended-simple-micro.q-mx-sm(round, flat, size="lg", outline, color="grey-5")
+      div(v-if="currentApp === 'tools'")
+        q-btn.q-mx-md(round, flat, size="lg",
+          :class="{ 'text-white bg-grey-9': currentApp === 'dashboard-new' }",
+          @click="executeApp('dashboard-new')")
+          q-icon(name="home")
+        q-btn.q-mx-sm(round, flat, size="lg",
+        :class="{ 'text-white bg-grey-9': currentApp === 'my-digitanz' }",
+        @click="executeApp('my-digitanz')")
+          q-icon(name="person")
+        // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
+        q-btn.q-mx-sm(round, flat, size="lg",
+          :class="{ 'text-white bg-grey-9': currentApp === 'tools' }",
+          @click="executeApp('tools')")
+          q-icon(name="explore")
+        // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
+        q-uploader-extended-simple-micro.q-mx-sm(round, flat, size="lg", outline, color="grey-5")
+      div(v-else)
+        q-btn.q-mx-md(round, flat, size="lg",
+        @click="$router.go(-1)")
+          q-icon(name="local_pizza")
 
     q-page-container
       router-view
@@ -106,7 +111,13 @@
         info: {
           productName: '#digitanz'
         },
-        leftDrawerOpen: this.$q.platform.is.desktop
+        leftDrawerOpen: this.$q.platform.is.desktop,
+        pathLength: this.$router.currentRoute.split('/'),
+        showFullNav: [
+          'tools',
+          'dashboard-new',
+          'my-digitanz'
+        ]
       }
     },
     computed: {
