@@ -3,13 +3,12 @@
 
     // h3.text-center Kursübersicht
 
-    all-portraits
+    all-portraits.bg-grey.q-px-md.q-py-sm.shadow-6
 
     .q-mt-md
-      // date-block.bg-grey-9(v-for="(comp, i) in components", style="border-radius: .25rem; overflow: hidden;")
-      date-block.bg-dark(v-for="(comp, i) in components", style="border-radius: .25rem; overflow: hidden;")
+      date-block.bg-grey-9(v-for="(comp, i) in components")
         template(slot="title")
-          h4.text-center {{ comp.title }}
+          .text-center.q-py-sm {{ comp.title }}
         template(slot="sublabel")
         component(slot="content", :is="comp.component")
         //
@@ -60,7 +59,7 @@
         let x = a.day > b.day ? -1 : 1
         return x
       })
-      console.log('#####', this.$dates)
+      console.log('##### dates ', this.$dates)
     },
     methods () {
     }
