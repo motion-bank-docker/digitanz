@@ -11,13 +11,13 @@
            :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
            :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
     g#interface
-      g#liking(style="display:none")
-        ellipse(cx="30", :cy="svgSize.height-30",
-          rx="14", ry="14", @mousedown="handleLike", fill="red")
-        rect(v-for="(state, k) in storedStates",
-          :x="60 + k * 40", :y="svgSize.height - 40", width="20", height="20",
-          :fill="currentState === k ? 'black' : 'white'", stroke="black", stroke-width="2",
-          @mouseup="handleClickLike(k)")
+      <!--g#liking(style="display:none")-->
+        <!--ellipse(cx="30", :cy="svgSize.height-30",-->
+          <!--rx="14", ry="14", @mousedown="handleLike", fill="red")-->
+        <!--rect(v-for="(state, k) in storedStates",-->
+          <!--:x="60 + k * 40", :y="svgSize.height - 40", width="20", height="20",-->
+          <!--:fill="currentState === k ? 'black' : 'white'", stroke="black", stroke-width="2",-->
+          <!--@mouseup="handleClickLike(k)")-->
       g#resize-handle(:transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
         rect(
           x="-12", y="-12", width="24", height="24",

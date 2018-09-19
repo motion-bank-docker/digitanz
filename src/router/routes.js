@@ -22,6 +22,7 @@ const routes = [
       { path: 'team', component: () => import('pages/team'), meta: {private: true} },
       { path: 'dk', component: () => import('pages/devtestdk'), meta: {private: true} },
       { path: 'mr-griddle', component: () => import('pages/mr-griddle'), meta: {private: true} },
+      { path: 'mr-griddle-tv', component: () => import('components/MrGriddleStandalone'), meta: {private: true} },
       { path: 'space-tool', component: () => import('pages/space-tool'), meta: {private: true} },
       { path: 'rhythm', component: () => import('pages/rhythm'), meta: {private: true} },
       { path: 'rhythm-creator', component: () => import('pages/rhythm-creator'), meta: {private: true} }
