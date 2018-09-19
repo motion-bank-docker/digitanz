@@ -5,30 +5,12 @@
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
     .row.q-mx-md(style="width: auto;")
-      // .bg-blue
-        .bg-black.q-mb-sm(v-for="portrait in portraits.items")
-          // backgroundImage: portrait.preview.small,
-      // TODO: Use QTabs instead (temporary solution)
-      div(style="overflow-y: scroll;")
-        div(style="white-space: nowrap;")
-          template(v-for="(portrait, i) in portraits.items")
-            div.q-mr-md(
-            :style="{backgroundImage: 'url(' + portrait.preview.small + ')', backgroundSize: 'cover', width: '4rem', height: '4rem', borderRadius: '100%', display: 'inline-block'}",
-            @click="openPreview(portrait)"
-            )
-      // q-tabs(color="transparent")
-        q-tab.q-px-none.q-pt-none.q-pb-md.q-mr-md(v-for="(portrait, i) in portraits.items", slot="title", color="black",
-        underline-color="red")
-          div(:style="{backgroundImage: 'url(' + portrait.preview.small + ')', backgroundSize: 'cover', width: '50px', height: '50px', borderRadius: '100%'}",
-          @click="openPreview(portrait)"
-          )
-        video-list-view(
-        v-if="portraits && portraits.items.length > 0",
-        // :videos="portraits.items", layoutStyle="sm",
-        // :buttons="['download']",
-        // :hideButtons="true",
-        // :roundImage="true",
-        cardWidth="15%")
+      q-tabs(color="transparent", text-color="transparent")
+        q-tab.moba-tabs(v-for="(portrait, i) in portraits.items",
+        slot="title", color="transparent", underline-color="red",
+        :class="{'q-mr-sm': i < portraits.items.length - 1}",
+        :style="{backgroundImage: 'url(' + portrait.preview.small + ')'}",
+        @click="openPreview(portrait)")
 
 </template>
 
@@ -132,6 +114,12 @@
 
 <style scoped lang="stylus">
   @import '~variables'
+  .moba-tabs
+    background-position center
+    background-size cover
+    width 50px
+    height 50px
+    border-radius 100%
   /* .portrait-image
     height auto
     max-height 50vh
