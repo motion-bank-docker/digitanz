@@ -1,14 +1,15 @@
 <template lang="pug">
-  q-page.flex.column
+  //q-page.flex.column
+  q-page
 
     // h3.text-center Kursübersicht
 
-    all-portraits.bg-grey.q-px-md.q-py-sm.shadow-6
+    all-portraits.bg-dark.q-px-md.q-py-sm.shadow-6
 
     .q-mt-md
       date-block.bg-grey-9(v-for="(comp, i) in components")
         template(slot="title")
-          .text-center.q-py-sm {{ comp.title }}
+          .q-pl-md.q-py-sm.bg-dark.text-center {{ comp.title }}
         template(slot="sublabel")
         component(slot="content", :is="comp.component")
         //
