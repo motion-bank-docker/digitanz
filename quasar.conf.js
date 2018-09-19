@@ -152,7 +152,8 @@ module.exports = function (ctx) {
         'QBtnDropdown'
       ],
       directives: [
-        'Ripple'
+        'Ripple',
+        'GoBack'
       ],
       // Quasar plugins
       plugins: [
