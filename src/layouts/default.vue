@@ -64,27 +64,32 @@
           q-item-side(icon='help')
           q-item-main(:label="$t('navigation.team.label')", :sublabel="$t('navigation.team.sublabel')")
     q-layout-footer.text-center.bg-dark.q-py-xs(v-if="userState")
-      // q-btn.q-mx-md(@click="$router.push('dashboard-new')", round, flat, size="lg")
-      div(v-if="currentApp === 'tools'")
-        q-btn.q-mx-md(round, flat, size="lg",
+
+      template(v-if="rootPaths.indexOf(currentApp) > -1 || currentApp === null")
+        // q-btn.q-ml-md(v-for="path in rootPaths", round, flat, size="lg",
+          // :class="{ 'text-white bg-grey-9': currentApp === path }",
+          @click="executeApp(path)")
+          q-icon(name="home")
+
+        q-btn.q-ml-md(round, flat, size="lg",
           :class="{ 'text-white bg-grey-9': currentApp === 'dashboard-new' }",
           @click="executeApp('dashboard-new')")
           q-icon(name="home")
-        q-btn.q-mx-sm(round, flat, size="lg",
+        q-btn.q-ml-md(round, flat, size="lg",
         :class="{ 'text-white bg-grey-9': currentApp === 'my-digitanz' }",
         @click="executeApp('my-digitanz')")
           q-icon(name="person")
         // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
-        q-btn.q-mx-sm(round, flat, size="lg",
+        q-btn.q-ml-md(round, flat, size="lg",
           :class="{ 'text-white bg-grey-9': currentApp === 'tools' }",
           @click="executeApp('tools')")
           q-icon(name="explore")
         // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
-        q-uploader-extended-simple-micro.q-mx-sm(round, flat, size="lg", outline, color="grey-5")
-      div(v-else)
+        q-uploader-extended-simple-micro.q-mx-md(round, flat, size="lg", outline, color="grey-5")
+      template(v-else)
         q-btn.q-mx-md(round, flat, size="lg",
         @click="$router.go(-1)")
-          q-icon(name="local_pizza")
+          q-icon.rotate-90(name="local_pizza")
 
     q-page-container
       router-view
@@ -98,6 +103,7 @@
   import ConversionJobs from '../components/ConversionJobs'
   import SequenceJobs from '../components/SequenceJobs'
   import QUploaderExtendedSimpleMicro from '../components/QUploaderExtendedSimpleMicro'
+
   export default {
     components: {
       ConversionJobs,
@@ -106,18 +112,19 @@
     },
     data () {
       return {
+        rootPaths: ['my-digitanz', 'dashboard-new', 'tools'],
         currentApp: null,
-        env: process.env,
-        info: {
+        env: process.env
+        /* info: {
           productName: '#digitanz'
-        },
-        leftDrawerOpen: this.$q.platform.is.desktop,
-        pathLength: this.$router.currentRoute.split('/'),
-        showFullNav: [
+        }, */
+        // leftDrawerOpen: this.$q.platform.is.desktop,
+        // pathLength: this.$router.currentRoute.split('/'),
+        /* showFullNav: [
           'tools',
           'dashboard-new',
           'my-digitanz'
-        ]
+        ] */
       }
     },
     computed: {
