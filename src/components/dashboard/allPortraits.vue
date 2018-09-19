@@ -4,7 +4,7 @@
     // upload-remix-modal(ref="uploadRemixModal")
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
-    q-tabs.q-mx-md.q-mt-md(color="transparent", text-color="transparent")
+    q-tabs.q-pb-none(color="transparent", text-color="transparent")
       q-tab.moba-tabs(v-for="(portrait, i) in portraits.items",
       slot="title", color="transparent", underline-color="red",
       :class="{'q-mr-sm': i < portraits.items.length - 1}",
