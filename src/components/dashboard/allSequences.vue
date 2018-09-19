@@ -11,7 +11,7 @@
       layoutStyle="sm",
       :buttons="['download']")
         template(slot="customButtons" slot-scope="{ video }")
-          q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
+          // q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
 
     //
       .bg-white.q-pt-md.q-px-md.text-center
@@ -46,7 +46,7 @@
       if (this.user) {
         await this.loadFavouriteSequences()
       }
-      console.log(this.favouriteSequences)
+      console.log('---- favouriteSequences ', this.favouriteSequences)
     },
     beforeDestroy () {
       this.$root.$off('updateSequences', this.loadFavouriteSequences)
@@ -85,7 +85,7 @@
       async loadFavouriteSequences () {
         this.$q.loading.show({ message: this.$t('messages.loading_sequences') })
         const query = {
-          'created': { $gte: this.date.start, $lte: this.date.end },
+          // 'created': { $gte: this.date.start, $lte: this.date.end },
           'target.id': `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`
         }
         const sequences = await VideoHelper.fetchVideoItems(this, query)
