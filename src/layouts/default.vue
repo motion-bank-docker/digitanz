@@ -65,27 +65,31 @@
           q-item-main(:label="$t('navigation.team.label')", :sublabel="$t('navigation.team.sublabel')")
     q-layout-footer.text-center.bg-dark.q-py-xs(v-if="userState")
 
-      template(v-if="rootPaths.indexOf(currentApp) > -1 || currentApp === null")
+      template(v-if="hideBackButton")
         // q-btn.q-ml-md(v-for="path in rootPaths", round, flat, size="lg",
           // :class="{ 'text-white bg-grey-9': currentApp === path }",
           @click="executeApp(path)")
           q-icon(name="home")
 
         q-btn.q-ml-md(round, flat, size="lg",
-          :class="{ 'text-white bg-grey-9': currentApp === 'dashboard-new' }",
-          @click="executeApp('dashboard-new')")
+        :class="{ 'text-white bg-grey-9': currentApp === 'dashboard-new' }",
+        @click="executeApp('dashboard-new')")
           q-icon(name="home")
+
         q-btn.q-ml-md(round, flat, size="lg",
         :class="{ 'text-white bg-grey-9': currentApp === 'my-digitanz' }",
         @click="executeApp('my-digitanz')")
           q-icon(name="person")
+
         // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
         q-btn.q-ml-md(round, flat, size="lg",
-          :class="{ 'text-white bg-grey-9': currentApp === 'tools' }",
-          @click="executeApp('tools')")
+        :class="{ 'text-white bg-grey-9': currentApp === 'tools' }",
+        @click="executeApp('tools')")
           q-icon(name="explore")
         // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
+
         q-uploader-extended-simple-micro.q-mx-md(round, flat, size="lg", outline, color="grey-5")
+
       template(v-else)
         q-btn.q-mx-md(round, flat, size="lg",
         @click="$router.go(-1)")
@@ -113,6 +117,8 @@
     data () {
       return {
         rootPaths: ['my-digitanz', 'dashboard-new', 'tools'],
+        // rootPaths: [{path: 'my-digitanz', icon: 'home'}, {path: 'dashboard-new', icon: 'person'}, {path: 'tools', icon: 'explore'}],
+        hideBackButton: true,
         currentApp: null,
         env: process.env
         /* info: {
@@ -131,6 +137,12 @@
       ...mapGetters({
         userState: 'auth/getUserState'
       })
+    },
+    watch: {
+      $route (to, from) {
+        console.log(to, from)
+        this.hideBackButton = this.rootPaths.indexOf(to.fullPath.substr(1)) > -1
+      }
     },
     methods: {
       clickTitle () {
