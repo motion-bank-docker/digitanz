@@ -1,26 +1,42 @@
 <template lang="pug">
-  div.row(style="overflow: hidden")
-    svg(width="100vw", height="100vh")
-      .q-mt-xl.row.justify-end
-      defs
-        pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
-          path(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
-               fill="none", stroke="gray", stroke-width="3")
-      g#mr-griddle(:class="{'random': currentState === -1}")
-        rect(width="100%", height="100%", fill="url(#cell-pattern)")
-        line(v-for="(line, i) in lines", :key="`line-${i}`",
-             :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
-             :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
-        //g#resize-handle(:transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
-          rect(
-            x="-12", y="-12", width="24", height="24",
-            @mousedown="initResizeCell", :class="{resizing: resizingCell}")
-          polygon(points="12,-12 30,0 12,12", @mousedown="handleGridChange(-2,0)")
-          polygon(points="-12,-12 -30,0 -12,12", @mousedown="handleGridChange(2,0)")
-          polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
-          polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
-    q-slider.q-ma-md(fab, v-model="frameLength", :min="50", :max="500", :step="50", fill-handle-always, color="primary",
-    snap, style="width: 50vw")
+  svg(width="100vw", height="100vh",
+    @mousemove="doDragging", @mouseup="stopDragging")
+    defs
+      pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
+        path(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
+             fill="none", stroke="gray", stroke-width="3")
+    g#mr-griddle(:class="{'random': currentState === -1}")
+      rect(width="100%", height="100%", fill="url(#cell-pattern)")
+      line(v-for="(line, i) in lines", :key="`line-${i}`",
+           :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
+           :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
+    g#interface
+      g#liking(style="display:none")
+        ellipse(cx="30", :cy="svgSize.height-30",
+          rx="14", ry="14", @mousedown="handleLike", fill="red")
+        rect(v-for="(state, k) in storedStates",
+          :x="60 + k * 40", :y="svgSize.height - 40", width="20", height="20",
+          :fill="currentState === k ? 'black' : 'white'", stroke="black", stroke-width="2",
+          @mouseup="handleClickLike(k)")
+      g#resize-handle(:transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
+        rect(
+          x="-12", y="-12", width="24", height="24",
+          @mousedown="initResizeCell", :class="{resizing: resizingCell}")
+        polygon(points="12,-12 30,0 12,12", @mousedown="handleGridChange(-2,0)")
+        polygon(points="-12,-12 -30,0 -12,12", @mousedown="handleGridChange(2,0)")
+        polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
+        polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
+      g#speed-handle
+        rect(:x="svgSize.width-20-200", :y="svgSize.height - 40",
+          width="200", height="20", fill="white", stroke="grey",
+          stroke-width="2", @mousedown="initSetFrameLength")
+        rect(:x="svgSize.width-20-200 + frameLength", :y="svgSize.height - 40",
+          width="20", height="20", fill="grey", stroke="none")
+        rect(:x="svgSize.width-20-200-40", :y="svgSize.height - 40",
+          width="20", height="20",
+          :fill="storeStates ? 'red' : 'lightgray'", :stroke="storeStates ? 'grey' : 'red'",
+          stroke-width="2"
+          @mousedown="storeStates = !storeStates")
 </template>
 
 <script>
@@ -31,8 +47,6 @@
   const UI_RESIZER_FACTOR = 2
 
   export default {
-    props: {
-    },
     data () {
       return {
         grid: {
@@ -42,9 +56,9 @@
         resizerFactor: UI_RESIZER_FACTOR,
         currentTime: 0,
         resizingCell: false,
-        frameLength: 80,
         settingFrameLength: false,
         lastFrameTime: -1,
+        frameLength: 20,
         lines: [],
         storedStates: [],
         currentState: -1,
