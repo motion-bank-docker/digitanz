@@ -20,7 +20,7 @@ class VideoHelper {
     for (let annotation of items) {
       let metadata = {}
       try {
-        metadata = await context.$store.dispatch('metadata/get', annotation.uuid)
+        metadata = await context.$store.dispatch('metadata/get', annotation)
       }
       catch (e) {
         console.error(`Failed to fetch metadata: ${e.message}`)
