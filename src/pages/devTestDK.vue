@@ -56,7 +56,7 @@
           for (let annotation of items) {
             let metadata = {}
             try {
-              metadata = await this.$store.dispatch('metadata/get', annotation.uuid)
+              metadata = await this.$store.dispatch('metadata/get', annotation)
             }
             catch (e) { console.error(`Failed to fetch metadata: ${e.message}`) }
             const preview = {
