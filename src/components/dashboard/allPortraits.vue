@@ -1,16 +1,15 @@
 <template lang="pug">
-  div.q-pt-md(style="overflow-x: scroll;")
+  div
     video-modal(ref="videoModal")
     // upload-remix-modal(ref="uploadRemixModal")
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
-    .row.q-mx-md(style="width: auto;")
-      q-tabs(color="transparent", text-color="transparent")
-        q-tab.moba-tabs(v-for="(portrait, i) in portraits.items",
-        slot="title", color="transparent", underline-color="red",
-        :class="{'q-mr-sm': i < portraits.items.length - 1}",
-        :style="{backgroundImage: 'url(' + portrait.preview.small + ')'}",
-        @click="openPreview(portrait)")
+    q-tabs.q-mx-md.q-mt-md(color="transparent", text-color="transparent")
+      q-tab.moba-tabs(v-for="(portrait, i) in portraits.items",
+      slot="title", color="transparent", underline-color="red",
+      :class="{'q-mr-sm': i < portraits.items.length - 1}",
+      :style="{backgroundImage: 'url(' + portrait.preview.small + ')'}",
+      @click="openPreview(portrait)")
 
 </template>
 
@@ -18,8 +17,8 @@
   import { mapGetters } from 'vuex'
   import { VideoHelper } from '../../lib'
   import VideoModal from '../VideoModal'
-  import VideoListView from '../VideoListView'
-  import VideoItem from '../VideoItem'
+  // import VideoListView from '../VideoListView'
+  // import VideoItem from '../VideoItem'
   // import ImageModal from '../ImageModal'
   // import UploadRemixModal from '../UploadRemixModal'
   // import JobList from '../JobList'
@@ -27,13 +26,13 @@
 
   export default {
     components: {
-      VideoModal,
+      VideoModal
       // ImageModal,
       // UploadRemixModal,
       // JobList,
       // ConfirmModal,
-      VideoListView,
-      VideoItem
+      // VideoListView,
+      // VideoItem
     },
     data () {
       return {
@@ -58,8 +57,8 @@
     },
     methods: {
       openPreview (item) {
-        // const preview = item.portrait || item
-        const preview = item
+        const preview = item.portrait || item
+        // const preview = item
         // console.log(item.response.body.source.type)
         this.$refs.videoModal.show(preview)
         // if (preview.portrait.body.source.type === 'video/mp4') this.$refs.videoModal.show(preview)
@@ -118,6 +117,7 @@
     background-position center
     background-size cover
     width 50px
+    max-width 50px
     height 50px
     border-radius 100%
   /* .portrait-image
