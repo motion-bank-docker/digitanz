@@ -1,6 +1,6 @@
 <template lang="pug">
-  div.row(style="overflow: hidden")
-    svg(width="100vw", height="100vh")
+  div.row
+    svg(ref="svgContainer" :width="svgSize.width" :height="svgSize.height")
       .q-mt-xl.row.justify-end
       defs
         pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
@@ -20,7 +20,7 @@
           polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
           polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
     q-slider.q-ma-md(fab, v-model="frameLength", :min="50", :max="500", :step="50", fill-handle-always, color="primary",
-    snap, style="width: 50vw")
+      snap, style="width: 50vw")
 </template>
 
 <script>
@@ -35,9 +35,17 @@
     },
     data () {
       return {
+        svgSize: {
+          width: 0,
+          height: 0
+        },
         grid: {
           columns: 9,
           rows: 16
+        },
+        gridCell: {
+          width: 0,
+          height: 0
         },
         resizerFactor: UI_RESIZER_FACTOR,
         currentTime: 0,
@@ -53,30 +61,24 @@
       }
     },
     computed: {
-      svgSize () {
-        return {
-          width: window.innerWidth,
-          height: window.innerHeight
-        }
-      },
-      gridCell () {
-        return {
-          width: this.svgSize.width / this.grid.columns,
-          height: this.svgSize.height / this.grid.rows
-        }
-      },
       skeletonScale () {
-        return Math.min(1, this.svgSize.width / 900)
+        const scale = Math.min(1, this.svgSize.width / 900)
+        console.log(scale)
+        return scale
       },
       timerInterval () {
         return (1000 / 60.0) * this.frameLength
       }
-      // nextFrame () {
-      //   let fps = (this.frameLength / 180) * 2
-      //   return (this.$store.state.time - this.lastFrameTime) >= 1000 / fps
-      // }
     },
     mounted () {
+      this.svgSize = {
+        width: this.$el.offsetWidth,
+        height: this.$el.offsetHeight
+      }
+      this.gridCell = {
+        width: this.svgSize.width / this.grid.columns,
+        height: this.svgSize.height / this.grid.rows
+      }
       this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
     },
     beforeDestroy () {
@@ -210,12 +212,11 @@
 </script>
 
 <style scoped lang="stylus">
+
   svg
-    position: absolute
-    top: 0
-    right: 0
-    bottom: 0
-    left: 0
+    position absolute
+    top 0
+    left 0
 
   #mr-griddle
     line
@@ -235,4 +236,5 @@
   #resize-handle *:hover,
   #resize-handle.resizing
     fill: gray
+
 </style>

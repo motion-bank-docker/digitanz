@@ -1,6 +1,6 @@
 <template lang="pug">
-  q-page.row.justify-end
-    mr-griddle(style="height: 90vh; width: 100vw")
+  q-page.row
+    mr-griddle#mr-griddle-container
     mr-griddle-handler.fixed-bottom
 </template>
 
@@ -14,3 +14,9 @@
     }
   }
 </script>
+
+<style lang="stylus">
+  #mr-griddle-container
+    width 100vw
+    height calc(100vh - 120px)
+</style>
