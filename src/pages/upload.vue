@@ -63,6 +63,7 @@
         if (preview.body.source.type === 'video/mp4') this.$refs.videoModal.show(preview)
       },
       async fetchVideos () {
+        console.debug('fetch videos')
         this.$q.loading.show({ message: this.$t('messages.loading_videos') })
         let query = {
           'author.id': this.$store.state.auth.user.uuid,

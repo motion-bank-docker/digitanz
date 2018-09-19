@@ -11,7 +11,7 @@
                       cardWidth="65%",
                       :showDuration="false",
                       @changed="fetchVideos")
-      h3.q-my-none.text-center Hallo <br> {{ user.nickname }}!
+      h3.q-my-none.text-center Hallo <br> {{ user ?  user.nickname : '' }}!
     div.row.justify-center
       q-btn-group(push).q-mt-xl
         q-btn(push label="Art" :color="iconColor('type')" icon="timeline" @click="orderByType")
@@ -23,34 +23,24 @@
       // Meine Sequenzen Liste
       section
         h4.q-mb-sm Sequenzen
-        video-list-view(:videos="sequences",
-                        layoutStyle="sm",
-                        :buttons="['delete', 'download']",
-                        :jobIds="jobIds",
-                        :showDuration="false",
-                        @changed="fetchVideos")
+        user-sequences
+
       //
       // Meine Uploads Liste
       section
         h4.q-mb-sm Uploads
-        video-list-view(:videos="videos",
-        layoutStyle="sm",
-        :buttons="['delete', 'download']",
-        :jobIds="jobIds",
-        :showDuration="true",
-        @changed="fetchVideos")
+        user-uploads
+
       //
       // ORDER BY TIME
     div(v-else-if="displayType =='time'")
-      video-list-view.q-mt-xl(:videos="allVideos",
-                      layoutStyle="sm",
-                      :buttons="['delete', 'download']",
-                      :showDuration="false",
-                      @changed="fetchAllVideos")
+      h4.q-mb-sm Termin 1
+      user-uploads
 
     //
     div(v-else-if="displayType == 'visibility'")
-      h4 Öffentlich Beiträge
+      h4.q-mb-sm Öffentlich Beiträge
+      users-public-sequences
 </template>
 
 <script>
@@ -59,13 +49,19 @@
   import VideoListView from '../components/VideoListView'
   import { VideoHelper } from '../lib'
   import { mapGetters } from 'vuex'
+  import UserSequences from '../components/profil/UserSequences'
+  import UserUploads from '../components/profil/UserUploads'
+  import UsersPublicSequences from '../components/profil/UsersPublicSequences'
 
   export default {
     components: {
+      UsersPublicSequences,
+      UserUploads,
       'dashboard-portraits': Portraits,
       'dashboard-portraits-plus-plus': PortraitsPlusPlus,
       'dashboard-group-video-sequences': GroupVideoSequences,
-      VideoListView
+      VideoListView,
+      UserSequences
     },
     computed: {
       ...mapGetters({
@@ -235,7 +231,6 @@
       async user (val) {
         if (val) await this.fetchVideos()
         if (val) await this.fetchSequences()
-        if (val) await this.lala()
       }
     }
   }

@@ -123,7 +123,7 @@
             let newUploadedVideos = []
             for (let i in results2.items) {
               const annotation = results2.items[i]
-              const meta = await this.$store.dispatch('metadata/get', annotation.uuid)
+              const meta = await this.$store.dispatch('metadata/get', annotation)
               const newVideo = Object.assign({}, {
                 weight: parseInt(i),
                 title: '', // annotation.body.value, // meta.title
@@ -143,7 +143,7 @@
         }
       },
       async addUploadedVideo (video) {
-        const meta = await this.$store.dispatch('metadata/get', video.uuid)
+        const meta = await this.$store.dispatch('metadata/get', video)
         const newVideo = Object.assign({}, {
           weight: 0,
           title: video.body.value,
