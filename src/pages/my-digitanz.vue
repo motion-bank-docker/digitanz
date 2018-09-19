@@ -39,7 +39,7 @@
 
     //
     div(v-else-if="displayType == 'visibility'")
-      h4.q-mb-sm Öffentlich Beiträge
+      h4.q-mb-sm Öffentliche Sequenzen
       users-public-sequences
 </template>
 

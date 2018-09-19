@@ -2,7 +2,7 @@
   div
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteSequence")
 
-    video-list-view(:videos="sequences",
+    video-list-view(:videos="publishedSequences",
     layoutStyle="sm",
     :buttons="['download']",
     :showDuration="false",
@@ -35,6 +35,7 @@
       return {
         sequencesFavouritesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`,
         sequences: [],
+        publishedSequences: [],
         favouriteSequences: []
       }
     },
@@ -90,6 +91,16 @@
           }
         })
         await this.loadFavouriteSequences()
+        this.findPublishedSequences()
+      },
+      findPublishedSequences () {
+        for (let item of this.sequences) {
+          if (this.favouriteSequences.items && this.favouriteSequences.items.filter(seq => {
+            return seq.body.source.id === item.annotation.body.source.id
+          }).length > 0) {
+            this.publishedSequences.push(item)
+          }
+        }
       },
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
