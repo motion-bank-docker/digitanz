@@ -31,6 +31,7 @@
 <script>
   import Skeleton from '../lib/skeleton'
   import { DateTime } from 'luxon'
+  import { mapGetters } from 'vuex'
 
   const skeleton = new Skeleton()
   const UI_RESIZER_FACTOR = 2
@@ -71,6 +72,9 @@
       }
     },
     computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      }),
       strokeWidth () {
         return 20 * this.skeletonScale
       },
@@ -107,6 +111,9 @@
       this.timerId = undefined
     },
     watch: {
+      async user (val) {
+        if (val) await this.loadData()
+      },
       frameLength () {
         const wasPlaying = this.timerId
         clearInterval(this.timerId)
@@ -128,6 +135,27 @@
       }
     },
     methods: {
+      async loadData () {
+        if (!this.user) return
+        this.$q.loading.show({ message: this.$t('messages.loading_data') })
+        if (this.$route.params.uuid) {
+          this.map = await this.$store.dispatch('maps/get', this.$route.params.uuid)
+          if (this.map) {
+            const query = {
+              'target.id': this.map.id
+            }
+            const annotations = await this.$store.dispatch('annotations/find', query)
+            if (annotations && annotations.items) {
+              const states = annotations.items.map(a => {
+                return JSON.parse(a.body.value)
+              })
+              this.storedStates = states
+              this.setCurrentState(0)
+            }
+          }
+        }
+        this.$q.loading.hide()
+      },
       startTimer () {
         this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
         this.lastFrameTime = Date.now()
@@ -157,6 +185,12 @@
           }
           this.map = await this.$store.dispatch('maps/post', newMap)
         }
+        const oldStates = await this.$store.dispatch('annotations/find', {'target.id': this.map.id})
+        if (oldStates && oldStates.items) {
+          for (let oState of oldStates.items) {
+            await this.$store.dispatch('annotations/delete', oState.uuid)
+          }
+        }
         for (let state of this.storedStates) {
           let annotation = {
             body: {
@@ -175,6 +209,7 @@
           }
           await this.$store.dispatch('annotations/post', annotation)
         }
+        this.$router.push('/mr-griddles')
         this.$q.loading.hide()
       },
       getState () {
