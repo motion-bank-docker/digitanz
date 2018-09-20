@@ -13,8 +13,8 @@
 </template>
 
 <script>
-  import MrGriddle from '../components/MrGriddle'
-  import MrGriddleHandler from '../components/MrGriddleHandler'
+  import MrGriddle from '../../components/MrGriddle'
+  import MrGriddleHandler from '../../components/MrGriddleHandler'
   export default {
     components: {
       MrGriddle,
