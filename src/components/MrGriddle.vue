@@ -12,10 +12,10 @@
           :stroke-width="strokeWidth"
           :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
           :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
-        //g#resize-handle(:transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
+        g#resize-handle(:transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
           rect(
-            x="-12", y="-12", width="24", height="24",
-            @mousedown="initResizeCell", :class="{resizing: resizingCell}")
+            x="-12", y="-12", width="24", height="24")
+            // @mousedown="initResizeCell", :class="{resizing: resizingCell}")
           polygon(points="12,-12 30,0 12,12", @mousedown="handleGridChange(-2,0)")
           polygon(points="-12,-12 -30,0 -12,12", @mousedown="handleGridChange(2,0)")
           polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
@@ -66,7 +66,8 @@
         storedStates: [],
         currentState: -1,
         timerId: undefined,
-        storeStates: false
+        storeStates: false,
+        map: undefined
       }
     },
     computed: {
@@ -78,11 +79,12 @@
         return scale
       },
       timerInterval () {
-        return (1000 / 60.0) * this.frameLength
+        return (1000 / 60.0) * (this.minFrameLength + (this.maxFrameLength - this.frameLength))
       }
     },
     mounted () {
       const _this = this
+
       this.svgSize = {
         width: this.$el.offsetWidth,
         height: this.$el.offsetHeight
@@ -92,6 +94,8 @@
         height: this.svgSize.height / this.grid.rows
       }
       this.updateFrame()
+
+      // this is a "driver" for the "time to update bar"
       setInterval(function () {
         const diff = Date.now() - _this.lastFrameTime
         const rel = diff / _this.timerInterval
@@ -103,18 +107,19 @@
       this.timerId = undefined
     },
     watch: {
-      // nextFrame () {
-      //   this.lastFrameTime = this.$store.state.time
-      //   this.updateFrame()
-      // }
       frameLength () {
+        const wasPlaying = this.timerId
         clearInterval(this.timerId)
-        this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+        if (wasPlaying) this.startTimer()
       },
       play (playing) {
         if (playing) {
-          this.timerIntervalHandler()
-          this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+          if (this.currentState === -1) {
+            this.setCurrentState(0)
+            skeleton.rotate()
+            this.lastFrameTime = Date.now()
+          }
+          this.startTimer()
         }
         else {
           clearInterval(this.timerId)
@@ -123,96 +128,115 @@
       }
     },
     methods: {
+      startTimer () {
+        this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+        this.lastFrameTime = Date.now()
+      },
       timerIntervalHandler () {
         this.updateFrame()
         this.lastFrameTime = Date.now()
-      },
-      handleClickLike (which) {
-        this.currentState = which === this.currentState ? -1 : which
-        this.storeState()
-        this.updateSkeleton()
       },
       handleSkeletonClick () {
         clearInterval(this.timerId)
         this.timerId = undefined
         this.updateFrame()
-        this.$emit('stateChanged')
+        this.setCurrentState(-1)
       },
       updateFrame () {
         skeleton.rotate()
-        this.storeState()
-        this.updateSkeleton()
+        let nextState = (this.currentState + 1) % this.storedStates.length
+        this.setCurrentState(nextState)
       },
-      storeState () {
-        if (this.storeStates) {
+      async saveSequence () {
+        this.$q.loading.show({ message: this.$t('messages.saving_sequence') })
+        if (!this.map) {
+          const prefix = 'GriddleSequence '
+          let newMap = {
+            type: ['Timeline'],
+            title: prefix + Date.now()
+          }
+          this.map = await this.$store.dispatch('maps/post', newMap)
+        }
+        for (let state of this.storedStates) {
           let annotation = {
             body: {
               type: 'MrGriddleSkeleton',
               purpose: 'linking',
-              value: JSON.stringify(this.getState())
+              value: JSON.stringify(state)
             },
             target: {
               type: 'Timeline',
-              id: `${process.env.TIMELINE_BASE_URI}${process.env.MR_GRIDDLE_TIMELINE_UUID}`,
+              id: this.map.id,
               selector: {
                 type: 'Fragment',
-                value: DateTime.local().toISO()
+                value: state.timeStamp
               }
             }
           }
-          // console.log(annotation)
-          this.$store.dispatch('annotations/post', annotation).then((resp) => {
-            console.log(resp)
-          })
+          await this.$store.dispatch('annotations/post', annotation)
         }
+        this.$q.loading.hide()
       },
       getState () {
         return {
           skeleton: skeleton.getEdges(),
           grid: this.grid,
           gridCell: this.gridCell,
-          svgSize: this.svgSize
+          svgSize: this.svgSize,
+          frameLength: this.frameLength,
+          timeStamp: DateTime.local().toISO()
         }
+      },
+      setCurrentState (nextState) {
+        this.currentState = nextState >= 0 && nextState < this.storedStates.length ? nextState : -1
+        this.updateSkeleton()
+        this.$emit('stateChanged', this.currentState)
       },
       handleGridChange (columns, rows) {
         this.grid.columns += columns
         this.grid.rows += rows
+        this.gridCell = {
+          width: this.svgSize.width / this.grid.columns,
+          height: this.svgSize.height / this.grid.rows
+        }
         this.updateSkeleton()
       },
-      initSetFrameLength (event) {
-        this.settingFrameLength = true
-        this.frameLength = Math.min(180, Math.max(0, event.clientX - (this.svgSize.width - 200 - 20)))
-      },
-      initResizeCell () {
-        this.resizingCell = true
-      },
-      doDragging (event) {
-        if (this.resizingCell) {
-          this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
-          this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
-          this.updateSkeleton()
-        }
-        if (this.settingFrameLength) {
-          this.frameLength = Math.min(180, Math.max(0, event.clientX - (this.svgSize.width - 200 - 20)))
-        }
-      },
-      stopDragging (event) {
-        if (this.resizingCell) {
-          this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
-          this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
-        }
-        if (this.resizingCell || this.settingFrameLength) {
-          this.updateFrame()
-        }
-        this.resizingCell = false
-        this.settingFrameLength = false
-      },
+      // initResizeCell () {
+      //   this.resizingCell = true
+      // },
+      // doDragging (event) {
+      //   if (this.resizingCell) {
+      //     this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
+      //     this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
+      //     this.updateSkeleton()
+      //   }
+      //   if (this.settingFrameLength) {
+      //     this.frameLength = Math.min(180, Math.max(0, event.clientX - (this.svgSize.width - 200 - 20)))
+      //   }
+      // },
+      // stopDragging (event) {
+      //   if (this.resizingCell) {
+      //     this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
+      //     this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
+      //   }
+      //   if (this.resizingCell || this.settingFrameLength) {
+      //     this.updateFrame()
+      //   }
+      //   this.resizingCell = false
+      //   this.settingFrameLength = false
+      // },
       handleStoreState () {
         this.storedStates.push(this.getState())
-        // this.currentState = this.storedStates.length - 1
+        this.setCurrentState(this.storedStates.length - 1)
       },
       handleRemoveStoredState (i) {
-        if (i >= 0 && i < this.storedStates.length) this.storedStates.splice(i, 1)
+        if (i >= 0 && i < this.storedStates.length) {
+          this.storedStates.splice(i, 1)
+          if (i <= this.currentState) {
+            this.setCurrentState(this.currentState - 1)
+          }
+          this.updateSkeleton()
+        }
       },
       // handleKeyUp (event) {
       //   console.log(event)
