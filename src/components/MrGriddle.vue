@@ -115,8 +115,9 @@
       play (playing) {
         if (playing) {
           if (this.currentState === -1) {
-            this.currentState = 0
-            this.timerIntervalHandler()
+            this.setCurrentState(0)
+            skeleton.rotate()
+            this.lastFrameTime = Date.now()
           }
           this.startTimer()
         }
