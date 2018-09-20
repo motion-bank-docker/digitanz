@@ -2,10 +2,12 @@
   .bg-dark.row.items-center.q-pa-xs(style="width: 100vw; height: 10vh")
 
     .col-xs-2.col-sm-1
+      // griddle color
       q-btn(size="lg" @click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'", :color="$props.play ? 'orange' : 'dark'")
 
     q-list.no-border.col-xs-8.col-sm-15.q-pa-sm
 
+      // griddle color
       q-btn.q-mx-xs(v-for="(state, index) in states"
         round :color="currentState === index ? 'orange' : 'grey-6'"
         size="xs"
