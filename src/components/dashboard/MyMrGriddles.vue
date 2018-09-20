@@ -8,8 +8,8 @@
       | {{ myMrGriddles.length }}
 
     .bg-black.q-mb-md.q-pa-sm.q-caption(v-for="mrgriddle in myMrGriddles")
-      // | {{ mrgriddle }}
-      img(:src="mrgriddle.preview.small")
+      | {{ mrgriddle.annotation.uuid }}
+      // img(:src="mrgriddle.preview.small")
     p
       router-link.page-link(:to="{path: path || 'mr-griddles'}") {{ $t('dates.' + date.id + '.page_link') }}
 
@@ -49,13 +49,14 @@
       // }
       async loadMyMrGriddles () {
         if (!this.user) return
-        const prefix = 'Sequenz: '
+        const prefix = 'GriddleSequence '
         const query = {
-          created: {$gte: this.$dates()[2].start, $lte: this.$dates()[2].end}, // TESTING: wrong date at the moment!
+          created: {$gte: this.$dates()[2].start, $lte: this.$dates()[6].end}, // TESTING: wrong date at the moment!
           type: 'Timeline',
           'author.id': this.user.uuid
         }
         const result = await this.$store.dispatch('maps/find', query)
+        console.log('### ', result)
         this.myMrGriddles = result.items.filter(map => {
           return map.title.indexOf(prefix) === 0
         }).sort(this.$sort.onCreatedDesc).map(map => {
