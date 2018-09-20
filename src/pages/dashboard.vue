@@ -18,17 +18,18 @@
             p.q-caption.text-grey-8.no-padding.q-mt-sm {{ $t('pages.dashboard.date_at') }} {{ getDateLabel(date) }}
       p(style="padding-bottom: 1em") {{ $t(date.description) }}
       component(:is="`dashboard-${date.componentName}`", :date="date", :path="date.path")
-
+      dashboard-my-mr-griddles
 </template>
 
 <script>
   import { DateTime } from 'luxon'
   import { mapGetters } from 'vuex'
-  import { Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
+  import { MyMrGriddles, Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
   import VideoListView from '../components/VideoListView'
 
   export default {
     components: {
+      'dashboard-my-mr-griddles': MyMrGriddles,
       'dashboard-portraits': Portraits,
       'dashboard-portraits-plus-plus': PortraitsPlusPlus,
       'dashboard-group-video-sequences': GroupVideoSequences,
