@@ -160,6 +160,10 @@ export default {
       label: 'Mr Griddle',
       sublabel: 'Do the griddle'
     },
+    mr_griddles: {
+      label: 'Eure Mr. Griddles',
+      sublabel: '21. September'
+    },
     recipe: {
       label: 'Rezepte',
       sublabel: 'Remix Motion-Recipes'
