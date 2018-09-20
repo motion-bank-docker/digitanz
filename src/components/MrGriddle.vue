@@ -113,6 +113,10 @@
       },
       play (playing) {
         if (playing) {
+          if (this.currentState === -1) {
+            this.currentState = 0
+            this.timerIntervalHandler()
+          }
           this.startTimer()
         }
         else {
