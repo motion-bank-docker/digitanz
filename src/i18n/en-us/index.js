@@ -63,9 +63,10 @@ export default {
       map_title: 'Braucht auch einen Titel'
     },
     date_4: {
-      title: 'Needs Title',
+      title: 'Deine Mr. Griddles',
       description: 'Needs Description … Lorem ipsum dolor sit amet',
-      map_title: 'Braucht auch einen Titel'
+      map_title: 'Braucht auch einen Titel',
+      page_link: 'Eure Mr. Griddles'
     },
     date_5: {
       title: 'Needs Title',
@@ -140,6 +141,10 @@ export default {
     mr_griddle: {
       label: 'Mr Griddle',
       sublabel: 'Do the griddle'
+    },
+    mr_griddles: {
+      label: 'Eure Mr. Griddles',
+      sublabel: '21. September'
     },
     recipe: {
       label: 'Rezepte',

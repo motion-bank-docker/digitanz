@@ -41,14 +41,16 @@ export default ({ Vue }) => {
       {
         id: 'date_4',
         title: 'dates.date_4.title',
-        start: '2018-09-07T00:00:00.000+02:00',
-        end: '2018-09-13T23:59:59.000+02:00',
+        start: '2018-09-21T00:00:00.000+02:00',
+        end: '2018-09-28T23:59:59.000+02:00',
         description: 'dates.date_4.description',
-        show: process.env.FEATURE_XXX_UNDEFINED_NEEDS_NAME || false,
+        // show: process.env.FEATURE_XXX_UNDEFINED_NEEDS_NAME || false,
+        show: true,
         map_title: 'dates.date_4.map_title',
         map: undefined,
         entries: [],
-        componentName: 'default'
+        componentName: 'my-mr-griddles',
+        path: 'mr-griddles'
       },
       {
         id: 'date_5',
