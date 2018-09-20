@@ -68,7 +68,7 @@
         resizerFactor: UI_RESIZER_FACTOR,
         currentTime: 0,
         resizingCell: false,
-        frameLength: 80,
+        frameLength: 300,
         minFrameLength: 60 / 3,
         maxFrameLength: 60 * 6,
         lastFrameTime: undefined,
@@ -253,8 +253,10 @@
         this.updateSkeleton()
       },
       handleStoreState () {
-        this.storedStates.push(this.getState())
-        this.setCurrentState(this.storedStates.length - 1)
+        if (this.storedStates.length < 5) {
+          this.storedStates.push(this.getState())
+          this.setCurrentState(this.storedStates.length - 1)
+        }
       },
       handleRemoveStoredState (i) {
         if (i >= 0 && i < this.storedStates.length) {

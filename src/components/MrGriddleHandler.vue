@@ -3,7 +3,7 @@
 
     .col-xs-2.col-sm-1
       // griddle color
-      q-btn(size="lg" @click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'", :color="$props.play ? 'orange' : 'dark'")
+      q-btn(size="lg" @click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'")
 
     q-list.no-border.col-xs-8.col-sm-15
 

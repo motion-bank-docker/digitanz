@@ -44,7 +44,21 @@
         const annotations = await this.$store.dispatch('annotations/find', {
           'target.id': map.id
         })
-        console.log(annotations)
+        const sequenceIds = annotations.items.map(a => {
+          return a.body.source.id.split('/').pop()
+        })
+        let sequences = []
+        let sequenceAnnotations = []
+        for (let seqId of sequenceIds) {
+          const seqMap = await this.$store.dispatch('maps/get', seqId)
+          sequences.push(seqMap)
+          const seqAnnot = await this.$store.dispatch('annotations/find', {
+            'target.id': seqMap.id
+          })
+          sequenceAnnotations.push(seqAnnot.items[0])
+        }
+        this.griddleSequences = sequences
+        this.griddlePreviews = sequenceAnnotations
       }
     }
   }
