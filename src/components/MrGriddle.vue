@@ -20,6 +20,8 @@
           polygon(points="-12,-12 -30,0 -12,12", @mousedown="handleGridChange(2,0)")
           polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
           polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
+      g#time-to-next-update
+        rect(v-if="timerId" x="0" y="0" :width="`${timeToNextFrame * 100}%`" height="4" fill="white")
     q-slider.q-ma-md(fab,
       v-model="frameLength", :min="minFrameLength", :max="maxFrameLength"
       :step="20", fill-handle-always, color="primary",
@@ -57,8 +59,9 @@
         frameLength: 80,
         minFrameLength: 60 / 3,
         maxFrameLength: 60 * 6,
+        lastFrameTime: undefined,
+        timeToNextFrame: 1,
         settingFrameLength: false,
-        lastFrameTime: -1,
         lines: [],
         storedStates: [],
         currentState: -1,
@@ -79,6 +82,7 @@
       }
     },
     mounted () {
+      const _this = this
       this.svgSize = {
         width: this.$el.offsetWidth,
         height: this.$el.offsetHeight
@@ -88,9 +92,15 @@
         height: this.svgSize.height / this.grid.rows
       }
       this.updateFrame()
+      setInterval(function () {
+        const diff = Date.now() - _this.lastFrameTime
+        const rel = diff / _this.timerInterval
+        _this.timeToNextFrame = rel
+      }, 1000 / 60)
     },
     beforeDestroy () {
       clearInterval(this.timerId)
+      this.timerId = undefined
     },
     watch: {
       // nextFrame () {
@@ -108,12 +118,14 @@
         }
         else {
           clearInterval(this.timerId)
+          this.timerId = undefined
         }
       }
     },
     methods: {
       timerIntervalHandler () {
         this.updateFrame()
+        this.lastFrameTime = Date.now()
       },
       handleClickLike (which) {
         this.currentState = which === this.currentState ? -1 : which
@@ -122,6 +134,7 @@
       },
       handleSkeletonClick () {
         clearInterval(this.timerId)
+        this.timerId = undefined
         this.updateFrame()
         this.$emit('stateChanged')
       },
