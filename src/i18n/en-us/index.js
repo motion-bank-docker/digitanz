@@ -180,6 +180,10 @@ export default {
       remix_singular: 'andere Version',
       remix_plural: 'andere Versionen'
     },
+    mr_griddle: {
+      title: 'Eure Mr. Griddles',
+      description: 'Lorem Ipsum, hier steht eine Beschreibung.'
+    },
     new_sequence: {
       title: 'Neue Sequenz erstellen',
       description: 'Lorem Ipsum, hier steht eine Beschreibung.'
