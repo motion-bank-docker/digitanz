@@ -1,7 +1,7 @@
 <template lang="pug">
   q-page.q-ma-lg
     h3 Deine Mr. Griddles
-    mr-griddle-list-view(layout-style='sm')
+    mr-griddle-list-view(layout-style='sm' :items="griddlePreviews")
 
     ul
       li(v-for="sequence in griddleSequences")
@@ -21,8 +21,12 @@
     data () {
       return {
         griddleSequences: [],
-        mrGriddles: undefined
+        mrGriddles: undefined,
+        griddlePreviews: []
       }
+    },
+    mounted () {
+      this.loadData()
     },
     computed: {
       ...mapGetters({
@@ -36,6 +40,7 @@
     },
     methods: {
       async loadData () {
+        console.log('asdasd')
         const query = {
           type: 'Timeline',
           'author.id': this.user.uuid
@@ -44,6 +49,7 @@
         const griddleSequences = maps.items.filter(m => {
           return m.title.indexOf('GriddleSequence ') === 0
         })
+        // console.log(griddleSequences)
         this.griddleSequences = griddleSequences
         let sequenceAnnotations = []
         for (let seq of griddleSequences) {
@@ -52,7 +58,9 @@
           })
           sequenceAnnotations.push(annotations.items[0])
         }
-        // console.log(sequenceAnnotations)
+        console.log(sequenceAnnotations)
+        this.griddlePreviews = sequenceAnnotations
+        console.log('skeleton: ', this.griddlePreviews[0].body.value)
       }
     }
   }

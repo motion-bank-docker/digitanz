@@ -12,7 +12,7 @@
           :stroke-width="strokeWidth"
           :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
           :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
-        g#resize-handle(:transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
+        g#resize-handle(v-if="editSettings", :transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
           rect(
             x="-12", y="-12", width="24", height="24")
             // @mousedown="initResizeCell", :class="{resizing: resizingCell}")
@@ -21,11 +21,22 @@
           polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
           polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
       g#time-to-next-update
+        // griddle color
         rect(v-if="timerId" x="0" y="0" :width="`${timeToNextFrame * 100}%`" height="4" fill="orange")
-    q-slider.q-ma-md(fab,
-      v-model="frameLength", :min="minFrameLength", :max="maxFrameLength"
-      :step="20", fill-handle-always, color="primary",
-      snap, style="width: 50vw")
+
+    .bg-dark.row.items-center.q-pa-xs.fixed-bottom(style="width: 100vw; height: 10vh")
+      // griddle color
+      q-btn(size="xl", icon="timer", disabled, flat, color="orange")
+      // griddle color
+      q-slider.q-ma-md(
+        v-if="editSettings",
+        fab,
+        v-model="frameLength", color="orange", :min="minFrameLength", :max="maxFrameLength"
+        :step="20", fill-handle-always,
+        snap, style="width: 70vw")
+
+    q-page-sticky(expand position="top-right")
+      q-btn.bg-dark.q-ma-sm(fab, size="sm", @click="handleModeChange", :icon="editSettings ? 'check' : 'settings'")
 </template>
 
 <script>
@@ -68,7 +79,8 @@
         currentState: -1,
         timerId: undefined,
         storeStates: false,
-        map: undefined
+        map: undefined,
+        editSettings: false
       }
     },
     computed: {
@@ -169,6 +181,10 @@
         this.timerId = undefined
         this.updateFrame()
         this.setCurrentState(-1)
+      },
+      handleModeChange () {
+        this.editSettings = !this.editSettings
+        this.$emit('editModeChanged', this.editSettings)
       },
       updateFrame () {
         skeleton.rotate()
@@ -289,6 +305,7 @@
 
   #mr-griddle
     line
+      // griddle color
       stroke orange
       stroke-linecap round
 

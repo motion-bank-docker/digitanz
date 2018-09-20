@@ -2,10 +2,12 @@
   .bg-dark.row.items-center.q-pa-xs(style="width: 100vw; height: 10vh")
 
     .col-xs-2.col-sm-1
+      // griddle color
       q-btn(size="lg" @click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'", :color="$props.play ? 'orange' : 'dark'")
 
-    q-list.no-border.col-xs-8.col-sm-15.q-pa-sm
+    q-list.no-border.col-xs-8.col-sm-15
 
+      // griddle color
       q-btn.q-mx-xs(v-for="(state, index) in states"
         round :color="currentState === index ? 'orange' : 'grey-6'"
         size="xs"
@@ -14,7 +16,7 @@
         @click="$emit('clickState', {state, index})"
         v-touch-hold="() => {openDeleteModal({state, index})}")
 
-      q-btn.no-padding.q-ma-xs(icon="add_circle", size="sm", round
+      q-btn.no-padding(icon="add_circle", size="lg", flat, no-ripple, round
         @click="$emit('clickAdd')")
 
     .col-xs-2.col-sm-1
@@ -34,7 +36,8 @@
     props: [
       'states',
       'play',
-      'currentState'
+      'currentState',
+      'edit'
     ],
     data () {
       return {
