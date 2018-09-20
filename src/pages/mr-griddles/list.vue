@@ -2,9 +2,11 @@
   q-page.q-ma-lg
     h3 Deine Mr. Griddles
     mr-griddle-list-view(layout-style='sm',
-                        :items="griddlePreviews")
+                        :items="griddlePreviews",
+                        :sequences="griddleSequences")
       template(slot="customButtons" slot-scope="{ video }")
-        q-btn(flat, size="sm" round, icon="edit" @click="openDeleteModal(video)")
+        // q-btn(flat, size="sm" round, icon="edit" @click="openDeleteModal(video)")
+        // q-btn(flat, size="sm", round, icon="edit", @click="$router.push('/mr-griddle/create')")
 
     ul
       li(v-for="sequence in griddleSequences")
