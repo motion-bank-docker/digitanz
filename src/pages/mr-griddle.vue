@@ -38,6 +38,8 @@
       },
       handleStateChanged (state) {
         if (state === -1) this.playing = false
+        const _griddle = this.$refs.mrGriddleContainer
+        this.storedStates = _griddle.storedStates
         this.currentState = state
       },
       handleDeleteItem (item) {
