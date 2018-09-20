@@ -1,11 +1,16 @@
 <template lang="pug">
-  q-page
-    h3 mr griddles
+  q-page.q-ma-lg
+    h3 Deine Mr. Griddles
+    mr-griddle-list-view(layout-style='sm')
 </template>
 
 <script>
+  import MrGriddleListView from '../components/MrGriddleListView'
+
   export default {
-    name: 'mr-griddles'
+    components: {
+      MrGriddleListView
+    }
   }
 </script>
 
