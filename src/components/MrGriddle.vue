@@ -20,6 +20,8 @@
           polygon(points="-12,-12 -30,0 -12,12", @mousedown="handleGridChange(2,0)")
           polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
           polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
+      g#time-to-next-update
+        rect(v-if="timerId" x="0" y="0" :width="`${timeToNextFrame * 100}%`" height="4" fill="white")
     q-slider.q-ma-md(fab,
       v-model="frameLength", :min="minFrameLength", :max="maxFrameLength"
       :step="20", fill-handle-always, color="primary",
@@ -57,8 +59,9 @@
         frameLength: 80,
         minFrameLength: 60 / 3,
         maxFrameLength: 60 * 6,
+        lastFrameTime: undefined,
+        timeToNextFrame: 1,
         settingFrameLength: false,
-        lastFrameTime: -1,
         lines: [],
         storedStates: [],
         currentState: -1,
@@ -79,6 +82,7 @@
       }
     },
     mounted () {
+      const _this = this
       this.svgSize = {
         width: this.$el.offsetWidth,
         height: this.$el.offsetHeight
@@ -88,15 +92,17 @@
         height: this.svgSize.height / this.grid.rows
       }
       this.updateFrame()
+      setInterval(function () {
+        const diff = Date.now() - _this.lastFrameTime
+        const rel = diff / _this.timerInterval
+        _this.timeToNextFrame = rel
+      }, 1000 / 60)
     },
     beforeDestroy () {
       clearInterval(this.timerId)
+      this.timerId = undefined
     },
     watch: {
-      // nextFrame () {
-      //   this.lastFrameTime = this.$store.state.time
-      //   this.updateFrame()
-      // }
       frameLength () {
         clearInterval(this.timerId)
         this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
@@ -108,27 +114,26 @@
         }
         else {
           clearInterval(this.timerId)
+          this.timerId = undefined
         }
       }
     },
     methods: {
       timerIntervalHandler () {
         this.updateFrame()
-      },
-      handleClickLike (which) {
-        this.currentState = which === this.currentState ? -1 : which
-        this.storeState()
-        this.updateSkeleton()
+        this.lastFrameTime = Date.now()
       },
       handleSkeletonClick () {
         clearInterval(this.timerId)
+        this.timerId = undefined
         this.updateFrame()
-        this.$emit('stateChanged')
+        this.setCurrentState(-1)
       },
       updateFrame () {
         skeleton.rotate()
-        this.storeState()
-        this.updateSkeleton()
+        let nextState = (this.currentState + 1) % this.storedStates.length
+        console.log(this.currentState)
+        this.setCurrentState(nextState)
       },
       storeState () {
         if (this.storeStates) {
@@ -160,6 +165,11 @@
           gridCell: this.gridCell,
           svgSize: this.svgSize
         }
+      },
+      setCurrentState (nextState) {
+        this.currentState = nextState >= 0 && nextState < this.storedStates.length ? nextState : -1
+        this.updateSkeleton()
+        this.$emit('stateChanged', this.currentState)
       },
       handleGridChange (columns, rows) {
         this.grid.columns += columns
@@ -196,10 +206,16 @@
       },
       handleStoreState () {
         this.storedStates.push(this.getState())
-        // this.currentState = this.storedStates.length - 1
+        this.setCurrentState(this.storedStates.length - 1)
       },
       handleRemoveStoredState (i) {
-        if (i >= 0 && i < this.storedStates.length) this.storedStates.splice(i, 1)
+        if (i >= 0 && i < this.storedStates.length) {
+          this.storedStates.splice(i, 1)
+          if (i <= this.currentState) {
+            this.setCurrentState(this.currentState - 1)
+          }
+          this.updateSkeleton()
+        }
       },
       // handleKeyUp (event) {
       //   console.log(event)

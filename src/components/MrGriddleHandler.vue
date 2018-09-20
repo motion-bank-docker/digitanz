@@ -6,11 +6,16 @@
 
     q-list.no-border.col-xs-8.col-sm-15
 
-      q-radio.q-mx-xs(v-for="(state, index) in states", v-model="selectedStates", val="'option-' + {{index}}", size="xl",
-        v-touch-hold.prevent="() => {openDeleteModal({state, index})}")
+      q-btn.q-mx-xs(v-for="(state, index) in states"
+        round :color="currentState === index ? 'white' : 'grey-6'"
+        size="sm"
+        v-model="selectedStates",
+        val="'option-' + {{index}}"
+        @click="$emit('clickState', {state, index})"
+        v-touch-hold="() => {openDeleteModal({state, index})}")
 
-      q-btn.q-ma-xs(icon="add", size="sm", round,
-        style="border-style: dashed", color="grey-6", text-color="dark"
+      q-btn.q-ma-xs(icon="add", size="sm", round
+        color="grey-6", text-color="dark"
         @click="$emit('clickAdd')")
 
     .col-xs-2.col-sm-1
@@ -29,7 +34,8 @@
     },
     props: [
       'states',
-      'play'
+      'play',
+      'currentState'
     ],
     data () {
       return {
