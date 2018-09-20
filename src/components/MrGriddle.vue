@@ -66,7 +66,8 @@
         storedStates: [],
         currentState: -1,
         timerId: undefined,
-        storeStates: false
+        storeStates: false,
+        map: undefined
       }
     },
     computed: {
@@ -143,38 +144,46 @@
       updateFrame () {
         skeleton.rotate()
         let nextState = (this.currentState + 1) % this.storedStates.length
-        console.log(this.currentState)
         this.setCurrentState(nextState)
       },
-      storeState () {
-        if (this.storeStates) {
+      async saveSequence () {
+        this.$q.loading.show({ message: this.$t('messages.saving_sequence') })
+        if (!this.map) {
+          const prefix = 'GriddleSequence '
+          let newMap = {
+            type: ['Timeline'],
+            title: prefix + Date.now()
+          }
+          this.map = await this.$store.dispatch('maps/post', newMap)
+        }
+        for (let state of this.storedStates) {
           let annotation = {
             body: {
               type: 'MrGriddleSkeleton',
               purpose: 'linking',
-              value: JSON.stringify(this.getState())
+              value: JSON.stringify(state)
             },
             target: {
               type: 'Timeline',
-              id: `${process.env.TIMELINE_BASE_URI}${process.env.MR_GRIDDLE_TIMELINE_UUID}`,
+              id: this.map.id,
               selector: {
                 type: 'Fragment',
-                value: DateTime.local().toISO()
+                value: state.timeStamp
               }
             }
           }
-          // console.log(annotation)
-          this.$store.dispatch('annotations/post', annotation).then((resp) => {
-            console.log(resp)
-          })
+          await this.$store.dispatch('annotations/post', annotation)
         }
+        this.$q.loading.hide()
       },
       getState () {
         return {
           skeleton: skeleton.getEdges(),
           grid: this.grid,
           gridCell: this.gridCell,
-          svgSize: this.svgSize
+          svgSize: this.svgSize,
+          frameLength: this.frameLength,
+          timeStamp: DateTime.local().toISO()
         }
       },
       setCurrentState (nextState) {
