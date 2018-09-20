@@ -34,9 +34,19 @@
   const UI_RESIZER_FACTOR = 2
 
   export default {
-    props: [
-      'play'
-    ],
+    props: {
+      play: {
+        type: String
+      },
+      requestedWidth: {
+        type: Number,
+        default: null
+      },
+      requestedHeight: {
+        type: Number,
+        default: null
+      }
+    },
     data () {
       return {
         svgSize: {
@@ -79,9 +89,17 @@
       }
     },
     mounted () {
-      this.svgSize = {
-        width: this.$el.offsetWidth,
-        height: this.$el.offsetHeight
+      if (this.requestedWidth && this.requestedHeight) {
+        this.svgSize = {
+          width: this.requestedWidth,
+          height: this.requestedHeight
+        }
+      }
+      else {
+        this.svgSize = {
+          width: this.$el.offsetWidth,
+          height: this.$el.offsetHeight
+        }
       }
       this.gridCell = {
         width: this.svgSize.width / this.grid.columns,
@@ -149,7 +167,7 @@
           }
           // console.log(annotation)
           this.$store.dispatch('annotations/post', annotation).then((resp) => {
-            console.log(resp)
+            console.log('pose stored', resp)
           })
         }
       },
