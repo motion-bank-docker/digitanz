@@ -1,14 +1,18 @@
 <template lang="pug">
-  div
-    svg.bg-primary.q-mb-lg(ref="svgContainer" :width="svgSize.width" :height="svgSize.height")
-      .q-mt-xl
+  div.q-mb-lg.text-center
+    // svg.bg-primary.q-mb-lg(ref="svgContainer" :width="svgSize.width" :height="svgSize.height")
+    // svg.bg-primary(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
+    svg.bg-primary(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
+      // .q-mt-xl
       g#mr-griddle(:class="{'random': currentState === -1}")
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
         line(v-for="(line, i) in lines", :key="`line-${i}`",
-        :stroke-width="strokeWidth"
+        :stroke-width="strokeWidth",
         :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
         :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
-    slot(name="customButtons" :video="video")
+    // slot(name="customButtons" :video="video")
+    div
+      slot(name="customButtons")
     // q-btn(flat, size="sm" round, icon="delete" @click="openDeleteModal(video)")
 
 </template>

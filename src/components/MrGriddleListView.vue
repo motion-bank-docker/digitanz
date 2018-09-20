@@ -2,15 +2,16 @@
   div.full-width
     // size sm
     div.row.justify-between(v-if="layoutStyle === 'sm'" ref="mega")
-        mr-griddle-preview(v-for="video in items"
-                                        :previewSkeleton="video.body.value"
-                                        :requestedWidth="167"
-                                        :requestedHeight="167"
-                                        :hideButtons="hideButtons"
-                                        :buttons="buttons",
-                                        style="width: 46%")
-          template(slot="customButtons" slot-scope="{ video }")
-            slot(name="customButtons" :video="video")
+      mr-griddle-preview(v-for="(video, i) in items",
+                                      :previewSkeleton="video.body.value",
+                                      :requestedWidth="120",
+                                      :requestedHeight="120",
+                                      :hideButtons="hideButtons",
+                                      :buttons="buttons",
+                                      style="width: 46%")
+        template(slot="customButtons", slot-scope="{ video }")
+          q-btn(flat, size="sm", round, icon="edit", @click="$router.push('mr-griddle/' + sequences[i].uuid + '/edit')")
+          // slot(name="customButtons", :video="video")
 
 </template>
 
@@ -26,7 +27,8 @@
       layoutStyle: String,
       buttons: Array,
       hideButtons: undefined,
-      items: undefined
+      items: undefined,
+      sequences: undefined
     },
     data () {
       return {
