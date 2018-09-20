@@ -201,30 +201,6 @@
         }
         this.updateSkeleton()
       },
-      // initResizeCell () {
-      //   this.resizingCell = true
-      // },
-      // doDragging (event) {
-      //   if (this.resizingCell) {
-      //     this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
-      //     this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
-      //     this.updateSkeleton()
-      //   }
-      //   if (this.settingFrameLength) {
-      //     this.frameLength = Math.min(180, Math.max(0, event.clientX - (this.svgSize.width - 200 - 20)))
-      //   }
-      // },
-      // stopDragging (event) {
-      //   if (this.resizingCell) {
-      //     this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
-      //     this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
-      //   }
-      //   if (this.resizingCell || this.settingFrameLength) {
-      //     this.updateFrame()
-      //   }
-      //   this.resizingCell = false
-      //   this.settingFrameLength = false
-      // },
       handleStoreState () {
         this.storedStates.push(this.getState())
         this.setCurrentState(this.storedStates.length - 1)
@@ -238,9 +214,6 @@
           this.updateSkeleton()
         }
       },
-      // handleKeyUp (event) {
-      //   console.log(event)
-      // },
       updateSkeleton () {
         let skeletonLines = []
         if (this.currentState === -1) {
