@@ -2,7 +2,7 @@
   div.q-mb-lg.text-center
     // svg.bg-primary.q-mb-lg(ref="svgContainer" :width="svgSize.width" :height="svgSize.height")
     // svg.bg-primary(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
-    svg.bg-primary(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
+    svg.bg-grey-10(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
       // .q-mt-xl
       g#mr-griddle(:class="{'random': currentState === -1}")
         rect(width="100%", height="100%", fill="url(#cell-pattern)")

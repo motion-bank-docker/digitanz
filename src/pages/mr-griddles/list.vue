@@ -1,5 +1,6 @@
 <template lang="pug">
   q-page.q-ma-lg
+    q-btn.q-mb-lg.full-width(@click="$router.push('/mr-griddle/create')", :label="$t('Mr. Griddle hinzufügen')", color="primary")
     h3 Deine Mr. Griddles
     mr-griddle-list-view(layout-style='sm',
                         :items="griddlePreviews",
@@ -8,9 +9,9 @@
         // q-btn(flat, size="sm" round, icon="edit" @click="openDeleteModal(video)")
         // q-btn(flat, size="sm", round, icon="edit", @click="$router.push('/mr-griddle/create')")
 
-    ul
-      li(v-for="sequence in griddleSequences")
-        router-link(:to="{path: 'mr-griddle/' + sequence.uuid + '/edit'}") {{sequence.title}}
+    // ul
+      // li(v-for="sequence in griddleSequences")
+        // router-link(:to="{path: 'mr-griddle/' + sequence.uuid + '/edit'}") {{sequence.title}}
 </template>
 
 <script>
