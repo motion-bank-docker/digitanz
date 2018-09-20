@@ -30,11 +30,6 @@
         currentState: -1
       }
     },
-    watch: {
-      storedStates () {
-        console.log(this.storedStates)
-      }
-    },
     methods: {
       handleClickPlay () {
         this.playing = !this.playing

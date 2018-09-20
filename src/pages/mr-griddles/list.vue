@@ -1,8 +1,10 @@
 <template lang="pug">
   q-page.q-ma-lg
     h3 Deine Mr. Griddles
-    mr-griddle-list-view(layout-style='sm',
-                        :items="sequences")
+    mr-griddle-list-view(
+      v-if="sequences"
+      layout-style='sm'
+      :items="sequences")
       template(slot="customButtons" slot-scope="{ item }")
         q-btn(flat, size="sm" round,
           :icon="getItemStyle(item).icon", :color="getItemStyle(item).color"
@@ -106,8 +108,6 @@
         const griddleSequences = maps.items.filter(m => {
           return m.title.indexOf('GriddleSequence ') === 0
         })
-        // console.log(griddleSequences)
-        this.griddleSequences = griddleSequences
         let sequenceAnnotations = []
         for (let seq of griddleSequences) {
           const annotations = await this.$store.dispatch('annotations/find', {

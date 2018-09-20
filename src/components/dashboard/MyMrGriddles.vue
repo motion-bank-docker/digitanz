@@ -3,8 +3,17 @@
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteVideo")
 
     mr-griddle-list-view(layout-style='sm',
-    :items="griddlePreviews",
-    :sequences="griddleSequences")
+      :items="sequences")
+      template(slot="customButtons" slot-scope="{ item }")
+        q-btn(flat, size="sm" round,
+        :icon="getItemStyle(item).icon", :color="getItemStyle(item).color"
+        @click="toggleItemFavorite(item)")
+
+        q-btn(flat, size="sm" round, icon="edit"
+        @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
+
+        q-btn(flat, size="sm" round, icon="delete"
+        @click="openDeleteModal(item)")
 
     p
       router-link.page-link(:to="{path: path || 'mr-griddle'}") {{ $t('dates.' + date.id + '.page_link') }}
@@ -12,64 +21,13 @@
 </template>
 
 <script>
-  import MrGriddleListView from '../../components/MrGriddleListView'
-  import { mapGetters } from 'vuex'
-  // import Default from '../../layouts/default'
+  import MrGriddleList from '../../pages/mr-griddles/list'
 
   export default {
-    components: {
-      // Default,
-      MrGriddleListView
-    },
+    extends: MrGriddleList,
     props: [
-      'date',
-      'path'
-    ],
-    data () {
-      return {
-        griddleSequences: [],
-        mrGriddles: undefined,
-        griddlePreviews: []
-      }
-    },
-    mounted () {
-      this.loadData()
-    },
-    computed: {
-      ...mapGetters({
-        user: 'auth/getUserState'
-      })
-    },
-    watch: {
-      user (val) {
-        if (val) this.loadData()
-      }
-    },
-    methods: {
-      async loadData () {
-        console.log('asdasd')
-        const query = {
-          type: 'Timeline',
-          'author.id': this.user.uuid
-        }
-        const maps = await this.$store.dispatch('maps/find', query)
-        const griddleSequences = maps.items.filter(m => {
-          return m.title.indexOf('GriddleSequence ') === 0
-        })
-        // console.log(griddleSequences)
-        this.griddleSequences = griddleSequences
-        let sequenceAnnotations = []
-        for (let seq of griddleSequences) {
-          const annotations = await this.$store.dispatch('annotations/find', {
-            'target.id': seq.id
-          })
-          sequenceAnnotations.push(annotations.items[0])
-        }
-        console.log(sequenceAnnotations)
-        this.griddlePreviews = sequenceAnnotations
-        console.log('skeleton: ', this.griddlePreviews[0].body.value)
-      }
-    }
+      'date'
+    ]
   }
 </script>
 
