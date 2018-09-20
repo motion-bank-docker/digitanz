@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import MrGriddleListView from '../components/MrGriddleListView'
+  import MrGriddleListView from '../../components/MrGriddleListView'
   import { mapGetters } from 'vuex'
 
   export default {
