@@ -105,12 +105,11 @@
     watch: {
       frameLength () {
         clearInterval(this.timerId)
-        this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+        this.startTimer()
       },
       play (playing) {
         if (playing) {
-          this.timerIntervalHandler()
-          this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+          this.startTimer()
         }
         else {
           clearInterval(this.timerId)
@@ -119,6 +118,10 @@
       }
     },
     methods: {
+      startTimer () {
+        this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+        this.lastFrameTime = Date.now()
+      },
       timerIntervalHandler () {
         this.updateFrame()
         this.lastFrameTime = Date.now()
