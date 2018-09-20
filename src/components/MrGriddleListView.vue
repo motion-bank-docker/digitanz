@@ -32,8 +32,7 @@
     },
     data () {
       return {
-        previewWidth: 167,
-        mrGriddles: [1, 1, 3, 4, 5]
+        previewWidth: 167
       }
     },
     mounted () {
