@@ -12,10 +12,10 @@
           :stroke-width="strokeWidth"
           :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
           :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
-        //g#resize-handle(:transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
+        g#resize-handle(:transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
           rect(
-            x="-12", y="-12", width="24", height="24",
-            @mousedown="initResizeCell", :class="{resizing: resizingCell}")
+            x="-12", y="-12", width="24", height="24")
+            // @mousedown="initResizeCell", :class="{resizing: resizingCell}")
           polygon(points="12,-12 30,0 12,12", @mousedown="handleGridChange(-2,0)")
           polygon(points="-12,-12 -30,0 -12,12", @mousedown="handleGridChange(2,0)")
           polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
@@ -83,6 +83,7 @@
     },
     mounted () {
       const _this = this
+
       this.svgSize = {
         width: this.$el.offsetWidth,
         height: this.$el.offsetHeight
@@ -92,6 +93,8 @@
         height: this.svgSize.height / this.grid.rows
       }
       this.updateFrame()
+
+      // this is a "driver" for the "time to update bar"
       setInterval(function () {
         const diff = Date.now() - _this.lastFrameTime
         const rel = diff / _this.timerInterval
@@ -104,8 +107,9 @@
     },
     watch: {
       frameLength () {
+        const wasPlaying = this.timerId
         clearInterval(this.timerId)
-        this.startTimer()
+        if (wasPlaying) this.startTimer()
       },
       play (playing) {
         if (playing) {
@@ -177,32 +181,36 @@
       handleGridChange (columns, rows) {
         this.grid.columns += columns
         this.grid.rows += rows
+        this.gridCell = {
+          width: this.svgSize.width / this.grid.columns,
+          height: this.svgSize.height / this.grid.rows
+        }
         this.updateSkeleton()
       },
-      initResizeCell () {
-        this.resizingCell = true
-      },
-      doDragging (event) {
-        if (this.resizingCell) {
-          this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
-          this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
-          this.updateSkeleton()
-        }
-        if (this.settingFrameLength) {
-          this.frameLength = Math.min(180, Math.max(0, event.clientX - (this.svgSize.width - 200 - 20)))
-        }
-      },
-      stopDragging (event) {
-        if (this.resizingCell) {
-          this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
-          this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
-        }
-        if (this.resizingCell || this.settingFrameLength) {
-          this.updateFrame()
-        }
-        this.resizingCell = false
-        this.settingFrameLength = false
-      },
+      // initResizeCell () {
+      //   this.resizingCell = true
+      // },
+      // doDragging (event) {
+      //   if (this.resizingCell) {
+      //     this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
+      //     this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
+      //     this.updateSkeleton()
+      //   }
+      //   if (this.settingFrameLength) {
+      //     this.frameLength = Math.min(180, Math.max(0, event.clientX - (this.svgSize.width - 200 - 20)))
+      //   }
+      // },
+      // stopDragging (event) {
+      //   if (this.resizingCell) {
+      //     this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
+      //     this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
+      //   }
+      //   if (this.resizingCell || this.settingFrameLength) {
+      //     this.updateFrame()
+      //   }
+      //   this.resizingCell = false
+      //   this.settingFrameLength = false
+      // },
       handleStoreState () {
         this.storedStates.push(this.getState())
         this.setCurrentState(this.storedStates.length - 1)
