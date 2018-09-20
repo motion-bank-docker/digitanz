@@ -2,17 +2,17 @@
   div.full-width
     // size sm
     div.row.justify-between(v-if="layoutStyle === 'sm'" ref="mega")
-      mr-griddle-preview(v-for="item in items"
-        :item="item"
-        :previewSkeleton="item.body.value"
-        :requestedWidth="167"
-        :requestedHeight="167"
-        :hideButtons="hideButtons"
-        :buttons="buttons",
-        style="width: 46%")
-        template(slot="customButtons" slot-scope="{ item }")
-          slot(name="customButtons" :item="item")
-
+      mr-griddle-preview(v-for="(video, i) in items",
+                                      :previewSkeleton="video.body.value",
+                                      :requestedWidth="previewWidth",
+                                      :requestedHeight="previewWidth",
+                                      :hideButtons="hideButtons",
+                                      :buttons="buttons",
+                                      :style="{width: previewWidth }")
+        template(slot="customButtons", slot-scope="{ video }")
+          q-btn(flat, size="sm", round, icon="edit", @click="$router.push('mr-griddle/' + sequences[i].uuid + '/edit')")
+          // slot(name="customButtons", :video="video")
+    q-window-resize-observable(@resize="setPreviewWidth()")
 </template>
 
 <script>
@@ -38,6 +38,11 @@
     mounted () {
       this.setPreviewWidth()
     },
+    watch: {
+      previewWidth () {
+        console.log(this.previewWidth)
+      }
+    },
     methods: {
       changed () {
         this.$emit('changed')
@@ -46,8 +51,10 @@
         return video.annotation ? video.annotation.uuid : '001'
       },
       setPreviewWidth () {
-        this.previewWidth = this.$refs.mega.offsetWidth / 2
-        console.log('22 ' + this.$refs.mega.offsetWidth)
+        if (typeof this.$refs.mega !== 'undefined') {
+          this.previewWidth = this.$refs.mega.offsetWidth / 2.1
+          console.log('22 ' + this.$refs.mega.offsetWidth)
+        }
       }
     }
   }

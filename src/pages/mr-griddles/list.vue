@@ -1,5 +1,6 @@
 <template lang="pug">
   q-page.q-ma-lg
+    q-btn.q-mb-lg.full-width(@click="$router.push('/mr-griddle/create')", :label="$t('Mr. Griddle hinzufügen')", color="primary")
     h3 Deine Mr. Griddles
     mr-griddle-list-view(
       v-if="sequences"
@@ -9,7 +10,6 @@
         q-btn(flat, size="sm" round,
           :icon="getItemStyle(item).icon", :color="getItemStyle(item).color"
           @click="toggleItemFavorite(item)")
-
         q-btn(flat, size="sm" round, icon="edit"
           @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
 
