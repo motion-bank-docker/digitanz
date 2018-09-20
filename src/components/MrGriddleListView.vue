@@ -2,7 +2,8 @@
   div.full-width
     // size sm
     div.row.justify-between(v-if="layoutStyle === 'sm'" ref="mega")
-        mr-griddle-preview(v-for="video in mrGriddles"
+        mr-griddle-preview(v-for="video in items"
+                                        :previewSkeleton="video.body.value"
                                         :requestedWidth="167"
                                         :requestedHeight="167"
                                         style="width: 46%")
@@ -22,7 +23,8 @@
       // sm, md, l, xl ?
       layoutStyle: String,
       buttons: Array,
-      hideButtons: undefined
+      hideButtons: undefined,
+      items: undefined
     },
     data () {
       return {

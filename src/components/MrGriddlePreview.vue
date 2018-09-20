@@ -25,7 +25,8 @@
       requestedHeight: {
         type: Number,
         default: null
-      }
+      },
+      previewSkeleton: undefined
     },
     data () {
       return {
@@ -235,6 +236,8 @@
             'height': 200
           }
         }
+        this.previewData = JSON.parse(this.previewSkeleton)
+        // console.log(this.previewSkeleton)
       },
       drawSkeleton () {
         let skeletonLines = []
