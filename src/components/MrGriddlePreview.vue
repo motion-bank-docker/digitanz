@@ -8,8 +8,9 @@
         :stroke-width="strokeWidth"
         :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
         :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
-    slot(name="customButtons" :video="video")
-    // q-btn(flat, size="sm" round, icon="delete" @click="openDeleteModal(video)")
+
+    slot(name="customButtons" :item="item")
+    // q-btn(flat, size="sm" round, icon="delete" @click="openDeleteModal(item)")
 
 </template>
 
@@ -29,7 +30,8 @@
         type: Number,
         default: null
       },
-      previewSkeleton: undefined
+      previewSkeleton: undefined,
+      item: undefined
     },
     data () {
       return {

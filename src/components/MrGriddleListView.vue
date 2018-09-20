@@ -2,15 +2,16 @@
   div.full-width
     // size sm
     div.row.justify-between(v-if="layoutStyle === 'sm'" ref="mega")
-        mr-griddle-preview(v-for="video in items"
-                                        :previewSkeleton="video.body.value"
-                                        :requestedWidth="167"
-                                        :requestedHeight="167"
-                                        :hideButtons="hideButtons"
-                                        :buttons="buttons",
-                                        style="width: 46%")
-          template(slot="customButtons" slot-scope="{ video }")
-            slot(name="customButtons" :video="video")
+      mr-griddle-preview(v-for="item in items"
+        :item="item"
+        :previewSkeleton="item.body.value"
+        :requestedWidth="167"
+        :requestedHeight="167"
+        :hideButtons="hideButtons"
+        :buttons="buttons",
+        style="width: 46%")
+        template(slot="customButtons" slot-scope="{ item }")
+          slot(name="customButtons" :item="item")
 
 </template>
 
@@ -46,7 +47,6 @@
       },
       setPreviewWidth () {
         this.previewWidth = this.$refs.mega.offsetWidth / 2
-        console.log('22 ' + this.$refs.mega.offsetWidth)
       }
     }
   }
