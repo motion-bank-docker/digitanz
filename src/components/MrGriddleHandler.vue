@@ -1,21 +1,20 @@
 <template lang="pug">
-  .bg-dark.row.items-center.q-pa-xs.justify-between(style="width: 100vw; height: 10vh")
+  .bg-dark.row.items-center.q-pa-xs(style="width: 100vw; height: 10vh")
 
     .col-xs-2.col-sm-1
-      q-btn.playing-color.q-ma-xs(size="lg" @click="$emit('clickPlay')" :icon="$props.play ? 'stop' : 'play_arrow'" :color="$props.play ? 'red' : 'grey-7'")
+      q-btn(size="lg" @click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'", :color="$props.play ? 'orange' : 'dark'")
 
-    q-list.no-border.col-xs-8.col-sm-15
+    q-list.no-border.col-xs-8.col-sm-15.q-pa-sm
 
       q-btn.q-mx-xs(v-for="(state, index) in states"
-        round :color="currentState === index ? 'white' : 'grey-6'"
-        size="sm"
+        round :color="currentState === index ? 'orange' : 'grey-6'"
+        size="xs"
         v-model="selectedStates",
         val="'option-' + {{index}}"
         @click="$emit('clickState', {state, index})"
         v-touch-hold="() => {openDeleteModal({state, index})}")
 
-      q-btn.q-ma-xs(icon="add", size="sm", round
-        color="grey-6", text-color="dark"
+      q-btn.no-padding.q-ma-xs(icon="add_circle", size="sm", round
         @click="$emit('clickAdd')")
 
     .col-xs-2.col-sm-1
