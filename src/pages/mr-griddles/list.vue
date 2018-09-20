@@ -33,6 +33,11 @@
         if (val) this.loadData()
       }
     },
+    data () {
+      return {
+        mrGriddles: undefined
+      }
+    },
     methods: {
       async loadData () {
         const query = {
