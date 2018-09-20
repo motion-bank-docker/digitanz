@@ -21,6 +21,7 @@ const routes = [
       { path: 'portraitplusplus/responses/:uuid', component: () => import('pages/responses'), meta: {private: true, allowSelfResponse: true} },
       { path: 'team', component: () => import('pages/team'), meta: {private: true} },
       { path: 'dk', component: () => import('pages/devtestdk'), meta: {private: true} },
+      { path: 'mr-griddle', component: () => import('pages/mr-griddle'), meta: {private: true} },
       { path: 'mr-griddle/create', component: () => import('pages/mr-griddles/edit'), meta: {private: true} },
       { path: 'mr-griddle/:uuid/edit', component: () => import('pages/mr-griddles/edit'), meta: {private: true} },
       { path: 'mr-griddles', component: () => import('pages/mr-griddles/list'), meta: {private: true} },

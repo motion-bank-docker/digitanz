@@ -1,28 +1,25 @@
 <template lang="pug">
-  .row
-    // confirm-modal(ref="confirmDeleteModal", @confirm="deleteVideo")
+  q-page
+    h3.text-center
+      | {{ $t('pages.mr_griddle.title') }}
+    .q-px-md.q-mb-xl.text-grey-8
+      | {{ $t('pages.mr_griddle.description') }}
 
-    mr-griddle-list-view(layout-style='sm', :items="griddlePreviews")
-
-    p
-      router-link.page-link(:to="{path: path || 'mr-griddle'}") {{ $t('dates.' + date.id + '.page_link') }}
+    .row.q-ma-md
+      mr-griddle-list-view(layout-style='sm', :items="griddlePreviews")
 
 </template>
 
 <script>
-  import MrGriddleListView from '../../components/MrGriddleListView'
+  import MrGriddleListView from '../components/MrGriddleListView'
   import { mapGetters } from 'vuex'
-  // import Default from '../../layouts/default'
+  // import Default from '../layouts/default'
 
   export default {
     components: {
       // Default,
       MrGriddleListView
     },
-    props: [
-      'date',
-      'path'
-    ],
     data () {
       return {
         griddleSequences: [],
