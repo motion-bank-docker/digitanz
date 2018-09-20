@@ -8,7 +8,6 @@
         q-btn(flat, size="sm" round,
           :icon="getItemStyle(item).icon", :color="getItemStyle(item).color"
           @click="toggleItemFavorite(item)")
-
         q-btn(flat, size="sm" round, icon="edit"
           @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
 
