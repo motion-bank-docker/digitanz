@@ -78,7 +78,7 @@
         return scale
       },
       timerInterval () {
-        return (1000 / 60.0) * this.frameLength
+        return (1000 / 60.0) * (this.minFrameLength + (this.maxFrameLength - this.frameLength))
       }
     },
     mounted () {
@@ -178,10 +178,6 @@
         this.grid.columns += columns
         this.grid.rows += rows
         this.updateSkeleton()
-      },
-      initSetFrameLength (event) {
-        this.settingFrameLength = true
-        this.frameLength = Math.min(180, Math.max(0, event.clientX - (this.svgSize.width - 200 - 20)))
       },
       initResizeCell () {
         this.resizingCell = true
