@@ -3,7 +3,7 @@
     mr-griddle#mr-griddle-container(ref="mrGriddleContainer"
       :play="playing"  @stateChanged="handleStateChanged")
     mr-griddle-handler.fixed-bottom(
-      :states="storedStates"
+      :play="playing" :states="storedStates"
       :currentState="currentState"
       @clickPlay="handleClickPlay"
       @clickAdd="handleClickAdd"
@@ -25,6 +25,11 @@
         playing: false,
         storedStates: [],
         currentState: -1
+      }
+    },
+    watch: {
+      storedStates () {
+        console.log(this.storedStates)
       }
     },
     methods: {

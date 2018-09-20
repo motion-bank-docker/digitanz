@@ -21,7 +21,7 @@
           polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
           polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
       g#time-to-next-update
-        rect(v-if="timerId" x="0" y="0" :width="`${timeToNextFrame * 100}%`" height="4" fill="white")
+        rect(v-if="timerId" x="0" y="0" :width="`${timeToNextFrame * 100}%`" height="4" fill="orange")
     q-slider.q-ma-md(fab,
       v-model="frameLength", :min="minFrameLength", :max="maxFrameLength"
       :step="20", fill-handle-always, color="primary",
@@ -281,7 +281,7 @@
 </script>
 
 <style scoped lang="stylus">
-
+  @import '~variables'
   svg
     position absolute
     top 0
@@ -289,7 +289,7 @@
 
   #mr-griddle
     line
-      stroke mediumvioletred
+      stroke orange
       stroke-linecap round
 
   #mr-griddle.random
