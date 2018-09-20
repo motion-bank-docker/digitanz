@@ -10,7 +10,7 @@
 
     // TERMINE IM DETAIL
     //
-    q-collapsible(v-for="(date, i) in dates" :ref="getDateLabel(date)", v-if="date.show", opened, style="border-top: 1px solid #333;")
+    q-collapsible(v-for="(date, i) in dates", :ref="getDateLabel(date)", v-if="date.show", opened, style="border-top: 1px solid #333;")
       template(slot="header")
         q-item.full-width.q-pl-none
           q-item-main
@@ -18,7 +18,6 @@
             p.q-caption.text-grey-8.no-padding.q-mt-sm {{ $t('pages.dashboard.date_at') }} {{ getDateLabel(date) }}
       p(style="padding-bottom: 1em") {{ $t(date.description) }}
       component(:is="`dashboard-${date.componentName}`", :date="date", :path="date.path")
-      dashboard-my-mr-griddles
 </template>
 
 <script>
