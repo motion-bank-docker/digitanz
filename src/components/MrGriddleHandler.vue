@@ -36,7 +36,8 @@
     props: [
       'states',
       'play',
-      'currentState'
+      'currentState',
+      'edit'
     ],
     data () {
       return {

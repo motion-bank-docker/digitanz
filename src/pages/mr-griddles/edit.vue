@@ -1,9 +1,11 @@
 <template lang="pug">
   q-page.row
     mr-griddle#mr-griddle-container(ref="mrGriddleContainer"
-      :play="playing"  @stateChanged="handleStateChanged")
+      :play="playing" @stateChanged="handleStateChanged" @editModeChanged="handleEditChange")
     mr-griddle-handler.fixed-bottom(
-      :play="playing" :states="storedStates"
+      v-if="!editMode"
+      :play="playing"
+      :states="storedStates"
       :currentState="currentState"
       @clickPlay="handleClickPlay"
       @clickAdd="handleClickAdd"
@@ -23,6 +25,7 @@
     data () {
       return {
         playing: false,
+        editMode: false,
         storedStates: [],
         currentState: -1
       }
@@ -46,6 +49,9 @@
         const _griddle = this.$refs.mrGriddleContainer
         this.storedStates = _griddle.storedStates
         this.currentState = state
+      },
+      handleEditChange (val) {
+        this.editMode = val
       },
       handleDeleteItem (item) {
         const _griddle = this.$refs.mrGriddleContainer
