@@ -2,8 +2,7 @@
   q-page.q-ma-lg
     h3 Deine Mr. Griddles
     mr-griddle-list-view(layout-style='sm',
-                        :items="griddlePreviews",
-                        :buttons="['download']")
+                        :items="griddlePreviews")
       template(slot="customButtons" slot-scope="{ video }")
         q-btn(flat, size="sm" round, icon="edit" @click="openDeleteModal(video)")
 
