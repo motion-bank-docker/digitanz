@@ -244,7 +244,7 @@
 
   #mr-griddle
     line
-      stroke mediumvioletred
+      stroke red
       stroke-linecap round
 
   #mr-griddle.random

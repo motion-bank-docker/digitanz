@@ -2,7 +2,7 @@
   q-page.row
     mr-griddle#mr-griddle-container(ref="mrGriddleContainer"
       :play="playing"  @stateChanged="handleStateChanged")
-    mr-griddle-handler.fixed-bottom(:states="storedStates"
+    mr-griddle-handler.fixed-bottom(:play="playing" :states="storedStates"
       @clickPlay="handleClickPlay" @clickAdd="handleClickAdd" @deleteItem="handleDeleteItem")
 </template>
 
@@ -18,6 +18,11 @@
       return {
         playing: false,
         storedStates: []
+      }
+    },
+    watch: {
+      storedStates () {
+        console.log(this.storedStates)
       }
     },
     methods: {

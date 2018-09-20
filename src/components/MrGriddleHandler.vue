@@ -2,7 +2,7 @@
   .bg-dark.row.items-center.q-pa-xs.justify-between(style="width: 100vw; height: 10vh")
 
     .col-xs-2.col-sm-1
-      q-btn.q-ma-xs(icon="play_arrow" size="lg" @click="$emit('clickPlay')")
+      q-btn.playing-color.q-ma-xs(size="lg" @click="$emit('clickPlay')" :icon="$props.play ? 'stop' : 'play_arrow'" :color="$props.play ? 'red' : 'grey-7'")
 
     q-list.no-border.col-xs-8.col-sm-15
 
@@ -28,11 +28,17 @@
       ConfirmModal
     },
     props: [
-      'states'
+      'states',
+      'play'
     ],
     data () {
       return {
         selectedStates: []
+      }
+    },
+    watch: {
+      play () {
+        console.log(this.$props.play)
       }
     },
     methods: {
@@ -74,6 +80,6 @@
   }
 </script>
 
-<style scoped>
+<style lang="stylus">
 
 </style>
