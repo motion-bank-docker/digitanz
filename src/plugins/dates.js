@@ -72,7 +72,7 @@ export default ({ Vue }) => {
         map: undefined,
         entries: [],
         componentName: 'my-mr-griddles',
-        path: 'mr-griddles'
+        path: 'mr-griddle'
       },
       {
         id: 'date_6',

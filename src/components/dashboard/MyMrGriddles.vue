@@ -2,105 +2,75 @@
   .row
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteVideo")
 
-    // TESTING
-      // | {{ mrGriddlesFavouritesMapUUID }}
-      | {{ myMrGriddles.length }}
-
-    // TESTING
-    // .bg-black.q-mb-md.q-pa-sm.q-caption(v-for="mrgriddle in myMrGriddles")
-      | {{ mrgriddle.annotation.uuid }}
-      // img(:src="mrgriddle.preview.small")
-
-    mr-griddle-list-view()
+    mr-griddle-list-view(layout-style='sm', :items="griddlePreviews")
 
     p
-      router-link.page-link(:to="{path: path || 'mr-griddles'}") {{ $t('dates.' + date.id + '.page_link') }}
+      router-link.page-link(:to="{path: path || 'mr-griddle'}") {{ $t('dates.' + date.id + '.page_link') }}
 
 </template>
 
 <script>
+  import MrGriddleListView from '../../components/MrGriddleListView'
   import { mapGetters } from 'vuex'
-  import ConfirmModal from '../../components/ConfirmModal'
-  import MrGriddleListView from '../MrGriddleListView'
+  // import Default from '../../layouts/default'
 
   export default {
     components: {
-      MrGriddleListView,
-      ConfirmModal
+      // Default,
+      MrGriddleListView
     },
+    props: [
+      'date',
+      'path'
+    ],
     data () {
       return {
-        // myMrGriddlesFavouritesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`,
-        myMrGriddles: [],
-        favouriteMrGriddles: []
+        griddleSequences: [],
+        mrGriddles: undefined,
+        griddlePreviews: []
       }
+    },
+    mounted () {
+      this.loadData()
     },
     computed: {
       ...mapGetters({
         user: 'auth/getUserState'
       })
     },
-    async mounted () {
-      await this.loadMyMrGriddles()
-    },
     watch: {
-      async user () {
-        await this.loadMyMrGriddles()
+      user (val) {
+        if (val) this.loadData()
       }
     },
     methods: {
-      // openDeleteModal (item) {
-      //   this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
-      // }
-      async loadMyMrGriddles () {
-        if (!this.user) return
-        const prefix = 'GriddleSequence '
+      async loadData () {
+        console.log('asdasd')
         const query = {
-          created: {$gte: this.$dates()[2].start, $lte: this.$dates()[6].end}, // TESTING: wrong date at the moment!
           type: 'Timeline',
           'author.id': this.user.uuid
         }
-        const result = await this.$store.dispatch('maps/find', query)
-        console.log('### ', result)
-        this.myMrGriddles = result.items.filter(map => {
-          return map.title.indexOf(prefix) === 0
-        }).sort(this.$sort.onCreatedDesc).map(map => {
-          const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
-          const preview = {
-            high: media.replace(/\.mp4$/, '.jpg'),
-            medium: media.replace(/\.mp4$/, '-m.jpg'),
-            small: media.replace(/\.mp4$/, '-s.jpg')
-          }
-          const annotation = {
-            author: {
-              id: this.user.uuid
-            },
-            uuid: map.uuid,
-            body: {
-              source: {
-                id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
-                type: 'video/mp4'
-              }
-            }
-          }
-          // console.log(`${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`)
-          return {
-            annotation,
-            media,
-            preview
-          }
+        const maps = await this.$store.dispatch('maps/find', query)
+        const griddleSequences = maps.items.filter(m => {
+          return m.title.indexOf('GriddleSequence ') === 0
         })
-        console.log(this.myMrGriddles)
-        // this.myMrGriddles = result
+        // console.log(griddleSequences)
+        this.griddleSequences = griddleSequences
+        let sequenceAnnotations = []
+        for (let seq of griddleSequences) {
+          const annotations = await this.$store.dispatch('annotations/find', {
+            'target.id': seq.id
+          })
+          sequenceAnnotations.push(annotations.items[0])
+        }
+        console.log(sequenceAnnotations)
+        this.griddlePreviews = sequenceAnnotations
+        console.log('skeleton: ', this.griddlePreviews[0].body.value)
       }
-    },
-    props: [
-      'date',
-      'path'
-    ],
-    name: 'my-mr-griddles'
+    }
   }
 </script>
 
 <style scoped lang="stylus">
+  @import '~variables'
 </style>

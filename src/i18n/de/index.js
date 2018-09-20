@@ -158,12 +158,12 @@ export default {
       sublabel: 'Experience space'
     },
     mr_griddle: {
-      label: 'Mr Griddle',
-      sublabel: 'Do the griddle'
-    },
-    mr_griddles: {
       label: 'Eure Mr. Griddles',
       sublabel: '21. September'
+    },
+    mr_griddles: {
+      label: 'Mr. Griddles',
+      sublabel: 'Do the griddle'
     },
     recipe: {
       label: 'Rezepte',
