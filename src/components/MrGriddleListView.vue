@@ -47,6 +47,7 @@
       },
       setPreviewWidth () {
         this.previewWidth = this.$refs.mega.offsetWidth / 2
+        console.log('22 ' + this.$refs.mega.offsetWidth)
       }
     }
   }
