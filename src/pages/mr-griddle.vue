@@ -41,7 +41,7 @@
         this.storedStates = _griddle.storedStates
       },
       handleStateChanged (state) {
-        this.playing = false
+        if (state === -1) this.playing = false
         this.currentState = state
       },
       handleDeleteItem (item) {
