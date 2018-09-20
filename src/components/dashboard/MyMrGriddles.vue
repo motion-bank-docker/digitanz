@@ -3,13 +3,16 @@
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteVideo")
 
     // TESTING
-    // .bg-red
       // | {{ mrGriddlesFavouritesMapUUID }}
       | {{ myMrGriddles.length }}
 
-    .bg-black.q-mb-md.q-pa-sm.q-caption(v-for="mrgriddle in myMrGriddles")
+    // TESTING
+    // .bg-black.q-mb-md.q-pa-sm.q-caption(v-for="mrgriddle in myMrGriddles")
       | {{ mrgriddle.annotation.uuid }}
       // img(:src="mrgriddle.preview.small")
+
+    mr-griddle-list-view()
+
     p
       router-link.page-link(:to="{path: path || 'mr-griddles'}") {{ $t('dates.' + date.id + '.page_link') }}
 
@@ -18,9 +21,11 @@
 <script>
   import { mapGetters } from 'vuex'
   import ConfirmModal from '../../components/ConfirmModal'
+  import MrGriddleListView from '../MrGriddleListView'
 
   export default {
     components: {
+      MrGriddleListView,
       ConfirmModal
     },
     data () {

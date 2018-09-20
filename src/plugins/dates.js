@@ -67,7 +67,7 @@ export default ({ Vue }) => {
         end: '2018-09-28T23:59:59.000+02:00',
         description: 'dates.date_5.description',
         // show: process.env.FEATURE_XXX_UNDEFINED_NEEDS_NAME || false,
-        show: true,
+        show: true, // FIXME
         map_title: 'dates.date_5.map_title',
         map: undefined,
         entries: [],
