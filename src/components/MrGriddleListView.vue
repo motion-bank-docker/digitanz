@@ -1,23 +1,22 @@
 <template lang="pug">
   div.full-width
     // size sm
-    div.row.justify-between(v-if="layoutStyle === 'sm'")
-      mr-griddle#mr-griddle-container(ref="mrGriddleContainer"
-                                      :play="playing"
-                                      :requestedWidth="300"
-                                      :requestedHeight="300")
+    div.row.justify-between(v-if="layoutStyle === 'sm'" ref="mega")
+        mr-griddle-preview(v-for="video in mrGriddles"
+                                        :requestedWidth="167"
+                                        :requestedHeight="167"
+                                        style="width: 46%")
         template(slot="customButtons" slot-scope="{ video }")
           slot(name="customButtons" :video="video")
 
 </template>
 
 <script>
-  import MrGriddle from './MrGriddle'
+  import MrGriddlePreview from './MrGriddlePreview'
 
   export default {
     components: {
-      VideoItem,
-      MrGriddle
+      MrGriddlePreview
     },
     props: {
       // sm, md, l, xl ?
@@ -27,8 +26,12 @@
     },
     data () {
       return {
-        foo: false
+        previewWidth: 167,
+        mrGriddles: [1, 1, 3, 4, 5]
       }
+    },
+    mounted () {
+      this.setPreviewWidth()
     },
     methods: {
       changed () {
@@ -36,6 +39,10 @@
       },
       setKey (video) {
         return video.annotation ? video.annotation.uuid : '001'
+      },
+      setPreviewWidth () {
+        this.previewWidth = this.$refs.mega.offsetWidth / 2
+        console.log('22 ' + this.$refs.mega.offsetWidth)
       }
     }
   }
