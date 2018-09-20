@@ -20,7 +20,9 @@
           polygon(points="-12,-12 -30,0 -12,12", @mousedown="handleGridChange(2,0)")
           polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
           polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
-    q-slider.q-ma-md(fab, v-model="frameLength", :min="50", :max="500", :step="50", fill-handle-always, color="primary",
+    q-slider.q-ma-md(fab,
+      v-model="frameLength", :min="minFrameLength", :max="maxFrameLength"
+      :step="20", fill-handle-always, color="primary",
       snap, style="width: 50vw")
 </template>
 
@@ -53,6 +55,8 @@
         currentTime: 0,
         resizingCell: false,
         frameLength: 80,
+        minFrameLength: 60 / 3,
+        maxFrameLength: 60 * 6,
         settingFrameLength: false,
         lastFrameTime: -1,
         lines: [],
