@@ -25,12 +25,14 @@
         rect(v-if="timerId" x="0" y="0" :width="`${timeToNextFrame * 100}%`" height="4" fill="orange")
 
     .bg-dark.row.items-center.q-pa-xs.fixed-bottom(style="width: 100vw; height: 10vh")
-      q-btn(size="xl", icon="timer", disabled, flat)
+      // griddle color
+      q-btn(size="xl", icon="timer", disabled, flat, color="orange")
+      // griddle color
       q-slider.q-ma-md(
         v-if="editSettings",
         fab,
-        v-model="frameLength", :min="minFrameLength", :max="maxFrameLength"
-        :step="20", fill-handle-always, color="primary",
+        v-model="frameLength", color="orange", :min="minFrameLength", :max="maxFrameLength"
+        :step="20", fill-handle-always,
         snap, style="width: 70vw")
 
     q-page-sticky(expand position="top-right")

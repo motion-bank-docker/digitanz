@@ -16,7 +16,7 @@
         @click="$emit('clickState', {state, index})"
         v-touch-hold="() => {openDeleteModal({state, index})}")
 
-      q-btn.no-padding.q-ma-xs(icon="add_circle", size="sm", round
+      q-btn.no-padding.q-ma-xs.no-padding(icon="add_circle", size="sm", round
         @click="$emit('clickAdd')")
 
     .col-xs-2.col-sm-1
