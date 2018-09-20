@@ -103,10 +103,6 @@
       this.timerId = undefined
     },
     watch: {
-      // nextFrame () {
-      //   this.lastFrameTime = this.$store.state.time
-      //   this.updateFrame()
-      // }
       frameLength () {
         clearInterval(this.timerId)
         this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
@@ -127,21 +123,17 @@
         this.updateFrame()
         this.lastFrameTime = Date.now()
       },
-      handleClickLike (which) {
-        this.currentState = which === this.currentState ? -1 : which
-        this.storeState()
-        this.updateSkeleton()
-      },
       handleSkeletonClick () {
         clearInterval(this.timerId)
         this.timerId = undefined
         this.updateFrame()
-        this.$emit('stateChanged')
+        this.setCurrentState(-1)
       },
       updateFrame () {
         skeleton.rotate()
-        this.storeState()
-        this.updateSkeleton()
+        let nextState = (this.currentState + 1) % this.storedStates.length
+        console.log(this.currentState)
+        this.setCurrentState(nextState)
       },
       storeState () {
         if (this.storeStates) {
@@ -173,6 +165,11 @@
           gridCell: this.gridCell,
           svgSize: this.svgSize
         }
+      },
+      setCurrentState (nextState) {
+        this.currentState = nextState >= 0 && nextState < this.storedStates.length ? nextState : -1
+        this.updateSkeleton()
+        this.$emit('stateChanged', this.currentState)
       },
       handleGridChange (columns, rows) {
         this.grid.columns += columns
@@ -209,10 +206,16 @@
       },
       handleStoreState () {
         this.storedStates.push(this.getState())
-        // this.currentState = this.storedStates.length - 1
+        this.setCurrentState(this.storedStates.length - 1)
       },
       handleRemoveStoredState (i) {
-        if (i >= 0 && i < this.storedStates.length) this.storedStates.splice(i, 1)
+        if (i >= 0 && i < this.storedStates.length) {
+          this.storedStates.splice(i, 1)
+          if (i <= this.currentState) {
+            this.setCurrentState(this.currentState - 1)
+          }
+          this.updateSkeleton()
+        }
       },
       // handleKeyUp (event) {
       //   console.log(event)

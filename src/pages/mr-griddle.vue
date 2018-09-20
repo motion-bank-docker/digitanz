@@ -2,8 +2,13 @@
   q-page.row
     mr-griddle#mr-griddle-container(ref="mrGriddleContainer"
       :play="playing"  @stateChanged="handleStateChanged")
-    mr-griddle-handler.fixed-bottom(:states="storedStates"
-      @clickPlay="handleClickPlay" @clickAdd="handleClickAdd" @deleteItem="handleDeleteItem")
+    mr-griddle-handler.fixed-bottom(
+      :states="storedStates"
+      :currentState="currentState"
+      @clickPlay="handleClickPlay"
+      @clickAdd="handleClickAdd"
+      @clickState="handleClickState"
+      @deleteItem="handleDeleteItem")
 </template>
 
 <script>
@@ -17,7 +22,8 @@
     data () {
       return {
         playing: false,
-        storedStates: []
+        storedStates: [],
+        currentState: -1
       }
     },
     methods: {
@@ -29,13 +35,17 @@
         _griddle.handleStoreState()
         this.storedStates = _griddle.storedStates
       },
-      handleStateChanged () {
+      handleStateChanged (state) {
         this.playing = false
+        this.currentState = state
       },
       handleDeleteItem (item) {
-        console.log('remove item', item)
         const _griddle = this.$refs.mrGriddleContainer
         _griddle.handleRemoveStoredState(item.index)
+      },
+      handleClickState (item) {
+        const _griddle = this.$refs.mrGriddleContainer
+        _griddle.setCurrentState(item.index)
       }
     }
   }
