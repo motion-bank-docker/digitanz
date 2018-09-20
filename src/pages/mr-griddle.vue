@@ -7,6 +7,13 @@
 
     .row.q-ma-md
       mr-griddle-list-view(layout-style='sm', :items="griddlePreviews")
+        template(slot="customButtons" slot-scope="{ item }")
+
+          q-btn(flat, size="sm" round, icon="edit"
+            @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
+
+          q-btn(round, flat, size="sm", icon="chat", @click="showResponses(item)")
+            q-chip(floating, color="red") {{ getResponseCount(item) }}
 
 </template>
 
@@ -38,6 +45,12 @@
       }
     },
     methods: {
+      showResponses (item) {
+        this.$router.push(`/mr-griddle/${item.uuid}/responses`)
+      },
+      getResponseCount (item) {
+        return item ? 0 : 1
+      },
       async loadData () {
         if (!this.user) return
         const map = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
