@@ -8,7 +8,8 @@
       @clickPlay="handleClickPlay"
       @clickAdd="handleClickAdd"
       @clickState="handleClickState"
-      @deleteItem="handleDeleteItem")
+      @deleteItem="handleDeleteItem"
+      @saveSequence="handeSaveSequence")
 </template>
 
 <script>
@@ -42,6 +43,8 @@
       },
       handleStateChanged (state) {
         if (state === -1) this.playing = false
+        const _griddle = this.$refs.mrGriddleContainer
+        this.storedStates = _griddle.storedStates
         this.currentState = state
       },
       handleDeleteItem (item) {
@@ -51,6 +54,10 @@
       handleClickState (item) {
         const _griddle = this.$refs.mrGriddleContainer
         _griddle.setCurrentState(item.index)
+      },
+      handeSaveSequence () {
+        const _griddle = this.$refs.mrGriddleContainer
+        _griddle.saveSequence()
       }
     }
   }

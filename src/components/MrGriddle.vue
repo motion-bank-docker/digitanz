@@ -31,6 +31,7 @@
 <script>
   import Skeleton from '../lib/skeleton'
   import { DateTime } from 'luxon'
+  import { mapGetters } from 'vuex'
 
   const skeleton = new Skeleton()
   const UI_RESIZER_FACTOR = 2
@@ -66,10 +67,14 @@
         storedStates: [],
         currentState: -1,
         timerId: undefined,
-        storeStates: false
+        storeStates: false,
+        map: undefined
       }
     },
     computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      }),
       strokeWidth () {
         return 20 * this.skeletonScale
       },
@@ -106,6 +111,9 @@
       this.timerId = undefined
     },
     watch: {
+      async user (val) {
+        if (val) await this.loadData()
+      },
       frameLength () {
         const wasPlaying = this.timerId
         clearInterval(this.timerId)
@@ -113,6 +121,11 @@
       },
       play (playing) {
         if (playing) {
+          if (this.currentState === -1) {
+            this.setCurrentState(0)
+            skeleton.rotate()
+            this.lastFrameTime = Date.now()
+          }
           this.startTimer()
         }
         else {
@@ -122,6 +135,27 @@
       }
     },
     methods: {
+      async loadData () {
+        if (!this.user) return
+        this.$q.loading.show({ message: this.$t('messages.loading_data') })
+        if (this.$route.params.uuid) {
+          this.map = await this.$store.dispatch('maps/get', this.$route.params.uuid)
+          if (this.map) {
+            const query = {
+              'target.id': this.map.id
+            }
+            const annotations = await this.$store.dispatch('annotations/find', query)
+            if (annotations && annotations.items) {
+              const states = annotations.items.map(a => {
+                return JSON.parse(a.body.value)
+              })
+              this.storedStates = states
+              this.setCurrentState(0)
+            }
+          }
+        }
+        this.$q.loading.hide()
+      },
       startTimer () {
         this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
         this.lastFrameTime = Date.now()
@@ -139,38 +173,53 @@
       updateFrame () {
         skeleton.rotate()
         let nextState = (this.currentState + 1) % this.storedStates.length
-        console.log(this.currentState)
         this.setCurrentState(nextState)
       },
-      storeState () {
-        if (this.storeStates) {
+      async saveSequence () {
+        this.$q.loading.show({ message: this.$t('messages.saving_sequence') })
+        if (!this.map) {
+          const prefix = 'GriddleSequence '
+          let newMap = {
+            type: ['Timeline'],
+            title: prefix + Date.now()
+          }
+          this.map = await this.$store.dispatch('maps/post', newMap)
+        }
+        const oldStates = await this.$store.dispatch('annotations/find', {'target.id': this.map.id})
+        if (oldStates && oldStates.items) {
+          for (let oState of oldStates.items) {
+            await this.$store.dispatch('annotations/delete', oState.uuid)
+          }
+        }
+        for (let state of this.storedStates) {
           let annotation = {
             body: {
               type: 'MrGriddleSkeleton',
               purpose: 'linking',
-              value: JSON.stringify(this.getState())
+              value: JSON.stringify(state)
             },
             target: {
               type: 'Timeline',
-              id: `${process.env.TIMELINE_BASE_URI}${process.env.MR_GRIDDLE_TIMELINE_UUID}`,
+              id: this.map.id,
               selector: {
                 type: 'Fragment',
-                value: DateTime.local().toISO()
+                value: state.timeStamp
               }
             }
           }
-          // console.log(annotation)
-          this.$store.dispatch('annotations/post', annotation).then((resp) => {
-            console.log(resp)
-          })
+          await this.$store.dispatch('annotations/post', annotation)
         }
+        this.$router.push('/mr-griddles')
+        this.$q.loading.hide()
       },
       getState () {
         return {
           skeleton: skeleton.getEdges(),
           grid: this.grid,
           gridCell: this.gridCell,
-          svgSize: this.svgSize
+          svgSize: this.svgSize,
+          frameLength: this.frameLength,
+          timeStamp: DateTime.local().toISO()
         }
       },
       setCurrentState (nextState) {
@@ -187,30 +236,6 @@
         }
         this.updateSkeleton()
       },
-      // initResizeCell () {
-      //   this.resizingCell = true
-      // },
-      // doDragging (event) {
-      //   if (this.resizingCell) {
-      //     this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
-      //     this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
-      //     this.updateSkeleton()
-      //   }
-      //   if (this.settingFrameLength) {
-      //     this.frameLength = Math.min(180, Math.max(0, event.clientX - (this.svgSize.width - 200 - 20)))
-      //   }
-      // },
-      // stopDragging (event) {
-      //   if (this.resizingCell) {
-      //     this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
-      //     this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
-      //   }
-      //   if (this.resizingCell || this.settingFrameLength) {
-      //     this.updateFrame()
-      //   }
-      //   this.resizingCell = false
-      //   this.settingFrameLength = false
-      // },
       handleStoreState () {
         this.storedStates.push(this.getState())
         this.setCurrentState(this.storedStates.length - 1)
@@ -224,9 +249,6 @@
           this.updateSkeleton()
         }
       },
-      // handleKeyUp (event) {
-      //   console.log(event)
-      // },
       updateSkeleton () {
         let skeletonLines = []
         if (this.currentState === -1) {
