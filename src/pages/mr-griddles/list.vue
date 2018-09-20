@@ -2,15 +2,26 @@
   q-page.q-ma-lg
     h3 Deine Mr. Griddles
     mr-griddle-list-view(layout-style='sm')
+
+    ul
+      li(v-for="sequence in griddleSequences")
+        router-link(:to="{path: 'mr-griddle/' + sequence.uuid + '/edit'}") {{sequence.title}}
 </template>
 
 <script>
   import MrGriddleListView from '../../components/MrGriddleListView'
   import { mapGetters } from 'vuex'
+  import Default from '../../layouts/default'
 
   export default {
     components: {
+      Default,
       MrGriddleListView
+    },
+    data () {
+      return {
+        griddleSequences: []
+      }
     },
     computed: {
       ...mapGetters({
@@ -32,6 +43,7 @@
         const griddleSequences = maps.items.filter(m => {
           return m.title.indexOf('GriddleSequence ') === 0
         })
+        this.griddleSequences = griddleSequences
         let sequenceAnnotations = []
         for (let seq of griddleSequences) {
           const annotations = await this.$store.dispatch('annotations/find', {
@@ -39,7 +51,7 @@
           })
           sequenceAnnotations.push(annotations.items[0])
         }
-        console.log(sequenceAnnotations)
+        // console.log(sequenceAnnotations)
       }
     }
   }
