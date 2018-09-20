@@ -3,32 +3,31 @@
     q-btn.q-mb-lg.full-width(@click="$router.push('/mr-griddle/create')", :label="$t('Mr. Griddle hinzufügen')", color="primary")
     h3 Deine Mr. Griddles
     mr-griddle-list-view(layout-style='sm',
-                        :items="griddlePreviews",
-                        :sequences="griddleSequences")
-      template(slot="customButtons" slot-scope="{ video }")
-        // q-btn(flat, size="sm" round, icon="edit" @click="openDeleteModal(video)")
-        // q-btn(flat, size="sm", round, icon="edit", @click="$router.push('/mr-griddle/create')")
+                        :items="sequences")
+      template(slot="customButtons" slot-scope="{ item }")
+        q-btn(flat, size="sm" round,
+          :icon="getItemStyle(item).icon", :color="getItemStyle(item).color"
+          @click="toggleItemFavorite(item)")
 
-    // ul
-      // li(v-for="sequence in griddleSequences")
-        // router-link(:to="{path: 'mr-griddle/' + sequence.uuid + '/edit'}") {{sequence.title}}
+        q-btn(flat, size="sm" round, icon="edit"
+          @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
+
+        q-btn(flat, size="sm" round, icon="delete"
+          @click="openDeleteModal(item)")
 </template>
 
 <script>
   import MrGriddleListView from '../../components/MrGriddleListView'
   import { mapGetters } from 'vuex'
-  import Default from '../../layouts/default'
 
   export default {
     components: {
-      Default,
       MrGriddleListView
     },
     data () {
       return {
-        griddleSequences: [],
-        mrGriddles: undefined,
-        griddlePreviews: []
+        sequences: [],
+        favoriteSequences: []
       }
     },
     mounted () {
@@ -45,7 +44,61 @@
       }
     },
     methods: {
+      async loadFavorites () {
+        // fetch favorite sequences
+        const target = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
+        if (target) {
+          const favAnnotations = await this.$store.dispatch('annotations/find', {
+            'target.id': target.id,
+            'author.id': this.user.uuid
+          })
+          if (favAnnotations && favAnnotations.items.length > 0) this.favoriteSequences = favAnnotations.items
+        }
+      },
+      async toggleItemFavorite (item) {
+        const favorite = this.favoriteSequences.find(a => {
+          return a.body.source && a.body.source.id === item.target.id
+        })
+        if (favorite) {
+          await this.$store.dispatch('annotations/delete', favorite.uuid)
+        }
+        else {
+          const payload = {
+            type: 'MrGriddleFavourite',
+            target: {
+              type: 'Timeline',
+              id: `${process.env.TIMELINE_BASE_URI}${process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID}`
+            },
+            body: {
+              source: {
+                id: item.target.id
+              },
+              type: 'Timeline',
+              purpose: 'linking'
+            }
+          }
+          await this.$store.dispatch('annotations/post', payload)
+        }
+        await this.loadFavorites()
+      },
+      getItemStyle (item) {
+        const favorite = this.favoriteSequences.find(a => {
+          return a.body.source && a.body.source.id === item.target.id
+        })
+        if (favorite) {
+          return {
+            color: 'primary',
+            icon: 'favorite'
+          }
+        }
+        return {
+          color: 'grey-5',
+          icon: 'favorite_outline'
+        }
+      },
       async loadData () {
+        if (!this.user) return
+        // get (private) griddles for this user
         const query = {
           type: 'Timeline',
           'author.id': this.user.uuid
@@ -63,8 +116,8 @@
           })
           sequenceAnnotations.push(annotations.items[0])
         }
-        this.griddlePreviews = sequenceAnnotations
-        console.log(this.griddlePreviews)
+        this.sequences = sequenceAnnotations
+        await this.loadFavorites()
       }
     }
   }

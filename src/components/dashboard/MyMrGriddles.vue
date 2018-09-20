@@ -2,7 +2,9 @@
   .row
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteVideo")
 
-    mr-griddle-list-view(layout-style='sm', :items="griddlePreviews")
+    mr-griddle-list-view(layout-style='sm',
+    :items="griddlePreviews",
+    :sequences="griddleSequences")
 
     p
       router-link.page-link(:to="{path: path || 'mr-griddle'}") {{ $t('dates.' + date.id + '.page_link') }}

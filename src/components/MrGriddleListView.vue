@@ -1,7 +1,6 @@
 <template lang="pug">
   div.full-width
     // size sm
-    // style="width: {{ previewWidth }}")
     div.row.justify-between(v-if="layoutStyle === 'sm'" ref="mega")
       mr-griddle-preview(v-for="(video, i) in items",
                                       :previewSkeleton="video.body.value",
@@ -28,8 +27,7 @@
       layoutStyle: String,
       buttons: Array,
       hideButtons: undefined,
-      items: undefined,
-      sequences: undefined
+      items: undefined
     },
     data () {
       return {
