@@ -20,7 +20,8 @@
     },
     data () {
       return {
-        griddleSequences: []
+        griddleSequences: [],
+        mrGriddles: undefined
       }
     },
     computed: {
@@ -31,11 +32,6 @@
     watch: {
       user (val) {
         if (val) this.loadData()
-      }
-    },
-    data () {
-      return {
-        mrGriddles: undefined
       }
     },
     methods: {
