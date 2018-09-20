@@ -74,15 +74,15 @@ export default {
       page_link: 'Eure Gruppen-Sequenzen'
     },
     date_4: {
+      title: 'Needs Title',
+      description: 'Needs Description … Lorem ipsum dolor sit amet',
+      map_title: 'Braucht auch einen Titel'
+    },
+    date_5: {
       title: 'Deine Mr. Griddles',
       description: 'Needs Description … Lorem ipsum dolor sit amet',
       map_title: 'Braucht auch einen Titel',
       page_link: 'Eure Mr. Griddles'
-    },
-    date_5: {
-      title: 'Needs Title',
-      description: 'Needs Description … Lorem ipsum dolor sit amet',
-      map_title: 'Braucht auch einen Titel'
     },
     date_6: {
       title: 'Needs Title',
