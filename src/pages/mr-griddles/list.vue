@@ -1,7 +1,11 @@
 <template lang="pug">
   q-page.q-ma-lg
     h3 Deine Mr. Griddles
-    mr-griddle-list-view(layout-style='sm' :items="griddlePreviews")
+    mr-griddle-list-view(layout-style='sm',
+                        :items="griddlePreviews",
+                        :buttons="['download']")
+      template(slot="customButtons" slot-scope="{ video }")
+        q-btn(flat, size="sm" round, icon="edit" @click="openDeleteModal(video)")
 
     ul
       li(v-for="sequence in griddleSequences")
@@ -40,7 +44,6 @@
     },
     methods: {
       async loadData () {
-        console.log('asdasd')
         const query = {
           type: 'Timeline',
           'author.id': this.user.uuid
@@ -58,9 +61,8 @@
           })
           sequenceAnnotations.push(annotations.items[0])
         }
-        console.log(sequenceAnnotations)
         this.griddlePreviews = sequenceAnnotations
-        console.log('skeleton: ', this.griddlePreviews[0].body.value)
+        console.log(this.griddlePreviews)
       }
     }
   }

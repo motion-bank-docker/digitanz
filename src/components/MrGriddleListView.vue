@@ -6,9 +6,11 @@
                                         :previewSkeleton="video.body.value"
                                         :requestedWidth="167"
                                         :requestedHeight="167"
+                                        :hideButtons="hideButtons"
+                                        :buttons="buttons",
                                         style="width: 46%")
-        template(slot="customButtons" slot-scope="{ video }")
-          slot(name="customButtons" :video="video")
+          template(slot="customButtons" slot-scope="{ video }")
+            slot(name="customButtons" :video="video")
 
 </template>
 
