@@ -181,7 +181,7 @@ export default {
   pages: {
     'mr-griddle': {
       responses: {
-        title: 'Mr. Griddle Antorten'
+        title: 'Mr. Griddle Antworten'
       }
     },
     team: {

@@ -10,6 +10,7 @@
         q-btn(flat, size="sm" round,
           :icon="getItemStyle(item).icon", :color="getItemStyle(item).color"
           @click="toggleItemFavorite(item)")
+
         q-btn(flat, size="sm" round, icon="edit"
           @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
 
@@ -44,6 +45,7 @@
         if (val) this.loadData()
       }
     },
+    // TODO dis-fav last item (list returns empty)
     methods: {
       async loadFavorites () {
         // fetch favorite sequences
@@ -60,8 +62,13 @@
         const favorite = this.favoriteSequences.find(a => {
           return a.body.source && a.body.source.id === item.target.id
         })
+        const message = {
+          timeline: item.target.id,
+          user: this.user.uuid
+        }
         if (favorite) {
           await this.$store.dispatch('annotations/delete', favorite.uuid)
+          await this.$store.dispatch('acl/remove', {uuid: favorite.uuid, role: 'public', permission: 'get'})
         }
         else {
           const payload = {
@@ -78,7 +85,11 @@
               purpose: 'linking'
             }
           }
-          await this.$store.dispatch('annotations/post', payload)
+          const fav = await this.$store.dispatch('annotations/post', payload)
+          if (fav) {
+            await this.$store.dispatch('acl/set', {uuid: fav.uuid, role: 'public', permissions: ['get']})
+          }
+          await this.$store.dispatch('logging/log', { action: 'griddle_sequence_favourite_set', message })
         }
         await this.loadFavorites()
       },

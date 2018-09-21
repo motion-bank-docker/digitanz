@@ -200,11 +200,13 @@
             title: prefix + Date.now()
           }
           this.map = await this.$store.dispatch('maps/post', newMap)
+          await this.$store.dispatch('acl/set', {uuid: this.map.uuid, role: 'public', permissions: ['get']})
         }
         const oldStates = await this.$store.dispatch('annotations/find', {'target.id': this.map.id})
         if (oldStates && oldStates.items) {
           for (let oState of oldStates.items) {
             await this.$store.dispatch('annotations/delete', oState.uuid)
+            await this.$store.dispatch('acl/delete', {uuid: oState.uuid, role: 'public', permissions: ['get']})
           }
         }
         for (let state of this.storedStates) {
@@ -223,7 +225,8 @@
               }
             }
           }
-          await this.$store.dispatch('annotations/post', annotation)
+          const annot = await this.$store.dispatch('annotations/post', annotation)
+          await this.$store.dispatch('acl/set', {uuid: annot.uuid, role: 'public', permissions: ['get']})
         }
         this.$router.push('/mr-griddles')
         this.$q.loading.hide()
