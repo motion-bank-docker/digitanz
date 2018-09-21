@@ -33,10 +33,7 @@
     },
     methods: {
       show (target, purpose = 'commenting') {
-        this.target = {
-          id: `${process.env.ANNOTATION_BASE_URI}${target.annotation.uuid}`,
-          type: 'Annotation'
-        }
+        this.target = target
         this.purpose = purpose
         this.showModal = true
         console.debug('response config', this.target, this.purpose)

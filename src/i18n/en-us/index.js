@@ -68,9 +68,10 @@ export default {
       map_title: 'Braucht auch einen Titel'
     },
     date_5: {
-      title: 'Needs Title',
+      title: 'Deine Mr. Griddles',
       description: 'Needs Description … Lorem ipsum dolor sit amet',
-      map_title: 'Braucht auch einen Titel'
+      map_title: 'Braucht auch einen Titel',
+      page_link: 'Eure Mr. Griddles'
     },
     date_6: {
       title: 'Needs Title',
@@ -138,7 +139,11 @@ export default {
       sublabel: 'Experience space'
     },
     mr_griddle: {
-      label: 'Mr Griddle',
+      label: 'Eure Mr. Griddles',
+      sublabel: '21. September'
+    },
+    mr_griddles: {
+      label: 'Mr. Griddle',
       sublabel: 'Do the griddle'
     },
     recipe: {
@@ -174,6 +179,10 @@ export default {
       no_remix: 'Bisher noch keine anderen Versionen',
       remix_singular: 'andere Version',
       remix_plural: 'andere Versionen'
+    },
+    mr_griddle: {
+      title: 'Eure Mr. Griddles',
+      description: 'Lorem Ipsum, hier steht eine Beschreibung.'
     },
     new_sequence: {
       title: 'Neue Sequenz erstellen',
