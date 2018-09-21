@@ -53,7 +53,8 @@
         if (!this.user) return
         const map = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
         const annotations = await this.$store.dispatch('annotations/find', {
-          'target.id': map.id
+          'target.id': map.id,
+          'body.purpose': 'linking'
         })
         const sequenceIds = annotations.items.map(a => {
           return a.body.source.id.split('/').pop()
@@ -62,19 +63,24 @@
         let sequenceAnnotations = []
         let sequenceResponses = {}
         for (let seqId of sequenceIds) {
-          const seqMap = await this.$store.dispatch('maps/get', seqId)
-          sequences.push(seqMap)
-          const seqAnnot = await this.$store.dispatch('annotations/find', {
-            'target.id': seqMap.id
-          })
-          const seqPreview = seqAnnot.items[0]
-          sequenceAnnotations.push(seqPreview)
-          const seqAnnotResp = await this.$store.dispatch('annotations/find', {
-            'target.id': seqMap.id,
-            'target.type': 'Timeline',
-            'body.purpose': 'commenting'
-          })
-          sequenceResponses[seqMap.id] = seqAnnotResp.items.length
+          try {
+            const seqMap = await this.$store.dispatch('maps/get', seqId)
+            sequences.push(seqMap)
+            const seqAnnot = await this.$store.dispatch('annotations/find', {
+              'target.id': seqMap.id
+            })
+            const seqPreview = seqAnnot.items[0]
+            sequenceAnnotations.push(seqPreview)
+            const seqAnnotResp = await this.$store.dispatch('annotations/find', {
+              'target.id': seqMap.id,
+              'target.type': 'Timeline',
+              'body.purpose': 'commenting'
+            })
+            sequenceResponses[seqMap.id] = seqAnnotResp.items.length
+          }
+          catch (e) {
+            // TODO fix orphaned annotations
+          }
         }
         this.griddleSequences = sequences
         this.griddlePreviews = sequenceAnnotations
