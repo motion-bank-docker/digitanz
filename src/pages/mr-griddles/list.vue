@@ -15,7 +15,7 @@
           @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
 
         q-btn(flat, size="sm" round, icon="delete"
-          @click="openDeleteModal(item)")
+          @click="deleteItem(item)")
 </template>
 
 <script>
@@ -55,7 +55,7 @@
             'target.id': target.id,
             'author.id': this.user.uuid
           })
-          if (favAnnotations && favAnnotations.items.length > 0) this.favoriteSequences = favAnnotations.items
+          this.favoriteSequences = favAnnotations.items
         }
       },
       async toggleItemFavorite (item) {
@@ -128,6 +128,19 @@
         }
         this.sequences = sequenceAnnotations
         await this.loadFavorites()
+      },
+      async deleteItem (item) {
+        this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
+        const favorite = this.favoriteSequences.find(a => {
+          return a.body.source && a.body.source.id === item.target.id
+        })
+        if (favorite) {
+          await this.$store.dispatch('annotations/delete', favorite.uuid)
+          await this.$store.dispatch('acl/remove', {uuid: favorite.uuid, role: 'public', permission: 'get'})
+        }
+        await this.$store.dispatch('maps/delete', item.target.id.split('/').pop())
+        this.$q.loading.hide()
+        await this.loadData()
       }
     }
   }
