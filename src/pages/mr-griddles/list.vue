@@ -1,5 +1,7 @@
 <template lang="pug">
   q-page.q-ma-lg
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
+
     q-btn.q-mb-lg.full-width(@click="$router.push('/mr-griddle/create')", :label="$t('Mr. Griddle hinzufügen')", color="primary")
     h3 Deine Mr. Griddles
     mr-griddle-list-view(
@@ -15,15 +17,17 @@
           @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
 
         q-btn(flat, size="sm" round, icon="delete"
-          @click="deleteItem(item)")
+          @click="openDeleteModal(item)")
 </template>
 
 <script>
+  import ConfirmModal from '../../components/ConfirmModal'
   import MrGriddleListView from '../../components/MrGriddleListView'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
+      ConfirmModal,
       MrGriddleListView
     },
     data () {
@@ -128,6 +132,9 @@
         }
         this.sequences = sequenceAnnotations
         await this.loadFavorites()
+      },
+      openDeleteModal (item) {
+        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       async deleteItem (item) {
         this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
