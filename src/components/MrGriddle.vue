@@ -110,6 +110,7 @@
         height: this.svgSize.height / this.grid.rows
       }
       this.updateFrame()
+      this.loadData()
 
       // this is a "driver" for the "time to update bar"
       setInterval(function () {
