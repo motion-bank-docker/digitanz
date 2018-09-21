@@ -2,9 +2,10 @@
   div.q-mb-lg.text-center
     // svg.bg-primary.q-mb-lg(ref="svgContainer" :width="svgSize.width" :height="svgSize.height")
     // svg.bg-primary(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
-    svg.bg-grey-10(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
+    svg.bg-grey-10(ref="svgContainer", v-if="states"
+      :width="svgSize.width", :height="svgSize.height")
       // .q-mt-xl
-      g#mr-griddle(:class="{'random': currentState === -1}")
+      g#mr-griddle.random
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
         line(v-for="(line, i) in lines", :key="`line-${i}`",
         :stroke-width="strokeWidth",
@@ -22,7 +23,7 @@
   export default {
     props: {
       play: {
-        type: String
+        type: Boolean
       },
       requestedWidth: {
         type: Number,
@@ -32,7 +33,12 @@
         type: Number,
         default: null
       },
-      previewSkeleton: undefined,
+      states: {
+        type: Array,
+        default () {
+          return []
+        }
+      },
       item: undefined
     },
     data () {
@@ -49,17 +55,16 @@
           width: 0,
           height: 0
         },
-        // previewData: undefined,
+        timerId: -1,
         resizerFactor: UI_RESIZER_FACTOR,
         currentTime: 0,
         resizingCell: false,
-        frameLength: 80,
+        frameLength: 300,
         minFrameLength: 60 / 3,
         maxFrameLength: 60 * 6,
         settingFrameLength: false,
         lastFrameTime: -1,
         lines: [],
-        storedStates: [],
         currentState: -1
       }
     },
@@ -71,8 +76,8 @@
         const scale = Math.min(1, this.svgSize.width / 900)
         return scale
       },
-      previewData () {
-        return JSON.parse(this.previewSkeleton)
+      timerInterval () {
+        return (1000 / 60.0) * (this.minFrameLength + (this.maxFrameLength - this.frameLength))
       }
     },
     mounted () {
@@ -92,25 +97,61 @@
         width: this.svgSize.width / this.grid.columns,
         height: this.svgSize.height / this.grid.rows
       }
+      this.currentState = -1
+      if (this.states && this.states.length > 0) {
+        this.currentState = 0
+        this.frameLength = this.states[0].frameLength || Math.round(250 + Math.random() * 100)
+      }
       this.drawSkeleton()
+      if (this.play) this.startTimer()
+    },
+    watch: {
+      states () {
+        this.currentState = -1
+        if (this.states && this.states.length > 0) {
+          this.currentState = 0
+          this.frameLength = this.states[0].frameLength || Math.round(250 + Math.random() * 100)
+        }
+        this.drawSkeleton()
+      },
+      play (playing) {
+        if (playing) {
+          this.startTimer()
+        }
+        else {
+          clearInterval(this.timerId)
+          this.timerId = undefined
+        }
+      }
     },
     methods: {
+      startTimer () {
+        this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+        this.lastFrameTime = Date.now()
+      },
+      timerIntervalHandler () {
+        this.currentState = (this.currentState + 1) % this.states.length
+        this.drawSkeleton()
+        this.lastFrameTime = Date.now()
+      },
       drawSkeleton () {
         let skeletonLines = []
         // draw previewData
-        skeletonLines = this.previewData.skeleton
-        let x = Math.floor(this.grid.columns / 2)
-        let y = Math.floor(this.grid.rows / 2)
-        let w = this.svgSize.width / this.grid.columns
-        let h = this.svgSize.height / this.grid.rows
-        this.lines = skeletonLines.map(line => {
-          return {
-            x1: x + Math.round(line.x1 * this.skeletonScale / w),
-            y1: y + Math.round(line.y1 * this.skeletonScale / h),
-            x2: x + Math.round(line.x2 * this.skeletonScale / w),
-            y2: y + Math.round(line.y2 * this.skeletonScale / h)
-          }
-        })
+        if (this.states && this.states.length > 0) {
+          skeletonLines = this.states[this.currentState].skeleton
+          let x = Math.floor(this.grid.columns / 2)
+          let y = Math.floor(this.grid.rows / 2)
+          let w = this.svgSize.width / this.grid.columns
+          let h = this.svgSize.height / this.grid.rows
+          this.lines = skeletonLines.map(line => {
+            return {
+              x1: x + Math.round(line.x1 * this.skeletonScale / w),
+              y1: y + Math.round(line.y1 * this.skeletonScale / h),
+              x2: x + Math.round(line.x2 * this.skeletonScale / w),
+              y2: y + Math.round(line.y2 * this.skeletonScale / h)
+            }
+          })
+        }
       }
     }
   }

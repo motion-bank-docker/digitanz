@@ -9,9 +9,6 @@
       mr-griddle-list-view(layout-style='sm', :items="griddlePreviews")
         template(slot="customButtons" slot-scope="{ item }")
 
-          q-btn(flat, size="sm" round, icon="edit"
-            @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
-
           q-btn(round, flat, size="sm", icon="chat", @click="showResponses(item)")
             q-chip(floating, color="red") {{ getResponseCount(item) }}
 
@@ -28,7 +25,8 @@
     data () {
       return {
         griddleSequences: [],
-        griddlePreviews: []
+        griddlePreviews: [],
+        responses: {}
       }
     },
     mounted () {
@@ -46,10 +44,10 @@
     },
     methods: {
       showResponses (item) {
-        this.$router.push(`/mr-griddle/${item.uuid}/responses`)
+        this.$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/responses`)
       },
       getResponseCount (item) {
-        return item ? 0 : 1
+        return this.responses[item.target.id]
       },
       async loadData () {
         if (!this.user) return
@@ -62,16 +60,25 @@
         })
         let sequences = []
         let sequenceAnnotations = []
+        let sequenceResponses = {}
         for (let seqId of sequenceIds) {
           const seqMap = await this.$store.dispatch('maps/get', seqId)
           sequences.push(seqMap)
           const seqAnnot = await this.$store.dispatch('annotations/find', {
             'target.id': seqMap.id
           })
-          sequenceAnnotations.push(seqAnnot.items[0])
+          const seqPreview = seqAnnot.items[0]
+          sequenceAnnotations.push(seqPreview)
+          const seqAnnotResp = await this.$store.dispatch('annotations/find', {
+            'target.id': seqMap.id,
+            'target.type': 'Timeline',
+            'body.purpose': 'commenting'
+          })
+          sequenceResponses[seqMap.id] = seqAnnotResp.items.length
         }
         this.griddleSequences = sequences
         this.griddlePreviews = sequenceAnnotations
+        this.responses = sequenceResponses
       }
     }
   }

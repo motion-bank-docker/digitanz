@@ -2,14 +2,15 @@
   div.full-width
     // size sm
     div.row.justify-between(v-if="layoutStyle === 'sm'" ref="mega")
-      mr-griddle-preview(v-for="item in items"
-      :item="item"
-      :previewSkeleton="item.body.value"
-      :requestedWidth="167"
-      :requestedHeight="167"
-      :hideButtons="hideButtons"
-      :buttons="buttons",
-      style="width: 46%")
+      mr-griddle-preview(v-for="(item, i) in items"
+        :item="item"
+        :play="true"
+        :states="itemStates[i]"
+        :requestedWidth="167"
+        :requestedHeight="167"
+        :hideButtons="hideButtons"
+        :buttons="buttons",
+        style="width: 46%")
         template(slot="customButtons" slot-scope="{ item }")
           slot(name="customButtons" :item="item")
 
@@ -32,17 +33,37 @@
     },
     data () {
       return {
-        previewWidth: 167
+        previewWidth: 167,
+        itemStates: []
       }
     },
     mounted () {
+      this.loadItemStates()
       this.setPreviewWidth()
     },
     watch: {
-      previewWidth () {
+      previewWidth () {},
+      items () {
+        this.loadItemStates()
       }
     },
     methods: {
+      async loadItemStates () {
+        let allStates = []
+        for (let item of this.items) {
+          const stateAnnot = await this.$store.dispatch('annotations/find', {
+            'target.id': item.target.id,
+            'body.purpose': {
+              $ne: 'commenting'
+            }
+          })
+          const states = stateAnnot.items.map(a => {
+            return JSON.parse(a.body.value)
+          })
+          allStates.push(states)
+        }
+        this.itemStates = allStates
+      },
       changed () {
         this.$emit('changed')
       },

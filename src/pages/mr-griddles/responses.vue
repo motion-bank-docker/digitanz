@@ -7,10 +7,14 @@
       h3.text-center {{ $t('pages.mr-griddle.responses.title') }}
 
       div.q-mb-md
-        | {{ SVG }}
+        mr-griddle-preview(v-if="states.length > 0"
+          :states="states"
+          :requestedWidth="250"
+          :requestedHeight="250"
+          :play="true")
 
       q-btn.full-width.q-mb-md(
-        dark, color="primary", @click="uploadResponse(annotation)")
+        dark, color="primary", @click="uploadResponse")
         | {{ $t('buttons.upload_remix') }}
 
       job-list
@@ -26,14 +30,33 @@
 </template>
 
 <script>
+  import MrGriddlePreview from '../../components/MrGriddlePreview'
+  import JobList from '../../components/JobList'
+  import UploadRemixModal from '../../components/UploadRemixModal'
+  import VideoListView from '../../components/VideoListView'
+  import VideoModal from '../../components/VideoModal'
+  import { VideoHelper } from '../../lib'
+  import { mapGetters } from 'vuex'
+
   export default {
-    name: 'responses',
+    components: {
+      MrGriddlePreview,
+      JobList,
+      UploadRemixModal,
+      VideoListView,
+      VideoModal
+    },
     data () {
       return {
+        target: undefined,
+        states: [],
         responses: []
       }
     },
     computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      }),
       videoPlayerStyle () {
         // if (this.annotationMetadata) {
         //   const ratio = this.annotationMetadata.width / this.annotationMetadata.height
@@ -58,28 +81,45 @@
         }
       }
     },
+    async mounted () {
+      this.$root.$on('updateVideos', this.loadResponses)
+      await this.loadResponses()
+    },
     methods: {
       async loadResponses () {
         this.$q.loading.show({ message: this.$t('messages.loading_responses') })
-        // this.annotation = await this.$store.dispatch('annotations/get', this.$route.params.uuid)
-        //
-        // const headers = {
-        //   Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        // }
-        // const metadataURL = `${process.env.TRANSCODER_HOST}/metadata/url?url=${encodeURIComponent(this.annotation.body.source.id)}`
-        // let result = await this.$axios.get(metadataURL, { headers })
-        // this.annotationMetadata = result.data
-        // console.log('metadata', this.annotationMetadata)
-        //
-        // if (this.annotation) {
-        //   const responsesQuery = {
-        //     'target.id': `${process.env.ANNOTATION_BASE_URI}${this.annotation.uuid}`,
-        //     'body.purpose': 'commenting'
-        //   }
-        //   this.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
-        //   console.debug(this.responses)
-        // }
+        this.target = await this.$store.dispatch('maps/get', this.$route.params.uuid)
+
+        if (this.target) {
+          const states = await this.$store.dispatch('annotations/find', {
+            'target.id': this.target.id,
+            'body.purpose': {
+              $ne: 'commenting'
+            }
+          })
+          this.states = states.items.map(s => {
+            return JSON.parse(s.body.value)
+          })
+
+          const responsesQuery = {
+            'target.id': `${process.env.TIMELINE_BASE_URI}${this.target.uuid}`,
+            'target.type': 'Timeline',
+            'body.purpose': 'commenting'
+          }
+          this.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+        }
         this.$q.loading.hide()
+      },
+      async uploadResponse () {
+        this.$refs.uploadRemixModal.show({
+          id: this.target.id,
+          type: 'Timeline'
+        })
+        const message = {
+          portrait: this.target.uuid,
+          user: this.user.uuid
+        }
+        await this.$store.dispatch('logging/log', { action: 'open_response', message })
       }
     }
   }
