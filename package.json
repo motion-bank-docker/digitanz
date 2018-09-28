@@ -26,7 +26,7 @@
     "mbjs-api-client": "^1.0.6",
     "mbjs-data-models": "0.0.8",
     "mbjs-media": "0.0.18",
-    "mbjs-quasar": "0.0.25",
+    "mbjs-quasar": "0.0.26",
     "mbjs-utils": "0.0.6",
     "raven-js": "^3.26.4",
     "superagent": "^3.8.2",
