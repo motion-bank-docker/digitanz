@@ -71,7 +71,7 @@
           @click="executeApp(path)")
           q-icon(name="home")
 
-        q-btn.q-ml-md(round, flat, size="lg",
+        q-btn(round, flat, size="lg",
         :class="{ 'text-white bg-grey-9': currentApp === 'my-digitanz' }",
         @click="executeApp('my-digitanz')")
           q-icon(name="person")
@@ -89,7 +89,7 @@
         // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
 
         span.q-py-md.bg-grey-9
-          q-uploader-extended-simple-micro.q-mx-md(round, flat, size="lg", outline, color="grey-5")
+          q-uploader-extended-simple-micro(round, flat, size="lg", outline, color="grey-5")
 
       template(v-else)
         q-btn.q-mx-md(round, flat, size="lg",
