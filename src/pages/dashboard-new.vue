@@ -26,13 +26,14 @@
 <script>
 
   // import { allPortraits, allSequences, allGroupSequences } from '../components/dashboard'
-  import { allPortraits, allSequences } from '../components/dashboard'
+  import { allPortraits, allSequences, allMrGriddles } from '../components/dashboard'
   import dateBlock from '../components/dashboard/dateBlock'
 
   export default {
     components: {
       allPortraits,
       allSequences,
+      allMrGriddles,
       // allGroupSequences,
       dateBlock
     },
@@ -44,6 +45,12 @@
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Sequenzen',
+          description: this.$t('navigation.portraitplusplus.sublabel')
+        }, {
+          component: 'all-mr-griddles',
+          day: '2018-08-24',
+          date: this.$t('navigation.portraitplusplus.sublabel'),
+          title: 'Mr. Griddles',
           description: this.$t('navigation.portraitplusplus.sublabel')
         }]
         // components: [{
