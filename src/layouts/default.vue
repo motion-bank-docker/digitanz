@@ -72,23 +72,24 @@
           q-icon(name="home")
 
         q-btn.q-ml-md(round, flat, size="lg",
-        :class="{ 'text-white bg-grey-9': currentApp === 'dashboard-new' }",
-        @click="executeApp('dashboard-new')")
-          q-icon(name="home")
-
-        q-btn.q-ml-md(round, flat, size="lg",
         :class="{ 'text-white bg-grey-9': currentApp === 'my-digitanz' }",
         @click="executeApp('my-digitanz')")
           q-icon(name="person")
 
-        // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
         q-btn.q-ml-md(round, flat, size="lg",
+        :class="{ 'text-white bg-grey-9': currentApp === 'dashboard-new' }",
+        @click="executeApp('dashboard-new')")
+          q-icon(name="people")
+
+        // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
+        q-btn.q-ml-md.q-mr-md(round, flat, size="lg",
         :class="{ 'text-white bg-grey-9': currentApp === 'tools' }",
         @click="executeApp('tools')")
           q-icon(name="build")
         // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
 
-        q-uploader-extended-simple-micro.q-mx-md(round, flat, size="lg", outline, color="grey-5")
+        span.q-py-md.bg-grey-9
+          q-uploader-extended-simple-micro.q-mx-md(round, flat, size="lg", outline, color="grey-5")
 
       template(v-else)
         q-btn.q-mx-md(round, flat, size="lg",
@@ -179,3 +180,8 @@
     }
   }
 </script>
+
+<style scoped lang="stylus">
+  .border-left
+    border-left 1px solid #666
+</style>
