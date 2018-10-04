@@ -1,11 +1,15 @@
 <template lang="pug">
   q-page.q-ma-md.relative-position
-    q-btn.q-pa-none.absolute-top-right(color="primary", flat, icon-right="eject",
-    v-if="user", @click.prevent="logout")
-    q-btn.q-pa-none.absolute-top-right(color="primary", flat, icon-right="arrow_forward",
-    v-if="!user", @click.prevent="login")
+    q-btn.q-pa-sm.absolute-top-right.bg-grey-9(color="white", flat, icon="eject",
+    v-if="user", @click.prevent="logout", rounded)
+    q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",
+    v-if="!user", @click.prevent="login", rounded)
+
+    .text-center.q-mb-md.q-py-xl(v-if="portrait.length <= 0")
+      q-spinner(:size="30")
+
     section.column.items-center
-      video-list-view.q-mt-md(:videos="portrait",
+      video-list-view(:videos="portrait",
                       layoutStyle="singleCenter",
                       :roundImage="true",
                       cardWidth="65%",
