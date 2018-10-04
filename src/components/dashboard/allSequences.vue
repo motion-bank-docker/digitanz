@@ -3,6 +3,9 @@
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteVideo")
     video-modal(ref="videoModal")
 
+    .text-center.q-mb-md(v-if="favouriteSequences.length <= 0")
+      q-spinner(:size="30")
+
     .row.q-mx-md
       video-list-view(
       v-if="favouriteSequences && favouriteSequences.length > 0",
