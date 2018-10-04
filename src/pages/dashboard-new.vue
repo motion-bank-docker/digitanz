@@ -6,10 +6,16 @@
 
     all-portraits.bg-dark.q-px-md.q-py-sm.shadow-6
 
+    h3.text-center Geteilte Inhalte
+
     .q-mt-md
       date-block.bg-grey-9(v-for="(comp, i) in components")
         template(slot="title")
-          .q-pl-md.q-py-sm.bg-dark.text-center {{ comp.title }}
+          .row.q-pl-md.q-py-sm.bg-dark
+            .col-10.self-center {{ comp.title }}
+            .col-2.text-right.q-pr-md
+              q-btn.bg-grey-9(label="?", flat, rounded)
+                q-popover.bg-dark.q-pa-md {{ comp.description }}
         template(slot="sublabel")
         component(slot="content", :is="comp.component")
         //
@@ -37,7 +43,7 @@
           component: 'all-sequences',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
-          title: 'Geteilte Sequenzen',
+          title: 'Sequenzen',
           description: this.$t('navigation.portraitplusplus.sublabel')
         }]
         // components: [{
