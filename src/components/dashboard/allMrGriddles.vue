@@ -1,107 +1,157 @@
 <template lang="pug">
   div
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteVideo")
-    video-modal(ref="videoModal")
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
-    .text-center.q-mb-md(v-if="favouriteSequences.length <= 0")
-      q-spinner(:size="30")
+    mr-griddle-list-view(
+    v-if="sequences",
+    layout-style='sm',
+    :items="sequences")
 
-    .row.q-mx-md
-      video-list-view(
-      v-if="favouriteSequences && favouriteSequences.length > 0",
-      :allowSelfResponse="true",
-      :videos="favouriteSequences",
-      layoutStyle="sm",
-      :buttons="['download']")
-        template(slot="customButtons" slot-scope="{ video }")
-          // q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
+      template(slot="customButtons" slot-scope="{ item }")
+        q-btn(flat, size="sm" round,
+        :icon="getItemStyle(item).icon", :color="getItemStyle(item).color",
+        @click="toggleItemFavorite(item)")
 
-    //
-      .bg-white.q-pt-md.q-px-md.text-center
-        q-btn.q-mb-md(
-        slot="buttons",
-        @click="handlerAddButton",
-        label="Sequenz hinzufügen", color="primary", rounded)
+        q-btn(flat, size="sm" round, icon="edit",
+        @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
 
+        q-btn(flat, size="sm" round, icon="delete",
+        @click="openDeleteModal(item)")
 </template>
 
 <script>
+  import ConfirmModal from '../../components/ConfirmModal'
+  import MrGriddleListView from '../../components/MrGriddleListView'
   import { mapGetters } from 'vuex'
-  import VideoListView from '../VideoListView'
-  import VideoModal from '../VideoModal'
-  import { SequenceHelper, VideoHelper } from '../../lib'
-  import ConfirmModal from '../ConfirmModal'
 
   export default {
     components: {
-      VideoModal,
-      VideoListView,
-      ConfirmModal
+      ConfirmModal,
+      MrGriddleListView
     },
     data () {
       return {
-        favouriteSequences: [],
-        date: this.$dates()[1]
+        sequences: [],
+        favoriteSequences: []
       }
     },
-    async mounted () {
-      this.$root.$on('updateSequences', this.loadFavouriteSequences)
-      if (this.user) {
-        await this.loadFavouriteSequences()
-      }
-      console.log('---- favouriteSequences ', this.favouriteSequences)
-    },
-    beforeDestroy () {
-      this.$root.$off('updateSequences', this.loadFavouriteSequences)
+    mounted () {
+      this.loadData()
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState',
-        sequenceJobIds: 'sequences/getJobIds',
-        sequenceJobDetails: 'sequences/getJobDetails'
+        user: 'auth/getUserState'
       })
     },
     watch: {
-      async user () {
-        if (!this.sequences) {
-          await this.loadFavouriteSequences()
-        }
+      user (val) {
+        if (val) this.loadData()
       }
     },
+    // TODO dis-fav last item (list returns empty)
     methods: {
-      handlerAddButton () {
-        this.$router.push('sequences')
+      async loadFavorites () {
+        // fetch favorite sequences
+        const target = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
+        if (target) {
+          const favAnnotations = await this.$store.dispatch('annotations/find', {
+            'target.id': target.id,
+            'author.id': this.user.uuid
+          })
+          this.favoriteSequences = favAnnotations.items
+        }
       },
-      openPreview (item) {
-        this.preview = item.annotation
-        if (item.annotation.body.source.type === 'video/mp4') this.$refs.videoModal.show(item)
+      async toggleItemFavorite (item) {
+        const favorite = this.favoriteSequences.find(a => {
+          return a.body.source && a.body.source.id === item.target.id
+        })
+        const message = {
+          timeline: item.target.id,
+          user: this.user.uuid
+        }
+        if (favorite) {
+          await this.$store.dispatch('annotations/delete', favorite.uuid)
+          await this.$store.dispatch('acl/remove', {uuid: favorite.uuid, role: 'digitanz', permission: 'get'})
+        }
+        else {
+          const payload = {
+            type: 'MrGriddleFavourite',
+            target: {
+              type: 'Timeline',
+              id: `${process.env.TIMELINE_BASE_URI}${process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID}`
+            },
+            body: {
+              source: {
+                id: item.target.id
+              },
+              type: 'Timeline',
+              purpose: 'linking'
+            }
+          }
+          const fav = await this.$store.dispatch('annotations/post', payload)
+          if (fav) {
+            await this.$store.dispatch('acl/set', {uuid: fav.uuid, role: 'digitanz', permissions: ['get']})
+          }
+          await this.$store.dispatch('logging/log', { action: 'griddle_sequence_favourite_set', message })
+        }
+        await this.loadFavorites()
+      },
+      getItemStyle (item) {
+        const favorite = this.favoriteSequences.find(a => {
+          return a.body.source && a.body.source.id === item.target.id
+        })
+        if (favorite) {
+          return {
+            color: 'primary',
+            icon: 'favorite'
+          }
+        }
+        return {
+          color: 'grey-5',
+          icon: 'favorite_outline'
+        }
+      },
+      async loadData () {
+        if (!this.user) return
+        // get (private) griddles for this user
+        const query = {
+          type: 'Timeline',
+          'author.id': this.user.uuid
+        }
+        const maps = await this.$store.dispatch('maps/find', query)
+        const griddleSequences = maps.items.filter(m => {
+          return m.title.indexOf('GriddleSequence ') === 0
+        })
+        let sequenceAnnotations = []
+        for (let seq of griddleSequences) {
+          const annotations = await this.$store.dispatch('annotations/find', {
+            'target.id': seq.id
+          })
+          sequenceAnnotations.push(annotations.items[0])
+        }
+        this.sequences = sequenceAnnotations
+        await this.loadFavorites()
       },
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
-      async deleteVideo (video) {
+      async deleteItem (item) {
         this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
-        await SequenceHelper.deleteSequence(this, video.map.uuid)
-        this.$q.loading.hide()
-        await this.loadFavouriteSequences()
-      },
-      async loadFavouriteSequences () {
-        this.$q.loading.show({ message: this.$t('messages.loading_sequences') })
-        const query = {
-          // 'created': { $gte: this.date.start, $lte: this.date.end },
-          'target.id': `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`
+        const favorite = this.favoriteSequences.find(a => {
+          return a.body.source && a.body.source.id === item.target.id
+        })
+        if (favorite) {
+          await this.$store.dispatch('annotations/delete', favorite.uuid)
+          await this.$store.dispatch('acl/remove', {uuid: favorite.uuid, role: 'digitanz', permission: 'get'})
         }
-        const sequences = await VideoHelper.fetchVideoItems(this, query)
-        for (let sequence of sequences) {
-          const responsesQuery = {
-            'target.id': `${process.env.ANNOTATION_BASE_URI}${sequence.annotation.uuid}`,
-            'body.purpose': 'commenting'
-          }
-          sequence.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
-        }
-        this.favouriteSequences = sequences
+        await this.$store.dispatch('maps/delete', item.target.id.split('/').pop())
         this.$q.loading.hide()
+        await this.loadData()
       }
     }
   }
 </script>
+
+<style scoped lang="stylus">
+  @import '~variables'
+</style>

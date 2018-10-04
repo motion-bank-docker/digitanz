@@ -1,18 +1,19 @@
 <template lang="pug">
-  div.full-width
+  .full-width
     // size sm
-    div.row.justify-between(v-if="layoutStyle === 'sm'" ref="mega")
-      mr-griddle-preview(v-for="(item, i) in items"
-        :item="item"
-          :play="true"
-          :states="itemStates[i]"
-          :requestedWidth="167"
-          :requestedHeight="167"
-          :hideButtons="hideButtons"
-          :buttons="buttons",
+    .row.justify-between(v-if="layoutStyle === 'sm'", ref="mega")
+      mr-griddle-preview(
+      v-for="(item, i) in items",
+      :item="item",
+      :play="true",
+      :states="itemStates[i]",
+      :requestedWidth="100",
+      :requestedHeight="167",
+      :hideButtons="hideButtons",
+      :buttons="buttons",
       style="width: 46%")
-        template(slot="customButtons" slot-scope="{ item }")
-          slot(name="customButtons" :item="item")
+        template(slot="customButtons", slot-scope="{ item }")
+          slot(name="customButtons", :item="item")
 
     q-window-resize-observable(@resize="setPreviewWidth()")
 </template>
