@@ -2,8 +2,8 @@
   q-page.q-ma-md.relative-position
 
     div(v-if="!user")
-      q-btn.q-pa-none.absolute-top-right(color="primary", flat, icon-right="arrow_forward",
-        v-if="!user", @click.prevent="login", :label="$t('navigation.login')")
+      q-btn.q-pa-none.absolute-top-right(v-if="!user", round, color="grey-9", icon="arrow_forward",
+        @click.prevent="login")
       griddle-moves(:enclosed="true", :time="1000")
 
     div(v-else)
@@ -29,7 +29,7 @@
           q-btn(push label="Datum" :color="iconColor('time')" icon="watch_later" @click="orderByTime")
           q-btn(push label="Geteilt" :color="iconColor('visibility')" icon="visibility" @click="orderByVisibility")
       // ORDER BY TYPE
-      div(v-if="displayType =='type'")
+      div(v-if="displayType === 'type'")
         //
         // Meine Sequenzen Liste
         section
@@ -44,12 +44,12 @@
 
         //
         // ORDER BY TIME
-      div(v-else-if="displayType =='time'")
+      div(v-else-if="displayType === 'time'")
         h4.q-mb-sm Termin 1
         user-uploads
 
       //
-      div(v-else-if="displayType == 'visibility'")
+      div(v-else-if="displayType === 'visibility'")
         h4.q-mb-sm Öffentliche Sequenzen
         users-public-sequences
 </template>
