@@ -10,7 +10,6 @@
       :class="{'q-mr-sm': i < portraits.items.length - 1}",
       :style="{backgroundImage: 'url(' + portrait.preview.small + ')'}",
       @click="openPreview(portrait)")
-
 </template>
 
 <script>
@@ -118,6 +117,7 @@
     background-size cover
     width 50px
     max-width 50px
+    min-width 50px
     height 50px
     border-radius 100%
   /* .portrait-image

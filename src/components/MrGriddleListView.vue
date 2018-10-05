@@ -1,14 +1,15 @@
 <template lang="pug">
   .full-width
+    q-window-resize-observable(@resize="onResize")
     // size sm
-    .row.justify-between(v-if="layoutStyle === 'sm'", ref="mega")
+    .row.justify-between.q-px-md(v-if="layoutStyle === 'sm'", ref="mega")
       mr-griddle-preview(
       v-for="(item, i) in items",
       :item="item",
       :play="true",
       :states="itemStates[i]",
-      :requestedWidth="100",
-      :requestedHeight="167",
+      :requestedWidth="itemWidth",
+      :requestedHeight="itemWidth",
       :hideButtons="hideButtons",
       :buttons="buttons",
       style="width: 46%")
@@ -35,7 +36,8 @@
     data () {
       return {
         previewWidth: 167,
-        itemStates: []
+        itemStates: [],
+        itemWidth: ''
       }
     },
     mounted () {
@@ -49,6 +51,10 @@
       }
     },
     methods: {
+      onResize () {
+        this.itemWidth = (window.innerWidth > 0) ? ((window.innerWidth - 16 * 4) / 100 * 46) : (screen.width / 100 * 46)
+        console.log(this.itemWidth)
+      },
       async loadItemStates () {
         let allStates = []
         for (let item of this.items) {

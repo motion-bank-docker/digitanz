@@ -1,9 +1,10 @@
 <template lang="pug">
   div.q-mb-lg.text-center
+    q-window-resize-observable(@resize="onResize")
     // svg.bg-primary.q-mb-lg(ref="svgContainer" :width="svgSize.width" :height="svgSize.height")
     // svg.bg-primary(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
-    svg.bg-grey-10(ref="svgContainer", v-if="states"
-      :width="svgSize.width", :height="svgSize.height")
+    svg.bg-grey-10(ref="svgContainer", v-if="states",
+      :width="requestedHeight", :height="requestedHeight")
       // .q-mt-xl
       g#mr-griddle.random
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
@@ -13,7 +14,7 @@
         :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
 
     div
-      slot(name="customButtons" :item="item")
+      slot(name="customButtons", :item="item")
 
 </template>
 
@@ -125,6 +126,14 @@
       }
     },
     methods: {
+      onResize () {
+        this.gridCell = {
+          width: this.requestedHeight / this.grid.columns,
+          height: this.requestedHeight / this.grid.rows
+        }
+        this.strokeWidth()
+        this.skeletonScale()
+      },
       startTimer () {
         this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
         this.lastFrameTime = Date.now()

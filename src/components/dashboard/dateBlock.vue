@@ -3,7 +3,7 @@
     q-card-title.q-pa-none
       slot(name="title")
 
-    q-card-separator
+    q-card-separator.bg-grey-9
 
     q-card-main.q-pt-md.q-px-none.q-pb-none
       slot(name="content")
