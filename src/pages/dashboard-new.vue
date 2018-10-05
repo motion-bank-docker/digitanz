@@ -9,13 +9,13 @@
     h3.text-center Geteilte Inhalte
 
     .q-mt-md
-      date-block.bg-grey-9(v-for="(comp, i) in components")
+      date-block.bg-dark(v-for="(comp, i) in components")
         template(slot="title")
           .row.q-pl-md.q-py-sm.bg-dark
             .col-10.self-center {{ comp.title }}
             .col-2.text-right.q-pr-md
               q-btn.bg-grey-9(label="?", flat, rounded)
-                q-popover.bg-dark.q-pa-md {{ comp.description }}
+                q-popover.bg-dark.q-py-md.q-px-lg {{ comp.description }}
         template(slot="sublabel")
         component(slot="content", :is="comp.component")
         //
