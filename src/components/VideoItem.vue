@@ -99,7 +99,6 @@
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       async deleteItem (item) {
-        console.log('item should get deleted')
         this.$q.loading.show({ message: this.$t('messages.deleting_video') })
         // remove portrait annotation (if any)
         const query = {

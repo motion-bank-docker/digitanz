@@ -14,7 +14,10 @@
       <!--q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",-->
       <!--v-if="!user", @click.prevent="login", rounded)-->
 
-      .text-center.q-mb-md.q-py-xl(v-if="portrait.length <= 0")
+      .text-center.q-mb-md.q-py-xl(v-if="portrait.length <= 0 && !portraitLoading")
+        q-icon(name="person", size="35vw", color="grey-9")
+        p.q-mb-none.text-grey-8 Kein Portrait
+      .text-center.q-mb-md.q-py-xl(v-else-if="portraitLoading")
         q-spinner(:size="30")
 
       section.column.items-center
@@ -53,6 +56,9 @@
       div(v-else-if="displayType === 'visibility'")
         h4.q-mb-sm Öffentliche Sequenzen
         users-public-sequences
+        div(v-if="portrait.length > 0")
+          h4.q-mb-sm Öffentliches Portrait
+          users-public-portrait(:portraits="portrait", @changed="fetchPortrait")
 </template>
 
 <script>
@@ -64,16 +70,18 @@
   import UserSequences from '../components/profil/UserSequences'
   import UserUploads from '../components/profil/UserUploads'
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
+  import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
 
   export default {
     components: {
-      UsersPublicSequences,
-      UserUploads,
       'dashboard-portraits': Portraits,
       'dashboard-portraits-plus-plus': PortraitsPlusPlus,
       'dashboard-group-video-sequences': GroupVideoSequences,
       VideoListView,
-      UserSequences
+      UserSequences,
+      UsersPublicSequences,
+      UsersPublicPortrait,
+      UserUploads
     },
     computed: {
       ...mapGetters({
@@ -85,7 +93,8 @@
         displayType: 'type',
         portrait: [],
         dates: undefined,
-        nickname: undefined
+        nickname: undefined,
+        portraitLoading: false
       }
     },
     async mounted () {
@@ -115,6 +124,7 @@
         console.log('by visibility')
       },
       async fetchPortrait () {
+        this.portraitLoading = true
         const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
         if (portraitsMapResult) {
           const portraitsQuery = {
@@ -122,7 +132,7 @@
             'author.id': this.user.uuid
           }
           this.portrait = await VideoHelper.fetchVideoItems(this, portraitsQuery)
-          console.log('portrait video loaded: ', this.portrait)
+          this.portraitLoading = false
         }
       },
       login () {
