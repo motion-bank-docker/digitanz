@@ -22,8 +22,7 @@
                         layoutStyle="singleCenter",
                         :roundImage="true",
                         cardWidth="65%",
-                        :showDuration="false",
-                        @changed="fetchVideos")
+                        :showDuration="false")
         h3.q-my-none.text-center Hallo <br> {{ user ?  user.nickname : '' }}!
       div.row.justify-center
         q-btn-group(push).q-mt-xl
@@ -78,17 +77,11 @@
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState',
-        sequenceJobIds: 'sequences/getJobIds',
-        sequenceJobDetails: 'sequences/getJobDetails'
+        user: 'auth/getUserState'
       })
     },
     data () {
       return {
-        videos: [],
-        sequencesFavouritesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`,
-        sequences: [],
-        favouriteSequences: [],
         displayType: 'type',
         portrait: [],
         dates: undefined,
@@ -100,8 +93,6 @@
       if (this.user) {
         this.nickname = this.user.nickname
         await this.fetchPortrait()
-        await this.fetchVideos()
-        await this.fetchSequences()
       }
     },
     methods: {
@@ -134,71 +125,6 @@
           console.log('portrait video loaded: ', this.portrait)
         }
       },
-      async fetchVideos () {
-        let query = {
-          'author.id': this.$store.state.auth.user.uuid,
-          'title': 'Meine Videos'
-        }
-        let results = await this.$store.dispatch('maps/find', query)
-        if (results.items && results.items.length) {
-          this.map = Object.assign({}, results.items[0])
-          query = {
-            'author.id': this.user.uuid,
-            'body.type': 'Video',
-            'body.source.type': 'video/mp4',
-            'target.id': {
-              $eq: `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
-            }
-          }
-          this.videos = await VideoHelper.fetchVideoItems(this, query)
-        }
-      },
-      async fetchSequences () {
-        console.log('fetching sequences')
-        if (!this.user) return
-        this.sequences = []
-        const prefix = 'Sequenz: '
-        const query = {
-          type: 'Timeline',
-          'author.id': this.user.uuid
-        }
-        const result = await this.$store.dispatch('maps/find', query)
-        console.log(result)
-        this.sequences = result.items.filter(map => {
-          return map.title.indexOf(prefix) === 0
-        }).sort(this.$sort.onCreatedDesc).map(map => {
-          const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
-          const preview = {
-            high: media.replace(/\.mp4$/, '.jpg'),
-            medium: media.replace(/\.mp4$/, '-m.jpg'),
-            small: media.replace(/\.mp4$/, '-s.jpg')
-          }
-          let processing = false
-          for (let jobId of this.sequenceJobIds) {
-            if (this.sequenceJobDetails[jobId].uuid === map.uuid) processing = true
-          }
-          const annotation = {
-            author: {
-              id: this.user.uuid
-            },
-            uuid: map.uuid,
-            body: {
-              source: {
-                id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
-                type: 'video/mp4'
-              }
-            }
-          }
-          return {
-            processing,
-            annotation,
-            title: map.title.substr(prefix.length),
-            preview,
-            media,
-            map
-          }
-        })
-      },
       login () {
         this.$auth.authenticate()
       },
@@ -210,12 +136,6 @@
       getDateLabel (date) {
         const dt = DateTime.fromISO(date.start)
         return `${dt.day}.${dt.month}.${dt.year}`
-      }
-    },
-    watch: {
-      async user (val) {
-        if (val) await this.fetchVideos()
-        if (val) await this.fetchSequences()
       }
     }
   }
