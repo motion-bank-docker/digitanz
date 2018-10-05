@@ -50,7 +50,7 @@
         // ORDER BY TIME
       div(v-else-if="displayType === 'time'")
         h4.q-mb-sm Termin 1
-        user-uploads
+        user-all
 
       //
       div(v-else-if="displayType === 'visibility'")
@@ -71,6 +71,7 @@
   import UserUploads from '../components/profil/UserUploads'
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
+  import UserAll from '../components/profil/UserAll'
 
   export default {
     components: {
@@ -81,7 +82,8 @@
       UserSequences,
       UsersPublicSequences,
       UsersPublicPortrait,
-      UserUploads
+      UserUploads,
+      UserAll
     },
     computed: {
       ...mapGetters({
