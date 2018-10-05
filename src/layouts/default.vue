@@ -119,7 +119,7 @@
     },
     data () {
       return {
-        rootPaths: ['profil', 'dashboard-new', 'tools'],
+        rootPaths: ['', 'profil', 'dashboard-new', 'tools'],
         /* rootPaths: [{
           path: 'my-digitanz',
           icon: 'home'
