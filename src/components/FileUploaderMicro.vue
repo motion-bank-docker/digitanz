@@ -1,7 +1,7 @@
 <template lang="pug">
   // .column(v-if="timeline || target")
-  // uploader-micro(:url="url", @finish="onFinish", ref="uploader")
-  uploader(:url="url", @finish="onFinish", ref="uploader")
+  uploader-micro(:url="url", @finish="onFinish", ref="uploader")
+  // uploader(:url="url", @finish="onFinish", ref="uploader")
 </template>
 
 <script>
