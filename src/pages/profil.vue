@@ -41,7 +41,7 @@
         // Meine Uploads Liste
         section
           h4.q-mb-sm Uploads
-          user-uploads
+          user-uploads(@changed="fetchPortrait")
 
         //
         // ORDER BY TIME
