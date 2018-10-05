@@ -72,8 +72,8 @@
           q-icon(name="home")
 
         q-btn(round, flat, size="lg",
-        :class="{ 'text-white bg-grey-9': currentApp === 'my-digitanz' }",
-        @click="executeApp('my-digitanz')")
+        :class="{ 'text-white bg-grey-9': currentApp === 'profil' }",
+        @click="executeApp('profil')")
           q-icon(name="person")
 
         q-btn.q-ml-md(round, flat, size="lg",
@@ -119,7 +119,7 @@
     },
     data () {
       return {
-        rootPaths: ['my-digitanz', 'dashboard-new', 'tools'],
+        rootPaths: ['', 'profil', 'dashboard-new', 'tools'],
         /* rootPaths: [{
           path: 'my-digitanz',
           icon: 'home'

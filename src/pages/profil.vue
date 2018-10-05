@@ -1,50 +1,57 @@
 <template lang="pug">
   q-page.q-ma-md.relative-position
-    q-btn.q-pa-sm.absolute-top-right.bg-grey-9(color="white", flat, icon="eject",
-    v-if="user", @click.prevent="logout", rounded)
-    q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",
-    v-if="!user", @click.prevent="login", rounded)
 
-    .text-center.q-mb-md.q-py-xl(v-if="portrait.length <= 0")
-      q-spinner(:size="30")
+    div(v-if="!user")
+      q-btn.q-pa-none.absolute-top-right(color="primary", flat, icon-right="arrow_forward",
+        v-if="!user", @click.prevent="login", :label="$t('navigation.login')")
+      griddle-moves(:enclosed="true", :time="1000")
 
-    section.column.items-center
-      video-list-view(:videos="portrait",
-                      layoutStyle="singleCenter",
-                      :roundImage="true",
-                      cardWidth="65%",
-                      :showDuration="false",
-                      @changed="fetchVideos")
-      h3.q-my-none.text-center Hallo <br> {{ user ?  user.nickname : '' }}!
-    div.row.justify-center
-      q-btn-group(push).q-mt-xl
-        q-btn(push label="Art" :color="iconColor('type')" icon="timeline" @click="orderByType")
-        q-btn(push label="Datum" :color="iconColor('time')" icon="watch_later" @click="orderByTime")
-        q-btn(push label="Geteilt" :color="iconColor('visibility')" icon="visibility" @click="orderByVisibility")
-    // ORDER BY TYPE
-    div(v-if="displayType =='type'")
-      //
-      // Meine Sequenzen Liste
-      section
-        h4.q-mb-sm Sequenzen
-        user-sequences
+    div(v-else)
+      q-btn.q-pa-sm.absolute-top-right.bg-grey-9(color="white", flat, icon="eject",
+      v-if="user", @click.prevent="logout", rounded)
+      q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",
+      v-if="!user", @click.prevent="login", rounded)
 
-      //
-      // Meine Uploads Liste
-      section
-        h4.q-mb-sm Uploads
+      .text-center.q-mb-md.q-py-xl(v-if="portrait.length <= 0")
+        q-spinner(:size="30")
+
+      section.column.items-center
+        video-list-view(:videos="portrait",
+                        layoutStyle="singleCenter",
+                        :roundImage="true",
+                        cardWidth="65%",
+                        :showDuration="false",
+                        @changed="fetchVideos")
+        h3.q-my-none.text-center Hallo <br> {{ user ?  user.nickname : '' }}!
+      div.row.justify-center
+        q-btn-group(push).q-mt-xl
+          q-btn(push label="Art" :color="iconColor('type')" icon="timeline" @click="orderByType")
+          q-btn(push label="Datum" :color="iconColor('time')" icon="watch_later" @click="orderByTime")
+          q-btn(push label="Geteilt" :color="iconColor('visibility')" icon="visibility" @click="orderByVisibility")
+      // ORDER BY TYPE
+      div(v-if="displayType =='type'")
+        //
+        // Meine Sequenzen Liste
+        section
+          h4.q-mb-sm Sequenzen
+          user-sequences
+
+        //
+        // Meine Uploads Liste
+        section
+          h4.q-mb-sm Uploads
+          user-uploads
+
+        //
+        // ORDER BY TIME
+      div(v-else-if="displayType =='time'")
+        h4.q-mb-sm Termin 1
         user-uploads
 
       //
-      // ORDER BY TIME
-    div(v-else-if="displayType =='time'")
-      h4.q-mb-sm Termin 1
-      user-uploads
-
-    //
-    div(v-else-if="displayType == 'visibility'")
-      h4.q-mb-sm Öffentliche Sequenzen
-      users-public-sequences
+      div(v-else-if="displayType == 'visibility'")
+        h4.q-mb-sm Öffentliche Sequenzen
+        users-public-sequences
 </template>
 
 <script>
