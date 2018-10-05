@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.q-mb-lg.text-center
+  div.q-mb-lg.text-center.shadow-2
     q-window-resize-observable(@resize="onResize")
     // svg.bg-primary.q-mb-lg(ref="svgContainer" :width="svgSize.width" :height="svgSize.height")
     // svg.bg-primary(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")

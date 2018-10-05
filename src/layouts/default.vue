@@ -88,8 +88,9 @@
           q-icon(name="build")
         // q-btn.q-mx-md(@click="$router.push('tools')", round, flat, size="lg")
 
-        span.q-py-md.bg-grey-9
-          q-uploader-extended-simple-micro(round, flat, size="lg", outline, color="grey-5")
+        span.q-py-md.bg-grey-
+          // q-uploader-extended-simple-micro(round, flat, size="lg", outline, color="grey-5")
+          file-uploader-micro
 
       template(v-else)
         q-btn.q-mx-md(round, flat, size="lg",
@@ -110,12 +111,14 @@
   import ConversionJobs from '../components/ConversionJobs'
   import SequenceJobs from '../components/SequenceJobs'
   import QUploaderExtendedSimpleMicro from '../components/QUploaderExtendedSimpleMicro'
+  import FileUploaderMicro from '../components/FileUploaderMicro'
 
   export default {
     components: {
       ConversionJobs,
       SequenceJobs,
-      QUploaderExtendedSimpleMicro
+      QUploaderExtendedSimpleMicro,
+      FileUploaderMicro
     },
     data () {
       return {

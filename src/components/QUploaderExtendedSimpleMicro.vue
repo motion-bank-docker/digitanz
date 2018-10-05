@@ -6,11 +6,17 @@
 
     template(v-else)
       q-icon(
-      name="add_circle",
+      name="add_a_photo",
       :size="size",
       :disabled="addDisabled",
       :color="color"
       flat)
+
+      // input.q-uploader-input.absolute-full.cursor-pointer(
+        ref="file", type="file",
+        // :accept="extensions",
+        // :multiple="multiple",
+        @change="__add")
 
       input.q-uploader-input.absolute-full.cursor-pointer(
       ref="file", type="file",
@@ -18,9 +24,9 @@
       :multiple="multiple",
       @change="__add")
 
-    template(v-if="dnd")
+    // template(v-if="dnd")
       .q-uploader-dnd.flex.row.items-center.justify-center.absolute-full(
-      :class="dndClass",
+      // :class="dndClass",
       @dragenter="stopAndPrevent",
       @dragover="stopAndPrevent",
       @dragleave="__onDragLeave",
@@ -34,6 +40,11 @@
     extends: QUploaderExtended,
     props: {
       size: undefined
+    },
+    mounted () {
+      console.log('check')
+    },
+    methods: {
     }
   }
 </script>
