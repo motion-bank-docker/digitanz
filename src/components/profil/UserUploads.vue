@@ -113,6 +113,8 @@
           this.$q.loading.hide()
         }
         await this.loadPortraits()
+        // fetch new portrait on profile page
+        this.$emit('changed')
       },
       async loadPortraits () {
         /**

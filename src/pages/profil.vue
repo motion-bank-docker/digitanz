@@ -1,18 +1,23 @@
 <template lang="pug">
   q-page.q-ma-md.relative-position
 
+    // login screeen
     div(v-if="!user")
-      q-btn.q-pa-none.absolute-top-right(color="primary", flat, icon-right="arrow_forward",
-        v-if="!user", @click.prevent="login", :label="$t('navigation.login')")
+      q-btn.q-pa-none.absolute-top-right(v-if="!user", round, color="grey-9", icon="arrow_forward",
+        @click.prevent="login")
       griddle-moves(:enclosed="true", :time="1000")
 
+    // if logged in show profile screen
     div(v-else)
       q-btn.q-pa-sm.absolute-top-right.bg-grey-9(color="white", flat, icon="eject",
       v-if="user", @click.prevent="logout", rounded)
-      q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",
-      v-if="!user", @click.prevent="login", rounded)
+      <!--q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",-->
+      <!--v-if="!user", @click.prevent="login", rounded)-->
 
-      .text-center.q-mb-md.q-py-xl(v-if="portrait.length <= 0")
+      .text-center.q-mb-md.q-py-xl(v-if="portrait.length <= 0 && !portraitLoading")
+        q-icon(name="person", size="35vw", color="grey-9")
+        p.q-mb-none.text-grey-8 Kein Portrait
+      .text-center.q-mb-md.q-py-xl(v-else-if="portraitLoading")
         q-spinner(:size="30")
 
       section.column.items-center
@@ -20,8 +25,7 @@
                         layoutStyle="singleCenter",
                         :roundImage="true",
                         cardWidth="65%",
-                        :showDuration="false",
-                        @changed="fetchVideos")
+                        :showDuration="false")
         h3.q-my-none.text-center Hallo <br> {{ user ?  user.nickname : '' }}!
       div.row.justify-center
         q-btn-group(push).q-mt-xl
@@ -29,7 +33,7 @@
           q-btn(push label="Datum" :color="iconColor('time')" icon="watch_later" @click="orderByTime")
           q-btn(push label="Geteilt" :color="iconColor('visibility')" icon="visibility" @click="orderByVisibility")
       // ORDER BY TYPE
-      div(v-if="displayType =='type'")
+      div(v-if="displayType === 'type'")
         //
         // Meine Sequenzen Liste
         section
@@ -40,18 +44,21 @@
         // Meine Uploads Liste
         section
           h4.q-mb-sm Uploads
-          user-uploads
+          user-uploads(@changed="fetchPortrait")
 
         //
         // ORDER BY TIME
-      div(v-else-if="displayType =='time'")
+      div(v-else-if="displayType === 'time'")
         h4.q-mb-sm Termin 1
-        user-uploads
+        user-all
 
       //
-      div(v-else-if="displayType == 'visibility'")
+      div(v-else-if="displayType === 'visibility'")
         h4.q-mb-sm Öffentliche Sequenzen
         users-public-sequences
+        div(v-if="portrait.length > 0")
+          h4.q-mb-sm Öffentliches Portrait
+          users-public-portrait(:portraits="portrait", @changed="fetchPortrait")
 </template>
 
 <script>
@@ -63,44 +70,40 @@
   import UserSequences from '../components/profil/UserSequences'
   import UserUploads from '../components/profil/UserUploads'
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
+  import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
+  import UserAll from '../components/profil/UserAll'
 
   export default {
     components: {
-      UsersPublicSequences,
-      UserUploads,
       'dashboard-portraits': Portraits,
       'dashboard-portraits-plus-plus': PortraitsPlusPlus,
       'dashboard-group-video-sequences': GroupVideoSequences,
       VideoListView,
-      UserSequences
+      UserSequences,
+      UsersPublicSequences,
+      UsersPublicPortrait,
+      UserUploads,
+      UserAll
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState',
-        sequenceJobIds: 'sequences/getJobIds',
-        sequenceJobDetails: 'sequences/getJobDetails'
+        user: 'auth/getUserState'
       })
     },
     data () {
       return {
-        videos: [],
-        sequencesFavouritesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`,
-        sequences: [],
-        favouriteSequences: [],
         displayType: 'type',
         portrait: [],
         dates: undefined,
-        allVideos: [],
-        nickname: undefined
+        nickname: undefined,
+        portraitLoading: false
       }
     },
     async mounted () {
       this.dates = this.$dates()
       if (this.user) {
         this.nickname = this.user.nickname
-        await this.lala()
-        await this.fetchVideos()
-        await this.fetchSequences()
+        await this.fetchPortrait()
       }
     },
     methods: {
@@ -122,108 +125,17 @@
         this.displayType = 'visibility'
         console.log('by visibility')
       },
-      async fetchVideos () {
-        let query = {
-          'author.id': this.$store.state.auth.user.uuid,
-          'title': 'Meine Videos'
+      async fetchPortrait () {
+        this.portraitLoading = true
+        const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
+        if (portraitsMapResult) {
+          const portraitsQuery = {
+            'target.id': `${process.env.TIMELINE_BASE_URI}${portraitsMapResult.uuid}`,
+            'author.id': this.user.uuid
+          }
+          this.portrait = await VideoHelper.fetchVideoItems(this, portraitsQuery)
+          this.portraitLoading = false
         }
-        let results = await this.$store.dispatch('maps/find', query)
-        if (results.items && results.items.length) {
-          this.map = Object.assign({}, results.items[0])
-          query = {
-            'author.id': this.user.uuid,
-            'body.type': 'Video',
-            'body.source.type': 'video/mp4',
-            'target.id': {
-              $eq: `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
-            }
-          }
-          this.videos = await VideoHelper.fetchVideoItems(this, query)
-        }
-        // for dev purpose
-        if (this.portrait.length === 0) {
-          this.portrait.push(this.videos[0])
-        }
-      },
-      async lala () {
-        console.log('running lala function')
-        const ids = this.$dates().map(date => date.map_uuid)
-          .filter(id => id !== undefined)
-          .map(id => { return { 'target.id': `http://id.motionbank.org/maps/${id}` } })
-        const query = { $or: ids }
-        const result = await this.$store.dispatch('annotations/find', query)
-        this.allVideos = result.items.sort(this.$sort.onCreatedDesc).map(map => {
-          const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
-          const preview = {
-            high: media.replace(/\.mp4$/, '.jpg'),
-            medium: media.replace(/\.mp4$/, '-m.jpg'),
-            small: media.replace(/\.mp4$/, '-s.jpg')
-          }
-          const annotation = {
-            author: {
-              id: this.user.uuid
-            },
-            uuid: map.uuid,
-            body: {
-              source: {
-                id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
-                type: 'video/mp4'
-              }
-            }
-          }
-          return {
-            annotation,
-            preview,
-            media,
-            map
-          }
-        })
-      },
-      async fetchSequences () {
-        console.log('fetching sequences')
-        if (!this.user) return
-        this.sequences = []
-        const prefix = 'Sequenz: '
-        const query = {
-          type: 'Timeline',
-          'author.id': this.user.uuid
-        }
-        const result = await this.$store.dispatch('maps/find', query)
-        console.log(result)
-        this.sequences = result.items.filter(map => {
-          return map.title.indexOf(prefix) === 0
-        }).sort(this.$sort.onCreatedDesc).map(map => {
-          const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
-          const preview = {
-            high: media.replace(/\.mp4$/, '.jpg'),
-            medium: media.replace(/\.mp4$/, '-m.jpg'),
-            small: media.replace(/\.mp4$/, '-s.jpg')
-          }
-          let processing = false
-          for (let jobId of this.sequenceJobIds) {
-            if (this.sequenceJobDetails[jobId].uuid === map.uuid) processing = true
-          }
-          const annotation = {
-            author: {
-              id: this.user.uuid
-            },
-            uuid: map.uuid,
-            body: {
-              source: {
-                id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
-                type: 'video/mp4'
-              }
-            }
-          }
-          return {
-            processing,
-            annotation,
-            title: map.title.substr(prefix.length),
-            preview,
-            media,
-            map
-          }
-        })
       },
       login () {
         this.$auth.authenticate()
@@ -236,12 +148,6 @@
       getDateLabel (date) {
         const dt = DateTime.fromISO(date.start)
         return `${dt.day}.${dt.month}.${dt.year}`
-      }
-    },
-    watch: {
-      async user (val) {
-        if (val) await this.fetchVideos()
-        if (val) await this.fetchSequences()
       }
     }
   }
