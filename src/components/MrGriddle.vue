@@ -229,7 +229,8 @@
           const annot = await this.$store.dispatch('annotations/post', annotation)
           await this.$store.dispatch('acl/set', {uuid: annot.uuid, role: 'digitanz', permissions: ['get']})
         }
-        this.$router.push('/mr-griddles')
+        // this.$router.push('/mr-griddles')
+        this.$router.push('/profil')
         this.$q.loading.hide()
       },
       getState () {
