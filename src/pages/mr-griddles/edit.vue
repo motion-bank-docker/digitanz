@@ -6,16 +6,17 @@
     @stateChanged="handleStateChanged",
     @editModeChanged="handleEditChange")
 
-    mr-griddle-handler.fixed-bottom(
-    v-if="!editMode",
-    :play="playing",
-    :states="storedStates",
-    :currentState="currentState",
-    @clickPlay="handleClickPlay",
-    @clickAdd="handleClickAdd",
-    @clickState="handleClickState",
-    @deleteItem="handleDeleteItem",
-    @saveSequence="handeSaveSequence")
+    .fixed-bottom.q-mb-xl
+      mr-griddle-handler.q-mb-lg(
+      v-if="!editMode",
+      :play="playing",
+      :states="storedStates",
+      :currentState="currentState",
+      @clickPlay="handleClickPlay",
+      @clickAdd="handleClickAdd",
+      @clickState="handleClickState",
+      @deleteItem="handleDeleteItem",
+      @saveSequence="handeSaveSequence")
 </template>
 
 <script>
