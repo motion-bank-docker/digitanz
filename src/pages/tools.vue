@@ -42,7 +42,7 @@
           this.$router.push('/sequences/create')
           break
         case 'form':
-          this.$router.push('/mr-griddle')
+          this.$router.push('/mr-griddle/create')
           break
         case 'unset':
           console.log('unset')
