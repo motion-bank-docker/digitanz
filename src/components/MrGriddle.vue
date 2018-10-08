@@ -22,16 +22,16 @@
           polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
       g#time-to-next-update
         // griddle color
-        rect(v-if="timerId" x="0" y="0" :width="`${timeToNextFrame * 100}%`" height="4" fill="orange")
+        rect(v-if="timerId" x="0" y="0" :width="`${timeToNextFrame * 100}%`" height="4" fill="primary")
 
     .bg-dark.row.items-center.q-pa-xs.fixed-bottom(style="width: 100vw; height: 10vh")
       // griddle color
-      q-btn(size="xl", icon="timer", disabled, flat, color="orange")
+      q-btn(size="xl", icon="timer", disabled, flat, color="primary")
       // griddle color
       q-slider.q-ma-md(
       v-if="editSettings",
       fab,
-      v-model="frameLength", color="orange", :min="minFrameLength", :max="maxFrameLength"
+      v-model="frameLength", color="primary", :min="minFrameLength", :max="maxFrameLength"
         :step="20", fill-handle-always,
       snap, style="width: 70vw")
 
@@ -313,7 +313,7 @@
   #mr-griddle
     line
       // griddle color
-      stroke orange
+      stroke $primary
       stroke-linecap round
 
   #mr-griddle.random
