@@ -2,7 +2,7 @@
   q-page
     q-list.no-border.q-mt-md.row
       .column.items-center.q-mb-xs.col-xs-6.col-md-2
-        q-btn.q-ma-xs(@click.native="$router.push('/sequences')", color="grey-9", round, size="xl")
+        q-btn.q-ma-xs(@click.native="$router.push('/sequences/create')", color="grey-9", round, size="xl")
           q-icon(name="extension", size="xl")
         p Sequenz
       .column.items-center.q-mb-xs.col-xs-6.col-md-2
