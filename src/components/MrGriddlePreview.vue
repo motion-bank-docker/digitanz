@@ -12,7 +12,7 @@
         :stroke-width="strokeWidth",
         :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
         :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
-    div.q-py-xl(v-else) Kein Vorschaubild vorhanden
+    div.q-py-xl(v-else) Keine Vorschau verfügbar
 
     div
       slot(name="customButtons", :item="item")
