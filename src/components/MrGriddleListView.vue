@@ -58,16 +58,18 @@
       async loadItemStates () {
         let allStates = []
         for (let item of this.items) {
-          const stateAnnot = await this.$store.dispatch('annotations/find', {
-            'target.id': item.target.id,
-            'body.purpose': {
-              $ne: 'commenting'
-            }
-          })
-          const states = stateAnnot.items.map(a => {
-            return JSON.parse(a.body.value)
-          })
-          allStates.push(states)
+          if (item) {
+            const stateAnnot = await this.$store.dispatch('annotations/find', {
+              'target.id': item.target.id,
+              'body.purpose': {
+                $ne: 'commenting'
+              }
+            })
+            const states = stateAnnot.items.map(a => {
+              return JSON.parse(a.body.value)
+            })
+            allStates.push(states)
+          }
         }
         this.itemStates = allStates
       },
