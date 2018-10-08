@@ -30,7 +30,7 @@
         q-btn(round, flat, size="sm", icon="cloud_download", @click="downloadItem(video)")
       slot(v-if="video.responses" name="responsesButton" :video="video")
         q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
-          q-chip(floating, color="red") {{ video.responses.length }}
+          q-chip(v-if="video.responses.length > 0", floating, color="red") {{ video.responses.length }}
 </template>
 
 <script>
@@ -71,6 +71,7 @@
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.annotation.body.source.id)}`)
       },
       getPreviewWidth () {
+        console.log('--------------', this.$refs.previewImage.offsetWidth)
         return this.$refs.previewImage.offsetWidth + 'px'
       },
       setPreviewHeight () {
