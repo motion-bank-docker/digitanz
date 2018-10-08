@@ -20,7 +20,7 @@
         }, {
           action: 'form',
           icon: 'accessibility',
-          label: 'Form',
+          label: 'Mr. Griddle',
           status: true
         }, {
           action: 'unset',
