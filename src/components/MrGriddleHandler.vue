@@ -8,9 +8,8 @@
     q-list.no-border.col-xs-8.col-sm-15
 
       // griddle color
-      q-btn.q-mx-xs(v-for="(state, index) in states"
-      round :color="currentState === index ? 'orange' : 'grey-6'"
-      size="xs"
+      q-btn.q-mx-xs(v-for="(state, index) in states",
+      round, :color="currentState === index ? 'orange' : 'grey-6'", size="xs",
       v-model="selectedStates",
       val="'option-' + {{index}}",
       @click="$emit('clickState', {state, index})",

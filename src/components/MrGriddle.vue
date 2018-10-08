@@ -1,197 +1,276 @@
 <template lang="pug">
-  svg(width="100vw", height="100vh",
-    @mousemove="doDragging", @mouseup="stopDragging")
-    defs
-      pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
-        path(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
-             fill="none", stroke="gray", stroke-width="3")
-    g#mr-griddle(:class="{'random': currentState === -1}")
-      rect(width="100%", height="100%", fill="url(#cell-pattern)")
-      line(v-for="(line, i) in lines", :key="`line-${i}`",
-           :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
-           :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
-    g#interface
-      g#liking(style="display:none")
-        ellipse(cx="30", :cy="svgSize.height-30",
-          rx="14", ry="14", @mousedown="handleLike", fill="red")
-        rect(v-for="(state, k) in storedStates",
-          :x="60 + k * 40", :y="svgSize.height - 40", width="20", height="20",
-          :fill="currentState === k ? 'black' : 'white'", stroke="black", stroke-width="2",
-          @mouseup="handleClickLike(k)")
-      g#resize-handle(:transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
-        rect(
-          x="-12", y="-12", width="24", height="24",
-          @mousedown="initResizeCell", :class="{resizing: resizingCell}")
-        polygon(points="12,-12 30,0 12,12", @mousedown="handleGridChange(-2,0)")
-        polygon(points="-12,-12 -30,0 -12,12", @mousedown="handleGridChange(2,0)")
-        polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
-        polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
-      g#speed-handle
-        rect(:x="svgSize.width-20-200", :y="svgSize.height - 40",
-          width="200", height="20", fill="white", stroke="grey",
-          stroke-width="2", @mousedown="initSetFrameLength")
-        rect(:x="svgSize.width-20-200 + frameLength", :y="svgSize.height - 40",
-          width="20", height="20", fill="grey", stroke="none")
-        rect(:x="svgSize.width-20-200-40", :y="svgSize.height - 40",
-          width="20", height="20",
-          :fill="storeStates ? 'red' : 'lightgray'", :stroke="storeStates ? 'grey' : 'red'",
-          stroke-width="2"
-          @mousedown="storeStates = !storeStates")
+  div.row
+    svg(ref="svgContainer" :width="svgSize.width" :height="svgSize.height")
+      .q-mt-xl.row.justify-end
+      defs
+        pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
+          path(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
+          fill="none", stroke="gray", stroke-width="3")
+      g#mr-griddle(:class="{'random': currentState === -1}" @click="handleSkeletonClick")
+        rect(width="100%", height="100%", fill="url(#cell-pattern)")
+        line(v-for="(line, i) in lines", :key="`line-${i}`",
+        :stroke-width="strokeWidth"
+          :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
+        :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
+        g#resize-handle(v-if="editSettings", :transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
+          rect(
+          x="-12", y="-12", width="24", height="24")
+            // @mousedown="initResizeCell", :class="{resizing: resizingCell}")
+          polygon(points="12,-12 30,0 12,12", @mousedown="handleGridChange(-2,0)")
+          polygon(points="-12,-12 -30,0 -12,12", @mousedown="handleGridChange(2,0)")
+          polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
+          polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
+      g#time-to-next-update
+        // griddle color
+        rect(v-if="timerId" x="0" y="0" :width="`${timeToNextFrame * 100}%`" height="4" fill="orange")
+
+    .bg-dark.row.items-center.q-pa-xs.fixed-bottom(style="width: 100vw; height: 10vh")
+      // griddle color
+      q-btn(size="xl", icon="timer", disabled, flat, color="orange")
+      // griddle color
+      q-slider.q-ma-md(
+      v-if="editSettings",
+      fab,
+      v-model="frameLength", color="orange", :min="minFrameLength", :max="maxFrameLength"
+        :step="20", fill-handle-always,
+      snap, style="width: 70vw")
+
+    q-page-sticky(expand position="top-right")
+      q-btn.bg-dark.q-ma-sm(fab, size="sm", @click="handleModeChange", :icon="editSettings ? 'check' : 'settings'")
 </template>
 
 <script>
   import Skeleton from '../lib/skeleton'
   import { DateTime } from 'luxon'
+  import { mapGetters } from 'vuex'
 
   const skeleton = new Skeleton()
   const UI_RESIZER_FACTOR = 2
 
   export default {
+    props: [
+      'play'
+    ],
     data () {
       return {
+        svgSize: {
+          width: 0,
+          height: 0
+        },
         grid: {
-          columns: 9,
+          columns: 10,
           rows: 16
+        },
+        gridCell: {
+          width: 0,
+          height: 0
         },
         resizerFactor: UI_RESIZER_FACTOR,
         currentTime: 0,
         resizingCell: false,
+        frameLength: 300,
+        minFrameLength: 60 / 3,
+        maxFrameLength: 60 * 6,
+        lastFrameTime: undefined,
+        timeToNextFrame: 1,
         settingFrameLength: false,
-        lastFrameTime: -1,
-        frameLength: 20,
         lines: [],
         storedStates: [],
         currentState: -1,
         timerId: undefined,
-        storeStates: false
+        storeStates: false,
+        map: undefined,
+        editSettings: false
       }
     },
     computed: {
-      svgSize () {
-        return {
-          width: window.innerWidth,
-          height: window.innerHeight
-        }
-      },
-      gridCell () {
-        return {
-          width: this.svgSize.width / this.grid.columns,
-          height: this.svgSize.height / this.grid.rows
-        }
+      ...mapGetters({
+        user: 'auth/getUserState'
+      }),
+      strokeWidth () {
+        return 20 * this.skeletonScale
       },
       skeletonScale () {
-        return Math.min(1, this.svgSize.width / 900)
+        const scale = Math.min(1, this.svgSize.width / 900)
+        return scale
       },
       timerInterval () {
-        return (1000 / 60.0) * this.frameLength
+        return (1000 / 60.0) * (this.minFrameLength + (this.maxFrameLength - this.frameLength))
       }
-      // nextFrame () {
-      //   let fps = (this.frameLength / 180) * 2
-      //   return (this.$store.state.time - this.lastFrameTime) >= 1000 / fps
-      // }
     },
     mounted () {
-      this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+      const _this = this
+
+      this.svgSize = {
+        width: this.$el.offsetWidth,
+        height: this.$el.offsetHeight
+      }
+      this.gridCell = {
+        width: this.svgSize.width / this.grid.columns,
+        height: this.svgSize.height / this.grid.rows
+      }
+      this.updateFrame()
+      this.loadData()
+
+      // this is a "driver" for the "time to update bar"
+      setInterval(function () {
+        const diff = Date.now() - _this.lastFrameTime
+        const rel = diff / _this.timerInterval
+        _this.timeToNextFrame = rel
+      }, 1000 / 60)
     },
     beforeDestroy () {
       clearInterval(this.timerId)
+      this.timerId = undefined
     },
     watch: {
-      // nextFrame () {
-      //   this.lastFrameTime = this.$store.state.time
-      //   this.updateFrame()
-      // }
+      async user (val) {
+        if (val) await this.loadData()
+      },
       frameLength () {
+        const wasPlaying = this.timerId
         clearInterval(this.timerId)
-        this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+        if (wasPlaying) this.startTimer()
+      },
+      play (playing) {
+        if (playing) {
+          if (this.currentState === -1) {
+            this.setCurrentState(0)
+            skeleton.rotate()
+            this.lastFrameTime = Date.now()
+          }
+          this.startTimer()
+        }
+        else {
+          clearInterval(this.timerId)
+          this.timerId = undefined
+        }
       }
     },
     methods: {
+      async loadData () {
+        if (!this.user) return
+        this.$q.loading.show({ message: this.$t('messages.loading_data') })
+        if (this.$route.params.uuid) {
+          this.map = await this.$store.dispatch('maps/get', this.$route.params.uuid)
+          if (this.map) {
+            const query = {
+              'target.id': this.map.id
+            }
+            const annotations = await this.$store.dispatch('annotations/find', query)
+            if (annotations && annotations.items) {
+              const states = annotations.items.map(a => {
+                return JSON.parse(a.body.value)
+              })
+              this.storedStates = states
+              this.setCurrentState(0)
+            }
+          }
+        }
+        this.$q.loading.hide()
+      },
+      startTimer () {
+        this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+        this.lastFrameTime = Date.now()
+      },
       timerIntervalHandler () {
         this.updateFrame()
+        this.lastFrameTime = Date.now()
       },
-      handleClickLike (which) {
-        this.currentState = which === this.currentState ? -1 : which
-        this.storeState()
-        this.updateSkeleton()
+      handleSkeletonClick () {
+        clearInterval(this.timerId)
+        this.timerId = undefined
+        this.updateFrame()
+        this.setCurrentState(-1)
+      },
+      handleModeChange () {
+        this.editSettings = !this.editSettings
+        this.$emit('editModeChanged', this.editSettings)
       },
       updateFrame () {
         skeleton.rotate()
-        this.storeState()
-        this.updateSkeleton()
+        let nextState = (this.currentState + 1) % this.storedStates.length
+        this.setCurrentState(nextState)
       },
-      storeState () {
-        if (this.storeStates) {
+      async saveSequence () {
+        this.$q.loading.show({ message: this.$t('messages.saving_sequence') })
+        if (!this.map) {
+          const prefix = 'GriddleSequence '
+          let newMap = {
+            type: ['Timeline'],
+            title: prefix + Date.now()
+          }
+          this.map = await this.$store.dispatch('maps/post', newMap)
+          await this.$store.dispatch('acl/set', {uuid: this.map.uuid, role: 'digitanz', permissions: ['get']})
+        }
+        const oldStates = await this.$store.dispatch('annotations/find', {'target.id': this.map.id})
+        if (oldStates && oldStates.items) {
+          for (let oState of oldStates.items) {
+            await this.$store.dispatch('annotations/delete', oState.uuid)
+            await this.$store.dispatch('acl/delete', {uuid: oState.uuid, role: 'digitanz', permissions: ['get']})
+          }
+        }
+        for (let state of this.storedStates) {
           let annotation = {
             body: {
               type: 'MrGriddleSkeleton',
               purpose: 'linking',
-              value: JSON.stringify(this.getState())
+              value: JSON.stringify(state)
             },
             target: {
               type: 'Timeline',
-              id: `${process.env.TIMELINE_BASE_URI}${process.env.MR_GRIDDLE_TIMELINE_UUID}`,
+              id: this.map.id,
               selector: {
                 type: 'Fragment',
-                value: DateTime.local().toISO()
+                value: state.timeStamp
               }
             }
           }
-          // console.log(annotation)
-          this.$store.dispatch('annotations/post', annotation).then((resp) => {
-            console.log(resp)
-          })
+          const annot = await this.$store.dispatch('annotations/post', annotation)
+          await this.$store.dispatch('acl/set', {uuid: annot.uuid, role: 'digitanz', permissions: ['get']})
         }
+        this.$router.push('/mr-griddles')
+        this.$q.loading.hide()
       },
       getState () {
         return {
           skeleton: skeleton.getEdges(),
           grid: this.grid,
           gridCell: this.gridCell,
-          svgSize: this.svgSize
+          svgSize: this.svgSize,
+          frameLength: this.frameLength,
+          timeStamp: DateTime.local().toISO()
         }
+      },
+      setCurrentState (nextState) {
+        this.currentState = nextState >= 0 && nextState < this.storedStates.length ? nextState : -1
+        this.updateSkeleton()
+        this.$emit('stateChanged', this.currentState)
       },
       handleGridChange (columns, rows) {
         this.grid.columns += columns
         this.grid.rows += rows
+        this.gridCell = {
+          width: this.svgSize.width / this.grid.columns,
+          height: this.svgSize.height / this.grid.rows
+        }
         this.updateSkeleton()
       },
-      initSetFrameLength (event) {
-        this.settingFrameLength = true
-        this.frameLength = Math.min(180, Math.max(0, event.clientX - (this.svgSize.width - 200 - 20)))
+      handleStoreState () {
+        if (this.storedStates.length < 5) {
+          this.storedStates.push(this.getState())
+          this.setCurrentState(this.storedStates.length - 1)
+        }
       },
-      initResizeCell () {
-        this.resizingCell = true
-      },
-      doDragging (event) {
-        if (this.resizingCell) {
-          this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
-          this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
+      handleRemoveStoredState (i) {
+        if (i >= 0 && i < this.storedStates.length) {
+          this.storedStates.splice(i, 1)
+          if (i <= this.currentState) {
+            this.setCurrentState(this.currentState - 1)
+          }
           this.updateSkeleton()
         }
-        if (this.settingFrameLength) {
-          this.frameLength = Math.min(180, Math.max(0, event.clientX - (this.svgSize.width - 200 - 20)))
-        }
       },
-      stopDragging (event) {
-        if (this.resizingCell) {
-          this.grid.columns = Math.round(this.svgSize.width / (event.clientX / UI_RESIZER_FACTOR))
-          this.grid.rows = Math.round(this.svgSize.height / (event.clientY / UI_RESIZER_FACTOR))
-        }
-        if (this.resizingCell || this.settingFrameLength) {
-          this.updateFrame()
-        }
-        this.resizingCell = false
-        this.settingFrameLength = false
-      },
-      handleLike () {
-        this.storedStates.push(this.getState())
-        this.currentState = this.storedStates.length - 1
-        this.updateFrame()
-      },
-      // handleKeyUp (event) {
-      //   console.log(event)
-      // },
       updateSkeleton () {
         let skeletonLines = []
         if (this.currentState === -1) {
@@ -206,8 +285,8 @@
           this.grid.width = state.grid.width
           this.grid.height = state.grid.height
         }
-        let x = Math.round(this.grid.columns / 2)
-        let y = Math.round(this.grid.rows / 2)
+        let x = Math.floor(this.grid.columns / 2)
+        let y = Math.floor(this.grid.rows / 2)
         let w = this.svgSize.width / this.grid.columns
         let h = this.svgSize.height / this.grid.rows
         this.lines = skeletonLines.map(line => {
@@ -224,17 +303,16 @@
 </script>
 
 <style scoped lang="stylus">
+  @import '~variables'
   svg
-    position: absolute
-    top: 0
-    right: 0
-    bottom: 0
-    left: 0
+    position absolute
+    top 0
+    left 0
 
   #mr-griddle
     line
-      stroke mediumvioletred
-      stroke-width 20px
+      // griddle color
+      stroke orange
       stroke-linecap round
 
   #mr-griddle.random
@@ -249,4 +327,5 @@
   #resize-handle *:hover,
   #resize-handle.resizing
     fill: gray
+
 </style>
