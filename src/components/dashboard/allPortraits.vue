@@ -49,7 +49,7 @@
     async mounted () {
       this.$root.$on('updateVideos', this.loadPortraits)
       await this.loadPortraits()
-      console.log('+++++ portraits ', this.portraits)
+      // console.log('+++++ portraits ', this.portraits)
     },
     beforeDestroy () {
       this.$root.$off('updateVideos', this.loadPortraits)

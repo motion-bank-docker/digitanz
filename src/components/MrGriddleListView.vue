@@ -53,7 +53,6 @@
     methods: {
       onResize () {
         this.itemWidth = (window.innerWidth > 0) ? ((window.innerWidth - 16 * 4) / 100 * 46) : (screen.width / 100 * 46)
-        console.log(this.itemWidth)
       },
       async loadItemStates () {
         let allStates = []

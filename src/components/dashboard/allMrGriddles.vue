@@ -52,6 +52,7 @@
     methods: {
       async loadFavorites () {
         // fetch favorite sequences
+        // console.log('mmmmmm load favorites ', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
         const target = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
         if (target) {
           const favAnnotations = await this.$store.dispatch('annotations/find', {
@@ -60,6 +61,7 @@
           })
           this.favoriteSequences = favAnnotations.items
         }
+        console.log('### favorite sequences', this.favoriteSequences)
       },
       async toggleItemFavorite (item) {
         const favorite = this.favoriteSequences.find(a => {
@@ -130,6 +132,7 @@
           sequenceAnnotations.push(annotations.items[0])
         }
         this.sequences = sequenceAnnotations
+        // console.log('::::: griddles', this.sequences)
         await this.loadFavorites()
       },
       openDeleteModal (item) {

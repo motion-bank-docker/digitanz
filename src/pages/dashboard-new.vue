@@ -74,7 +74,7 @@
         let x = a.day > b.day ? -1 : 1
         return x
       })
-      console.log('##### dates ', this.$dates)
+      // console.log('##### dates ', this.$dates)
     },
     methods () {
     }

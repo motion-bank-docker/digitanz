@@ -132,8 +132,8 @@
           width: this.requestedHeight / this.grid.columns,
           height: this.requestedHeight / this.grid.rows
         }
-        this.strokeWidth()
-        this.skeletonScale()
+        // this.strokeWidth()
+        // this.skeletonScale()
       },
       startTimer () {
         this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)

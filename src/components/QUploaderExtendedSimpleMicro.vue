@@ -42,7 +42,7 @@
       size: undefined
     },
     mounted () {
-      console.log('check')
+      // console.log('check')
     },
     methods: {
     }
