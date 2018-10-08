@@ -27,23 +27,37 @@
                         cardWidth="65%",
                         :showDuration="false")
         h3.q-my-none.text-center Hallo <br> {{ user ?  user.nickname : '' }}!
+
       div.row.justify-center
         q-btn-group(push).q-mt-xl
-          q-btn(push label="Art" :color="iconColor('type')" icon="build" @click="orderByType")
-          q-btn(push label="Datum" :color="iconColor('time')" icon="today" @click="orderByTime")
-          q-btn(push label="Geteilt" :color="iconColor('visibility')" icon="people" @click="orderByVisibility")
+          q-btn(push label="Art", :color="iconColor('type')", icon="build", @click="orderByType")
+          q-btn(push label="Datum", :color="iconColor('time')", icon="today", @click="orderByTime")
+          q-btn(push label="Geteilt", :color="iconColor('visibility')", icon="people", @click="orderByVisibility")
+
       // ORDER BY TYPE
       div(v-if="displayType === 'type'")
         //
+        // Meine Mr. Griddles
+        section
+          div.relative-position.q-mb-sm
+            h4.q-mb-sm Mr. Griddles
+            q-btn.absolute-top-right.bg-grey-10(@click="$router.push(`/mr-griddle/create`)", icon="accessibility", round)
+          user-mr-griddles
+
+        //
         // Meine Sequenzen Liste
         section
-          h4.q-mb-sm Sequenzen
+          div.relative-position.q-mb-sm
+            h4.q-mb-sm Sequenzen
+            q-btn.absolute-top-right.bg-grey-10(@click="$router.push(`/sequences/create`)", icon="extension", round)
           user-sequences
 
         //
         // Meine Uploads Liste
         section
-          h4.q-mb-sm Uploads
+          div.relative-position.q-mb-sm
+            h4.q-mb-sm Uploads
+            file-uploader-micro.absolute-top-right.bg-grey-10
           user-uploads(@changed="fetchPortrait")
 
         //
@@ -67,11 +81,13 @@
   import VideoListView from '../components/VideoListView'
   import { VideoHelper } from '../lib'
   import { mapGetters } from 'vuex'
+  import UserMrGriddles from '../components/profil/UserMrGriddles'
   import UserSequences from '../components/profil/UserSequences'
   import UserUploads from '../components/profil/UserUploads'
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
   import UserAll from '../components/profil/UserAll'
+  import FileUploaderMicro from '../components/FileUploaderMicro'
 
   export default {
     components: {
@@ -79,11 +95,13 @@
       'dashboard-portraits-plus-plus': PortraitsPlusPlus,
       'dashboard-group-video-sequences': GroupVideoSequences,
       VideoListView,
+      UserMrGriddles,
       UserSequences,
       UsersPublicSequences,
       UsersPublicPortrait,
       UserUploads,
-      UserAll
+      UserAll,
+      FileUploaderMicro
     },
     computed: {
       ...mapGetters({
