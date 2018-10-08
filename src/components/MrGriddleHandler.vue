@@ -19,7 +19,7 @@
       @click="$emit('clickAdd')")
 
     .col-xs-2.col-sm-1
-      q-btn.q-ma-xs(icon="save", size="lg", @click="$emit('saveSequence')")
+      q-btn.q-ma-xs(icon="save", size="lg", @click="$emit('saveSequence')", :disabled="states.length <= 0")
 
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
