@@ -2,7 +2,7 @@
   q-page
     .q-mt-md.row
       .column.items-center.q-mb-xs.col-xs-6.col-md-2(v-for="button in buttons", :class="{'inactive': !button.status}")
-        q-btn.q-ma-xs(@click.native="actions(button.action)", :class="{'bg-grey-9': button.status}",
+        q-btn.q-ma-xs(@click.native="actions(button.action)", :class="{'bg-grey-10': button.status}",
         :disabled="!button.status", round, size="xl")
           q-icon(:name="button.icon", size="xl")
         p {{ button.label }}
@@ -18,20 +18,20 @@
           label: 'Sequenz',
           status: true
         }, {
-          action: 'form',
+          action: 'mr-griddle',
           icon: 'accessibility',
           label: 'Mr. Griddle',
           status: true
         }, {
-          action: 'unset',
-          icon: 'stars',
+          action: 'space-tool',
+          icon: 'scatter_plot',
           label: 'Raum',
-          status: false
+          status: true
         }, {
-          action: 'unset',
-          icon: 'stars',
+          action: 'rhytmus',
+          icon: 'linear_scale',
           label: 'Rhytmus',
-          status: false
+          status: true
         }]
       }
     },
@@ -41,8 +41,14 @@
         case 'sequenz':
           this.$router.push('/sequences/create')
           break
-        case 'form':
+        case 'mr-griddle':
           this.$router.push('/mr-griddle/create')
+          break
+        case 'space-tool':
+          this.$router.push('/space-tool')
+          break
+        case 'rhytmus':
+          this.$router.push('/rhythm')
           break
         case 'unset':
           console.log('unset')
