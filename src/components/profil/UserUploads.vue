@@ -1,11 +1,15 @@
 <template lang="pug">
-  video-list-view(:videos="uploads",
-                  layoutStyle="sm",
-                  :buttons="['delete', 'download']",
-                  :showDuration="true",
-                  @changed="loadData")
-    template(slot="customButtons" slot-scope="{ video }")
-      q-btn.q-px-none(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
+  div
+    video-list-view(:videos="uploads",
+                    v-if="portraits.map",
+                    layoutStyle="sm",
+                    :buttons="['delete', 'download']",
+                    :showDuration="true",
+                    @changed="loadData")
+      template(slot="customButtons" slot-scope="{ video }")
+        q-btn.q-px-none(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
+    .text-center(v-else)
+      q-spinner(:size="30")
 
 </template>
 
