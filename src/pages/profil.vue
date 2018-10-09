@@ -30,9 +30,9 @@
 
       div.row.justify-center
         q-btn-group(push).q-mt-xl
-          q-btn(push label="Art", :color="iconColor('type')", icon="build", @click="orderByType")
-          q-btn(push label="Datum", :color="iconColor('time')", icon="today", @click="orderByTime")
-          q-btn(push label="Geteilt", :color="iconColor('visibility')", icon="people", @click="orderByVisibility")
+          q-btn(push, flat, label="Art", :color="iconColor('type')", icon="build", @click="orderByType")
+          q-btn(push, flat, label="Datum", :color="iconColor('time')", icon="today", @click="orderByTime")
+          q-btn(push, flat, label="Geteilt", :color="iconColor('visibility')", icon="people", @click="orderByVisibility")
 
       // ORDER BY TYPE
       div(v-if="displayType === 'type'")
