@@ -6,6 +6,25 @@
         :disabled="!button.status", round, size="xl")
           q-icon(:name="button.icon", size="xl")
         p {{ button.label }}
+
+    q-card.bg-grey-9.q-mx-md.q-mt-xl.q-pa-md.q-mb-md
+      // h3.text-center {{ $t('pages.team.headline') }}
+      q-card-title {{ $t('pages.team.headline') }}
+      q-card-separator.bg-dark
+      q-card-main
+        p Florian Jenett
+        p.q-mb-none
+          | florian@motionbank.org
+          br
+          | 06131-628-2259
+      q-card-separator.bg-dark
+      q-card-main
+        p Tim Bindel
+        p.q-mb-none
+          | tbindel@uni-mainz.de
+          br
+          | 06131-39-23744
+
 </template>
 
 <script>
