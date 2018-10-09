@@ -31,7 +31,7 @@
           action: 'rhytmus',
           icon: 'linear_scale',
           label: 'Rhytmus',
-          status: true
+          status: false
         }]
       }
     },
@@ -61,5 +61,5 @@
 
 <style scoped lang="stylus">
   .inactive
-    opacity .2
+    opacity .4
 </style>
