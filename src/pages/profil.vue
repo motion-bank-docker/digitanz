@@ -63,7 +63,7 @@
         //
         // ORDER BY TIME
       div(v-else-if="displayType === 'time'")
-        h4.q-mb-sm Termin 1
+        h4.q-mb-sm Chronik
         user-all
 
       //
