@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    p hi
+    p.text-grey-8 WIP
 
 </template>
 
