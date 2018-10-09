@@ -24,7 +24,7 @@
         rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="4", fill="white")
 
     .bg-dark.fixed-bottom.q-mb-xl(v-if="editSettings")
-      q-list.no-border.full-width.q-mb-lg
+      q-list.no-border.full-width.q-mb-lg.shadow-up-2
         q-item
           q-item-side.text-primary.text-center(icon="timer")
           q-item-main

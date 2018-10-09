@@ -7,7 +7,7 @@
     @editModeChanged="handleEditChange")
 
     .fixed-bottom.q-mb-xl
-      mr-griddle-handler.q-mb-lg(
+      mr-griddle-handler.q-mb-lg.shadow-up-2(
       v-if="!editMode",
       :play="playing",
       :states="storedStates",
