@@ -3,7 +3,7 @@
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
     mr-griddle-list-view(
-    v-if="sequences",
+    v-if="sequences.length > 0",
     layout-style='sm',
     :items="sequences")
 
@@ -17,6 +17,9 @@
 
         q-btn(flat, size="sm" round, icon="delete",
         @click="openDeleteModal(item)")
+
+    .text-center(v-else)
+      q-spinner(:size="30")
 </template>
 
 <script>

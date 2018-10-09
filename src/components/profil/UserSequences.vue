@@ -4,6 +4,7 @@
 
     video-list-view(:videos="sequences",
                     layoutStyle="sm",
+                    v-if="sequences.length > 0",
                     :buttons="['download']",
                     :showDuration="false",
                     @changed="loadData")
@@ -11,6 +12,9 @@
         q-btn(flat, size="sm", round, icon="delete", @click="openDeleteModal(video)")
         q-btn(flat, size="sm", round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
         q-btn(flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
+
+    .text-center(v-else)
+      q-spinner(:size="30")
 
 </template>
 
