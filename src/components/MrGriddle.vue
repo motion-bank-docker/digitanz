@@ -21,15 +21,16 @@
           polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
           polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
       g#time-to-next-update
-        rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="4", fill="primary")
+        rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="4", fill="white")
 
-    .bg-dark.row.items-center.q-px-xs.fixed-bottom.q-mb-xl
-      .q-mb-lg
-        q-btn(size="xl", icon="timer", disabled, flat, color="primary")
-        q-slider.q-ma-md(
-        v-if="editSettings", fab,
-        v-model="frameLength", color="primary", :min="minFrameLength", :max="maxFrameLength",
-        :step="20", fill-handle-always, snap, style="width: 70vw")
+    .bg-dark.fixed-bottom.q-mb-xl(v-if="editSettings")
+      q-list.no-border.full-width.q-mb-lg
+        q-item
+          q-item-side.text-primary.text-center(icon="timer")
+          q-item-main
+            q-slider(
+            fab, v-model="frameLength", color="primary", :min="minFrameLength", :max="maxFrameLength",
+            :step="20", fill-handle-always, snap)
 
     q-page-sticky(expand position="top-right")
       q-btn.bg-dark.q-ma-sm(fab, size="sm", @click="handleModeChange", :icon="editSettings ? 'check' : 'settings'")
