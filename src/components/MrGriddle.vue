@@ -1,16 +1,16 @@
 <template lang="pug">
   div.row
-    svg(ref="svgContainer" :width="svgSize.width" :height="svgSize.height")
+    svg(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
       .q-mt-xl.row.justify-end
       defs
         pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
           path(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
           fill="none", stroke="gray", stroke-width="3")
-      g#mr-griddle(:class="{'random': currentState === -1}" @click="handleSkeletonClick")
+      g#mr-griddle(:class="{'random': currentState === -1}", @click="handleSkeletonClick")
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
         line(v-for="(line, i) in lines", :key="`line-${i}`",
-        :stroke-width="strokeWidth"
-          :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
+        :stroke-width="strokeWidth",
+        :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
         :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
         g#resize-handle(v-if="editSettings", :transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
           rect(
@@ -21,19 +21,15 @@
           polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
           polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
       g#time-to-next-update
-        // griddle color
-        rect(v-if="timerId" x="0" y="0" :width="`${timeToNextFrame * 100}%`" height="4" fill="primary")
+        rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="4", fill="primary")
 
-    .bg-dark.row.items-center.q-pa-xs.fixed-bottom(style="width: 100vw; height: 10vh")
-      // griddle color
-      q-btn(size="xl", icon="timer", disabled, flat, color="primary")
-      // griddle color
-      q-slider.q-ma-md(
-      v-if="editSettings",
-      fab,
-      v-model="frameLength", color="primary", :min="minFrameLength", :max="maxFrameLength"
-        :step="20", fill-handle-always,
-      snap, style="width: 70vw")
+    .bg-dark.row.items-center.q-px-xs.fixed-bottom.q-mb-xl
+      .q-mb-lg
+        q-btn(size="xl", icon="timer", disabled, flat, color="primary")
+        q-slider.q-ma-md(
+        v-if="editSettings", fab,
+        v-model="frameLength", color="primary", :min="minFrameLength", :max="maxFrameLength",
+        :step="20", fill-handle-always, snap, style="width: 70vw")
 
     q-page-sticky(expand position="top-right")
       q-btn.bg-dark.q-ma-sm(fab, size="sm", @click="handleModeChange", :icon="editSettings ? 'check' : 'settings'")
