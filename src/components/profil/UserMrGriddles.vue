@@ -19,14 +19,18 @@
         @click="openDeleteModal(item)")
 
     .text-center(v-else)
-      q-spinner(:size="30")
+      loading-spinner
 </template>
 
 <script>
+  import LoadingSpinner from '../LoadingSpinner'
   import allMrGriddles from '../dashboard/allMrGriddles'
 
   export default {
-    extends: allMrGriddles
+    extends: allMrGriddles,
+    components: {
+      LoadingSpinner
+    }
   }
 </script>
 

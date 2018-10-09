@@ -14,11 +14,12 @@
         q-btn(flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
 
     .text-center(v-else)
-      q-spinner(:size="30")
+      loading-spinner
 
 </template>
 
 <script>
+  import LoadingSpinner from '../LoadingSpinner'
   import VideoListView from '../VideoListView'
   import { mapGetters } from 'vuex'
   import { SequenceHelper } from '../../lib'
@@ -28,6 +29,7 @@
 
   export default {
     components: {
+      LoadingSpinner,
       VideoListView,
       ConfirmModal
     },

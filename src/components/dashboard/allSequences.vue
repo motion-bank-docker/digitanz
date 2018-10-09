@@ -4,7 +4,7 @@
     video-modal(ref="videoModal")
 
     .text-center.q-mb-md(v-if="favouriteSequences.length <= 0")
-      q-spinner(:size="30")
+      loading-spinner
 
     .row.q-mx-md
       video-list-view(
@@ -27,6 +27,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import LoadingSpinner from '../LoadingSpinner'
   import VideoListView from '../VideoListView'
   import VideoModal from '../VideoModal'
   import { SequenceHelper, VideoHelper } from '../../lib'
@@ -34,6 +35,7 @@
 
   export default {
     components: {
+      LoadingSpinner,
       VideoModal,
       VideoListView,
       ConfirmModal

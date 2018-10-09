@@ -18,7 +18,8 @@
         q-icon(name="person", size="35vw", color="grey-9")
         p.q-mb-none.text-grey-8 Kein Portrait
       .text-center.q-mb-md.q-py-xl(v-else-if="portraitLoading")
-        q-spinner(:size="30")
+        // q-spinner(:size="30")
+        loading-spinner
 
       section.column.items-center
         video-list-view(:videos="portrait",
@@ -97,6 +98,7 @@
   import { DateTime } from 'luxon'
   import { Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
   import VideoListView from '../components/VideoListView'
+  import LoadingSpinner from '../components/LoadingSpinner'
   import { VideoHelper } from '../lib'
   import { mapGetters } from 'vuex'
   import UserMrGriddles from '../components/profil/UserMrGriddles'
@@ -112,6 +114,7 @@
       'dashboard-portraits': Portraits,
       'dashboard-portraits-plus-plus': PortraitsPlusPlus,
       'dashboard-group-video-sequences': GroupVideoSequences,
+      LoadingSpinner,
       VideoListView,
       UserMrGriddles,
       UserSequences,

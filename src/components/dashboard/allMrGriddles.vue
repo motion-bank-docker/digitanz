@@ -3,7 +3,7 @@
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
     mr-griddle-list-view(
-    v-if="sequences",
+    v-if="sequences.length > 0",
     layout-style='sm',
     :items="sequences")
 
@@ -17,16 +17,22 @@
 
         q-btn(flat, size="sm" round, icon="delete",
         @click="openDeleteModal(item)")
+
+    .text-center.q-pb-md(v-else)
+      loading-spinner
+
 </template>
 
 <script>
   import ConfirmModal from '../../components/ConfirmModal'
+  import LoadingSpinner from '../../components/LoadingSpinner'
   import MrGriddleListView from '../../components/MrGriddleListView'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
       ConfirmModal,
+      LoadingSpinner,
       MrGriddleListView
     },
     data () {
