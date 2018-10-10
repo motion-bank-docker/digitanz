@@ -27,7 +27,7 @@
 <script>
 
   import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences } from '../components/dashboard'
-  import dateBlock from '../components/dashboard/dateBlock'
+  import DateBlock from '../components/DateBlock'
 
   export default {
     components: {
@@ -36,7 +36,7 @@
       PublicMrGriddles,
       PublicUploads,
       // PublicGroupSequences,
-      dateBlock
+      DateBlock
     },
     data () {
       return {
