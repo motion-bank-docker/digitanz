@@ -29,11 +29,11 @@
         type: Boolean
       },
       requestedWidth: {
-        type: Number,
+        // type: Number,
         default: null
       },
       requestedHeight: {
-        type: Number,
+        // type: Number,
         default: null
       },
       states: {
