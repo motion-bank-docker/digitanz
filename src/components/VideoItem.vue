@@ -117,7 +117,7 @@
         this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
         await SequenceHelper.deleteSequence(this, item.map.uuid)
         this.$q.loading.hide()
-        await this.loadData()
+        this.$emit('changed')
       },
       async deleteItem (item) {
         this.$q.loading.show({ message: this.$t('messages.deleting_video') })
