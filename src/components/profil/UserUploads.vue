@@ -8,6 +8,7 @@
                     @changed="loadData")
       template(slot="customButtons" slot-scope="{ video }")
         q-btn.q-px-none(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
+        q-btn.q-px-none(flat, size="sm" round, :icon="getItemStylePublic(video).icon", :color="getItemStylePublic(video).color", @click="togglePublic(video)")
 
     .text-center(v-else)
       loading-spinner
@@ -34,7 +35,9 @@
     },
     data () {
       return {
+        publicUploadsMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_UPLOADS_TIMELINE_UUID}`,
         uploads: [],
+        publicUploads: [],
         portraits: {
           map: undefined,
           annotations: []
@@ -44,13 +47,13 @@
     async mounted () {
       if (this.user) {
         await this.loadData()
-        await this.loadPortraits()
+        // await this.loadPortraits()
       }
     },
     watch: {
       async user (val) {
         if (val) await this.loadData()
-        if (val) await this.loadPortraits()
+        // if (val) await this.loadPortraits()
       }
     },
     methods: {
@@ -72,12 +75,20 @@
           }
           this.uploads = await VideoHelper.fetchVideoItems(this, query)
         }
+        await this.loadPublicUploads()
+        await this.loadPortraits()
       },
       getItemStyle (item) {
         for (let portrait of this.portraits.annotations) {
           if (portrait.body.source && item.annotation.body.source.id === portrait.body.source.id) return {color: 'primary', icon: 'account_box'}
         }
         return {color: 'grey-5', icon: 'portrait'}
+      },
+      getItemStylePublic (item) {
+        for (let publicUpload of this.publicUploads.items) {
+          if (publicUpload.body.source && item.annotation.body.source.id === publicUpload.body.source.id) return {color: 'primary', icon: 'group'}
+        }
+        return {color: 'grey-5', icon: 'group'}
       },
       async setAsPortrait (item, silent = false) {
         if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_portrait') })
@@ -123,6 +134,13 @@
         // fetch new portrait on profile page
         this.$emit('changed')
       },
+      async loadPublicUploads () {
+        const query = {
+          'target.id': this.publicUploadsMapUUID,
+          'author.id': this.user.uuid
+        }
+        this.publicUploads = await this.$store.dispatch('annotations/find', query)
+      },
       async loadPortraits () {
         /**
          * Get the global portrait timeline and its contents
@@ -136,8 +154,57 @@
           const portraitsResult = await this.$store.dispatch('annotations/find', portraitsQuery)
           const portraitAnnotations = portraitsResult.items.sort(this.$sort.onCreatedDesc)
           this.portraits = Object.assign({}, this.portraits, {map: portraitsMapResult, annotations: portraitAnnotations})
-          console.log('portraits loaded: ', this.portraits)
         }
+      },
+      async togglePublic (item, silent = true) {
+        if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_sequence') })
+        const query = {
+          'target.id': this.publicUploadsMapUUID,
+          'author.id': this.user.uuid
+        }
+        let result = await this.$store.dispatch('annotations/find', query)
+
+        let isCurrentItem = false
+        for (let favouredItem of result.items) {
+          // remove only this current item
+          if (favouredItem.body.source.id === item.annotation.body.source.id) {
+            isCurrentItem = true
+            await this.$store.dispatch('annotations/delete', favouredItem.uuid)
+            await this.$store.dispatch('acl/remove', {uuid: favouredItem.uuid, role: 'public', permission: 'get'})
+          }
+        }
+        const message = {
+          video: item.annotation.body.source.id,
+          user: this.user.uuid
+        }
+        if (!isCurrentItem) {
+          const annotation = {
+            author: {
+              id: this.user.uuid
+            },
+            body: ObjectUtil.merge({}, item.annotation.body),
+            target: {
+              id: this.publicUploadsMapUUID,
+              type: 'Timeline',
+              selector: {
+                type: 'Fragment',
+                value: DateTime.local().toISO()
+              }
+            }
+          }
+          const favouredItem = await this.$store.dispatch('annotations/post', annotation)
+          if (favouredItem) {
+            await this.$store.dispatch('acl/set', {uuid: favouredItem.uuid, role: 'public', permissions: ['get']})
+          }
+          await this.$store.dispatch('logging/log', { action: 'public_upload_set', message })
+          if (!silent) this.$q.loading.hide()
+        }
+        else if (!silent) {
+          await this.$store.dispatch('logging/log', { action: 'public_upload_unset', message })
+          this.$q.loading.hide()
+        }
+
+        await this.loadPublicUploads()
       }
     }
   }
