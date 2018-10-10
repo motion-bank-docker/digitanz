@@ -28,6 +28,7 @@
 
   // import { allPortraits, allSequences, allGroupSequences } from '../components/dashboard'
   import { allPortraits, allSequences, allMrGriddles } from '../components/dashboard'
+  import PublicUploads from '../components/dashboard/PublicUploads'
   import dateBlock from '../components/dashboard/dateBlock'
 
   export default {
@@ -35,6 +36,7 @@
       allPortraits,
       allSequences,
       allMrGriddles,
+      PublicUploads,
       // allGroupSequences,
       dateBlock
     },
@@ -42,6 +44,12 @@
       return {
         // dates: this.$dates(),
         components: [{
+          component: 'public-uploads',
+          day: '2018-08-24',
+          date: this.$t('navigation.portraitplusplus.sublabel'),
+          title: 'Videos',
+          description: 'no description'
+        }, {
           component: 'all-sequences',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
