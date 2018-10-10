@@ -31,6 +31,14 @@
       slot(v-if="video.responses" name="responsesButton" :video="video")
         q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
           q-chip(v-if="video.responses.length > 0", floating, color="red") {{ video.responses.length }}
+      slot(v-if="displayMoreButton" name="moreButton" :video="video")
+        q-btn.q-px-none(flat, size="sm" round, icon="more_horiz", @click="")
+          q-popover.bg-dark(:offset="[10, 0]")
+            q-list
+              q-item.q-px-sm
+                q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
+              q-item.q-px-sm
+                q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
 </template>
 
 <script>
@@ -138,6 +146,10 @@
       displayDownloadButton () {
         if (!this.user || (this.video && this.video.annotation && this.user.uuid !== this.video.annotation.author.id)) return false
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('download') > -1)
+        else return false
+      },
+      displayMoreButton () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more') > -1)
         else return false
       },
       isReady () {
