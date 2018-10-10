@@ -69,7 +69,10 @@
       hideButtons: undefined,
       roundImage: true,
       showDuration: Boolean,
-      layoutStyle: undefined,
+      layoutStyle: {
+        type: String,
+        default: 'sm'
+      },
       cardWidth: String,
       isSequence: {
         type: Boolean,
@@ -84,8 +87,12 @@
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.annotation.body.source.id)}`)
       },
       getPreviewWidth () {
-        console.log('--------------', this.$refs.previewImage.offsetWidth)
-        return this.$refs.previewImage.offsetWidth + 'px'
+        if (typeof this.$refs.previewImage !== 'undefined') {
+          console.log('--------------', this.$refs.previewImage.offsetWidth)
+          return this.$refs.previewImage.offsetWidth + 'px'
+        }
+        // means width = 0px
+        else return 0
       },
       setPreviewHeight () {
         if (this.isReady) {
@@ -165,6 +172,7 @@
         else return false
       },
       isReady () {
+        // console.log('debug dk', this.video)
         if (typeof this.video.annotation !== 'undefined' && typeof this.video.preview !== 'undefined') {
           return true
         }
@@ -173,6 +181,9 @@
       hasStandardStyle () {
         if (this.layoutStyle === 'sm' || this.layoutStyle === 'singleCenter') {
           return true
+        }
+        else {
+          console.log('no style')
         }
       },
       ...mapGetters({
