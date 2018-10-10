@@ -47,7 +47,7 @@
   import path from 'path'
   import { openURL } from 'quasar'
   import { mapGetters } from 'vuex'
-  import { VideoHelper } from '../lib'
+  import { SequenceHelper, VideoHelper } from '../lib/video-helper'
 
   export default {
     components: {
