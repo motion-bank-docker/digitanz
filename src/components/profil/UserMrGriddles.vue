@@ -1,6 +1,6 @@
 <template lang="pug">
 
-  div.bg-red
+  div
 
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 

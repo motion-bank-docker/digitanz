@@ -1,6 +1,6 @@
 <template lang="pug">
 
-  div.q-mb-lg.text-center.shadow-2.bg-primary
+  div.q-mb-lg.text-center.shadow-2
 
     q-window-resize-observable(@resize="onResize")
 

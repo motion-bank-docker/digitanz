@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.bg-green
+  div
 
     mr-griddle-list-view(
     v-if="sequences.length > 0",
