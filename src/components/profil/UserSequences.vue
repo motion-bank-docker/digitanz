@@ -182,7 +182,6 @@
 
         // dk: neccessary to load content again?
         await this.loadData()
-        await this.loadFavouriteSequences()
         console.log('sequence was made public')
       }
     }
