@@ -119,4 +119,9 @@ class VideoHelper {
   }
 }
 
+export {
+  SequenceHelper,
+  VideoHelper
+}
+
 export default VideoHelper
