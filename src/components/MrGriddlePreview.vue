@@ -1,18 +1,19 @@
 <template lang="pug">
-  div.q-mb-lg.text-center.shadow-2
+
+  div.q-mb-lg.text-center.shadow-2.bg-primary
+
     q-window-resize-observable(@resize="onResize")
-    // svg.bg-primary.q-mb-lg(ref="svgContainer" :width="svgSize.width" :height="svgSize.height")
-    // svg.bg-primary(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
-    svg.bg-grey-10(ref="svgContainer", v-if="states && item",
-      :width="requestedHeight", :height="requestedHeight")
-      // .q-mt-xl
+
+    svg.bg-grey-10(ref="svgContainer", v-if="states && item", :width="requestedHeight", :height="requestedHeight")
       g#mr-griddle.random
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
         line(v-for="(line, i) in lines", :key="`line-${i}`",
         :stroke-width="strokeWidth",
         :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
         :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
-    div.q-py-xl(v-else) Keine Vorschau verfügbar
+
+    .row.bg-grey-10.items-center(v-else, :style="{height: requestedHeight + 'px'}")
+      p.q-mb-none Keine Vorschau verfügbar
 
     div
       slot(name="customButtons", :item="item")

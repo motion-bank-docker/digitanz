@@ -1,5 +1,7 @@
 <template lang="pug">
-  div
+
+  div.bg-red
+
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
     mr-griddle-list-view(
@@ -7,27 +9,27 @@
     layout-style='sm',
     :items="sequences")
 
-      template(slot="customButtons" slot-scope="{ item }")
-        q-btn(flat, size="sm" round,
-        :icon="getItemStyle(item).icon", :color="getItemStyle(item).color",
+      .justify-around.row(slot="customButtons", slot-scope="{ item }")
+        q-btn(flat, size="sm" round, :icon="getItemStyle(item).icon", :color="getItemStyle(item).color",
         @click="toggleItemFavorite(item)")
 
-        q-btn(flat, size="sm" round, icon="edit",
+        q-btn(flat, size="sm", round, icon="edit",
         @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
 
-        q-btn(flat, size="sm" round, icon="delete",
+        q-btn(flat, size="sm", round, icon="delete",
         @click="openDeleteModal(item)")
 
     .text-center(v-else)
       loading-spinner
+
 </template>
 
 <script>
   import LoadingSpinner from '../LoadingSpinner'
-  import allMrGriddles from '../dashboard/allMrGriddles'
+  import MrGriddles from '../MrGriddles'
 
   export default {
-    extends: allMrGriddles,
+    extends: MrGriddles,
     components: {
       LoadingSpinner
     }
