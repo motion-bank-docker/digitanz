@@ -7,8 +7,8 @@
                     :showDuration="true",
                     @changed="loadData")
       template(slot="customButtons" slot-scope="{ video }")
-        q-btn.q-px-none(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
-        q-btn.q-px-none(flat, size="sm" round, :icon="getItemStylePublic(video).icon", :color="getItemStylePublic(video).color", @click="togglePublic(video)")
+        q-btn.q-px-none(flat, size="sm" round, :icon="getIconStylePortrait(video).icon", :color="getIconStylePortrait(video).color", @click="setAsPortrait(video)")
+        q-btn.q-px-none(flat, size="sm" round, :icon="getIconStyleUpload(video).icon", :color="getIconStyleUpload(video).color", @click="togglePublic(video)")
 
     .text-center(v-else)
       loading-spinner
@@ -78,13 +78,13 @@
         await this.loadPublicUploads()
         await this.loadPortraits()
       },
-      getItemStyle (item) {
+      getIconStylePortrait (item) {
         for (let portrait of this.portraits.annotations) {
           if (portrait.body.source && item.annotation.body.source.id === portrait.body.source.id) return {color: 'primary', icon: 'account_box'}
         }
         return {color: 'grey-5', icon: 'portrait'}
       },
-      getItemStylePublic (item) {
+      getIconStyleUpload (item) {
         for (let publicUpload of this.publicUploads.items) {
           if (publicUpload.body.source && item.annotation.body.source.id === publicUpload.body.source.id) return {color: 'primary', icon: 'group'}
         }
