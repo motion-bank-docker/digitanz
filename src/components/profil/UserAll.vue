@@ -28,8 +28,7 @@
     },
     async mounted () {
       if (this.user) {
-        await this.fetchUploads()
-        await this.fetchSequences()
+        await this.loadData()
         console.log('uploads: ', this.uploads)
         console.log('sequences: ', this.sequences)
       }
@@ -37,12 +36,15 @@
     watch: {
       async user (val) {
         if (val) {
-          await this.fetchUploads()
-          await this.fetchSequences()
+          await this.loadData()
         }
       }
     },
     methods: {
+      async loadData () {
+        await this.fetchSequences()
+        await this.fetchUploads()
+      },
       async fetchUploads () {
         let query = {
           'author.id': this.$store.state.auth.user.uuid,
