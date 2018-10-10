@@ -17,6 +17,8 @@
                 @changed="changed")
         template(slot="customButtons" slot-scope="{ video }")
           slot(name="customButtons" :video="video")
+        template(slot="customMoreButtons" slot-scope="{ video }")
+          slot(name="customMoreButtons" :video="video")
     // singleCenter
     div.row.singleCenter.justify-center(v-else-if="layoutStyle === 'singleCenter'")
       video-item.placeholder(v-if="showVideoPlaceholder" :video="{}")
@@ -34,6 +36,8 @@
       @changed="changed")
         template(slot="customButtons" slot-scope="{ video }")
           slot(name="customButtons" :video="video")
+        template(slot="customMoreButtons" slot-scope="{ video }")
+          slot(name="customMoreButtons" :video="video")
 </template>
 
 <script>

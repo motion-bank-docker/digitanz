@@ -36,6 +36,7 @@
         q-btn.q-px-none(flat, size="sm" round, icon="more_horiz", @click="")
           q-popover.bg-dark(:offset="[10, 0]")
             q-list
+              slot(name="customMoreButtons" :video="video")
               q-item.q-px-sm
                 q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
               q-item.q-px-sm
