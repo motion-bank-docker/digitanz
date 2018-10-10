@@ -11,6 +11,7 @@
                 :hideButtons="hideButtons",
                 :roundImage="roundImage",
                 :showDuration="showDuration",
+                :isSequence="isSequence",
                 :layoutStyle="layoutStyle",
                 :cardWidth="cardWidth",
                 @changed="changed")
@@ -27,6 +28,7 @@
       :hideButtons="hideButtons",
       :roundImage="roundImage",
       :showDuration="showDuration",
+      :isSequence="isSequence",
       :layoutStyle="layoutStyle",
       :cardWidth="cardWidth",
       @changed="changed")
@@ -51,6 +53,7 @@
       roundImage: undefined,
       jobIds: undefined,
       showDuration: Boolean,
+      isSequence: Boolean,
       cardWidth: {
         type: String,
         default: '46%'

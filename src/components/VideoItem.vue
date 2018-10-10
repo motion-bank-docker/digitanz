@@ -2,7 +2,8 @@
   q-card(v-if="hasStandardStyle",
         :style="{'width':cardWidth}",
         :class="{'bg-dark': !roundImage, 'no-shadow': roundImage}").q-mb-lg
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
+    confirm-modal(v-if="isSequence" ref="confirmDeleteModal", @confirm="deleteSequence")
+    confirm-modal(v-else ref="confirmDeleteModal", @confirm="deleteItem")
     // card media
     q-card-media.no-padding(:class="{'round-image shadow-2': roundImage}")
       // show video preview
@@ -69,7 +70,11 @@
       roundImage: true,
       showDuration: Boolean,
       layoutStyle: undefined,
-      cardWidth: String
+      cardWidth: String,
+      isSequence: {
+        type: Boolean,
+        default: false
+      }
     },
     mounted () {
       this.setPreviewHeight()
@@ -106,6 +111,13 @@
       },
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
+      },
+      async deleteSequence (item) {
+        console.log('I deleted the sequence', item)
+        this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
+        await SequenceHelper.deleteSequence(this, item.map.uuid)
+        this.$q.loading.hide()
+        await this.loadData()
       },
       async deleteItem (item) {
         this.$q.loading.show({ message: this.$t('messages.deleting_video') })
