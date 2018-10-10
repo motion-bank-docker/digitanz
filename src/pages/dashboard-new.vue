@@ -4,7 +4,7 @@
 
     // h3.text-center Kursübersicht
 
-    all-portraits.bg-dark.q-px-md.q-py-sm.shadow-6
+    public-portraits.bg-dark.q-px-md.q-py-sm.shadow-6
 
     h3.text-center Geteilte Inhalte
 
@@ -26,18 +26,16 @@
 
 <script>
 
-  // import { allPortraits, allSequences, allGroupSequences } from '../components/dashboard'
-  import { allPortraits, allSequences, allMrGriddles } from '../components/dashboard'
-  import PublicUploads from '../components/dashboard/PublicUploads'
+  import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences } from '../components/dashboard'
   import dateBlock from '../components/dashboard/dateBlock'
 
   export default {
     components: {
-      allPortraits,
-      allSequences,
-      allMrGriddles,
+      PublicPortraits,
+      PublicSequences,
+      PublicMrGriddles,
       PublicUploads,
-      // allGroupSequences,
+      // PublicGroupSequences,
       dateBlock
     },
     data () {
@@ -50,13 +48,13 @@
           title: 'Videos',
           description: 'no description'
         }, {
-          component: 'all-sequences',
+          component: 'public-sequences',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Sequenzen',
           description: this.$t('navigation.portraitplusplus.sublabel')
         }, {
-          component: 'all-mr-griddles',
+          component: 'public-mr-griddles',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Mr. Griddles',

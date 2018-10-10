@@ -1,16 +1,18 @@
-import allPortraits from './allPortraits'
-import allSequences from './allSequences'
-import allGroupSequences from './allGroupSequences'
-import allMrGriddles from './allMrGriddles'
+import PublicPortraits from './PublicPortraits'
+import PublicSequences from './PublicSequences'
+import PublicGroupSequences from './PublicGroupSequences'
+import PublicMrGriddles from './PublicMrGriddles'
+import PublicUploads from './PublicUploads'
 import Portraits from './Portraits'
 import PortraitsPlusPlus from './PortraitsPlusPlus'
 import GroupVideoSequences from './GroupVideoSequences'
 
 export {
-  allPortraits,
-  allSequences,
-  allGroupSequences,
-  allMrGriddles,
+  PublicPortraits,
+  PublicSequences,
+  PublicGroupSequences,
+  PublicMrGriddles,
+  PublicUploads,
   Portraits,
   PortraitsPlusPlus,
   GroupVideoSequences
