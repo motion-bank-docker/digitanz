@@ -35,8 +35,10 @@
           q-btn(push, flat, label="Datum", :color="iconColor('time')", icon="today", @click="orderByTime")
           q-btn(push, flat, label="Geteilt", :color="iconColor('visibility')", icon="people", @click="orderByVisibility")
 
+      //
       // ORDER BY TYPE
       div(v-if="displayType === 'type'")
+
         //
         // Meine Mr. Griddles
         section
@@ -61,16 +63,28 @@
             file-uploader-micro.absolute-top-right.bg-grey-10
           user-uploads(@changed="fetchPortrait")
 
-        //
-        // ORDER BY TIME
+      //
+      // ORDER BY TIME
       div(v-else-if="displayType === 'time'")
         h4.q-mb-sm Chronik
         user-all
 
       //
+      // LIST PUBLIC
       div(v-else-if="displayType === 'visibility'")
+
+        //
+        // Public Mr. Griddles
+        h4.q-mb-sm Öffentliche Mr. Griddles
+        users-public-mr-griddles
+
+        //
+        // Public Sequences
         h4.q-mb-sm Öffentliche Sequenzen
         users-public-sequences
+
+        //
+        // Public Portrait
         div(v-if="portrait.length > 0")
           h4.q-mb-sm Öffentliches Portrait
           users-public-portrait(:portraits="portrait", @changed="fetchPortrait")
@@ -106,6 +120,7 @@
   import UserUploads from '../components/profil/UserUploads'
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
+  import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
   import UserAll from '../components/profil/UserAll'
   import FileUploaderMicro from '../components/FileUploaderMicro'
 
@@ -120,6 +135,7 @@
       UserSequences,
       UsersPublicSequences,
       UsersPublicPortrait,
+      UsersPublicMrGriddles,
       UserUploads,
       UserAll,
       FileUploaderMicro
