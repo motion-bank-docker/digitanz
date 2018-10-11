@@ -39,7 +39,8 @@
             this.$store.commit('conversions/removeJobDetail', jobId)
             this.$store.commit('notifications/addMessage', {
               body: 'messages.conversion_failed',
-              type: 'error'
+              type: 'error',
+              options: { position: 'top' }
             })
           }
           else if (job.finished) {
@@ -90,7 +91,8 @@
             this.$root.$emit('jobResult', { annotation, jobId, detail })
             this.$store.commit('notifications/addMessage', {
               body: 'messages.conversion_successful',
-              type: 'success'
+              type: 'success',
+              options: { position: 'top' }
             })
           }
         }
