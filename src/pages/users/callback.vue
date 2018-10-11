@@ -24,7 +24,8 @@
         await _this.$store.dispatch('logging/log', { action: 'login', message: { user: user.uuid, navigator: nav } })
         _this.$store.commit('notifications/addMessage', {
           body: _this.$t('messages.login_success'),
-          type: 'success'
+          type: 'success',
+          options: { position: 'top' }
         })
         // if (first) _this.$router.replace({ name: 'users.manage', params: { isFirst: true } })
         // else _this.$router.replace({ name: 'site.welcome' })
@@ -41,7 +42,8 @@
         console.error('Auth0 callback error:', err.error || err.message, err.error_description)
         _this.$store.commit('notifications/addMessage', {
           body: err.message,
-          type: 'error'
+          type: 'error',
+          options: { position: 'top' }
         })
         _this.$router.replace('/')
       })
