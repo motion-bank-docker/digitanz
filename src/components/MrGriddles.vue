@@ -102,7 +102,7 @@
           }
           await this.$store.dispatch('logging/log', { action: 'griddle_sequence_favourite_set', message })
         }
-        await this.loadFavorites()
+        // await this.loadFavorites()
       },
       getItemStyle (item) {
         const favorite = this.favoriteSequences.find(a => {
@@ -139,7 +139,7 @@
         }
         this.sequences = sequenceAnnotations
         // console.log('::::: griddles', this.sequences)
-        await this.loadFavorites()
+        // await this.loadFavorites()
       },
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
