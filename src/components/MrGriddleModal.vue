@@ -1,6 +1,11 @@
 <template lang="pug">
-  q-modal(v-model="showModal", maximized)
-    | HALLO
+  q-modal.bg-dark(v-model="showModal", maximized)
+    q-modal-layout(dark, :content-class="{'bg-dark': true}")
+      | empty
+      | -------
+      | {{ modalContent }}
+      | -------
+    q-btn.bg-dark.fixed-top-right.q-ma-md.shadow-4(@click="closePreview", icon="clear", flat, round, size="sm")
     //
       q-window-resize-observable(@resize="onResize")
       q-modal-layout(dark, :content-class="{'bg-dark': true}")
@@ -10,14 +15,19 @@
 </template>
 
 <script>
-  import { VideoPlayer } from 'mbjs-quasar/src/components'
+  // import { VideoPlayer } from 'mbjs-quasar/src/components'
 
   export default {
     components: {
-      VideoPlayer
+      // VideoPlayer
     },
-    props: ['source', 'dimensions'],
+    props: [],
+    // props: ['source', 'dimensions'],
     methods: {
+      /* openModal () {
+        console.log('bla')
+        this.$refs.mrGriddleModal.show()
+      }, */
       onResize (size) {
         if (this.preview !== undefined) {
           this.device.width = size.width
@@ -40,18 +50,21 @@
           // this.distance.top = (size.width - this.playerHeight) / 2
         }
       },
-      show (preview) {
+      show (val) {
+        this.showModal = true
+        this.modalContent = val
+        console.log(val)
         // console.log(preview, '-----')
-        if (preview.annotation !== undefined) this.src = preview.annotation
+        /* if (preview.annotation !== undefined) this.src = preview.annotation
         else if (preview.portrait !== undefined) this.src = preview.portrait
         else this.src = preview.response
         // console.log(this.src)
         this.preview = preview
-        this.showModal = true
+        this.showModal = true */
       },
       closePreview () {
         this.showModal = false
-        this.preview = undefined
+        // this.preview = undefined
       },
       onEnded () {
         if (Array.isArray(this.preview)) {
@@ -71,6 +84,7 @@
           left: '',
           top: ''
         },
+        modalContent: undefined,
         src: '',
         playerWidth: '',
         playerHeight: '',
