@@ -37,7 +37,7 @@
       return {
         previewWidth: 167,
         itemStates: [],
-        itemWidth: ''
+        itemWidth: undefined
       }
     },
     mounted () {

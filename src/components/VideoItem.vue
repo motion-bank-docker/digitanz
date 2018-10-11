@@ -89,7 +89,6 @@
       },
       getPreviewWidth () {
         if (typeof this.$refs.previewImage !== 'undefined') {
-          console.log('--------------', this.$refs.previewImage.offsetWidth)
           return this.$refs.previewImage.offsetWidth + 'px'
         }
         // means width = 0px
@@ -121,7 +120,6 @@
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       async deleteSequence (item) {
-        console.log('I deleted the sequence', item)
         this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
         await SequenceHelper.deleteSequence(this, item.map.uuid)
         this.$q.loading.hide()
@@ -173,7 +171,6 @@
         else return false
       },
       isReady () {
-        // console.log('debug dk', this.video)
         if (typeof this.video.annotation !== 'undefined' && typeof this.video.preview !== 'undefined') {
           return true
         }
