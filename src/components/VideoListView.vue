@@ -14,6 +14,7 @@
                 :isSequence="isSequence",
                 :layoutStyle="layoutStyle",
                 :cardWidth="cardWidth",
+                :showOwnContentFlag="showOwnContentFlag",
                 @changed="changed")
         template(slot="customButtons" slot-scope="{ video }")
           slot(name="customButtons" :video="video")
@@ -58,6 +59,10 @@
       jobIds: undefined,
       showDuration: Boolean,
       isSequence: Boolean,
+      showOwnContentFlag: {
+        type: Boolean,
+        default: false
+      },
       cardWidth: {
         type: String,
         default: '46%'

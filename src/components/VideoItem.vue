@@ -89,10 +89,7 @@
         type: String,
         default: 'sm'
       },
-      showOwnContentFlag: {
-        type: Boolean,
-        default: true
-      },
+      showOwnContentFlag: Boolean,
       cardWidth: String,
       isSequence: {
         type: Boolean,

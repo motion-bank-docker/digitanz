@@ -9,7 +9,8 @@
         layoutStyle="sm",
         :allowSelfResponse="true",
         @changed="loadVideoSequences",
-        :buttons="['download']")
+        :buttons="['download']",
+        :showOwnContentFlag="true")
           template(slot="customButtons" slot-scope="{ video }")
             q-btn(flat, size="sm", round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
             q-btn(flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
