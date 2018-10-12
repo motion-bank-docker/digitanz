@@ -11,7 +11,8 @@
       :allowSelfResponse="true",
       :videos="publicUploads",
       layoutStyle="sm",
-      :buttons="['download']")
+      :buttons="['download']",
+      :showOwnContentFlag ="true")
         template(slot="customButtons" slot-scope="{ video }")
 </template>
 

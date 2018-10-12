@@ -12,7 +12,8 @@
       :allowSelfResponse="true",
       :videos="favouriteSequences",
       layoutStyle="sm",
-      :buttons="['download']")
+      :buttons="['download']",
+      :showOwnContentFlag ="true")
         template(slot="customButtons" slot-scope="{ video }")
           // q-btn(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
 

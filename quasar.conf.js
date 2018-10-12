@@ -152,7 +152,7 @@ module.exports = function (ctx) {
         'QTab',
         'QTabPane',
         'QBtnDropdown',
-        'QPopover'
+        'QPopover',
       ],
       directives: [
         'Ripple',
