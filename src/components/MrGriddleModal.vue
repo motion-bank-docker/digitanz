@@ -60,7 +60,7 @@
         playerWidth: '',
         preview: undefined,
         resizeFactor: '',
-        reqHeight: this.requestedHeight,
+        // reqHeight: this.requestedHeight,
         screenSize: {
           height: 0,
           width: 0
@@ -133,7 +133,7 @@
           width: size.width
         }
         // this.resizeFactor = this.screenSize.width / this.requestedHeight
-        this.resizeFactor = 4
+        // this.resizeFactor = 2
         // console.log('this.resizeFactor', this.resizeFactor)
         // console.log('screen size', this.screenSize)
       },
@@ -141,12 +141,12 @@
         this.showModal = true
         this.modalContent = val[0]
         // console.log('this.requestedHeight', this.requestedHeight)
-        this.reqHeight = this.requestedHeight
+        // this.reqHeight = this.requestedHeight
         // console.log('this.reqHeight', this.reqHeight)
-        this.svgSize = {
+        /* this.svgSize = {
           width: this.requestedHeight * 2,
           height: this.requestedHeight * 2
-        }
+        } */
         // console.log('this.svgSize.width', this.svgSize.width)
         this.startTimer(val)
       },
