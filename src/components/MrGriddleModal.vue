@@ -2,22 +2,23 @@
   q-modal.bg-dark(v-model="showModal", maximized)
     q-window-resize-observable(@resize="onResize")
 
-    q-modal-layout.flex.items-center(dark, :content-class="{'bg-dark': true}")
-      div
-        svg.bg-grey-10(ref="svgContainer", :width="screenSize.width", :height="screenSize.width")
-          g#mr-griddle.random
-            rect(width="100%", height="100%", fill="#444444")
-            // line(x1="0", y1="0", x2="100", y2="100", stroke="white", stroke-width="1")
-            line(v-for="(line, i) in lines", :key="`line-${i}`",
-            :stroke-width="strokeWidth",
-            stroke="white",
-            :x1="line.x1", :y1="line.y1",
-            :x2="line.x2", :y2="line.y2")
+    q-modal-layout(dark, :content-class="{'bg-dark': true}")
+      .flex.items-center.full-height
+        .full-width.text-center
+          svg.bg-dark(ref="svgContainer", :width="screenSize.width", :height="screenSize.width")
+            g#mr-griddle.random
+              rect(width="100%", height="100%", fill="transparent")
+              // line(x1="0", y1="0", x2="100", y2="100", stroke="white", stroke-width="1")
+              line(v-for="(line, i) in lines", :key="`line-${i}`",
+              :stroke-width="strokeWidth",
+              stroke="white",
+              :x1="line.x1", :y1="line.y1",
+              :x2="line.x2", :y2="line.y2")
 
-            <!--line(v-for="(line, i) in lines", :key="`line-${i}`",-->
-            <!--:stroke-width="strokeWidth",-->
-            <!--:x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",-->
-            <!--:x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")-->
+              <!--line(v-for="(line, i) in lines", :key="`line-${i}`",-->
+              <!--:stroke-width="strokeWidth",-->
+              <!--:x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",-->
+              <!--:x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")-->
       //
         .bg-green {{ requestedHeight }}
         .bg-primary {{ gridCell.width }}
@@ -108,17 +109,21 @@
       },
       drawSkeleton (val) {
         this.modalContent = val
-        let skeletonLines = val
+        let skeletonLines = []
         skeletonLines = val.skeleton
         // console.log(skeletonLines)
-        let x = Math.floor(this.grid.columns / 2)
-        let y = Math.floor(this.grid.rows / 2)
+        /* let x = Math.floor(this.grid.columns / 0.1)
+        let y = Math.floor(this.grid.rows / 0.1) */
+        let x = Math.floor(this.screenSize.width / 2)
+        let y = Math.floor(this.screenSize.width / 2)
+        // console.log(this.grid.columns, this.grid.rows)
         // console.log(x, y)
         let w = this.requestedHeight / this.grid.columns
         let h = this.requestedHeight / this.grid.rows
         // console.log(this.requestedHeight, w, h)
         this.lines = skeletonLines.map(line => {
           // console.log(line)
+          console.log('x1', x + Math.round(line.x1 * this.skeletonScale / w))
           return {
             x1: x + Math.round(line.x1 * this.skeletonScale / w),
             y1: y + Math.round(line.y1 * this.skeletonScale / h),
@@ -137,26 +142,6 @@
         this.scaleQuotient = 9
         console.log('this.scaleQuotient', this.scaleQuotient)
         console.log('screen size', this.screenSize)
-        if (this.preview !== undefined) {
-          this.device.width = size.width
-          this.device.height = size.height
-          let videoX = this.preview.metadata.width
-          let videoY = this.preview.metadata.height
-          if (this.device.width > this.device.height) { // DEVICE LANDSCAPE
-            if (videoX < videoY) {
-              this.playerWidth = this.device.height / (videoY / videoX)
-              // this.playerHeight = this.playerWidth * (videoY / videoX)
-            } // video hochformat
-            if (videoX > videoY) this.playerWidth = this.device.width // video querformat
-          }
-          else if (size.width < size.height) { // DEVICE PORTRAIT
-            if (videoX < videoY) this.playerWidth = this.device.width // video hochformat
-            if (videoX > videoY) this.playerWidth = this.device.width // video querformat
-            this.playerHeight = this.device.height * (videoY / videoX)
-          }
-          this.distance.left = (this.device.width - this.playerWidth) / 2
-          // this.distance.top = (size.width - this.playerHeight) / 2
-        }
       },
       show (val) {
         this.showModal = true
@@ -167,14 +152,7 @@
           height: this.requestedHeight * 2
         }
         console.log('this.svgSize.width', this.svgSize.width)
-
         this.startTimer(val)
-        /* if (preview.annotation !== undefined) this.src = preview.annotation
-        else if (preview.portrait !== undefined) this.src = preview.portrait
-        else this.src = preview.response
-        // console.log(this.src)
-        this.preview = preview
-        this.showModal = true */
       },
       close () {
         this.showModal = false
