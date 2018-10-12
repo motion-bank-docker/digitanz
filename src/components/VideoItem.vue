@@ -1,13 +1,22 @@
 <template lang="pug">
   q-card.relative-position(v-if="hasStandardStyle",
         :style="{'width':cardWidth}",
-        :class="{'bg-dark': !roundImage, 'no-shadow': roundImage}").q-mb-lg
+        :class="{'bg-dark': !roundImage, 'no-shadow': roundImage}").q-mb-lg.relative-position
     span.my-flag(v-if="showOwnContentFlag && isOwnContent")
       q-icon(name="how_to_reg")
     confirm-modal(v-if="isSequence" ref="confirmDeleteModal", @confirm="deleteSequence")
     confirm-modal(v-else ref="confirmDeleteModal", @confirm="deleteItem")
     // card media
     q-card-media.no-padding(:class="{'round-image shadow-2': roundImage}")
+      <!--div.more-btn-->
+        <!--q-btn.q-px-none(flat size="md" round icon="settings" @click="showActionButton = !showActionButton")-->
+      <!--q-slide-transition-->
+        <!--div.action-buttons.row.justify-around(v-if="displayMoreButton && showActionButton")-->
+          <!--slot(name="customMoreButtons" :video="video")-->
+          <!--q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")-->
+          <!--q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")-->
+          <!--q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")-->
+
       // show video preview
       video-modal(ref="videoModal")
       div.previewImage(v-if="isReady",
@@ -35,13 +44,15 @@
         q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
           q-chip(v-if="video.responses.length > 0", floating, color="red") {{ video.responses.length }}
       slot(v-if="displayMoreButton" name="moreButton" :video="video")
-        q-btn.q-px-none(flat, size="sm" round, icon="more_horiz", @click="")
+        q-btn.q-px-none(flat, size="sm" round, icon="more_horiz" @click="showActionButton = !showActionButton")
           q-popover.bg-dark(:offset="[10, 0]")
             q-list
               slot(name="customMoreButtons" :video="video")
-              q-item.q-px-sm
+              q-item(v-if="displayMoreVisibility").q-px-sm
+                q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
+              q-item(v-if="displayMoreDownload").q-px-sm
                 q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
-              q-item.q-px-sm
+              q-item(v-if="displayMoreDelete").q-px-sm
                 q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
 </template>
 
@@ -60,7 +71,9 @@
     },
     data () {
       return {
-        previewHeight: undefined
+        previewHeight: undefined,
+        showing: false,
+        showActionButton: false
       }
     },
     props: {
@@ -90,6 +103,10 @@
       this.setPreviewHeight()
     },
     methods: {
+      setShowing () {
+        this.showing = !this.showing
+        console.log(this.showing)
+      },
       downloadItem (video) {
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.annotation.body.source.id)}`)
       },
@@ -130,6 +147,10 @@
         await SequenceHelper.deleteSequence(this, item.map.uuid)
         this.$q.loading.hide()
         this.$emit('changed')
+      },
+      async toggleVisibility (item) {
+        // to be done
+        console.log('toggled private/public', item)
       },
       async deleteItem (item) {
         this.$q.loading.show({ message: this.$t('messages.deleting_video') })
@@ -176,7 +197,26 @@
         else return false
       },
       displayMoreButton () {
-        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more') > -1)
+        if (typeof this.buttons !== 'undefined') {
+          for (let btn of this.buttons) {
+            if (btn.includes('more')) {
+              return true
+            }
+          }
+          return false
+        }
+        else return false
+      },
+      displayMoreVisibility () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-visibility') > -1)
+        else return false
+      },
+      displayMoreDelete () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-delete') > -1)
+        else return false
+      },
+      displayMoreDownload () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-download') > -1)
         else return false
       },
       isReady () {
@@ -240,4 +280,22 @@
     display: flex
     align-items center
     justify-content center
+  .superduba
+    position absolute
+    top 0
+    bottom 0
+    left 0
+    right 0
+  .more-btn
+    position absolute
+    top 0
+    right 0
+    color $grey-9
+  .action-buttons
+    z-index 9000
+    background-color $grey-10
+    position absolute
+    bottom 0
+    left 0
+    right 0
 </style>
