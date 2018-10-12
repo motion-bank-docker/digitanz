@@ -1,7 +1,9 @@
 <template lang="pug">
-  q-card(v-if="hasStandardStyle",
+  q-card.relative-position(v-if="hasStandardStyle",
         :style="{'width':cardWidth}",
         :class="{'bg-dark': !roundImage, 'no-shadow': roundImage}").q-mb-lg
+    span.my-flag(v-if="showOwnContentFlag")
+      q-icon(name="how_to_reg")
     confirm-modal(v-if="isSequence" ref="confirmDeleteModal", @confirm="deleteSequence")
     confirm-modal(v-else ref="confirmDeleteModal", @confirm="deleteItem")
     // card media
@@ -73,6 +75,10 @@
       layoutStyle: {
         type: String,
         default: 'sm'
+      },
+      showOwnContentFlag: {
+        type: Boolean,
+        default: true
       },
       cardWidth: String,
       isSequence: {
@@ -212,4 +218,21 @@
     padding-right 0
   .round-image
     border-radius 100%
+  .my-flag
+    z-index 1000
+    position absolute
+    top 0
+    right 0
+    width: 1.5em
+    height: 1.5em
+    // margin-top -3px
+    // margin-right -5px
+    // background-color $secondary
+    border 1px solid white
+    color white
+    /*padding 2px*/
+    border-radius 50%
+    display: flex
+    align-items center
+    justify-content center
 </style>
