@@ -1,8 +1,10 @@
 <template lang="pug">
 
-  div.q-mb-lg.text-center.shadow-2
+  div.q-mb-lg.text-center.shadow-2(@click="openModal")
 
     q-window-resize-observable(@resize="onResize")
+
+    mr-griddle-modal(ref="mrGriddleModal", :height="requestedHeight")
 
     svg.bg-grey-10(ref="svgContainer", v-if="states && item", :width="requestedHeight", :height="requestedHeight")
       g#mr-griddle.random
@@ -21,19 +23,24 @@
 </template>
 
 <script>
+  import MrGriddleModal from './MrGriddleModal'
+
   const UI_RESIZER_FACTOR = 2
 
   export default {
+    components: {
+      MrGriddleModal
+    },
     props: {
       play: {
         type: Boolean
       },
       requestedWidth: {
-        type: Number,
+        // type: Number,
         default: null
       },
       requestedHeight: {
-        type: Number,
+        // type: Number,
         default: null
       },
       states: {
@@ -128,6 +135,10 @@
       }
     },
     methods: {
+      openModal () {
+        // console.log('bla')
+        this.$refs.mrGriddleModal.show(this.states)
+      },
       onResize () {
         this.gridCell = {
           width: this.requestedHeight / this.grid.columns,

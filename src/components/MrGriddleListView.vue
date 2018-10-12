@@ -1,6 +1,7 @@
 <template lang="pug">
   .full-width
     q-window-resize-observable(@resize="onResize")
+
     // size sm
     .row.justify-between.q-px-md(v-if="layoutStyle === 'sm'", ref="mega")
       mr-griddle-preview(
@@ -15,15 +16,18 @@
       style="width: 46%")
         template(slot="customButtons", slot-scope="{ item }")
           slot(name="customButtons", :item="item")
+          mr-griddle-modal(ref="mrGriddleModal", :item="mrGriddle")
 
     q-window-resize-observable(@resize="setPreviewWidth()")
 </template>
 
 <script>
+  import MrGriddleModal from './MrGriddleModal'
   import MrGriddlePreview from './MrGriddlePreview'
 
   export default {
     components: {
+      MrGriddleModal,
       MrGriddlePreview
     },
     props: {
