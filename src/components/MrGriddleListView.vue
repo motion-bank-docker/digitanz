@@ -55,10 +55,6 @@
       }
     },
     methods: {
-      // openModal () {
-      //   console.log('bla')
-      //   this.$refs.mrGriddleModal.show()
-      // },
       onResize () {
         this.itemWidth = (window.innerWidth > 0) ? ((window.innerWidth - 16 * 4) / 100 * 46) : (screen.width / 100 * 46)
       },

@@ -3,15 +3,11 @@
     q-modal-layout(dark, :content-class="{'bg-dark': true}")
       | empty
       | -------
-      | {{ modalContent }}
+      | {{ height }}
       | -------
-    q-btn.bg-dark.fixed-top-right.q-ma-md.shadow-4(@click="closePreview", icon="clear", flat, round, size="sm")
-    //
-      q-window-resize-observable(@resize="onResize")
-      q-modal-layout(dark, :content-class="{'bg-dark': true}")
-        div(v-if="preview", :style="{width: playerWidth + 'px', marginLeft: distance.left + 'px', marginTop: distance.top + 'px'}")
-          video-player(v-if="video", :annotation="src", @ended="onEnded", :autoplay="true")
-      q-btn.bg-dark.fixed-top-right.q-ma-md(@click="closePreview", icon="clear", flat, round, size="sm")
+      .q-caption.text-white ::: {{ modalContent }} +++
+      | -------
+    q-btn.bg-dark.fixed-top-right.q-ma-md.shadow-4(@click="close", icon="clear", flat, round, size="sm")
 </template>
 
 <script>
@@ -19,15 +15,46 @@
 
   export default {
     components: {
-      // VideoPlayer
     },
-    props: [],
-    // props: ['source', 'dimensions'],
+    props: ['height'],
+    data () {
+      return {
+        device: {
+          width: '',
+          height: ''
+        },
+        distance: {
+          left: '',
+          top: ''
+        },
+        modalContent: undefined,
+        src: '',
+        playerWidth: '',
+        playerHeight: '',
+        index: -1,
+        video: undefined,
+        showModal: false,
+        preview: undefined,
+        modalInterval: undefined
+      }
+    },
+    computed: {
+    },
+    watch: {
+    },
+    mounted () {
+    },
     methods: {
-      /* openModal () {
-        console.log('bla')
-        this.$refs.mrGriddleModal.show()
-      }, */
+      startTimer (val) {
+        // this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
+        console.log('START')
+        let i = 0
+        this.modalInterval = setInterval(function () {
+          console.log(i, val[i].skeleton[0].id, val[i].skeleton[0].x2)
+          i++
+          if (i >= val.length) i = 0
+        }, 500)
+      },
       onResize (size) {
         if (this.preview !== undefined) {
           this.device.width = size.width
@@ -53,8 +80,7 @@
       show (val) {
         this.showModal = true
         this.modalContent = val
-        console.log(val)
-        // console.log(preview, '-----')
+        this.startTimer(val)
         /* if (preview.annotation !== undefined) this.src = preview.annotation
         else if (preview.portrait !== undefined) this.src = preview.portrait
         else this.src = preview.response
@@ -62,47 +88,11 @@
         this.preview = preview
         this.showModal = true */
       },
-      closePreview () {
+      close () {
         this.showModal = false
-        // this.preview = undefined
-      },
-      onEnded () {
-        if (Array.isArray(this.preview)) {
-          this.index++
-          if (this.index >= this.preview.length) this.index = 0
-          this.video = this.preview[this.index]
-        }
-      }
-    },
-    data () {
-      return {
-        device: {
-          width: '',
-          height: ''
-        },
-        distance: {
-          left: '',
-          top: ''
-        },
-        modalContent: undefined,
-        src: '',
-        playerWidth: '',
-        playerHeight: '',
-        index: -1,
-        video: undefined,
-        showModal: false,
-        preview: undefined
-      }
-    },
-    watch: {
-      preview () {
-        if (Array.isArray(this.preview) && this.preview.length) {
-          this.index = 0
-          this.video = this.preview[this.index]
-        }
-        else if (this.preview) {
-          this.video = this.preview
-        }
+        this.modalContent = undefined
+        clearInterval(this.modalInterval)
+        console.log('STOP')
       }
     }
   }

@@ -4,7 +4,7 @@
 
     q-window-resize-observable(@resize="onResize")
 
-    mr-griddle-modal(ref="mrGriddleModal", :items="mrGriddle")
+    mr-griddle-modal(ref="mrGriddleModal", :height="requestedHeight")
 
     svg.bg-grey-10(ref="svgContainer", v-if="states && item", :width="requestedHeight", :height="requestedHeight")
       g#mr-griddle.random
