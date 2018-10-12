@@ -5,40 +5,33 @@
     q-modal-layout(dark, :content-class="{'bg-dark': true}")
       .flex.items-center.full-height
         .full-width.text-center
-          svg.bg-dark(ref="svgContainer", :width="screenSize.width", :height="screenSize.width")
-            g#mr-griddle.random
-              rect(width="100%", height="100%", fill="transparent")
-              // line(x1="0", y1="0", x2="100", y2="100", stroke="white", stroke-width="1")
-              line(v-for="(line, i) in lines", :key="`line-${i}`",
-              :stroke-width="strokeWidth",
-              stroke="white",
-              :x1="line.x1", :y1="line.y1",
-              :x2="line.x2", :y2="line.y2")
-
-              <!--line(v-for="(line, i) in lines", :key="`line-${i}`",-->
-              <!--:stroke-width="strokeWidth",-->
-              <!--:x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",-->
-              <!--:x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")-->
-      //
-        .bg-green {{ requestedHeight }}
-        .bg-primary {{ gridCell.width }}
-        .bg-red
-          p(v-for="line in lines") {{ typeof line.y2 }}
-
-      // .bg-green
-        // p(v-for="line in lines") {{ line }}
-        p(v-for="line in lines") {{ line }} {{ gridCell.width }}
-
-      // .q-caption.text-white {{ modalContent }}
+          template(v-if="lines.length > 0")
+            svg.bg-dark(ref="svgContainer", :width="screenSize.width", :height="screenSize.width")
+              // line(v-for="(col, i) in grid.columns", x1="i * ", :y1="", :x2="screenSize.width", :y2="i * screenSize.width", stroke="white")
+              //
+                line(v-for="n in grid.columns", :x1="(screenSize.width / grid.columns) * n", y1="screenSize.width", :x2="(screenSize.width / grid.columns) * n", :y2="screenSize.width", stroke="white")
+                line(v-for="n in grid.rows", x1="0", :y1="(screenSize.width / grid.rows) * n", :x2="screenSize.width", :y2="(screenSize.width / grid.rows) * n", stroke="white")
+              g#mr-griddle.random
+                // rect(width="100%", height="100%", fill="#111111")
+                // line(x1="0", y1="0", x2="100", y2="100", stroke="white", stroke-width="1")
+                line(v-for="(line, i) in lines", :key="`line-${i}`",
+                :stroke-width="strokeWidth",
+                stroke="white",
+                :x1="line.x1", :y1="line.y1",
+                :x2="line.x2", :y2="line.y2")
+          template(v-else)
+            loading-spinner
 
     q-btn.bg-dark.fixed-top-right.q-ma-md.shadow-4(@click="close", icon="clear", flat, round, size="sm")
 </template>
 
 <script>
   // import { VideoPlayer } from 'mbjs-quasar/src/components'
+  import LoadingSpinner from './LoadingSpinner'
 
   export default {
     components: {
+      LoadingSpinner
     },
     props: ['requestedHeight'],
     data () {
@@ -66,7 +59,8 @@
         playerHeight: '',
         playerWidth: '',
         preview: undefined,
-        scaleQuotient: '',
+        resizeFactor: '',
+        reqHeight: this.requestedHeight,
         screenSize: {
           height: 0,
           width: 0
@@ -78,10 +72,10 @@
     },
     computed: {
       strokeWidth () {
-        return (20 / this.scaleQuotient) * this.skeletonScale
+        return (20 / this.resizeFactor) * this.skeletonScale
       },
       skeletonScale () {
-        const scale = Math.min(1, this.screenSize.width / (900 / this.scaleQuotient))
+        const scale = Math.min(1, this.screenSize.width / 900) * (this.screenSize.width / this.requestedHeight)
         console.log('scale', scale)
         return scale
       }
@@ -105,25 +99,25 @@
           i++
           if (i >= val.length) i = 0
           this.drawSkeleton(val[i])
-        }, 500)
+        }, 1000)
       },
       drawSkeleton (val) {
         this.modalContent = val
         let skeletonLines = []
         skeletonLines = val.skeleton
         // console.log(skeletonLines)
-        /* let x = Math.floor(this.grid.columns / 0.1)
-        let y = Math.floor(this.grid.rows / 0.1) */
+        /* let x = Math.floor(this.grid.columns / 2)
+        let y = Math.floor(this.grid.rows / 2) */
         let x = Math.floor(this.screenSize.width / 2)
         let y = Math.floor(this.screenSize.width / 2)
         // console.log(this.grid.columns, this.grid.rows)
         // console.log(x, y)
-        let w = this.requestedHeight / this.grid.columns
-        let h = this.requestedHeight / this.grid.rows
+        let w = this.screenSize.width / 100
+        let h = this.screenSize.width / 100
         // console.log(this.requestedHeight, w, h)
         this.lines = skeletonLines.map(line => {
           // console.log(line)
-          console.log('x1', x + Math.round(line.x1 * this.skeletonScale / w))
+          // console.log('x1', x + Math.round(line.x1 * this.skeletonScale / w))
           return {
             x1: x + Math.round(line.x1 * this.skeletonScale / w),
             y1: y + Math.round(line.y1 * this.skeletonScale / h),
@@ -138,15 +132,17 @@
           height: size.height,
           width: size.width
         }
-        // this.scaleQuotient = this.screenSize.width / this.requestedHeight
-        this.scaleQuotient = 9
-        console.log('this.scaleQuotient', this.scaleQuotient)
+        // this.resizeFactor = this.screenSize.width / this.requestedHeight
+        this.resizeFactor = 4
+        console.log('this.resizeFactor', this.resizeFactor)
         console.log('screen size', this.screenSize)
       },
       show (val) {
         this.showModal = true
         this.modalContent = val[0]
         console.log('this.requestedHeight', this.requestedHeight)
+        this.reqHeight = this.requestedHeight
+        console.log('this.reqHeight', this.reqHeight)
         this.svgSize = {
           width: this.requestedHeight * 2,
           height: this.requestedHeight * 2
