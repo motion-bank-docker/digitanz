@@ -72,11 +72,11 @@
     },
     computed: {
       strokeWidth () {
-        return (20 / this.resizeFactor) * this.skeletonScale
+        return 20 * this.skeletonScale / (this.screenSize.width / this.requestedHeight)
       },
       skeletonScale () {
         const scale = Math.min(1, this.screenSize.width / 900) * (this.screenSize.width / this.requestedHeight)
-        console.log('scale', scale)
+        // console.log('scale', scale)
         return scale
       }
     },
@@ -87,7 +87,7 @@
         width: this.screenSize.width / this.grid.columns,
         height: this.screenSize.height / this.grid.rows
       }
-      console.log('this.gridCell', this.gridCell)
+      // console.log('this.gridCell', this.gridCell)
     },
     methods: {
       startTimer (val) {
@@ -134,20 +134,20 @@
         }
         // this.resizeFactor = this.screenSize.width / this.requestedHeight
         this.resizeFactor = 4
-        console.log('this.resizeFactor', this.resizeFactor)
-        console.log('screen size', this.screenSize)
+        // console.log('this.resizeFactor', this.resizeFactor)
+        // console.log('screen size', this.screenSize)
       },
       show (val) {
         this.showModal = true
         this.modalContent = val[0]
-        console.log('this.requestedHeight', this.requestedHeight)
+        // console.log('this.requestedHeight', this.requestedHeight)
         this.reqHeight = this.requestedHeight
-        console.log('this.reqHeight', this.reqHeight)
+        // console.log('this.reqHeight', this.reqHeight)
         this.svgSize = {
           width: this.requestedHeight * 2,
           height: this.requestedHeight * 2
         }
-        console.log('this.svgSize.width', this.svgSize.width)
+        // console.log('this.svgSize.width', this.svgSize.width)
         this.startTimer(val)
       },
       close () {
