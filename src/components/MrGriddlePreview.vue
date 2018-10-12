@@ -4,8 +4,8 @@
 
     q-window-resize-observable(@resize="onResize")
 
-    mr-griddle-modal(ref="mrGriddleModal", :height="requestedHeight")
-
+    mr-griddle-modal(ref="mrGriddleModal", :requestedHeight="requestedHeight", :screenSize="screenSize")
+    // | {{ requestedHeight }}
     svg.bg-grey-10(ref="svgContainer", v-if="states && item", :width="requestedHeight", :height="requestedHeight")
       g#mr-griddle.random
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
@@ -53,10 +53,9 @@
     },
     data () {
       return {
-        svgSize: {
-          width: 0,
-          height: 0
-        },
+        currentState: -1,
+        currentTime: 0,
+        frameLength: 300,
         grid: {
           columns: 10,
           rows: 16
@@ -65,17 +64,18 @@
           width: 0,
           height: 0
         },
-        timerId: -1,
-        resizerFactor: UI_RESIZER_FACTOR,
-        currentTime: 0,
-        resizingCell: false,
-        frameLength: 300,
-        minFrameLength: 60 / 3,
-        maxFrameLength: 60 * 6,
-        settingFrameLength: false,
         lastFrameTime: -1,
         lines: [],
-        currentState: -1
+        maxFrameLength: 60 * 6,
+        minFrameLength: 60 / 3,
+        resizingCell: false,
+        resizerFactor: UI_RESIZER_FACTOR,
+        settingFrameLength: false,
+        svgSize: {
+          width: 0,
+          height: 0
+        },
+        timerId: -1
       }
     },
     computed: {
