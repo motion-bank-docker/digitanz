@@ -3,7 +3,7 @@
     video-list-view(:videos="uploads",
                     v-if="portraits.map",
                     layoutStyle="sm",
-                    :buttons="['more']",
+                    :buttons="['more-download', 'more-delete']",
                     :showDuration="true",
                     @changed="loadData")
       template(slot="customButtons" slot-scope="{ video }")
