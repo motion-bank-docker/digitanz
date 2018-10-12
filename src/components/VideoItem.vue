@@ -2,7 +2,7 @@
   q-card.relative-position(v-if="hasStandardStyle",
         :style="{'width':cardWidth}",
         :class="{'bg-dark': !roundImage, 'no-shadow': roundImage}").q-mb-lg
-    span.my-flag(v-if="showOwnContentFlag")
+    span.my-flag(v-if="showOwnContentFlag && isOwnContent")
       q-icon(name="how_to_reg")
     confirm-modal(v-if="isSequence" ref="confirmDeleteModal", @confirm="deleteSequence")
     confirm-modal(v-else ref="confirmDeleteModal", @confirm="deleteItem")
@@ -159,6 +159,9 @@
       }
     },
     computed: {
+      isOwnContent () {
+        return (this.video.annotation.author.id === this.user.uuid)
+      },
       displayDeleteButton () {
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('delete') > -1)
         else return false
@@ -228,9 +231,11 @@
     // margin-top -3px
     // margin-right -5px
     // background-color $secondary
-    border 1px solid white
+    background-color rgba(0,0,0,.4)
+    // border 1px solid white
     color white
     /*padding 2px*/
+    margin 5px
     border-radius 50%
     display: flex
     align-items center
