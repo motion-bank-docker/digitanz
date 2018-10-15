@@ -69,7 +69,7 @@
       //
       // ORDER BY TIME
       div(v-else-if="displayType === 'time'")
-        h4.q-mb-sm Chronik
+        // h4.q-mb-sm Chronik
         user-all
 
       //

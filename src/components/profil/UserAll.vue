@@ -1,11 +1,20 @@
 <template lang="pug">
   div
-    p.text-grey-8 WIP
+    div(v-for="n in 2")
+      h4 {{ n }}. Oktober 2018
+      video-list-view(:videos="uploads",
+      layoutStyle="sm",
+      :roundImage="false",
+      :hideButtons="false",
+      cardWidth="46%",
+      :showDuration="false")
 
 </template>
 
 <script>
   import VideoListView from '../VideoListView'
+  import LoadingSpinner from '../LoadingSpinner'
+
   import { mapGetters } from 'vuex'
   import { VideoHelper } from '../../lib'
   // import { DateTime } from 'luxon'
@@ -13,7 +22,8 @@
 
   export default {
     components: {
-      VideoListView
+      VideoListView,
+      LoadingSpinner
     },
     computed: {
       ...mapGetters({
@@ -22,7 +32,7 @@
     },
     data () {
       return {
-        uploads: undefined,
+        uploads: [],
         sequences: undefined
       }
     },
@@ -42,6 +52,23 @@
     },
     methods: {
       async loadData () {
+        let query = {
+          'author.id': this.$store.state.auth.user.uuid,
+          'title': 'Meine Videos'
+        }
+        let results = await this.$store.dispatch('maps/find', query)
+        if (results.items && results.items.length) {
+          this.map = Object.assign({}, results.items[0])
+          query = {
+            'author.id': this.user.uuid,
+            'body.type': 'Video',
+            'body.source.type': 'video/mp4',
+            'target.id': {
+              $eq: `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
+            }
+          }
+          this.uploads = await VideoHelper.fetchVideoItems(this, query)
+        }
         await this.fetchSequences()
         await this.fetchUploads()
       },
