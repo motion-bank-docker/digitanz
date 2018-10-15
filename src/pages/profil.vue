@@ -9,13 +9,15 @@
 
     // if logged in show profile screen
     div(v-else)
-      .absolute-top-right
-        q-btn.q-pa-sm.bg-grey-9.q-mr-xs(color="white", flat, icon="email",
-        v-if="user", @click.prevent="$router.push(`/team`)", rounded)
-        q-btn.q-pa-sm.bg-grey-9(color="white", flat, icon="eject",
-        v-if="user", @click.prevent="logout", rounded)
-        <!--q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",-->
-        <!--v-if="!user", @click.prevent="login", rounded)-->
+      div
+        span.q-title.text-white #digitanz
+        .float-right
+          q-btn.q-pa-sm.bg-grey-9.q-mr-xs(color="white", flat, icon="email",
+          v-if="user", @click.prevent="$router.push(`/team`)", rounded)
+          q-btn.q-pa-sm.bg-grey-9(color="white", flat, icon="eject",
+          v-if="user", @click.prevent="logout", rounded)
+          <!--q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",-->
+          <!--v-if="!user", @click.prevent="login", rounded)-->
 
       .text-center.q-mb-md.q-py-xl(v-if="portrait.length <= 0 && !portraitLoading")
         q-icon(name="person", size="35vw", color="grey-9")
