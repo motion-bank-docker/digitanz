@@ -34,9 +34,18 @@
 
       div.row.justify-center
         q-btn-group(push).q-mt-xl
-          q-btn(push, flat, label="Art", :color="iconColor('type')", icon="build", @click="orderByType")
-          q-btn(push, flat, label="Datum", :color="iconColor('time')", icon="today", @click="orderByTime")
-          q-btn(push, flat, label="Geteilt", :color="iconColor('visibility')", icon="people", @click="orderByVisibility")
+          // q-btn(push, flat, label="Art", :color="iconColor('type')", icon="build", @click="orderByType")
+          q-btn.q-pt-sm(push, flat, :color="iconColor('type')", @click="orderByType")
+            q-icon(name="build")
+            span.q-mx-sm.q-mt-xs.q-mb-sm Art
+          // q-btn(push, flat, label="Datum", :color="iconColor('time')", icon="today", @click="orderByTime")
+          q-btn.q-pt-sm(push, flat, :color="iconColor('time')", @click="orderByTime")
+            q-icon(name="today")
+            span.q-mx-sm.q-mt-xs.q-mb-sm Datum
+          // q-btn(push, flat, label="Geteilt", :color="iconColor('visibility')", icon="people", @click="orderByVisibility")
+          q-btn.q-pt-sm(push, flat, :color="iconColor('visibility')", @click="orderByVisibility")
+            q-icon(name="people")
+            span.q-mx-sm.q-mt-xs.q-mb-sm Geteilt
 
       //
       // ORDER BY TYPE
