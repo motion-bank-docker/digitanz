@@ -9,10 +9,13 @@
 
     // if logged in show profile screen
     div(v-else)
-      q-btn.q-pa-sm.absolute-top-right.bg-grey-9(color="white", flat, icon="eject",
-      v-if="user", @click.prevent="logout", rounded)
-      <!--q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",-->
-      <!--v-if="!user", @click.prevent="login", rounded)-->
+      .absolute-top-right
+        q-btn.q-pa-sm.bg-grey-9.q-mr-xs(color="white", flat, icon="email",
+        v-if="user", @click.prevent="$router.push(`/team`)", rounded)
+        q-btn.q-pa-sm.bg-grey-9(color="white", flat, icon="eject",
+        v-if="user", @click.prevent="logout", rounded)
+        <!--q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",-->
+        <!--v-if="!user", @click.prevent="login", rounded)-->
 
       .text-center.q-mb-md.q-py-xl(v-if="portrait.length <= 0 && !portraitLoading")
         q-icon(name="person", size="35vw", color="grey-9")
@@ -21,7 +24,7 @@
         // q-spinner(:size="30")
         loading-spinner
 
-      section.column.items-center
+      section.q-pt-lg
         video-list-view(:videos="portrait",
                         layoutStyle="singleCenter",
                         :roundImage="true",
@@ -89,7 +92,7 @@
           h4.q-mb-sm Öffentliches Portrait
           users-public-portrait(:portraits="portrait", @changed="fetchPortrait")
 
-      q-card.bg-dark.q-mt-xl.q-mb-md
+      // q-card.bg-dark.q-mt-xl.q-mb-md
         // h3.text-center {{ $t('pages.team.headline') }}
         q-card-title {{ $t('pages.team.headline') }}
         q-card-separator.bg-dark
