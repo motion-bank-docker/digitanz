@@ -27,7 +27,7 @@
 <script>
 
   import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences } from '../components/dashboard'
-  import DateBlock from '../components/DateBlock'
+  import DateBlock from '../components/ContentBlock'
 
   export default {
     components: {
