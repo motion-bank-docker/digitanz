@@ -1,30 +1,34 @@
 <template lang="pug">
-  q-page
-    q-card.bg-dark.q-ma-md
-      // h3.text-center {{ $t('pages.team.headline') }}
-      q-card-title {{ $t('pages.team.headline') }}
-      q-card-separator.bg-dark
+  q-page.q-ma-md
+    h3.text-center {{ $t('pages.team.headline') }}
+
+    q-card.bg-dark.q-mb-md(v-for="member in team")
       q-card-main
-        p Florian Jenett
+        p {{ member.name }}
         p.q-mb-none
-          | florian@motionbank.org
+          | {{ member.mail }}
           br
-          | 06131-628-2259
-      q-card-separator.bg-dark
-      q-card-main
-        p Tim Bindel
-        p.q-mb-none
-          | tbindel@uni-mainz.de
-          br
-          | 06131-39-23744
+          | {{ member.phone }}
 
 </template>
 
 <script>
   export default {
+    data () {
+      return {
+        team: [{
+          mail: 'florian@motionbank.org',
+          name: 'Florian Jenett',
+          phone: '06131-628-2259'
+        }, {
+          mail: 'tbindel@uni-mainz.de',
+          name: 'Tim Bindel',
+          phone: '06131-39-23744'
+        }]
+      }
+    }
   }
 </script>
 
 <style scoped lang="stylus">
-
 </style>
