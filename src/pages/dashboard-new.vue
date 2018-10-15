@@ -11,7 +11,11 @@
     .q-mt-md
       date-block.bg-dark(v-for="(comp, i) in components")
         template(slot="title")
-          .row.q-pl-md.q-py-sm.bg-dark
+          | {{ comp.title }}
+        template(slot="buttons")
+          q-btn.bg-grey-10.shadow-2(label="?", flat, rounded)
+            q-popover.bg-dark.q-py-md.q-px-lg {{ comp.description }}
+          // .row.q-pl-md.q-py-sm.bg-dark
             .col-10.self-center
               span.bg-grey-10.shadow-2.q-pa-sm {{ comp.title }}
             .col-2.text-right.q-pr-md
