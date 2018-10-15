@@ -3,7 +3,7 @@
     q-window-resize-observable(@resize="onResize")
 
     // size sm
-    .row.justify-between.q-px-md(v-if="layoutStyle === 'sm'", ref="mega")
+    .row.justify-between(v-if="layoutStyle === 'sm'", ref="mega")
       mr-griddle-preview(
       v-for="(item, i) in items",
       :item="item",

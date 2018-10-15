@@ -5,7 +5,7 @@
     .text-center.q-mb-md(v-if="publicUploads.length <= 0 && isLoading")
       loading-spinner
 
-    .row.q-mx-md
+    .row
       video-list-view(
       v-if="publicUploads && publicUploads.length > 0",
       :allowSelfResponse="true",

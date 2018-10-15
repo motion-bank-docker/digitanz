@@ -53,27 +53,30 @@
 
         //
         // Meine Mr. Griddles
-        section
-          div.relative-position.q-mb-sm
-            h4.q-mb-sm Mr. Griddles
-            q-btn.absolute-top-right.bg-grey-10(@click="$router.push(`/mr-griddle/create`)", icon="accessibility", round)
-          user-mr-griddles
+        content-block
+          template(slot="title") Mr. Griddles
+          template(slot="buttons")
+            q-btn.bg-grey-10(@click="$router.push(`/mr-griddle/create`)", icon="accessibility", round)
+          template(slot="content")
+            user-mr-griddles
 
         //
         // Meine Sequenzen Liste
-        section
-          div.relative-position.q-mb-sm
-            h4.q-mb-sm Sequenzen
-            q-btn.absolute-top-right.bg-grey-10(@click="$router.push(`/sequences/create`)", icon="extension", round)
-          user-sequences
+        content-block
+          template(slot="title") Sequenzen
+          template(slot="buttons")
+            q-btn.bg-grey-10(@click="$router.push(`/sequences/create`)", icon="extension", round)
+          template(slot="content")
+            user-sequences
 
         //
         // Meine Uploads Liste
-        section
-          div.relative-position.q-mb-sm
-            h4.q-mb-sm Uploads
-            file-uploader-micro.absolute-top-right.bg-grey-10
-          user-uploads(@changed="fetchPortrait")
+        content-block
+          template(slot="title") Uploads
+          template(slot="buttons")
+            file-uploader-micro.bg-grey-10
+          template(slot="content")
+            user-uploads(@changed="fetchPortrait")
 
       //
       // ORDER BY TIME
@@ -87,37 +90,28 @@
 
         //
         // Public Mr. Griddles
-        h4.q-mb-sm Öffentliche Mr. Griddles
-        users-public-mr-griddles
+        content-block
+          template(slot="title") Öffentliche Mr. Griddles
+          template(slot="buttons")
+          template(slot="content")
+            users-public-mr-griddles
 
         //
         // Public Sequences
-        h4.q-mb-sm Öffentliche Sequenzen
-        users-public-sequences
+        content-block
+          template(slot="title") Öffentliche Sequenzen
+          template(slot="buttons")
+          template(slot="content")
+            users-public-sequences
 
         //
         // Public Portrait
-        div(v-if="portrait.length > 0")
-          h4.q-mb-sm Öffentliches Portrait
-          users-public-portrait(:portraits="portrait", @changed="fetchPortrait")
+        content-block(v-if="portrait.length > 0")
+          template(slot="title") Öffentliches Portrait
+          template(slot="buttons")
+          template(slot="content")
+            users-public-portrait(:portraits="portrait", @changed="fetchPortrait")
 
-      // q-card.bg-dark.q-mt-xl.q-mb-md
-        // h3.text-center {{ $t('pages.team.headline') }}
-        q-card-title {{ $t('pages.team.headline') }}
-        q-card-separator.bg-dark
-        q-card-main
-          p Florian Jenett
-          p.q-mb-none
-            | florian@motionbank.org
-            br
-            | 06131-628-2259
-        q-card-separator.bg-dark
-        q-card-main
-          p Tim Bindel
-          p.q-mb-none
-            | tbindel@uni-mainz.de
-            br
-            | 06131-39-23744
 </template>
 
 <script>
@@ -135,6 +129,7 @@
   import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
   import UserAll from '../components/profil/UserAll'
   import FileUploaderMicro from '../components/FileUploaderMicro'
+  import ContentBlock from '../components/ContentBlock'
 
   export default {
     components: {
@@ -150,7 +145,8 @@
       UsersPublicMrGriddles,
       UserUploads,
       UserAll,
-      FileUploaderMicro
+      FileUploaderMicro,
+      ContentBlock
     },
     computed: {
       ...mapGetters({

@@ -1,9 +1,9 @@
 <template lang="pug">
-  q-card.q-mb-md.q-mx-md
+  q-card.q-mt-md.no-shadow
     q-card-title.q-px-none.q-pt-sm
-      .float-left.q-pt-sm.q-pl-md
+      .float-left.q-pt-sm
         slot(name="title")
-      .float-right.q-pr-md
+      .float-right
         slot(name="buttons")
 
     // q-card-separator.bg-grey-10

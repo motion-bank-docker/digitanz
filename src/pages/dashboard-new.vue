@@ -6,32 +6,23 @@
 
     public-portraits.bg-dark.q-px-md.q-py-sm.shadow-6
 
-    h3.text-center Geteilte Inhalte
+    .q-ma-md
+      h3.text-center Geteilte Inhalte
 
-    .q-mt-md
-      date-block.bg-dark(v-for="(comp, i) in components")
-        template(slot="title")
-          | {{ comp.title }}
-        template(slot="buttons")
-          q-btn.bg-grey-10.shadow-2(label="?", flat, rounded)
-            q-popover.bg-dark.q-py-md.q-px-lg {{ comp.description }}
-          // .row.q-pl-md.q-py-sm.bg-dark
-            .col-10.self-center
-              span.bg-grey-10.shadow-2.q-pa-sm {{ comp.title }}
-            .col-2.text-right.q-pr-md
-              q-btn.bg-grey-10.shadow-2(label="?", flat, rounded)
-                q-popover.bg-dark.q-py-md.q-px-lg {{ comp.description }}
-        template(slot="sublabel")
-        component(slot="content", :is="comp.component")
-        //
+      .q-mt-md
+        content-block(v-for="(comp, i) in components")
+          template(slot="title") {{ comp.title }}
           template(slot="buttons")
-            q-btn.full-width.bg-dark(v-for="button in comp.buttons", :label="button.label", @click="$router.push('dashboard-new')")
+            q-btn.bg-grey-10.shadow-2(label="?", flat, rounded)
+              q-popover.bg-dark.q-py-md.q-px-lg {{ comp.description }}
+          template(slot="content")
+            component(:is="comp.component")
 </template>
 
 <script>
 
   import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences } from '../components/dashboard'
-  import DateBlock from '../components/ContentBlock'
+  import ContentBlock from '../components/ContentBlock'
 
   export default {
     components: {
@@ -40,7 +31,7 @@
       PublicMrGriddles,
       PublicUploads,
       // PublicGroupSequences,
-      DateBlock
+      ContentBlock
     },
     data () {
       return {

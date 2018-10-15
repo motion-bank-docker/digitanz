@@ -6,7 +6,7 @@
     .text-center.q-mb-md(v-if="favouriteSequences.length <= 0")
       loading-spinner
 
-    .row.q-mx-md
+    .row
       video-list-view(
       v-if="favouriteSequences && favouriteSequences.length > 0",
       :allowSelfResponse="true",

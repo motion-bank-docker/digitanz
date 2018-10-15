@@ -1,19 +1,21 @@
 <template lang="pug">
   div
-    div(v-for="n in 2")
-      h4 {{ n }}. Oktober 2018
-      video-list-view(:videos="uploads",
-      layoutStyle="sm",
-      :roundImage="false",
-      :hideButtons="false",
-      cardWidth="46%",
-      :showDuration="false")
+    content-block(v-for="n in 2")
+      template(slot="title") {{ n }}. Oktober 2018
+      template(slot="content")
+        video-list-view(:videos="uploads",
+        layoutStyle="sm",
+        :roundImage="false",
+        :hideButtons="false",
+        cardWidth="46%",
+        :showDuration="false")
 
 </template>
 
 <script>
   import VideoListView from '../VideoListView'
   import LoadingSpinner from '../LoadingSpinner'
+  import ContentBlock from '../ContentBlock'
 
   import { mapGetters } from 'vuex'
   import { VideoHelper } from '../../lib'
@@ -23,7 +25,8 @@
   export default {
     components: {
       VideoListView,
-      LoadingSpinner
+      LoadingSpinner,
+      ContentBlock
     },
     computed: {
       ...mapGetters({
