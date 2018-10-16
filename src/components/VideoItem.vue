@@ -57,7 +57,7 @@
           q-chip(v-if="video.responses.length > 0", floating, color="red") {{ video.responses.length }}
 
       slot(v-if="displayMoreButton", name="moreButton", :video="video")
-        q-btn.q-px-none(flat, size="sm", round, icon="more_horiz", @click="showActionButton = !showActionButton")
+        q-btn.q-px-none(flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
           q-popover.bg-dark(:offset="[10, 0]")
             q-list
               slot(name="customMoreButtons", :video="video")
@@ -90,24 +90,24 @@
       }
     },
     props: {
-      uuid: undefined,
-      jobId: undefined,
-      video: undefined,
-      buttons: Array,
       allowSelfResponse: Boolean,
+      buttons: Array,
+      cardWidth: String,
       hideButtons: undefined,
-      roundImage: true,
-      showDuration: Boolean,
+      isSequence: {
+        type: Boolean,
+        default: false
+      },
+      jobId: undefined,
       layoutStyle: {
         type: String,
         default: 'sm'
       },
+      roundImage: true,
       showOwnContentFlag: Boolean,
-      cardWidth: String,
-      isSequence: {
-        type: Boolean,
-        default: false
-      }
+      showDuration: Boolean,
+      uuid: undefined,
+      video: undefined
     },
     mounted () {
       this.setPreviewHeight()
