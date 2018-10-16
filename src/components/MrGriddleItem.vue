@@ -3,8 +3,8 @@
   // div.q-mb-lg.text-center.shadow-2(@click="openModal")
   // div.q-mb-lg.text-center.shadow-2
   q-card.relative-position.q-mb-lg.relative-position.bg-dark
-
     q-window-resize-observable(@resize="onResize")
+    // | {{ typeof buttonVisibility }}
 
     // mr-griddle-modal(ref="mrGriddleModal", :requestedHeight="requestedHeight", :screenSize="screenSize")
     // | {{ requestedHeight }}
@@ -17,36 +17,44 @@
         :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
 
     .row.bg-grey-10.items-center(v-else, :style="{height: requestedHeight + 'px'}")
-      p.q-mb-none.text-center Keine Vorschau verfügbar
+      .full-width.q-px-md.q-mb-none.text-center Keine Vorschau verfügbar
 
     div
       slot(name="customButtons", :item="item")
 
     // .row.bg-blue.justify-around(slot="customButtons", slot-scope="{ item }")
     q-card-actions.row.justify-around
-      q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
+      template(v-if="buttonVisibility !== 'undefined' || buttonVisibility !== 'none'")
 
-      <!--q-btn(flat, size="sm" round, icon="people", :color="getItemStyle(item).color",-->
-      <!--@click="toggleItemFavorite(item)")-->
+        template(v-if="buttonVisibility === 'public'")
+          q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
+            // q-chip(v-if="video.responses.length > 0", floating, color="red") {{ video.responses.length }}
+            q-chip(v-if="", floating, color="red")
 
-      <!--q-btn(flat, size="sm", round, icon="delete",-->
-      <!--@click="openDeleteModal(item)")-->
+        <!--q-btn(flat, size="sm" round, icon="people", :color="getItemStyle(item).color",-->
+        <!--@click="toggleItemFavorite(item)")-->
 
-      q-btn.q-px-none(flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
-        q-popover.bg-dark(:offset="[10, 0]")
-          q-list
-            slot(name="customMoreButtons", :video="video")
-            //q-item(v-if="displayMoreVisibility").q-px-sm
-            q-item(v-if="").q-px-sm
-              q-btn(flat, size="sm", round, icon="edit",
-              @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
-              // q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
-            //q-item(v-if="displayMoreDownload").q-px-sm
-            q-item(v-if="").q-px-sm
-              q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
-            //q-item(v-if="displayMoreDelete").q-px-sm
-            q-item(v-if="").q-px-sm
-              q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
+        <!--q-btn(flat, size="sm", round, icon="delete",-->
+        <!--@click="openDeleteModal(item)")-->
+
+        template(v-if="buttonVisibility === 'private'")
+          q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
+
+          q-btn.q-px-none(flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
+            q-popover.bg-dark(:offset="[10, 0]")
+              q-list
+                slot(name="customMoreButtons", :video="video")
+                //q-item(v-if="displayMoreVisibility").q-px-sm
+                q-item(v-if="").q-px-sm
+                  q-btn(flat, size="sm", round, icon="edit",
+                  @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
+                  // q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
+                //q-item(v-if="displayMoreDownload").q-px-sm
+                q-item(v-if="").q-px-sm
+                  q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
+                //q-item(v-if="displayMoreDelete").q-px-sm
+                q-item(v-if="").q-px-sm
+                  q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
 
 </template>
 
@@ -62,6 +70,9 @@
     props: {
       play: {
         type: Boolean
+      },
+      buttonVisibility: {
+        type: String
       },
       requestedWidth: {
         // type: Number,

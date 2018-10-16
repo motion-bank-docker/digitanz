@@ -7,7 +7,8 @@
     mr-griddle-list-view(
     v-if="sequences.length > 0",
     layout-style='sm',
-    :items="sequences")
+    :items="sequences",
+    :buttonVisibility="`private`")
 
     .text-center(v-else)
       loading-spinner

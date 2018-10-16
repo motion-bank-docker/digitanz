@@ -9,6 +9,7 @@
       :buttons="buttons",
       :hideButtons="hideButtons",
       :item="item",
+      :buttonVisibility="buttonVisibility",
       :play="true",
       :requestedHeight="itemWidth",
       :requestedWidth="itemWidth",
@@ -33,6 +34,7 @@
     props: {
       // sm, md, l, xl ?
       buttons: Array,
+      buttonVisibility: undefined,
       hideButtons: undefined,
       items: undefined,
       layoutStyle: String
