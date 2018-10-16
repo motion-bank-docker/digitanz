@@ -48,6 +48,10 @@
           q-btn.q-pt-sm(push, flat, :color="iconColor('visibility')", @click="orderByVisibility")
             q-icon(name="people")
             span.q-mx-sm.q-mt-xs.q-mb-sm Geteilt
+          //
+            q-btn.q-pt-sm(push, flat, :color="iconColor('solution')", @click="orderBySolution")
+              q-icon(name="people")
+              span.q-mx-sm.q-mt-xs.q-mb-sm Lösungen
 
       //
       // ORDER BY TYPE
@@ -113,6 +117,15 @@
           template(slot="buttons")
           template(slot="content")
             users-public-portrait(:portraits="portrait", @changed="fetchPortrait")
+
+      //
+      // LIST SOLUTIONS
+      div(v-else-if="displayType === 'solution'")
+        content-block
+          template(slot="title") Meine Lösungen
+          template(slot="buttons")
+          template(slot="content")
+            | bla
 
 </template>
 
@@ -189,6 +202,10 @@
       orderByVisibility () {
         this.displayType = 'visibility'
         console.log('by visibility')
+      },
+      orderBySolution () {
+        this.displayType = 'solution'
+        console.log('by solution')
       },
       async fetchPortrait () {
         this.portraitLoading = true
