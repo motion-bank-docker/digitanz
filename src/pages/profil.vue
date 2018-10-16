@@ -12,9 +12,9 @@
       div
         span.q-title.text-white #digitanz
         .float-right
-          q-btn.q-pa-sm.bg-grey-9.q-mr-sm(color="white", flat, icon="email",
+          q-btn.q-pa-sm.bg-dark.q-mr-sm(color="white", icon="email",
           v-if="user", @click.prevent="$router.push(`/team`)", rounded)
-          q-btn.q-pa-sm.bg-grey-9(color="white", flat, icon="eject",
+          q-btn.q-pa-sm.bg-dark(color="white", icon="eject",
           v-if="user", @click.prevent="logout", rounded)
           <!--q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",-->
           <!--v-if="!user", @click.prevent="login", rounded)-->
