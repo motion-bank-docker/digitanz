@@ -63,10 +63,11 @@
               q-item.no-margin.no-padding.overflow-hidden(:class="{'bg-grey-9': currentPlay === index}")
                 q-item-main.relative-position(@click.native="openPreview(index)")
                   video-item(
-                  :key="video.annotation.uuid"
-                  :video="video"
+                  :key="video.annotation.uuid",
+                  :video="video",
                   :allowSelfResponse="allowSelfResponse",
-                  :hideButtons="true")
+                  :hideButtons="true",
+                  style="height: 25px")
                 //
                   img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
                   span.absolute-top-left.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
