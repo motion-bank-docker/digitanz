@@ -7,11 +7,11 @@
       h3.text-center {{ $t('pages.mr-griddle.responses.title') }}
 
       div.q-mb-md
-        mr-griddle-preview(v-if="states.length > 0"
-          :states="states"
-            :requestedWidth="250"
-            :requestedHeight="250"
-            :play="true")
+        mr-griddle-item(v-if="states.length > 0",
+        :states="states",
+        :requestedWidth="250",
+        :requestedHeight="250",
+        :play="true")
 
       q-btn.full-width.q-mb-md(
       dark, color="primary", @click="uploadResponse")
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-  import MrGriddlePreview from '../../components/MrGriddlePreview'
+  import MrGriddleItem from '../../components/MrGriddleItem'
   import JobList from '../../components/JobList'
   import UploadRemixModal from '../../components/UploadRemixModal'
   import VideoListView from '../../components/VideoListView'
@@ -40,7 +40,7 @@
 
   export default {
     components: {
-      MrGriddlePreview,
+      MrGriddleItem,
       JobList,
       UploadRemixModal,
       VideoListView,
@@ -126,5 +126,4 @@
 </script>
 
 <style scoped lang="stylus">
-
 </style>

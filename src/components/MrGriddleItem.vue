@@ -1,10 +1,12 @@
 <template lang="pug">
 
-  div.q-mb-lg.text-center.shadow-2(@click="openModal")
+  // div.q-mb-lg.text-center.shadow-2(@click="openModal")
+  // div.q-mb-lg.text-center.shadow-2
+  q-card.relative-position.q-mb-lg.relative-position.bg-dark
 
     q-window-resize-observable(@resize="onResize")
 
-    mr-griddle-modal(ref="mrGriddleModal", :requestedHeight="requestedHeight", :screenSize="screenSize")
+    // mr-griddle-modal(ref="mrGriddleModal", :requestedHeight="requestedHeight", :screenSize="screenSize")
     // | {{ requestedHeight }}
     svg.bg-grey-10(ref="svgContainer", v-if="states && item", :width="requestedHeight", :height="requestedHeight")
       g#mr-griddle.random
@@ -15,10 +17,36 @@
         :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
 
     .row.bg-grey-10.items-center(v-else, :style="{height: requestedHeight + 'px'}")
-      p.q-mb-none Keine Vorschau verfügbar
+      p.q-mb-none.text-center Keine Vorschau verfügbar
 
     div
       slot(name="customButtons", :item="item")
+
+    // .row.bg-blue.justify-around(slot="customButtons", slot-scope="{ item }")
+    q-card-actions.row.justify-around
+      q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
+
+      <!--q-btn(flat, size="sm" round, icon="people", :color="getItemStyle(item).color",-->
+      <!--@click="toggleItemFavorite(item)")-->
+
+      <!--q-btn(flat, size="sm", round, icon="delete",-->
+      <!--@click="openDeleteModal(item)")-->
+
+      q-btn.q-px-none(flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
+        q-popover.bg-dark(:offset="[10, 0]")
+          q-list
+            slot(name="customMoreButtons", :video="video")
+            //q-item(v-if="displayMoreVisibility").q-px-sm
+            q-item(v-if="").q-px-sm
+              q-btn(flat, size="sm", round, icon="edit",
+              @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
+              // q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
+            //q-item(v-if="displayMoreDownload").q-px-sm
+            q-item(v-if="").q-px-sm
+              q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
+            //q-item(v-if="displayMoreDelete").q-px-sm
+            q-item(v-if="").q-px-sm
+              q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
 
 </template>
 
@@ -70,6 +98,7 @@
         minFrameLength: 60 / 3,
         resizingCell: false,
         resizerFactor: UI_RESIZER_FACTOR,
+        showActionButton: false,
         settingFrameLength: false,
         svgSize: {
           width: 0,

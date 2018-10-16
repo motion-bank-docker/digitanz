@@ -4,44 +4,44 @@
 
     // size sm
     .row.justify-between(v-if="layoutStyle === 'sm'", ref="mega")
-      mr-griddle-preview(
+      mr-griddle-item(
       v-for="(item, i) in items",
+      :buttons="buttons",
+      :hideButtons="hideButtons",
       :item="item",
       :play="true",
-      :states="itemStates[i]",
-      :requestedWidth="itemWidth",
       :requestedHeight="itemWidth",
-      :hideButtons="hideButtons",
-      :buttons="buttons",
+      :requestedWidth="itemWidth",
+      :states="itemStates[i]",
       style="width: 46%")
         template(slot="customButtons", slot-scope="{ item }")
           slot(name="customButtons", :item="item")
-          mr-griddle-modal(ref="mrGriddleModal", :item="mrGriddle")
+          // mr-griddle-modal(ref="mrGriddleModal", :item="mrGriddle")
 
     q-window-resize-observable(@resize="setPreviewWidth()")
 </template>
 
 <script>
   import MrGriddleModal from './MrGriddleModal'
-  import MrGriddlePreview from './MrGriddlePreview'
+  import MrGriddleItem from './MrGriddleItem'
 
   export default {
     components: {
       MrGriddleModal,
-      MrGriddlePreview
+      MrGriddleItem
     },
     props: {
       // sm, md, l, xl ?
-      layoutStyle: String,
       buttons: Array,
       hideButtons: undefined,
-      items: undefined
+      items: undefined,
+      layoutStyle: String
     },
     data () {
       return {
-        previewWidth: 167,
         itemStates: [],
-        itemWidth: undefined
+        itemWidth: undefined,
+        previewWidth: 167
       }
     },
     mounted () {
@@ -92,5 +92,4 @@
 </script>
 
 <style lang="stylus" scoped>
-
 </style>
