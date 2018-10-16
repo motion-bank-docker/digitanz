@@ -1,11 +1,13 @@
 <template lang="pug">
-  q-card.relative-position(v-if="hasStandardStyle",
+  q-card.relative-position.q-mb-lg.relative-position(v-if="hasStandardStyle",
         :style="{'width':cardWidth}",
-        :class="{'bg-dark': !roundImage, 'no-shadow': roundImage}").q-mb-lg.relative-position
+        :class="{'bg-dark': !roundImage, 'no-shadow': roundImage}")
     span.my-flag(v-if="showOwnContentFlag && isOwnContent")
       q-icon(name="how_to_reg")
-    confirm-modal(v-if="isSequence" ref="confirmDeleteModal", @confirm="deleteSequence")
-    confirm-modal(v-else ref="confirmDeleteModal", @confirm="deleteItem")
+    confirm-modal(v-if="isSequence", ref="confirmDeleteModal", @confirm="deleteSequence")
+    confirm-modal(v-else, ref="confirmDeleteModal", @confirm="deleteItem")
+
+    //
     // card media
     q-card-media.no-padding(:class="{'round-image shadow-2': roundImage}")
       <!--div.more-btn-->
@@ -17,37 +19,48 @@
           <!--q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")-->
           <!--q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")-->
 
+      //
       // show video preview
       video-modal(ref="videoModal")
       div.previewImage(v-if="isReady",
       ref="previewImage",
       :style="{ 'background-image': 'url(' + video.preview.medium + ')', 'height':previewHeight }",
       @click="openPreview(video)")
-        span(v-if="showDuration").absolute-bottom-right.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption
+        span.absolute-bottom-right.bg-body-background.text-white.q-ma-sm.q-pa-xs.round-borders.q-caption(v-if="showDuration")
           | {{ formatDuration(video.metadata.duration) }}
+
+      //
       // or show spinner
       div.item(v-else)
         q-inner-loading.bg-dark(:visible="true")
-          q-spinner-mat(color="primary" size="3em")
+          q-spinner-mat(color="primary", size="3em")
       q-window-resize-observable(@resize="setPreviewHeight()")
+
+    //
     // card actions
     q-card-actions.row.justify-around(v-if="video.annotation",
     :class="{'q-py-none hidden' : hideButtons}")
-      slot(name="customButtons" :video="video")
-      slot(v-if="displayStartButton" name="starButton" :video="video")
+
+      slot(name="customButtons", :video="video")
+
+      slot(v-if="displayStartButton", name="starButton", :video="video")
         q-btn(round, flat, size="sm", icon="star", @click="starItem(video)")
-      slot(v-if="displayDeleteButton" name="deleteButton" :video="video")
+
+      slot(v-if="displayDeleteButton", name="deleteButton", :video="video")
         q-btn(round, flat, size="sm", icon="delete", @click="openDeleteModal(video)")
-      slot(v-if="displayDownloadButton" name="downloadButton" :video="video")
+
+      slot(v-if="displayDownloadButton", name="downloadButton", :video="video")
         q-btn(round, flat, size="sm", icon="cloud_download", @click="downloadItem(video)")
-      slot(v-if="video.responses" name="responsesButton" :video="video")
+
+      slot(v-if="video.responses", name="responsesButton", :video="video")
         q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
           q-chip(v-if="video.responses.length > 0", floating, color="red") {{ video.responses.length }}
-      slot(v-if="displayMoreButton" name="moreButton" :video="video")
-        q-btn.q-px-none(flat, size="sm" round, icon="more_horiz" @click="showActionButton = !showActionButton")
+
+      slot(v-if="displayMoreButton", name="moreButton", :video="video")
+        q-btn.q-px-none(flat, size="sm", round, icon="more_horiz", @click="showActionButton = !showActionButton")
           q-popover.bg-dark(:offset="[10, 0]")
             q-list
-              slot(name="customMoreButtons" :video="video")
+              slot(name="customMoreButtons", :video="video")
               q-item(v-if="displayMoreVisibility").q-px-sm
                 q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
               q-item(v-if="displayMoreDownload").q-px-sm
