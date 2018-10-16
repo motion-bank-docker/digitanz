@@ -53,8 +53,7 @@
           :autoplay="true",
           @ended="playNext",
           @play="setPlayerStatePlay()",
-          @pause="setPlayerStatePause()",
-          style="height: 45vh; overflow: hidden")
+          @pause="setPlayerStatePause()")
 
           // DISPLAY VIDEOS
           //
