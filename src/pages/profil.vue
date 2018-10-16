@@ -12,9 +12,9 @@
       div
         span.q-title.text-white #digitanz
         .float-right
-          q-btn.q-pa-sm.bg-grey-9.q-mr-sm(color="white", flat, icon="email",
+          q-btn.q-pa-sm.bg-dark.q-mr-sm(color="white", icon="email",
           v-if="user", @click.prevent="$router.push(`/team`)", rounded)
-          q-btn.q-pa-sm.bg-grey-9(color="white", flat, icon="eject",
+          q-btn.q-pa-sm.bg-dark(color="white", icon="eject",
           v-if="user", @click.prevent="logout", rounded)
           <!--q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",-->
           <!--v-if="!user", @click.prevent="login", rounded)-->
@@ -48,6 +48,10 @@
           q-btn.q-pt-sm(push, flat, :color="iconColor('visibility')", @click="orderByVisibility")
             q-icon(name="people")
             span.q-mx-sm.q-mt-xs.q-mb-sm Geteilt
+          //
+            q-btn.q-pt-sm(push, flat, :color="iconColor('solution')", @click="orderBySolution")
+              q-icon(name="people")
+              span.q-mx-sm.q-mt-xs.q-mb-sm Lösungen
 
       //
       // ORDER BY TYPE
@@ -113,6 +117,15 @@
           template(slot="buttons")
           template(slot="content")
             users-public-portrait(:portraits="portrait", @changed="fetchPortrait")
+
+      //
+      // LIST SOLUTIONS
+      div(v-else-if="displayType === 'solution'")
+        content-block
+          template(slot="title") Meine Lösungen
+          template(slot="buttons")
+          template(slot="content")
+            | bla
 
 </template>
 
@@ -189,6 +202,10 @@
       orderByVisibility () {
         this.displayType = 'visibility'
         console.log('by visibility')
+      },
+      orderBySolution () {
+        this.displayType = 'solution'
+        console.log('by solution')
       },
       async fetchPortrait () {
         this.portraitLoading = true

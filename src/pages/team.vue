@@ -2,6 +2,9 @@
   q-page.q-ma-md
     h3.text-center {{ $t('pages.team.headline') }}
 
+    .q-mb-md
+      | Bei Fragen stehen wir euch gerne zur Verfügung. Wir sind hier erreichbar:
+
     q-card.bg-dark.q-mb-md(v-for="member in team")
       q-card-main
         p {{ member.name }}

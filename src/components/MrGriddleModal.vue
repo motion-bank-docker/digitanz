@@ -4,7 +4,8 @@
 
     q-modal-layout(dark, :content-class="{'bg-dark': true}")
       .flex.items-center.full-height
-        .full-width.text-center
+        mr-griddle-standalone
+        // .full-width.text-center
           template(v-if="lines.length > 0")
             svg.bg-dark(ref="svgContainer", :width="screenSize.width", :height="screenSize.width")
               // line(v-for="(col, i) in grid.columns", x1="i * ", :y1="", :x2="screenSize.width", :y2="i * screenSize.width", stroke="white")
@@ -15,10 +16,10 @@
                 // rect(width="100%", height="100%", fill="#111111")
                 // line(x1="0", y1="0", x2="100", y2="100", stroke="white", stroke-width="1")
                 line(v-for="(line, i) in lines", :key="`line-${i}`",
-                :stroke-width="strokeWidth",
+                // :stroke-width="strokeWidth",
                 stroke="white",
-                :x1="line.x1", :y1="line.y1",
-                :x2="line.x2", :y2="line.y2")
+                // :x1="line.x1", :y1="line.y1",
+                // :x2="line.x2", :y2="line.y2")
           template(v-else)
             loading-spinner
 
@@ -28,10 +29,12 @@
 <script>
   // import { VideoPlayer } from 'mbjs-quasar/src/components'
   import LoadingSpinner from './LoadingSpinner'
+  import MrGriddleStandalone from './MrGriddleStandalone'
 
   export default {
     components: {
-      LoadingSpinner
+      LoadingSpinner,
+      MrGriddleStandalone
     },
     props: ['requestedHeight'],
     data () {

@@ -117,12 +117,12 @@
         }).length > 0) {
           return {
             color: 'primary',
-            icon: 'favorite'
+            icon: 'people'
           }
         }
         return {
           color: 'grey-5',
-          icon: 'favorite_outline'
+          icon: 'people'
         }
       },
       async loadFavouriteSequences () {

@@ -1,44 +1,51 @@
 <template lang="pug">
   div.full-width
+
+    //
     // size sm
     div.row.justify-between(v-if="layoutStyle === 'sm'")
-      video-item.placeholder(v-if="showVideoPlaceholder" :video="{}")
+      video-item.placeholder(v-if="showVideoPlaceholder", :video="{}")
       video-item(v-for="video in videos",
-                :key="setKey(video)",
-                :video="video",
-                :buttons="buttons",
-                :allowSelfResponse="allowSelfResponse",
-                :hideButtons="hideButtons",
-                :roundImage="roundImage",
-                :showDuration="showDuration",
-                :isSequence="isSequence",
-                :layoutStyle="layoutStyle",
-                :cardWidth="cardWidth",
-                :showOwnContentFlag="showOwnContentFlag",
-                @changed="changed")
-        template(slot="customButtons" slot-scope="{ video }")
-          slot(name="customButtons" :video="video")
-        template(slot="customMoreButtons" slot-scope="{ video }")
-          slot(name="customMoreButtons" :video="video")
-    // singleCenter
-    div.row.singleCenter.justify-center(v-else-if="layoutStyle === 'singleCenter'")
-      video-item.placeholder(v-if="showVideoPlaceholder" :video="{}")
-      video-item(v-for="video in videos",
-      :key="setKey(video)",
-      :video="video",
-      :buttons="buttons",
       :allowSelfResponse="allowSelfResponse",
+      :buttons="buttons",
+      :cardWidth="cardWidth",
+      :contentType="`video`",
       :hideButtons="hideButtons",
+      :isSequence="isSequence",
+      :key="setKey(video)",
+      :layoutStyle="layoutStyle",
       :roundImage="roundImage",
       :showDuration="showDuration",
-      :isSequence="isSequence",
-      :layoutStyle="layoutStyle",
-      :cardWidth="cardWidth",
+      :showOwnContentFlag="showOwnContentFlag",
+      :video="video",
       @changed="changed")
-        template(slot="customButtons" slot-scope="{ video }")
-          slot(name="customButtons" :video="video")
-        template(slot="customMoreButtons" slot-scope="{ video }")
-          slot(name="customMoreButtons" :video="video")
+
+        template(slot="customButtons", slot-scope="{ video }")
+          slot(name="customButtons", :video="video")
+        template(slot="customMoreButtons", slot-scope="{ video }")
+          slot(name="customMoreButtons", :video="video")
+
+    //
+    // singleCenter
+    div.row.singleCenter.justify-center(v-else-if="layoutStyle === 'singleCenter'")
+      video-item.placeholder(v-if="showVideoPlaceholder", :video="{}")
+      video-item(v-for="video in videos",
+      :allowSelfResponse="allowSelfResponse",
+      :buttons="buttons",
+      :cardWidth="cardWidth",
+      :hideButtons="hideButtons",
+      :isSequence="isSequence",
+      :key="setKey(video)",
+      :layoutStyle="layoutStyle",
+      :roundImage="roundImage",
+      :showDuration="showDuration",
+      :video="video",
+      @changed="changed")
+
+        template(slot="customButtons", slot-scope="{ video }")
+          slot(name="customButtons", :video="video")
+        template(slot="customMoreButtons", slot-scope="{ video }")
+          slot(name="customMoreButtons", :video="video")
 </template>
 
 <script>
@@ -49,24 +56,24 @@
       VideoItem
     },
     props: {
-      videos: Array,
       // sm, md, l, xl ?
-      layoutStyle: String,
-      buttons: Array,
       allowSelfResponse: Boolean,
+      buttons: Array,
+      cardWidth: {
+        type: String,
+        default: '46%'
+      },
       hideButtons: undefined,
-      roundImage: undefined,
-      jobIds: undefined,
-      showDuration: Boolean,
       isSequence: Boolean,
+      jobIds: undefined,
+      layoutStyle: String,
+      roundImage: undefined,
+      showDuration: Boolean,
       showOwnContentFlag: {
         type: Boolean,
         default: false
       },
-      cardWidth: {
-        type: String,
-        default: '46%'
-      }
+      videos: Array
     },
     data () {
       return {
