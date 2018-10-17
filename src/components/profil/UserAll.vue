@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    content-block(v-for="day in Object.keys(items)")
+    content-block(v-if="items", v-for="day in Object.keys(items)")
       template(slot="title") {{ DateTime.fromISO(day).toLocaleString() }}
       template(slot="content")
         div(v-for="item in items[day]")
@@ -75,6 +75,7 @@
           if (ac > bc) return -1
           return 0
         })
+        console.log(allItems)
         const groupedByDay = {}
         for (let item of allItems) {
           const day = DateTime.fromISO(item.created).startOf('day').toISO()
@@ -82,6 +83,7 @@
           else groupedByDay[day] = [item]
         }
         this.items = groupedByDay
+        console.log(this.items)
       }
     }
   }
