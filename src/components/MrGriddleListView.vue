@@ -62,10 +62,14 @@
       },
       async loadItemStates () {
         let allStates = []
+        let targetId
+        console.log('this.items', typeof this.items, this.items)
         for (let item of this.items) {
           if (item) {
+            if (item.hasOwnProperty('target')) targetId = item.target.id
+            else targetId = item.id
             const stateAnnot = await this.$store.dispatch('annotations/find', {
-              'target.id': item.target.id,
+              'target.id': targetId,
               'body.purpose': {
                 $ne: 'commenting'
               }
@@ -74,6 +78,9 @@
               return JSON.parse(a.body.value)
             })
             allStates.push(states)
+          }
+          else {
+            console.log('öööööö')
           }
         }
         this.itemStates = allStates
