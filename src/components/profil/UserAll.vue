@@ -1,22 +1,11 @@
 <template lang="pug">
   div
-    content-block(v-for="n in 2")
-      template(slot="title") {{ n }}. Oktober 2018
+    content-block(v-if="days && items", v-for="day in days")
+      template(slot="title") {{ getDayLabel(day) }}
       template(slot="content")
-        video-list-view(:videos="uploads",
-        layoutStyle="sm",
-        :roundImage="false",
-        :buttons="['more-delete', 'more-download']",
-        :hideButtons="false",
-        cardWidth="46%",
-        :showDuration="false")
-          template(slot="customButtons" slot-scope="{ video }")
-            // q-btn(flat, size="sm", round, icon="delete", @click="openDeleteModal(video)")
-            q-btn(flat, size="sm", round, icon="people", color="white", @click="toggleItemFavorite(video)")
-            // q-btn(flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
-          template(slot="customMoreButtons" slot-scope="{ video }")
-            q-item.q-px-sm
-              q-btn(round, flat, size="sm", icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
+        div(v-for="item in items[day]")
+          p(v-if="item.annotation && item.annotation.body.type === 'Video'") I am VIDEO.
+          p(v-if="item.body && item.body.type === 'MrGriddleSkeleton'") I am GRIDDLE.
 
 </template>
 
@@ -27,7 +16,7 @@
 
   import { mapGetters } from 'vuex'
   import { VideoHelper } from '../../lib'
-  // import { DateTime } from 'luxon'
+  import { DateTime } from 'luxon'
   // import { ObjectUtil } from 'mbjs-utils'
 
   export default {
@@ -43,6 +32,8 @@
     },
     data () {
       return {
+        items: undefined,
+        days: undefined,
         uploads: [],
         sequences: undefined
       }
@@ -62,89 +53,51 @@
       }
     },
     methods: {
+      getDayLabel (day) {
+        if (!day) return ''
+        return DateTime.fromISO(day).toLocaleString()
+      },
       async loadData () {
+        let allItems = []
         let query = {
           'author.id': this.$store.state.auth.user.uuid,
-          'title': 'Meine Videos'
+          'body.type': 'MrGriddleSkeleton'
         }
-        let results = await this.$store.dispatch('maps/find', query)
-        if (results.items && results.items.length) {
-          this.map = Object.assign({}, results.items[0])
-          query = {
-            'author.id': this.user.uuid,
-            'body.type': 'Video',
-            'body.source.type': 'video/mp4',
-            'target.id': {
-              $eq: `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
-            }
-          }
-          this.uploads = await VideoHelper.fetchVideoItems(this, query)
+        let results = await this.$store.dispatch('annotations/find', query)
+        console.log('griddle results', results)
+        allItems = allItems.concat(results.items)
+        query = {
+          'author.id': this.user.uuid,
+          'body.type': 'Video',
+          'body.source.type': 'video/mp4'
         }
-        await this.fetchSequences()
-        await this.fetchUploads()
-      },
-      async fetchUploads () {
-        let query = {
-          'author.id': this.$store.state.auth.user.uuid,
-          'title': 'Meine Videos'
-        }
-        let results = await this.$store.dispatch('maps/find', query)
-        if (results.items && results.items.length) {
-          this.map = Object.assign({}, results.items[0])
-          query = {
-            'author.id': this.user.uuid,
-            'body.type': 'Video',
-            'body.source.type': 'video/mp4',
-            'target.id': {
-              $eq: `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
-            }
-          }
-          this.uploads = await VideoHelper.fetchVideoItems(this, query)
-        }
-      },
-      async fetchSequences () {
-        this.sequences = []
-        const prefix = 'Sequenz: '
-        const query = {
-          type: 'Timeline',
-          'author.id': this.user.uuid
-        }
-        const result = await this.$store.dispatch('maps/find', query)
-        console.log('result:', result)
-        this.sequences = result.items.filter(map => {
-          return map.title.indexOf(prefix) === 0
-        }).sort(this.$sort.onCreatedDesc).map(map => {
-          const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
-          const preview = {
-            high: media.replace(/\.mp4$/, '.jpg'),
-            medium: media.replace(/\.mp4$/, '-m.jpg'),
-            small: media.replace(/\.mp4$/, '-s.jpg')
-          }
-          const annotation = {
-            author: {
-              id: this.user.uuid
-            },
-            uuid: map.uuid,
-            body: {
-              source: {
-                id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
-                type: 'video/mp4'
-              }
-            }
-          }
-          return {
-            annotation,
-            title: map.title.substr(prefix.length),
-            preview,
-            media,
-            map
-          }
+        results = await VideoHelper.fetchVideoItems(this, query)
+        console.log('video results', results)
+        allItems = allItems.concat(results)
+        allItems = allItems.sort((a, b) => {
+          const
+            ac = a.annotation ? a.annotation.created : a.created,
+            bc = b.annotation ? b.annotation.created : b.created
+          if (ac < bc) return 1
+          if (ac > bc) return -1
+          return 0
         })
+        console.log('all items', allItems)
+        const groupedByDay = {}
+        for (let item of allItems) {
+          let day
+          if (item.created || item.annotation.created) {
+            day = DateTime.fromISO(item.created || item.annotation.created).startOf('day').toISO()
+          }
+          if (day) {
+            if (Array.isArray(groupedByDay[day])) groupedByDay[day].push(item)
+            else groupedByDay[day] = [item]
+          }
+        }
+        this.items = groupedByDay
+        this.days = Object.keys(groupedByDay)
+        console.log('items', this.items, this.days)
       }
     }
   }
 </script>
-
-<style scoped>
-
-</style>
