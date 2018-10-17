@@ -31,11 +31,11 @@
           q-popover.bg-dark(:offset="[10, 0]")
             q-list
               slot(name="customMoreButtons", :video="video")
-              q-item(v-if="displayMoreVisibility()").q-px-sm
+              q-item(v-if="displayMoreVisibility").q-px-sm
                 q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
-              q-item(v-if="displayMoreDownload()").q-px-sm
+              q-item(v-if="displayMoreDownload").q-px-sm
                 q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
-              q-item(v-if="displayMoreDelete()").q-px-sm
+              q-item(v-if="displayMoreDelete").q-px-sm
                 q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
 
 </template>
@@ -111,6 +111,29 @@
       },
       timerInterval () {
         return (1000 / 60.0) * (this.minFrameLength + (this.maxFrameLength - this.frameLength))
+      },
+      displayMoreButton () {
+        if (typeof this.buttons !== 'undefined') {
+          for (let btn of this.buttons) {
+            if (btn.includes('more')) {
+              return true
+            }
+          }
+          return false
+        }
+        else return false
+      },
+      displayMoreVisibility () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-visibility') > -1)
+        else return false
+      },
+      displayMoreDelete () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-delete') > -1)
+        else return false
+      },
+      displayMoreDownload () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-download') > -1)
+        else return false
       }
     },
     mounted () {
@@ -178,29 +201,6 @@
         this.currentState = (this.currentState + 1) % this.states.length
         this.drawSkeleton()
         this.lastFrameTime = Date.now()
-      },
-      displayMoreButton () {
-        if (typeof this.buttons !== 'undefined') {
-          for (let btn of this.buttons) {
-            if (btn.includes('more')) {
-              return true
-            }
-          }
-          return false
-        }
-        else return false
-      },
-      displayMoreVisibility () {
-        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-visibility') > -1)
-        else return false
-      },
-      displayMoreDelete () {
-        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-delete') > -1)
-        else return false
-      },
-      displayMoreDownload () {
-        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-download') > -1)
-        else return false
       },
       drawSkeleton () {
         let skeletonLines = []
