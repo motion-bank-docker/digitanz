@@ -146,7 +146,6 @@ module.exports = function (ctx) {
         'QContextMenu',
         'QWindowResizeObservable',
         'QSlideTransition',
-        'QSlider',
         'QInputFrame',
         'QProgress',
         'QTabs',
