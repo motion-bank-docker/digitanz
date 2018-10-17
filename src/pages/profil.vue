@@ -60,8 +60,19 @@
           template(slot="title") {{ headline }}
           template(slot="content")
             div(v-if="grouped[headline]", v-for="item in grouped[headline]")
-              p(v-if="item.annotation && item.annotation.body.type === 'Video'") I am VIDEO.
-              p(v-if="item.body && item.body.type === 'MrGriddleSkeleton'") I am GRIDDLE.
+              <!--video-item(v-if="item.annotation && item.annotation.body.type === 'Video'",-->
+                <!--:layoutStyle="sm",-->
+                <!--:video="item")-->
+              <!--p(v-if="item.body && item.body.type === 'MrGriddleSkeleton'") I am GRIDDLE.-->
+              <!--p(v-if="item.annotation && item.annotation.body.type === 'Video'") I am VIDEO.-->
+            mr-griddle-list-view(v-if="grouped[headline][0].body && grouped[headline][0].body.type === 'MrGriddleSkeleton'", :items="grouped[headline]",
+              layoutStyle="sm",
+              :buttons="['more-download', 'more-delete']",
+              :showDuration="false")
+            video-list-view(v-else, :videos="grouped[headline]",
+              layoutStyle="sm",
+              :buttons="['more-download', 'more-delete']",
+              :showDuration="false")
 
       //
       // LIST PUBLIC
@@ -114,6 +125,8 @@
   import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
   import FileUploaderMicro from '../components/FileUploaderMicro'
   import ContentBlock from '../components/ContentBlock'
+  import VideoItem from '../components/VideoItem'
+  import MrGriddleListView from '../components/MrGriddleListView'
 
   export default {
     components: {
@@ -122,11 +135,13 @@
       'dashboard-group-video-sequences': GroupVideoSequences,
       LoadingSpinner,
       VideoListView,
+      VideoItem,
       UsersPublicSequences,
       UsersPublicPortrait,
       UsersPublicMrGriddles,
       FileUploaderMicro,
-      ContentBlock
+      ContentBlock,
+      MrGriddleListView
     },
     computed: {
       ...mapGetters({
@@ -292,6 +307,7 @@
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped
+        console.log('grouped: ', this.grouped['Meine Uploads'])
       },
       orderByTime () {
         this.displayType = 'time'
