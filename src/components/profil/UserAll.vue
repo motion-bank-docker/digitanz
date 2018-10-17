@@ -3,7 +3,7 @@
     content-block(v-for="day in Object.keys(items)")
       template(slot="title") {{ DateTime.fromISO(day).toLocaleString() }}
       template(slot="content")
-        div(v-for="item in items")
+        div(v-for="item in items[day]")
           p(v-if="item.annotation && item.annotation.body.type === 'Video'") I am VIDEO.
           p(v-if="item.body && item.body.type === 'MrGriddleSkeleton'") I am GRIDDLE.
 
