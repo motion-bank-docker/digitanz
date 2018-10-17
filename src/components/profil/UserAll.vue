@@ -54,6 +54,7 @@
     },
     methods: {
       getDayLabel (day) {
+        if (!day) return ''
         return DateTime.fromISO(day).toLocaleString()
       },
       async loadData () {
