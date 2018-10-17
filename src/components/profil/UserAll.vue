@@ -81,7 +81,10 @@
         console.log('all items', allItems)
         const groupedByDay = {}
         for (let item of allItems) {
-          const day = DateTime.fromISO(item.created).startOf('day').toISO()
+          let day
+          if (item.created || item.annotaton.created) {
+            day = DateTime.fromISO(item.created || item.annotaton.created).startOf('day').toISO()
+          }
           if (day) {
             if (Array.isArray(groupedByDay[day])) groupedByDay[day].push(item)
             else groupedByDay[day] = [item]
