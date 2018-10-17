@@ -21,8 +21,8 @@
 
     div
       video-list-view(
-      v-if="responses.length > 0", :videos="responses", layoutStyle="sm", :hideButtons="hideButtons",
-      :allowSelfResponse="$route.meta.allowSelfResponse")
+        v-if="responses.length > 0", :videos="responses", layoutStyle="sm", :hideButtons="hideButtons",
+        :allowSelfResponse="$route.meta.allowSelfResponse")
 
       q-card.q-pa-md.q-mb-md.text-grey-8.text-center(v-else)
         | {{ $t('messages.no_videos') }}
@@ -31,6 +31,7 @@
 
 <script>
   import MrGriddleItem from '../../components/MrGriddleItem'
+  import MrGriddlePreview from '../../components/MrGriddlePreview'
   import JobList from '../../components/JobList'
   import UploadRemixModal from '../../components/UploadRemixModal'
   import VideoListView from '../../components/VideoListView'
@@ -41,6 +42,7 @@
   export default {
     components: {
       MrGriddleItem,
+      MrGriddlePreview,
       JobList,
       UploadRemixModal,
       VideoListView,
@@ -58,22 +60,6 @@
         user: 'auth/getUserState'
       }),
       videoPlayerStyle () {
-        // if (this.annotationMetadata) {
-        //   const ratio = this.annotationMetadata.width / this.annotationMetadata.height
-        //   if (this.annotationMetadata.width > this.annotationMetadata.height) {
-        //     return {
-        //       width: '100%',
-        //       height: 'auto'
-        //     }
-        //   }
-        //   else {
-        //     return {
-        //       width: `calc(80vw*${ratio})`,
-        //       height: 'auto',
-        //       'margin-left': `calc(40vw*${ratio})`
-        //     }
-        //   }
-        // }
         return {
           width: '100vw',
           height: '50vh',
@@ -124,6 +110,3 @@
     }
   }
 </script>
-
-<style scoped lang="stylus">
-</style>

@@ -104,7 +104,10 @@
         this.$q.loading.hide()
       },
       async uploadResponse (annotation) {
-        this.$refs.uploadRemixModal.show({ annotation })
+        this.$refs.uploadRemixModal.show({
+          id: `${process.env.ANNOTATION_BASE_URI}${this.annotation.uuid}`,
+          type: 'Annotation'
+        })
         const message = {
           portrait: annotation.uuid,
           user: this.user.uuid

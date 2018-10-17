@@ -26,7 +26,6 @@ export default {
     clear () {
       this.showModal = false
       this.message = undefined
-      this.confirmLabel = undefined
       this.payload = undefined
     },
     cancel () {
@@ -36,6 +35,7 @@ export default {
     confirm () {
       this.$emit('confirm', this.payload)
       this.clear()
+      this.confirmLabel = undefined
     }
   },
   computed: {

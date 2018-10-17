@@ -56,8 +56,8 @@ export default {
     all_results: 'Ergebnisse von allen',
     sort_label: 'Workshop Termin...',
     date_1: {
-      title: 'Deine Portraits',
-      description: 'Neben dem Kennenlernen und der Einführung in das #digitanz Projekt geht es in diesem Termin um persönliche Tanz-Portraits von euch.',
+      title: 'Deine Bewegungs-Portraits',
+      description: 'Neben dem Kennenlernen und der Einführung in das #digitanz Projekt geht es in diesem Termin um persönliche Bewegungs-Portraits von euch.',
       map_title: 'Meine Videos',
       page_link: 'Eure Portraits'
     },
@@ -68,10 +68,10 @@ export default {
       page_link: 'Eure Sequenzen'
     },
     date_3: {
-      title: 'Eure Gruppen Sequenzen',
-      description: 'Diese Woche arbeitet ihr in kleinen Gruppen mit dem Video Sequenzer und erstellt eine kurze Choreographie',
-      map_title: 'Meine Gruppen Sequenzen',
-      page_link: 'Eure Gruppen-Sequenzen'
+      title: 'Eure Sequenzen',
+      description: 'Mit dem Video Sequenzer erstellst du kurze Choreographien',
+      map_title: 'Meine Sequenzen',
+      page_link: 'Eure Sequenzen'
     },
     date_4: {
       title: 'Needs Title',
@@ -79,9 +79,10 @@ export default {
       map_title: 'Braucht auch einen Titel'
     },
     date_5: {
-      title: 'Needs Title',
-      description: 'Needs Description … Lorem ipsum dolor sit amet',
-      map_title: 'Braucht auch einen Titel'
+      title: 'Deine Mr. Griddles',
+      description: 'Erstelle mit Hilfe von Mr. Griddle kurze Bewegungsabläufe',
+      map_title: 'Meine Griddle Sequenzen',
+      page_link: 'Eure Mr. Griddles'
     },
     date_6: {
       title: 'Needs Title',
@@ -149,7 +150,7 @@ export default {
       sublabel: '24. August'
     },
     groupsequences: {
-      label: 'Eure Gruppen-Sequenzen',
+      label: 'Eure Video-Sequenzen',
       sublabel: '31. August'
     },
     lost_in_space: {
@@ -157,7 +158,11 @@ export default {
       sublabel: 'Experience space'
     },
     mr_griddle: {
-      label: 'Mr Griddle',
+      label: 'Eure Mr. Griddles',
+      sublabel: '21. September'
+    },
+    mr_griddles: {
+      label: 'Mr. Griddles',
       sublabel: 'Do the griddle'
     },
     recipe: {
@@ -174,6 +179,11 @@ export default {
     }
   },
   pages: {
+    'mr-griddle': {
+      responses: {
+        title: 'Mr. Griddle Antworten'
+      }
+    },
     team: {
       headline: 'Das Team'
     },
@@ -198,8 +208,8 @@ export default {
       remix_plural: 'andere Versionen'
     },
     groupsequences: {
-      title: 'Eure Gruppen Sequenzen',
-      description: 'Hier siehst du alle freigegebenen Video-Sequenzen aus dem dritten Termin. Mit dem Favorisieren-Knopf (Herz) auf der Kursseite kannst du deine Sequenzen für diese Seite freigeben.',
+      title: 'Eure Sequenzen',
+      description: 'Hier siehst du alle freigegebenen Video-Sequenzen.',
       upload_remix: 'Eigene Version von dieser Video-Sequenz hochladen',
       no_remix: 'Bisher noch keine anderen Versionen',
       remix_singular: 'andere Version',
@@ -208,6 +218,10 @@ export default {
     responses: {
       title: 'Responses',
       description: 'Lorem Ipsum, hier steht eine Beschreibung.'
+    },
+    mr_griddle: {
+      title: 'Eure Mr. Griddles',
+      description: 'Hier siehst du alle freigegebenen Mr. Griddle Sequenzen.'
     },
     new_sequence: {
       title: 'Neue Sequenz erstellen',
@@ -223,7 +237,7 @@ export default {
     },
     dashboard: {
       title: 'Hallo!',
-      description: 'Hier findest du deine gesammelten Ergebnisse von allen Kursterminen.',
+      description: 'Hier findest du deine gesammelten Ergebnisse zu allen Kursthemen.',
       map_title: 'Mein Dashboard',
       no_portraits: 'Noch kein Portrait von dir hier … lade eines hoch!',
       no_entries: 'Keine Einträge vorhanden.',

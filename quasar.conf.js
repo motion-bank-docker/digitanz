@@ -67,8 +67,9 @@ module.exports = function (ctx) {
         SYSTEM_USER_UUID: JSON.stringify(process.env.SYSTEM_USER_UUID || 'aa5a24cc-dbd3-5b5d-8ca6-76552699cbd9'),
         PORTRAITS_TIMELINE_UUID: JSON.stringify(process.env.PORTRAITS_TIMELINE_UUID || 'dfceff69-75a8-4087-b3cc-0bbd23c833c3'),
         SEQUENCES_TIMELINE_UUID: JSON.stringify(process.env.SEQUENCES_TIMELINE_UUID || 'd93ebf09-2c01-4d28-9cbb-0a6d1629b4be'),
-        MR_GRIDDLE_TIMELINE_UUID: JSON.stringify(process.env.MR_GRIDDLE_TIMELINE_UUID || '3c5d7c77-95b3-4b26-b197-888dec885469'),
         PUBLIC_UPLOADS_TIMELINE_UUID: JSON.stringify(process.env.PUBLIC_UPLOADS_TIMELINE_UUID || '7f72ebc3-b56a-4214-8425-3ce097419358'),
+        MR_GRIDDLE_TIMELINE_UUID: JSON.stringify(process.env.MR_GRIDDLE_TIMELINE_UUID || 'd9bdddbf-f70f-45b0-a733-7c3737758747'),
+        MR_GRIDDLE_SEQUENCES_TIMELINE_UUID: JSON.stringify(process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID || '91b4bd23-8272-44bd-8879-785d8092edc8'),
         APP_NAME: JSON.stringify(process.env.APP_NAME || 'digitanz'),
         //
         // Auth0
@@ -153,10 +154,13 @@ module.exports = function (ctx) {
         'QTabPane',
         'QBtnDropdown',
         'QPopover',
+        'QSlider',
+        'QRadio'
       ],
       directives: [
         'Ripple',
-        'CloseOverlay'
+        'CloseOverlay',
+        'TouchHold'
       ],
       // Quasar plugins
       plugins: [

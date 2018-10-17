@@ -1,6 +1,6 @@
 {
   "name": "digitanz-frontend",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Frontend for the #digitanz project",
   "productName": "#digitanz",
   "cordovaId": "org.cordova.quasar.app",
@@ -10,7 +10,6 @@
     "build": "cross-env NODE_ENV=production quasar build",
     "docker-image": "docker build -t motionbank/digitanz-frontend:latest .",
     "docker-push": "docker push motionbank/digitanz-frontend:latest",
-    "docker-release": "npm run build && npm run docker-image && npm run docker-push",
     "docker-image-staging": "docker build -t motionbank/digitanz-frontend:staging .",
     "docker-push-staging": "docker push motionbank/digitanz-frontend:staging",
     "dev": "cross-env NODE_ENV=production quasar dev",
