@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    content-block(v-if="items", v-for="day in Object.keys(items)")
+    content-block(v-if="days && items", v-for="day in days")
       template(slot="title") {{ DateTime.fromISO(day).toLocaleString() }}
       template(slot="content")
         div(v-for="item in items[day]")
@@ -33,6 +33,7 @@
     data () {
       return {
         items: undefined,
+        days: undefined,
         uploads: [],
         sequences: undefined
       }
@@ -59,6 +60,7 @@
           'body.type': 'MrGriddleSkeleton'
         }
         let results = await this.$store.dispatch('annotations/find', query)
+        console.log('griddle results', results)
         allItems = allItems.concat(results.items)
         query = {
           'author.id': this.user.uuid,
@@ -66,6 +68,7 @@
           'body.source.type': 'video/mp4'
         }
         results = await VideoHelper.fetchVideoItems(this, query)
+        console.log('video results', results)
         allItems = allItems.concat(results)
         allItems = allItems.sort((a, b) => {
           const
@@ -75,7 +78,7 @@
           if (ac > bc) return -1
           return 0
         })
-        console.log(allItems)
+        console.log('all items', allItems)
         const groupedByDay = {}
         for (let item of allItems) {
           const day = DateTime.fromISO(item.created).startOf('day').toISO()
@@ -83,7 +86,8 @@
           else groupedByDay[day] = [item]
         }
         this.items = groupedByDay
-        console.log(this.items)
+        this.days = Object.keys(groupedByDay)
+        console.log('items', this.items, this.days)
       }
     }
   }
