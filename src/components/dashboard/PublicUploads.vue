@@ -12,7 +12,7 @@
       :videos="publicUploads",
       layoutStyle="sm",
       :buttons="['download']",
-      :showOwnContentFlag ="true")
+      :showContentFlag ="true")
         template(slot="customButtons" slot-scope="{ video }")
 </template>
 

@@ -7,7 +7,7 @@
     mr-griddle-list-view(
     v-if="sequences.length > 0",
     layout-style='sm',
-    :buttons="['more-delete', 'more-download']",
+    :buttons="['more-delete']",
     :items="sequences")
       template(slot="customButtons" slot-scope="{ video }")
         q-btn(flat, size="sm", round, icon="people", color="grey-5", @click="toggleItemFavorite(video)")
