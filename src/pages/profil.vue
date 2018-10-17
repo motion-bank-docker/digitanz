@@ -55,40 +55,13 @@
 
       //
       // ORDER BY TYPE
-      div(v-if="displayType === 'type'")
-
-        //
-        // Meine Mr. Griddles
-        content-block
-          template(slot="title") Mr. Griddles
-          template(slot="buttons")
-            q-btn.bg-grey-10(@click="$router.push(`/mr-griddle/create`)", icon="accessibility", round)
+      div(v-if="displayType === 'type' || displayType === 'time'")
+        content-block(v-if="grouped && headlines", v-for="headline in headlines")
+          template(slot="title") {{ headline }}
           template(slot="content")
-            user-mr-griddles
-
-        //
-        // Meine Sequenzen Liste
-        content-block
-          template(slot="title") Sequenzen
-          template(slot="buttons")
-            q-btn.bg-grey-10(@click="$router.push(`/sequences/create`)", icon="extension", round)
-          template(slot="content")
-            user-sequences
-
-        //
-        // Meine Uploads Liste
-        content-block
-          template(slot="title") Uploads
-          template(slot="buttons")
-            file-uploader-micro.bg-grey-10
-          template(slot="content")
-            user-uploads(@changed="fetchPortrait")
-
-      //
-      // ORDER BY TIME
-      div(v-else-if="displayType === 'time'")
-        // h4.q-mb-sm Chronik
-        user-all
+            div(v-if="grouped[headline]", v-for="item in grouped[headline]")
+              p(v-if="item.annotation && item.annotation.body.type === 'Video'") I am VIDEO.
+              p(v-if="item.body && item.body.type === 'MrGriddleSkeleton'") I am GRIDDLE.
 
       //
       // LIST PUBLIC
@@ -136,13 +109,9 @@
   import LoadingSpinner from '../components/LoadingSpinner'
   import { VideoHelper } from '../lib'
   import { mapGetters } from 'vuex'
-  import UserMrGriddles from '../components/profil/UserMrGriddles'
-  import UserSequences from '../components/profil/UserSequences'
-  import UserUploads from '../components/profil/UserUploads'
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
   import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
-  import UserAll from '../components/profil/UserAll'
   import FileUploaderMicro from '../components/FileUploaderMicro'
   import ContentBlock from '../components/ContentBlock'
 
@@ -153,13 +122,9 @@
       'dashboard-group-video-sequences': GroupVideoSequences,
       LoadingSpinner,
       VideoListView,
-      UserMrGriddles,
-      UserSequences,
       UsersPublicSequences,
       UsersPublicPortrait,
       UsersPublicMrGriddles,
-      UserUploads,
-      UserAll,
       FileUploaderMicro,
       ContentBlock
     },
@@ -168,13 +133,21 @@
         user: 'auth/getUserState'
       })
     },
+    watch: {
+      async user () {
+        await this.loadAllTheThings()
+      }
+    },
     data () {
       return {
         displayType: 'type',
         portrait: [],
         dates: undefined,
         nickname: undefined,
-        portraitLoading: false
+        portraitLoading: false,
+        griddles: undefined,
+        uploads: undefined,
+        sequences: undefined
       }
     },
     async mounted () {
@@ -182,21 +155,152 @@
       if (this.user) {
         this.nickname = this.user.nickname
         await this.fetchPortrait()
+        await this.loadAllTheThings()
       }
     },
     methods: {
+      async loadAllTheThings () {
+        if (!this.user) return
+        this.$q.loading.show({ message: this.$t('messages.loading_data') })
+        this.griddles = await this.loadGriddleData()
+        console.log('griddles: ', this.griddles)
+        this.sequences = await this.loadSequencesData()
+        console.log('sequences: ', this.sequences)
+        this.uploads = await this.loadUploadsData()
+        console.log('uploads: ', this.uploads)
+        this.groupByType()
+        this.$q.loading.hide()
+      },
+      async loadGriddleData () {
+        const query = {
+          type: 'Timeline',
+          'author.id': this.user.uuid
+        }
+        const maps = await this.$store.dispatch('maps/find', query)
+        const griddleSequences = maps.items.filter(m => {
+          return m.title.indexOf('GriddleSequence ') === 0
+        })
+        let sequenceAnnotations = []
+        for (let seq of griddleSequences) {
+          const annotations = await this.$store.dispatch('annotations/find', {
+            'target.id': seq.id
+          })
+          sequenceAnnotations.push(annotations.items[0])
+        }
+        return sequenceAnnotations
+      },
+      async loadSequencesData () {
+        console.log('loading sequences from component')
+        if (!this.user) return
+        const prefix = 'Sequenz: '
+        const query = {
+          type: 'Timeline',
+          'author.id': this.user.uuid
+        }
+        const result = await this.$store.dispatch('maps/find', query)
+        console.log('result:', result)
+        return result.items.filter(map => {
+          return map.title.indexOf(prefix) === 0
+        }).sort(this.$sort.onCreatedDesc).map(map => {
+          const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
+          const preview = {
+            high: media.replace(/\.mp4$/, '.jpg'),
+            medium: media.replace(/\.mp4$/, '-m.jpg'),
+            small: media.replace(/\.mp4$/, '-s.jpg')
+          }
+          const annotation = {
+            author: {
+              id: this.user.uuid
+            },
+            uuid: map.uuid,
+            body: {
+              source: {
+                id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
+                type: 'video/mp4'
+              }
+            }
+          }
+          return {
+            annotation,
+            title: map.title.substr(prefix.length),
+            preview,
+            media,
+            map
+          }
+        })
+      },
+      async loadUploadsData () {
+        let query = {
+          'author.id': this.$store.state.auth.user.uuid,
+          'title': 'Meine Videos'
+        }
+        let results = await this.$store.dispatch('maps/find', query)
+        if (results.items && results.items.length) {
+          const map = results.items[0]
+          query = {
+            'author.id': this.user.uuid,
+            'body.type': 'Video',
+            'body.source.type': 'video/mp4',
+            'target.id': {
+              $eq: `${process.env.TIMELINE_BASE_URI}${map.uuid}`
+            }
+          }
+          const uploads = await VideoHelper.fetchVideoItems(this, query)
+          return uploads
+        }
+        return []
+      },
       iconColor (btn) {
         if (this.displayType === btn) {
           return 'primary'
         }
         else return 'grey-9'
       },
+      groupByDate () {
+        const grouped = {}
+        let allItems = []
+        if (this.griddles) allItems = allItems.concat(this.griddles)
+        if (this.uploads) allItems = allItems.concat(this.uploads)
+        if (this.sequences) allItems = allItems.concat(this.sequences)
+        console.log(allItems)
+        allItems = allItems.sort((a, b) => {
+          const
+            ac = a.annotation ? a.annotation.created : a.created,
+            bc = b.annotation ? b.annotation.created : b.created
+          if (ac < bc) return 1
+          if (ac > bc) return -1
+          return 0
+        })
+        for (let item of allItems) {
+          let day
+          if (item.created || item.annotation.created) {
+            day = DateTime.fromISO(item.created || item.annotation.created).startOf('day').toLocaleString()
+          }
+          if (day) {
+            if (Array.isArray(grouped[day])) grouped[day].push(item)
+            else grouped[day] = [item]
+          }
+        }
+        this.headlines = Object.keys(grouped)
+        this.grouped = grouped
+      },
+      groupByType () {
+        const grouped = {
+          'Meine Griddles': this.griddles,
+          'Meine Uploads': this.uploads,
+          'Meine Sequenzen': this.sequences
+        }
+        this.headlines = Object.keys(grouped)
+        this.grouped = grouped
+      },
       orderByTime () {
         this.displayType = 'time'
+        this.groupByDate()
         console.log('by time')
       },
       orderByType () {
         this.displayType = 'type'
+        this.groupByType()
         console.log('by type')
       },
       orderByVisibility () {
