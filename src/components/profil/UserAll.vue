@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     content-block(v-if="days && items", v-for="day in days")
-      template(slot="title") {{ DateTime.fromISO(day).toLocaleString() }}
+      template(slot="title") {{ getDayLabel(day) }}
       template(slot="content")
         div(v-for="item in items[day]")
           p(v-if="item.annotation && item.annotation.body.type === 'Video'") I am VIDEO.
@@ -53,6 +53,9 @@
       }
     },
     methods: {
+      getDayLabel (day) {
+        return DateTime.fromISO(day).toLocaleString()
+      },
       async loadData () {
         let allItems = []
         let query = {
