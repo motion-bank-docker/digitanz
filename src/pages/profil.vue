@@ -135,7 +135,7 @@
     },
     watch: {
       async user () {
-        // await this.loadAllTheThings()
+        await this.loadAllTheThings()
       }
     },
     data () {
@@ -155,7 +155,7 @@
       if (this.user) {
         this.nickname = this.user.nickname
         await this.fetchPortrait()
-        // await this.loadAllTheThings()
+        await this.loadAllTheThings()
       }
     },
     methods: {
