@@ -14,8 +14,8 @@
         q-btn(flat, size="sm", round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
         // q-btn(flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
       template(slot="customMoreButtons" slot-scope="{ video }")
-        //q-item.q-px-sm
-        q-btn(round, flat, size="sm", icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
+        q-item.q-px-sm
+          q-btn(round, flat, size="sm", icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
 
     .text-center(v-else)
       loading-spinner

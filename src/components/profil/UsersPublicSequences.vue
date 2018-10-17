@@ -4,12 +4,14 @@
 
     video-list-view(:videos="publishedSequences",
     layoutStyle="sm",
-    :buttons="['download']",
+    :buttons="['more-delete', 'more-download']",
     :showDuration="false",
     @changed="loadData")
       template(slot="customButtons" slot-scope="{ video }")
-        q-btn(flat, size="sm", round, icon="delete", @click="openDeleteModal(video)")
         q-btn(flat, size="sm", round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
+      template(slot="customMoreButtons" slot-scope="{ video }")
+        q-item.q-px-sm
+          q-btn(round, flat, size="sm", icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
 
 </template>
 
@@ -117,12 +119,12 @@
         }).length > 0) {
           return {
             color: 'primary',
-            icon: 'favorite'
+            icon: 'people'
           }
         }
         return {
           color: 'grey-5',
-          icon: 'favorite_outline'
+          icon: 'people'
         }
       },
       async loadFavouriteSequences () {

@@ -7,8 +7,11 @@
                     :showDuration="true",
                     @changed="loadData")
       template(slot="customButtons" slot-scope="{ video }")
-        q-btn.q-px-none(flat, size="sm" round, :icon="getIconStylePortrait(video).icon", :color="getIconStylePortrait(video).color", @click="setAsPortrait(video)")
+        <!--q-btn.q-px-none(flat, size="sm" round, :icon="getIconStylePortrait(video).icon", :color="getIconStylePortrait(video).color", @click="setAsPortrait(video)")-->
         q-btn.q-px-none(flat, size="sm" round, :icon="getIconStyleUpload(video).icon", :color="getIconStyleUpload(video).color", @click="togglePublic(video)")
+      template(slot="customMoreButtons" slot-scope="{ video }")
+        q-item.q-px-sm
+          q-btn.q-px-none(flat, size="sm" round, :icon="getIconStylePortrait(video).icon", :color="getIconStylePortrait(video).color", @click="setAsPortrait(video)")
 
     .text-center(v-else)
       loading-spinner

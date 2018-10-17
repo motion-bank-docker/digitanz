@@ -1,7 +1,7 @@
 <template lang="pug">
   video-list-view(:videos="portraits",
   layoutStyle="sm",
-  :buttons="['delete', 'download']",
+  :buttons="['more-delete', 'more-download']",
   :showDuration="true",
   @changed="changed")
     template(slot="customButtons" slot-scope="{ video }")

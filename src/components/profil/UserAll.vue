@@ -6,9 +6,17 @@
         video-list-view(:videos="uploads",
         layoutStyle="sm",
         :roundImage="false",
+        :buttons="['more-delete', 'more-download']",
         :hideButtons="false",
         cardWidth="46%",
         :showDuration="false")
+          template(slot="customButtons" slot-scope="{ video }")
+            // q-btn(flat, size="sm", round, icon="delete", @click="openDeleteModal(video)")
+            q-btn(flat, size="sm", round, icon="people", color="white", @click="toggleItemFavorite(video)")
+            // q-btn(flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
+          template(slot="customMoreButtons" slot-scope="{ video }")
+            q-item.q-px-sm
+              q-btn(round, flat, size="sm", icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
 
 </template>
 
