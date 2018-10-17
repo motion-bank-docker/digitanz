@@ -191,7 +191,6 @@
         else return false
       },
       displayMoreVisibility () {
-        console.log('xxxxx', this.buttons)
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-visibility') > -1)
         else return false
       },
