@@ -14,7 +14,9 @@
           template(slot="title") {{ comp.title }}
           template(slot="buttons")
             q-btn.bg-grey-10.shadow-2(label="?", flat, rounded)
-              q-popover.bg-dark.q-py-md.q-px-lg {{ comp.description }}
+              q-popover.bg-dark.q-py-md.q-px-lg
+                | {{ comp.description }}
+                q-btn.q-mt-md(v-if="comp.component === 'public-sequences'", @click="$router.push('/presentation')") Abgabe festlegen
           template(slot="content")
             component(:is="comp.component")
 </template>

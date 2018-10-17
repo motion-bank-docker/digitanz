@@ -31,6 +31,7 @@ const routes = [
       { path: 'mr-griddle/:uuid/responses', component: () => import('pages/mr-griddles/responses'), meta: {private: true} },
       { path: 'mr-griddles', component: () => import('pages/mr-griddles/list'), meta: {private: true} },
       { path: 'mr-griddle-tv', component: () => import('components/MrGriddleStandalone'), meta: {private: true} },
+      { path: 'presentation', component: () => import('pages/presentation'), meta: {private: true} },
       { path: 'space-tool', component: () => import('pages/space-tool'), meta: {private: true} },
       { path: 'rhythm', component: () => import('pages/rhythm'), meta: {private: true} },
       { path: 'rhythm-creator', component: () => import('pages/rhythm-creator'), meta: {private: true} }
