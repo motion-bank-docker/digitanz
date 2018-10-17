@@ -135,7 +135,8 @@
           const annotations = await this.$store.dispatch('annotations/find', {
             'target.id': seq.id
           })
-          sequenceAnnotations.push(annotations.items[0])
+          // console.log('annotations.items[0]', annotations.items[0])
+          if (annotations.items[0]) sequenceAnnotations.push(annotations.items[0])
         }
         this.sequences = sequenceAnnotations
         // console.log('::::: griddles', this.sequences)

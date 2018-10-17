@@ -2,6 +2,7 @@
   div
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
     mr-griddle-list-view(
+    v-if="griddleSequences.length > 0",
     layout-style='sm',
     :items="griddleSequences")
 
@@ -16,7 +17,7 @@
         q-btn(flat, size="sm", round, icon="delete",
         @click="openDeleteModal(item)")
 
-    // .text-center.q-pb-md(v-else)
+    .text-center.q-pb-md(v-else)
       loading-spinner
 
 </template>
