@@ -31,11 +31,11 @@
           q-popover.bg-dark(:offset="[10, 0]")
             q-list
               slot(name="customMoreButtons", :video="video")
-              q-item(v-if="displayMoreVisibility").q-px-sm
+              q-item(v-if="displayMoreVisibility()").q-px-sm
                 q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
-              q-item(v-if="displayMoreDownload").q-px-sm
+              q-item(v-if="displayMoreDownload()").q-px-sm
                 q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
-              q-item(v-if="displayMoreDelete").q-px-sm
+              q-item(v-if="displayMoreDelete()").q-px-sm
                 q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
 
 </template>
@@ -50,6 +50,7 @@
       MrGriddleModal
     },
     props: {
+      buttons: Array,
       play: {
         type: Boolean
       },
@@ -190,6 +191,7 @@
         else return false
       },
       displayMoreVisibility () {
+        console.log('xxxxx', this.buttons)
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-visibility') > -1)
         else return false
       },

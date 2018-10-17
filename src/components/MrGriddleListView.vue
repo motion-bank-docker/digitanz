@@ -17,7 +17,8 @@
       style="width: 46%")
         template(slot="customButtons", slot-scope="{ item }")
           slot(name="customButtons", :item="item")
-          // mr-griddle-modal(ref="mrGriddleModal", :item="mrGriddle")
+        template(slot="customMoreButtons", slot-scope="{ item }")
+          slot(name="customMoreButtons", :item="item")
 
     q-window-resize-observable(@resize="setPreviewWidth()")
 </template>
