@@ -16,7 +16,7 @@
       :layoutStyle="layoutStyle",
       :roundImage="roundImage",
       :showDuration="showDuration",
-      :showOwnContentFlag="showOwnContentFlag",
+      :showContentFlag="showContentFlag",
       :video="video",
       @changed="changed")
 
@@ -69,7 +69,7 @@
       layoutStyle: String,
       roundImage: undefined,
       showDuration: Boolean,
-      showOwnContentFlag: {
+      showContentFlag: {
         type: Boolean,
         default: false
       },

@@ -2,22 +2,16 @@
   q-card.relative-position.q-mb-lg.relative-position(v-if="hasStandardStyle",
         :style="{'width':cardWidth}",
         :class="{'bg-dark': !roundImage, 'no-shadow': roundImage}")
-    span.my-flag(v-if="showOwnContentFlag && isOwnContent")
-      q-icon(name="how_to_reg")
+    span.my-flag(v-if="showContentFlag && isOwnContent")
+      q-icon(name="how_to_reg" size="1.3em")
+    div.user-flag-wrapper(v-else-if="showContentFlag")
+      div.user-flag(:style="{ 'background-image': 'url(' + portrait + ')' }")
     confirm-modal(v-if="isSequence", ref="confirmDeleteModal", @confirm="deleteSequence")
     confirm-modal(v-else, ref="confirmDeleteModal", @confirm="deleteItem")
 
     //
     // card media
     q-card-media.no-padding(:class="{'round-image shadow-2': roundImage}")
-      <!--div.more-btn-->
-        <!--q-btn.q-px-none(flat size="md" round icon="settings" @click="showActionButton = !showActionButton")-->
-      <!--q-slide-transition-->
-        <!--div.action-buttons.row.justify-around(v-if="displayMoreButton && showActionButton")-->
-          <!--slot(name="customMoreButtons" :video="video")-->
-          <!--q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")-->
-          <!--q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")-->
-          <!--q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")-->
 
       //
       // show video preview
@@ -86,7 +80,9 @@
       return {
         previewHeight: undefined,
         showing: false,
-        showActionButton: false
+        showActionButton: false,
+        portraitLoading: Boolean,
+        portrait: undefined
       }
     },
     props: {
@@ -104,15 +100,37 @@
         default: 'sm'
       },
       roundImage: true,
-      showOwnContentFlag: Boolean,
+      showContentFlag: Boolean,
       showDuration: Boolean,
       uuid: undefined,
       video: undefined
     },
     mounted () {
       this.setPreviewHeight()
+      this.loadAuthorProfile()
     },
     methods: {
+      async loadAuthorProfile () {
+        if (this.showContentFlag) {
+          let user = this.video.annotation.author.id
+          if (user) {
+            this.portraitLoading = true
+            const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
+            if (portraitsMapResult) {
+              const portraitsQuery = {
+                'target.id': `${process.env.TIMELINE_BASE_URI}${portraitsMapResult.uuid}`,
+                'author.id': user
+              }
+              let portrait = await VideoHelper.fetchVideoItems(this, portraitsQuery)
+              this.portrait = portrait[0].preview.small
+              this.portraitLoading = false
+            }
+
+            console.log('Portrait', this.portrait)
+            console.log('User', user)
+          }
+        }
+      },
       setShowing () {
         this.showing = !this.showing
         console.log(this.showing)
@@ -276,8 +294,8 @@
     position absolute
     top 0
     right 0
-    width: 1.5em
-    height: 1.5em
+    width: 2.5em
+    height: 2.5em
     // margin-top -3px
     // margin-right -5px
     // background-color $secondary
@@ -290,6 +308,29 @@
     display: flex
     align-items center
     justify-content center
+  .user-flag
+    z-index 1000
+    width: 100%
+    height: 100%
+    /*margin 5px*/
+    border-radius 100%!important
+    background-color rgba(0,0,0,.4)
+    background-size 100%
+    background-position center
+  .user-flag-wrapper
+    z-index 999
+    position absolute
+    top 0
+    right 0
+    width: 2.5em
+    height: 2.5em
+    margin 2.5px
+    border-radius 100%!important
+    background-color rgba(255,255,255,0.2)
+    display flex
+    justify-content center
+    align-items center
+    padding 1px
   .superduba
     position absolute
     top 0

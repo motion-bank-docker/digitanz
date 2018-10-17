@@ -7,7 +7,7 @@
         :videos="entries",
         layoutStyle="sm",
         :buttons="['download']",
-        :showOwnContentFlag="true")
+        :showContentFlag="true")
           template(slot="customButtons" slot-scope="{ video }")
             q-btn.q-px-none(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
             q-btn.q-px-none(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
