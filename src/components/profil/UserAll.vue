@@ -82,8 +82,10 @@
         const groupedByDay = {}
         for (let item of allItems) {
           const day = DateTime.fromISO(item.created).startOf('day').toISO()
-          if (Array.isArray(groupedByDay[day])) groupedByDay[day].push(item)
-          else groupedByDay[day] = [item]
+          if (day) {
+            if (Array.isArray(groupedByDay[day])) groupedByDay[day].push(item)
+            else groupedByDay[day] = [item]
+          }
         }
         this.items = groupedByDay
         this.days = Object.keys(groupedByDay)
