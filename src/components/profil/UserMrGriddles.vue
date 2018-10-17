@@ -7,8 +7,14 @@
     mr-griddle-list-view(
     v-if="sequences.length > 0",
     layout-style='sm',
-    :items="sequences",
-    :buttonVisibility="`private`")
+    :buttons="['more-delete', 'more-download']",
+    :items="sequences")
+      template(slot="customButtons" slot-scope="{ video }")
+        q-btn(flat, size="sm", round, icon="people", color="grey-5", @click="toggleItemFavorite(video)")
+
+      template(slot="customMoreButtons" slot-scope="{ video }")
+        q-item.q-px-sm
+          q-btn(round, flat, size="sm", icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
 
     .text-center(v-else)
       loading-spinner

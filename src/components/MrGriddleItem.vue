@@ -19,42 +19,24 @@
     .row.bg-grey-10.items-center(v-else, :style="{height: requestedHeight + 'px'}")
       .full-width.q-px-md.q-mb-none.text-center Keine Vorschau verfügbar
 
-    div
-      slot(name="customButtons", :item="item")
+    // div
+      // slot(name="customButtons", :item="item")
 
     // .row.bg-blue.justify-around(slot="customButtons", slot-scope="{ item }")
     q-card-actions.row.justify-around
-      template(v-if="buttonVisibility !== 'undefined' || buttonVisibility !== 'none'")
+      slot(name="customButtons", :video="video")
 
-        template(v-if="buttonVisibility === 'public'")
-          q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
-            // q-chip(v-if="video.responses.length > 0", floating, color="red") {{ video.responses.length }}
-            q-chip(v-if="", floating, color="red")
-
-        <!--q-btn(flat, size="sm" round, icon="people", :color="getItemStyle(item).color",-->
-        <!--@click="toggleItemFavorite(item)")-->
-
-        <!--q-btn(flat, size="sm", round, icon="delete",-->
-        <!--@click="openDeleteModal(item)")-->
-
-        template(v-if="buttonVisibility === 'private'")
-          q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
-
-          q-btn.q-px-none(flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
-            q-popover.bg-dark(:offset="[10, 0]")
-              q-list
-                slot(name="customMoreButtons", :video="video")
-                //q-item(v-if="displayMoreVisibility").q-px-sm
-                q-item(v-if="").q-px-sm
-                  q-btn(flat, size="sm", round, icon="edit",
-                  @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
-                  // q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
-                //q-item(v-if="displayMoreDownload").q-px-sm
-                q-item(v-if="").q-px-sm
-                  q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
-                //q-item(v-if="displayMoreDelete").q-px-sm
-                q-item(v-if="").q-px-sm
-                  q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
+      slot(v-if="displayMoreButton", name="moreButton", :video="video")
+        q-btn.q-px-none(flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
+          q-popover.bg-dark(:offset="[10, 0]")
+            q-list
+              slot(name="customMoreButtons", :video="video")
+              q-item(v-if="displayMoreVisibility").q-px-sm
+                q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
+              q-item(v-if="displayMoreDownload").q-px-sm
+                q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
+              q-item(v-if="displayMoreDelete").q-px-sm
+                q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
 
 </template>
 
@@ -195,6 +177,29 @@
         this.currentState = (this.currentState + 1) % this.states.length
         this.drawSkeleton()
         this.lastFrameTime = Date.now()
+      },
+      displayMoreButton () {
+        if (typeof this.buttons !== 'undefined') {
+          for (let btn of this.buttons) {
+            if (btn.includes('more')) {
+              return true
+            }
+          }
+          return false
+        }
+        else return false
+      },
+      displayMoreVisibility () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-visibility') > -1)
+        else return false
+      },
+      displayMoreDelete () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-delete') > -1)
+        else return false
+      },
+      displayMoreDownload () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-download') > -1)
+        else return false
       },
       drawSkeleton () {
         let skeletonLines = []
