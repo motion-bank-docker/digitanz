@@ -11,7 +11,7 @@
           q-icon(:name="button.icon")
 
         span.q-py-md
-          file-uploader-micro
+          file-uploader-micro(:query="uploaderQuery")
 
       template(v-else)
         q-btn.q-mx-md(round, flat, size="lg",
@@ -57,7 +57,10 @@
         rootPaths: ['', 'profil', 'dashboard-new', 'tools'],
         hideBackButton: true,
         currentApp: null,
-        env: process.env
+        env: process.env,
+        uploaderQuery: {
+          'title': 'Meine Videos'
+        }
       }
     },
     computed: {
