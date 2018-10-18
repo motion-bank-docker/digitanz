@@ -57,7 +57,7 @@
       }
     },
     mounted () {
-      this.loadData()
+      // this.loadData()
     },
     props: {
       sequences: Array
@@ -68,9 +68,9 @@
       })
     },
     watch: {
-      user (val) {
-        if (val) this.loadData()
-      }
+      // user (val) {
+      //   if (val) this.loadData()
+      // }
     },
     // TODO dis-fav last item (list returns empty)
     methods: {
