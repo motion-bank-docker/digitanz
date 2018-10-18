@@ -27,6 +27,8 @@
       mr-griddle-item(
       v-for="(item, i) in items",
       :buttons="buttons",
+      :buttonsNew="buttonsNew",
+      :buttonsNewDropdown="buttonsNewDropdown",
       :hideButtons="hideButtons",
       :item="item",
       :buttonVisibility="buttonVisibility",

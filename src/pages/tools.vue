@@ -27,7 +27,7 @@
           action: 'space-tool',
           icon: 'scatter_plot',
           label: 'Raum',
-          status: true
+          status: false
         }, {
           action: 'rhytmus',
           icon: 'linear_scale',
