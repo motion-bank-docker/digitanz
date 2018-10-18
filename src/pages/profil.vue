@@ -325,9 +325,9 @@
       },
       groupByType () {
         const grouped = {
-          'Meine Griddles': this.griddles,
-          'Meine Sequenzen': this.sequences,
-          'Meine Uploads': this.uploads
+          'Meine Griddles': [].concat(this.griddles),
+          'Meine Sequenzen': [].concat(this.sequences),
+          'Meine Uploads': [].concat(this.uploads)
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped
