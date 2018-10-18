@@ -214,7 +214,7 @@
           sequenceAnnotations.push(annotations.items[0])
         }
         this.griddles = sequenceAnnotations.filter(item => {
-          return item.created !== undefined
+          return item && item.created !== undefined
         })
         console.debug('griddles: ', this.griddles)
       },
