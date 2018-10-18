@@ -77,6 +77,8 @@
               id: this.user.uuid
             },
             uuid: map.uuid,
+            created: map.created,
+            updated: map.updated,
             body: {
               source: {
                 id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,

@@ -105,6 +105,8 @@
             author: {
               id: this.user.uuid
             },
+            created: map.created,
+            updated: map.updated,
             uuid: map.uuid,
             body: {
               source: {
