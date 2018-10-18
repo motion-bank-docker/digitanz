@@ -320,8 +320,8 @@
       groupByType () {
         const grouped = {
           'Meine Griddles': this.griddles,
-          'Meine Uploads': this.uploads,
-          'Meine Sequenzen': this.sequences
+          'Meine Sequenzen': this.sequences,
+          'Meine Uploads': this.uploads
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped
