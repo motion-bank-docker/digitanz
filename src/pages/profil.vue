@@ -226,7 +226,9 @@
           })
           sequenceAnnotations.push(annotations.items[0])
         }
-        this.griddles = sequenceAnnotations
+        this.griddles = sequenceAnnotations.filter(item => {
+          return item.created !== undefined
+        })
         console.debug('griddles: ', this.griddles)
       },
       async loadSequencesData () {
@@ -271,6 +273,8 @@
             media,
             map
           }
+        }).filter(item => {
+          return item.annotation && item.annotation.created
         })
         console.debug('sequences: ', this.sequences)
       },
@@ -291,7 +295,9 @@
             }
           }
           const uploads = await VideoHelper.fetchVideoItems(this, query)
-          this.uploads = uploads
+          this.uploads = uploads.filter(seq => {
+            return seq.annotation && seq.annotation.created
+          })
         }
         else this.uploads = []
         console.debug('uploads: ', this.uploads)
