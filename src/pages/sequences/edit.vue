@@ -66,6 +66,7 @@
                   :video="video",
                   :allowSelfResponse="allowSelfResponse",
                   :hideButtons="true",
+                  cardWidth="60px",
                   style="height: 25px")
                 //
                   img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
@@ -257,7 +258,7 @@
         }
         await SequenceHelper.renderSequence(this, payload, initial ? this.targetTimeline : undefined, this.videos)
         this.$q.loading.hide()
-        this.$router.push('/sequences')
+        this.$router.push({ name: 'profil' })
       },
       checkOrientation () {
         alert('bla')

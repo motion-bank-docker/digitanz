@@ -87,6 +87,13 @@
             users-public-sequences
 
         //
+        // Public Uploads
+        content-block
+          template(slot="title") Öffentliche Uploads
+          template(slot="buttons")
+          template(slot="content")
+            users-public-uploads
+        //
         // Public Portrait
         <!--content-block(v-if="portrait.length > 0")-->
           <!--template(slot="title") Öffentliches Portrait-->
@@ -115,6 +122,7 @@
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
   import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
+  import UsersPublicUploads from '../components/profil/UsersPublicUploads'
   import UserUploads from '../components/profil/UserUploads'
   import UserSequences from '../components/profil/UserSequences'
   import UserMrGriddles from '../components/profil/UserMrGriddles'
@@ -134,6 +142,7 @@
       UsersPublicSequences,
       UsersPublicPortrait,
       UsersPublicMrGriddles,
+      UsersPublicUploads,
       FileUploaderMicro,
       ContentBlock,
       MrGriddleListView,
@@ -180,6 +189,7 @@
     async mounted () {
       this.$root.$on('updateVideos', this.loadUploadsData)
       this.$root.$on('updateSequences', this.loadSequencesData)
+      this.$root.$on('updateGriddles', this.loadGriddleData)
       this.dates = this.$dates()
       if (this.user) {
         this.nickname = this.user.nickname
@@ -190,6 +200,7 @@
     beforeDestroy () {
       this.$root.$off('updateVideos', this.loadUploadsData)
       this.$root.$off('updateSequences', this.loadSequencesData)
+      this.$root.$off('updateGriddles', this.loadGriddleData)
     },
     methods: {
       async loadAllTheThings () {
@@ -326,9 +337,9 @@
       },
       groupByType () {
         const grouped = {
-          'Meine Griddles': this.griddles,
-          'Meine Sequenzen': this.sequences,
-          'Meine Uploads': this.uploads
+          'Meine Griddles': [].concat(this.griddles),
+          'Meine Sequenzen': [].concat(this.sequences),
+          'Meine Uploads': [].concat(this.uploads)
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped

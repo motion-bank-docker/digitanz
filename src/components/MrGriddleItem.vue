@@ -1,9 +1,9 @@
 <template lang="pug">
 
   q-card.relative-position.q-mb-lg.relative-position.bg-dark
-    span.my-flag(v-if="isOwnContent()")
+    span.my-flag(v-if="showContentFlag && isOwnContent()")
       q-icon(name="how_to_reg" size="1.3em")
-    div.user-flag-wrapper(v-else)
+    div.user-flag-wrapper(v-else-if="showContentFlag")
       div.user-flag(:style="{ 'background-image': 'url(' + portrait + ')' }")
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item)")
     q-window-resize-observable(@resize="onResize")
@@ -78,6 +78,10 @@
       buttonsNewDropdown: Array,
       play: {
         type: Boolean
+      },
+      showContentFlag: {
+        type: Boolean,
+        default: false
       },
       buttonVisibility: {
         type: String
