@@ -344,18 +344,19 @@
         */
       },
       async loadAuthorProfile () {
-        let user = this.item.author.id
-        if (user) {
+        let itemUser = this.item.author.id
+        console.log('itemUser', itemUser)
+        if (itemUser) {
           // this.portraitLoading = true
           const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
           if (portraitsMapResult) {
             const portraitsQuery = {
               'target.id': `${process.env.TIMELINE_BASE_URI}${portraitsMapResult.uuid}`,
-              'author.id': user
+              'author.id': itemUser
             }
             let portrait = await VideoHelper.fetchVideoItems(this, portraitsQuery)
-            console.log(portrait)
-            // this.portrait = portrait[0].preview.small
+            if (typeof portrait === 'undefined') return
+            this.portrait = portrait[0].preview.small
             // this.portraitLoading = false
           }
           // console.log('this.portrait', this.portrait)
