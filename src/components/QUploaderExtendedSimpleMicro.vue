@@ -1,7 +1,7 @@
 <template lang="pug">
   q-btn(@dragover="__onDragOver", flat, round, :size="size", :color="color")
 
-    template(v-if="uploading")
+    template(v-if="busy")
       q-spinner
 
     template(v-else)
@@ -35,11 +35,20 @@
 
 <script>
   import QUploaderExtended from './QUploaderExtended'
+  import { mapGetters } from 'vuex'
 
   export default {
     extends: QUploaderExtended,
     props: {
       size: undefined
+    },
+    computed: {
+      ...mapGetters({
+        jobIds: 'conversions/getJobIds'
+      }),
+      busy () {
+        return this.uploading || (this.jobIds && this.jobIds.length)
+      }
     },
     mounted () {
       // console.log('check')

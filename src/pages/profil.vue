@@ -209,7 +209,6 @@
         await this.loadGriddleData()
         await this.loadSequencesData()
         await this.loadUploadsData()
-        this.groupByDate()
       },
       async loadGriddleData () {
         const query = {
