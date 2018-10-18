@@ -254,7 +254,7 @@
         else return false
       },
       hasStandardStyle () {
-        if (this.layoutStyle === 'sm' || this.layoutStyle === 'singleCenter') {
+        if (this.layoutStyle === 'sm' || this.layoutStyle === 'singleCenter' || this.layoutStyle === 'profile') {
           return true
         }
         else {

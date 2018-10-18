@@ -2,7 +2,7 @@
   div
     video-list-view(:videos="uploads",
                     v-if="portraits.map",
-                    layoutStyle="sm",
+                    layoutStyle="profile",
                     :buttons="['more-download', 'more-delete']",
                     :showDuration="true",
                     @changed="loadData")
