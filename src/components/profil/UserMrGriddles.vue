@@ -1,12 +1,14 @@
 <template lang="pug">
   div
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
-
     mr-griddle-list-view(
     v-if="sequences.length > 0",
     layout-style='profile',
     :buttons=["more-delete", "more-download"],
-    :items="sequences")
+    :buttonsNew="buttonsNew",
+    :buttonsNewDropdown="buttonsNewDropdown",
+    :items="sequences",
+    @emitLoadData="emitLoadData")
 
       template(slot="customButtons", slot-scope="{ item }")
         q-btn.q-px-none(flat, size="sm" round, icon="people", color="grey-5", @click="togglePublic(video)")
@@ -40,6 +42,17 @@
     },
     data () {
       return {
+        buttonsNew: [{
+          icon: 'people',
+          label: 'visibility'
+        }],
+        buttonsNewDropdown: [{
+          icon: 'edit',
+          label: 'edit'
+        }, {
+          icon: 'delete',
+          label: 'delete'
+        }],
         favoriteSequences: []
       }
     },
@@ -61,6 +74,9 @@
     },
     // TODO dis-fav last item (list returns empty)
     methods: {
+      emitLoadData () {
+        this.loadData()
+      },
       async loadFavorites () {
         // fetch favorite sequences
         // console.log('mmmmmm load favorites ', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)

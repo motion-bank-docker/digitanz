@@ -61,9 +61,10 @@
           template(slot="content")
             div.row.justify-between
               div.inline(v-if="grouped[headline]", v-for="item in grouped[headline]", :style="{width: '46%'}")
-                user-mr-griddles(v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
-                user-sequences(v-else-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
-                user-uploads(v-else-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
+                div(v-if="item")
+                  user-mr-griddles(v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
+                  user-sequences(v-else-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
+                  user-uploads(v-else-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
 
       //
       // LIST PUBLIC
@@ -188,6 +189,7 @@
     async mounted () {
       this.$root.$on('updateVideos', this.loadUploadsData)
       this.$root.$on('updateSequences', this.loadSequencesData)
+      this.$root.$on('updateGriddles', this.loadGriddleData)
       this.dates = this.$dates()
       if (this.user) {
         this.nickname = this.user.nickname
@@ -198,6 +200,7 @@
     beforeDestroy () {
       this.$root.$off('updateVideos', this.loadUploadsData)
       this.$root.$off('updateSequences', this.loadSequencesData)
+      this.$root.$off('updateGriddles', this.loadGriddleData)
     },
     methods: {
       async loadAllTheThings () {
@@ -222,7 +225,9 @@
           })
           sequenceAnnotations.push(annotations.items[0])
         }
-        this.griddles = sequenceAnnotations
+        this.griddles = sequenceAnnotations.filter(item => {
+          return item && item.created !== undefined
+        })
         console.debug('griddles: ', this.griddles)
       },
       async loadSequencesData () {
@@ -267,6 +272,8 @@
             media,
             map
           }
+        }).filter(item => {
+          return item.annotation && item.annotation.created
         })
         console.debug('sequences: ', this.sequences)
       },
@@ -287,7 +294,9 @@
             }
           }
           const uploads = await VideoHelper.fetchVideoItems(this, query)
-          this.uploads = uploads
+          this.uploads = uploads.filter(seq => {
+            return seq.annotation && seq.annotation.created
+          })
         }
         else this.uploads = []
         console.debug('uploads: ', this.uploads)
@@ -328,9 +337,9 @@
       },
       groupByType () {
         const grouped = {
-          'Meine Griddles': this.griddles,
-          'Meine Sequenzen': this.sequences,
-          'Meine Uploads': this.uploads
+          'Meine Griddles': [].concat(this.griddles),
+          'Meine Sequenzen': [].concat(this.sequences),
+          'Meine Uploads': [].concat(this.uploads)
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped

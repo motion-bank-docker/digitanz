@@ -173,6 +173,8 @@
       async deleteSequence (item) {
         this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
         await SequenceHelper.deleteSequence(this, item.map.uuid)
+        console.log('deleted sequence')
+        this.$root.$emit('updateSequences')
         this.$q.loading.hide()
         this.$emit('changed')
       },
@@ -202,6 +204,7 @@
         }
         // remove item / annotation
         await VideoHelper.deleteVideoItem(this, item)
+        this.$root.$emit('updateVideos')
         this.$q.loading.hide()
         // await this.fetchVideos()
         this.$emit('changed')
