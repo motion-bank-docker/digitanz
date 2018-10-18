@@ -3,44 +3,23 @@
 
     //
     // size sm
-    div.row.justify-between(v-if="layoutStyle === 'sm'")
+    div.row.justify-between
       video-item.placeholder(v-if="showVideoPlaceholder", :video="{}")
-      video-item(v-for="video in videos",
-      :allowSelfResponse="allowSelfResponse",
-      :buttons="buttons",
-      :cardWidth="cardWidth",
-      :contentType="`video`",
-      :hideButtons="hideButtons",
-      :isSequence="isSequence",
-      :key="setKey(video)",
-      :layoutStyle="layoutStyle",
-      :roundImage="roundImage",
-      :showDuration="showDuration",
-      :showContentFlag="showContentFlag",
-      :video="video",
-      @changed="changed")
-
-        template(slot="customButtons", slot-scope="{ video }")
-          slot(name="customButtons", :video="video")
-        template(slot="customMoreButtons", slot-scope="{ video }")
-          slot(name="customMoreButtons", :video="video")
-
-    div.row.justify-between(v-else-if="layoutStyle === 'profile'")
-      video-item.placeholder(v-if="showVideoPlaceholder", :video="{}")
-      video-item(v-for="video in videos",
-      :allowSelfResponse="allowSelfResponse",
-      :buttons="buttons",
-      :cardWidth="cardWidth",
-      :contentType="`video`",
-      :hideButtons="hideButtons",
-      :isSequence="isSequence",
-      :key="setKey(video)",
-      :layoutStyle="layoutStyle",
-      :roundImage="roundImage",
-      :showDuration="showDuration",
-      :showContentFlag="showContentFlag",
-      :video="video",
-      @changed="changed")
+      div(v-for="video in videos")
+        video-item(v-if="getType(video) === 'upload'",
+        :allowSelfResponse="allowSelfResponse",
+        :buttons="buttons",
+        :cardWidth="cardWidth",
+        :contentType="`video`",
+        :hideButtons="hideButtons",
+        :isSequence="isSequence",
+        :key="setKey(video)",
+        :layoutStyle="layoutStyle",
+        :roundImage="roundImage",
+        :showDuration="showDuration",
+        :showContentFlag="showContentFlag",
+        :video="video",
+        @changed="changed")
 
         template(slot="customButtons", slot-scope="{ video }")
           slot(name="customButtons", :video="video")
@@ -108,6 +87,12 @@
       },
       setKey (video) {
         return video.annotation ? video.annotation.uuid : '001'
+      },
+      getType (item) {
+        console.log('**', item)
+        if (item.body && item.body.type === 'MrGriddleSkeleton') return 'griddle'
+        else if (item.annotation && item.type === 'Sequence') return 'sequence'
+        else return 'upload'
       }
     },
     watch: {
