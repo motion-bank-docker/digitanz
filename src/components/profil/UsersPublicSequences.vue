@@ -20,8 +20,8 @@
   import { mapGetters } from 'vuex'
   import { SequenceHelper } from '../../lib'
   import ConfirmModal from '../ConfirmModal'
-  import { ObjectUtil } from 'mbjs-utils'
-  import { DateTime } from 'luxon'
+  // import { ObjectUtil } from 'mbjs-utils'
+  // import { DateTime } from 'luxon'
 
   export default {
     components: {
@@ -137,57 +137,21 @@
         }
         this.favouriteSequences = await this.$store.dispatch('annotations/find', query)
       },
-      async toggleItemFavorite (item, silent = true) {
-        if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_sequence') })
+      async toggleItemFavorite (item) {
         const query = {
           'target.id': this.sequencesFavouritesMapUUID,
           'author.id': this.user.uuid
         }
         let result = await this.$store.dispatch('annotations/find', query)
 
-        let isCurrentItem = false
         for (let favouredItem of result.items) {
           // remove only this current item
           if (favouredItem.body.source.id === item.annotation.body.source.id) {
-            isCurrentItem = true
             await this.$store.dispatch('annotations/delete', favouredItem.uuid)
             await this.$store.dispatch('acl/remove', {uuid: favouredItem.uuid, role: 'public', permission: 'get'})
           }
         }
-        const message = {
-          video: item.annotation.body.source.id,
-          user: this.user.uuid
-        }
-        if (!isCurrentItem) {
-          const annotation = {
-            author: {
-              id: this.user.uuid
-            },
-            body: ObjectUtil.merge({}, item.annotation.body),
-            target: {
-              id: this.sequencesFavouritesMapUUID,
-              type: 'Timeline',
-              selector: {
-                type: 'Fragment',
-                value: DateTime.local().toISO()
-              }
-            }
-          }
-          const favouredItem = await this.$store.dispatch('annotations/post', annotation)
-          if (favouredItem) {
-            await this.$store.dispatch('acl/set', {uuid: favouredItem.uuid, role: 'public', permissions: ['get']})
-          }
-          await this.$store.dispatch('logging/log', { action: 'sequence_favourite_set', message })
-          if (!silent) this.$q.loading.hide()
-        }
-        else if (!silent) {
-          await this.$store.dispatch('logging/log', { action: 'sequence_favourite_unset', message })
-          this.$q.loading.hide()
-        }
-
-        // dk: neccessary to load content again?
         await this.loadData()
-        await this.loadFavouriteSequences()
       }
     }
   }
