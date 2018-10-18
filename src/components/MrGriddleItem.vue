@@ -104,6 +104,7 @@
     },
     data () {
       return {
+        responses: undefined,
         countResponses: 0,
         currentState: -1,
         currentTime: 0,
@@ -152,7 +153,6 @@
       })
     },
     mounted () {
-      // console.log('MrGriddleItem.vue', 'this.item', this.item)
       this.loadResponses()
       this.loadAuthorProfile()
       if (this.requestedWidth && this.requestedHeight) {
@@ -199,6 +199,17 @@
       }
     },
     methods: {
+      async uploadResponse () {
+        this.$refs.uploadRemixModal.show({
+          id: this.target.id,
+          type: 'Timeline'
+        })
+        const message = {
+          portrait: this.target.uuid,
+          user: this.user.uuid
+        }
+        await this.$store.dispatch('logging/log', { action: 'open_response', message })
+      },
       async toggleItemFavorite (item) {
         const targetNew = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
         if (targetNew) {
@@ -371,39 +382,27 @@
         // return this.user.uuid
       },
       async loadResponses () {
-        // this.$q.loading.show({ message: this.$t('messages.loading_responses') })
-        // let _route = '/mr-griddle/' + this.item.uuid + '/responses'
-        // console.log('_route', _route)
         this.target = await this.$store.dispatch('maps/get', this.item.uuid)
-        // console.log('TARGET', this.target)
 
         if (this.target) {
           const states = await this.$store.dispatch('annotations/find', {
-            'target.id': this.target.id
-            /* 'target.id': this.target.id,
+            'target.id': this.target.id,
             'body.purpose': {
               $ne: 'commenting'
             }
-            */
           })
-          // console.log('STATES', states)
-          /*
           this.states = states.items.map(s => {
             return JSON.parse(s.body.value)
           })
-          */
-          /*
+
           const responsesQuery = {
             'target.id': `${process.env.TIMELINE_BASE_URI}${this.target.uuid}`,
             'target.type': 'Timeline',
             'body.purpose': 'commenting'
           }
-          console.log('responsesQuery', responsesQuery)
-          */
-          // this.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
-          this.countResponses = states.items.length
+          this.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+          this.countResponses = this.responses.length
         }
-        // this.$q.loading.hide()
       },
       onAction (val) {
         // console.log(this.item)

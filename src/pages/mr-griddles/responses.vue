@@ -73,6 +73,7 @@
     },
     methods: {
       async loadResponses () {
+        console.log('X X X X X', this.$route.params.uuid)
         this.$q.loading.show({ message: this.$t('messages.loading_responses') })
         this.target = await this.$store.dispatch('maps/get', this.$route.params.uuid)
 
