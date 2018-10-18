@@ -20,7 +20,7 @@
         template(slot="customMoreButtons", slot-scope="{ item }")
           slot(name="customMoreButtons", :item="item")
 
-    .row.justify-between(v-if="layoutStyle === 'profile'", ref="mega")
+    .row.justify-between(v-else-if="layoutStyle === 'profile'", ref="mega")
       mr-griddle-item(
       v-for="(item, i) in items",
       :buttons="buttons",

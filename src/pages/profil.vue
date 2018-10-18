@@ -60,25 +60,10 @@
           template(slot="title") {{ headline }}
           template(slot="content")
             div.row.justify-between
-              div.bloed2(v-if="grouped[headline]", v-for="item in grouped[headline]", :style="{width: '46%'}")
+              div.inline(v-if="grouped[headline]", v-for="item in grouped[headline]", :style="{width: '46%'}")
                 user-mr-griddles(v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
-                user-sequences(v-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
                 user-uploads(v-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
-
-              <!--video-item(v-if="item.annotation && item.annotation.body.type === 'Video'",-->
-                <!--:layoutStyle="sm",-->
-                <!--:video="item")-->
-              <!--p(v-if="item.body && item.body.type === 'MrGriddleSkeleton'") I am GRIDDLE.-->
-              <!--p(v-if="item.annotation && item.annotation.body.type === 'Video'") I am VIDEO.-->
-            <!--mr-griddle-list-view(v-if="grouped[headline][0].body && grouped[headline][0].body.type === 'MrGriddleSkeleton'", :items="grouped[headline]",-->
-              <!--layoutStyle="sm",-->
-              <!--:buttons="['more-download', 'more-delete']",-->
-              <!--:showDuration="false")-->
-            <!--video-list-view(v-else, :videos="grouped[headline]",-->
-              <!--layoutStyle="sm",-->
-              <!--:buttons="['more-download', 'more-delete']",-->
-              <!--:showDuration="false")-->
-
+                user-sequences(v-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
       //
       // LIST PUBLIC
       div(v-else-if="displayType === 'visibility'")
@@ -404,11 +389,4 @@
       padding 0!important
     .q-card.q-mb-lg
       margin-bottom 0!important
-  .mega
-    display block
-    width 20px
-    height 20px
-    background-color red
-  .bloed2
-    display: inline-block
 </style>

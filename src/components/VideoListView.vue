@@ -24,7 +24,8 @@
           slot(name="customButtons", :video="video")
         template(slot="customMoreButtons", slot-scope="{ video }")
           slot(name="customMoreButtons", :video="video")
-
+    //
+    // special view for profile page
     div(v-else-if="layoutStyle === 'profile'")
       // video-item.placeholder(v-if="showVideoPlaceholder", :video="{}")
       video-item(v-for="video in videos",
