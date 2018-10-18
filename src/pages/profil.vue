@@ -180,6 +180,7 @@
     async mounted () {
       this.$root.$on('updateVideos', this.loadUploadsData)
       this.$root.$on('updateSequences', this.loadSequencesData)
+      this.$root.$on('updateGriddles', this.loadGriddleData)
       this.dates = this.$dates()
       if (this.user) {
         this.nickname = this.user.nickname
@@ -190,6 +191,7 @@
     beforeDestroy () {
       this.$root.$off('updateVideos', this.loadUploadsData)
       this.$root.$off('updateSequences', this.loadSequencesData)
+      this.$root.$off('updateGriddles', this.loadGriddleData)
     },
     methods: {
       async loadAllTheThings () {
