@@ -4,7 +4,7 @@
 
     mr-griddle-list-view(
     v-if="sequences.length > 0",
-    layout-style='sm',
+    layout-style='profile',
     :buttons=["more-delete", "more-download"],
     :items="sequences")
 

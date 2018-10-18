@@ -8,7 +8,10 @@
     v-if="sequences.length > 0",
     layout-style='sm',
     :buttons="['more-delete']",
-    :items="sequences")
+    :buttonsNew="buttonsNew",
+    :buttonsNewDropdown="buttonsNewDropdown",
+    :items="sequences",
+    @emitLoadData="emitLoadData")
       template(slot="customButtons" slot-scope="{ video }")
         q-btn(flat, size="sm", round, icon="people", color="grey-5", @click="toggleItemFavorite(video)")
 
@@ -29,6 +32,28 @@
     extends: MrGriddles,
     components: {
       LoadingSpinner
+    },
+    data () {
+      return {
+        buttonsNew: [{
+          icon: 'people',
+          label: 'visibility'
+        }],
+        buttonsNewDropdown: [{
+          icon: 'edit',
+          label: 'edit'
+        }, {
+          icon: 'delete',
+          label: 'delete'
+        }]
+      }
+    },
+    methods: {
+      emitLoadData (val) {
+        // alert('bla')
+        this.loadData()
+        console.log(val, 'bla')
+      }
     }
   }
 </script>

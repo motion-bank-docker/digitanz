@@ -1,8 +1,9 @@
 <template lang="pug">
-  div
+  div.pfui
     video-list-view(:videos="uploads",
                     v-if="portraits.map",
                     layoutStyle="profile",
+                    card-width="100%",
                     :buttons="['more-download', 'more-delete']",
                     :showDuration="true",
                     @changed="loadData")
@@ -216,6 +217,7 @@
   }
 </script>
 
-<style scoped>
-
+<style lang="stylus" scoped>
+  .pfui
+    width 100%
 </style>

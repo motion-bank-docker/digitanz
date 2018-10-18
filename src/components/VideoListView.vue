@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.full-width
+  div(:class="{'full-width': layoutStyle !== 'profile', 'profile': layoutStyle === 'profile'}")
 
     //
     // size sm
@@ -24,23 +24,24 @@
           slot(name="customButtons", :video="video")
         template(slot="customMoreButtons", slot-scope="{ video }")
           slot(name="customMoreButtons", :video="video")
-
-    div.row.justify-between(v-else-if="layoutStyle === 'profile'")
-      video-item.placeholder(v-if="showVideoPlaceholder", :video="{}")
+    //
+    // special view for profile page
+    div(v-else-if="layoutStyle === 'profile'")
+      // video-item.placeholder(v-if="showVideoPlaceholder", :video="{}")
       video-item(v-for="video in videos",
-      :allowSelfResponse="allowSelfResponse",
-      :buttons="buttons",
-      :cardWidth="cardWidth",
-      :contentType="`video`",
-      :hideButtons="hideButtons",
-      :isSequence="isSequence",
-      :key="setKey(video)",
-      :layoutStyle="layoutStyle",
-      :roundImage="roundImage",
-      :showDuration="showDuration",
-      :showContentFlag="showContentFlag",
-      :video="video",
-      @changed="changed")
+        :allowSelfResponse="allowSelfResponse",
+        :buttons="buttons",
+        :cardWidth="cardWidth",
+        :contentType="`video`",
+        :hideButtons="hideButtons",
+        :isSequence="isSequence",
+        :key="setKey(video)",
+        :layoutStyle="layoutStyle",
+        :roundImage="roundImage",
+        :showDuration="showDuration",
+        :showContentFlag="showContentFlag",
+        :video="video",
+        @changed="changed")
 
         template(slot="customButtons", slot-scope="{ video }")
           slot(name="customButtons", :video="video")
@@ -124,5 +125,6 @@
 </script>
 
 <style lang="stylus" scoped>
-
+  .profile
+    width: 100%;
 </style>

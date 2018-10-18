@@ -59,24 +59,11 @@
         content-block(v-if="grouped && headlines", v-for="headline in headlines")
           template(slot="title") {{ headline }}
           template(slot="content")
-            div(v-if="grouped[headline]", v-for="item in grouped[headline]")
-              user-mr-griddles(v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
-              user-sequences(v-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
-              user-uploads(v-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
-
-              <!--video-item(v-if="item.annotation && item.annotation.body.type === 'Video'",-->
-                <!--:layoutStyle="sm",-->
-                <!--:video="item")-->
-              <!--p(v-if="item.body && item.body.type === 'MrGriddleSkeleton'") I am GRIDDLE.-->
-              <!--p(v-if="item.annotation && item.annotation.body.type === 'Video'") I am VIDEO.-->
-            <!--mr-griddle-list-view(v-if="grouped[headline][0].body && grouped[headline][0].body.type === 'MrGriddleSkeleton'", :items="grouped[headline]",-->
-              <!--layoutStyle="sm",-->
-              <!--:buttons="['more-download', 'more-delete']",-->
-              <!--:showDuration="false")-->
-            <!--video-list-view(v-else, :videos="grouped[headline]",-->
-              <!--layoutStyle="sm",-->
-              <!--:buttons="['more-download', 'more-delete']",-->
-              <!--:showDuration="false")-->
+            div.row.justify-between
+              div.inline(v-if="grouped[headline]", v-for="item in grouped[headline]", :style="{width: '46%'}")
+                user-mr-griddles(v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
+                user-sequences(v-else-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
+                user-uploads(v-else-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
 
       //
       // LIST PUBLIC
@@ -100,11 +87,11 @@
 
         //
         // Public Portrait
-        content-block(v-if="portrait.length > 0")
-          template(slot="title") Öffentliches Portrait
-          template(slot="buttons")
-          template(slot="content")
-            users-public-portrait(:portraits="portrait", @changed="fetchPortrait")
+        <!--content-block(v-if="portrait.length > 0")-->
+          <!--template(slot="title") Öffentliches Portrait-->
+          <!--template(slot="buttons")-->
+          <!--template(slot="content")-->
+            <!--users-public-portrait(:portraits="portrait", @changed="fetchPortrait")-->
 
       //
       // LIST SOLUTIONS
@@ -339,8 +326,8 @@
       groupByType () {
         const grouped = {
           'Meine Griddles': this.griddles,
-          'Meine Uploads': this.uploads,
-          'Meine Sequenzen': this.sequences
+          'Meine Sequenzen': this.sequences,
+          'Meine Uploads': this.uploads
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped
@@ -409,9 +396,4 @@
       padding 0!important
     .q-card.q-mb-lg
       margin-bottom 0!important
-  .mega
-    display block
-    width 20px
-    height 20px
-    background-color red
 </style>

@@ -7,6 +7,8 @@
       mr-griddle-item(
       v-for="(item, i) in items",
       :buttons="buttons",
+      :buttonsNew="buttonsNew",
+      :buttonsNewDropdown="buttonsNewDropdown",
       :hideButtons="hideButtons",
       :item="item",
       :buttonVisibility="buttonVisibility",
@@ -14,7 +16,25 @@
       :requestedHeight="itemWidth",
       :requestedWidth="itemWidth",
       :states="itemStates[i]",
+      @emitLoadData="emitLoadData"
       style="width: 46%")
+        template(slot="customButtons", slot-scope="{ item }")
+          slot(name="customButtons", :item="item")
+        template(slot="customMoreButtons", slot-scope="{ item }")
+          slot(name="customMoreButtons", :item="item")
+
+    .row.justify-between(v-else-if="layoutStyle === 'profile'", ref="mega")
+      mr-griddle-item(
+      v-for="(item, i) in items",
+      :buttons="buttons",
+      :hideButtons="hideButtons",
+      :item="item",
+      :buttonVisibility="buttonVisibility",
+      :play="true",
+      :requestedHeight="itemWidth",
+      :requestedWidth="itemWidth",
+      :states="itemStates[i]",
+      style="width: 100%")
         template(slot="customButtons", slot-scope="{ item }")
           slot(name="customButtons", :item="item")
         template(slot="customMoreButtons", slot-scope="{ item }")
@@ -35,6 +55,8 @@
     props: {
       // sm, md, l, xl ?
       buttons: Array,
+      buttonsNew: Array,
+      buttonsNewDropdown: Array,
       buttonVisibility: undefined,
       hideButtons: undefined,
       items: undefined,
@@ -58,6 +80,9 @@
       }
     },
     methods: {
+      emitLoadData (val) {
+        this.$emit('emitLoadData', val)
+      },
       onResize () {
         this.itemWidth = (window.innerWidth > 0) ? ((window.innerWidth - 16 * 2) / 100 * 46) : (screen.width / 100 * 46)
       },

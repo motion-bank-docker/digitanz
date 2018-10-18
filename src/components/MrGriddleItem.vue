@@ -1,8 +1,11 @@
 <template lang="pug">
 
-  // div.q-mb-lg.text-center.shadow-2(@click="openModal")
-  // div.q-mb-lg.text-center.shadow-2
   q-card.relative-position.q-mb-lg.relative-position.bg-dark
+    span.my-flag(v-if="isOwnContent()")
+      q-icon(name="how_to_reg" size="1.3em")
+    div.user-flag-wrapper(v-else)
+      div.user-flag(:style="{ 'background-image': 'url(' + portrait + ')' }")
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item)")
     q-window-resize-observable(@resize="onResize")
     // | {{ typeof buttonVisibility }}
 
@@ -23,34 +26,56 @@
       // slot(name="customButtons", :item="item")
 
     // .row.bg-blue.justify-around(slot="customButtons", slot-scope="{ item }")
-    q-card-actions.row.justify-around
-      slot(name="customButtons", :video="video")
+    q-card-actions(v-if="buttonsNew || buttonsNewDropdown").row.justify-around
+      q-btn(v-for="btn in buttonsNew", @click="onAction(btn.label)", :icon="btn.icon",
+      round, flat, size="sm")
+        // q-chip(v-if="btn.label === 'response'", floating, color="red") {{ getResponseCount(item) }}
+        q-chip(v-if="btn.label === 'response' && countResponses > 0", floating, color="blue") {{ countResponses }}
 
-      slot(v-if="displayMoreButton", name="moreButton", :video="video")
-        q-btn.q-px-none(flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
-          q-popover.bg-dark(:offset="[10, 0]")
-            q-list
-              slot(name="customMoreButtons", :video="video")
-              q-item(v-if="displayMoreVisibility").q-px-sm
-                q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
-              q-item(v-if="displayMoreDownload").q-px-sm
-                q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
-              q-item(v-if="displayMoreDelete").q-px-sm
-                q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
+      q-btn.q-px-none(v-if="buttonsNewDropdown", flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
+        q-popover.bg-dark(:offset="[10, 0]")
+          q-list
+            q-item(v-for="btn in buttonsNewDropdown").q-px-sm
+              q-btn(round, flat, size="sm", :icon="btn.icon", @click="onAction(btn.label)")
+
+      //
+        slot(name="customButtons", :video="video")
+
+        slot(v-if="displayMoreButton", name="moreButton", :item="item")
+          q-btn.q-px-none(flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
+            q-popover.bg-dark(:offset="[10, 0]")
+              q-list
+                q-item(v-for="btn in buttonsNewDropdown").q-px-sm
+                  q-btn(round, flat, size="sm", :icon="btn.icon", @click="onAction(btn.label)")
+
+                slot(name="customMoreButtons", :item="item")
+                //
+                  q-item(v-if="displayMoreVisibility()").q-px-sm
+                    q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
+                  q-item(v-if="displayMoreDownload()").q-px-sm
+                    q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
+                  q-item(v-if="displayMoreDelete()").q-px-sm
+                    q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
 
 </template>
 
 <script>
-  import MrGriddleModal from './MrGriddleModal'
+  // import MrGriddleModal from './MrGriddleModal'
+  import ConfirmModal from '../components/ConfirmModal'
+  import { mapGetters } from 'vuex'
+  import { VideoHelper } from '../lib/video-helper'
 
   const UI_RESIZER_FACTOR = 2
 
   export default {
     components: {
-      MrGriddleModal
+      // MrGriddleModal
+      ConfirmModal
     },
     props: {
       buttons: Array,
+      buttonsNew: Array,
+      buttonsNewDropdown: Array,
       play: {
         type: Boolean
       },
@@ -75,6 +100,7 @@
     },
     data () {
       return {
+        countResponses: 0,
         currentState: -1,
         currentTime: 0,
         frameLength: 300,
@@ -90,14 +116,18 @@
         lines: [],
         maxFrameLength: 60 * 6,
         minFrameLength: 60 / 3,
+        portrait: undefined,
+        portraitLoading: false,
         resizingCell: false,
         resizerFactor: UI_RESIZER_FACTOR,
         showActionButton: false,
+        openDeleteModal: false,
         settingFrameLength: false,
         svgSize: {
           width: 0,
           height: 0
         },
+        target: undefined,
         timerId: -1
       }
     },
@@ -112,31 +142,14 @@
       timerInterval () {
         return (1000 / 60.0) * (this.minFrameLength + (this.maxFrameLength - this.frameLength))
       },
-      displayMoreButton () {
-        if (typeof this.buttons !== 'undefined') {
-          for (let btn of this.buttons) {
-            if (btn.includes('more')) {
-              return true
-            }
-          }
-          return false
-        }
-        else return false
-      },
-      displayMoreVisibility () {
-        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-visibility') > -1)
-        else return false
-      },
-      displayMoreDelete () {
-        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-delete') > -1)
-        else return false
-      },
-      displayMoreDownload () {
-        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-download') > -1)
-        else return false
-      }
+      ...mapGetters({
+        user: 'auth/getUserState'
+      })
     },
     mounted () {
+      console.log(this.item)
+      this.loadResponses()
+      this.loadAuthorProfile()
       if (this.requestedWidth && this.requestedHeight) {
         this.svgSize = {
           width: this.requestedWidth,
@@ -181,8 +194,113 @@
       }
     },
     methods: {
+      async loadAuthorProfile () {
+        let user = this.item.author.id
+        if (user) {
+          // this.portraitLoading = true
+          const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
+          if (portraitsMapResult) {
+            const portraitsQuery = {
+              'target.id': `${process.env.TIMELINE_BASE_URI}${portraitsMapResult.uuid}`,
+              'author.id': user
+            }
+            let portrait = await VideoHelper.fetchVideoItems(this, portraitsQuery)
+            console.log(portrait)
+            // this.portrait = portrait[0].preview.small
+            // this.portraitLoading = false
+          }
+          // console.log('this.portrait', this.portrait)
+          /*
+          console.log('user', user)
+          */
+        }
+      },
+      isOwnContent () {
+        // return (this.video.annotation.author.id === this.user.uuid)
+        return (this.item.author.id === this.user.uuid)
+        // return this.user.uuid
+      },
+      async loadResponses () {
+        // this.$q.loading.show({ message: this.$t('messages.loading_responses') })
+        // let _route = '/mr-griddle/' + this.item.uuid + '/responses'
+        // console.log('_route', _route)
+        this.target = await this.$store.dispatch('maps/get', this.item.uuid)
+        // console.log('TARGET', this.target)
+
+        if (this.target) {
+          const states = await this.$store.dispatch('annotations/find', {
+            'target.id': this.target.id
+            /* 'target.id': this.target.id,
+            'body.purpose': {
+              $ne: 'commenting'
+            }
+            */
+          })
+          // console.log('STATES', states)
+          /*
+          this.states = states.items.map(s => {
+            return JSON.parse(s.body.value)
+          })
+          */
+          /*
+          const responsesQuery = {
+            'target.id': `${process.env.TIMELINE_BASE_URI}${this.target.uuid}`,
+            'target.type': 'Timeline',
+            'body.purpose': 'commenting'
+          }
+          console.log('responsesQuery', responsesQuery)
+          */
+          // this.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+          this.countResponses = states.items.length
+        }
+        // this.$q.loading.hide()
+      },
+      onAction (val) {
+        // console.log(this.item)
+        switch (val) {
+        case 'delete':
+          this.$refs.confirmDeleteModal.show('labels.confirm_delete', this.item, 'buttons.delete')
+          break
+        case 'edit':
+          this.$router.push('mr-griddle/' + this.item.uuid + '/edit')
+          break
+        case 'response':
+          this.$router.push('mr-griddle/' + this.item.uuid + '/responses')
+          break
+        case 'visibility':
+          this.toggleVisibility()
+          break
+        }
+      },
+      /*
+      deleteItem () {
+        alert('wird gelöscht')
+      },
+      */
+      async deleteItem (item) {
+        console.log(item)
+        // this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
+        /*
+        const favorite = this.favoriteSequences.find(a => {
+          return a.body.source && a.body.source.id === item.target.id
+        })
+        if (favorite) {
+          await this.$store.dispatch('annotations/delete', favorite.uuid)
+          await this.$store.dispatch('acl/remove', {uuid: favorite.uuid, role: 'digitanz', permission: 'get'})
+        }
+        */
+        // await this.$store.dispatch('maps/delete', item.target.id.split('/').pop())
+        const mapUuid = item.target.id.split('/').pop()
+        await this.$store.dispatch('maps/delete', mapUuid)
+        // this.$q.loading.hide()
+        // await this.loadData()
+        let check = true
+        this.$emit('emitLoadData', check)
+      },
+      toggleVisibility () {
+        console.log('sichtbarkeit wechseln')
+      },
       openModal () {
-        // console.log('bla')
         this.$refs.mrGriddleModal.show(this.states)
       },
       onResize () {
@@ -201,6 +319,29 @@
         this.currentState = (this.currentState + 1) % this.states.length
         this.drawSkeleton()
         this.lastFrameTime = Date.now()
+      },
+      displayMoreButton () {
+        if (typeof this.buttons !== 'undefined') {
+          for (let btn of this.buttons) {
+            if (btn.includes('more')) {
+              return true
+            }
+          }
+          return false
+        }
+        else return false
+      },
+      displayMoreVisibility () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-visibility') > -1)
+        else return false
+      },
+      displayMoreDelete () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-delete') > -1)
+        else return false
+      },
+      displayMoreDownload () {
+        if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('more-download') > -1)
+        else return false
       },
       drawSkeleton () {
         let skeletonLines = []
@@ -226,6 +367,48 @@
 </script>
 
 <style scoped lang="stylus">
+  .my-flag
+    z-index 1000
+    position absolute
+    top 0
+    right 0
+    width: 2.5em
+    height: 2.5em
+    // margin-top -3px
+    // margin-right -5px
+    // background-color $secondary
+    background-color rgba(0,0,0,.4)
+    // border 1px solid white
+    color white
+    /*padding 2px*/
+    margin 5px
+    border-radius 50%
+    display: flex
+    align-items center
+    justify-content center
+  .user-flag
+    z-index 1000
+    width: 100%
+    height: 100%
+    /*margin 5px*/
+    border-radius 100%!important
+    background-color rgba(0,0,0,.4)
+    background-size 100%
+    background-position center
+  .user-flag-wrapper
+    z-index 999
+    position absolute
+    top 0
+    right 0
+    width: 2.5em
+    height: 2.5em
+    margin 2.5px
+    border-radius 100%!important
+    background-color rgba(255,255,255,0.2)
+    display flex
+    justify-content center
+    align-items center
+    padding 1px
 
   #mr-griddle
     line

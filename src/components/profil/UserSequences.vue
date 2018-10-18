@@ -3,7 +3,8 @@
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteSequence")
 
     video-list-view(:videos="sequences",
-                    layoutStyle="sm",
+                    layoutStyle="profile",
+                    card-width="100%",
                     v-if="sequences.length > 0",
                     :buttons="['more-delete', 'more-download']",
                     :showDuration="false",
