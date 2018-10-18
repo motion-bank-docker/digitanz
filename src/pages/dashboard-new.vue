@@ -78,8 +78,6 @@
         return x
       })
       // console.log('##### dates ', this.$dates)
-    },
-    methods () {
     }
   }
 </script>
