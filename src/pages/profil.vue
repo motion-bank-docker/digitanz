@@ -231,6 +231,7 @@
             created: map.created,
             updated: map.updated,
             body: {
+              type: 'Video',
               source: {
                 id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
                 type: 'video/mp4'
@@ -238,6 +239,7 @@
             }
           }
           return {
+            type: 'Sequence',
             annotation,
             title: map.title.substr(prefix.length),
             preview,
