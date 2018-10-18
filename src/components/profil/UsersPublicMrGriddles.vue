@@ -35,11 +35,8 @@
     data () {
       return {
         buttonsNew: [{
-          icon: 'chat',
-          label: 'response'
-        }, {
-          icon: 'delete',
-          label: 'delete'
+          icon: 'people',
+          label: 'visibility'
         }],
         buttonsNewDropdown: [{
           icon: 'edit',
