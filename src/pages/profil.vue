@@ -59,10 +59,11 @@
         content-block(v-if="grouped && headlines", v-for="headline in headlines")
           template(slot="title") {{ headline }}
           template(slot="content")
-            div(v-if="grouped[headline]", v-for="item in grouped[headline]")
-              user-mr-griddles(v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
-              user-sequences(v-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
-              user-uploads(v-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
+            div.row.justify-between
+              div.bloed2(v-if="grouped[headline]", v-for="item in grouped[headline]", :style="{width: '46%'}")
+                user-mr-griddles(v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
+                user-sequences(v-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
+                user-uploads(v-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
 
               <!--video-item(v-if="item.annotation && item.annotation.body.type === 'Video'",-->
                 <!--:layoutStyle="sm",-->
@@ -391,4 +392,6 @@
     width 20px
     height 20px
     background-color red
+  .bloed2
+    display: inline-block
 </style>

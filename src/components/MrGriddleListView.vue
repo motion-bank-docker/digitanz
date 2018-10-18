@@ -20,6 +20,23 @@
         template(slot="customMoreButtons", slot-scope="{ item }")
           slot(name="customMoreButtons", :item="item")
 
+    .row.justify-between(v-if="layoutStyle === 'profile'", ref="mega")
+      mr-griddle-item(
+      v-for="(item, i) in items",
+      :buttons="buttons",
+      :hideButtons="hideButtons",
+      :item="item",
+      :buttonVisibility="buttonVisibility",
+      :play="true",
+      :requestedHeight="itemWidth",
+      :requestedWidth="itemWidth",
+      :states="itemStates[i]",
+      style="width: 100%")
+        template(slot="customButtons", slot-scope="{ item }")
+          slot(name="customButtons", :item="item")
+        template(slot="customMoreButtons", slot-scope="{ item }")
+          slot(name="customMoreButtons", :item="item")
+
     q-window-resize-observable(@resize="setPreviewWidth()")
 </template>
 
