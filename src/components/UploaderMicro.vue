@@ -11,7 +11,7 @@
       @fail="onFail",
       @start="onStart",
       @finish="onFinish",
-      @click="handleUploaderClick()")
+      @click="handleUploaderClick")
 
   <!--q-uploader-extended-simple-micro(-->
       <!--ref="uploader",-->

@@ -59,9 +59,11 @@
         content-block(v-if="grouped && headlines", v-for="headline in headlines")
           template(slot="title") {{ headline }}
           template(slot="content")
-            div(v-if="grouped[headline]", v-for="item in grouped[headline]")
-              p(v-if="item.annotation && item.annotation.body.type === 'Video'") I am VIDEO.
-              p(v-if="item.body && item.body.type === 'MrGriddleSkeleton'") I am GRIDDLE.
+            div.row.justify-between
+              div.inline(v-if="grouped[headline]", v-for="item in grouped[headline]", :style="{width: '46%'}")
+                user-mr-griddles(v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
+                user-sequences(v-else-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
+                user-uploads(v-else-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
 
       //
       // LIST PUBLIC
@@ -112,8 +114,13 @@
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
   import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
+  import UserUploads from '../components/profil/UserUploads'
+  import UserSequences from '../components/profil/UserSequences'
+  import UserMrGriddles from '../components/profil/UserMrGriddles'
   import FileUploaderMicro from '../components/FileUploaderMicro'
   import ContentBlock from '../components/ContentBlock'
+  import VideoItem from '../components/VideoItem'
+  import MrGriddleListView from '../components/MrGriddleListView'
 
   export default {
     components: {
@@ -122,11 +129,16 @@
       'dashboard-group-video-sequences': GroupVideoSequences,
       LoadingSpinner,
       VideoListView,
+      VideoItem,
       UsersPublicSequences,
       UsersPublicPortrait,
       UsersPublicMrGriddles,
       FileUploaderMicro,
-      ContentBlock
+      ContentBlock,
+      MrGriddleListView,
+      UserUploads,
+      UserSequences,
+      UserMrGriddles
     },
     computed: {
       ...mapGetters({
@@ -136,6 +148,18 @@
     watch: {
       async user () {
         await this.loadAllTheThings()
+      },
+      griddles () {
+        if (this.displayType === 'type') this.groupByType()
+        else if (this.displayType === 'time') this.groupByDate()
+      },
+      sequences () {
+        if (this.displayType === 'type') this.groupByType()
+        else if (this.displayType === 'time') this.groupByDate()
+      },
+      uploads () {
+        if (this.displayType === 'type') this.groupByType()
+        else if (this.displayType === 'time') this.groupByDate()
       }
     },
     data () {
@@ -145,12 +169,16 @@
         dates: undefined,
         nickname: undefined,
         portraitLoading: false,
+        grouped: undefined,
+        headlines: undefined,
         griddles: undefined,
         uploads: undefined,
         sequences: undefined
       }
     },
     async mounted () {
+      this.$root.$on('updateVideos', this.loadUploadsData)
+      this.$root.$on('updateSequences', this.loadSequencesData)
       this.dates = this.$dates()
       if (this.user) {
         this.nickname = this.user.nickname
@@ -158,18 +186,16 @@
         await this.loadAllTheThings()
       }
     },
+    beforeDestroy () {
+      this.$root.$off('updateVideos', this.loadUploadsData)
+      this.$root.$off('updateSequences', this.loadSequencesData)
+    },
     methods: {
       async loadAllTheThings () {
         if (!this.user) return
-        this.$q.loading.show({ message: this.$t('messages.loading_data') })
-        this.griddles = await this.loadGriddleData()
-        console.log('griddles: ', this.griddles)
-        this.sequences = await this.loadSequencesData()
-        console.log('sequences: ', this.sequences)
-        this.uploads = await this.loadUploadsData()
-        console.log('uploads: ', this.uploads)
-        this.groupByType()
-        this.$q.loading.hide()
+        await this.loadGriddleData()
+        await this.loadSequencesData()
+        await this.loadUploadsData()
       },
       async loadGriddleData () {
         const query = {
@@ -187,7 +213,8 @@
           })
           sequenceAnnotations.push(annotations.items[0])
         }
-        return sequenceAnnotations
+        this.griddles = sequenceAnnotations
+        console.debug('griddles: ', this.griddles)
       },
       async loadSequencesData () {
         console.log('loading sequences from component')
@@ -199,7 +226,7 @@
         }
         const result = await this.$store.dispatch('maps/find', query)
         console.log('result:', result)
-        return result.items.filter(map => {
+        this.sequences = result.items.filter(map => {
           return map.title.indexOf(prefix) === 0
         }).sort(this.$sort.onCreatedDesc).map(map => {
           const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
@@ -213,7 +240,10 @@
               id: this.user.uuid
             },
             uuid: map.uuid,
+            created: map.created,
+            updated: map.updated,
             body: {
+              type: 'Video',
               source: {
                 id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
                 type: 'video/mp4'
@@ -221,6 +251,7 @@
             }
           }
           return {
+            type: 'Sequence',
             annotation,
             title: map.title.substr(prefix.length),
             preview,
@@ -228,6 +259,7 @@
             map
           }
         })
+        console.debug('sequences: ', this.sequences)
       },
       async loadUploadsData () {
         let query = {
@@ -246,9 +278,10 @@
             }
           }
           const uploads = await VideoHelper.fetchVideoItems(this, query)
-          return uploads
+          this.uploads = uploads
         }
-        return []
+        else this.uploads = []
+        console.debug('uploads: ', this.uploads)
       },
       iconColor (btn) {
         if (this.displayType === btn) {
@@ -287,11 +320,12 @@
       groupByType () {
         const grouped = {
           'Meine Griddles': this.griddles,
-          'Meine Uploads': this.uploads,
-          'Meine Sequenzen': this.sequences
+          'Meine Sequenzen': this.sequences,
+          'Meine Uploads': this.uploads
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped
+        console.log('grouped: ', this.grouped['Meine Uploads'])
       },
       orderByTime () {
         this.displayType = 'time'
@@ -356,9 +390,4 @@
       padding 0!important
     .q-card.q-mb-lg
       margin-bottom 0!important
-  .mega
-    display block
-    width 20px
-    height 20px
-    background-color red
 </style>

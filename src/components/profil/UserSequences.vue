@@ -3,7 +3,8 @@
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteSequence")
 
     video-list-view(:videos="sequences",
-                    layoutStyle="sm",
+                    layoutStyle="profile",
+                    card-width="100%",
                     v-if="sequences.length > 0",
                     :buttons="['more-delete', 'more-download']",
                     :showDuration="false",
@@ -45,9 +46,11 @@
     data () {
       return {
         sequencesFavouritesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`,
-        sequences: [],
         favouriteSequences: []
       }
+    },
+    props: {
+      sequences: Array
     },
     async mounted () {
       if (this.user) {
@@ -63,43 +66,46 @@
       async loadData () {
         console.log('loading sequences from component')
         if (!this.user) return
-        this.sequences = []
-        const prefix = 'Sequenz: '
-        const query = {
-          type: 'Timeline',
-          'author.id': this.user.uuid
-        }
-        const result = await this.$store.dispatch('maps/find', query)
-        console.log('result:', result)
-        this.sequences = result.items.filter(map => {
-          return map.title.indexOf(prefix) === 0
-        }).sort(this.$sort.onCreatedDesc).map(map => {
-          const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
-          const preview = {
-            high: media.replace(/\.mp4$/, '.jpg'),
-            medium: media.replace(/\.mp4$/, '-m.jpg'),
-            small: media.replace(/\.mp4$/, '-s.jpg')
-          }
-          const annotation = {
-            author: {
-              id: this.user.uuid
-            },
-            uuid: map.uuid,
-            body: {
-              source: {
-                id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
-                type: 'video/mp4'
-              }
-            }
-          }
-          return {
-            annotation,
-            title: map.title.substr(prefix.length),
-            preview,
-            media,
-            map
-          }
-        })
+        // this.sequences = []
+        // const prefix = 'Sequenz: '
+        // const query = {
+        //   type: 'Timeline',
+        //   'author.id': this.user.uuid
+        // }
+        // const result = await this.$store.dispatch('maps/find', query)
+        // console.log('result:', result)
+        // this.sequences = result.items.filter(map => {
+        //   return map.title.indexOf(prefix) === 0
+        // }).sort(this.$sort.onCreatedDesc).map(map => {
+        //   const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
+        //   const preview = {
+        //     high: media.replace(/\.mp4$/, '.jpg'),
+        //     medium: media.replace(/\.mp4$/, '-m.jpg'),
+        //     small: media.replace(/\.mp4$/, '-s.jpg')
+        //   }
+        //   const annotation = {
+        //     author: {
+        //       id: this.user.uuid
+        //     },
+        //     uuid: map.uuid,
+        //     created: map.created,
+        //     updated: map.updated,
+        //       body: {
+        //         type: 'Video',
+        //           source: {
+        //           id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
+        //             type: 'video/mp4'
+        //         }
+        //     }
+        //   }
+        //   return {
+        //     annotation,
+        //     title: map.title.substr(prefix.length),
+        //     preview,
+        //     media,
+        //     map
+        //   }
+        // })
         await this.loadFavouriteSequences()
       },
       openDeleteModal (item) {
