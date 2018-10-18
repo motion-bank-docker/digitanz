@@ -162,6 +162,18 @@
     watch: {
       async user () {
         await this.loadAllTheThings()
+      },
+      griddles () {
+        if (this.displayType === 'type') this.groupByType()
+        else if (this.displayType === 'time') this.groupByDate()
+      },
+      sequences () {
+        if (this.displayType === 'type') this.groupByType()
+        else if (this.displayType === 'time') this.groupByDate()
+      },
+      uploads () {
+        if (this.displayType === 'type') this.groupByType()
+        else if (this.displayType === 'time') this.groupByDate()
       }
     },
     data () {
@@ -171,12 +183,16 @@
         dates: undefined,
         nickname: undefined,
         portraitLoading: false,
+        grouped: undefined,
+        headlines: undefined,
         griddles: undefined,
         uploads: undefined,
         sequences: undefined
       }
     },
     async mounted () {
+      this.$root.$on('updateVideos', this.loadUploadsData)
+      this.$root.$on('updateSequences', this.loadSequencesData)
       this.dates = this.$dates()
       if (this.user) {
         this.nickname = this.user.nickname
@@ -184,18 +200,16 @@
         await this.loadAllTheThings()
       }
     },
+    beforeDestroy () {
+      this.$root.$off('updateVideos', this.loadUploadsData)
+      this.$root.$off('updateSequences', this.loadSequencesData)
+    },
     methods: {
       async loadAllTheThings () {
         if (!this.user) return
-        this.$q.loading.show({ message: this.$t('messages.loading_data') })
-        this.griddles = await this.loadGriddleData()
-        console.log('griddles: ', this.griddles)
-        this.sequences = await this.loadSequencesData()
-        console.log('sequences: ', this.sequences)
-        this.uploads = await this.loadUploadsData()
-        console.log('uploads: ', this.uploads)
-        this.groupByType()
-        this.$q.loading.hide()
+        await this.loadGriddleData()
+        await this.loadSequencesData()
+        await this.loadUploadsData()
       },
       async loadGriddleData () {
         const query = {
@@ -213,7 +227,8 @@
           })
           sequenceAnnotations.push(annotations.items[0])
         }
-        return sequenceAnnotations
+        this.griddles = sequenceAnnotations
+        console.debug('griddles: ', this.griddles)
       },
       async loadSequencesData () {
         console.log('loading sequences from component')
@@ -225,7 +240,7 @@
         }
         const result = await this.$store.dispatch('maps/find', query)
         console.log('result:', result)
-        return result.items.filter(map => {
+        this.sequences = result.items.filter(map => {
           return map.title.indexOf(prefix) === 0
         }).sort(this.$sort.onCreatedDesc).map(map => {
           const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
@@ -258,6 +273,7 @@
             map
           }
         })
+        console.debug('sequences: ', this.sequences)
       },
       async loadUploadsData () {
         let query = {
@@ -276,9 +292,10 @@
             }
           }
           const uploads = await VideoHelper.fetchVideoItems(this, query)
-          return uploads
+          this.uploads = uploads
         }
-        return []
+        else this.uploads = []
+        console.debug('uploads: ', this.uploads)
       },
       iconColor (btn) {
         if (this.displayType === btn) {
