@@ -257,7 +257,7 @@
         }
         await SequenceHelper.renderSequence(this, payload, initial ? this.targetTimeline : undefined, this.videos)
         this.$q.loading.hide()
-        this.$router.push('/sequences')
+        this.$router.push({ name: 'profil' })
       },
       checkOrientation () {
         alert('bla')
