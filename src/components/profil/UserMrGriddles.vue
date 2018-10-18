@@ -139,7 +139,8 @@
           color: 'grey-5',
           icon: 'favorite_outline'
         }
-      },
+      }
+      /*
       async loadData () {
         if (!this.user) return
         // get (private) griddles for this user
@@ -179,6 +180,7 @@
         this.$q.loading.hide()
         await this.loadData()
       }
+      */
     }
   }
 </script>

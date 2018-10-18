@@ -49,10 +49,8 @@
       }
     },
     methods: {
-      emitLoadData (val) {
-        // alert('bla')
+      emitLoadData () {
         this.loadData()
-        console.log(val, 'bla')
       }
     }
   }

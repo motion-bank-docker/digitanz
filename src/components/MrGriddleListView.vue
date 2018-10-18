@@ -16,7 +16,7 @@
       :requestedHeight="itemWidth",
       :requestedWidth="itemWidth",
       :states="itemStates[i]",
-      @emitLoadData="emitLoadData"
+      @emitLoadData="emitLoadData",
       style="width: 46%")
         template(slot="customButtons", slot-scope="{ item }")
           slot(name="customButtons", :item="item")
@@ -36,6 +36,7 @@
       :requestedHeight="itemWidth",
       :requestedWidth="itemWidth",
       :states="itemStates[i]",
+      @emitLoadData="emitLoadData",
       style="width: 100%")
         template(slot="customButtons", slot-scope="{ item }")
           slot(name="customButtons", :item="item")

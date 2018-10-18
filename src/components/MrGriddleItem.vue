@@ -103,6 +103,7 @@
         countResponses: 0,
         currentState: -1,
         currentTime: 0,
+        favoriteSequences: [],
         frameLength: 300,
         grid: {
           columns: 10,
@@ -147,7 +148,7 @@
       })
     },
     mounted () {
-      console.log(this.item)
+      // console.log('MrGriddleItem.vue', 'this.item', this.item)
       this.loadResponses()
       this.loadAuthorProfile()
       if (this.requestedWidth && this.requestedHeight) {
@@ -194,6 +195,150 @@
       }
     },
     methods: {
+      async toggleItemFavorite (item) {
+        const targetNew = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
+        if (targetNew) {
+          const favAnnotations = await this.$store.dispatch('annotations/find', {
+            'target.id': targetNew.id,
+            'author.id': this.user.uuid
+          })
+          this.favoriteSequences = favAnnotations.items
+        }
+        console.log('this.favoriteSequences', this.favoriteSequences)
+
+        const favorite = this.favoriteSequences.find(a => {
+          return a.body.source && a.body.source.id === item.target.id
+        })
+        console.log('favorite', favorite)
+
+        const messageNew = {
+          timeline: item.target.id,
+          user: this.user.uuid
+        }
+        if (favorite) {
+          await this.$store.dispatch('annotations/delete', favorite.uuid)
+          await this.$store.dispatch('acl/remove', {uuid: favorite.uuid, role: 'digitanz', permission: 'get'})
+        }
+        else {
+          const payload = {
+            type: 'MrGriddleFavourite',
+            target: {
+              type: 'Timeline',
+              id: `${process.env.TIMELINE_BASE_URI}${process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID}`
+            },
+            body: {
+              source: {
+                id: item.target.id
+              },
+              type: 'Timeline',
+              purpose: 'linking'
+            }
+          }
+          const fav = await this.$store.dispatch('annotations/post', payload)
+          if (fav) {
+            await this.$store.dispatch('acl/set', {uuid: fav.uuid, role: 'digitanz', permissions: ['get']})
+          }
+          await this.$store.dispatch('logging/log', { action: 'griddle_sequence_favourite_set', messageNew })
+        }
+        /*
+        const mapUuid = item.target.id.split('/').pop()
+        console.log('mapUuid', mapUuid)
+
+        const target = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
+        console.log('target.uuid', target.uuid)
+        let publicSequences
+        if (target) {
+          const favMrGriddleSequences = await this.$store.dispatch('maps/find', {
+            'target.id': target.uuid,
+            'author.id': this.user.uuid
+          })
+          console.log('favMrGriddleSequences', favMrGriddleSequences)
+          publicSequences = favMrGriddleSequences
+        }
+        console.log('publicSequences', publicSequences)
+        */
+        // await this.$store.dispatch('maps/delete', mapUuid)
+        /* const favorite = publicSequences.find(a => {
+          // console.log(a)
+          // return a.body.source && a.body.source.id === item.target.id
+          return console.log(a)
+        }) */
+        // console.log('--------------------', favorite)
+        /*
+        const message = {
+          timeline: item.target.id,
+          user: this.user.uuid
+        }
+        */
+        // if (favorite) {
+        /*
+        if (mapUuid) {
+          console.log('oben')
+          await this.$store.dispatch('annotations/delete', mapUuid)
+          // await this.$store.dispatch('annotations/delete', mapUuid)
+          await this.$store.dispatch('acl/remove', {uuid: mapUuid, role: 'digitanz', permission: 'get'})
+        }
+        else {
+          console.log('unten')
+          const payload = {
+            type: 'MrGriddleFavourite',
+            target: {
+              type: 'Timeline',
+              id: `${process.env.TIMELINE_BASE_URI}${process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID}`
+            },
+            body: {
+              source: {
+                id: mapUuid
+              },
+              type: 'Timeline',
+              purpose: 'linking'
+            }
+          }
+          const fav = await this.$store.dispatch('maps/post', payload)
+          if (fav) {
+            await this.$store.dispatch('acl/set', {uuid: fav.uuid, role: 'digitanz', permissions: ['get']})
+          }
+          await this.$store.dispatch('logging/log', { action: 'griddle_sequence_favourite_set', message })
+        }
+        */
+        /*
+        console.log('unten')
+        const payload = {
+          type: 'MrGriddleFavourite',
+          target: {
+            type: 'Timeline',
+            id: `${process.env.TIMELINE_BASE_URI}${process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID}`
+          },
+          body: {
+            source: {
+              id: mapUuid
+            },
+            type: 'Timeline',
+            purpose: 'linking'
+          }
+        }
+        const fav = await this.$store.dispatch('maps/post', payload)
+        if (fav) {
+          await this.$store.dispatch('acl/set', {uuid: fav.uuid, role: 'digitanz', permissions: ['get']})
+        }
+        const all = await this.$store.dispatch('maps/find', {
+          'author.id': this.user.id
+        })
+        console.log('all', all)
+        const sequence = await this.$store.dispatch('acl/get', {
+          'uuid': fav.uuid
+        })
+        console.log('sequence', sequence)
+        const states = await this.$store.dispatch('annotations/find', {
+          // author: this.user.id,
+          'target.id': mapUuid
+        })
+        console.log('states', states)
+        await this.$store.dispatch('logging/log', { action: 'griddle_sequence_favourite_set', message })
+        console.log('TEST')
+        // await this.loadFavorites()
+        */
+      },
       async loadAuthorProfile () {
         let user = this.item.author.id
         if (user) {
@@ -268,7 +413,8 @@
           this.$router.push('mr-griddle/' + this.item.uuid + '/responses')
           break
         case 'visibility':
-          this.toggleVisibility()
+          // this.toggleVisibility()
+          this.toggleItemFavorite(this.item)
           break
         }
       },
