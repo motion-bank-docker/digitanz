@@ -99,6 +99,7 @@
         this.findPublishedSequences()
       },
       findPublishedSequences () {
+        this.publishedSequences = []
         for (let item of this.sequences) {
           if (this.favouriteSequences.items && this.favouriteSequences.items.filter(seq => {
             return seq.body.source.id === item.annotation.body.source.id
@@ -151,7 +152,8 @@
             await this.$store.dispatch('acl/remove', {uuid: favouredItem.uuid, role: 'public', permission: 'get'})
           }
         }
-        await this.loadData()
+        await this.loadFavouriteSequences()
+        this.findPublishedSequences()
       }
     }
   }
