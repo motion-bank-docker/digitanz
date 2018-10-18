@@ -60,19 +60,23 @@
           template(slot="title") {{ headline }}
           template(slot="content")
             div(v-if="grouped[headline]", v-for="item in grouped[headline]")
+              user-mr-griddles(v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
+              user-sequences(v-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
+              user-uploads(v-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
+
               <!--video-item(v-if="item.annotation && item.annotation.body.type === 'Video'",-->
                 <!--:layoutStyle="sm",-->
                 <!--:video="item")-->
               <!--p(v-if="item.body && item.body.type === 'MrGriddleSkeleton'") I am GRIDDLE.-->
               <!--p(v-if="item.annotation && item.annotation.body.type === 'Video'") I am VIDEO.-->
-            mr-griddle-list-view(v-if="grouped[headline][0].body && grouped[headline][0].body.type === 'MrGriddleSkeleton'", :items="grouped[headline]",
-              layoutStyle="sm",
-              :buttons="['more-download', 'more-delete']",
-              :showDuration="false")
-            video-list-view(v-else, :videos="grouped[headline]",
-              layoutStyle="sm",
-              :buttons="['more-download', 'more-delete']",
-              :showDuration="false")
+            <!--mr-griddle-list-view(v-if="grouped[headline][0].body && grouped[headline][0].body.type === 'MrGriddleSkeleton'", :items="grouped[headline]",-->
+              <!--layoutStyle="sm",-->
+              <!--:buttons="['more-download', 'more-delete']",-->
+              <!--:showDuration="false")-->
+            <!--video-list-view(v-else, :videos="grouped[headline]",-->
+              <!--layoutStyle="sm",-->
+              <!--:buttons="['more-download', 'more-delete']",-->
+              <!--:showDuration="false")-->
 
       //
       // LIST PUBLIC
@@ -123,6 +127,9 @@
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
   import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
+  import UserUploads from '../components/profil/UserUploads'
+  import UserSequences from '../components/profil/UserSequences'
+  import UserMrGriddles from '../components/profil/UserMrGriddles'
   import FileUploaderMicro from '../components/FileUploaderMicro'
   import ContentBlock from '../components/ContentBlock'
   import VideoItem from '../components/VideoItem'
@@ -141,7 +148,10 @@
       UsersPublicMrGriddles,
       FileUploaderMicro,
       ContentBlock,
-      MrGriddleListView
+      MrGriddleListView,
+      UserUploads,
+      UserSequences,
+      UserMrGriddles
     },
     computed: {
       ...mapGetters({

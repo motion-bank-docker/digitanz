@@ -22,7 +22,7 @@
   import LoadingSpinner from '../LoadingSpinner'
   import VideoListView from '../VideoListView'
   import { mapGetters } from 'vuex'
-  import { VideoHelper } from '../../lib'
+//  import { VideoHelper } from '../../lib'
   import { DateTime } from 'luxon'
   import { ObjectUtil } from 'mbjs-utils'
 
@@ -39,7 +39,7 @@
     data () {
       return {
         publicUploadsMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_UPLOADS_TIMELINE_UUID}`,
-        uploads: [],
+        // uploads: [],
         publicUploads: [],
         portraits: {
           map: undefined,
@@ -52,6 +52,9 @@
         await this.loadData()
         // await this.loadPortraits()
       }
+    },
+    props: {
+      uploads: Array
     },
     watch: {
       async user (val) {
@@ -76,7 +79,7 @@
               $eq: `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
             }
           }
-          this.uploads = await VideoHelper.fetchVideoItems(this, query)
+          // let uploads = await VideoHelper.fetchVideoItems(this, query)
         }
         await this.loadPublicUploads()
         await this.loadPortraits()
