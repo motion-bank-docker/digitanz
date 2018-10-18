@@ -4,6 +4,8 @@
     mr-griddle-list-view(
     v-if="griddleSequences.length > 0",
     layout-style='sm',
+    :buttonsNew="buttonsNew",
+    :buttonsNewDropdown="buttonsNewDropdown",
     :items="griddleSequences")
 
       template(slot="customButtons", slot-scope="{ item }")
@@ -36,6 +38,10 @@
     },
     data () {
       return {
+        buttonsNew: [{
+          icon: 'chat',
+          label: 'response'
+        }],
         favoriteSequences: [],
         griddleSequences: [],
         responses: {},

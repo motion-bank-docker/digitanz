@@ -3,6 +3,7 @@
   // div.q-mb-lg.text-center.shadow-2(@click="openModal")
   // div.q-mb-lg.text-center.shadow-2
   q-card.relative-position.q-mb-lg.relative-position.bg-dark
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
     q-window-resize-observable(@resize="onResize")
     // | {{ typeof buttonVisibility }}
 
@@ -23,34 +24,53 @@
       // slot(name="customButtons", :item="item")
 
     // .row.bg-blue.justify-around(slot="customButtons", slot-scope="{ item }")
-    q-card-actions.row.justify-around
-      slot(name="customButtons", :video="video")
+    q-card-actions(v-if="buttonsNew || buttonsNewDropdown").row.justify-around
+      q-btn(v-for="btn in buttonsNew", @click="onAction(btn.label)", :icon="btn.icon",
+      round, flat, size="sm")
+        q-chip(v-if="btn.label === 'response'") 0
 
-      slot(v-if="displayMoreButton", name="moreButton", :video="video")
-        q-btn.q-px-none(flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
-          q-popover.bg-dark(:offset="[10, 0]")
-            q-list
-              slot(name="customMoreButtons", :video="video")
-              q-item(v-if="displayMoreVisibility()").q-px-sm
-                q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
-              q-item(v-if="displayMoreDownload()").q-px-sm
-                q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
-              q-item(v-if="displayMoreDelete()").q-px-sm
-                q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
+      q-btn.q-px-none(v-if="buttonsNewDropdown", flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
+        q-popover.bg-dark(:offset="[10, 0]")
+          q-list
+            q-item(v-for="btn in buttonsNewDropdown").q-px-sm
+              q-btn(round, flat, size="sm", :icon="btn.icon", @click="onAction(btn.label)")
+
+      //
+        slot(name="customButtons", :video="video")
+
+        slot(v-if="displayMoreButton", name="moreButton", :item="item")
+          q-btn.q-px-none(flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
+            q-popover.bg-dark(:offset="[10, 0]")
+              q-list
+                q-item(v-for="btn in buttonsNewDropdown").q-px-sm
+                  q-btn(round, flat, size="sm", :icon="btn.icon", @click="onAction(btn.label)")
+
+                slot(name="customMoreButtons", :item="item")
+                //
+                  q-item(v-if="displayMoreVisibility()").q-px-sm
+                    q-btn(round, flat, size="sm", icon="group", v-close-overlay, @click="toggleVisibility(video)")
+                  q-item(v-if="displayMoreDownload()").q-px-sm
+                    q-btn(round, flat, size="sm", icon="cloud_download", v-close-overlay, @click="downloadItem(video)")
+                  q-item(v-if="displayMoreDelete()").q-px-sm
+                    q-btn(round, flat, size="sm", icon="delete", v-close-overlay, @click="openDeleteModal(video)")
 
 </template>
 
 <script>
-  import MrGriddleModal from './MrGriddleModal'
+  // import MrGriddleModal from './MrGriddleModal'
+  import ConfirmModal from '../components/ConfirmModal'
 
   const UI_RESIZER_FACTOR = 2
 
   export default {
     components: {
-      MrGriddleModal
+      // MrGriddleModal
+      ConfirmModal
     },
     props: {
       buttons: Array,
+      buttonsNew: Array,
+      buttonsNewDropdown: Array,
       play: {
         type: Boolean
       },
@@ -93,6 +113,7 @@
         resizingCell: false,
         resizerFactor: UI_RESIZER_FACTOR,
         showActionButton: false,
+        openDeleteModal: false,
         settingFrameLength: false,
         svgSize: {
           width: 0,
@@ -158,6 +179,24 @@
       }
     },
     methods: {
+      onAction (val) {
+        console.log(this.item)
+        switch (val) {
+        case 'delete':
+          this.$refs.confirmDeleteModal.show('labels.confirm_delete', this.item, 'buttons.delete')
+          break
+        case 'edit':
+          this.$router.push('mr-griddle/' + this.item.uuid + '/edit')
+          break
+        case 'response':
+          // alert(this.item.uuid)
+          this.$router.push('mr-griddle/' + this.item.uuid + '/responses')
+          break
+        }
+      },
+      deleteItem () {
+        alert('wird gelöscht')
+      },
       openModal () {
         // console.log('bla')
         this.$refs.mrGriddleModal.show(this.states)

@@ -8,6 +8,8 @@
     v-if="sequences.length > 0",
     layout-style='sm',
     :buttons="['more-delete']",
+    :buttonsNew="buttonsNew",
+    :buttonsNewDropdown="buttonsNewDropdown",
     :items="sequences")
       template(slot="customButtons" slot-scope="{ video }")
         q-btn(flat, size="sm", round, icon="people", color="grey-5", @click="toggleItemFavorite(video)")
@@ -29,6 +31,24 @@
     extends: MrGriddles,
     components: {
       LoadingSpinner
+    },
+    data () {
+      return {
+        buttonsNew: [{
+          icon: 'chat',
+          label: 'response'
+        }, {
+          icon: 'delete',
+          label: 'delete'
+        }],
+        buttonsNewDropdown: [{
+          icon: 'edit',
+          label: 'edit'
+        }, {
+          icon: 'delete',
+          label: 'delete'
+        }]
+      }
     }
   }
 </script>
