@@ -108,7 +108,6 @@
         this.$emit('changed')
       },
       setKey (video) {
-        console.log('#######', video)
         return video.annotation ? video.annotation.uuid : '001'
       }
     },
