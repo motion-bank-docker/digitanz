@@ -5,7 +5,7 @@
       q-icon(name="how_to_reg" size="1.3em")
     div.user-flag-wrapper(v-else)
       div.user-flag(:style="{ 'background-image': 'url(' + portrait + ')' }")
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item)")
     q-window-resize-observable(@resize="onResize")
     // | {{ typeof buttonVisibility }}
 
@@ -147,6 +147,7 @@
       })
     },
     mounted () {
+      console.log(this.item)
       this.loadResponses()
       this.loadAuthorProfile()
       if (this.requestedWidth && this.requestedHeight) {
@@ -277,7 +278,9 @@
       },
       */
       async deleteItem (item) {
+        console.log(item)
         // this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
+        /*
         const favorite = this.favoriteSequences.find(a => {
           return a.body.source && a.body.source.id === item.target.id
         })
@@ -285,12 +288,17 @@
           await this.$store.dispatch('annotations/delete', favorite.uuid)
           await this.$store.dispatch('acl/remove', {uuid: favorite.uuid, role: 'digitanz', permission: 'get'})
         }
-        await this.$store.dispatch('maps/delete', item.target.id.split('/').pop())
+        */
+        // await this.$store.dispatch('maps/delete', item.target.id.split('/').pop())
+        const mapUuid = item.target.id.split('/').pop()
+        await this.$store.dispatch('maps/delete', mapUuid)
         // this.$q.loading.hide()
-        await this.loadData()
+        // await this.loadData()
+        let check = true
+        this.$emit('emitLoadData', check)
       },
       toggleVisibility () {
-        alert('sichtbarkeit wechseln')
+        console.log('sichtbarkeit wechseln')
       },
       openModal () {
         this.$refs.mrGriddleModal.show(this.states)

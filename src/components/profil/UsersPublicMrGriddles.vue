@@ -10,7 +10,8 @@
     :buttons="['more-delete']",
     :buttonsNew="buttonsNew",
     :buttonsNewDropdown="buttonsNewDropdown",
-    :items="sequences")
+    :items="sequences",
+    @emitLoadData="emitLoadData")
       template(slot="customButtons" slot-scope="{ video }")
         q-btn(flat, size="sm", round, icon="people", color="grey-5", @click="toggleItemFavorite(video)")
 
@@ -45,6 +46,13 @@
           icon: 'delete',
           label: 'delete'
         }]
+      }
+    },
+    methods: {
+      emitLoadData (val) {
+        // alert('bla')
+        this.loadData()
+        console.log(val, 'bla')
       }
     }
   }

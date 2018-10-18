@@ -16,6 +16,7 @@
       :requestedHeight="itemWidth",
       :requestedWidth="itemWidth",
       :states="itemStates[i]",
+      @emitLoadData="emitLoadData"
       style="width: 46%")
         template(slot="customButtons", slot-scope="{ item }")
           slot(name="customButtons", :item="item")
@@ -62,6 +63,9 @@
       }
     },
     methods: {
+      emitLoadData (val) {
+        this.$emit('emitLoadData', val)
+      },
       onResize () {
         this.itemWidth = (window.innerWidth > 0) ? ((window.innerWidth - 16 * 2) / 100 * 46) : (screen.width / 100 * 46)
       },
