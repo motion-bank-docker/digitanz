@@ -9,9 +9,9 @@
       div(:style="videoPlayerStyle").q-mb-md
         video-player(v-if="annotation", :annotation="annotation", :autoplay="true")
 
-      // q-btn.full-width.q-mb-md(v-if="$route.meta.allowSelfResponse || annotation && annotation.author.id !== user.uuid",
+      q-btn.full-width.q-mb-md(v-if="$route.meta.allowSelfResponse || annotation && annotation.author.id !== user.uuid",
         dark, color="primary", @click="uploadResponse(annotation)") {{ $t('buttons.upload_remix') }}
-      q-uploader-extended-simple(v-if="$route.meta.allowSelfResponse || annotation && annotation.author.id !== user.uuid",)
+      <!--q-uploader-extended-simple(v-if="$route.meta.allowSelfResponse || annotation && annotation.author.id !== user.uuid",)-->
       q-card.q-pa-md.q-mb-md.text-grey-8(v-else) {{ $t('messages.rejected_selfresponse') }}
 
       job-list
