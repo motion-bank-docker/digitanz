@@ -6,6 +6,7 @@
     .row.justify-between(v-if="layoutStyle === 'sm'", ref="mega")
       mr-griddle-item(
       v-for="(item, i) in items",
+      :showContentFlag="showContentFlag",
       :buttons="buttons",
       :buttonsNew="buttonsNew",
       :buttonsNewDropdown="buttonsNewDropdown",
@@ -26,6 +27,7 @@
     .row.justify-between(v-else-if="layoutStyle === 'profile'", ref="mega")
       mr-griddle-item(
       v-for="(item, i) in items",
+      :showContentFlag="showContentFlag",
       :buttons="buttons",
       :buttonsNew="buttonsNew",
       :buttonsNewDropdown="buttonsNewDropdown",
@@ -58,6 +60,7 @@
       // sm, md, l, xl ?
       buttons: Array,
       buttonsNew: Array,
+      showContentFlag: Boolean,
       buttonsNewDropdown: Array,
       buttonVisibility: undefined,
       hideButtons: undefined,

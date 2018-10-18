@@ -4,6 +4,7 @@
     mr-griddle-list-view(
     v-if="griddleSequences.length > 0",
     layout-style='sm',
+    :showContentFlag="true",
     :buttonsNew="buttonsNew",
     :buttonsNewDropdown="buttonsNewDropdown",
     :items="griddleSequences")
