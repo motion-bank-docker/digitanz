@@ -122,6 +122,7 @@
                 'author.id': user
               }
               let portrait = await VideoHelper.fetchVideoItems(this, portraitsQuery)
+              if (typeof portrait === 'undefined') return
               this.portrait = portrait[0].preview.small
               this.portraitLoading = false
             }

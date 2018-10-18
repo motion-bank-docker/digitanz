@@ -26,6 +26,8 @@ class VideoHelper {
         console.error(`Failed to fetch metadata: ${e.message}`)
         context.$captureException(e)
       }
+      // console.log('% % % %', annotation)
+      if (typeof annotation.body.source === 'undefined') return
       const preview = {
         high: annotation.body.source.id.replace(/\.mp4$/, '.jpg'),
         medium: annotation.body.source.id.replace(/\.mp4$/, '-m.jpg'),
