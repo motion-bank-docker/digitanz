@@ -1,8 +1,10 @@
 <template lang="pug">
 
-  // div.q-mb-lg.text-center.shadow-2(@click="openModal")
-  // div.q-mb-lg.text-center.shadow-2
   q-card.relative-position.q-mb-lg.relative-position.bg-dark
+    span.my-flag(v-if="isOwnContent()")
+      q-icon(name="how_to_reg" size="1.3em")
+    div.user-flag-wrapper(v-else)
+      div.user-flag(:style="{ 'background-image': 'url(' + portrait + ')' }")
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
     q-window-resize-observable(@resize="onResize")
     // | {{ typeof buttonVisibility }}
@@ -27,7 +29,8 @@
     q-card-actions(v-if="buttonsNew || buttonsNewDropdown").row.justify-around
       q-btn(v-for="btn in buttonsNew", @click="onAction(btn.label)", :icon="btn.icon",
       round, flat, size="sm")
-        q-chip(v-if="btn.label === 'response'") 0
+        // q-chip(v-if="btn.label === 'response'", floating, color="red") {{ getResponseCount(item) }}
+        q-chip(v-if="btn.label === 'response' && countResponses > 0", floating, color="blue") {{ countResponses }}
 
       q-btn.q-px-none(v-if="buttonsNewDropdown", flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
         q-popover.bg-dark(:offset="[10, 0]")
@@ -59,6 +62,8 @@
 <script>
   // import MrGriddleModal from './MrGriddleModal'
   import ConfirmModal from '../components/ConfirmModal'
+  import { mapGetters } from 'vuex'
+  import { VideoHelper } from '../lib/video-helper'
 
   const UI_RESIZER_FACTOR = 2
 
@@ -95,6 +100,7 @@
     },
     data () {
       return {
+        countResponses: 0,
         currentState: -1,
         currentTime: 0,
         frameLength: 300,
@@ -110,6 +116,8 @@
         lines: [],
         maxFrameLength: 60 * 6,
         minFrameLength: 60 / 3,
+        portrait: undefined,
+        portraitLoading: false,
         resizingCell: false,
         resizerFactor: UI_RESIZER_FACTOR,
         showActionButton: false,
@@ -119,6 +127,7 @@
           width: 0,
           height: 0
         },
+        target: undefined,
         timerId: -1
       }
     },
@@ -132,9 +141,14 @@
       },
       timerInterval () {
         return (1000 / 60.0) * (this.minFrameLength + (this.maxFrameLength - this.frameLength))
-      }
+      },
+      ...mapGetters({
+        user: 'auth/getUserState'
+      })
     },
     mounted () {
+      this.loadResponses()
+      this.loadAuthorProfile()
       if (this.requestedWidth && this.requestedHeight) {
         this.svgSize = {
           width: this.requestedWidth,
@@ -179,8 +193,69 @@
       }
     },
     methods: {
+      async loadAuthorProfile () {
+        let user = this.item.author.id
+        if (user) {
+          // this.portraitLoading = true
+          const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
+          if (portraitsMapResult) {
+            const portraitsQuery = {
+              'target.id': `${process.env.TIMELINE_BASE_URI}${portraitsMapResult.uuid}`,
+              'author.id': user
+            }
+            let portrait = await VideoHelper.fetchVideoItems(this, portraitsQuery)
+            console.log(portrait)
+            // this.portrait = portrait[0].preview.small
+            // this.portraitLoading = false
+          }
+          // console.log('this.portrait', this.portrait)
+          /*
+          console.log('user', user)
+          */
+        }
+      },
+      isOwnContent () {
+        // return (this.video.annotation.author.id === this.user.uuid)
+        return (this.item.author.id === this.user.uuid)
+        // return this.user.uuid
+      },
+      async loadResponses () {
+        // this.$q.loading.show({ message: this.$t('messages.loading_responses') })
+        // let _route = '/mr-griddle/' + this.item.uuid + '/responses'
+        // console.log('_route', _route)
+        this.target = await this.$store.dispatch('maps/get', this.item.uuid)
+        // console.log('TARGET', this.target)
+
+        if (this.target) {
+          const states = await this.$store.dispatch('annotations/find', {
+            'target.id': this.target.id
+            /* 'target.id': this.target.id,
+            'body.purpose': {
+              $ne: 'commenting'
+            }
+            */
+          })
+          // console.log('STATES', states)
+          /*
+          this.states = states.items.map(s => {
+            return JSON.parse(s.body.value)
+          })
+          */
+          /*
+          const responsesQuery = {
+            'target.id': `${process.env.TIMELINE_BASE_URI}${this.target.uuid}`,
+            'target.type': 'Timeline',
+            'body.purpose': 'commenting'
+          }
+          console.log('responsesQuery', responsesQuery)
+          */
+          // this.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+          this.countResponses = states.items.length
+        }
+        // this.$q.loading.hide()
+      },
       onAction (val) {
-        console.log(this.item)
+        // console.log(this.item)
         switch (val) {
         case 'delete':
           this.$refs.confirmDeleteModal.show('labels.confirm_delete', this.item, 'buttons.delete')
@@ -189,16 +264,35 @@
           this.$router.push('mr-griddle/' + this.item.uuid + '/edit')
           break
         case 'response':
-          // alert(this.item.uuid)
           this.$router.push('mr-griddle/' + this.item.uuid + '/responses')
+          break
+        case 'visibility':
+          this.toggleVisibility()
           break
         }
       },
+      /*
       deleteItem () {
         alert('wird gelöscht')
       },
+      */
+      async deleteItem (item) {
+        // this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
+        const favorite = this.favoriteSequences.find(a => {
+          return a.body.source && a.body.source.id === item.target.id
+        })
+        if (favorite) {
+          await this.$store.dispatch('annotations/delete', favorite.uuid)
+          await this.$store.dispatch('acl/remove', {uuid: favorite.uuid, role: 'digitanz', permission: 'get'})
+        }
+        await this.$store.dispatch('maps/delete', item.target.id.split('/').pop())
+        // this.$q.loading.hide()
+        await this.loadData()
+      },
+      toggleVisibility () {
+        alert('sichtbarkeit wechseln')
+      },
       openModal () {
-        // console.log('bla')
         this.$refs.mrGriddleModal.show(this.states)
       },
       onResize () {
@@ -265,6 +359,48 @@
 </script>
 
 <style scoped lang="stylus">
+  .my-flag
+    z-index 1000
+    position absolute
+    top 0
+    right 0
+    width: 2.5em
+    height: 2.5em
+    // margin-top -3px
+    // margin-right -5px
+    // background-color $secondary
+    background-color rgba(0,0,0,.4)
+    // border 1px solid white
+    color white
+    /*padding 2px*/
+    margin 5px
+    border-radius 50%
+    display: flex
+    align-items center
+    justify-content center
+  .user-flag
+    z-index 1000
+    width: 100%
+    height: 100%
+    /*margin 5px*/
+    border-radius 100%!important
+    background-color rgba(0,0,0,.4)
+    background-size 100%
+    background-position center
+  .user-flag-wrapper
+    z-index 999
+    position absolute
+    top 0
+    right 0
+    width: 2.5em
+    height: 2.5em
+    margin 2.5px
+    border-radius 100%!important
+    background-color rgba(255,255,255,0.2)
+    display flex
+    justify-content center
+    align-items center
+    padding 1px
 
   #mr-griddle
     line
