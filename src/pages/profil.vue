@@ -160,6 +160,8 @@
         dates: undefined,
         nickname: undefined,
         portraitLoading: false,
+        grouped: undefined,
+        headlines: undefined,
         griddles: undefined,
         uploads: undefined,
         sequences: undefined
@@ -175,7 +177,9 @@
     },
     methods: {
       async loadAllTheThings () {
+        console.log('called')
         if (!this.user) return
+        console.log('executed')
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
         this.griddles = await this.loadGriddleData()
         console.log('griddles: ', this.griddles)
