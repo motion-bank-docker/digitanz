@@ -384,16 +384,6 @@
         this.target = await this.$store.dispatch('maps/get', this.item.uuid)
 
         if (this.target) {
-          const states = await this.$store.dispatch('annotations/find', {
-            'target.id': this.target.id,
-            'body.purpose': {
-              $ne: 'commenting'
-            }
-          })
-          this.states = states.items.map(s => {
-            return JSON.parse(s.body.value)
-          })
-
           const responsesQuery = {
             'target.id': `${process.env.TIMELINE_BASE_URI}${this.target.uuid}`,
             'target.type': 'Timeline',
