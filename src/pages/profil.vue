@@ -87,11 +87,11 @@
 
         //
         // Public Portrait
-        content-block(v-if="portrait.length > 0")
-          template(slot="title") Öffentliches Portrait
-          template(slot="buttons")
-          template(slot="content")
-            users-public-portrait(:portraits="portrait", @changed="fetchPortrait")
+        <!--content-block(v-if="portrait.length > 0")-->
+          <!--template(slot="title") Öffentliches Portrait-->
+          <!--template(slot="buttons")-->
+          <!--template(slot="content")-->
+            <!--users-public-portrait(:portraits="portrait", @changed="fetchPortrait")-->
 
       //
       // LIST SOLUTIONS
