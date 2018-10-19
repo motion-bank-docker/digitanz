@@ -464,8 +464,9 @@
     /*margin 5px*/
     border-radius 100%!important
     background-color rgba(0,0,0,.4)
-    background-size 100%
+    background-size cover
     background-position center
+    background-repeat no-repeat
   .user-flag-wrapper
     z-index 999
     position absolute
