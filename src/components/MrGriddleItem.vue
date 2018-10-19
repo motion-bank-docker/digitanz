@@ -241,12 +241,15 @@
           this.favoriteSequences = favAnnotations.items
         }
         // console.log('this.favoriteSequences', this.favoriteSequences)
+        let targetId
+        if (item.hasOwnProperty('target')) targetId = item.target.id
+        else targetId = item.id
         const favorite = this.favoriteSequences.find(a => {
-          return a.body.source && a.body.source.id === item.target.id
+          return a.body.source && a.body.source.id === targetId
         })
         // console.log('favorite', favorite)
         const messageNew = {
-          timeline: item.target.id,
+          timeline: targetId,
           user: this.user.uuid
         }
         if (favorite) {
@@ -264,7 +267,7 @@
             },
             body: {
               source: {
-                id: item.target.id
+                id: targetId
               },
               type: 'Timeline',
               purpose: 'linking'

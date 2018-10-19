@@ -73,7 +73,7 @@
         //
         // Public Mr. Griddles
         content-block
-          template(slot="title") Öffentliche Mr. Griddles
+          template(slot="title") Geteilte Mr. Griddle Sequenzen
           template(slot="buttons")
           template(slot="content")
             users-public-mr-griddles
@@ -81,7 +81,7 @@
         //
         // Public Sequences
         content-block
-          template(slot="title") Öffentliche Sequenzen
+          template(slot="title") Geteilte Sequenzen
           template(slot="buttons")
           template(slot="content")
             users-public-sequences
@@ -89,7 +89,7 @@
         //
         // Public Uploads
         content-block
-          template(slot="title") Öffentliche Uploads
+          template(slot="title") Geteilte Uploads
           template(slot="buttons")
           template(slot="content")
             users-public-uploads
@@ -337,7 +337,7 @@
       },
       groupByType () {
         const grouped = {
-          'Meine Griddles': [].concat(this.griddles),
+          'Meine Mr. Griddle Sequenzen ': [].concat(this.griddles),
           'Meine Sequenzen': [].concat(this.sequences),
           'Meine Uploads': [].concat(this.uploads)
         }
