@@ -7,7 +7,6 @@
       div.user-flag(:style="{ 'background-image': 'url(' + portrait + ')' }")
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item)")
     q-window-resize-observable(@resize="onResize")
-    // | {{ typeof buttonVisibility }}
 
     // mr-griddle-modal(ref="mrGriddleModal", :requestedHeight="requestedHeight", :screenSize="screenSize")
     // | {{ requestedHeight }}
@@ -154,7 +153,7 @@
       })
     },
     mounted () {
-      this.checkIfPublic()
+      this.checkIfPublic(this.item)
       this.loadResponses()
       this.loadAuthorProfile()
       if (this.requestedWidth && this.requestedHeight) {
@@ -212,23 +211,24 @@
         }
         await this.$store.dispatch('logging/log', { action: 'open_response', message })
       },
-      checkIfPublic () {
-        const target = this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
-        console.log('CHECK', target)
-        if (target) {
-          const favAnnotations = this.$store.dispatch('annotations/find', {
-            'target.id': target.id,
+      async checkIfPublic (item) {
+        const targetNew = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
+        if (targetNew) {
+          const favAnnotations = await this.$store.dispatch('annotations/find', {
+            'target.id': targetNew.id,
             'author.id': this.user.uuid
           })
           this.favoriteSequences = favAnnotations.items
         }
-        console.log('this.favoriteSequences', this.favoriteSequences)
-        /*
+        // console.log('this.favoriteSequences', this.favoriteSequences)
+        let targetId
+        if (item.hasOwnProperty('target')) targetId = item.target.id
+        else targetId = item.id
         const favorite = this.favoriteSequences.find(a => {
-          return a.body.source && a.body.source.id === this.item.target.id
+          return a.body.source && a.body.source.id === targetId
         })
+        // console.log('favorite', favorite)
         if (favorite) this.isPublic = true
-        */
         // console.log('CHECK 222222', this.favoriteSequences)
       },
       async toggleItemFavorite (item) {
