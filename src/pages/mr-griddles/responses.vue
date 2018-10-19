@@ -6,7 +6,7 @@
     div
       h3.text-center {{ $t('pages.mr-griddle.responses.title') }}
 
-      div.q-mb-md
+      div.q-mb-md.text-center
         mr-griddle-item(v-if="states.length > 0",
         :states="states",
         :requestedWidth="250",

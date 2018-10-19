@@ -10,7 +10,7 @@
 
     // mr-griddle-modal(ref="mrGriddleModal", :requestedHeight="requestedHeight", :screenSize="screenSize")
     // | {{ requestedHeight }}
-    svg.bg-grey-10(ref="svgContainer", v-if="states && item", :width="requestedHeight", :height="requestedHeight")
+    svg.bg-grey-10(ref="svgContainer", v-if="states", :width="requestedHeight", :height="requestedHeight")
       g#mr-griddle.random
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
         line(v-for="(line, i) in lines", :key="`line-${i}`",
