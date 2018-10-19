@@ -27,7 +27,7 @@
     // .row.bg-blue.justify-around(slot="customButtons", slot-scope="{ item }")
     q-card-actions(v-if="buttonsNew || buttonsNewDropdown").row.justify-around
       q-btn(v-for="btn in buttonsNew", @click="onAction(btn.label)", :icon="btn.icon",
-      round, flat, size="sm", :class="{'text-primary': isPublic}")
+      round, flat, size="sm", :class="{'text-primary': isPublic && btn.label === 'visibility'}")
         // q-chip(v-if="btn.label === 'response'", floating, color="red") {{ getResponseCount(item) }}
         q-chip(v-if="btn.label === 'response' && countResponses > 0", floating, color="blue") {{ countResponses }}
 
