@@ -43,19 +43,19 @@
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Uploads',
-          description: 'no description'
+          description: 'Deine geteilten Videos (Uploads)'
         }, {
           component: 'public-sequences',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Sequenzen',
-          description: this.$t('navigation.portraitplusplus.sublabel')
+          description: 'Deine geteilten Video Sequenzen'
         }, {
           component: 'public-mr-griddles',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
-          title: 'Mr. Griddles',
-          description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
+          title: 'Mr. Griddle Sequenzen',
+          description: 'Deine geteilten Mr. Griddle Sequenzen'
         }]
         // components: [{
         //   component: 'all-portraits',
