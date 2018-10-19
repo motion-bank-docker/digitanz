@@ -19,7 +19,7 @@
           <!--q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",-->
           <!--v-if="!user", @click.prevent="login", rounded)-->
 
-      .text-center.q-mb-md.q-py-xl(v-if="portrait.length <= 0 && !portraitLoading")
+      .text-center.q-mb-md.q-py-xl(v-if="portrait && portrait.length <= 0 && !portraitLoading")
         q-icon(name="person", size="35vw", color="grey-9")
         p.q-mb-none.text-grey-8 Kein Portrait
       .text-center.q-mb-md.q-py-xl(v-else-if="portraitLoading")
