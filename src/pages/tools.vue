@@ -21,7 +21,7 @@
         }, {
           action: 'mr-griddle',
           icon: 'accessibility',
-          label: 'Mr. Griddle',
+          label: 'Mr. Griddle Sequenz',
           status: true
         }, {
           action: 'space-tool',
