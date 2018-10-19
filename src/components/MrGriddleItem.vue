@@ -323,12 +323,17 @@
       },
       onAction (val) {
         // console.log(this.item)
+        // dd2589af-6723-4bd5-acfb-6b7422c2d1d9
         switch (val) {
         case 'delete':
           this.$refs.confirmDeleteModal.show('labels.confirm_delete', this.item, 'buttons.delete')
           break
         case 'edit':
-          this.$router.push('mr-griddle/' + this.item.uuid + '/edit')
+          // console.log('/edit', this.item)
+          let targetId
+          if (this.item.hasOwnProperty('target')) targetId = this.item.target.id.split('/').pop()
+          else targetId = this.item.uuid
+          this.$router.push('mr-griddle/' + targetId + '/edit')
           break
         case 'response':
           this.$router.push('mr-griddle/' + this.item.uuid + '/responses')
