@@ -256,6 +256,7 @@
           this.isPublic = false
           await this.$store.dispatch('annotations/delete', favorite.uuid)
           await this.$store.dispatch('acl/remove', {uuid: favorite.uuid, role: 'digitanz', permission: 'get'})
+          this.$emit('emitLoadData')
         }
         else {
           this.isPublic = true
@@ -360,8 +361,7 @@
         await this.$store.dispatch('maps/delete', mapUuid)
         // this.$q.loading.hide()
         // await this.loadData()
-        let check = true
-        this.$emit('emitLoadData', check)
+        this.$emit('emitLoadData')
       },
       toggleVisibility () {
         console.log('sichtbarkeit wechseln')
