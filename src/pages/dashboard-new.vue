@@ -42,7 +42,7 @@
           component: 'public-uploads',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
-          title: 'Videos',
+          title: 'Uploads',
           description: 'no description'
         }, {
           component: 'public-sequences',
