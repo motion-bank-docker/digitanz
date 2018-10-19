@@ -1,6 +1,6 @@
 {
   "name": "digitanz-frontend",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "Frontend for the #digitanz project",
   "productName": "#digitanz",
   "cordovaId": "org.cordova.quasar.app",
