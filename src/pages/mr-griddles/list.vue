@@ -2,8 +2,8 @@
   q-page.q-ma-lg
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
-    q-btn.q-mb-lg.full-width(@click="$router.push('/mr-griddle/create')", :label="$t('Mr. Griddle hinzufügen')", color="primary")
-    h3 Deine Mr. Griddles
+    q-btn.q-mb-lg.full-width(@click="$router.push('/mr-griddle/create')", :label="$t('Mr. Griddle Sequenz hinzufügen')", color="primary")
+    h3 Deine Mr. Griddle Sequenzen
     mr-griddle-list-view(
       v-if="sequences"
       layout-style='sm'

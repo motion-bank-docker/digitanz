@@ -75,7 +75,7 @@
     // TODO dis-fav last item (list returns empty)
     methods: {
       emitLoadData () {
-        this.loadData()
+        this.$emit('emitLoadData')
       },
       async loadFavorites () {
         // fetch favorite sequences

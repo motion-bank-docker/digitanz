@@ -7,11 +7,10 @@
       div.user-flag(:style="{ 'background-image': 'url(' + portrait + ')' }")
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item)")
     q-window-resize-observable(@resize="onResize")
-    // | {{ typeof buttonVisibility }}
 
     // mr-griddle-modal(ref="mrGriddleModal", :requestedHeight="requestedHeight", :screenSize="screenSize")
     // | {{ requestedHeight }}
-    svg.bg-grey-10(ref="svgContainer", v-if="states && item", :width="requestedHeight", :height="requestedHeight")
+    svg.bg-grey-10(ref="svgContainer", v-if="states", :width="requestedHeight", :height="requestedHeight")
       g#mr-griddle.random
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
         line(v-for="(line, i) in lines", :key="`line-${i}`",
@@ -28,7 +27,7 @@
     // .row.bg-blue.justify-around(slot="customButtons", slot-scope="{ item }")
     q-card-actions(v-if="buttonsNew || buttonsNewDropdown").row.justify-around
       q-btn(v-for="btn in buttonsNew", @click="onAction(btn.label)", :icon="btn.icon",
-      round, flat, size="sm", :class="{'text-primary': isPublic}")
+      round, flat, size="sm", :class="{'text-primary': isPublic && btn.label === 'visibility'}")
         // q-chip(v-if="btn.label === 'response'", floating, color="red") {{ getResponseCount(item) }}
         q-chip(v-if="btn.label === 'response' && countResponses > 0", floating, color="blue") {{ countResponses }}
 
@@ -154,7 +153,7 @@
       })
     },
     mounted () {
-      this.checkIfPublic()
+      this.checkIfPublic(this.item)
       this.loadResponses()
       this.loadAuthorProfile()
       if (this.requestedWidth && this.requestedHeight) {
@@ -212,23 +211,24 @@
         }
         await this.$store.dispatch('logging/log', { action: 'open_response', message })
       },
-      checkIfPublic () {
-        const target = this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
-        console.log('CHECK', target)
-        if (target) {
-          const favAnnotations = this.$store.dispatch('annotations/find', {
-            'target.id': target.id,
+      async checkIfPublic (item) {
+        const targetNew = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
+        if (targetNew) {
+          const favAnnotations = await this.$store.dispatch('annotations/find', {
+            'target.id': targetNew.id,
             'author.id': this.user.uuid
           })
           this.favoriteSequences = favAnnotations.items
         }
-        console.log('this.favoriteSequences', this.favoriteSequences)
-        /*
+        // console.log('this.favoriteSequences', this.favoriteSequences)
+        let targetId
+        if (item.hasOwnProperty('target')) targetId = item.target.id
+        else targetId = item.id
         const favorite = this.favoriteSequences.find(a => {
-          return a.body.source && a.body.source.id === this.item.target.id
+          return a.body.source && a.body.source.id === targetId
         })
+        // console.log('favorite', favorite)
         if (favorite) this.isPublic = true
-        */
         // console.log('CHECK 222222', this.favoriteSequences)
       },
       async toggleItemFavorite (item) {
@@ -256,6 +256,7 @@
           this.isPublic = false
           await this.$store.dispatch('annotations/delete', favorite.uuid)
           await this.$store.dispatch('acl/remove', {uuid: favorite.uuid, role: 'digitanz', permission: 'get'})
+          this.$emit('emitLoadData')
         }
         else {
           this.isPublic = true
@@ -322,12 +323,17 @@
       },
       onAction (val) {
         // console.log(this.item)
+        // dd2589af-6723-4bd5-acfb-6b7422c2d1d9
         switch (val) {
         case 'delete':
           this.$refs.confirmDeleteModal.show('labels.confirm_delete', this.item, 'buttons.delete')
           break
         case 'edit':
-          this.$router.push('mr-griddle/' + this.item.uuid + '/edit')
+          // console.log('/edit', this.item)
+          let targetId
+          if (this.item.hasOwnProperty('target')) targetId = this.item.target.id.split('/').pop()
+          else targetId = this.item.uuid
+          this.$router.push('mr-griddle/' + targetId + '/edit')
           break
         case 'response':
           this.$router.push('mr-griddle/' + this.item.uuid + '/responses')
@@ -360,8 +366,7 @@
         await this.$store.dispatch('maps/delete', mapUuid)
         // this.$q.loading.hide()
         // await this.loadData()
-        let check = true
-        this.$emit('emitLoadData', check)
+        this.$emit('emitLoadData')
       },
       toggleVisibility () {
         console.log('sichtbarkeit wechseln')

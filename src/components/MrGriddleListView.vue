@@ -86,8 +86,8 @@
       }
     },
     methods: {
-      emitLoadData (val) {
-        this.$emit('emitLoadData', val)
+      emitLoadData () {
+        this.$emit('emitLoadData')
       },
       onResize () {
         this.itemWidth = (window.innerWidth > 0) ? ((window.innerWidth - 16 * 2) / 100 * 46) : (screen.width / 100 * 46)
@@ -95,7 +95,7 @@
       async loadItemStates () {
         let allStates = []
         let targetId
-        console.log('this.items', typeof this.items, this.items)
+        // console.log('this.items', typeof this.items, this.items)
         for (let item of this.items) {
           if (item) {
             if (item.hasOwnProperty('target')) targetId = item.target.id
