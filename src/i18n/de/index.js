@@ -179,6 +179,10 @@ export default {
     }
   },
   pages: {
+    clouds: {
+      title: 'Clouds',
+      description: 'Hier steht eine Beschreibung.'
+    },
     'mr-griddle': {
       responses: {
         title: 'Mr. Griddle Antworten'
