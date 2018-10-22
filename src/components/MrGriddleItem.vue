@@ -362,7 +362,10 @@
         }
         */
         // await this.$store.dispatch('maps/delete', item.target.id.split('/').pop())
-        const mapUuid = item.target.id.split('/').pop()
+        // const mapUuid = item.target.id.split('/').pop()
+        let mapUuid
+        if (this.item.hasOwnProperty('target')) mapUuid = item.target.id.split('/').pop()
+        else mapUuid = item.uuid
         await this.$store.dispatch('maps/delete', mapUuid)
         // this.$q.loading.hide()
         // await this.loadData()
