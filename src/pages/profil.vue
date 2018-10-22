@@ -35,7 +35,7 @@
         h3.q-my-none.text-center Hallo <br> {{ user ?  user.nickname : '' }}!
 
       div.row.justify-center
-        q-btn-group(push).q-mt-xl
+        q-btn-group(push).q-mt-xl.bg-dark
           // q-btn(push, flat, label="Art", :color="iconColor('type')", icon="build", @click="orderByType")
           q-btn.q-pt-sm(push, flat, :color="iconColor('type')", @click="orderByType")
             q-icon(name="build")
