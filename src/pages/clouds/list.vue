@@ -1,5 +1,11 @@
 <template lang="pug">
   q-page
+    q-modal(v-model="addWordModal", minimized)
+      .text-center.q-pa-md
+        | Gib hier ein neues Adjektiv ein:
+        q-input(v-model="inputNewWord")
+        q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white(@click="addWord", label="speichern")
+        q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordModal = false", label="abbrechen")
     // h3 {{ $t('pages.clouds.title') }}
     q-tabs(animated, swipeable, color="transparent", text-color="primary", align="justify", v-model="selectedTab")
       q-tab(default, name="tab-1", slot="title", label="Begriffe")
@@ -14,9 +20,13 @@
             input.hidden(type="checkbox", :id="word.term", :value="word.term", v-model="selectedWords")
             label(:for="word.term")
               | {{ word.term }}
-              q-btn.q-ml-md.bg-dark(v-if="word.author === user.uuid", @click="removeWord(word.id)", icon="delete", round, size="sm")
+              q-btn.q-ml-md.bg-dark(
+              v-if="word.author === user.uuid",
+              @click="removeWord(word.id)",
+              :disable="checkIfSelected(word.term)",
+              icon="delete", round, size="sm")
           q-item
-            q-btn.bg-primary.text-white(@click="addWord", icon="add", round, size="sm")
+            q-btn.bg-primary.text-white(@click="addWord, addWordModal = true", icon="add", round, size="sm")
 
       q-tab-pane.q-mx-md.q-px-none(name="tab-2")
         q-list.no-border.flex.gutter-xs.q-px-xs
@@ -54,7 +64,9 @@
     },
     data () {
       return {
+        addWordModal: false,
         dummyId: 0,
+        inputNewWord: '',
         publicUploads: [],
         publicUploadsMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_UPLOADS_TIMELINE_UUID}`,
         selectedVideos: [],
@@ -98,8 +110,10 @@
     methods: {
       addWord () {
         // FIXME: this is just dummy code
+        this.addWordModal = false
         this.dummyId++
-        this.words.push({term: 'test' + this.dummyId, author: this.user.uuid, id: this.dummyId})
+        this.words.push({term: this.inputNewWord, author: this.user.uuid, id: this.dummyId})
+        this.inputNewWord = ''
       },
       checkIfSelected (val) {
         return this.selectedWords.includes(val)
