@@ -24,6 +24,11 @@
           label: 'Mr. Griddle Sequenz',
           status: true
         }, {
+          action: 'clouds',
+          icon: 'cloud',
+          label: 'Clouds',
+          status: true
+        }, {
           action: 'space-tool',
           icon: 'scatter_plot',
           label: 'Raum',
@@ -39,6 +44,9 @@
     methods: {
       actions (val) {
         switch (val) {
+        case 'clouds':
+          this.$router.push('/clouds')
+          break
         case 'sequenz':
           this.$router.push('/sequences/create')
           break

@@ -160,6 +160,10 @@ export default {
     }
   },
   pages: {
+    clouds: {
+      title: 'Clouds',
+      description: 'Hier steht eine Beschreibung.'
+    },
     edit_sequence: {
       title: 'Sequenz bearbeiten',
       description: 'Lorem Ipsum, hier steht eine Beschreibung.'
