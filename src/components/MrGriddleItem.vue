@@ -322,8 +322,6 @@
         }
       },
       onAction (val) {
-        // console.log(this.item)
-        // dd2589af-6723-4bd5-acfb-6b7422c2d1d9
         switch (val) {
         case 'delete':
           this.$refs.confirmDeleteModal.show('labels.confirm_delete', this.item, 'buttons.delete')
@@ -339,16 +337,10 @@
           this.$router.push('mr-griddle/' + this.item.uuid + '/responses')
           break
         case 'visibility':
-          // this.toggleVisibility()
           this.toggleItemFavorite(this.item)
           break
         }
       },
-      /*
-      deleteItem () {
-        alert('wird gelöscht')
-      },
-      */
       async deleteItem (item) {
         // console.log(item)
         // this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
@@ -370,9 +362,6 @@
         // this.$q.loading.hide()
         // await this.loadData()
         this.$emit('emitLoadData')
-      },
-      toggleVisibility () {
-        console.log('sichtbarkeit wechseln')
       },
       openModal () {
         this.$refs.mrGriddleModal.show(this.states)
