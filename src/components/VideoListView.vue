@@ -108,7 +108,9 @@
         this.$emit('changed')
       },
       setKey (video) {
-        return video.annotation ? video.annotation.uuid : '001'
+        if (video.hasOwnProperty('annotation')) return video.annotation ? video.annotation.uuid : '001'
+        else return video.uuid
+        // return video.annotation ? video.annotation.uuid : '001'
       }
     },
     watch: {
