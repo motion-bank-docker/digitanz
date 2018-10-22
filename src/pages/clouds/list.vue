@@ -2,7 +2,7 @@
   q-page
     q-modal(v-model="addWordModal", minimized)
       .text-center.q-pa-md
-        | Gib hier ein neues Adjektiv ein:
+        | {{ $t('labels.add_word') }}
         q-input(v-model="inputNewWord")
         q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white(@click="addWord", label="speichern")
         q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordModal = false", label="abbrechen")

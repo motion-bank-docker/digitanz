@@ -22,6 +22,7 @@ export default {
     no_videos: 'Keine Videos vorhanden'
   },
   labels: {
+    add_word: 'Gib hier ein neues Adjektiv ein:',
     confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?',
     insert_title: 'Titel',
     insert_sequence_title: 'Sequenze-Titel (optional)',

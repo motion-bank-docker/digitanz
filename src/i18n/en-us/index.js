@@ -17,6 +17,7 @@ export default {
     setting_portrait: 'Aktualisiere Dein Portrait...'
   },
   labels: {
+    add_word: 'Gib hier ein neues Adjektiv ein:',
     confirm_delete: 'Möchtest du dieses Element unwiderruflich löschen?',
     edit_sequence: 'Sequenz bearbeiten',
     insert_title: 'Titel',
