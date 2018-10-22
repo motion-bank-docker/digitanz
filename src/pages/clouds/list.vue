@@ -1,17 +1,19 @@
 <template lang="pug">
-  q-page
-    q-modal(v-model="addWordModal", minimized)
-      .text-center.q-pa-md
-        | {{ $t('labels.add_word') }}
-        q-input(v-model="inputNewWord")
-        q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white(@click="addWord", label="speichern")
-        q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordModal = false", label="abbrechen")
-    // h3 {{ $t('pages.clouds.title') }}
-    q-tabs(animated, swipeable, color="transparent", text-color="primary", align="justify", v-model="selectedTab")
-      q-tab(default, name="tab-1", slot="title", label="Begriffe")
-      q-tab(:disable="selectedWords.length <= 0", name="tab-2", slot="title", label="Videos")
+  q-page.q-mx-md
+    // confirm-modal(v-if="", ref="confirmDeleteModal", @confirm="deleteItem")
 
-      q-tab-pane.q-mx-md.q-px-none(name="tab-1")
+    q-modal(v-model="addWordModal", minimized)
+      .text-center.q-pa-md.bg-dark
+        | {{ $t('labels.add_word') }}
+        q-input(v-model="inputNewWord", color="white")
+        q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white(@click="addWord", label="speichern")
+        q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordModal = false, inputNewWord = ''", label="abbrechen")
+
+    content-block.q-pt-none
+      template(slot="title") Adjektive
+      template(slot="buttons")
+        q-btn.bg-primary.text-white.q-mt-sm(@click="addWord, addWordModal = true", icon="add", round, size="sm")
+      template(slot="content")
         q-list.no-border.flex.gutter-xs.q-px-xs
 
           q-item.q-mr-sm.q-mb-sm.shadow-2.q-caption.q-pr-sm(
@@ -25,42 +27,45 @@
               @click="removeWord(word.id)",
               :disable="checkIfSelected(word.term)",
               icon="delete", round, size="sm")
-          q-item
-            q-btn.bg-primary.text-white(@click="addWord, addWordModal = true", icon="add", round, size="sm")
 
-      q-tab-pane.q-mx-md.q-px-none(name="tab-2")
-        q-list.no-border.flex.gutter-xs.q-px-xs
+    content-block
+      template(slot="title") Videos
+      template(slot="buttons")
+      template(slot="content")
+        video-list-view(
+        v-if="publicUploads && publicUploads.length > 0",
+        :allowSelfResponse="true",
+        :videos="publicUploads",
+        layoutStyle="sm",
+        :buttons="['more-download', 'more-delete']")
+          template(slot="customButtons" slot-scope="{ video }")
+            q-btn.q-px-none(flat, size="sm" round, icon="group", color="primary", @click="togglePublic(video)")
 
-          q-item.q-mr-sm.q-mb-sm.shadow-2.q-caption.q-pr-sm(
-          v-for="word in selectedWords",
-          :class="[checkIfSelected(word) ? 'bg-primary text-white' : 'bg-dark']")
-
-            input.hidden(type="checkbox", :id="word.term", :value="word.term", v-model="selectedWords")
-            label(:for="word.term")
-              | {{ word }}
-              q-btn.q-ml-md.bg-dark(
-              v-if="word.author === user.uuid",
-              @click="removeWord(word.id)",
-              icon="delete", round, size="sm")
-        div
-          video-list-view(:videos="publicUploads.items", layoutStyle="sm")
-
-    .fixed-bottom.q-mb-xl.q-mx-md.q-pb-md(v-if="selectedWords.length > 0 && selectedVideos.length > 0")
+    .fixed-bottom.q-mb-xl.q-mx-md.q-pb-md(v-if="selectedWords.length > 0")
       q-btn.q-mb-lg.bg-primary.text-white.full-width(label="speichern")
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
-  // import { VideoHelper } from '../../lib'
+  import { VideoHelper } from '../../lib'
+  import ConfirmModal from '../../components/ConfirmModal'
+  import ContentBlock from '../../components/ContentBlock'
   import VideoListView from '../../components/VideoListView'
 
   export default {
     components: {
+      ConfirmModal,
+      ContentBlock,
       VideoListView
     },
     // name: 'list'
-    mounted () {
+    /* mounted () {
       this.loadPublicUploads()
+    }, */
+    async mounted () {
+      if (this.user) {
+        await this.loadData()
+      }
     },
     data () {
       return {
@@ -99,6 +104,24 @@
           term: 'ungewiss'
         }, {
           term: 'unkontrolliert'
+        }, {
+          term: 'interessant'
+        }, {
+          term: 'besonders'
+        }, {
+          term: 'einzigartig'
+        }, {
+          term: 'spontan'
+        }, {
+          term: 'außergewöhnlich'
+        }, {
+          term: 'geheimnisvoll'
+        }, {
+          term: 'verrückt'
+        }, {
+          term: 'spannend'
+        }, {
+          term: 'cool'
         }]
       }
     },
@@ -117,6 +140,18 @@
       },
       checkIfSelected (val) {
         return this.selectedWords.includes(val)
+      },
+      async loadData () {
+        this.isLoading = true
+        this.$q.loading.show({ message: this.$t('messages.loading_sequences') })
+        const query = {
+          'target.id': this.publicUploadsMapUUID,
+          'author.id': this.user.uuid
+        }
+        this.publicUploads = await VideoHelper.fetchVideoItems(this, query)
+
+        this.$q.loading.hide()
+        this.isLoading = false
       },
       async loadPublicUploads () {
         const query = {
