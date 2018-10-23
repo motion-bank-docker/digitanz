@@ -1,10 +1,10 @@
 <template lang="pug">
   q-modal(v-model="showModal", minimized)
-    .bg-dark.q-pa-md.text-center
-      | {{ msg }}
+    .q-pa-md.text-center
+      .text-grey-9 {{ msg }}
       .q-mt-md
-        q-btn(color="red", @click="confirm") {{ label }}
-        q-btn(color="faded", @click="cancel") {{ $t('buttons.cancel') }}
+        q-btn.q-mx-xs(color="red", @click="confirm") {{ label }}
+        q-btn.q-mx-xs(color="faded", @click="cancel") {{ $t('buttons.cancel') }}
 </template>
 
 <script>

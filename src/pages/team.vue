@@ -1,30 +1,37 @@
 <template lang="pug">
-  q-page
-      h3.text-center {{ $t('pages.team.headline') }}
+  q-page.q-ma-md
+    h3.text-center {{ $t('pages.team.headline') }}
 
-      .row
-        q-list.full-width
-          q-item
-            .col
-              | Florian Jenett
-            .col
-              | florian@motionbank.org
-              | 06131-628-2259
+    .q-mb-md
+      | Bei Fragen stehen wir euch gerne zur Verfügung. Wir sind hier erreichbar:
 
-          q-item(separator)
-            .col
-              | Tim Bindel
-            .col
-              | tbindel@uni-mainz.de
-              | 06131-39-23744
+    q-card.bg-dark.q-mb-md(v-for="member in team")
+      q-card-main
+        p {{ member.name }}
+        p.q-mb-none
+          | {{ member.mail }}
+          br
+          | {{ member.phone }}
 
 </template>
 
 <script>
   export default {
+    data () {
+      return {
+        team: [{
+          mail: 'florian@motionbank.org',
+          name: 'Florian Jenett',
+          phone: '06131-628-2259'
+        }, {
+          mail: 'tbindel@uni-mainz.de',
+          name: 'Tim Bindel',
+          phone: '06131-39-23744'
+        }]
+      }
+    }
   }
 </script>
 
 <style scoped lang="stylus">
-
 </style>

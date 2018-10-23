@@ -18,11 +18,12 @@
               :class="{'moba-highlight-image': selection.includes(video)}")
                 | {{ formatDuration(video.metadata.duration) }}
 
-    .full-width.bg-body-background.fixed-bottom.row.justify-around.q-py-sm
-      q-btn.bg-primary.text-white(
-      @click="submit", :label="$t('buttons.add_to_sequence')",
-      :class="{'disabled bg-grey-8': selection.length <= 0}"
-      )
+    .full-width.bg-dark.row.justify-around.fixed-bottom.q-mb-xl.q-pt-sm.shadow-up-2
+      .q-mb-lg.q-pb-xs
+        q-btn.bg-primary.text-white(
+        @click="submit", :label="$t('buttons.add_to_sequence')",
+        :class="{'disabled bg-grey-8': selection.length <= 0}"
+        )
 
 </template>
 

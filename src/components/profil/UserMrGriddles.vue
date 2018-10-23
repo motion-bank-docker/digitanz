@@ -1,43 +1,66 @@
 <template lang="pug">
-  q-page.q-ma-lg
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
-
-    q-btn.q-mb-lg.full-width(@click="$router.push('/mr-griddle/create')", :label="$t('Mr. Griddle Sequenz hinzufügen')", color="primary")
-    h3 Deine Mr. Griddle Sequenzen
+  div
+    // confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
     mr-griddle-list-view(
-      v-if="sequences"
-      layout-style='sm'
-      :items="sequences")
-      template(slot="customButtons" slot-scope="{ item }")
-        q-btn(flat, size="sm" round,
-          :icon="getItemStyle(item).icon", :color="getItemStyle(item).color"
-          @click="toggleItemFavorite(item)")
+    v-if="sequences.length > 0",
+    layout-style='profile',
+    :buttons=["more-delete", "more-download"],
+    :buttonsNew="buttonsNew",
+    :buttonsNewDropdown="buttonsNewDropdown",
+    :items="sequences",
+    @emitLoadData="emitLoadData")
 
-        q-btn(flat, size="sm" round, icon="edit"
-          @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
+      template(slot="customButtons", slot-scope="{ item }")
+        q-btn.q-px-none(flat, size="sm" round, icon="people", color="grey-5", @click="togglePublic(video)")
+      template(slot="customMoreButtons", slot-scope="{ item }")
+      //
+        q-btn(flat, size="sm" round, :icon="getItemStyle(item).icon", :color="getItemStyle(item).color",
+        @click="toggleItemFavorite(item)")
 
-        q-btn(flat, size="sm" round, icon="delete"
-          @click="openDeleteModal(item)")
+        q-btn(flat, size="sm", round, icon="edit",
+        @click="$router.push(`/mr-griddle/${item.target.id.split('/').pop()}/edit`)")
+
+        q-btn(flat, size="sm", round, icon="delete",
+        @click="openDeleteModal(item)")
+
+    // .text-center.q-pb-md(v-else)
+      loading-spinner
+
 </template>
 
 <script>
-  import ConfirmModal from '../../components/ConfirmModal'
-  import MrGriddleListView from '../../components/MrGriddleListView'
+  // import ConfirmModal from './ConfirmModal'
+  // import LoadingSpinner from './LoadingSpinner'
+  import MrGriddleListView from '../MrGriddleListView'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
-      ConfirmModal,
+     // ConfirmModal,
+     // LoadingSpinner,
       MrGriddleListView
     },
     data () {
       return {
-        sequences: [],
+        buttonsNew: [{
+          icon: 'people',
+          label: 'visibility'
+        }],
+        buttonsNewDropdown: [{
+          icon: 'edit',
+          label: 'edit'
+        }, {
+          icon: 'delete',
+          label: 'delete'
+        }],
         favoriteSequences: []
       }
     },
     mounted () {
-      this.loadData()
+      // this.loadData()
+    },
+    props: {
+      sequences: Array
     },
     computed: {
       ...mapGetters({
@@ -45,14 +68,18 @@
       })
     },
     watch: {
-      user (val) {
-        if (val) this.loadData()
-      }
+      // user (val) {
+      //   if (val) this.loadData()
+      // }
     },
     // TODO dis-fav last item (list returns empty)
     methods: {
+      emitLoadData () {
+        this.$emit('emitLoadData')
+      },
       async loadFavorites () {
         // fetch favorite sequences
+        // console.log('mmmmmm load favorites ', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
         const target = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
         if (target) {
           const favAnnotations = await this.$store.dispatch('annotations/find', {
@@ -61,6 +88,7 @@
           })
           this.favoriteSequences = favAnnotations.items
         }
+        console.log('### favorite sequences', this.favoriteSequences)
       },
       async toggleItemFavorite (item) {
         const favorite = this.favoriteSequences.find(a => {
@@ -95,7 +123,7 @@
           }
           await this.$store.dispatch('logging/log', { action: 'griddle_sequence_favourite_set', message })
         }
-        await this.loadFavorites()
+        // await this.loadFavorites()
       },
       getItemStyle (item) {
         const favorite = this.favoriteSequences.find(a => {
@@ -111,7 +139,8 @@
           color: 'grey-5',
           icon: 'favorite_outline'
         }
-      },
+      }
+      /*
       async loadData () {
         if (!this.user) return
         // get (private) griddles for this user
@@ -128,10 +157,12 @@
           const annotations = await this.$store.dispatch('annotations/find', {
             'target.id': seq.id
           })
-          sequenceAnnotations.push(annotations.items[0])
+          // console.log('annotations.items[0]', annotations.items[0])
+          if (annotations.items[0]) sequenceAnnotations.push(annotations.items[0])
         }
-        this.sequences = sequenceAnnotations
-        await this.loadFavorites()
+        // this.sequences = sequenceAnnotations
+        // console.log('::::: griddles', this.sequences)
+        // await this.loadFavorites()
       },
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
@@ -149,6 +180,7 @@
         this.$q.loading.hide()
         await this.loadData()
       }
+      */
     }
   }
 </script>

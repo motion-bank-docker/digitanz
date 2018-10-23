@@ -9,7 +9,8 @@
         layoutStyle="sm",
         :allowSelfResponse="true",
         @changed="loadVideoSequences",
-        :buttons="['download']")
+        :buttons="['download']",
+        :showContentFlag="true")
           template(slot="customButtons" slot-scope="{ video }")
             q-btn(flat, size="sm", round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
             q-btn(flat, size="sm", round, icon="edit", @click="$router.push(`/sequences/${video.map.uuid}/edit`)")
@@ -179,7 +180,10 @@
               id: this.user.uuid
             },
             uuid: map.uuid,
+            created: map.created,
+            updated: map.updated,
             body: {
+              type: 'Video',
               source: {
                 id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
                 type: 'video/mp4'

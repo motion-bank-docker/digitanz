@@ -5,7 +5,9 @@
     template(v-if="entries.length > 0")
       video-list-view(
         :videos="entries",
-        layoutStyle="sm", :buttons="['download']")
+        layoutStyle="sm",
+        :buttons="['download']",
+        :showContentFlag="true")
           template(slot="customButtons" slot-scope="{ video }")
             q-btn.q-px-none(flat, size="sm" round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="setAsPortrait(video)")
             q-btn.q-px-none(flat, size="sm" round, icon="delete", @click="openDeleteModal(video)")
@@ -114,7 +116,8 @@
         if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_portrait') })
         const query = {
           'target.id': `${process.env.TIMELINE_BASE_URI}${this.portraits.map.uuid}`,
-          'author.id': this.user.uuid
+          'author.id': this.user.uuid,
+          'body.type': 'Video'
         }
         let result = await this.$store.dispatch('annotations/find', query)
         let isCurrentPortrait = false

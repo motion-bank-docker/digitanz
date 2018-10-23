@@ -6,15 +6,15 @@
     div
       h3.text-center {{ $t('pages.mr-griddle.responses.title') }}
 
-      div.q-mb-md
-        mr-griddle-preview(v-if="states.length > 0"
-          :states="states"
-          :requestedWidth="250"
-          :requestedHeight="250"
-          :play="true")
+      div.q-mb-md.text-center
+        mr-griddle-item(v-if="states.length > 0",
+        :states="states",
+        :requestedWidth="250",
+        :requestedHeight="250",
+        :play="true")
 
       q-btn.full-width.q-mb-md(
-        dark, color="primary", @click="uploadResponse")
+      dark, color="primary", @click="uploadResponse")
         | {{ $t('buttons.upload_remix') }}
 
       job-list
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+  import MrGriddleItem from '../../components/MrGriddleItem'
   import MrGriddlePreview from '../../components/MrGriddlePreview'
   import JobList from '../../components/JobList'
   import UploadRemixModal from '../../components/UploadRemixModal'
@@ -40,6 +41,7 @@
 
   export default {
     components: {
+      MrGriddleItem,
       MrGriddlePreview,
       JobList,
       UploadRemixModal,
@@ -58,22 +60,6 @@
         user: 'auth/getUserState'
       }),
       videoPlayerStyle () {
-        // if (this.annotationMetadata) {
-        //   const ratio = this.annotationMetadata.width / this.annotationMetadata.height
-        //   if (this.annotationMetadata.width > this.annotationMetadata.height) {
-        //     return {
-        //       width: '100%',
-        //       height: 'auto'
-        //     }
-        //   }
-        //   else {
-        //     return {
-        //       width: `calc(80vw*${ratio})`,
-        //       height: 'auto',
-        //       'margin-left': `calc(40vw*${ratio})`
-        //     }
-        //   }
-        // }
         return {
           width: '100vw',
           height: '50vh',
@@ -124,7 +110,3 @@
     }
   }
 </script>
-
-<style scoped lang="stylus">
-
-</style>

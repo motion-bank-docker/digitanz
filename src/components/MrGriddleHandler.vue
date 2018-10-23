@@ -1,26 +1,22 @@
 <template lang="pug">
-  .bg-dark.row.items-center.q-pa-xs(style="width: 100vw; height: 10vh")
+  .bg-dark.row.items-center.q-px-xs
 
     .col-xs-2.col-sm-1
-      // griddle color
-      q-btn(size="lg" @click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'")
+      q-btn(size="lg", @click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'")
 
-    q-list.no-border.col-xs-8.col-sm-15
+    .col-xs-8.col-sm-15
 
-      // griddle color
-      q-btn.q-mx-xs(v-for="(state, index) in states"
-        round :color="currentState === index ? 'orange' : 'grey-6'"
-        size="xs"
-        v-model="selectedStates",
-        val="'option-' + {{index}}"
-        @click="$emit('clickState', {state, index})"
-        v-touch-hold="() => {openDeleteModal({state, index})}")
+      q-btn.q-mx-xs(v-for="(state, index) in states",
+      round, :color="currentState === index ? 'primary' : 'grey-6'", size="xs",
+      v-model="selectedStates",
+      val="'option-' + {{index}}",
+      @click="$emit('clickState', {state, index})",
+      v-touch-hold="() => {openDeleteModal({state, index})}")
 
-      q-btn.no-padding(icon="add_circle", size="lg", flat, no-ripple, round
-        @click="$emit('clickAdd')")
+      q-btn.no-padding(icon="add_circle", size="lg", flat, no-ripple, round, @click="$emit('clickAdd')")
 
     .col-xs-2.col-sm-1
-      q-btn.q-ma-xs(icon="save", size="lg" @click="$emit('saveSequence')")
+      q-btn(icon="save", size="lg", @click="$emit('saveSequence')", :disabled="states.length <= 0")
 
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
@@ -87,7 +83,3 @@
     }
   }
 </script>
-
-<style lang="stylus">
-
-</style>

@@ -1,39 +1,36 @@
 <template lang="pug">
   div.row
-    svg(ref="svgContainer" :width="svgSize.width" :height="svgSize.height")
+    svg(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
       .q-mt-xl.row.justify-end
       defs
         pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
           path(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
-               fill="none", stroke="gray", stroke-width="3")
-      g#mr-griddle(:class="{'random': currentState === -1}" @click="handleSkeletonClick")
+          fill="none", stroke="gray", stroke-width="3")
+      g#mr-griddle(:class="{'random': currentState === -1}", @click="handleSkeletonClick")
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
         line(v-for="(line, i) in lines", :key="`line-${i}`",
-          :stroke-width="strokeWidth"
-          :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
-          :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
+        :stroke-width="strokeWidth",
+        :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
+        :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
         g#resize-handle(v-if="editSettings", :transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
           rect(
-            x="-12", y="-12", width="24", height="24")
+          x="-12", y="-12", width="24", height="24")
             // @mousedown="initResizeCell", :class="{resizing: resizingCell}")
           polygon(points="12,-12 30,0 12,12", @mousedown="handleGridChange(-2,0)")
           polygon(points="-12,-12 -30,0 -12,12", @mousedown="handleGridChange(2,0)")
           polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
           polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
       g#time-to-next-update
-        // griddle color
-        rect(v-if="timerId" x="0" y="0" :width="`${timeToNextFrame * 100}%`" height="4" fill="orange")
+        rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="4", fill="white")
 
-    .bg-dark.row.items-center.q-pa-xs.fixed-bottom(style="width: 100vw; height: 10vh")
-      // griddle color
-      q-btn(size="xl", icon="timer", disabled, flat, color="orange")
-      // griddle color
-      q-slider.q-ma-md(
-        v-if="editSettings",
-        fab,
-        v-model="frameLength", color="orange", :min="minFrameLength", :max="maxFrameLength"
-        :step="20", fill-handle-always,
-        snap, style="width: 70vw")
+    .bg-dark.fixed-bottom.q-mb-xl(v-if="editSettings")
+      q-list.no-border.full-width.q-mb-lg.shadow-up-2
+        q-item
+          q-item-side.text-primary.text-center(icon="timer")
+          q-item-main
+            q-slider(
+            fab, v-model="frameLength", color="primary", :min="minFrameLength", :max="maxFrameLength",
+            :step="20", fill-handle-always, snap)
 
     q-page-sticky(expand position="top-right")
       q-btn.bg-dark.q-ma-sm(fab, size="sm", @click="handleModeChange", :icon="editSettings ? 'check' : 'settings'")
@@ -229,7 +226,8 @@
           const annot = await this.$store.dispatch('annotations/post', annotation)
           await this.$store.dispatch('acl/set', {uuid: annot.uuid, role: 'digitanz', permissions: ['get']})
         }
-        this.$router.push('/mr-griddles')
+        // this.$router.push('/mr-griddles')
+        this.$router.push('/profil')
         this.$q.loading.hide()
       },
       getState () {
@@ -312,7 +310,7 @@
   #mr-griddle
     line
       // griddle color
-      stroke orange
+      stroke $primary
       stroke-linecap round
 
   #mr-griddle.random

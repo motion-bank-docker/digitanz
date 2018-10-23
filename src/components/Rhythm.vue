@@ -59,12 +59,13 @@
         sounds: {pulse: '../assets/beep.mp3'},
         netClock: new NetworkClock(),
         time: 0,
-        lastPulseTime: 0
+        lastPulseTime: 0,
+        interv: undefined
       }
     },
     async mounted () {
       const _this = this
-      setInterval(() => {
+      this.interv = setInterval(() => {
         _this.time = this.netClock.getTime()
       }, 40)
       this.netClock.on('broadcast', data => {
@@ -83,6 +84,9 @@
             }
           })
       }
+    },
+    beforeDestroy () {
+      clearInterval(this.interv)
     },
     methods: {
       handlePatternChange (event) {

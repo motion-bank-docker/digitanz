@@ -11,13 +11,19 @@
 
       q-btn.full-width.q-mb-md(v-if="$route.meta.allowSelfResponse || annotation && annotation.author.id !== user.uuid",
         dark, color="primary", @click="uploadResponse(annotation)") {{ $t('buttons.upload_remix') }}
+      <!--q-uploader-extended-simple(v-if="$route.meta.allowSelfResponse || annotation && annotation.author.id !== user.uuid",)-->
       q-card.q-pa-md.q-mb-md.text-grey-8(v-else) {{ $t('messages.rejected_selfresponse') }}
 
       job-list
 
     div
-      video-list-view(v-if="responses.length > 0", :videos="responses", layoutStyle="sm", :hideButtons="hideButtons",
+      video-list-view(
+        v-if="responses.length > 0"
+        :videos="responses"
+        layoutStyle="sm"
+        :buttons="['delete']"
         :allowSelfResponse="$route.meta.allowSelfResponse")
+
       q-card.q-pa-md.q-mb-md.text-grey-8.text-center(v-else)
         | {{ $t('messages.no_videos') }}
 </template>
@@ -26,6 +32,7 @@
   import VideoModal from '../components/VideoModal'
   import UploadRemixModal from '../components/UploadRemixModal'
   import VideoListView from '../components/VideoListView'
+  import QUploaderExtendedSimple from '../components/QUploaderExtendedSimple'
   import { VideoHelper } from '../lib'
   import { mapGetters } from 'vuex'
   import { VideoPlayer } from 'mbjs-quasar/src/components'
@@ -37,7 +44,8 @@
       UploadRemixModal,
       VideoListView,
       VideoPlayer,
-      JobList
+      JobList,
+      QUploaderExtendedSimple
     },
     computed: {
       ...mapGetters({

@@ -53,8 +53,7 @@
           :autoplay="true",
           @ended="playNext",
           @play="setPlayerStatePlay()",
-          @pause="setPlayerStatePause()",
-          style="height: 45vh; overflow: hidden")
+          @pause="setPlayerStatePause()")
 
           // DISPLAY VIDEOS
           //
@@ -63,10 +62,11 @@
               q-item.no-margin.no-padding.overflow-hidden(:class="{'bg-grey-9': currentPlay === index}")
                 q-item-main.relative-position(@click.native="openPreview(index)")
                   video-item(
-                  :key="video.annotation.uuid"
-                  :video="video"
+                  :key="video.annotation.uuid",
+                  :video="video",
                   :allowSelfResponse="allowSelfResponse",
-                  :hideButtons="true"
+                  :hideButtons="true",
+                  cardWidth="60px",
                   style="height: 25px")
                 //
                   img(:src="video.preview.medium", style="max-height: 160px; max-width: 50vw; margin-bottom: -4px;")
@@ -79,7 +79,7 @@
                     q-btn.q-ma-xs(@click="moveDown(index)", color="grey-5", round, icon="arrow_downward", dark, flat, size="sm")
                     q-btn.q-ma-xs(@click="duplicateVideo(index)", color="grey-5", round, icon="filter_none", dark, flat, size="sm")
                     q-btn.q-ma-xs(@click="deleteItem(index)", color="grey-5", round, icon="delete", dark, flat, size="sm")
-            .full-width.bg-body-background.text-center.fixed-bottom.q-py-sm(v-if="videos.length > 0")
+            .full-width.bg-body-background.text-center.absolute-bottom.q-py-sm(v-if="videos.length > 0")
               q-btn.bg-primary.text-white(@click="saveSequence", icon="check", :label="$t('buttons.save')", flat)
             .text-center.text-grey-8.q-caption.q-pa-lg.bg-grey-10(v-else) {{ $t('messages.empty') }}
 
@@ -258,7 +258,7 @@
         }
         await SequenceHelper.renderSequence(this, payload, initial ? this.targetTimeline : undefined, this.videos)
         this.$q.loading.hide()
-        this.$router.push('/sequences')
+        this.$router.push({ name: 'profil' })
       },
       checkOrientation () {
         alert('bla')

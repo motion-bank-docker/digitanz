@@ -1,16 +1,21 @@
 <template lang="pug">
   q-page.row
-    mr-griddle#mr-griddle-container(ref="mrGriddleContainer"
-      :play="playing" @stateChanged="handleStateChanged" @editModeChanged="handleEditChange")
-    mr-griddle-handler.fixed-bottom(
-      v-if="!editMode"
-      :play="playing"
-      :states="storedStates"
-      :currentState="currentState"
-      @clickPlay="handleClickPlay"
-      @clickAdd="handleClickAdd"
-      @clickState="handleClickState"
-      @deleteItem="handleDeleteItem"
+    mr-griddle#mr-griddle-container(
+    ref="mrGriddleContainer",
+    :play="playing",
+    @stateChanged="handleStateChanged",
+    @editModeChanged="handleEditChange")
+
+    .fixed-bottom.q-mb-xl
+      mr-griddle-handler.q-mb-lg.shadow-up-2(
+      v-if="!editMode",
+      :play="playing",
+      :states="storedStates",
+      :currentState="currentState",
+      @clickPlay="handleClickPlay",
+      @clickAdd="handleClickAdd",
+      @clickState="handleClickState",
+      @deleteItem="handleDeleteItem",
       @saveSequence="handeSaveSequence")
 </template>
 

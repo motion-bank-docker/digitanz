@@ -1,35 +1,12 @@
 <template lang="pug">
-  div(:class="{'full-width': layoutStyle !== 'profile', 'profile': layoutStyle === 'profile'}")
+  div.full-width
 
     //
     // size sm
-    div.row.justify-between(v-if="layoutStyle === 'sm'")
+    div.row.justify-between
       video-item.placeholder(v-if="showVideoPlaceholder", :video="{}")
-      video-item(v-for="video in videos",
-      :allowSelfResponse="allowSelfResponse",
-      :buttons="buttons",
-      :cardWidth="cardWidth",
-      :contentType="`video`",
-      :hideButtons="hideButtons",
-      :isSequence="isSequence",
-      :key="setKey(video)",
-      :layoutStyle="layoutStyle",
-      :roundImage="roundImage",
-      :showContentFlag="showContentFlag",
-      :showDuration="showDuration",
-      :showOverlay="showOverlay",
-      :video="video",
-      @changed="changed")
-
-        template(slot="customButtons", slot-scope="{ video }")
-          slot(name="customButtons", :video="video")
-        template(slot="customMoreButtons", slot-scope="{ video }")
-          slot(name="customMoreButtons", :video="video")
-    //
-    // special view for profile page
-    div(v-else-if="layoutStyle === 'profile'")
-      // video-item.placeholder(v-if="showVideoPlaceholder", :video="{}")
-      video-item(v-for="video in videos",
+      div(v-for="video in videos")
+        video-item(v-if="getType(video) === 'upload'",
         :allowSelfResponse="allowSelfResponse",
         :buttons="buttons",
         :cardWidth="cardWidth",
@@ -92,12 +69,11 @@
       jobIds: undefined,
       layoutStyle: String,
       roundImage: undefined,
+      showDuration: Boolean,
       showContentFlag: {
         type: Boolean,
         default: false
       },
-      showDuration: Boolean,
-      showOverlay: Boolean,
       videos: Array
     },
     data () {
@@ -110,9 +86,13 @@
         this.$emit('changed')
       },
       setKey (video) {
-        if (video.hasOwnProperty('annotation')) return video.annotation ? video.annotation.uuid : '001'
-        else return video.uuid
-        // return video.annotation ? video.annotation.uuid : '001'
+        return video.annotation ? video.annotation.uuid : '001'
+      },
+      getType (item) {
+        console.log('**', item)
+        if (item.body && item.body.type === 'MrGriddleSkeleton') return 'griddle'
+        else if (item.annotation && item.type === 'Sequence') return 'sequence'
+        else return 'upload'
       }
     },
     watch: {
@@ -129,6 +109,5 @@
 </script>
 
 <style lang="stylus" scoped>
-  .profile
-    width: 100%;
+
 </style>

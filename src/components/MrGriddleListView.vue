@@ -1,40 +1,78 @@
 <template lang="pug">
-  div.full-width
+  .full-width
+    q-window-resize-observable(@resize="onResize")
+
     // size sm
-    div.row.justify-between(v-if="layoutStyle === 'sm'" ref="mega")
-      mr-griddle-preview(v-for="(item, i) in items"
-        :item="item"
-        :play="true"
-        :states="itemStates[i]"
-        :requestedWidth="167"
-        :requestedHeight="167"
-        :hideButtons="hideButtons"
-        :buttons="buttons",
-        style="width: 46%")
-        template(slot="customButtons" slot-scope="{ item }")
-          slot(name="customButtons" :item="item")
+    .row.justify-between(v-if="layoutStyle === 'sm'", ref="mega")
+      mr-griddle-item(
+      v-for="(item, i) in items",
+      :showContentFlag="showContentFlag",
+      :buttons="buttons",
+      :buttonsNew="buttonsNew",
+      :buttonsNewDropdown="buttonsNewDropdown",
+      :hideButtons="hideButtons",
+      :item="item",
+      :buttonVisibility="buttonVisibility",
+      :play="true",
+      :requestedHeight="itemWidth",
+      :requestedWidth="itemWidth",
+      :states="itemStates[i]",
+      @emitLoadData="emitLoadData",
+      style="width: 46%")
+        template(slot="customButtons", slot-scope="{ item }")
+          slot(name="customButtons", :item="item")
+        template(slot="customMoreButtons", slot-scope="{ item }")
+          slot(name="customMoreButtons", :item="item")
+
+    .row.justify-between(v-else-if="layoutStyle === 'profile'", ref="mega")
+      mr-griddle-item(
+      v-for="(item, i) in items",
+      :showContentFlag="showContentFlag",
+      :buttons="buttons",
+      :buttonsNew="buttonsNew",
+      :buttonsNewDropdown="buttonsNewDropdown",
+      :hideButtons="hideButtons",
+      :item="item",
+      :buttonVisibility="buttonVisibility",
+      :play="true",
+      :requestedHeight="itemWidth",
+      :requestedWidth="itemWidth",
+      :states="itemStates[i]",
+      @emitLoadData="emitLoadData",
+      style="width: 100%")
+        template(slot="customButtons", slot-scope="{ item }")
+          slot(name="customButtons", :item="item")
+        template(slot="customMoreButtons", slot-scope="{ item }")
+          slot(name="customMoreButtons", :item="item")
 
     q-window-resize-observable(@resize="setPreviewWidth()")
 </template>
 
 <script>
-  import MrGriddlePreview from './MrGriddlePreview'
+  import MrGriddleModal from './MrGriddleModal'
+  import MrGriddleItem from './MrGriddleItem'
 
   export default {
     components: {
-      MrGriddlePreview
+      MrGriddleModal,
+      MrGriddleItem
     },
     props: {
       // sm, md, l, xl ?
-      layoutStyle: String,
       buttons: Array,
+      buttonsNew: Array,
+      showContentFlag: Boolean,
+      buttonsNewDropdown: Array,
+      buttonVisibility: undefined,
       hideButtons: undefined,
-      items: undefined
+      items: undefined,
+      layoutStyle: String
     },
     data () {
       return {
-        previewWidth: 167,
-        itemStates: []
+        itemStates: [],
+        itemWidth: undefined,
+        previewWidth: 167
       }
     },
     mounted () {
@@ -48,19 +86,34 @@
       }
     },
     methods: {
+      emitLoadData () {
+        this.$emit('emitLoadData')
+      },
+      onResize () {
+        this.itemWidth = (window.innerWidth > 0) ? ((window.innerWidth - 16 * 2) / 100 * 46) : (screen.width / 100 * 46)
+      },
       async loadItemStates () {
         let allStates = []
+        let targetId
+        // console.log('this.items', typeof this.items, this.items)
         for (let item of this.items) {
-          const stateAnnot = await this.$store.dispatch('annotations/find', {
-            'target.id': item.target.id,
-            'body.purpose': {
-              $ne: 'commenting'
-            }
-          })
-          const states = stateAnnot.items.map(a => {
-            return JSON.parse(a.body.value)
-          })
-          allStates.push(states)
+          if (item) {
+            if (item.hasOwnProperty('target')) targetId = item.target.id
+            else targetId = item.id
+            const stateAnnot = await this.$store.dispatch('annotations/find', {
+              'target.id': targetId,
+              'body.purpose': {
+                $ne: 'commenting'
+              }
+            })
+            const states = stateAnnot.items.map(a => {
+              return JSON.parse(a.body.value)
+            })
+            allStates.push(states)
+          }
+          else {
+            console.log('öööööö')
+          }
         }
         this.itemStates = allStates
       },
@@ -78,7 +131,3 @@
     }
   }
 </script>
-
-<style lang="stylus" scoped>
-
-</style>

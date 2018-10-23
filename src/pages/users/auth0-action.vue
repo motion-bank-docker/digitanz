@@ -8,14 +8,16 @@
         this.$store.commit('notifications/addMessage', {
           type: 'success',
           body: query.message,
-          mode: 'alert'
+          mode: 'alert',
+          options: { position: 'top' }
         })
       }
       else {
         this.$store.commit('notifications/addMessage', {
           type: 'error',
           body: query.message || 'errors.email_verification_failed',
-          mode: 'alert'
+          mode: 'alert',
+          options: { position: 'top' }
         })
       }
       this.$router.replace({ name: 'site.welcome' })
