@@ -23,7 +23,7 @@
 
 <script>
 
-  import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences } from '../components/dashboard'
+  import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences, PublicImpulses } from '../components/dashboard'
   import ContentBlock from '../components/ContentBlock'
 
   export default {
@@ -32,6 +32,7 @@
       PublicSequences,
       PublicMrGriddles,
       PublicUploads,
+      PublicImpulses,
       // PublicGroupSequences,
       ContentBlock
     },
@@ -39,23 +40,29 @@
       return {
         // dates: this.$dates(),
         components: [{
+          component: 'public-impulses',
+          day: '2018-08-24',
+          date: this.$t('navigation.portraitplusplus.sublabel'),
+          title: 'Impulse',
+          description: 'Eure geteilten Impulse'
+        }, {
           component: 'public-uploads',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Uploads',
-          description: 'Deine geteilten Videos (Uploads)'
+          description: 'Eure geteilten Videos (Uploads)'
         }, {
           component: 'public-sequences',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Sequenzen',
-          description: 'Deine geteilten Video Sequenzen'
+          description: 'Eure geteilten Video Sequenzen'
         }, {
           component: 'public-mr-griddles',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Mr. Griddle Sequenzen',
-          description: 'Deine geteilten Mr. Griddle Sequenzen'
+          description: 'Eure geteilten Mr. Griddle Sequenzen'
         }]
         // components: [{
         //   component: 'all-portraits',
