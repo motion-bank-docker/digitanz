@@ -14,7 +14,7 @@
     q-card-media.no-padding(:class="{'round-image shadow-2': roundImage}")
 
       q-card-title.q-px-sm.q-py-none(v-if="showOverlay", slot="overlay")
-        .q-caption bla
+        .q-caption bla test
       //
       // show video preview
       video-modal(ref="videoModal")
