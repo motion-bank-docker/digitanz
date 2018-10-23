@@ -13,7 +13,6 @@ const routes = [
       { path: 'allrecipes', component: () => import('pages/allRecipes'), meta: {private: true} },
       { path: 'clouds', component: () => import('pages/clouds/list'), meta: {private: true} },
       { path: 'profil', name: 'profil', component: () => import('pages/profil'), meta: {private: true} },
-      { path: 'slotmachine', component: () => import('pages/slotMachine'), meta: {private: true} },
       { path: 'sequences', component: () => import('pages/sequences/list'), meta: {private: true} },
       { path: 'sequences/create', component: () => import('pages/sequences/edit'), meta: {private: true} },
       { path: 'sequences/:uuid/edit', component: () => import('pages/sequences/edit'), meta: {private: true} },
