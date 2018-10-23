@@ -12,23 +12,41 @@
     content-block.q-pt-none
       template(slot="title") Station
       template(slot="buttons")
+        q-btn.q-ml-xs(v-for="n in 3", @click="setActiveStation(n)", :label="n")
       template(slot="content")
-        q-tabs
+        // | {{ option }}
+        div(v-if="activeStation === 1")
+          q-radio(v-model="option", val="opt1", label="Öffnen und schließen")
+          q-radio(v-model="option", val="opt2", label="Schwingen und fallen")
+          q-radio(v-model="option", val="opt3", label="Kreisen und rollen")
+        div(v-if="activeStation === 2")
+          q-radio(v-model="option", val="opt4", label="Spuren nachziehen")
+          q-radio(v-model="option", val="opt5", label="Malende Körperteile durch den Raum")
+          q-radio(v-model="option", val="opt6", label="Bewegte/bewegende Wachsfigur")
+        div(v-if="activeStation === 3")
+          q-radio(v-model="option", val="opt7", label="Wehrhaft")
+          q-radio(v-model="option", val="opt8", label="Grenzsituatiion")
+          q-radio(v-model="option", val="opt9", label="Unter Riesen")
+          q-radio(v-model="option", val="opt10", label="Ausufern")
+
+        // q-tabs
           q-tab.bg-dark(name="tab-1", slot="title", label="A", default)
           q-tab.bg-dark(name="tab-2", slot="title", label="B")
           q-tab.bg-dark(name="tab-3", slot="title", label="C")
 
           q-tab-pane(name="tab-1")
-            q-list.no-border.no-padding
-              q-radio(v-model="option", val="opt1", label="Option 1")
-              q-radio(v-model="option", val="opt2", label="Option 2")
-              q-radio(v-model="option", val="opt3", label="Option 3")
+            q-radio(v-model="option", val="opt1", label="Öffnen und schließen")
+            q-radio(v-model="option", val="opt2", label="Schwingen und fallen")
+            q-radio(v-model="option", val="opt3", label="Kreisen und rollen")
           q-tab-pane(name="tab-2")
-            q-list.no-border.no-padding
-              q-item.bg-red(v-for="n in 3") bbbb{{ n }}
+            q-radio(v-model="option", val="opt4", label="Spuren nachziehen")
+            q-radio(v-model="option", val="opt5", label="Malende Körperteile durch den Raum")
+            q-radio(v-model="option", val="opt6", label="Bewegte/bewegende Wachsfigur")
           q-tab-pane(name="tab-3")
-            q-list.no-border.no-padding
-              q-item.bg-red(v-for="n in 3") cccccccccc{{ n }}
+            q-radio(v-model="option", val="opt7", label="Wehrhaft")
+            q-radio(v-model="option", val="opt8", label="Grenzsituatiion")
+            q-radio(v-model="option", val="opt9", label="Unter Riesen")
+            q-radio(v-model="option", val="opt10", label="Ausufern")
 
     content-block.q-pt-none
       template(slot="title") Adjektive
@@ -51,7 +69,7 @@
                 icon="delete", round, size="sm")
 
     content-block
-      template(slot="title") Videos
+      template(slot="title") Geteilte Videos
       template(slot="buttons")
       template(slot="content")
         video-list-view(
@@ -63,7 +81,7 @@
         layoutStyle="sm")
           template(slot="customButtons" slot-scope="{ video }")
             // q-btn.q-px-none(flat, size="sm" round, icon="group", color="primary", @click="togglePublic(video)")
-            // q-btn.q-px-none(flat, size="sm" round, icon="group", color="primary", @click="")
+            q-btn.q-px-none(flat, size="sm" round, icon="check", color="white", @click="")
 
     .fixed-bottom.q-mb-xl.q-mx-md.q-pb-md(v-if="selectedWords.length > 0")
       q-btn.q-mb-lg.bg-primary.text-white.full-width(label="speichern")
@@ -93,14 +111,16 @@
     },
     data () {
       return {
+        activeStation: 1,
         addWordModal: false,
         dummyId: 0,
         inputNewWord: '',
+        option: '',
         publicUploads: [],
         publicUploadsMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_UPLOADS_TIMELINE_UUID}`,
         selectedVideos: [],
         selectedWords: [],
-        showOverlay: true,
+        showOverlay: false,
         words: [{
           term: 'kreativ'
         }, {
@@ -194,6 +214,10 @@
             break
           }
         }
+      },
+      setActiveStation (val) {
+        console.log(val)
+        this.activeStation = val
       }
     }
   }
