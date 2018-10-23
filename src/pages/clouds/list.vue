@@ -12,22 +12,48 @@
     content-block.q-pt-none
       template(slot="title") Station
       template(slot="buttons")
-        q-btn.q-ml-xs(v-for="n in 3", @click="setActiveStation(n)", :label="n")
+        q-btn.q-ml-xs(v-for="n in 3", @click="setActiveStation(n)",
+        :class="{'bg-primary text-white': activeStation === n}", round, size="sm") {{ n }}
       template(slot="content")
         // | {{ option }}
+        // | {{ activeImpulse }}
         div(v-if="activeStation === 1")
-          q-radio(v-model="option", val="opt1", label="Öffnen und schließen")
-          q-radio(v-model="option", val="opt2", label="Schwingen und fallen")
-          q-radio(v-model="option", val="opt3", label="Kreisen und rollen")
+          q-btn.full-width(@click="setImpulse('a1')", label="Öffnen und schließen",
+          :class="{'bg-primary text-white': activeImpulse === 'a1'}", no-caps)
+          q-btn.full-width(@click="setImpulse('a2')", label="Schwingen und fallen",
+          :class="{'bg-primary text-white': activeImpulse === 'a2'}", no-caps)
+          q-btn.full-width(@click="setImpulse('a3')", label="Kreisen und rollen",
+          :class="{'bg-primary text-white': activeImpulse === 'a3'}", no-caps)
+          //
+            q-radio(v-model="option", val="opt1", label="Öffnen und schließen")
+            q-radio(v-model="option", val="opt2", label="Schwingen und fallen")
+            q-radio(v-model="option", val="opt3", label="Kreisen und rollen")
         div(v-if="activeStation === 2")
-          q-radio(v-model="option", val="opt4", label="Spuren nachziehen")
-          q-radio(v-model="option", val="opt5", label="Malende Körperteile durch den Raum")
-          q-radio(v-model="option", val="opt6", label="Bewegte/bewegende Wachsfigur")
+          q-btn.full-width(@click="setImpulse('b1')", label="Spuren nachziehen",
+          :class="{'bg-primary text-white': activeImpulse === 'b1'}", no-caps)
+          q-btn.full-width(@click="setImpulse('b2')", label="Malende Körperteile durch den Raum",
+          :class="{'bg-primary text-white': activeImpulse === 'b2'}", no-caps)
+          q-btn.full-width(@click="setImpulse('b3')", label="Bewegte/bewegende Wachsfigur",
+          :class="{'bg-primary text-white': activeImpulse === 'b3'}", no-caps)
+          //
+            q-radio(v-model="option", val="opt4", label="Spuren nachziehen")
+            q-radio(v-model="option", val="opt5", label="Malende Körperteile durch den Raum")
+            q-radio(v-model="option", val="opt6", label="Bewegte/bewegende Wachsfigur")
         div(v-if="activeStation === 3")
-          q-radio(v-model="option", val="opt7", label="Wehrhaft")
-          q-radio(v-model="option", val="opt8", label="Grenzsituatiion")
-          q-radio(v-model="option", val="opt9", label="Unter Riesen")
-          q-radio(v-model="option", val="opt10", label="Ausufern")
+          q-btn.full-width(@click="setImpulse('c1')", label="Wehrhaft",
+          :class="{'bg-primary text-white': activeImpulse === 'c1'}", no-caps)
+          q-btn.full-width(@click="setImpulse('c2')", label="Grenzsituation",
+          :class="{'bg-primary text-white': activeImpulse === 'c2'}", no-caps)
+          q-btn.full-width(@click="setImpulse('c3')", label="Unter Riesen",
+          :class="{'bg-primary text-white': activeImpulse === 'c3'}", no-caps)
+          q-btn.full-width(@click="setImpulse('c4')", label="Ausufern",
+          :class="{'bg-primary text-white': activeImpulse === 'c4'}", no-caps)
+
+          //
+            q-radio(v-model="option", val="opt7", label="Wehrhaft")
+            q-radio(v-model="option", val="opt8", label="Grenzsituation")
+            q-radio(v-model="option", val="opt9", label="Unter Riesen")
+            q-radio(v-model="option", val="opt10", label="Ausufern")
 
         // q-tabs
           q-tab.bg-dark(name="tab-1", slot="title", label="A", default)
@@ -111,6 +137,7 @@
     },
     data () {
       return {
+        activeImpulse: '',
         activeStation: 1,
         addWordModal: false,
         dummyId: 0,
@@ -216,8 +243,13 @@
         }
       },
       setActiveStation (val) {
-        console.log(val)
+        // console.log(val)
         this.activeStation = val
+        this.activeImpulse = ''
+      },
+      setImpulse (val) {
+        // console.log(val)
+        this.activeImpulse = val
       }
     }
   }
