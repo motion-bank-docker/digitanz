@@ -9,21 +9,21 @@
         q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white(@click="addWord", label="speichern")
         q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordModal = false, inputNewWord = ''", label="abbrechen")
 
-    content-block.q-pt-none
+    // content-block.q-pt-none
       template(slot="title") Impuls
       template(slot="buttons")
         q-btn.q-ml-sm.q-mt-sm(v-for="n in 3", @click="setActiveStation(n)",
-        :class="{'bg-grey-9 text-white': activeStation === n}", round, size="sm") {{ n }}
+        // :class="{'bg-grey-9 text-white': activeStation === n}", round, size="sm") {{ n }}
       template(slot="content")
         // | {{ option }}
         // | {{ activeImpulse }}
-        div(v-if="activeStation === 1")
+        // div(v-if="activeStation === 1")
           q-btn.full-width(@click="setImpulse('a1')", label="Öffnen und schließen",
-          :class="{'bg-grey-9 text-white': activeImpulse === 'a1'}", no-caps)
+          // :class="{'bg-grey-9 text-white': activeImpulse === 'a1'}", no-caps)
           q-btn.q-my-sm.full-width(@click="setImpulse('a2')", label="Schwingen und fallen",
-          :class="{'bg-grey-9 text-white': activeImpulse === 'a2'}", no-caps)
+          // :class="{'bg-grey-9 text-white': activeImpulse === 'a2'}", no-caps)
           q-btn.full-width(@click="setImpulse('a3')", label="Kreisen und rollen",
-          :class="{'bg-grey-9 text-white': activeImpulse === 'a3'}", no-caps)
+          // :class="{'bg-grey-9 text-white': activeImpulse === 'a3'}", no-caps)
 
           //
             q-btn.full-width(@click="setImpulse('a1')", label="Öffnen und schließen",
@@ -36,26 +36,26 @@
             q-radio(v-model="option", val="opt1", label="Öffnen und schließen")
             q-radio(v-model="option", val="opt2", label="Schwingen und fallen")
             q-radio(v-model="option", val="opt3", label="Kreisen und rollen")
-        div(v-if="activeStation === 2")
+        // div(v-if="activeStation === 2")
           q-btn.full-width(@click="setImpulse('b1')", label="Spuren nachziehen",
-          :class="{'bg-grey-9 text-white': activeImpulse === 'b1'}", no-caps)
+          // :class="{'bg-grey-9 text-white': activeImpulse === 'b1'}", no-caps)
           q-btn.q-my-sm.full-width(@click="setImpulse('b2')", label="Malende Körperteile durch den Raum",
-          :class="{'bg-grey-9 text-white': activeImpulse === 'b2'}", no-caps)
+          // :class="{'bg-grey-9 text-white': activeImpulse === 'b2'}", no-caps)
           q-btn.full-width(@click="setImpulse('b3')", label="Bewegte/bewegende Wachsfigur",
-          :class="{'bg-grey-9 text-white': activeImpulse === 'b3'}", no-caps)
+          // :class="{'bg-grey-9 text-white': activeImpulse === 'b3'}", no-caps)
           //
             q-radio(v-model="option", val="opt4", label="Spuren nachziehen")
             q-radio(v-model="option", val="opt5", label="Malende Körperteile durch den Raum")
             q-radio(v-model="option", val="opt6", label="Bewegte/bewegende Wachsfigur")
-        div(v-if="activeStation === 3")
+        // div(v-if="activeStation === 3")
           q-btn.full-width(@click="setImpulse('c1')", label="Wehrhaft",
-          :class="{'bg-grey-9 text-white': activeImpulse === 'c1'}", no-caps)
+          // :class="{'bg-grey-9 text-white': activeImpulse === 'c1'}", no-caps)
           q-btn.q-my-sm.full-width(@click="setImpulse('c2')", label="Grenzsituation",
-          :class="{'bg-grey-9 text-white': activeImpulse === 'c2'}", no-caps)
+          // :class="{'bg-grey-9 text-white': activeImpulse === 'c2'}", no-caps)
           q-btn.q-mb-sm.full-width(@click="setImpulse('c3')", label="Unter Riesen",
-          :class="{'bg-grey-9 text-white': activeImpulse === 'c3'}", no-caps)
+          // :class="{'bg-grey-9 text-white': activeImpulse === 'c3'}", no-caps)
           q-btn.full-width(@click="setImpulse('c4')", label="Ausufern",
-          :class="{'bg-grey-9 text-white': activeImpulse === 'c4'}", no-caps)
+          // :class="{'bg-grey-9 text-white': activeImpulse === 'c4'}", no-caps)
 
           //
             q-radio(v-model="option", val="opt7", label="Wehrhaft")
@@ -102,16 +102,16 @@
                 // :disable="checkIfSelected(word.term)",
                 icon="delete", round, size="sm")
 
-    content-block
+    // content-block
       template(slot="title") Video-Auswahl
       template(slot="buttons")
       template(slot="content")
         video-list-view(
         v-if="publicUploads && publicUploads.length > 0",
-        :allowSelfResponse="true",
-        :buttons="['more-download', 'more-delete']",
-        :showOverlay="showOverlay",
-        :videos="publicUploads",
+        // :allowSelfResponse="true",
+        // :buttons="['more-download', 'more-delete']",
+        // :showOverlay="showOverlay",
+        // :videos="publicUploads",
         layoutStyle="sm")
           template(slot="customButtons" slot-scope="{ video }")
             // q-btn.q-px-none(flat, size="sm" round, icon="group", color="primary", @click="togglePublic(video)")
