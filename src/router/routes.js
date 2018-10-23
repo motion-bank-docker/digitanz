@@ -34,8 +34,10 @@ const routes = [
       { path: 'presentation', component: () => import('pages/presentation'), meta: {private: true} },
       { path: 'space-tool', component: () => import('pages/space-tool'), meta: {private: true} },
       { path: 'rhythm', component: () => import('pages/rhythm'), meta: {private: true} },
-      { path: 'rhythm-creator', component: () => import('pages/rhythm-creator'), meta: {private: true} }
-    ]
+      { path: 'rhythm-creator', component: () => import('pages/rhythm-creator'), meta: {private: true} },
+      { path: 'survey', component: () => import('pages/survey-new'), meta: {private: true} }
+
+]
   },
   {
     path: '/newrecipe/:uuid',

@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page.q-ma-md
+  q-page.q-ma-md.column
     h3.text-center {{ $t('pages.team.headline') }}
 
     .q-mb-md
@@ -12,6 +12,7 @@
           | {{ member.mail }}
           br
           | {{ member.phone }}
+    q-btn.q-ma-md.self-center(label="Bewerte den Kurs" icon="thumb_up" color="primary" @click="$router.push('')")
 
 </template>
 
