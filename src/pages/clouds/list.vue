@@ -10,44 +10,52 @@
         q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordModal = false, inputNewWord = ''", label="abbrechen")
 
     content-block.q-pt-none
-      template(slot="title") Station
+      template(slot="title") Impuls
       template(slot="buttons")
-        q-btn.q-ml-xs(v-for="n in 3", @click="setActiveStation(n)",
-        :class="{'bg-primary text-white': activeStation === n}", round, size="sm") {{ n }}
+        q-btn.q-ml-sm.q-mt-sm(v-for="n in 3", @click="setActiveStation(n)",
+        :class="{'bg-grey-9 text-white': activeStation === n}", round, size="sm") {{ n }}
       template(slot="content")
         // | {{ option }}
         // | {{ activeImpulse }}
         div(v-if="activeStation === 1")
           q-btn.full-width(@click="setImpulse('a1')", label="Öffnen und schließen",
-          :class="{'bg-primary text-white': activeImpulse === 'a1'}", no-caps)
-          q-btn.full-width(@click="setImpulse('a2')", label="Schwingen und fallen",
-          :class="{'bg-primary text-white': activeImpulse === 'a2'}", no-caps)
+          :class="{'bg-grey-9 text-white': activeImpulse === 'a1'}", no-caps)
+          q-btn.q-my-sm.full-width(@click="setImpulse('a2')", label="Schwingen und fallen",
+          :class="{'bg-grey-9 text-white': activeImpulse === 'a2'}", no-caps)
           q-btn.full-width(@click="setImpulse('a3')", label="Kreisen und rollen",
-          :class="{'bg-primary text-white': activeImpulse === 'a3'}", no-caps)
+          :class="{'bg-grey-9 text-white': activeImpulse === 'a3'}", no-caps)
+
+          //
+            q-btn.full-width(@click="setImpulse('a1')", label="Öffnen und schließen",
+            // :class="[activeImpulse === 'a1' ? 'bg-primary text-white' : 'bg-dark']", no-caps)
+            q-btn.full-width(@click="setImpulse('a2')", label="Schwingen und fallen",
+            // :class="[activeImpulse === 'a2' ? 'bg-primary text-white' : 'bg-dark']", no-caps)
+            q-btn.full-width(@click="setImpulse('a3')", label="Kreisen und rollen",
+            // :class="[activeImpulse === 'a3' ? 'bg-primary text-white' : 'bg-dark']}", no-caps)
           //
             q-radio(v-model="option", val="opt1", label="Öffnen und schließen")
             q-radio(v-model="option", val="opt2", label="Schwingen und fallen")
             q-radio(v-model="option", val="opt3", label="Kreisen und rollen")
         div(v-if="activeStation === 2")
           q-btn.full-width(@click="setImpulse('b1')", label="Spuren nachziehen",
-          :class="{'bg-primary text-white': activeImpulse === 'b1'}", no-caps)
-          q-btn.full-width(@click="setImpulse('b2')", label="Malende Körperteile durch den Raum",
-          :class="{'bg-primary text-white': activeImpulse === 'b2'}", no-caps)
+          :class="{'bg-grey-9 text-white': activeImpulse === 'b1'}", no-caps)
+          q-btn.q-my-sm.full-width(@click="setImpulse('b2')", label="Malende Körperteile durch den Raum",
+          :class="{'bg-grey-9 text-white': activeImpulse === 'b2'}", no-caps)
           q-btn.full-width(@click="setImpulse('b3')", label="Bewegte/bewegende Wachsfigur",
-          :class="{'bg-primary text-white': activeImpulse === 'b3'}", no-caps)
+          :class="{'bg-grey-9 text-white': activeImpulse === 'b3'}", no-caps)
           //
             q-radio(v-model="option", val="opt4", label="Spuren nachziehen")
             q-radio(v-model="option", val="opt5", label="Malende Körperteile durch den Raum")
             q-radio(v-model="option", val="opt6", label="Bewegte/bewegende Wachsfigur")
         div(v-if="activeStation === 3")
           q-btn.full-width(@click="setImpulse('c1')", label="Wehrhaft",
-          :class="{'bg-primary text-white': activeImpulse === 'c1'}", no-caps)
-          q-btn.full-width(@click="setImpulse('c2')", label="Grenzsituation",
-          :class="{'bg-primary text-white': activeImpulse === 'c2'}", no-caps)
-          q-btn.full-width(@click="setImpulse('c3')", label="Unter Riesen",
-          :class="{'bg-primary text-white': activeImpulse === 'c3'}", no-caps)
+          :class="{'bg-grey-9 text-white': activeImpulse === 'c1'}", no-caps)
+          q-btn.q-my-sm.full-width(@click="setImpulse('c2')", label="Grenzsituation",
+          :class="{'bg-grey-9 text-white': activeImpulse === 'c2'}", no-caps)
+          q-btn.q-mb-sm.full-width(@click="setImpulse('c3')", label="Unter Riesen",
+          :class="{'bg-grey-9 text-white': activeImpulse === 'c3'}", no-caps)
           q-btn.full-width(@click="setImpulse('c4')", label="Ausufern",
-          :class="{'bg-primary text-white': activeImpulse === 'c4'}", no-caps)
+          :class="{'bg-grey-9 text-white': activeImpulse === 'c4'}", no-caps)
 
           //
             q-radio(v-model="option", val="opt7", label="Wehrhaft")
@@ -75,14 +83,14 @@
             q-radio(v-model="option", val="opt10", label="Ausufern")
 
     content-block.q-pt-none
-      template(slot="title") Adjektive
+      template(slot="title") Adjektiv-Wolke
       template(slot="buttons")
         q-btn.bg-primary.text-white.q-mt-sm(@click="addWord, addWordModal = true", icon="add", round, size="sm")
       template(slot="content")
         q-list.no-border.flex.gutter-xs.q-px-xs
 
-          q-item.q-mr-sm.q-mb-sm.shadow-2.q-caption.q-pr-sm(
-          v-for="word in words", :class="[checkIfSelected(word.term) ? 'bg-primary text-white' : 'bg-dark']")
+          q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm(
+          v-for="word in words", :class="[checkIfSelected(word.term) ? 'bg-grey-9 text-white' : 'bg-dark']")
 
             input.hidden(type="checkbox", :id="word.term", :value="word.term", v-model="selectedWords")
             label(:for="word.term")
@@ -95,7 +103,7 @@
                 icon="delete", round, size="sm")
 
     content-block
-      template(slot="title") Geteilte Videos
+      template(slot="title") Video-Auswahl
       template(slot="buttons")
       template(slot="content")
         video-list-view(
@@ -109,7 +117,7 @@
             // q-btn.q-px-none(flat, size="sm" round, icon="group", color="primary", @click="togglePublic(video)")
             q-btn.q-px-none(flat, size="sm" round, icon="check", color="white", @click="")
 
-    .fixed-bottom.q-mb-xl.q-mx-md.q-pb-md(v-if="selectedWords.length > 0")
+    // .fixed-bottom.q-mb-xl.q-mx-md.q-pb-md(v-if="selectedWords.length > 0")
       q-btn.q-mb-lg.bg-primary.text-white.full-width(label="speichern")
 </template>
 
