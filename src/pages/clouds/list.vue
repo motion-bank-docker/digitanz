@@ -35,11 +35,13 @@
         video-list-view(
         v-if="publicUploads && publicUploads.length > 0",
         :allowSelfResponse="true",
+        :buttons="['more-download', 'more-delete']",
+        :showOverlay="showOverlay",
         :videos="publicUploads",
-        layoutStyle="sm",
-        :buttons="['more-download', 'more-delete']")
+        layoutStyle="sm")
           template(slot="customButtons" slot-scope="{ video }")
-            q-btn.q-px-none(flat, size="sm" round, icon="group", color="primary", @click="togglePublic(video)")
+            // q-btn.q-px-none(flat, size="sm" round, icon="group", color="primary", @click="togglePublic(video)")
+            // q-btn.q-px-none(flat, size="sm" round, icon="group", color="primary", @click="")
 
     .fixed-bottom.q-mb-xl.q-mx-md.q-pb-md(v-if="selectedWords.length > 0")
       q-btn.q-mb-lg.bg-primary.text-white.full-width(label="speichern")
@@ -76,6 +78,7 @@
         publicUploadsMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_UPLOADS_TIMELINE_UUID}`,
         selectedVideos: [],
         selectedWords: [],
+        showOverlay: true,
         words: [{
           term: 'kreativ'
         }, {

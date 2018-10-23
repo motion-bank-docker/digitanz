@@ -15,8 +15,9 @@
       :key="setKey(video)",
       :layoutStyle="layoutStyle",
       :roundImage="roundImage",
-      :showDuration="showDuration",
       :showContentFlag="showContentFlag",
+      :showDuration="showDuration",
+      :showOverlay="showOverlay",
       :video="video",
       @changed="changed")
 
@@ -91,11 +92,12 @@
       jobIds: undefined,
       layoutStyle: String,
       roundImage: undefined,
-      showDuration: Boolean,
       showContentFlag: {
         type: Boolean,
         default: false
       },
+      showDuration: Boolean,
+      showOverlay: Boolean,
       videos: Array
     },
     data () {
