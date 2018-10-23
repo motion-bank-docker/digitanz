@@ -56,6 +56,11 @@
       //
       // ORDER BY TYPE
       div(v-if="displayType === 'type' || displayType === 'time'")
+        content-block
+          template(slot="title") Meine Impulse
+          template(slot="content")
+            user-impulses
+
         content-block(v-if="grouped && headlines", v-for="headline in headlines")
           template(slot="title") {{ headline }}
           template(slot="content")
@@ -69,6 +74,13 @@
       //
       // LIST PUBLIC
       div(v-else-if="displayType === 'visibility'")
+
+        //
+        // Public Impulses
+        content-block
+          template(slot="title") Geteilte Impulse
+          template(slot="content")
+            users-public-impulses
 
         //
         // Public Mr. Griddles
@@ -123,9 +135,11 @@
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
   import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
   import UsersPublicUploads from '../components/profil/UsersPublicUploads'
+  import UsersPublicImpulses from '../components/profil/UsersPublicImpulses'
   import UserUploads from '../components/profil/UserUploads'
   import UserSequences from '../components/profil/UserSequences'
   import UserMrGriddles from '../components/profil/UserMrGriddles'
+  import UserImpulses from '../components/profil/UserImpulses'
   import FileUploaderMicro from '../components/FileUploaderMicro'
   import ContentBlock from '../components/ContentBlock'
   import VideoItem from '../components/VideoItem'
@@ -143,12 +157,14 @@
       UsersPublicPortrait,
       UsersPublicMrGriddles,
       UsersPublicUploads,
+      UsersPublicImpulses,
       FileUploaderMicro,
       ContentBlock,
       MrGriddleListView,
       UserUploads,
       UserSequences,
-      UserMrGriddles
+      UserMrGriddles,
+      UserImpulses
     },
     computed: {
       ...mapGetters({
