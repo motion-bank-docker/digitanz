@@ -10,6 +10,27 @@
         q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordModal = false, inputNewWord = ''", label="abbrechen")
 
     content-block.q-pt-none
+      template(slot="title") Station
+      template(slot="buttons")
+      template(slot="content")
+        q-tabs
+          q-tab.bg-dark(name="tab-1", slot="title", label="A", default)
+          q-tab.bg-dark(name="tab-2", slot="title", label="B")
+          q-tab.bg-dark(name="tab-3", slot="title", label="C")
+
+          q-tab-pane(name="tab-1")
+            q-list.no-border.no-padding
+              q-radio(v-model="option", val="opt1", label="Option 1")
+              q-radio(v-model="option", val="opt2", label="Option 2")
+              q-radio(v-model="option", val="opt3", label="Option 3")
+          q-tab-pane(name="tab-2")
+            q-list.no-border.no-padding
+              q-item.bg-red(v-for="n in 3") bbbb{{ n }}
+          q-tab-pane(name="tab-3")
+            q-list.no-border.no-padding
+              q-item.bg-red(v-for="n in 3") cccccccccc{{ n }}
+
+    content-block.q-pt-none
       template(slot="title") Adjektive
       template(slot="buttons")
         q-btn.bg-primary.text-white.q-mt-sm(@click="addWord, addWordModal = true", icon="add", round, size="sm")
@@ -22,11 +43,12 @@
             input.hidden(type="checkbox", :id="word.term", :value="word.term", v-model="selectedWords")
             label(:for="word.term")
               | {{ word.term }}
-              q-btn.q-ml-md.bg-dark(
-              v-if="word.author === user.uuid",
-              @click="removeWord(word.id)",
-              :disable="checkIfSelected(word.term)",
-              icon="delete", round, size="sm")
+              //
+                q-btn.q-ml-md.bg-dark(
+                v-if="word.author === user.uuid",
+                @click="removeWord(word.id)",
+                // :disable="checkIfSelected(word.term)",
+                icon="delete", round, size="sm")
 
     content-block
       template(slot="title") Videos
