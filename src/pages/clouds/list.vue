@@ -30,8 +30,8 @@
           q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm(
           v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']")
 
-            input.hidden(v-model="selectedWords", type="checkbox", :id="word.uuid", :value="word.value")
-            label(:for="word.uuid")
+            input.hidden(v-model="selectedWords", type="checkbox", :id="word._id", :value="word.value")
+            label(:for="word._id")
               | {{ word.value }}
 
     q-btn.full-width.q-mb-md.text-white(
@@ -65,8 +65,8 @@
     data () {
       return {
         activeImpulse: '',
-        activeStation: 1,
-        addWordModal: false,
+        // activeStation: 1,
+        // addWordModal: false,
         addWordBubble: false,
         dummyId: 0,
         inputNewWord: '',
