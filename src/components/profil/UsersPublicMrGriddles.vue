@@ -1,8 +1,11 @@
 <template lang="pug">
 
   div
+    .text-center(v-if="isLoading")
+      loading-spinner
+
     mr-griddle-list-view(
-    v-if="sequences.length > 0",
+    v-else-if="sequences.length > 0",
     layout-style='sm',
     :buttons="['more-delete']",
     :buttonsNew="buttonsNew",
@@ -11,9 +14,6 @@
     @emitLoadData="emitLoadData")
       template(slot="customButtons" slot-scope="{ video }")
       template(slot="customMoreButtons" slot-scope="{ video }")
-
-    .text-center(v-else)
-      loading-spinner
 
 </template>
 
@@ -42,6 +42,7 @@
     },
     data () {
       return {
+        isLoading: false,
         sequences: [],
         favoriteSequences: [],
         buttonsNew: [{
@@ -62,6 +63,7 @@
         this.loadData()
       },
       async loadData () {
+        this.isLoading = true
         const map = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
         const annotations = await this.$store.dispatch('annotations/find', {
           'target.id': map.id,
@@ -82,6 +84,7 @@
           }
         }
         this.sequences = sequences
+        this.isLoading = false
       }
     }
   }

@@ -14,7 +14,7 @@ const metadata = {
       else metadataURL = `${process.env.TRANSCODER_HOST}/metadata/url?url=${encodeURIComponent(payload.body.source.id)}`
       let result = await axios.get(metadataURL, { headers })
       const metadata = result.data
-      console.debug('metadata', metadata)
+      // console.debug('metadata', metadata)
       return metadata
     }
   }
