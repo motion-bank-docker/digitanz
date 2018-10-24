@@ -15,9 +15,9 @@
             img(src="~assets/good.png", style="width: 100%")
 
     q-item.column
-      q-btn.item-center.q-mt-lg(v-if="hasVoted === false", label="Absenden", icon="send", color="primary", @click="storeSurvey")
+      q-btn.item-center.q-mt-lg(v-if="canSubmit && hasVoted === false", label="Absenden", icon="send", color="primary", @click="storeSurvey")
       h4(v-if="hasVoted === true") Vielen Dank für deine Antworten.
-      q-btn(v-if="surveyUUID", @click="deleteSurvey") RESET
+      // q-btn(v-if="surveyUUID", @click="deleteSurvey") RESET
 </template>
 
 <script>
@@ -45,7 +45,21 @@
     computed: {
       ...mapGetters({
         user: 'auth/getUserState'
-      })
+      }),
+      canSubmit () {
+        let count = 0
+        for (let idx in this.surveyQuestions) {
+          let q = this.surveyQuestions[idx]
+          if (q.answer !== undefined) {
+            console.log('positive')
+            count++
+          }
+          else {
+            console.log('negative')
+          }
+        }
+        return this.surveyQuestions.length === count
+      }
     },
     watch: {
       async user () {
