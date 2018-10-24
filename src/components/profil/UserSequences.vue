@@ -145,10 +145,7 @@
           await this.$store.dispatch('logging/log', { action: 'sequence_favourite_unset', message })
           this.$q.loading.hide()
         }
-
-        // dk: neccessary to load content again?
-        await this.loadData()
-        console.log('sequence was made public')
+        await this.loadFavouriteSequences()
       }
     }
   }
