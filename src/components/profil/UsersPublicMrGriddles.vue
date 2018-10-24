@@ -1,8 +1,10 @@
 <template lang="pug">
 
   div
-    .text-center(v-if="isLoading")
+    .text-center.q-mb-md(v-if="isLoading")
       loading-spinner
+    .q-mb-md.no-content(v-else-if="sequences.length <= 0 && !isLoading")
+      span.text-grey-8 {{ $t('pages.profile.no_content') }}
 
     mr-griddle-list-view(
     v-else-if="sequences.length > 0",
@@ -90,5 +92,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="stylus" scoped>
+  .no-content
+    margin-top -1em
 </style>

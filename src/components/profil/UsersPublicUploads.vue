@@ -4,6 +4,8 @@
 
     .text-center.q-mb-md(v-if="publicUploads.length <= 0 && isLoading")
       loading-spinner
+    .q-mb-md.no-content(v-else-if="publicUploads.length <= 0 && !isLoading")
+      span.text-grey-8 {{ $t('pages.profile.no_content') }}
 
     .row
       video-list-view(
@@ -127,3 +129,8 @@
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+  .no-content
+    margin-top -1em
+</style>

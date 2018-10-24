@@ -192,6 +192,9 @@ export default {
     team: {
       headline: 'Das Team'
     },
+    profile: {
+      no_content: 'Keine Inhalte vorhanden'
+    },
     edit_sequence: {
       title: 'Sequenz bearbeiten',
       description: 'Lorem Ipsum, hier steht eine Beschreibung.'
