@@ -35,7 +35,7 @@
         q-popover.bg-dark(:offset="[10, 0]")
           q-list
             q-item(v-for="btn in buttonsNewDropdown").q-px-sm
-              q-btn(round, flat, size="sm", :icon="btn.icon", @click="onAction(btn.label)")
+              q-btn(round, v-close-overlay, flat, size="sm", :icon="btn.icon", @click="onAction(btn.label)")
 
       //
         slot(name="customButtons", :video="video")

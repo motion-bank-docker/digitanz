@@ -62,7 +62,7 @@
             div.row.justify-between
               div.inline(v-if="grouped[headline]", v-for="item in grouped[headline]", :style="{width: '46%'}")
                 div(v-if="item")
-                  user-mr-griddles(@emitLoadData="emitLoadData", v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
+                  user-mr-griddles(@emitLoadData="loadGriddleData", v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
                   user-sequences(v-else-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
                   user-uploads(v-else-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
 
