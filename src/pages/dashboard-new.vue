@@ -23,7 +23,7 @@
 
 <script>
 
-  import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences, PublicClouds } from '../components/dashboard'
+  import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences, PublicClouds, PublicArchive } from '../components/dashboard'
   import ContentBlock from '../components/ContentBlock'
 
   export default {
@@ -33,6 +33,7 @@
       PublicMrGriddles,
       PublicUploads,
       PublicClouds,
+      PublicArchive,
       // PublicGroupSequences,
       ContentBlock
     },
@@ -45,6 +46,12 @@
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Wortwolken',
           description: 'Eure geteilten Wortwolken'
+        }, {
+          component: 'public-archive',
+          day: '2018-08-24',
+          date: this.$t('navigation.portraitplusplus.sublabel'),
+          title: 'Archiv',
+          description: 'Video-Archiv'
         }, {
           component: 'public-uploads',
           day: '2018-08-24',
