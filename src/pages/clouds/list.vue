@@ -35,7 +35,7 @@
               | {{ word.value }}
 
     q-btn.full-width.q-mb-md.text-white(
-    @click="$router.push('/clouds/responses')",
+    @click="addAssociation",
     :class="[selectedWords.length < 2 ? 'bg-grey-9' : 'bg-primary']",
     :disabled="selectedWords.length < 2",
     label="speichern")
@@ -91,10 +91,19 @@
         this.addWordModal = false
         // this.dummyId++
         // this.words.push({term: this.inputNewWord, author: this.user.uuid, id: this.dummyId})
+        this.$q.loading.show({ message: this.$t('messages.saving') })
         const result = await this.$store.dispatch('cloud/addWord', this.inputNewWord)
         console.debug('added word', result)
+        this.$q.loading.hide()
         this.inputNewWord = ''
         await this.loadData()
+      },
+      async addAssociation () {
+        this.$q.loading.show({ message: this.$t('messages.saving') })
+        const result = await this.$store.dispatch('cloud/addAssociation', this.selectedWords)
+        console.debug('added association', result)
+        this.$q.loading.hide()
+        this.$router.push('/clouds/responses')
       },
       checkIfSelected (val) {
         return this.selectedWords.includes(val)

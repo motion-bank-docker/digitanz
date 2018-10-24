@@ -26,6 +26,18 @@ const cloud = {
       const query = JSON.stringify({ type: 'word' })
       const result = await axios.get(baseURL, ObjectUtil.merge(getRequestConfig(), { params: { query } }))
       return result.data ? result.data.items : []
+    },
+    async addAssociation (context, words) {
+      const result = await axios.post(baseURL, {
+        type: 'word-association',
+        value: words
+      }, getRequestConfig())
+      return result.data
+    },
+    async listAssociations () {
+      const query = JSON.stringify({ type: 'word-association' })
+      const result = await axios.get(baseURL, ObjectUtil.merge(getRequestConfig(), { params: { query } }))
+      return result.data ? result.data.items : []
     }
   }
 }
