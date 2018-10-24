@@ -61,11 +61,8 @@
         this.hasVoted = await this.$store.dispatch('survey/hasVoted', this.user.uuid)
         if (this.hasVoted) {
           const result = await this.$store.dispatch('survey/fetchAnswers', this.user.uuid)
-          console.log(result)
-          console.log(result)
           this.surveyUUID = result[0].uuid
         }
-        console.debug('hasVoted', this.hasVoted)
       },
       async storeSurvey () {
         await this.$store.dispatch('survey/storeSurvey', this.surveyQuestions)
