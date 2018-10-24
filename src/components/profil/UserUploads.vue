@@ -219,6 +219,6 @@
 </script>
 
 <style lang="stylus" scoped>
-  .pfui
-    width 100%
+    .pfui
+      width 100%
 </style>
