@@ -1,7 +1,7 @@
 <template lang="pug">
   div
-    div.bg-dark.q-mb-sm(v-for="association in myAssociations")
-      p
+    q-card.bg-dark.q-mb-sm(v-for="association in myAssociations")
+      p.q-pa-md.text-center(@click="$router.push('/clouds/' + association._id + '/responses')")
         span.q-mr-md(v-for="word in association.value") {{ word }}
 
     // FIXME: query works for Archive
@@ -56,13 +56,11 @@
           'author.id': this.user.uuid
         }
         this.associations = await this.$store.dispatch('cloud/listAssociations', query)
-        console.log('loaded associations:::::::', this.associations)
         this.associations.map(a => {
           if (a.author.id === this.user.uuid) {
             this.myAssociations.push(a)
           }
         })
-        // console.log(this.myAssociations)
         console.debug('loaded associations', this.associations)
         this.$q.loading.hide()
       },
