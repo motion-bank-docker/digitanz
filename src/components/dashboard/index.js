@@ -3,7 +3,7 @@ import PublicPortraits from './PublicPortraits'
 import PublicSequences from './PublicSequences'
 import PublicGroupSequences from './PublicGroupSequences'
 import PublicMrGriddles from './PublicMrGriddles'
-import PublicImpulses from './PublicImpulses'
+import PublicClouds from './PublicClouds'
 import PublicUploads from './PublicUploads'
 import Portraits from './Portraits'
 import PortraitsPlusPlus from './PortraitsPlusPlus'
@@ -16,7 +16,7 @@ export {
   PublicGroupSequences,
   PublicMrGriddles,
   PublicUploads,
-  PublicImpulses,
+  PublicClouds,
   Portraits,
   PortraitsPlusPlus,
   GroupVideoSequences

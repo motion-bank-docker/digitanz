@@ -23,7 +23,7 @@
 
 <script>
 
-  import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences, PublicImpulses } from '../components/dashboard'
+  import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences, PublicClouds } from '../components/dashboard'
   import ContentBlock from '../components/ContentBlock'
 
   export default {
@@ -32,7 +32,7 @@
       PublicSequences,
       PublicMrGriddles,
       PublicUploads,
-      PublicImpulses,
+      PublicClouds,
       // PublicGroupSequences,
       ContentBlock
     },
@@ -40,11 +40,11 @@
       return {
         // dates: this.$dates(),
         components: [{
-          component: 'public-impulses',
+          component: 'public-clouds',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
-          title: 'Impulse',
-          description: 'Eure geteilten Impulse'
+          title: 'Wortwolken',
+          description: 'Eure geteilten Wortwolken'
         }, {
           component: 'public-uploads',
           day: '2018-08-24',
