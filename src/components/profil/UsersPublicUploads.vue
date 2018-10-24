@@ -61,7 +61,16 @@
           'target.id': this.publicUploadsMapUUID,
           'author.id': this.user.uuid
         }
-        this.publicUploads = await VideoHelper.fetchVideoItems(this, query)
+        const publicUploads = await VideoHelper.fetchVideoItems(this, query)
+        // load responses
+        for (let upload of publicUploads) {
+          const responsesQuery = {
+            'target.id': `${process.env.ANNOTATION_BASE_URI}${upload.annotation.uuid}`,
+            'body.purpose': 'commenting'
+          }
+          upload.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+        }
+        this.publicUploads = publicUploads
 
         this.$q.loading.hide()
         this.isLoading = false

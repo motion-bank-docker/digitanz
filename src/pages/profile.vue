@@ -297,6 +297,14 @@
             }
           }
           const uploads = await VideoHelper.fetchVideoItems(this, query)
+          // load responses
+          for (let upload of uploads) {
+            const responsesQuery = {
+              'target.id': `${process.env.ANNOTATION_BASE_URI}${upload.annotation.uuid}`,
+              'body.purpose': 'commenting'
+            }
+            upload.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+          }
           this.uploads = uploads.filter(seq => {
             return seq.annotation && seq.annotation.created
           })
