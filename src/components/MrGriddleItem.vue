@@ -309,7 +309,10 @@
         // return this.user.uuid
       },
       async loadResponses () {
-        this.target = await this.$store.dispatch('maps/get', this.item.uuid)
+        let targetId
+        if (this.item.hasOwnProperty('target')) targetId = this.item.target.id.split('/').pop()
+        else targetId = this.item.uuid
+        this.target = await this.$store.dispatch('maps/get', targetId)
 
         if (this.target) {
           const responsesQuery = {
@@ -334,7 +337,9 @@
           this.$router.push('mr-griddle/' + targetId + '/edit')
           break
         case 'response':
-          this.$router.push('mr-griddle/' + this.item.uuid + '/responses')
+          if (this.item.hasOwnProperty('target')) targetId = this.item.target.id.split('/').pop()
+          else targetId = this.item.uuid
+          this.$router.push('mr-griddle/' + targetId + '/responses')
           break
         case 'visibility':
           this.toggleItemFavorite(this.item)

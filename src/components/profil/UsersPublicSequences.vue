@@ -22,6 +22,7 @@
 
 <script>
   import VideoListView from '../VideoListView'
+  import LoadingSpinner from '../LoadingSpinner'
   import { mapGetters } from 'vuex'
   import { SequenceHelper } from '../../lib'
   import ConfirmModal from '../ConfirmModal'
@@ -30,6 +31,7 @@
 
   export default {
     components: {
+      LoadingSpinner,
       VideoListView,
       ConfirmModal
     },

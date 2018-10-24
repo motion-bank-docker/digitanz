@@ -49,6 +49,9 @@
         buttonsNew: [{
           icon: 'people',
           label: 'visibility'
+        }, {
+          icon: 'chat',
+          label: 'response'
         }],
         buttonsNewDropdown: [{
           icon: 'edit',
