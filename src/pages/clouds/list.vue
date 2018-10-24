@@ -90,11 +90,10 @@
         q-list.no-border.flex.gutter-xs.q-px-xs
 
           q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm(
-          v-for="word in words", :class="[checkIfSelected(word.term) ? 'bg-grey-9 text-white' : 'bg-dark']")
+          v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']")
 
-            input.hidden(type="checkbox", :id="word.term", :value="word.term", v-model="selectedWords")
-            label(:for="word.term")
-              | {{ word.term }}
+            input.hidden(type="checkbox", :id="word.uuid", :value="word.value", v-model="selectedWords")
+            label(:for="word.uuid") {{ word.value }}
               //
                 q-btn.q-ml-md.bg-dark(
                 v-if="word.author === user.uuid",
@@ -123,7 +122,6 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import { VideoHelper } from '../../lib'
   import ConfirmModal from '../../components/ConfirmModal'
   import ContentBlock from '../../components/ContentBlock'
   import VideoListView from '../../components/VideoListView'
@@ -156,53 +154,7 @@
         selectedVideos: [],
         selectedWords: [],
         showOverlay: false,
-        words: [{
-          term: 'kreativ'
-        }, {
-          term: 'spontan'
-        }, {
-          term: 'schön'
-        }, {
-          term: 'faszinierend'
-        }, {
-          term: 'gestaltend'
-        }, {
-          term: 'skurril'
-        }, {
-          term: 'inspirierend'
-        }, {
-          term: 'bewegungsreich'
-        }, {
-          term: 'infividuell'
-        }, {
-          term: 'abstrakt'
-        }, {
-          term: 'anders'
-        }, {
-          term: 'bunt'
-        }, {
-          term: 'ungewiss'
-        }, {
-          term: 'unkontrolliert'
-        }, {
-          term: 'interessant'
-        }, {
-          term: 'besonders'
-        }, {
-          term: 'einzigartig'
-        }, {
-          term: 'spontan'
-        }, {
-          term: 'außergewöhnlich'
-        }, {
-          term: 'geheimnisvoll'
-        }, {
-          term: 'verrückt'
-        }, {
-          term: 'spannend'
-        }, {
-          term: 'cool'
-        }]
+        words: []
       }
     },
     computed: {
@@ -211,25 +163,24 @@
       })
     },
     methods: {
-      addWord () {
+      async addWord () {
         // FIXME: this is just dummy code
         this.addWordModal = false
-        this.dummyId++
-        this.words.push({term: this.inputNewWord, author: this.user.uuid, id: this.dummyId})
+        // this.dummyId++
+        // this.words.push({term: this.inputNewWord, author: this.user.uuid, id: this.dummyId})
+        const result = await this.$store.dispatch('cloud/addWord', this.inputNewWord)
+        console.debug('added word', result)
         this.inputNewWord = ''
+        await this.loadData()
       },
       checkIfSelected (val) {
         return this.selectedWords.includes(val)
       },
       async loadData () {
         this.isLoading = true
-        this.$q.loading.show({ message: this.$t('messages.loading_sequences') })
-        const query = {
-          'target.id': this.publicUploadsMapUUID,
-          'author.id': this.user.uuid
-        }
-        this.publicUploads = await VideoHelper.fetchVideoItems(this, query)
-
+        this.$q.loading.show({ message: this.$t('messages.loading_data') })
+        this.words = await this.$store.dispatch('cloud/listWords')
+        console.debug('loaded words', this.words)
         this.$q.loading.hide()
         this.isLoading = false
       },

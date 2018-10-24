@@ -53,6 +53,7 @@ module.exports = function (ctx) {
         // Hosts
         //
         API_HOST: JSON.stringify(process.env.API_HOST || 'https://api.motionbank.org'),
+        DIGITANZ_API_HOST: JSON.stringify(process.env.DIGITANZ_API_HOST || 'https://api.digitanz.de'),
         TRANSCODER_HOST: JSON.stringify(process.env.TRANSCODER_HOST || 'https://transcoder.motionbank.org'),
         LOGGER_HOST: JSON.stringify(process.env.LOGGER_HOST || 'https://logging.motionbank.org'),
         UI_HOST: JSON.stringify(process.env.UI_HOST || 'https://app.digitanz.de'),

@@ -8,6 +8,7 @@ import conversions from './modules/conversions'
 import sequences from './modules/sequences'
 import logging from './modules/logging'
 import metadata from './modules/metadata'
+import cloud from './modules/cloud'
 
 import WebAuth from 'mbjs-api-client/src/web'
 import Vue from 'vue'
@@ -45,6 +46,7 @@ const store = new Vuex.Store({
     sessions: makeResourceModule(apiClient, 'session'),
     // metadata: makeResourceModule(apiClient, 'metadata', 'metadata', process.env.TRANSCODER_HOST),
     metadata,
+    cloud,
     auth
   }
 })
