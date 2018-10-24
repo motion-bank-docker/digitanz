@@ -101,8 +101,9 @@
         this.$q.loading.show({ message: this.$t('messages.saving') })
         const result = await this.$store.dispatch('cloud/addAssociation', this.selectedWords)
         console.debug('added association', result)
+        console.log('added association -----> ', result)
         this.$q.loading.hide()
-        this.$router.push('/clouds/responses')
+        this.$router.push('/clouds/' + result._id + '/responses')
       },
       checkIfSelected (val) {
         return this.selectedWords.includes(val)
