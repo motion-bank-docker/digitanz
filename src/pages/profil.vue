@@ -57,9 +57,9 @@
       // ORDER BY TYPE
       div(v-if="displayType === 'type' || displayType === 'time'")
         content-block
-          template(slot="title") Meine Impulse
+          template(slot="title") Meine Wortwolken
           template(slot="content")
-            user-impulses
+            user-clouds
 
         content-block(v-if="grouped && headlines", v-for="headline in headlines")
           template(slot="title") {{ headline }}
@@ -76,11 +76,11 @@
       div(v-else-if="displayType === 'visibility'")
 
         //
-        // Public Impulses
+        // Public Clouds
         content-block
-          template(slot="title") Geteilte Impulse
+          template(slot="title") Geteilte Wortwolken
           template(slot="content")
-            users-public-impulses
+            users-public-clouds
 
         //
         // Public Mr. Griddles
@@ -126,24 +126,25 @@
 
 <script>
   import { DateTime } from 'luxon'
-  import { Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
-  import VideoListView from '../components/VideoListView'
-  import LoadingSpinner from '../components/LoadingSpinner'
-  import { VideoHelper } from '../lib'
   import { mapGetters } from 'vuex'
+  import { Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
+  import { VideoHelper } from '../lib'
+
+  import ContentBlock from '../components/ContentBlock'
+  import FileUploaderMicro from '../components/FileUploaderMicro'
+  import LoadingSpinner from '../components/LoadingSpinner'
+  import MrGriddleListView from '../components/MrGriddleListView'
+  import UserClouds from '../components/profil/UserClouds'
+  import UserMrGriddles from '../components/profil/UserMrGriddles'
+  import UserSequences from '../components/profil/UserSequences'
+  import UserUploads from '../components/profil/UserUploads'
+  import UsersPublicClouds from '../components/profil/UsersPublicClouds'
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
   import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
   import UsersPublicUploads from '../components/profil/UsersPublicUploads'
-  import UsersPublicImpulses from '../components/profil/UsersPublicImpulses'
-  import UserUploads from '../components/profil/UserUploads'
-  import UserSequences from '../components/profil/UserSequences'
-  import UserMrGriddles from '../components/profil/UserMrGriddles'
-  import UserImpulses from '../components/profil/UserImpulses'
-  import FileUploaderMicro from '../components/FileUploaderMicro'
-  import ContentBlock from '../components/ContentBlock'
   import VideoItem from '../components/VideoItem'
-  import MrGriddleListView from '../components/MrGriddleListView'
+  import VideoListView from '../components/VideoListView'
 
   export default {
     components: {
@@ -157,14 +158,14 @@
       UsersPublicPortrait,
       UsersPublicMrGriddles,
       UsersPublicUploads,
-      UsersPublicImpulses,
+      UsersPublicClouds,
       FileUploaderMicro,
       ContentBlock,
       MrGriddleListView,
       UserUploads,
       UserSequences,
       UserMrGriddles,
-      UserImpulses
+      UserClouds
     },
     computed: {
       ...mapGetters({

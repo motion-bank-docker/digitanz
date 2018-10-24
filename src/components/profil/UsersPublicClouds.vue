@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    | Users-Public-Impulse
+    | Users-Public-Clouds
 </template>
 
 <script>

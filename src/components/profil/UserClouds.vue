@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    | User-Impulse
+    // FIXME: woring query
     video-list-view(:videos="archiveItems",
     layoutStyle="sm",
     :buttons="['more-delete', 'more-download']",
