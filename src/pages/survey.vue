@@ -6,17 +6,16 @@
       q-item.column(v-for="(item, index) in surveyQuestions", :question="question")
         q-item-tile
           p {{ item.question }}
-          p {{ item.answer }}
         q-item-tile(style="width: 50vw")
-          q-radio.q-ma-sm(v-model="item.answer", val="bad", color="transparent", keep-color, style="width: 20%", :class="{ inactive: isTrue = false}")
+          q-radio.q-ma-sm(v-model="item.answer", val="bad", color="transparent", keep-color, style="width: 20%", :class="{ inactive: item.answer !== 'bad' }")
             img(src="~assets/bad.png", style="width: 100%")
-          q-radio.q-ma-sm(v-model="item.answer", val="neutral", color="transparent", keep-color, style="width: 20%", :class="{ inactive: isTrue = false}")
+          q-radio.q-ma-sm(v-model="item.answer", val="neutral", color="transparent", keep-color, style="width: 20%", :class="{ inactive: item.answer !== 'neutral' }")
             img(src="~assets/neutral.png", style="width: 100%")
-          q-radio.q-ma-sm(v-model="item.answer", val="good", color="transparent", keep-color, style="width: 20%", :class="{ inactive: isTrue = false}")
+          q-radio.q-ma-sm(v-model="item.answer", val="good", color="transparent", keep-color, style="width: 20%", :class="{ inactive: item.answer !== 'good' }")
             img(src="~assets/good.png", style="width: 100%")
 
     q-item.column
-      q-btn.item-center.q-mt-lg(v-if="!surveyUUID", label="Absenden", icon="send", color="primary", @click="storeSurvey")
+      q-btn.item-center.q-mt-lg(v-if="hasVoted === false", label="Absenden", icon="send", color="primary", @click="storeSurvey")
       h4(v-if="hasVoted === true") Vielen Dank für deine Antworten.
       q-btn(v-if="surveyUUID", @click="deleteSurvey") RESET
 </template>
@@ -82,4 +81,6 @@
 <style lang="stylus" scoped>
   .inactive
     opacity: 0.2
+  .active
+    opacity: 1
 </style>

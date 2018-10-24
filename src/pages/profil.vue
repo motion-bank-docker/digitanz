@@ -36,7 +36,8 @@
 
       //
       // EVALUATION BTN
-      .row.justify-center.q-mt-md(v-if="hasVoted === false")
+      .row.justify-center.q-mt-md
+        // (v-if="hasVoted === false")
         q-btn.full-width(label="Bewerte den Kurs" icon="thumb_up" color="primary" @click="$router.push('/survey')")
 
       div.row.justify-center
