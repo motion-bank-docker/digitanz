@@ -196,6 +196,7 @@
         }
 
         await this.loadPublicUploads()
+        this.$emit('changed')
       }
     }
   }
