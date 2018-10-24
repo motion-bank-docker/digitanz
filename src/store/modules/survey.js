@@ -28,7 +28,17 @@ const survey = {
         'author.id': uuid
       })
       const result = await axios.get(`${baseURL}`, ObjectUtil.merge(getRequestConfig(), { params: { query } }))
-      return !result.data.items || result.data.items > 0
+      console.log(result.data)
+      if (result.data.items && result.data.items.length > 0) return true
+      else if (result.data.items) return false
+    },
+    async fetchAnswers (context, uuid) {
+      const query = JSON.stringify({
+        type: 'survey',
+        'author.id': uuid
+      })
+      const result = await axios.get(`${baseURL}`, ObjectUtil.merge(getRequestConfig(), { params: { query } }))
+      return result.data.items
     },
     async deleteAnswers (context, uuid) {
       const result = await axios.delete(`${baseURL}/${uuid}`, getRequestConfig())
