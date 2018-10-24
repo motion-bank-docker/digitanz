@@ -69,6 +69,9 @@
           icon: 'edit',
           label: 'edit'
         }, {
+          icon: 'cloud_download',
+          label: 'download'
+        }, {
           icon: 'delete',
           label: 'delete'
         }],

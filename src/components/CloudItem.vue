@@ -55,6 +55,9 @@
           this.deleteItem(this.item.uuid)
           this.emitLoadData()
           break
+        case 'download':
+          console.log('download')
+          break
         case 'edit':
           this.$router.push('/clouds/' + this.item._id + '/responses')
           break
