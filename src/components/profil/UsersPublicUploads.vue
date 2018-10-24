@@ -71,7 +71,6 @@
           upload.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
         }
         this.publicUploads = publicUploads
-
         this.$q.loading.hide()
         this.isLoading = false
       },

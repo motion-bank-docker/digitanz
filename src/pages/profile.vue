@@ -234,7 +234,6 @@
         console.debug('griddles: ', this.griddles)
       },
       async loadSequencesData () {
-        console.log('loading sequences from component')
         if (!this.user) return
         const prefix = 'Sequenz: '
         const query = {
@@ -242,8 +241,8 @@
           'author.id': this.user.uuid
         }
         const result = await this.$store.dispatch('maps/find', query)
-        console.log('result:', result)
-        this.sequences = result.items.filter(map => {
+        // console.log('result:', result)
+        let sequences = result.items.filter(map => {
           return map.title.indexOf(prefix) === 0
         }).sort(this.$sort.onCreatedDesc).map(map => {
           const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
@@ -278,6 +277,14 @@
         }).filter(item => {
           return item.annotation && item.annotation.created
         })
+        for (let sequence of sequences) {
+          const responsesQuery = {
+            'target.id': `${process.env.ANNOTATION_BASE_URI}${sequence.annotation.uuid}`,
+            'body.purpose': 'commenting'
+          }
+          sequence.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+        }
+        this.sequences = sequences
         console.debug('sequences: ', this.sequences)
       },
       async loadUploadsData () {

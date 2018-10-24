@@ -49,7 +49,6 @@
         q-btn(round, flat, size="sm", icon="cloud_download", @click="downloadItem(video)")
 
       slot(v-if="displayResponseButton", name="responsesButton", :video="video")
-      slot(v-if="displayResponseButton", name="responsesButton", :video="video")
         q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
           q-chip(v-if="video.responses.length > 0", floating, color="red") {{ video.responses.length }}
 

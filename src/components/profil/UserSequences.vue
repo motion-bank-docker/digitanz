@@ -3,6 +3,7 @@
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteSequence")
 
     video-list-view(:videos="sequences",
+                    :allowSelfResponse="true",
                     layoutStyle="profile",
                     card-width="100%",
                     v-if="sequences.length > 0",
