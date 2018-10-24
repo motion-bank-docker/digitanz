@@ -39,7 +39,7 @@
 
       slot(name="customButtons", :video="video")
 
-      slot(v-if="displayStartButton", name="starButton", :video="video")
+      slot(v-if="displayStarButton", name="starButton", :video="video")
         q-btn(round, flat, size="sm", icon="star", @click="starItem(video)")
 
       slot(v-if="displayDeleteButton", name="deleteButton", :video="video")
@@ -48,7 +48,8 @@
       slot(v-if="displayDownloadButton", name="downloadButton", :video="video")
         q-btn(round, flat, size="sm", icon="cloud_download", @click="downloadItem(video)")
 
-      slot(v-if="video.responses", name="responsesButton", :video="video")
+      slot(v-if="displayResponseButton", name="responsesButton", :video="video")
+      slot(v-if="displayResponseButton", name="responsesButton", :video="video")
         q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
           q-chip(v-if="video.responses.length > 0", floating, color="red") {{ video.responses.length }}
 
@@ -222,13 +223,18 @@
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('delete') > -1)
         else return false
       },
-      displayStartButton () {
+      displayStarButton () {
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('star') > -1)
         else return false
       },
       displayDownloadButton () {
         if (!this.user || (this.video && this.video.annotation && this.user.uuid !== this.video.annotation.author.id)) return false
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('download') > -1)
+        else return false
+      },
+      displayResponseButton () {
+        // may contain more logic..
+        if (this.video.responses) return true
         else return false
       },
       displayMoreButton () {
