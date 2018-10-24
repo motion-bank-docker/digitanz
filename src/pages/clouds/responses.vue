@@ -1,15 +1,18 @@
 <template lang="pug">
-  q-page.q-pa-md
+  q-page.q-ma-md
+    q-card.bg-dark.q-pa-md.text-center
+      | noch kein Video
+    q-btn.full-width.q-my-md(
+    dark, color="primary", @click="uploadResponse")
+      | {{ $t('buttons.upload_remix') }}
+    q-card.bg-dark
+      q-list.no-border(v-for="association in myAssociations")
+        q-item(
+        v-for="word in association.value") {{ word }}
+        // q-btn(@click="removeAssociation(association.uuid)") REMOVE
     // div(v-for="association in myAssociations")
       p
         span(v-for="word in association.value") {{ word }}
-    q-list.no-border.flex.gutter-xs.q-px-xs(v-for="association in myAssociations")
-      q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.bg-dark(
-      v-for="word in association.value") {{ word }}
-      q-btn(@click="removeAssociation(association.uuid)") REMOVE
-    q-btn.full-width.q-mb-md(
-    dark, color="primary", @click="uploadResponse")
-      | {{ $t('buttons.upload_remix') }}
 
       // h3.text-center {{ $t('pages.cloud.responses.title') }}
       //
