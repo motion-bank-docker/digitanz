@@ -19,6 +19,9 @@
           div(@click="$router.push('/clouds/' + association._id + '/responses')")
             p(v-for="word in association.value") {{ word }}
         q-card-actions
+          q-btn(@click="togglePublicity(association._id)", icon="people", size="sm")
+          q-btn(@click="$router.push('/clouds/' + association._id + '/responses')", icon="chat", size="sm")
+            q-chip(floating, color="blue") 0
           q-btn(@click="deleteCloud(association._id)", icon="delete", size="sm")
 
     // FIXME: query works for Archive
@@ -67,7 +70,7 @@
     },
     methods: {
       deleteCloud (val) {
-        alert(val)
+        console.log(val)
         this.loadData()
       },
       async loadData () {
@@ -85,6 +88,7 @@
           }
         })
          */
+        console.log('loaded associations', this.associations)
         console.debug('loaded associations', this.associations)
         this.$q.loading.hide()
       },
@@ -100,6 +104,9 @@
           console.log('archive', archive)
           this.archiveItems = archive[0]
         }
+      },
+      togglePublicity (val) {
+        console.log(val)
       }
     }
   }
