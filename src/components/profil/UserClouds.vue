@@ -9,20 +9,26 @@
       // :showDuration="false",
       // :isSequence="true",
       @changed="loadData")
-
-    div.row.justify-between
-      // q-card.bg-dark.q-mb-sm.q-mb-lg(v-for="association in myAssociations", style="width: 46%;")
-      q-card.bg-dark.q-mb-sm.q-mb-lg(v-for="association in associations", style="width: 46%;")
-        // p.q-pa-md.text-center(@click="$router.push('/clouds/' + association._id + '/responses')")
-          span.q-mr-md
-        q-card-main
-          div(@click="$router.push('/clouds/' + association._id + '/responses')")
-            p(v-for="word in association.value") {{ word }}
-        q-card-actions
-          q-btn(@click="togglePublicity(association._id)", icon="people", size="sm")
-          q-btn(@click="$router.push('/clouds/' + association._id + '/responses')", icon="chat", size="sm")
-            q-chip(floating, color="blue") 0
-          q-btn(@click="deleteItem(association.uuid)", icon="delete", size="sm")
+    cloud-list-view(
+    :buttonsX="buttonsX",
+    :buttonsY="buttonsY",
+    :items="associations",
+    @emitLoadData="loadData()"
+    )
+    //
+      div.row.justify-between
+        // q-card.bg-dark.q-mb-sm.q-mb-lg(v-for="association in myAssociations", style="width: 46%;")
+        q-card.bg-dark.q-mb-sm.q-mb-lg(v-for="association in associations", style="width: 46%;")
+          // p.q-pa-md.text-center(@click="$router.push('/clouds/' + association._id + '/responses')")
+            span.q-mr-md
+          q-card-main
+            div(@click="$router.push('/clouds/' + association._id + '/responses')")
+              p(v-for="word in association.value") {{ word }}
+          q-card-actions
+            q-btn(@click="togglePublicity(association._id)", icon="people", size="sm")
+            q-btn(@click="$router.push('/clouds/' + association._id + '/responses')", icon="chat", size="sm")
+              q-chip(floating, color="blue") 0
+            q-btn(@click="deleteItem(association.uuid)", icon="delete", size="sm")
 
     // FIXME: query works for Archive
       video-list-view(:videos="archiveItems",
@@ -36,7 +42,8 @@
   // import ConfirmModal from '../components/ConfirmModal'
   import { mapGetters } from 'vuex'
   import { VideoHelper } from '../../lib/video-helper'
-  import VideoListView from '../VideoListView'
+  import CloudListView from '../CloudListView'
+  // import VideoListView from '../VideoListView'
 
   // const UI_RESIZER_FACTOR = 2
 
@@ -44,12 +51,27 @@
     components: {
       // MrGriddleModal
       // ConfirmModal
-      VideoListView
+      // VideoListView
+      CloudListView
     },
     data () {
       return {
         // archiveItems: undefined,
         associations: [],
+        buttonsX: [{
+          icon: 'people',
+          label: 'visibility'
+        }, {
+          icon: 'chat',
+          label: 'response'
+        }],
+        buttonsY: [{
+          icon: 'edit',
+          label: 'edit'
+        }, {
+          icon: 'delete',
+          label: 'delete'
+        }],
         myAssociations: []
       }
     },
