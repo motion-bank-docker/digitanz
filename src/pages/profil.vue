@@ -34,8 +34,13 @@
                         :showDuration="false")
         h3.q-my-none.text-center Hallo <br> {{ user ?  user.nickname : '' }}!
 
+      //
+      // EVALUATION BTN
+      .row.justify-center.q-mt-md
+        q-btn.full-width(label="Bewerte den Kurs" icon="thumb_up" color="primary" @click="$router.push('/survey')")
+
       div.row.justify-center
-        q-btn-group(push).q-mt-xl.bg-dark
+        q-btn-group(push).q-mt-lg.bg-dark
           // q-btn(push, flat, label="Art", :color="iconColor('type')", icon="build", @click="orderByType")
           q-btn.q-pt-sm(push, flat, :color="iconColor('type')", @click="orderByType")
             q-icon(name="build")
