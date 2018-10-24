@@ -6,6 +6,7 @@
     q-list.no-border.flex.gutter-xs.q-px-xs(v-for="association in myAssociations")
       q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.bg-dark(
       v-for="word in association.value") {{ word }}
+      q-btn(@click="removeAssociation(association.uuid)") REMOVE
     q-btn.full-width.q-mb-md(
     dark, color="primary", @click="uploadResponse")
       | {{ $t('buttons.upload_remix') }}
@@ -73,6 +74,10 @@
         }
         await this.$store.dispatch('logging/log', { action: 'open_response', message })
         */
+      },
+      async removeAssociation (uuid) {
+        await this.$store.dispatch('cloud/removeAssociation', uuid)
+        await this.loadData()
       }
     }
   }

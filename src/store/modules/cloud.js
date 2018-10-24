@@ -38,6 +38,10 @@ const cloud = {
       const query = JSON.stringify({ type: 'word-association' })
       const result = await axios.get(baseURL, ObjectUtil.merge(getRequestConfig(), { params: { query } }))
       return result.data ? result.data.items : []
+    },
+    async removeAssociation (context, uuid) {
+      const result = await axios.delete(`${baseURL}/${uuid}`, getRequestConfig())
+      return result.data
     }
   }
 }
