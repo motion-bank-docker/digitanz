@@ -9,11 +9,11 @@
           p {{ item.answer }}
         q-item-tile(style="width: 50vw")
           q-radio.q-ma-sm(v-model="item.answer", val="bad", color="transparent", keep-color, style="width: 20%")
-            img(src="~assets/bad.png", style="width: 100%", :class="{ inactive: isTrue = false}")
+            img(src="~assets/bad.png", style="width: 100%", :class="{ inactive: isTrue}")
           q-radio.q-ma-sm(v-model="item.answer", val="neutral", color="transparent", keep-color, style="width: 20%")
-            img(src="~assets/neutral.png", style="width: 100%", :class="{ inactive: isTrue = false}")
-          q-radio.q-ma-sm(v-model="item.answer", val="good", color="transparent", keep-color, style="width: 20%")
-            img(src="~assets/good.png", style="width: 100%", :class="{ inactive: isTrue = false}")
+            img(src="~assets/neutral.png", style="width: 100%", :class="{ inactive: isTrue}")
+          q-radio.inactive.q-ma-sm(v-model="item.answer", val="good", color="transparent", keep-color, style="width: 20%")
+            img(src="~assets/good.png", style="width: 100%", :class="{ inactive: isTrue}")
     q-btn.item-center.q-mt-lg(label="Absenden", icon="send", color="primary")
 </template>
 
