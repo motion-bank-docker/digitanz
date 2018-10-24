@@ -6,7 +6,6 @@
       loading-spinner
     .q-mb-md.no-content(v-else-if="publicUploads.length <= 0 && !isLoading")
       span.text-grey-8 {{ $t('pages.profile.no_content') }}
-
     .row
       video-list-view(
         v-if="publicUploads && publicUploads.length > 0",

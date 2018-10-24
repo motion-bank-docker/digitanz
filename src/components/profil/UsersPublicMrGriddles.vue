@@ -5,7 +5,6 @@
       loading-spinner
     .q-mb-md.no-content(v-else-if="sequences.length <= 0 && !isLoading")
       span.text-grey-8 {{ $t('pages.profile.no_content') }}
-
     mr-griddle-list-view(
     v-else-if="sequences.length > 0",
     layout-style='sm',
