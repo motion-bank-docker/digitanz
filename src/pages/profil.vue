@@ -36,7 +36,7 @@
 
       //
       // EVALUATION BTN
-      .row.justify-center.q-mt-md
+      .row.justify-center.q-mt-md(v-if="hasVoted === false")
         q-btn.full-width(label="Bewerte den Kurs" icon="thumb_up" color="primary" @click="$router.push('/survey')")
 
       div.row.justify-center
@@ -181,6 +181,7 @@
       return {
         displayType: 'type',
         portrait: [],
+        hasVoted: undefined,
         dates: undefined,
         nickname: undefined,
         portraitLoading: false,
@@ -213,6 +214,7 @@
       },
       async loadAllTheThings () {
         if (!this.user) return
+        this.hasVoted = await this.$store.dispatch('survey/hasVoted', this.user.uuid)
         await this.loadGriddleData()
         await this.loadSequencesData()
         await this.loadUploadsData()
