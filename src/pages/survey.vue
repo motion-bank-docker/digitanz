@@ -2,23 +2,23 @@
   q-page.q-pa-lg.column
     h2.no-margin.q-pb-sm Kursevaluation
     p.q-pb-md Hier kannst du den Kurs bewerten. Die Angaben sind anonym und wir würden uns über deine ehrliche Meinung freuen.
-    q-list(v-if="hasVoted === false").no-border.no-margin.no-padding.column(seperator, multiline)
+    q-list.no-border.no-margin.no-padding.column(v-if="hasVoted === false", seperator, multiline)
       q-item.column(v-for="(item, index) in surveyQuestions", :question="question")
         q-item-tile
           p {{ item.question }}
           p {{ item.answer }}
         q-item-tile(style="width: 50vw")
-          q-radio.q-ma-sm(v-model="item.answer", val="bad", color="transparent", keep-color, style="width: 20%")
-            img(src="~assets/bad.png", style="width: 100%", :class="{ inactive: isTrue}")
-          q-radio.q-ma-sm(v-model="item.answer", val="neutral", color="transparent", keep-color, style="width: 20%")
-            img(src="~assets/neutral.png", style="width: 100%", :class="{ inactive: isTrue}")
-          q-radio.inactive.q-ma-sm(v-model="item.answer", val="good", color="transparent", keep-color, style="width: 20%")
-            img(src="~assets/good.png", style="width: 100%", :class="{ inactive: isTrue}")
-    q-btn.item-center.q-mt-lg(label="Absenden", icon="send", color="primary")
+          q-radio.q-ma-sm(v-model="item.answer", val="bad", color="transparent", keep-color, style="width: 20%", :class="{ inactive: isTrue = false}")
+            img(src="~assets/bad.png", style="width: 100%")
+          q-radio.q-ma-sm(v-model="item.answer", val="neutral", color="transparent", keep-color, style="width: 20%", :class="{ inactive: isTrue = false}")
+            img(src="~assets/neutral.png", style="width: 100%")
+          q-radio.q-ma-sm(v-model="item.answer", val="good", color="transparent", keep-color, style="width: 20%", :class="{ inactive: isTrue = false}")
+            img(src="~assets/good.png", style="width: 100%")
+
     q-item.column
-      q-btn(@click="storeSurvey") SAVE
-    p(v-if="hasVoted === true") Vielen Dank fuier deine tollen supi Antowrten.
-    q-btn(v-if="surveyUUID", @click="deleteSurvey") RESET
+      q-btn.item-center.q-mt-lg(v-if="!surveyUUID", label="Absenden", icon="send", color="primary", @click="storeSurvey")
+      h4(v-if="hasVoted === true") Vielen Dank für deine Antworten.
+      q-btn(v-if="surveyUUID", @click="deleteSurvey") RESET
 </template>
 
 <script>
@@ -37,8 +37,7 @@
           {question: 'Bewerte den Umgang der von dir geteilten/hochgeladenen/erstellten Daten in der App!', answer: undefined},
           {question: 'Empfindest du dein hochgeladenes Videomaterial als Hilfe zum Gestalten?', answer: undefined},
           {question: 'Kannst du das Ziel des Projekts erkennen?', answer: undefined}
-        ],
-        isTrue: false
+        ]
       }
     },
     async mounted () {
