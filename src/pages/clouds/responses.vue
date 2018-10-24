@@ -1,9 +1,22 @@
 <template lang="pug">
-  q-page.q-px-md
-    div(v-for="association in myAssociations")
+  q-page.q-pa-md
+    // div(v-for="association in myAssociations")
       p
         span(v-for="word in association.value") {{ word }}
+    q-list.no-border.flex.gutter-xs.q-px-xs(v-for="association in myAssociations")
+      q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.bg-dark(
+      v-for="word in association.value") {{ word }}
+    q-btn.full-width.q-mb-md(
+    dark, color="primary", @click="uploadResponse")
+      | {{ $t('buttons.upload_remix') }}
+
       // h3.text-center {{ $t('pages.cloud.responses.title') }}
+      //
+        q-list.no-border.flex.gutter-xs.q-px-xs
+
+          q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm(
+          v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']")
+
 </template>
 
 <script>
@@ -45,6 +58,21 @@
         })
         console.debug('loaded associations', this.associations)
         this.$q.loading.hide()
+      },
+      async uploadResponse () {
+        console.log('uploadResponse')
+        // FIXME: copied code, not working here
+        /*
+        this.$refs.uploadRemixModal.show({
+          id: this.target.id,
+          type: 'Timeline'
+        })
+        const message = {
+          portrait: this.target.uuid,
+          user: this.user.uuid
+        }
+        await this.$store.dispatch('logging/log', { action: 'open_response', message })
+        */
       }
     }
   }

@@ -22,7 +22,7 @@
           q-btn(@click="togglePublicity(association._id)", icon="people", size="sm")
           q-btn(@click="$router.push('/clouds/' + association._id + '/responses')", icon="chat", size="sm")
             q-chip(floating, color="blue") 0
-          q-btn(@click="deleteCloud(association._id)", icon="delete", size="sm")
+          q-btn(@click="deleteItem(association._id)", icon="delete", size="sm")
 
     // FIXME: query works for Archive
       video-list-view(:videos="archiveItems",
@@ -69,8 +69,9 @@
       }
     },
     methods: {
-      deleteCloud (val) {
-        console.log(val)
+      async deleteItem (val) {
+        console.log('deleteItem', val)
+        await this.$store.dispatch('cloud/delete', val)
         this.loadData()
       },
       async loadData () {
