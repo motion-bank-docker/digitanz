@@ -87,8 +87,7 @@
     },
     methods: {
       async addWord () {
-        // FIXME: this is just dummy code
-        this.addWordModal = false
+        // this.addWordModal = false
         // this.dummyId++
         // this.words.push({term: this.inputNewWord, author: this.user.uuid, id: this.dummyId})
         this.$q.loading.show({ message: this.$t('messages.saving') })
