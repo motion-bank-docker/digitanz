@@ -26,7 +26,7 @@
         }, {
           action: 'clouds',
           icon: 'cloud',
-          label: 'Clouds',
+          label: 'Wortwolke',
           status: true
         }, {
           action: 'space-tool',
