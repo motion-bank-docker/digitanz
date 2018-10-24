@@ -34,9 +34,9 @@
           label: 'Raum',
           status: false
         }, {
-          action: 'rhytmus',
+          action: 'rhythmus',
           icon: 'linear_scale',
-          label: 'Rhytmus',
+          label: 'Rhythmus',
           status: false
         }]
       }
