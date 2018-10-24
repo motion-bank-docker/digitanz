@@ -20,7 +20,7 @@
       template(slot="content")
         q-card.bg-dark.q-mb-md(v-if="addWordBubble")
           q-card-main.q-pa-sm
-            q-input(v-model="inputNewWord", dark)
+            q-input(v-model="inputNewWord", dark, float-label="Begriff hinzufügen")
           q-card-actions
             q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white.full-width(@click="addWord", label="Wort hinzufügen")
             // q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordBubble = false, inputNewWord = ''", label="abbrechen")
@@ -38,7 +38,7 @@
     @click="addAssociation",
     :class="[selectedWords.length < 2 ? 'bg-grey-9' : 'bg-primary']",
     :disabled="selectedWords.length < 2",
-    label="speichern")
+    label="Wortwolke erstellen")
 
 </template>
 

@@ -2,7 +2,7 @@
   q-card.relative-position.q-mb-lg.relative-position.bg-dark
 
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item)")
-    q-window-resize-observable(@resize="onResize")
+    // q-window-resize-observable(@resize="onResize")
 
     // icons
     span.my-flag(v-if="showContentFlag && isOwnContent()")
@@ -63,8 +63,12 @@
           break
         case 'visibility':
           // this.toggleItemFavorite(this.item)
+          this.toggleItemFavorite()
           break
         }
+      },
+      toggleItemFavorite () {
+        console.log(this.item)
       }
     }
   }
