@@ -30,9 +30,9 @@
           q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm(
           v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']")
 
-            input.hidden(v-model="selectedWords", type="checkbox", :id="word.term", :value="word.term")
-            label(:for="word.term")
-              | {{ word.term }}
+            input.hidden(v-model="selectedWords", type="checkbox", :id="word.uuid", :value="word.value")
+            label(:for="word.uuid")
+              | {{ word.value }}
 
     q-btn.full-width.q-mb-md.text-white(
     :class="[selectedWords.length < 2 ? 'bg-grey-9' : 'bg-primary']",
