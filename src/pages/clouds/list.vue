@@ -35,6 +35,7 @@
               | {{ word.value }}
 
     q-btn.full-width.q-mb-md.text-white(
+    @click="$router.push('/clouds/responses')",
     :class="[selectedWords.length < 2 ? 'bg-grey-9' : 'bg-primary']",
     :disabled="selectedWords.length < 2",
     label="speichern")
