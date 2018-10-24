@@ -1,8 +1,25 @@
 <template lang="pug">
   div
-    q-card.bg-dark.q-mb-sm(v-for="association in myAssociations")
-      p.q-pa-md.text-center(@click="$router.push('/clouds/' + association._id + '/responses')")
-        span.q-mr-md(v-for="word in association.value") {{ word }}
+    //
+      video-list-view(:videos="myAssociations",
+      layoutStyle="associations",
+      card-width="100%",
+      v-if="sequences.length > 0",
+      // :buttons="['more-delete', 'more-download']",
+      // :showDuration="false",
+      // :isSequence="true",
+      @changed="loadData")
+
+    div.row.justify-between
+      // q-card.bg-dark.q-mb-sm.q-mb-lg(v-for="association in myAssociations", style="width: 46%;")
+      q-card.bg-dark.q-mb-sm.q-mb-lg(v-for="association in associations", style="width: 46%;")
+        // p.q-pa-md.text-center(@click="$router.push('/clouds/' + association._id + '/responses')")
+          span.q-mr-md
+        q-card-main
+          div(@click="$router.push('/clouds/' + association._id + '/responses')")
+            p(v-for="word in association.value") {{ word }}
+        q-card-actions
+          q-btn(@click="deleteCloud(association._id)", icon="delete", size="sm")
 
     // FIXME: query works for Archive
       video-list-view(:videos="archiveItems",
@@ -49,18 +66,25 @@
       }
     },
     methods: {
+      deleteCloud (val) {
+        alert(val)
+        this.loadData()
+      },
       async loadData () {
+        this.myAssociations = []
         if (!this.user) return
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
         const query = {
           'author.id': this.user.uuid
         }
         this.associations = await this.$store.dispatch('cloud/listAssociations', query)
+        /*
         this.associations.map(a => {
           if (a.author.id === this.user.uuid) {
             this.myAssociations.push(a)
           }
         })
+         */
         console.debug('loaded associations', this.associations)
         this.$q.loading.hide()
       },
