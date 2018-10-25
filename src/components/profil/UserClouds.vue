@@ -15,9 +15,6 @@
       CloudListView
     },
     props: ['items'],
-    mounted () {
-      console.debug('ffff', this.items)
-    },
     data () {
       return {
         buttonsX: [{
