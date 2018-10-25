@@ -11,7 +11,11 @@
 
     //
     // card media
-    q-card-media.no-padding(:class="{'round-image shadow-2': roundImage}")
+    q-card-media(v-if="isArchive")
+      span.archive-item-title {{ video.metadata.title }}
+      video-player(:annotation="video.annotation")
+
+    q-card-media.no-padding(v-else, :class="{'round-image shadow-2': roundImage}")
 
       q-card-title.q-px-sm.q-py-none(v-if="showOverlay", slot="overlay")
         .q-caption bla test
@@ -39,7 +43,7 @@
 
       slot(name="customButtons", :video="video")
 
-      slot(v-if="displayStartButton", name="starButton", :video="video")
+      slot(v-if="displayStarButton", name="starButton", :video="video")
         q-btn(round, flat, size="sm", icon="star", @click="starItem(video)")
 
       slot(v-if="displayDeleteButton", name="deleteButton", :video="video")
@@ -48,7 +52,7 @@
       slot(v-if="displayDownloadButton", name="downloadButton", :video="video")
         q-btn(round, flat, size="sm", icon="cloud_download", @click="downloadItem(video)")
 
-      slot(v-if="video.responses", name="responsesButton", :video="video")
+      slot(v-if="displayResponseButton", name="responsesButton", :video="video")
         q-btn(round, flat, size="sm", icon="chat", @click="showResponses(video)")
           q-chip(v-if="video.responses.length > 0", floating, color="red") {{ video.responses.length }}
 
@@ -67,6 +71,7 @@
 
 <script>
   import VideoModal from '../components/VideoModal'
+  import VideoPlayer from '../components/VideoPlayer'
   import ConfirmModal from '../components/ConfirmModal'
   import path from 'path'
   import { openURL } from 'quasar'
@@ -76,6 +81,7 @@
   export default {
     components: {
       VideoModal,
+      VideoPlayer,
       ConfirmModal
     },
     data () {
@@ -89,6 +95,7 @@
     },
     props: {
       allowSelfResponse: Boolean,
+      isArchive: Boolean,
       buttons: Array,
       cardWidth: String,
       hideButtons: undefined,
@@ -222,13 +229,18 @@
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('delete') > -1)
         else return false
       },
-      displayStartButton () {
+      displayStarButton () {
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('star') > -1)
         else return false
       },
       displayDownloadButton () {
         if (!this.user || (this.video && this.video.annotation && this.user.uuid !== this.video.annotation.author.id)) return false
         if (typeof this.buttons !== 'undefined') return (this.buttons.indexOf('download') > -1)
+        else return false
+      },
+      displayResponseButton () {
+        // may contain more logic..
+        if (this.video.responses) return true
         else return false
       },
       displayMoreButton () {
@@ -357,4 +369,9 @@
     bottom 0
     left 0
     right 0
+  .archive-item-title
+    padding-top 1em
+    padding-bottom 1em
+    padding-left 1em
+    display block
 </style>

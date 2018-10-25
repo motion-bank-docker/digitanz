@@ -19,6 +19,7 @@
       :showDuration="showDuration",
       :showOverlay="showOverlay",
       :video="video",
+      :isArchive="isArchive",
       @changed="changed")
 
         template(slot="customButtons", slot-scope="{ video }")
@@ -42,6 +43,7 @@
         :showDuration="showDuration",
         :showContentFlag="showContentFlag",
         :video="video",
+        :isArchive="isArchive",
         @changed="changed")
 
         template(slot="customButtons", slot-scope="{ video }")
@@ -64,6 +66,7 @@
       :roundImage="roundImage",
       :showDuration="showDuration",
       :video="video",
+      :isArchive="isArchive",
       @changed="changed")
 
         template(slot="customButtons", slot-scope="{ video }")
@@ -82,6 +85,7 @@
     props: {
       // sm, md, l, xl ?
       allowSelfResponse: Boolean,
+      isArchive: Boolean,
       buttons: Array,
       cardWidth: {
         type: String,

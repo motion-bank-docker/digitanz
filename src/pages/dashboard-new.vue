@@ -25,6 +25,7 @@
 
   import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences } from '../components/dashboard'
   import ContentBlock from '../components/ContentBlock'
+  import PublicArchive from '../components/dashboard/PublicArchive'
 
   export default {
     components: {
@@ -32,6 +33,7 @@
       PublicSequences,
       PublicMrGriddles,
       PublicUploads,
+      PublicArchive,
       // PublicGroupSequences,
       ContentBlock
     },
@@ -56,7 +58,16 @@
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Mr. Griddle Sequenzen',
           description: 'Deine geteilten Mr. Griddle Sequenzen'
-        }]
+        }, {
+          component: 'public-archive',
+          day: '2018-01-01',
+          date: this.$t('navigation.portraitplusplus.sublabel'),
+          title: 'Archiv',
+          description: 'Archiv'
+        }].sort(function (a, b) {
+          let x = a.day > b.day ? -1 : 1
+          return x
+        })
         // components: [{
         //   component: 'all-portraits',
         //   day: '2018-08-17',
@@ -71,13 +82,6 @@
         //   description: this.$t('navigation.portraitplusplus.sublabel')
         // }]
       }
-    },
-    mounted () {
-      this.components.sort(function (a, b) {
-        let x = a.day > b.day ? -1 : 1
-        return x
-      })
-      // console.log('##### dates ', this.$dates)
     }
   }
 </script>

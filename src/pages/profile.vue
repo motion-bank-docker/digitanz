@@ -67,9 +67,9 @@
             div.row.justify-between
               div.inline(v-if="grouped[headline]", v-for="item in grouped[headline]", :style="{width: '46%'}")
                 div(v-if="item")
-                  user-mr-griddles(@emitLoadData="emitLoadData", v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
+                  user-mr-griddles(@emitLoadData="loadGriddleData", v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
                   user-sequences(v-else-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
-                  user-uploads(v-else-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
+                  user-uploads(@changed="fetchPortrait", v-else-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
 
       //
       // LIST PUBLIC
@@ -241,7 +241,6 @@
         console.debug('griddles: ', this.griddles)
       },
       async loadSequencesData () {
-        console.log('loading sequences from component')
         if (!this.user) return
         const prefix = 'Sequenz: '
         const query = {
@@ -249,8 +248,8 @@
           'author.id': this.user.uuid
         }
         const result = await this.$store.dispatch('maps/find', query)
-        console.log('result:', result)
-        this.sequences = result.items.filter(map => {
+        // console.log('result:', result)
+        let sequences = result.items.filter(map => {
           return map.title.indexOf(prefix) === 0
         }).sort(this.$sort.onCreatedDesc).map(map => {
           const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
@@ -285,6 +284,14 @@
         }).filter(item => {
           return item.annotation && item.annotation.created
         })
+        for (let sequence of sequences) {
+          const responsesQuery = {
+            'target.id': `${process.env.ANNOTATION_BASE_URI}${sequence.annotation.uuid}`,
+            'body.purpose': 'commenting'
+          }
+          sequence.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+        }
+        this.sequences = sequences
         console.debug('sequences: ', this.sequences)
       },
       async loadUploadsData () {
@@ -304,6 +311,14 @@
             }
           }
           const uploads = await VideoHelper.fetchVideoItems(this, query)
+          // load responses
+          for (let upload of uploads) {
+            const responsesQuery = {
+              'target.id': `${process.env.ANNOTATION_BASE_URI}${upload.annotation.uuid}`,
+              'body.purpose': 'commenting'
+            }
+            upload.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+          }
           this.uploads = uploads.filter(seq => {
             return seq.annotation && seq.annotation.created
           })

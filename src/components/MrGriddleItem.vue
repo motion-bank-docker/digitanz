@@ -35,7 +35,7 @@
         q-popover.bg-dark(:offset="[10, 0]")
           q-list
             q-item(v-for="btn in buttonsNewDropdown").q-px-sm
-              q-btn(round, flat, size="sm", :icon="btn.icon", @click="onAction(btn.label)")
+              q-btn(round, v-close-overlay, flat, size="sm", :icon="btn.icon", @click="onAction(btn.label)")
 
       //
         slot(name="customButtons", :video="video")
@@ -293,7 +293,7 @@
               'author.id': itemUser
             }
             let portrait = await VideoHelper.fetchVideoItems(this, portraitsQuery)
-            if (typeof portrait === 'undefined') return
+            if (typeof portrait === 'undefined' || !(Array.isArray(portrait) && portrait.length) || !portrait[0].preview) return
             this.portrait = portrait[0].preview.small
             // this.portraitLoading = false
           }
@@ -309,7 +309,10 @@
         // return this.user.uuid
       },
       async loadResponses () {
-        this.target = await this.$store.dispatch('maps/get', this.item.uuid)
+        let targetId
+        if (this.item.hasOwnProperty('target')) targetId = this.item.target.id.split('/').pop()
+        else targetId = this.item.uuid
+        this.target = await this.$store.dispatch('maps/get', targetId)
 
         if (this.target) {
           const responsesQuery = {
@@ -334,7 +337,9 @@
           this.$router.push('mr-griddle/' + targetId + '/edit')
           break
         case 'response':
-          this.$router.push('mr-griddle/' + this.item.uuid + '/responses')
+          if (this.item.hasOwnProperty('target')) targetId = this.item.target.id.split('/').pop()
+          else targetId = this.item.uuid
+          this.$router.push('mr-griddle/' + targetId + '/responses')
           break
         case 'visibility':
           this.toggleItemFavorite(this.item)

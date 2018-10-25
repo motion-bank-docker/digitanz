@@ -75,7 +75,7 @@
           })
           this.favoriteSequences = favAnnotations.items
         }
-        console.log('### favorite sequences', this.favoriteSequences)
+        console.debug('### favorite sequences', this.favoriteSequences)
       },
       async toggleItemFavorite (item) {
         const favorite = this.favoriteSequences.find(a => {
@@ -128,6 +128,7 @@
         }
       },
       async loadData () {
+        if (!this.user) return
         /* const target = await this.$store.dispatch('maps/get', process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID)
         console.log('target:::::', target) */
         /* if (target) {
@@ -172,9 +173,6 @@
         this.griddleSequences = sequences
         this.griddlePreviews = sequenceAnnotations
         this.responses = sequenceResponses
-        console.log(this.griddleSequences)
-        console.log(this.griddlePreviews)
-        console.log(this.responses)
         /*
         if (!this.user) return
         // get (private) griddles for this user
