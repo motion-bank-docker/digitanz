@@ -47,12 +47,12 @@
           title: 'Wortwolken',
           description: 'Eure geteilten Wortwolken'
         }, {
-          component: 'public-archive',
+          /* component: 'public-archive',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Archiv',
           description: 'Video-Archiv'
-        }, {
+        }, { */
           component: 'public-uploads',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
