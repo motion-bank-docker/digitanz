@@ -11,9 +11,17 @@ const metadata = {
       }
       let metadataURL
       if (typeof annotation === 'string') metadataURL = `${process.env.TRANSCODER_HOST}/metadata/${payload}`
-      else metadataURL = `${process.env.TRANSCODER_HOST}/metadata/url?url=${encodeURIComponent(payload.body.source.id)}`
-      let result = await axios.get(metadataURL, { headers })
-      const metadata = result.data
+      else {
+        try {
+          metadataURL = `${process.env.TRANSCODER_HOST}/metadata/url?url=${encodeURIComponent(payload.body.source.id)}`
+        }
+        catch (e) { /* ignored */ }
+      }
+      let result
+      if (metadataURL) {
+        result = await axios.get(metadataURL, {headers})
+      }
+      const metadata = result ? result.data : {}
       // console.debug('metadata', metadata)
       return metadata
     }

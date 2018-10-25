@@ -63,14 +63,6 @@
             item.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
           }
           this.items = items
-          // dev purpose
-          const query = {
-            'target.id': `${process.env.ANNOTATION_BASE_URI}58ca1ed0-1d2e-46e2-812b-ced873c930d2`,
-            'body.purpose': 'commenting'
-          }
-          let result = await VideoHelper.fetchVideoItems(this, query)
-          console.log('xx archive items', items)
-          console.log('XXXX', result)
         }
       }
     }

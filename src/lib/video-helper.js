@@ -23,7 +23,7 @@ class VideoHelper {
         metadata = await context.$store.dispatch('metadata/get', annotation)
       }
       catch (e) {
-        console.error(`Failed to fetch metadata: ${e.message}`)
+        // console.error(`Failed to fetch metadata: ${e.message}`)
         context.$captureException(e)
       }
       // console.log('% % % %', annotation)
