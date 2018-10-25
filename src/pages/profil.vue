@@ -69,7 +69,7 @@
                 div(v-if="item")
                   user-mr-griddles(@emitLoadData="emitLoadData", v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
                   user-sequences(v-else-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
-                  user-clouds(v-else-if="item.type === 'word-association'", :items="[item]")
+                  cloud-item(v-else-if="item.type === 'word-association'", :item="item")
                   user-uploads(v-else-if="item.annotation && item.type !== 'Sequence' && item.type !== 'word-association'", :uploads="[item]")
 
       //
@@ -146,6 +146,7 @@
   import UsersPublicUploads from '../components/profil/UsersPublicUploads'
   import VideoItem from '../components/VideoItem'
   import VideoListView from '../components/VideoListView'
+  import CloudItem from '../components/CloudItem'
 
   export default {
     components: {
@@ -166,7 +167,8 @@
       UserUploads,
       UserSequences,
       UserMrGriddles,
-      UserClouds
+      UserClouds,
+      CloudItem
     },
     computed: {
       ...mapGetters({
@@ -189,7 +191,7 @@
         if (this.displayType === 'type') this.groupByType()
         else if (this.displayType === 'time') this.groupByDate()
       },
-      clouds () {
+      associations () {
         if (this.displayType === 'type') this.groupByType()
         else if (this.displayType === 'time') this.groupByDate()
       }
@@ -331,7 +333,7 @@
         console.debug('uploads: ', this.uploads)
       },
       async loadCloudsData () {
-        this.associations = await this.$store.dispatch('cloud/listPublicAssociations', this.user.uuid)
+        this.associations = await this.$store.dispatch('cloud/listAssociations', this.user.uuid)
         console.log('TESTTTTTT', this.associations)
       },
       iconColor (btn) {
@@ -378,7 +380,7 @@
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped
-        console.log('grouped: ', this.grouped['Meine Uploads'])
+        console.log('grouped: ', this.grouped)
       },
       orderByTime () {
         this.displayType = 'time'

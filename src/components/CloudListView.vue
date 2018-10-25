@@ -5,7 +5,6 @@
     :buttonsX="buttonsX",
     :buttonsY="buttonsY",
     :item="item",
-    @emitLoadData="emitLoadData",
     style="width: 46%"
     )
 </template>
@@ -20,12 +19,7 @@
     props: {
       buttonsX: Array,
       buttonsY: Array,
-      items: []
-    },
-    methods: {
-      emitLoadData () {
-        this.$emit('emitLoadData')
-      }
+      items: Array
     }
   }
 </script>

@@ -48,46 +48,18 @@
     props: {
       buttonsX: Array,
       buttonsY: Array,
-      item: [],
-      publicUploadsMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_UPLOADS_TIMELINE_UUID}`,
-      publicUploads: []
-    },
-    mounted () {
-      // this.loadPublicUploads()
+      item: Object
     },
     methods: {
       async deleteItem (uuid) {
         await this.$store.dispatch('cloud/removeAssociation', uuid)
-        this.emitLoadData()
+        this.$root.$emit('updateClouds')
       },
-      emitLoadData () {
-        this.$emit('emitLoadData')
-      },
-      /* getIconStyleUpload (item) {
-        for (let publicUpload of this.publicUploads.items) {
-          console.log('getIconStyleUpload', publicUpload)
-          if (publicUpload.body.source && item.annotation.body.source.id === publicUpload.body.source.id) return {color: 'primary', icon: 'group'}
-        }
-        return {color: 'grey-5', icon: 'group'}
-      }, */
-      /* async loadPublicUploads () {
-        const query = {
-          'target.id': this.publicUploadsMapUUID,
-          'author.id': this.user.uuid
-        }
-        this.publicUploads = await this.$store.dispatch('annotations/find', query)
-        console.log('public uploads', this.publicUploads.items)
-        console.log('public uploads length', this.publicUploads.items.length)
-      }, */
-      onAction (val) {
+      async onAction (val) {
         switch (val) {
         case 'delete':
           // this.$refs.confirmDeleteModal.show('labels.confirm_delete', this.item, 'buttons.delete')
-          this.deleteItem(this.item.uuid)
-          this.emitLoadData()
-          break
-        case 'download':
-          console.log('download')
+          await this.deleteItem(this.item.uuid)
           break
         case 'edit':
           this.$router.push('/clouds/' + this.item._id + '/responses')
@@ -97,13 +69,13 @@
           break
         case 'visibility':
           // this.toggleItemFavorite(this.item)
-          this.toggleItemPublic(this.item)
+          await this.toggleItemPublic(this.item)
           break
         }
       },
       async toggleItemPublic (item) {
         await this.$store.dispatch('cloud/updateAssociationPublic', [item.uuid, !(item.isPublic === true)])
-        this.emitLoadData()
+        this.$root.$emit('updateClouds')
       }
     }
   }
