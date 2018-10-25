@@ -42,6 +42,10 @@ const cloud = {
     async removeAssociation (context, uuid) {
       const result = await axios.delete(`${baseURL}/${uuid}`, getRequestConfig())
       return result.data
+    },
+    async updateAssociationPublic (context, [uuid, isPublic]) {
+      const result = await axios.patch(`${baseURL}/${uuid}`, { isPublic }, getRequestConfig())
+      return result.data
     }
   }
 }
