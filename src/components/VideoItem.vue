@@ -11,7 +11,11 @@
 
     //
     // card media
-    q-card-media.no-padding(:class="{'round-image shadow-2': roundImage}")
+    q-card-media(v-if="isArchive")
+      span.archive-item-title {{ video.metadata.title }}
+      video-player(:annotation="video.annotation")
+
+    q-card-media.no-padding(v-else, :class="{'round-image shadow-2': roundImage}")
 
       q-card-title.q-px-sm.q-py-none(v-if="showOverlay", slot="overlay")
         .q-caption bla test
@@ -67,6 +71,7 @@
 
 <script>
   import VideoModal from '../components/VideoModal'
+  import VideoPlayer from '../components/VideoPlayer'
   import ConfirmModal from '../components/ConfirmModal'
   import path from 'path'
   import { openURL } from 'quasar'
@@ -76,6 +81,7 @@
   export default {
     components: {
       VideoModal,
+      VideoPlayer,
       ConfirmModal
     },
     data () {
@@ -89,6 +95,7 @@
     },
     props: {
       allowSelfResponse: Boolean,
+      isArchive: Boolean,
       buttons: Array,
       cardWidth: String,
       hideButtons: undefined,
@@ -362,4 +369,9 @@
     bottom 0
     left 0
     right 0
+  .archive-item-title
+    padding-top 1em
+    padding-bottom 1em
+    padding-left 1em
+    display block
 </style>
