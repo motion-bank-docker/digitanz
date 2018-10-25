@@ -229,7 +229,7 @@
     },
     methods: {
       emitLoadData () {
-        console.log('profil', 'emitLoadData', 'unsichtbar gesetzt')
+        // console.log('profil', 'emitLoadData', 'unsichtbar gesetzt')
       },
       async loadAllTheThings () {
         if (!this.user) return
@@ -260,7 +260,6 @@
         console.debug('griddles: ', this.griddles)
       },
       async loadSequencesData () {
-        console.log('loading sequences from component')
         if (!this.user) return
         const prefix = 'Sequenz: '
         const query = {
@@ -268,7 +267,6 @@
           'author.id': this.user.uuid
         }
         const result = await this.$store.dispatch('maps/find', query)
-        console.log('result:', result)
         this.sequences = result.items.filter(map => {
           return map.title.indexOf(prefix) === 0
         }).sort(this.$sort.onCreatedDesc).map(map => {
@@ -332,7 +330,6 @@
       },
       async loadCloudsData () {
         this.associations = await this.$store.dispatch('cloud/listAssociations', this.user.uuid)
-        console.log('TESTTTTTT', this.associations)
       },
       iconColor (btn) {
         if (this.displayType === btn) {
@@ -347,7 +344,6 @@
         if (this.uploads) allItems = allItems.concat(this.uploads)
         if (this.sequences) allItems = allItems.concat(this.sequences)
         if (this.associations) allItems = allItems.concat(this.associations)
-        console.log(allItems)
         allItems = allItems.sort((a, b) => {
           const
             ac = a.annotation ? a.annotation.created : a.created,
@@ -378,17 +374,14 @@
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped
-        console.log('grouped: ', this.grouped)
       },
       orderByTime () {
         this.displayType = 'time'
         this.groupByDate()
-        console.log('by time')
       },
       orderByType () {
         this.displayType = 'type'
         this.groupByType()
-        console.log('by type')
       },
       orderByVisibility () {
         this.displayType = 'visibility'
