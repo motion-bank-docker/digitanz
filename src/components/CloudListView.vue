@@ -4,8 +4,8 @@
     v-for="item in items",
     :buttonsX="buttonsX",
     :buttonsY="buttonsY",
-    :item="item",
-    style="width: 46%"
+    :class="[size === 'sm' ? 'width-sm' : 'full-width']",
+    :item="item"
     )
 </template>
 
@@ -19,10 +19,13 @@
     props: {
       buttonsX: Array,
       buttonsY: Array,
-      items: Array
+      items: Array,
+      size: undefined
     }
   }
 </script>
 
 <style lang="stylus" scoped>
+  .width-sm
+    width: 46%
 </style>
