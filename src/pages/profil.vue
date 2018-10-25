@@ -69,7 +69,7 @@
                 div(v-if="item")
                   user-mr-griddles(@emitLoadData="emitLoadData", v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
                   user-sequences(v-else-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
-                  cloud-item(v-else-if="item.type === 'word-association'", :item="item")
+                  user-clouds(v-else-if="item.type === 'word-association'", :items="[item]")
                   user-uploads(v-else-if="item.annotation && item.type !== 'Sequence' && item.type !== 'word-association'", :uploads="[item]")
 
       //
@@ -146,7 +146,6 @@
   import UsersPublicUploads from '../components/profil/UsersPublicUploads'
   import VideoItem from '../components/VideoItem'
   import VideoListView from '../components/VideoListView'
-  import CloudItem from '../components/CloudItem'
 
   export default {
     components: {
@@ -167,8 +166,7 @@
       UserUploads,
       UserSequences,
       UserMrGriddles,
-      UserClouds,
-      CloudItem
+      UserClouds
     },
     computed: {
       ...mapGetters({
