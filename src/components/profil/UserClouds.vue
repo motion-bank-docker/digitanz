@@ -39,10 +39,13 @@
 </template>
 
 <script>
-  // import ConfirmModal from '../components/ConfirmModal'
+  // import { DateTime } from 'luxon'
   import { mapGetters } from 'vuex'
-  import { VideoHelper } from '../../lib/video-helper'
+  // import { ObjectUtil } from 'mbjs-utils'
+  // import { VideoHelper } from '../../lib/video-helper'
+
   import CloudListView from '../CloudListView'
+  // import ConfirmModal from '../components/ConfirmModal'
   // import VideoListView from '../VideoListView'
 
   // const UI_RESIZER_FACTOR = 2
@@ -58,6 +61,8 @@
       return {
         // archiveItems: undefined,
         associations: [],
+        // FIXME:
+        associationsFavouritesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`,
         buttonsX: [{
           icon: 'people',
           label: 'visibility'
@@ -116,8 +121,8 @@
         console.log('loaded associations', this.associations)
         console.debug('loaded associations', this.associations)
         this.$q.loading.hide()
-      },
-      async loadDataARCHIVE () {
+      }
+      /* async loadDataARCHIVE () {
         // console.log('this.user.id', this.user.uuid)
         const archiveMapResult = await this.$store.dispatch('maps/get', process.env.ARCHIVE_TIMELINE_UUID)
         // console.log('archiveMapResult: ', archiveMapResult)
@@ -129,10 +134,10 @@
           console.log('archive', archive)
           this.archiveItems = archive[0]
         }
-      },
-      togglePublicity (val) {
+      }, */
+      /* async togglePublicity (val) {
         console.log(val)
-      }
+      }, */
     }
   }
 </script>
