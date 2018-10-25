@@ -56,7 +56,7 @@
       //
       // ORDER BY TYPE
       div(v-if="displayType === 'type' || displayType === 'time'")
-        content-block
+        // content-block
           template(slot="title") Meine Wortwolken
           template(slot="content")
             user-clouds
@@ -69,7 +69,8 @@
                 div(v-if="item")
                   user-mr-griddles(@emitLoadData="emitLoadData", v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
                   user-sequences(v-else-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
-                  user-uploads(v-else-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
+                  user-clouds(v-else-if="item.type === 'word-association'", :items="[item]")
+                  user-uploads(v-else-if="item.annotation && item.type !== 'Sequence' && item.type !== 'word-association'", :uploads="[item]")
 
       //
       // LIST PUBLIC
@@ -187,26 +188,32 @@
       uploads () {
         if (this.displayType === 'type') this.groupByType()
         else if (this.displayType === 'time') this.groupByDate()
+      },
+      clouds () {
+        if (this.displayType === 'type') this.groupByType()
+        else if (this.displayType === 'time') this.groupByDate()
       }
     },
     data () {
       return {
-        displayType: 'type',
-        portrait: [],
+        associations: undefined,
         dates: undefined,
-        nickname: undefined,
-        portraitLoading: false,
+        displayType: 'type',
+        griddles: undefined,
         grouped: undefined,
         headlines: undefined,
-        griddles: undefined,
-        uploads: undefined,
-        sequences: undefined
+        nickname: undefined,
+        portrait: [],
+        portraitLoading: false,
+        sequences: undefined,
+        uploads: undefined
       }
     },
     async mounted () {
       this.$root.$on('updateVideos', this.loadUploadsData)
       this.$root.$on('updateSequences', this.loadSequencesData)
       this.$root.$on('updateGriddles', this.loadGriddleData)
+      this.$root.$on('updateClouds', this.loadCloudsData)
       this.dates = this.$dates()
       if (this.user) {
         this.nickname = this.user.nickname
@@ -218,6 +225,7 @@
       this.$root.$off('updateVideos', this.loadUploadsData)
       this.$root.$off('updateSequences', this.loadSequencesData)
       this.$root.$off('updateGriddles', this.loadGriddleData)
+      this.$root.$off('updateClouds', this.loadCloudsData)
     },
     methods: {
       emitLoadData () {
@@ -228,6 +236,7 @@
         await this.loadGriddleData()
         await this.loadSequencesData()
         await this.loadUploadsData()
+        await this.loadCloudsData()
       },
       async loadGriddleData () {
         const query = {
@@ -321,6 +330,10 @@
         else this.uploads = []
         console.debug('uploads: ', this.uploads)
       },
+      async loadCloudsData () {
+        this.associations = await this.$store.dispatch('cloud/listPublicAssociations', this.user.uuid)
+        console.log('TESTTTTTT', this.associations)
+      },
       iconColor (btn) {
         if (this.displayType === btn) {
           return 'primary'
@@ -333,6 +346,7 @@
         if (this.griddles) allItems = allItems.concat(this.griddles)
         if (this.uploads) allItems = allItems.concat(this.uploads)
         if (this.sequences) allItems = allItems.concat(this.sequences)
+        if (this.associations) allItems = allItems.concat(this.associations)
         console.log(allItems)
         allItems = allItems.sort((a, b) => {
           const
@@ -359,7 +373,8 @@
         const grouped = {
           'Meine Mr. Griddle Sequenzen ': [].concat(this.griddles),
           'Meine Sequenzen': [].concat(this.sequences),
-          'Meine Uploads': [].concat(this.uploads)
+          'Meine Uploads': [].concat(this.uploads),
+          'Meine Clouds': [].concat(this.associations)
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped

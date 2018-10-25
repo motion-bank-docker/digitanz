@@ -30,7 +30,7 @@
     },
     data () {
       return {
-        associations: [],
+        // associations: [],
         buttonsX: [{
           icon: 'people',
           label: 'visibility'
@@ -52,6 +52,7 @@
       }
     },
     props: {
+      associations: undefined
     },
     computed: {
       ...mapGetters({

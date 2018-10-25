@@ -64,6 +64,7 @@
         if (!this.user) return
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
         this.associations = await this.$store.dispatch('cloud/listPublicAssociations', this.user.uuid)
+        console.log('this.associations---', this.associations)
         this.$q.loading.hide()
       }
     }
