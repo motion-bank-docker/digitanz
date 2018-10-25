@@ -3,7 +3,7 @@
     h2.no-margin.q-pb-sm Kursevaluation
     p.q-pb-md Hier kannst du den Kurs bewerten. Die Angaben sind anonym und wir würden uns über deine ehrliche Meinung freuen.
     q-list.no-border.no-margin.no-padding.column(v-if="hasVoted === false", seperator, multiline)
-      q-item.column(v-for="(item, index) in surveyQuestions", :question="question")
+      q-item.column(v-for="(item, index) in surveyQuestions", :question="question", :key="item.question")
         q-item-tile
           p {{ item.question }}
         q-item-tile(style="width: 50vw")
@@ -29,7 +29,6 @@
         surveyUUID: undefined,
         surveyQuestions: [
           {question: 'Wie fühlst du dich im Unterricht?', answer: undefined},
-          {question: 'Kannst du das Ziel des Projekts erkennen?', answer: undefined},
           {question: 'Hast du das Gefühl, dass du etwas lernst?', answer: undefined},
           {question: 'Bewerte die bisherige Kommunikation im Kurs!', answer: undefined},
           {question: 'Kommst du mit den Aufgabenstellungen zurecht?', answer: undefined},
