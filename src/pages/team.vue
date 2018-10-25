@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page.q-ma-md
+  q-page.q-ma-md.column
     h3.text-center {{ $t('pages.team.headline') }}
 
     .q-mb-md
