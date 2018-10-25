@@ -34,8 +34,17 @@ const cloud = {
       }, getRequestConfig())
       return result.data
     },
-    async listAssociations () {
-      const query = JSON.stringify({ type: 'word-association' })
+    async listAssociations (context, userId) {
+      let query = { type: 'word-association' }
+      if (userId) query['author.id'] = userId
+      query = JSON.stringify(query)
+      const result = await axios.get(baseURL, ObjectUtil.merge(getRequestConfig(), { params: { query } }))
+      return result.data ? result.data.items : []
+    },
+    async listPublicAssociations (context, userId) {
+      let query = { type: 'word-association', isPublic: true }
+      if (userId) query['author.id'] = userId
+      query = JSON.stringify(query)
       const result = await axios.get(baseURL, ObjectUtil.merge(getRequestConfig(), { params: { query } }))
       return result.data ? result.data.items : []
     },

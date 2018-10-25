@@ -12,6 +12,7 @@
 
     // content
     q-card-main.q-mb-lg
+      // | {{ item.isPublic }}
       div(@click="$router.push('/clouds/' + item._id + '/responses')")
         p(v-for="word in item.value") {{ word }}
 
@@ -20,7 +21,7 @@
 
       // buttons
       q-btn(v-for="btn in buttonsX", @click="onAction(btn.label)", :icon="btn.icon",
-      round, flat, size="sm", :class="{'text-primary': isPublic && btn.label === 'visibility'}")
+      round, flat, size="sm", :class="{'text-primary': item.isPublic && btn.label === 'visibility'}")
         // q-chip(v-if="btn.label === 'response'", floating, color="red") {{ getResponseCount(item) }}
         q-chip(v-if="btn.label === 'response' && countResponses > 0", floating, color="blue") {{ countResponses }}
 
@@ -34,11 +35,25 @@
 </template>
 
 <script>
+  // import { DateTime } from 'luxon'
+  import { mapGetters } from 'vuex'
+  // import { ObjectUtil } from 'mbjs-utils'
+
   export default {
+    computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      })
+    },
     props: {
       buttonsX: Array,
       buttonsY: Array,
-      item: []
+      item: [],
+      publicUploadsMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_UPLOADS_TIMELINE_UUID}`,
+      publicUploads: []
+    },
+    mounted () {
+      // this.loadPublicUploads()
     },
     methods: {
       async deleteItem (uuid) {
@@ -48,6 +63,22 @@
       emitLoadData () {
         this.$emit('emitLoadData')
       },
+      /* getIconStyleUpload (item) {
+        for (let publicUpload of this.publicUploads.items) {
+          console.log('getIconStyleUpload', publicUpload)
+          if (publicUpload.body.source && item.annotation.body.source.id === publicUpload.body.source.id) return {color: 'primary', icon: 'group'}
+        }
+        return {color: 'grey-5', icon: 'group'}
+      }, */
+      /* async loadPublicUploads () {
+        const query = {
+          'target.id': this.publicUploadsMapUUID,
+          'author.id': this.user.uuid
+        }
+        this.publicUploads = await this.$store.dispatch('annotations/find', query)
+        console.log('public uploads', this.publicUploads.items)
+        console.log('public uploads length', this.publicUploads.items.length)
+      }, */
       onAction (val) {
         switch (val) {
         case 'delete':
@@ -66,12 +97,13 @@
           break
         case 'visibility':
           // this.toggleItemFavorite(this.item)
-          this.toggleItemFavorite()
+          this.toggleItemPublic(this.item)
           break
         }
       },
-      toggleItemFavorite () {
-        console.log(this.item)
+      async toggleItemPublic (item) {
+        await this.$store.dispatch('cloud/updateAssociationPublic', [item.uuid, !(item.isPublic === true)])
+        this.emitLoadData()
       }
     }
   }

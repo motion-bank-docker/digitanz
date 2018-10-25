@@ -1,41 +1,12 @@
 <template lang="pug">
   div
-    //
-      video-list-view(:videos="myAssociations",
-      layoutStyle="associations",
-      card-width="100%",
-      v-if="sequences.length > 0",
-      // :buttons="['more-delete', 'more-download']",
-      // :showDuration="false",
-      // :isSequence="true",
-      @changed="loadData")
     cloud-list-view(
     :buttonsX="buttonsX",
     :buttonsY="buttonsY",
     :items="associations",
     @emitLoadData="loadData()"
     )
-    //
-      div.row.justify-between
-        // q-card.bg-dark.q-mb-sm.q-mb-lg(v-for="association in myAssociations", style="width: 46%;")
-        q-card.bg-dark.q-mb-sm.q-mb-lg(v-for="association in associations", style="width: 46%;")
-          // p.q-pa-md.text-center(@click="$router.push('/clouds/' + association._id + '/responses')")
-            span.q-mr-md
-          q-card-main
-            div(@click="$router.push('/clouds/' + association._id + '/responses')")
-              p(v-for="word in association.value") {{ word }}
-          q-card-actions
-            q-btn(@click="togglePublicity(association._id)", icon="people", size="sm")
-            q-btn(@click="$router.push('/clouds/' + association._id + '/responses')", icon="chat", size="sm")
-              q-chip(floating, color="blue") 0
-            q-btn(@click="deleteItem(association.uuid)", icon="delete", size="sm")
 
-    // FIXME: query works for Archive
-      video-list-view(:videos="archiveItems",
-      layoutStyle="sm",
-      // :buttons="['more-delete', 'more-download']",
-      // :showDuration="false",
-      @changed="loadData")
 </template>
 
 <script>
@@ -59,10 +30,7 @@
     },
     data () {
       return {
-        // archiveItems: undefined,
         associations: [],
-        // FIXME:
-        associationsFavouritesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`,
         buttonsX: [{
           icon: 'people',
           label: 'visibility'
@@ -107,10 +75,7 @@
         this.myAssociations = []
         if (!this.user) return
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
-        const query = {
-          'author.id': this.user.uuid
-        }
-        this.associations = await this.$store.dispatch('cloud/listAssociations', query)
+        this.associations = await this.$store.dispatch('cloud/listAssociations', this.user.uuid)
         /*
         this.associations.map(a => {
           if (a.author.id === this.user.uuid) {
@@ -118,26 +83,12 @@
           }
         })
          */
+        /*
         console.log('loaded associations', this.associations)
         console.debug('loaded associations', this.associations)
+        */
         this.$q.loading.hide()
       }
-      /* async loadDataARCHIVE () {
-        // console.log('this.user.id', this.user.uuid)
-        const archiveMapResult = await this.$store.dispatch('maps/get', process.env.ARCHIVE_TIMELINE_UUID)
-        // console.log('archiveMapResult: ', archiveMapResult)
-        if (archiveMapResult) {
-          const archiveQuery = {
-            'target.id': `${process.env.TIMELINE_BASE_URI}${archiveMapResult.uuid}`
-          }
-          let archive = await VideoHelper.fetchVideoItems(this, archiveQuery)
-          console.log('archive', archive)
-          this.archiveItems = archive[0]
-        }
-      }, */
-      /* async togglePublicity (val) {
-        console.log(val)
-      }, */
     }
   }
 </script>
