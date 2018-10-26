@@ -23,7 +23,7 @@
       q-btn(v-for="btn in buttonsX", @click="onAction(btn.label)", :icon="btn.icon",
       round, flat, size="sm", :class="{'text-primary': item.isPublic && btn.label === 'visibility'}")
         // q-chip(v-if="btn.label === 'response'", floating, color="red") {{ getResponseCount(item) }}
-        q-chip(v-if="btn.label === 'response' && countResponses > 0", floating, color="blue") {{ countResponses }}
+        q-chip(v-if="btn.label === 'response' && responseCount", floating, color="blue") {{ responseCount }}
 
       // buttons dropdown
       q-btn.q-px-none(v-if="buttonsY", flat, size="sm", round, icon="more_vert", @click="showActionButton = !showActionButton")
@@ -60,8 +60,21 @@
         default: false
       }
     },
-    mounted () {
+    data () {
+      return {
+        responseCount: 0
+      }
+    },
+    async mounted () {
       this.isOwnContent()
+      const query = {
+        'target.id': `${process.env.ASSOCIATION_BASE_URI}${this.item.uuid}`,
+        'target.type': 'WordAssociation',
+        'body.purpose': 'commenting',
+        'body.type': 'Video'
+      }
+      const responses = await this.$store.dispatch('annotations/find', query)
+      this.responseCount = responses.items ? responses.items.length : 0
     },
     methods: {
       async deleteItem (uuid) {
@@ -69,9 +82,7 @@
         this.$root.$emit('updateClouds')
       },
       isOwnContent () {
-        console.log('#####', this.item)
-        console.log('#####', this.user)
-        // return (this.item.author.id === this.user.uuid)
+        return (this.item.author.id === this.user.uuid)
       },
       async loadAuthorProfile () {
         let itemUser = this.item.author.id
