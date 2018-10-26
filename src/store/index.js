@@ -9,6 +9,7 @@ import sequences from './modules/sequences'
 import logging from './modules/logging'
 import metadata from './modules/metadata'
 import survey from './modules/survey'
+import cloud from './modules/cloud'
 
 import WebAuth from 'mbjs-api-client/src/web'
 import Vue from 'vue'
@@ -47,6 +48,7 @@ const store = new Vuex.Store({
     // metadata: makeResourceModule(apiClient, 'metadata', 'metadata', process.env.TRANSCODER_HOST),
     metadata,
     survey,
+    cloud,
     auth
   }
 })

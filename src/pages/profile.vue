@@ -70,10 +70,18 @@
                   user-mr-griddles(@emitLoadData="loadGriddleData", v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
                   user-sequences(v-else-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
                   user-uploads(@changed="fetchPortrait", v-else-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
+                  user-clouds(v-else-if="item.type === 'word-association'", :items="[item]")
 
       //
       // LIST PUBLIC
       div(v-else-if="displayType === 'visibility'")
+
+        //
+        // Public Clouds
+        content-block
+          template(slot="title") Geteilte Wortwolken
+          template(slot="content")
+            users-public-clouds
 
         //
         // Public Mr. Griddles
@@ -119,22 +127,25 @@
 
 <script>
   import { DateTime } from 'luxon'
-  import { Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
-  import VideoListView from '../components/VideoListView'
-  import LoadingSpinner from '../components/LoadingSpinner'
-  import { VideoHelper } from '../lib'
   import { mapGetters } from 'vuex'
+  import { Portraits, PortraitsPlusPlus, GroupVideoSequences } from '../components/dashboard'
+  import { VideoHelper } from '../lib'
+
+  import ContentBlock from '../components/ContentBlock'
+  import FileUploaderMicro from '../components/FileUploaderMicro'
+  import LoadingSpinner from '../components/LoadingSpinner'
+  import MrGriddleListView from '../components/MrGriddleListView'
+  import UserClouds from '../components/profil/UserClouds'
+  import UserMrGriddles from '../components/profil/UserMrGriddles'
+  import UserSequences from '../components/profil/UserSequences'
+  import UserUploads from '../components/profil/UserUploads'
+  import UsersPublicClouds from '../components/profil/UsersPublicClouds'
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
   import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
   import UsersPublicUploads from '../components/profil/UsersPublicUploads'
-  import UserUploads from '../components/profil/UserUploads'
-  import UserSequences from '../components/profil/UserSequences'
-  import UserMrGriddles from '../components/profil/UserMrGriddles'
-  import FileUploaderMicro from '../components/FileUploaderMicro'
-  import ContentBlock from '../components/ContentBlock'
   import VideoItem from '../components/VideoItem'
-  import MrGriddleListView from '../components/MrGriddleListView'
+  import VideoListView from '../components/VideoListView'
 
   export default {
     components: {
@@ -148,12 +159,14 @@
       UsersPublicPortrait,
       UsersPublicMrGriddles,
       UsersPublicUploads,
+      UsersPublicClouds,
       FileUploaderMicro,
       ContentBlock,
       MrGriddleListView,
       UserUploads,
       UserSequences,
-      UserMrGriddles
+      UserMrGriddles,
+      UserClouds
     },
     computed: {
       ...mapGetters({
@@ -175,27 +188,33 @@
       uploads () {
         if (this.displayType === 'type') this.groupByType()
         else if (this.displayType === 'time') this.groupByDate()
+      },
+      associations () {
+        if (this.displayType === 'type') this.groupByType()
+        else if (this.displayType === 'time') this.groupByDate()
       }
     },
     data () {
       return {
-        displayType: 'type',
-        portrait: [],
+        associations: undefined,
         hasVoted: undefined,
         dates: undefined,
-        nickname: undefined,
-        portraitLoading: false,
+        displayType: 'type',
+        griddles: undefined,
         grouped: undefined,
         headlines: undefined,
-        griddles: undefined,
-        uploads: undefined,
-        sequences: undefined
+        nickname: undefined,
+        portrait: [],
+        portraitLoading: false,
+        sequences: undefined,
+        uploads: undefined
       }
     },
     async mounted () {
       this.$root.$on('updateVideos', this.loadUploadsData)
       this.$root.$on('updateSequences', this.loadSequencesData)
       this.$root.$on('updateGriddles', this.loadGriddleData)
+      this.$root.$on('updateClouds', this.loadCloudsData)
       this.dates = this.$dates()
       if (this.user) {
         this.nickname = this.user.nickname
@@ -207,10 +226,11 @@
       this.$root.$off('updateVideos', this.loadUploadsData)
       this.$root.$off('updateSequences', this.loadSequencesData)
       this.$root.$off('updateGriddles', this.loadGriddleData)
+      this.$root.$off('updateClouds', this.loadCloudsData)
     },
     methods: {
       emitLoadData () {
-        console.log('profil', 'emitLoadData', 'unsichtbar gesetzt')
+        // console.log('profil', 'emitLoadData', 'unsichtbar gesetzt')
       },
       async loadAllTheThings () {
         if (!this.user) return
@@ -218,6 +238,7 @@
         await this.loadGriddleData()
         await this.loadSequencesData()
         await this.loadUploadsData()
+        await this.loadCloudsData()
       },
       async loadGriddleData () {
         const query = {
@@ -326,6 +347,9 @@
         else this.uploads = []
         console.debug('uploads: ', this.uploads)
       },
+      async loadCloudsData () {
+        this.associations = await this.$store.dispatch('cloud/listAssociations', this.user.uuid)
+      },
       iconColor (btn) {
         if (this.displayType === btn) {
           return 'primary'
@@ -338,7 +362,7 @@
         if (this.griddles) allItems = allItems.concat(this.griddles)
         if (this.uploads) allItems = allItems.concat(this.uploads)
         if (this.sequences) allItems = allItems.concat(this.sequences)
-        console.log(allItems)
+        if (this.associations) allItems = allItems.concat(this.associations)
         allItems = allItems.sort((a, b) => {
           const
             ac = a.annotation ? a.annotation.created : a.created,
@@ -364,21 +388,19 @@
         const grouped = {
           'Meine Mr. Griddle Sequenzen ': [].concat(this.griddles),
           'Meine Sequenzen': [].concat(this.sequences),
-          'Meine Uploads': [].concat(this.uploads)
+          'Meine Uploads': [].concat(this.uploads),
+          'Meine Clouds': [].concat(this.associations)
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped
-        console.log('grouped: ', this.grouped['Meine Uploads'])
       },
       orderByTime () {
         this.displayType = 'time'
         this.groupByDate()
-        console.log('by time')
       },
       orderByType () {
         this.displayType = 'type'
         this.groupByType()
-        console.log('by type')
       },
       orderByVisibility () {
         this.displayType = 'visibility'

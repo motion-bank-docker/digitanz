@@ -73,6 +73,12 @@
           slot(name="customButtons", :video="video")
         template(slot="customMoreButtons", slot-scope="{ video }")
           slot(name="customMoreButtons", :video="video")
+
+    //
+    // singleCenter
+    div.row.singleCenter.justify-center(v-else-if="layoutStyle === 'associations'")
+      | blablabla
+
 </template>
 
 <script>

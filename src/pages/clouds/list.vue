@@ -1,55 +1,40 @@
 <template lang="pug">
   q-page.q-mx-md
-    // confirm-modal(v-if="", ref="confirmDeleteModal", @confirm="deleteItem")
-
-    q-modal(v-model="addWordModal", minimized)
-      .text-center.q-pa-md.bg-dark
-        | {{ $t('labels.add_word') }}
-        q-input(v-model="inputNewWord", color="white")
-        q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white(@click="addWord", label="speichern")
-        q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordModal = false, inputNewWord = ''", label="abbrechen")
-
     content-block.q-pt-none
-      template(slot="title") Adjektive
+      template(slot="title") Wortwolke
       template(slot="buttons")
-        q-btn.bg-primary.text-white.q-mt-sm(@click="addWord, addWordModal = true", icon="add", round, size="sm")
+        q-btn.bg-primary.text-white.q-mt-sm(
+        :class="{'rotate-45': addWordBubble}",
+        @click="handlerAddWord",
+        icon="add", round, size="sm")
+
       template(slot="content")
+        q-card.bg-dark.q-mb-md(v-if="addWordBubble")
+          q-card-main.q-pa-sm
+            q-input(v-model="inputNewWord", dark, float-label="Begriff hinzufügen")
+          q-card-actions
+            q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white.full-width(@click="addWord", label="Wort hinzufügen")
+            // q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordBubble = false, inputNewWord = ''", label="abbrechen")
+
         q-list.no-border.flex.gutter-xs.q-px-xs
 
-          q-item.q-mr-sm.q-mb-sm.shadow-2.q-caption.q-pr-sm(
-          v-for="word in words", :class="[checkIfSelected(word.term) ? 'bg-primary text-white' : 'bg-dark']")
+          q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm(
+          v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']")
 
-            input.hidden(type="checkbox", :id="word.term", :value="word.term", v-model="selectedWords")
-            label(:for="word.term")
-              | {{ word.term }}
-              q-btn.q-ml-md.bg-dark(
-              v-if="word.author === user.uuid",
-              @click="removeWord(word.id)",
-              :disable="checkIfSelected(word.term)",
-              icon="delete", round, size="sm")
+            input.hidden(v-model="selectedWords", type="checkbox", :id="word.uuid", :value="word.value")
+            label(:for="word.uuid")
+              | {{ word.value }}
 
-    content-block
-      template(slot="title") Videos
-      template(slot="buttons")
-      template(slot="content")
-        video-list-view(
-        v-if="publicUploads && publicUploads.length > 0",
-        :allowSelfResponse="true",
-        :buttons="['more-download', 'more-delete']",
-        :showOverlay="showOverlay",
-        :videos="publicUploads",
-        layoutStyle="sm")
-          template(slot="customButtons" slot-scope="{ video }")
-            // q-btn.q-px-none(flat, size="sm" round, icon="group", color="primary", @click="togglePublic(video)")
-            // q-btn.q-px-none(flat, size="sm" round, icon="group", color="primary", @click="")
+    q-btn.full-width.q-mb-md.text-white(
+    @click="addAssociation",
+    :class="[selectedWords.length < 2 ? 'bg-grey-9' : 'bg-primary']",
+    :disabled="selectedWords.length < 2",
+    label="Wortwolke erstellen")
 
-    .fixed-bottom.q-mb-xl.q-mx-md.q-pb-md(v-if="selectedWords.length > 0")
-      q-btn.q-mb-lg.bg-primary.text-white.full-width(label="speichern")
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
-  import { VideoHelper } from '../../lib'
   import ConfirmModal from '../../components/ConfirmModal'
   import ContentBlock from '../../components/ContentBlock'
   import VideoListView from '../../components/VideoListView'
@@ -60,10 +45,6 @@
       ContentBlock,
       VideoListView
     },
-    // name: 'list'
-    /* mounted () {
-      this.loadPublicUploads()
-    }, */
     async mounted () {
       if (this.user) {
         await this.loadData()
@@ -71,61 +52,17 @@
     },
     data () {
       return {
-        addWordModal: false,
+        activeImpulse: '',
+        addWordBubble: false,
         dummyId: 0,
         inputNewWord: '',
+        option: '',
         publicUploads: [],
         publicUploadsMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_UPLOADS_TIMELINE_UUID}`,
         selectedVideos: [],
         selectedWords: [],
-        showOverlay: true,
-        words: [{
-          term: 'kreativ'
-        }, {
-          term: 'spontan'
-        }, {
-          term: 'schön'
-        }, {
-          term: 'faszinierend'
-        }, {
-          term: 'gestaltend'
-        }, {
-          term: 'skurril'
-        }, {
-          term: 'inspirierend'
-        }, {
-          term: 'bewegungsreich'
-        }, {
-          term: 'infividuell'
-        }, {
-          term: 'abstrakt'
-        }, {
-          term: 'anders'
-        }, {
-          term: 'bunt'
-        }, {
-          term: 'ungewiss'
-        }, {
-          term: 'unkontrolliert'
-        }, {
-          term: 'interessant'
-        }, {
-          term: 'besonders'
-        }, {
-          term: 'einzigartig'
-        }, {
-          term: 'spontan'
-        }, {
-          term: 'außergewöhnlich'
-        }, {
-          term: 'geheimnisvoll'
-        }, {
-          term: 'verrückt'
-        }, {
-          term: 'spannend'
-        }, {
-          term: 'cool'
-        }]
+        showOverlay: false,
+        words: []
       }
     },
     computed: {
@@ -134,27 +71,30 @@
       })
     },
     methods: {
-      addWord () {
-        // FIXME: this is just dummy code
-        this.addWordModal = false
-        this.dummyId++
-        this.words.push({term: this.inputNewWord, author: this.user.uuid, id: this.dummyId})
+      async addWord () {
+        this.$q.loading.show({ message: this.$t('messages.saving') })
+        await this.$store.dispatch('cloud/addWord', this.inputNewWord)
+        this.$q.loading.hide()
         this.inputNewWord = ''
+        await this.loadData()
+      },
+      async addAssociation () {
+        this.$q.loading.show({ message: this.$t('messages.saving') })
+        const result = await this.$store.dispatch('cloud/addAssociation', this.selectedWords)
+        this.$q.loading.hide()
+        this.$router.push('/clouds/' + result.uuid + '/responses')
       },
       checkIfSelected (val) {
         return this.selectedWords.includes(val)
       },
+      handlerAddWord () {
+        this.inputNewWord = ''
+        this.addWordBubble = !this.addWordBubble
+      },
       async loadData () {
-        this.isLoading = true
-        this.$q.loading.show({ message: this.$t('messages.loading_sequences') })
-        const query = {
-          'target.id': this.publicUploadsMapUUID,
-          'author.id': this.user.uuid
-        }
-        this.publicUploads = await VideoHelper.fetchVideoItems(this, query)
-
+        this.$q.loading.show({ message: this.$t('messages.loading_data') })
+        this.words = await this.$store.dispatch('cloud/listWords')
         this.$q.loading.hide()
-        this.isLoading = false
       },
       async loadPublicUploads () {
         const query = {
@@ -162,16 +102,6 @@
           'author.id': this.user.uuid
         }
         this.publicUploads = await this.$store.dispatch('annotations/find', query)
-        console.log('this.publicUploads.items', this.publicUploads.items)
-      },
-      removeWord (val) {
-        console.log(val)
-        for (let i = 0; i < this.words.length; i++) {
-          if (this.words[i].id === val) {
-            this.words.splice(i, 1)
-            break
-          }
-        }
       }
     }
   }

@@ -45,6 +45,7 @@ export default {
     confirm: 'OK',
     // upload_remix: 'Remix hochladen'
     upload_remix: 'Video hinzufügen',
+    upload_response: 'Antwort hochladen',
     orientation: {
       landscape: 'Querformat',
       portrait: 'Hochformat'

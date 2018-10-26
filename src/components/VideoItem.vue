@@ -137,14 +137,14 @@
               this.portraitLoading = false
             }
 
-            console.log('Portrait', this.portrait)
-            console.log('User', user)
+            // console.log('Portrait', this.portrait)
+            // console.log('User', user)
           }
         }
       },
       setShowing () {
         this.showing = !this.showing
-        console.log(this.showing)
+        // console.log(this.showing)
       },
       downloadItem (video) {
         openURL(`${process.env.TRANSCODER_HOST}/downloads/${path.basename(video.annotation.body.source.id)}`)

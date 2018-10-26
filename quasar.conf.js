@@ -63,6 +63,7 @@ module.exports = function (ctx) {
         //
         TIMELINE_BASE_URI: JSON.stringify(process.env.TIMELINE_BASE_URI || 'http://id.motionbank.org/maps/'),
         ANNOTATION_BASE_URI: JSON.stringify(process.env.ANNOTATION_BASE_URI || 'http://id.motionbank.org/annotations/'),
+        ASSOCIATION_BASE_URI: JSON.stringify(process.env.ASSOCIATION_BASE_URI || 'http://id.motionbank.org/associations/'),
         GRID_BASE_URI: JSON.stringify(process.env.GRID_BASE_URI || 'http://id.motionbank.org/maps/'),
         ID_FIELD: JSON.stringify(process.env.ID_FIELD || 'uuid'),
         SYSTEM_USER_UUID: JSON.stringify(process.env.SYSTEM_USER_UUID || 'aa5a24cc-dbd3-5b5d-8ca6-76552699cbd9'),

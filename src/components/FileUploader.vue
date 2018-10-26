@@ -2,7 +2,7 @@
   .column(v-if="timeline || target")
     <!--.q-pa-md-->
       <!--q-input(:placeholder="$t('placeholder.file_uploader')", v-model="title", dark)-->
-    .q-pa-md
+    .q-py-md
       uploader(:url="url", @finish="onFinish", ref="uploader")
 </template>
 

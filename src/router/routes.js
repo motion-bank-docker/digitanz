@@ -12,6 +12,7 @@ const routes = [
       { path: 'dashboard-new', component: () => import('pages/dashboard-new'), meta: {private: true} },
       { path: 'allrecipes', component: () => import('pages/allRecipes'), meta: {private: true} },
       { path: 'clouds', component: () => import('pages/clouds/list'), meta: {private: true} },
+      { path: 'clouds/:uuid/responses', component: () => import('pages/clouds/responses'), meta: {private: true} },
       { path: 'profile', name: 'profile', component: () => import('pages/profile'), meta: {private: true} },
       { path: 'sequences', component: () => import('pages/sequences/list'), meta: {private: true} },
       { path: 'sequences/create', component: () => import('pages/sequences/edit'), meta: {private: true} },
