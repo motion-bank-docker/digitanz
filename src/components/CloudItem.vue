@@ -14,7 +14,7 @@
     q-card-main.q-mb-lg
       // | {{ item.isPublic }}
       div(@click="$router.push('/clouds/' + item.uuid + '/responses')")
-        span.q-mr-md(v-for="word in item.value") {{ word }}
+        p(v-for="word in item.value") {{ word }}
 
     // buttons
     q-card-actions.absolute-bottom(v-if="buttonsX || buttonsY").row.justify-around
