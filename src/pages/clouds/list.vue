@@ -1,14 +1,5 @@
 <template lang="pug">
   q-page.q-mx-md
-    // confirm-modal(v-if="", ref="confirmDeleteModal", @confirm="deleteItem")
-
-    q-modal(v-model="addWordModal", minimized)
-      // .text-center.q-pa-md.bg-dark
-        | {{ $t('labels.add_word') }}
-        q-input(v-model="inputNewWord", color="white")
-        q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white(@click="addWord", label="hinzufügen")
-        q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordModal = false, inputNewWord = ''", label="abbrechen")
-
     content-block.q-pt-none
       template(slot="title") Wortwolke
       template(slot="buttons")
@@ -30,8 +21,8 @@
           q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm(
           v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']")
 
-            input.hidden(v-model="selectedWords", type="checkbox", :id="word._id", :value="word.value")
-            label(:for="word._id")
+            input.hidden(v-model="selectedWords", type="checkbox", :id="word.uuid", :value="word.value")
+            label(:for="word.uuid")
               | {{ word.value }}
 
     q-btn.full-width.q-mb-md.text-white(
@@ -54,10 +45,6 @@
       ContentBlock,
       VideoListView
     },
-    // name: 'list'
-    /* mounted () {
-      this.loadPublicUploads()
-    }, */
     async mounted () {
       if (this.user) {
         await this.loadData()
@@ -66,8 +53,6 @@
     data () {
       return {
         activeImpulse: '',
-        // activeStation: 1,
-        // addWordModal: false,
         addWordBubble: false,
         dummyId: 0,
         inputNewWord: '',
@@ -87,12 +72,8 @@
     },
     methods: {
       async addWord () {
-        // this.addWordModal = false
-        // this.dummyId++
-        // this.words.push({term: this.inputNewWord, author: this.user.uuid, id: this.dummyId})
         this.$q.loading.show({ message: this.$t('messages.saving') })
-        const result = await this.$store.dispatch('cloud/addWord', this.inputNewWord)
-        console.debug('added word', result)
+        await this.$store.dispatch('cloud/addWord', this.inputNewWord)
         this.$q.loading.hide()
         this.inputNewWord = ''
         await this.loadData()
@@ -100,10 +81,8 @@
       async addAssociation () {
         this.$q.loading.show({ message: this.$t('messages.saving') })
         const result = await this.$store.dispatch('cloud/addAssociation', this.selectedWords)
-        console.debug('added association', result)
-        console.log('added association -----> ', result)
         this.$q.loading.hide()
-        this.$router.push('/clouds/' + result._id + '/responses')
+        this.$router.push('/clouds/' + result.uuid + '/responses')
       },
       checkIfSelected (val) {
         return this.selectedWords.includes(val)
@@ -113,12 +92,9 @@
         this.addWordBubble = !this.addWordBubble
       },
       async loadData () {
-        this.isLoading = true
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
         this.words = await this.$store.dispatch('cloud/listWords')
-        console.debug('loaded words', this.words)
         this.$q.loading.hide()
-        this.isLoading = false
       },
       async loadPublicUploads () {
         const query = {
@@ -126,25 +102,6 @@
           'author.id': this.user.uuid
         }
         this.publicUploads = await this.$store.dispatch('annotations/find', query)
-        console.log('this.publicUploads.items', this.publicUploads.items)
-      },
-      removeWord (val) {
-        console.log(val)
-        for (let i = 0; i < this.words.length; i++) {
-          if (this.words[i].id === val) {
-            this.words.splice(i, 1)
-            break
-          }
-        }
-      },
-      setActiveStation (val) {
-        // console.log(val)
-        this.activeStation = val
-        this.activeImpulse = ''
-      },
-      setImpulse (val) {
-        // console.log(val)
-        this.activeImpulse = val
       }
     }
   }

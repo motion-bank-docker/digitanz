@@ -41,6 +41,10 @@ const cloud = {
       const result = await axios.get(baseURL, ObjectUtil.merge(getRequestConfig(), { params: { query } }))
       return result.data ? result.data.items : []
     },
+    async getAssociation (context, uuid) {
+      const result = await axios.get(`${baseURL}/${uuid}`, getRequestConfig())
+      return result.data
+    },
     async listPublicAssociations (context, userId) {
       let query = { type: 'word-association', isPublic: true }
       if (userId) query['author.id'] = userId

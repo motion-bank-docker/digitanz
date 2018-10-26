@@ -13,7 +13,7 @@
     // content
     q-card-main.q-mb-lg
       // | {{ item.isPublic }}
-      div(@click="$router.push('/clouds/' + item._id + '/responses')")
+      div(@click="$router.push('/clouds/' + item.uuid + '/responses')")
         p(v-for="word in item.value") {{ word }}
 
     // buttons
@@ -95,10 +95,10 @@
           // await this.deleteItem(this.item.uuid)
           break
         case 'edit':
-          this.$router.push('/clouds/' + this.item._id + '/responses')
+          this.$router.push('/clouds/' + this.item.uuid + '/responses')
           break
         case 'response':
-          this.$router.push('/clouds/' + this.item._id + '/responses')
+          this.$router.push('/clouds/' + this.item.uuid + '/responses')
           break
         case 'visibility':
           // this.toggleItemFavorite(this.item)
