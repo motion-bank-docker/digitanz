@@ -5,6 +5,7 @@
     :buttonsX="buttonsX",
     :buttonsY="buttonsY",
     :class="[size === 'sm' ? 'width-sm' : 'full-width']",
+    :showContentFlag="showContentFlag",
     :item="item"
     )
 </template>
@@ -20,7 +21,8 @@
       buttonsX: Array,
       buttonsY: Array,
       items: Array,
-      size: undefined
+      size: undefined,
+      showContentFlag: Boolean
     }
   }
 </script>

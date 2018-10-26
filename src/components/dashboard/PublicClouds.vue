@@ -4,6 +4,7 @@
     :buttonsX="buttonsX",
     :buttonsY="buttonsY",
     :items="associations",
+    :showContentFlag="`true`",
     :size="`sm`",
     @emitLoadData="loadData()"
     )
