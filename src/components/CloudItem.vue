@@ -1,7 +1,7 @@
 <template lang="pug">
   q-card.relative-position.q-mb-lg.relative-position.bg-dark
 
-    // confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item)")
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item.uuid)")
     // q-window-resize-observable(@resize="onResize")
 
     // icons
@@ -39,8 +39,12 @@
   import { mapGetters } from 'vuex'
   // import { ObjectUtil } from 'mbjs-utils'
   import { VideoHelper } from '../lib/video-helper'
+  import ConfirmModal from '../components/ConfirmModal'
 
   export default {
+    components: {
+      ConfirmModal
+    },
     computed: {
       ...mapGetters({
         user: 'auth/getUserState'
@@ -87,8 +91,8 @@
       async onAction (val) {
         switch (val) {
         case 'delete':
-          // this.$refs.confirmDeleteModal.show('labels.confirm_delete', this.item, 'buttons.delete')
-          await this.deleteItem(this.item.uuid)
+          this.$refs.confirmDeleteModal.show('labels.confirm_delete', this.item, 'buttons.delete')
+          // await this.deleteItem(this.item.uuid)
           break
         case 'edit':
           this.$router.push('/clouds/' + this.item._id + '/responses')
