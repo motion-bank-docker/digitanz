@@ -59,7 +59,7 @@
           this.$router.push('/mr-griddle/create')
           break
         case 'recipes':
-          this.$router.push('/allrecipes')
+          this.$router.push('/recipes')
           break
         case 'rhytmus':
           this.$router.push('/rhythm')

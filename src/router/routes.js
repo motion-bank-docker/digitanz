@@ -10,7 +10,10 @@ const routes = [
       { path: 'welcome', component: () => import('pages/welcome') },
       { path: 'dashboard', component: () => import('pages/dashboard'), meta: {private: true} },
       { path: 'dashboard-new', component: () => import('pages/dashboard-new'), meta: {private: true} },
-      { path: 'allrecipes', component: () => import('pages/allRecipes'), meta: {private: true} },
+      // { path: 'allrecipes', component: () => import('pages/allRecipes'), meta: {private: true} },
+      // { path: 'newrecipe/:uuid', component: () => import('pages/recipe'), meta: {private: true} },
+      { path: 'recipes', component: () => import('pages/recipes/list'), meta: {private: true} },
+      { path: 'recipes/create/:uuid', component: () => import('pages/recipes/create'), meta: {private: true} },
       { path: 'clouds', component: () => import('pages/clouds/list'), meta: {private: true} },
       { path: 'profil', name: 'profil', component: () => import('pages/profil'), meta: {private: true} },
       { path: 'slotmachine', component: () => import('pages/slotMachine'), meta: {private: true} },
@@ -37,14 +40,14 @@ const routes = [
       { path: 'rhythm', component: () => import('pages/rhythm'), meta: {private: true} },
       { path: 'rhythm-creator', component: () => import('pages/rhythm-creator'), meta: {private: true} }
     ]
-  },
+  }/* ,
   {
     path: '/newrecipe/:uuid',
     component: () => import('layouts/none'),
     children: [
       { path: '', component: () => import('pages/recipe'), meta: {private: true} }
     ]
-  }
+  } */
 ]
 
 // Always leave this as last one
