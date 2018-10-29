@@ -1,37 +1,50 @@
 <template lang="pug">
-  q-page
-    // LISTE DER REZEPTE
-    h1.q-display-1.no-margin Meine Rezepte
-    q-list(no-border)
-      q-item.items-baseline(v-for="recipe in personal", :key="recipe.uuid")
-        q-item-main(dark)
-          q-item-tile
-            // hier alle Titel meiner Rezepte anzeigen
-            // q-btn.full-width(@click="$router.push('/newrecipe/' + recipe.uuid)", align="left", outline)
-            q-btn.full-width(@click="$router.push('/recipes/' + recipe.uuid + '/create')", align="left", outline)
-              | {{ JSON.parse(recipe.body.source).title }}
-        q-item-side
-          q-item-tile
-            q-btn(icon="delete", @click="deleteRecipe(recipe.uuid)")
-            // q-btn(icon="delete" @click="openPopupDelete = true")
-            // q-btn(icon="share" @click="openPopupShare = true")
-      // q-btn.q-ml-md.q-mt-sm.q-mb-md(@click="$router.push('/newrecipe/create')", align="left", color="primary", icon="add circle")
-      q-btn.q-ml-md.q-mt-sm.q-mb-md(@click="$router.push('/recipes/' + recipe.uuid + '/create')", align="left", color="primary", icon="add circle")
+  q-page.q-mx-md.relative-position
 
-    h1.q-display-1.no-margin Gemixte Rezepte
-    q-list(no-border)
-      q-item.items-baseline(v-for="recipe in remixed", :key="recipe.uuid")
-        q-item-main(dark)
-          q-item-tile
-            // Loop durch array aller Rezepte, Titel anzeigen
-            q-btn.full-width(align="left", outline, @click="$router.push('/newrecipe/' + recipe.uuid)")
-              | {{ JSON.parse(recipe.body.source).title }}
-        q-item-side
-          q-item-tile
-            q-btn(icon="delete", @click="deleteRecipe(recipe.uuid)")
-            // q-btn(icon="delete")
-            // q-btn(icon="share")
-    q-btn.fixed-bottom.full-width(size="lg" color="primary" @click="doRemix") Neuer Remix
+    //
+    // LISTE DER REZEPTE
+    content-block
+      template(slot="title") Meine Rezepte
+      template(slot="buttons")
+        q-btn.q-mt-sm(@click="$router.push('/recipes/' + recipe.uuid + '/create')", color="primary", icon="add", round, size="sm")
+      template(slot="content")
+        q-list(no-border)
+          q-item.q-pa-none.items-baseline(v-for="recipe in personal", :key="recipe.uuid")
+            q-item-main(dark)
+              q-item-tile
+                // hier alle Titel meiner Rezepte anzeigen
+                // q-btn.full-width(@click="$router.push('/newrecipe/' + recipe.uuid)", align="left", outline)
+                q-btn.full-width(@click="$router.push('/recipes/' + recipe.uuid + '/create')", align="left", outline)
+                  | {{ JSON.parse(recipe.body.source).title }}
+            q-item-side
+              q-item-tile
+                q-btn(icon="delete", @click="deleteRecipe(recipe.uuid)")
+                // q-btn(icon="delete" @click="openPopupDelete = true")
+                // q-btn(icon="share" @click="openPopupShare = true")
+          // q-item.q-pa-none
+            // q-btn.q-ml-md.q-mt-sm.q-mb-md(@click="$router.push('/newrecipe/create')", align="left", color="primary", icon="add circle")
+            q-btn(@click="$router.push('/recipes/' + recipe.uuid + '/create')", align="left", color="primary", icon="add circle")
+
+    //
+    // GEMIXTE REZEPTE
+    content-block
+      template(slot="title") Gemixte Rezepte
+      template(slot="buttons")
+      template(slot="content")
+        q-list.q-pa-none(no-border)
+          q-item.items-baseline(v-for="recipe in remixed", :key="recipe.uuid")
+            q-item-main(dark)
+              q-item-tile
+                // Loop durch array aller Rezepte, Titel anzeigen
+                q-btn.full-width(@click="$router.push('/newrecipe/' + recipe.uuid)", align="left", outline)
+                  | {{ JSON.parse(recipe.body.source).title }}
+            q-item-side
+              q-item-tile
+                q-btn(@click="deleteRecipe(recipe.uuid)", icon="delete")
+                // q-btn(icon="delete")
+                // q-btn(icon="share")
+          q-item.q-pa-none
+            q-btn.full-width(@click="doRemix", color="primary") Neuer Remix
 
     // POP UP FIELD "DELETE"
     q-modal.row(v-model="openPopupDelete", minimized)
@@ -83,10 +96,13 @@
 
 <script>
   import Chance from 'chance'
+  import ContentBlock from '../../components/ContentBlock'
+
   import {QInput, QBtn, QList, QItem, QPage, QItemMain, QItemSide, QItemTile, QModal, QModalLayout, QSearch, QAutocomplete, QChipsInput} from 'quasar'
   const chance = new Chance()
   export default {
     components: {
+      ContentBlock,
       QInput,
       QBtn,
       QList,
