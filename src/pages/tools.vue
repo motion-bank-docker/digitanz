@@ -30,7 +30,7 @@
           status: true
         }, {
           action: 'recipes',
-          icon: 'menu',
+          icon: 'restaurant_menu',
           label: 'Rezepte',
           status: true
         }, {
