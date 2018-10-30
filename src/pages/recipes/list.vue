@@ -6,7 +6,9 @@
     content-block
       template(slot="title") Meine Rezepte
       template(slot="buttons")
-        q-btn.q-mt-sm(@click="$router.push('/recipes/' + recipe.uuid + '/create')", color="primary", icon="add", round, size="sm")
+        // FIX ME
+        // q-btn.q-mt-sm(@click="$router.push('/recipes/' + recipe.uuid + '/create')", color="primary", icon="add", round, size="sm")
+        q-btn.q-mt-sm(@click="$router.push('/recipes/create/123')", color="primary", icon="add", round, size="sm")
       template(slot="content")
         q-list(no-border)
           q-item.q-pa-none.items-baseline(v-for="recipe in personal", :key="recipe.uuid")
