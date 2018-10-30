@@ -7,7 +7,7 @@
       template(slot="title") Meine Rezepte
       template(slot="buttons")
         // FIX ME
-        q-btn.q-mt-sm(@click="$router.push('/recipes/' + recipe.uuid + '/create')", color="primary", icon="add", round, size="sm")
+        q-btn.q-mt-sm(@click="$router.push('/recipes/create')", color="primary", icon="add", round, size="sm")
       template(slot="content")
         q-list(no-border)
           q-item.q-pa-none.items-baseline(v-for="recipe in personal", :key="recipe.uuid")
@@ -15,8 +15,8 @@
               q-item-tile
                 // hier alle Titel meiner Rezepte anzeigen
                 // q-btn.full-width(@click="$router.push('/newrecipe/' + recipe.uuid)", align="left", outline)
-                q-btn.full-width(@click="$router.push('/recipes/' + recipe.uuid + '/create')", align="left", outline)
-                  | {{ JSON.parse(recipe.body.source).title }}
+                q-btn.full-width(@click="$router.push(`/recipes/edit/${recipe.uuid}`)", align="left", outline)
+                  | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
             q-item-side
               q-item-tile
                 q-btn(icon="delete", @click="deleteRecipe(recipe.uuid)")
@@ -37,8 +37,8 @@
             q-item-main(dark)
               q-item-tile
                 // Loop durch array aller Rezepte, Titel anzeigen
-                q-btn.full-width(@click="$router.push('/newrecipe/' + recipe.uuid)", align="left", outline)
-                  | {{ JSON.parse(recipe.body.source).title }}
+                q-btn.full-width(@click="$router.push('/recipe/edit/' + recipe.uuid)", align="left", outline)
+                  | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
             q-item-side
               q-item-tile
                 q-btn(@click="deleteRecipe(recipe.uuid)", icon="delete")
@@ -96,6 +96,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import Chance from 'chance'
   import ContentBlock from '../../components/ContentBlock'
 
@@ -132,49 +133,57 @@
     async mounted () {
       await this.loadRecipes()
     },
+    computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      })
+    },
+    watch: {
+      async user () {
+        await this.loadRecipes()
+      }
+    },
     methods: {
       async loadRecipes () {
-        const query = {
-          query: { 'body.type': 'Recipe' }
-        }
+        if (!this.user) return
+        const query = { 'body.type': 'Recipe' }
         const
           _this = this,
           recipes = await this.$store.dispatch('annotations/find', query)
-        this.personal = recipes.filter(recipe => {
-          return recipe.author === _this.$store.state.auth.payload.userId && recipe.body.purpose === 'personal'
+        this.personal = recipes.items.filter(recipe => {
+          return recipe.author.id === _this.user.uuid && recipe.body.purpose === 'personal'
         })
-        this.remixed = recipes.filter(recipe => {
-          return recipe.author === _this.$store.state.auth.payload.userId && recipe.body.purpose === 'remix'
+        this.remixed = recipes.items.filter(recipe => {
+          return recipe.author.id === _this.user.uuid && recipe.body.purpose === 'remix'
         })
       },
       async doRemix () {
-        const query = {
-          query: { 'body.type': 'Recipe' }
-        }
+        const query = { 'body.type': 'Recipe' }
         const recipes = await this.$store.dispatch('annotations/find', query)
-        const ingredients = chance.shuffle(recipes.reduce((all, val) => {
-          const { entries } = JSON.parse(val.body.source)
+        const ingredients = chance.shuffle(recipes.items.reduce((all, val) => {
+          if (!val.body.value) return all
+          const { entries } = JSON.parse(val.body.value)
           entries.forEach(entry => {
             if (all.indexOf(entry) === -1) all.push(entry.trim())
           })
           return all
         }, [])).splice(0, chance.integer({min: 3, max: 4}))
+        console.debug(ingredients)
         const anno = {
-          author: this.$store.state.auth.payload.userId,
           body: {
             type: 'Recipe',
             purpose: 'remix',
-            source: JSON.stringify({
+            value: JSON.stringify({
               title: `${chance.name()}`,
               entries: ingredients
             })
           }
         }
-        await this.$store.dispatch('annotations/create', anno)
+        await this.$store.dispatch('annotations/post', anno)
         await this.loadRecipes()
       },
       async deleteRecipe (uuid) {
-        await this.$store.dispatch('annotations/remove', uuid)
+        await this.$store.dispatch('annotations/delete', uuid)
         await this.loadRecipes()
       },
       deleteItem: function () {

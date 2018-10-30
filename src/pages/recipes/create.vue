@@ -51,17 +51,16 @@
       }
     },
     async mounted () {
-      if (this.$route.params.uuid !== 'create') {
+      if (this.$route.params.uuid) {
         this.anno = await this.$store.dispatch('annotations/get', this.$route.params.uuid)
-        this.newRecipe = JSON.parse(this.anno.body.source)
+        this.newRecipe = JSON.parse(this.anno.body.value)
       }
       else {
         this.anno = {
-          author: this.$store.state.auth.payload.userId,
           body: {
             type: 'Recipe',
             purpose: 'personal',
-            source: JSON.stringify(this.newRecipe)
+            value: JSON.stringify(this.newRecipe)
           }
         }
       }
@@ -96,15 +95,15 @@
         else {
           const _this = this
           console.log(this.newRecipe)
-          this.anno.body.source = JSON.stringify(this.newRecipe)
+          this.anno.body.value = JSON.stringify(this.newRecipe)
           if (this.anno.uuid) {
-            return this.$store.dispatch('annotations/update', [this.anno.uuid, this.anno])
+            return this.$store.dispatch('annotations/patch', [this.anno.uuid, this.anno])
               .then(recipe => {
                 console.log('updated recipe', recipe)
                 _this.editMode = false
               })
           }
-          return this.$store.dispatch('annotations/create', this.anno)
+          return this.$store.dispatch('annotations/post', this.anno)
             .then(recipe => {
               console.log('added recipe', recipe)
               _this.editMode = false
