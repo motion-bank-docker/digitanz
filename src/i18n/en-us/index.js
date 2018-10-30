@@ -14,7 +14,8 @@ export default {
     loading_portraits: 'Lade Portraits...',
     deleting_video: 'Lösche video...',
     empty: 'Es wurde noch keine Auswahl getroffen.',
-    setting_portrait: 'Aktualisiere Dein Portrait...'
+    setting_portrait: 'Aktualisiere Dein Portrait...',
+    saving: 'Speichere...'
   },
   labels: {
     add_word: 'Gib hier ein neues Adjektiv ein:',
@@ -37,6 +38,7 @@ export default {
     confirm: 'OK',
     // upload_remix: 'Remix hochladen'
     upload_remix: 'eigene Version hochladen',
+    upload_response: 'Antwort hochladen',
     orientation: {
       landscape: 'Querformat',
       portrait: 'Hochformat'

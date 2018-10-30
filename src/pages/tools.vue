@@ -26,7 +26,7 @@
         }, {
           action: 'clouds',
           icon: 'cloud',
-          label: 'Clouds',
+          label: 'Wortwolke',
           status: true
         }, {
           action: 'recipes',
@@ -39,9 +39,9 @@
           label: 'Raum',
           status: false
         }, {
-          action: 'rhytmus',
+          action: 'rhythmus',
           icon: 'linear_scale',
-          label: 'Rhytmus',
+          label: 'Rhythmus',
           status: false
         }]
       }

@@ -3,13 +3,14 @@
     // confirm-modal(ref="confirmDeleteModal", @confirm="deleteSequence")
 
     video-list-view(:videos="sequences",
+                    :allowSelfResponse="true",
                     layoutStyle="profile",
                     card-width="100%",
                     v-if="sequences.length > 0",
                     :buttons="['more-delete', 'more-download']",
                     :showDuration="false",
                     :isSequence="true",
-                    @changed="loadData")
+                    @changed="changed")
       template(slot="customButtons" slot-scope="{ video }")
         // q-btn(flat, size="sm", round, icon="delete", @click="openDeleteModal(video)")
         q-btn(flat, size="sm", round, :icon="getItemStyle(video).icon", :color="getItemStyle(video).color", @click="toggleItemFavorite(video)")
@@ -54,62 +55,20 @@
     },
     async mounted () {
       if (this.user) {
-        await this.loadData()
+        await this.loadFavouriteSequences()
       }
     },
     watch: {
       async user (val) {
-        if (val) await this.loadData()
+        if (val) await this.loadFavouriteSequences()
       }
     },
     methods: {
-      async loadData () {
-        console.log('loading sequences from component')
-        if (!this.user) return
-        // this.sequences = []
-        // const prefix = 'Sequenz: '
-        // const query = {
-        //   type: 'Timeline',
-        //   'author.id': this.user.uuid
-        // }
-        // const result = await this.$store.dispatch('maps/find', query)
-        // console.log('result:', result)
-        // this.sequences = result.items.filter(map => {
-        //   return map.title.indexOf(prefix) === 0
-        // }).sort(this.$sort.onCreatedDesc).map(map => {
-        //   const media = `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`
-        //   const preview = {
-        //     high: media.replace(/\.mp4$/, '.jpg'),
-        //     medium: media.replace(/\.mp4$/, '-m.jpg'),
-        //     small: media.replace(/\.mp4$/, '-s.jpg')
-        //   }
-        //   const annotation = {
-        //     author: {
-        //       id: this.user.uuid
-        //     },
-        //     uuid: map.uuid,
-        //     created: map.created,
-        //     updated: map.updated,
-        //       body: {
-        //         type: 'Video',
-        //           source: {
-        //           id: `${process.env.ASSETS_BASE_PATH}${map.uuid}.mp4`,
-        //             type: 'video/mp4'
-        //         }
-        //     }
-        //   }
-        //   return {
-        //     annotation,
-        //     title: map.title.substr(prefix.length),
-        //     preview,
-        //     media,
-        //     map
-        //   }
-        // })
-        await this.loadFavouriteSequences()
-      },
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
+      },
+      changed () {
+        this.$emit('changed')
       },
       async deleteSequence (sequence) {
         this.$q.loading.show({ message: this.$t('messages.deleting_sequence') })
@@ -132,6 +91,7 @@
         }
       },
       async loadFavouriteSequences () {
+        if (!this.user) return
         const query = {
           'target.id': this.sequencesFavouritesMapUUID,
           'author.id': this.user.uuid
@@ -185,10 +145,7 @@
           await this.$store.dispatch('logging/log', { action: 'sequence_favourite_unset', message })
           this.$q.loading.hide()
         }
-
-        // dk: neccessary to load content again?
-        await this.loadData()
-        console.log('sequence was made public')
+        await this.loadFavouriteSequences()
       }
     }
   }

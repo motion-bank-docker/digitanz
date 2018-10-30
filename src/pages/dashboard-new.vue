@@ -23,7 +23,7 @@
 
 <script>
 
-  import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences } from '../components/dashboard'
+  import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences, PublicClouds, PublicArchive } from '../components/dashboard'
   import ContentBlock from '../components/ContentBlock'
 
   export default {
@@ -32,6 +32,8 @@
       PublicSequences,
       PublicMrGriddles,
       PublicUploads,
+      PublicClouds,
+      PublicArchive,
       // PublicGroupSequences,
       ContentBlock
     },
@@ -39,24 +41,45 @@
       return {
         // dates: this.$dates(),
         components: [{
+          component: 'public-clouds',
+          day: '2018-08-24',
+          date: this.$t('navigation.portraitplusplus.sublabel'),
+          title: 'Wortwolken',
+          description: 'Eure geteilten Wortwolken'
+        }, {
+          /* component: 'public-archive',
+          day: '2018-08-24',
+          date: this.$t('navigation.portraitplusplus.sublabel'),
+          title: 'Archiv',
+          description: 'Video-Archiv'
+        }, { */
           component: 'public-uploads',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Uploads',
-          description: 'Deine geteilten Videos (Uploads)'
+          description: 'Eure geteilten Videos (Uploads)'
         }, {
           component: 'public-sequences',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Sequenzen',
-          description: 'Deine geteilten Video Sequenzen'
+          description: 'Eure geteilten Video Sequenzen'
         }, {
           component: 'public-mr-griddles',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
           title: 'Mr. Griddle Sequenzen',
-          description: 'Deine geteilten Mr. Griddle Sequenzen'
-        }]
+          description: 'Eure geteilten Mr. Griddle Sequenzen'
+        }, {
+          component: 'public-archive',
+          day: '2018-01-01',
+          date: this.$t('navigation.portraitplusplus.sublabel'),
+          title: 'Archiv',
+          description: 'Archiv'
+        }].sort(function (a, b) {
+          let x = a.day > b.day ? -1 : 1
+          return x
+        })
         // components: [{
         //   component: 'all-portraits',
         //   day: '2018-08-17',
@@ -71,13 +94,6 @@
         //   description: this.$t('navigation.portraitplusplus.sublabel')
         // }]
       }
-    },
-    mounted () {
-      this.components.sort(function (a, b) {
-        let x = a.day > b.day ? -1 : 1
-        return x
-      })
-      // console.log('##### dates ', this.$dates)
     }
   }
 </script>

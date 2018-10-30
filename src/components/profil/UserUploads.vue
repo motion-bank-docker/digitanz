@@ -65,23 +65,6 @@
     },
     methods: {
       async loadData () {
-        let query = {
-          'author.id': this.$store.state.auth.user.uuid,
-          'title': 'Meine Videos'
-        }
-        let results = await this.$store.dispatch('maps/find', query)
-        if (results.items && results.items.length) {
-          this.map = Object.assign({}, results.items[0])
-          query = {
-            'author.id': this.user.uuid,
-            'body.type': 'Video',
-            'body.source.type': 'video/mp4',
-            'target.id': {
-              $eq: `${process.env.TIMELINE_BASE_URI}${this.map.uuid}`
-            }
-          }
-          // let uploads = await VideoHelper.fetchVideoItems(this, query)
-        }
         await this.loadPublicUploads()
         await this.loadPortraits()
       },
@@ -213,12 +196,13 @@
         }
 
         await this.loadPublicUploads()
+        this.$emit('changed')
       }
     }
   }
 </script>
 
 <style lang="stylus" scoped>
-  .pfui
-    width 100%
+    .pfui
+      width 100%
 </style>

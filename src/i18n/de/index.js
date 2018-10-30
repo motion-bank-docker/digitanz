@@ -44,7 +44,8 @@ export default {
     cancel: 'Abbrechen',
     confirm: 'OK',
     // upload_remix: 'Remix hochladen'
-    upload_remix: 'eigene Version hochladen',
+    upload_remix: 'Video hinzufügen',
+    upload_response: 'Antwort hochladen',
     orientation: {
       landscape: 'Querformat',
       portrait: 'Hochformat'
@@ -192,6 +193,9 @@ export default {
     team: {
       headline: 'Das Team'
     },
+    profile: {
+      no_content: 'Keine Inhalte vorhanden'
+    },
     edit_sequence: {
       title: 'Sequenz bearbeiten',
       description: 'Lorem Ipsum, hier steht eine Beschreibung.'
@@ -199,7 +203,7 @@ export default {
     portrait: {
       title: 'Eure Portraits',
       description: 'Auf dieser Seite findet ihr alle Portraits vom ersten Termin. Ihr könnt hier zudem eure eigenen Versionen der Portraits der anderen hochladen und sehen wie andere eure Portraits umsetzen.',
-      upload_remix: 'Eigene Version von diesem Portrait hochladen',
+      upload_remix: 'Füge eine Antwort, einen Kommentar oder eine neue Version hinzu',
       no_remix: 'Bisher noch keine anderen Versionen',
       remix_singular: 'andere Version',
       remix_plural: 'andere Versionen'
@@ -221,7 +225,7 @@ export default {
       remix_plural: 'andere Versionen'
     },
     responses: {
-      title: 'Responses',
+      title: 'Reaktionen auf das Video',
       description: 'Lorem Ipsum, hier steht eine Beschreibung.'
     },
     mr_griddle: {

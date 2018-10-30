@@ -2,6 +2,11 @@
   div
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteSequence")
 
+    .text-center.q-mb-md(v-if="publishedSequences.length <= 0 && isLoading")
+      loading-spinner
+    .q-mb-md.no-content(v-else-if="publishedSequences.length <= 0 && !isLoading")
+      span.text-grey-8 {{ $t('pages.profile.no_content') }}
+
     video-list-view(:videos="publishedSequences",
     layoutStyle="sm",
     :buttons="['more-delete', 'more-download']",
@@ -17,6 +22,7 @@
 
 <script>
   import VideoListView from '../VideoListView'
+  import LoadingSpinner from '../LoadingSpinner'
   import { mapGetters } from 'vuex'
   import { SequenceHelper } from '../../lib'
   import ConfirmModal from '../ConfirmModal'
@@ -25,6 +31,7 @@
 
   export default {
     components: {
+      LoadingSpinner,
       VideoListView,
       ConfirmModal
     },
@@ -35,6 +42,7 @@
     },
     data () {
       return {
+        isLoading: false,
         sequencesFavouritesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.SEQUENCES_TIMELINE_UUID}`,
         sequences: [],
         publishedSequences: [],
@@ -53,8 +61,8 @@
     },
     methods: {
       async loadData () {
-        console.log('loading sequences from component')
         if (!this.user) return
+        this.isLoading = true
         this.sequences = []
         const prefix = 'Sequenz: '
         const query = {
@@ -97,6 +105,7 @@
         })
         await this.loadFavouriteSequences()
         this.findPublishedSequences()
+        this.isLoading = false
       },
       findPublishedSequences () {
         this.publishedSequences = []
@@ -159,6 +168,7 @@
   }
 </script>
 
-<style scoped>
-
+<style lang="stylus" scoped>
+  .no-content
+    margin-top -1em
 </style>

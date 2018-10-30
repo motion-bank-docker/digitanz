@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    <!--div {{recordeRhythmTime}}-->
+    <!--div {{recordedRhythmTime}}-->
       <!--| {{rhythmWeights}}-->
       <!--| {{timeLength}}-->
     <!--button(@click="() => {sendRhythm()}") An alle-->
@@ -11,21 +11,21 @@
         ellipse(cx="50%" cy="50%" rx="250" ry="250" :fill="statusColor" @click="() => {startRecording()}")
         text(x="50%" y="53%" fill="white" text-anchor="middle") {{currentStatus()}}
         template(v-if="status === 1")
-          text(x="50%" y="66%" fill="white" text-anchor="middle") {{recordeRhythmTime.length || 0}}
+          text(x="50%" y="66%" fill="white" text-anchor="middle") {{recordedRhythmTime.length || 0}}
       ellipse(:cx="tapVisual.x" :cy="tapVisual.y" :rx="tapVisual.size" :ry="tapVisual.size" fill="red")
     ul
       li(@click="() => {saveRhythm()}") save
 </template>
 
 <script>
-  import NetworkClock from '../lib/network-clock'
+  // import NetworkClock from '../lib/network-clock'
   export default {
     data () {
       return {
-        recordeStartTime: 0,
-        recordeRhythmTime: [],
+        recordedStartTime: 0,
+        recordedRhythmTime: [],
         time: 0,
-        netClock: new NetworkClock(),
+        netClock: undefined, // new NetworkClock(),
         statusText: ['Starten', 'Tap', 'Speichern'],
         status: 0,
         tap: false
@@ -34,20 +34,20 @@
     async mounted () {
       const _this = this
       setInterval(() => {
-        _this.time = this.netClock.getTime()
+        _this.time = Date.now()
       }, 40)
     },
     methods: {
       startRecording: function () {
         if (this.status === 0) {
           this.status = 1
-          this.recordeStartTime = this.time
-          // this.recordeRhythmTime.push(this.time - this.recordeStartTime)
+          this.recordedStartTime = this.time
+          // this.recordedRhythmTime.push(this.time - this.recordedStartTime)
           console.log('start Recording')
         }
         else if (this.status === 1) {
-          this.recordeRhythmTime.push(this.time - this.recordeStartTime)
-          console.log(this.recordeRhythmTime)
+          this.recordedRhythmTime.push(this.time - this.recordedStartTime)
+          console.log(this.recordedRhythmTime)
         }
       },
       currentStatus: function () {
@@ -118,7 +118,8 @@
         }
       },
       sendRhythm () {
-        this.netClock.broadcast({ rhythmWeights: this.rhythmWeights, timeLength: this.timeLength })
+        // this.netClock.broadcast({ rhythmWeights: this.rhythmWeights, timeLength: this.timeLength })
+        console.error('sendRhythm not implemented!')
       },
       openRhythm () {
         this.storeState()
@@ -138,12 +139,12 @@
       },
       rhythmWeights: function () {
         if (this.status === 1) {
-          console.log(this.convertToPercentages(this.recordeRhythmTime))
-          return this.convertToPercentages(this.recordeRhythmTime)
+          console.log(this.convertToPercentages(this.recordedRhythmTime))
+          return this.convertToPercentages(this.recordedRhythmTime)
         }
       },
       timeLength: function () {
-        let maxTime = this.recordeRhythmTime[this.recordeRhythmTime.length - 1]
+        let maxTime = this.recordedRhythmTime[this.recordedRhythmTime.length - 1]
         return (maxTime / 1000).toFixed(1)
       }
     }

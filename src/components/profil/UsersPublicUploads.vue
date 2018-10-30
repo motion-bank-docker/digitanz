@@ -4,7 +4,8 @@
 
     .text-center.q-mb-md(v-if="publicUploads.length <= 0 && isLoading")
       loading-spinner
-
+    .q-mb-md.no-content(v-else-if="publicUploads.length <= 0 && !isLoading")
+      span.text-grey-8 {{ $t('pages.profile.no_content') }}
     .row
       video-list-view(
         v-if="publicUploads && publicUploads.length > 0",
@@ -61,8 +62,16 @@
           'target.id': this.publicUploadsMapUUID,
           'author.id': this.user.uuid
         }
-        this.publicUploads = await VideoHelper.fetchVideoItems(this, query)
-
+        const publicUploads = await VideoHelper.fetchVideoItems(this, query)
+        // load responses
+        for (let upload of publicUploads) {
+          const responsesQuery = {
+            'target.id': `${process.env.ANNOTATION_BASE_URI}${upload.annotation.uuid}`,
+            'body.purpose': 'commenting'
+          }
+          upload.responses = await VideoHelper.fetchVideoItems(this, responsesQuery)
+        }
+        this.publicUploads = publicUploads
         this.$q.loading.hide()
         this.isLoading = false
       },
@@ -119,3 +128,8 @@
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+  .no-content
+    margin-top -1em
+</style>

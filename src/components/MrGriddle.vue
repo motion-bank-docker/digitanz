@@ -227,7 +227,7 @@
           await this.$store.dispatch('acl/set', {uuid: annot.uuid, role: 'digitanz', permissions: ['get']})
         }
         // this.$router.push('/mr-griddles')
-        this.$router.push('/profil')
+        this.$router.push('/profile')
         this.$q.loading.hide()
       },
       getState () {

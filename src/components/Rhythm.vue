@@ -42,7 +42,7 @@
 </template>
 
 <script>
-  import NetworkClock from '../lib/network-clock'
+  // import NetworkClock from '../lib/network-clock'
   export default {
     data () {
       return {
@@ -57,7 +57,7 @@
         timeLength: 10,
         playing: {},
         sounds: {pulse: '../assets/beep.mp3'},
-        netClock: new NetworkClock(),
+        netClock: undefined, // new NetworkClock(),
         time: 0,
         lastPulseTime: 0,
         interv: undefined
@@ -66,13 +66,13 @@
     async mounted () {
       const _this = this
       this.interv = setInterval(() => {
-        _this.time = this.netClock.getTime()
+        _this.time = Date.now()
       }, 40)
-      this.netClock.on('broadcast', data => {
-        if (data.rhythmWeights) {
-          this.setState(data)
-        }
-      })
+      // this.netClock.on('broadcast', data => {
+      //   if (data.rhythmWeights) {
+      //     this.setState(data)
+      //   }
+      // })
       if (this.$route.params && this.$route.params.annotationId) {
         const _this = this
         this.$store.dispatch('annotations/find', { query: { 'body.purpose': 'linking', 'uuid': this.$route.params.annotationId } })

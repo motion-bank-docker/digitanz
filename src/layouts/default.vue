@@ -42,7 +42,7 @@
     data () {
       return {
         buttons: [{
-          action: 'profil',
+          action: 'profile',
           icon: 'person',
           status: true
         }, {
@@ -54,7 +54,7 @@
           icon: 'build',
           status: true
         }],
-        rootPaths: ['', 'profil', 'dashboard-new', 'tools'],
+        rootPaths: ['', 'profile', 'dashboard-new', 'tools'],
         hideBackButton: true,
         currentApp: null,
         env: process.env,
@@ -77,8 +77,8 @@
     methods: {
       actions (val) {
         switch (val) {
-        case 'profil':
-          this.executeApp('profil')
+        case 'profile':
+          this.executeApp('profile')
           break
         case 'dashboard-new':
           this.executeApp('dashboard-new')
