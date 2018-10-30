@@ -25,7 +25,7 @@ module.exports = function (ctx) {
       // 'mdi',
       // 'fontawesome'
     ],
-    supportIE: true,
+    supportIE: false,
     vendor: {
       add: [],
       remove: []
