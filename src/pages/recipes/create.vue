@@ -1,29 +1,31 @@
 <template lang="pug">
   q-page
     q-btn.float-right(v-if="!editMode", @click="editMode = true", round, color="primary", icon="edit")
-    q-input.q-title.q-mt-lg.q-mx-lg(v-if="editMode", dark, v-model="newRecipe.title", placeholder="Titel")
+    q-input.q-title.q-mt-lg.q-mx-lg(v-if="editMode", dark, v-model="newRecipe.title", placeholder="Titel", :error="$v.newRecipe.title.$error")
     h2.q-display-1.q-ml-lg(v-else) {{newRecipe.title}}
-    q-list.q-ml-lg(v-if="newRecipe.entries.length > 0", no-border, v-dragula="newRecipe.entries", style="touch-action:none", drake="furz")
+    q-list.q-ml-lg(v-if="newRecipe.entries.length > 0", no-border)
       q-item.items-baseline(v-for="(ingr, index) in newRecipe.entries", :description="ingr", :key="ingr")
         q-item-main
-          p.q-title {{ ingr }}
-        q-item-side
-          q-btn(v-if="editMode", @click="deleteTodoItem(index)", icon="delete")
+          p.q-title.word-break {{ ingr }}
+        q-item-side(v-if="editMode")
+          q-btn(icon="keyboard_arrow_up")
+          q-btn(icon="keyboard_arrow_down")
+          q-btn(@click="deleteTodoItem(index)", icon="delete")
 
-    q-list(v-if="editMode")
+    q-list.q-pa-lg.no-border(v-if="editMode")
       q-item.no-padding
         q-item-main
-          q-input.q-ml-lg.q-mr-lg(hide-underline, dark, v-model="addIngedient", type="textarea", v-on:keyup.enter="addTodoItem", placeholder="Rezeptpunkt hinzufügen")
+          q-input(dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem", placeholder="Rezeptpunkt hinzufügen", :error="$v.newRecipe.entries.$error")
         q-item-side
           q-btn(@click="addTodoItem") hinzufügen
-      q-item-separator
     div.justify-around.row
-      q-btn.q-mt-sm.col-4(@click="saveRecipe", color="primary") speichern
+      q-btn.q-mt-sm.col-4(@click="submitRecipe", color="primary", type="submit") speichern
       // q-btn.q-mt-sm.col-4(@click="remixArray", color="secondary") remix
 </template>
 
 <script>
-  // import { required, minLength } from 'vuelidate/lib/validators'
+  import { required, minLength } from 'vuelidate/lib/validators'
+
   export default {
     data () {
       return {
@@ -32,9 +34,20 @@
           entries: [],
           position: undefined
         },
-        addIngedient: undefined,
+        submitStatus: null,
+        addIngredient: undefined,
         editMode: true,
         cols: []
+      }
+    },
+    validations: {
+      newRecipe: {
+        title: {
+          required,
+          minLength: minLength(2)},
+        entries: {
+          required
+        }
       }
     },
     async mounted () {
@@ -68,29 +81,45 @@
     },
     methods: {
       addTodoItem: function () {
-        this.newRecipe.entries.push(this.addIngedient.trim())
-        this.addIngedient = undefined
+        this.newRecipe.entries.push(this.addIngredient.trim())
+        this.addIngredient = undefined
       },
       deleteTodoItem: function (index) {
         this.newRecipe.entries.splice(index, 1)
       },
-      saveRecipe () {
-        const _this = this
-        console.log(this.newRecipe)
-        this.anno.body.source = JSON.stringify(this.newRecipe)
-        if (this.anno.uuid) {
-          return this.$store.dispatch('annotations/update', [this.anno.uuid, this.anno])
+      submitRecipe () {
+        console.log('submit!')
+        this.$v.$touch()
+        if (this.$v.$invalid) {
+          this.submitStatus = 'ERROR'
+        }
+        else {
+          const _this = this
+          console.log(this.newRecipe)
+          this.anno.body.source = JSON.stringify(this.newRecipe)
+          if (this.anno.uuid) {
+            return this.$store.dispatch('annotations/update', [this.anno.uuid, this.anno])
+              .then(recipe => {
+                console.log('updated recipe', recipe)
+                _this.editMode = false
+              })
+          }
+          return this.$store.dispatch('annotations/create', this.anno)
             .then(recipe => {
-              console.log('updated recipe', recipe)
+              console.log('added recipe', recipe)
               _this.editMode = false
             })
         }
-        return this.$store.dispatch('annotations/create', this.anno)
-          .then(recipe => {
-            console.log('added recipe', recipe)
-            _this.editMode = false
-          })
       }
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+  .word-break
+    hyphens: auto
+  .error
+    border: 1px solid red
+  .typo__p
+    color: red
+</style>

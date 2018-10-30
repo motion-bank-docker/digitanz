@@ -12,7 +12,8 @@ module.exports = function (ctx) {
       'i18n',
       'notifications',
       'dates',
-      'sort'
+      'sort',
+      'vuelidate'
       // 'dragula'
     ],
     css: [
