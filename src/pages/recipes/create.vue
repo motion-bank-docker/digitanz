@@ -1,8 +1,8 @@
 <template lang="pug">
-  q-page.q-ma-lg
-    q-btn.float-right.q-ml-md(v-if="!editMode", @click="editMode = true", round, color="primary", icon="edit")
+  q-page.q-pa-lg
+    q-btn.float-right.no-padding.no-margin.q-ml-md(v-if="!editMode", @click="editMode = true", round, color="primary", icon="edit")
     div
-      q-input.q-title.q-my-lg.q-mx-lg(dark, v-model="newRecipe.title", placeholder="Titel", :error="$v.newRecipe.title.$error",
+      q-input.q-title.q-my-md(dark, v-model="newRecipe.title", placeholder="Titel", :error="$v.newRecipe.title.$error",
       :readonly="!editMode", :hide-underline="!editMode")
       // h2.q-display-1.q-ml-lg(v-else) {{newRecipe.title}}
       q-list.q-ml-lg(v-if="newRecipe.entries.length > 0", no-border)
@@ -10,13 +10,14 @@
           q-item-main
             p.q-title.word-break {{ ingr }}
           q-item-side(v-if="editMode")
-            q-btn(icon="keyboard_arrow_up")
-            q-btn(icon="keyboard_arrow_down")
+            q-btn(icon="keyboard_arrow_up", @click="moveUp(index)")
+            q-btn(icon="keyboard_arrow_down", @click="moveDown(index)")
             q-btn(@click="deleteTodoItem(index)", icon="delete")
       q-list.q-pa-lg.no-border(v-if="editMode")
         q-item.no-padding
           q-item-main
-            q-input(dark, autofocus, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem", placeholder="Rezeptpunkt hinzufügen", :error="$v.newRecipe.entries.$error")
+            q-input(dark, autofocus, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
+            placeholder="Rezeptpunkt hinzufügen", :error="$v.newRecipe.entries.$error")
           q-item-side
             q-btn(@click="addTodoItem") hinzufügen
     div.justify-around.row
@@ -87,6 +88,18 @@
       },
       deleteTodoItem: function (index) {
         this.newRecipe.entries.splice(index, 1)
+      },
+      moveUp: function (index) {
+        if (index === 0) return
+        let a = this.newRecipe.entries
+        const moved = a.splice(index, 1)
+        a.splice(index - 1, 0, moved[0])
+      },
+      moveDown: function (index) {
+        let a = this.newRecipe.entries
+        if (index === a.length - 1) return
+        const moved = a.splice(index, 1)
+        a.splice(index + 1, 0, moved[0])
       },
       submitRecipe () {
         console.log('submit!')

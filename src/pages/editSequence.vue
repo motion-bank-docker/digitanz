@@ -108,7 +108,6 @@
         // const _this = this
         // const $drake = this.$dragula.$service
         // $service.options('checkedVideos', { direction: 'horizontal' })
-
         if (this.$store.state.auth.user) {
           let query = ObjectUtil.merge({
             'author.id': this.$store.state.auth.user.uuid

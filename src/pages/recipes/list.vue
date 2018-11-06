@@ -43,8 +43,7 @@
             q-item-main(dark)
               q-item-tile
                 // Loop durch array aller Rezepte, Titel anzeigen
-                q-btn.full-width(@click="log(recipe)", align="left", outline)
-                  // $router.push('/recipe/edit/' + recipe.body.uuid)"
+                q-btn.full-width(@click="$router.push('/recipes/edit/' + recipe.uuid)", align="left", outline)
                   | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
             q-item-side
               q-item-tile
@@ -227,7 +226,7 @@
         this.openPopupShare = false
       },
       log (recipe) {
-        console.log(recipe.uuid)
+        console.log(recipe)
       }
     }
   }
