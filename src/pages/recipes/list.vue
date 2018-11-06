@@ -1,13 +1,10 @@
 <template lang="pug">
-  q-page.q-ma-lg.relative-position
+  q-page.q-pa-lg.relative-position
 
     //
     // LISTE DER REZEPTE
-    content-block
+    content-block.no-margin
       template(slot="title") Meine Rezepte
-      template(slot="buttons")
-        // FIX ME
-        q-btn.q-mt-sm(@click="$router.push('/recipes/create')", color="primary", icon="add", round, size="sm")
       template(slot="content")
         q-list.no-padding.no-border
           q-item.items-baseline(v-for="recipe in personal", :key="recipe.uuid")
