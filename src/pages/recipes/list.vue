@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page.q-mx-md.relative-position
+  q-page.q-ma-lg.relative-position
 
     //
     // LISTE DER REZEPTE
@@ -9,8 +9,8 @@
         // FIX ME
         q-btn.q-mt-sm(@click="$router.push('/recipes/create')", color="primary", icon="add", round, size="sm")
       template(slot="content")
-        q-list(no-border)
-          q-item.q-pa-none.items-baseline(v-for="recipe in personal", :key="recipe.uuid")
+        q-list.no-padding.no-border
+          q-item.items-baseline(v-for="recipe in personal", :key="recipe.uuid")
             q-item-main(dark)
               q-item-tile
                 // hier alle Titel meiner Rezepte anzeigen
@@ -22,6 +22,12 @@
                 q-btn(icon="delete", @click="deleteRecipe(recipe.uuid)")
                 // q-btn(icon="delete" @click="openPopupDelete = true")
                 // q-btn(icon="share" @click="openPopupShare = true")
+          q-item
+            q-item-main(dark)
+              q-btn.full-width.dashed(@click="$router.push('/recipes/create')", color="primary", align="left", outline)
+                | Neues Rezept
+            q-item-side
+              q-btn.display-none(icon="delete")
           // q-item.q-pa-none
             // q-btn.q-ml-md.q-mt-sm.q-mb-md(@click="$router.push('/newrecipe/create')", align="left", color="primary", icon="add circle")
             q-btn(@click="$router.push('/recipes/' + recipe.uuid + '/create')", align="left", color="primary", icon="add circle")
@@ -32,23 +38,28 @@
       template(slot="title") Gemixte Rezepte
       template(slot="buttons")
       template(slot="content")
-        q-list.q-pa-none(no-border)
+        q-list.q-pa-none.no-border
           q-item.items-baseline(v-for="recipe in remixed", :key="recipe.uuid")
             q-item-main(dark)
               q-item-tile
                 // Loop durch array aller Rezepte, Titel anzeigen
-                q-btn.full-width(@click="$router.push('/recipe/edit/' + recipe.uuid)", align="left", outline)
+                q-btn.full-width(@click="log(recipe)", align="left", outline)
+                  // $router.push('/recipe/edit/' + recipe.body.uuid)"
                   | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
             q-item-side
               q-item-tile
                 q-btn(@click="deleteRecipe(recipe.uuid)", icon="delete")
                 // q-btn(icon="delete")
                 // q-btn(icon="share")
-          q-item.q-pa-none
-            q-btn.full-width(@click="doRemix", color="primary") Neuer Remix
+          q-item
+            q-item-main(dark)
+              q-btn.full-width.dashed(@click="doRemix", color="primary", align="left", outline)
+                | Neuer Remix
+            q-item-side
+              q-btn.display-none(icon="delete")
 
     // POP UP FIELD "DELETE"
-    q-modal.row(v-model="openPopupDelete", minimized)
+    // q-modal.row(v-model="openPopupDelete", minimized)
       div.q-ma-md.justify-center
         h1.q-title Möchtest du dieses Rezept löschen?
         div.row.justify-around
@@ -61,6 +72,7 @@
           color="negative"
             @click="openPopupDelete = false"
           label="Abbrechen")
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
     // POP UP FIELD "SHARE"
     q-modal.row(v-model="openPopupShare", minimized)
@@ -82,7 +94,7 @@
             q-item-main
               p.q-title {{ user.title }}
             q-item-side
-              q-btn(@click="deleteSharedUser(index)", icon="delete")
+              q-btn(@click="", icon="delete")
         div.row.justify-around
           q-btn.q-ma-xs(
           color="primary"
@@ -99,6 +111,7 @@
   import { mapGetters } from 'vuex'
   import Chance from 'chance'
   import ContentBlock from '../../components/ContentBlock'
+  import ConfirmModal from '../../components/ConfirmModal'
 
   import {QInput, QBtn, QList, QItem, QPage, QItemMain, QItemSide, QItemTile, QModal, QModalLayout, QSearch, QAutocomplete, QChipsInput} from 'quasar'
   const chance = new Chance()
@@ -117,7 +130,8 @@
       QModalLayout,
       QSearch,
       QAutocomplete,
-      QChipsInput
+      QChipsInput,
+      ConfirmModal
     },
     data () {
       return {
@@ -211,7 +225,17 @@
         // send this somewhere
         // close Popup afterwards
         this.openPopupShare = false
+      },
+      log (recipe) {
+        console.log(recipe.uuid)
       }
     }
   }
 </script>
+
+<style lang="stylus">
+  .display-none
+    opacity: 0
+  .dashed
+    border-style: dashed
+</style>
