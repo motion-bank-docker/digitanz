@@ -75,6 +75,7 @@ module.exports = function (ctx) {
         MR_GRIDDLE_SEQUENCES_TIMELINE_UUID: JSON.stringify(process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID || '91b4bd23-8272-44bd-8879-785d8092edc8'),
         ABGABEN_TIMELINE_UUID: JSON.stringify(process.env.ABGABEN_TIMELINE_UUID || '8b008aea-12a9-4dd9-b70b-aee0f56a203f'),
         ARCHIVE_TIMELINE_UUID: JSON.stringify(process.env.ARCHIVE_TIMELINE_UUID || 'f6d1f4f9-f79b-4996-9c95-8ecb4ae6dbed'),
+        RECIPES_TIMELINE_UUID: JSON.stringify(process.env.RECIPES_TIMELINE_UUID || '8176b3a2-9b51-47c8-869c-426ce2f48719'),
         APP_NAME: JSON.stringify(process.env.APP_NAME || 'digitanz'),
         //
         // Auth0
