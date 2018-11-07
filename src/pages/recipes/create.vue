@@ -65,6 +65,7 @@
             value: JSON.stringify(this.newRecipe)
           }
         }
+        this.editMode = true
       }
       /*
       if (!annos || !annos.length) {

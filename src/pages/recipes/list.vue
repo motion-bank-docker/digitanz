@@ -1,5 +1,8 @@
 <template lang="pug">
   q-page.q-pa-lg.relative-position
+    //
+    // DELETE MODAL
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteRecipe")
 
     //
     // LISTE DER REZEPTE
@@ -16,7 +19,7 @@
                   | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
             q-item-side
               q-item-tile
-                q-btn(icon="delete", @click="deleteRecipe(recipe.uuid)")
+                q-btn(icon="delete", @click="openDeleteModal(recipe)")
                 // q-btn(icon="delete" @click="openPopupDelete = true")
                 // q-btn(icon="share" @click="openPopupShare = true")
           q-item
@@ -44,7 +47,7 @@
                   | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
             q-item-side
               q-item-tile
-                q-btn(@click="deleteRecipe(recipe.uuid)", icon="delete")
+                q-btn(@click="openDeleteModal(recipe)", icon="delete")
                 // q-btn(icon="delete")
                 // q-btn(icon="share")
           q-item
@@ -53,54 +56,6 @@
                 | Neuer Remix
             q-item-side
               q-btn.display-none(icon="delete")
-
-    // POP UP FIELD "DELETE"
-    // q-modal.row(v-model="openPopupDelete", minimized)
-      div.q-ma-md.justify-center
-        h1.q-title Möchtest du dieses Rezept löschen?
-        div.row.justify-around
-          q-btn.q-ma-xs(
-          color="negative"
-            @click="deleteItem"
-          label="Löschen")
-          q-btn.q-ma-xs(
-          outline
-          color="negative"
-            @click="openPopupDelete = false"
-          label="Abbrechen")
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
-
-    // POP UP FIELD "SHARE"
-    q-modal.row(v-model="openPopupShare", minimized)
-      div.q-ma-md.justify-center
-        h1.q-title Mit wem möchtest du dieses Rezept teilen?
-        q-search(
-        v-model="searchModel"
-        icon="person"
-        Label="User"
-        helper="Tippe einen Namen ein"
-        v-on:keyup.enter="addSharedUser")
-          //q-autocomplete(@search="search" @selected="selected")
-          q-btn.no-outline.no-border(icon="send", @click="addSharedUser")
-        q-list.q-ml-md(no-border)
-          q-item.items-baseline(
-          v-for="(user, index) in sharedUser",
-          :key="index",
-          :title="user.title")
-            q-item-main
-              p.q-title {{ user.title }}
-            q-item-side
-              q-btn(@click="", icon="delete")
-        div.row.justify-around
-          q-btn.q-ma-xs(
-          color="primary"
-            @click="shareItem"
-          label="Teilen")
-          q-btn.q-ma-xs(
-          outline
-          color="primary"
-            @click="openPopupShare = false"
-          label="Abbrechen")
 </template>
 
 <script>
@@ -131,10 +86,6 @@
     },
     data () {
       return {
-        openPopupDelete: false,
-        openPopupShare: false,
-        sharedUser: [],
-        searchModel: '',
         recipes: [],
         personal: [],
         remixed: []
@@ -156,7 +107,7 @@
     methods: {
       async loadRecipes () {
         if (!this.user) return
-        const query = { 'body.type': 'Recipe' }
+        const query = {'body.type': 'Recipe'}
         const
           _this = this,
           recipes = await this.$store.dispatch('annotations/find', query)
@@ -168,11 +119,11 @@
         })
       },
       async doRemix () {
-        const query = { 'body.type': 'Recipe' }
+        const query = {'body.type': 'Recipe'}
         const recipes = await this.$store.dispatch('annotations/find', query)
         const ingredients = chance.shuffle(recipes.items.reduce((all, val) => {
           if (!val.body.value) return all
-          const { entries } = JSON.parse(val.body.value)
+          const {entries} = JSON.parse(val.body.value)
           entries.forEach(entry => {
             if (all.indexOf(entry) === -1) all.push(entry.trim())
           })
@@ -192,38 +143,13 @@
         await this.$store.dispatch('annotations/post', anno)
         await this.loadRecipes()
       },
-      async deleteRecipe (uuid) {
-        await this.$store.dispatch('annotations/delete', uuid)
-        await this.loadRecipes()
+      openDeleteModal (uuid) {
+        this.$refs.confirmDeleteModal.show('labels.confirm_delete', uuid, 'buttons.delete')
       },
-      deleteItem: function () {
-        // Delete selected recipe from Recipe-array
-        this.openPopupDelete = false
-      },
-      search: function (terms, done) {
-        // is for Autocomplete: do something with terms, like an Ajax call for example
-        // then call done(Array results)
-
-        // DO NOT forget to call done! When no results or an error occured,
-        // just call with empty array as param. Example: done([])
-        done([])
-      },
-      addSharedUser: function () {
-        this.sharedUser.push({
-          title: this.searchModel
-        })
-        this.searchModel = ''
-      },
-      deleteSharedUser: function (index) {
-        this.sharedUser.splice(index, 1)
-      },
-      shareItem: function () {
-        // send this somewhere
-        // close Popup afterwards
-        this.openPopupShare = false
-      },
-      log (recipe) {
+      async deleteRecipe (recipe) {
         console.log(recipe)
+        await this.$store.dispatch('annotations/delete', recipe.uuid)
+        await this.loadRecipes()
       }
     }
   }
