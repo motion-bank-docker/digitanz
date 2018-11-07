@@ -3,7 +3,8 @@
     recipe-list-view(v-if="items",
     :buttonsX="buttonsX",
     :buttonsY="buttonsY",
-    :items="items")
+    :items="items",
+    :color="color")
 
 </template>
 
@@ -14,7 +15,11 @@
     components: {
       RecipeListView
     },
-    props: ['items'],
+    // props: ['items'],
+    props: {
+      items: Array,
+      color: String
+    },
     data () {
       return {
         buttonsX: [{

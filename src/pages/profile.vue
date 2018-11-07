@@ -71,11 +71,21 @@
                   user-sequences(v-else-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
                   user-uploads(@changed="fetchPortrait", v-else-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
                   user-clouds(v-else-if="item.type === 'word-association'", :items="[item]")
-                  user-recipes(v-else-if="item.body && item.body.type === 'Recipe'", :items="[item]")
+                  user-recipes(
+                  v-else-if="item.body && item.body.type === 'Recipe'",
+                  :items="[item]",
+                  :color="(item.body.purpose === 'personal' ? 'green' : 'blue')")
 
       //
       // LIST PUBLIC
       div(v-else-if="displayType === 'visibility'")
+
+        //
+        // Public Clouds
+        content-block
+          template(slot="title") Geteilte Rezepte
+          template(slot="content")
+            users-public-recipes
 
         //
         // Public Clouds
@@ -142,6 +152,7 @@
   import UserSequences from '../components/profil/UserSequences'
   import UserUploads from '../components/profil/UserUploads'
   import UsersPublicClouds from '../components/profil/UsersPublicClouds'
+  import UsersPublicRecipes from '../components/profil/UsersPublicRecipes'
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
   import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
@@ -162,6 +173,7 @@
       UsersPublicMrGriddles,
       UsersPublicUploads,
       UsersPublicClouds,
+      UsersPublicRecipes,
       FileUploaderMicro,
       ContentBlock,
       MrGriddleListView,
@@ -258,15 +270,18 @@
       },
       async loadRecipesData () {
         if (!this.user) return
-        const query = { 'body.type': 'Recipe' }
+        const query = {
+          'body.type': 'Recipe',
+          'author.id': this.user.uuid
+        }
         const
           _this = this,
           recipes = await this.$store.dispatch('annotations/find', query)
         this.recipesPersonal = recipes.items.filter(recipe => {
-          return recipe.author.id === _this.user.uuid && recipe.body.purpose === 'personal'
+          return recipe.author.id === _this.user.uuid && recipe.body.purpose === 'personal' && !recipe.target
         })
         this.recipesRemixed = recipes.items.filter(recipe => {
-          return recipe.author.id === _this.user.uuid && recipe.body.purpose === 'remix'
+          return recipe.author.id === _this.user.uuid && recipe.body.purpose === 'remix' && !recipe.target
         })
         console.debug('personal recipes:', this.recipesPersonal)
         console.debug('remixed recipes:', this.recipesRemixed)
