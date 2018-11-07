@@ -12,9 +12,8 @@
 
     // content
     q-card-main.q-mb-lg
-      // | {{ item.isPublic }}
-      div(@click="$router.push('/clouds/' + item.uuid + '/responses')")
-        p(v-for="word in item.value") {{ word }}
+      div(v-if="parsedItem.entries.length > 0")
+        p(v-for="(ingr, index) in parsedItem.entries") {{ ingr }}
 
     // buttons
     q-card-actions.absolute-bottom(v-if="buttonsX || buttonsY").row.justify-around
@@ -62,24 +61,33 @@
     },
     data () {
       return {
+        parsedItem: {
+          title: undefined,
+          entries: [],
+          position: undefined
+        },
         responseCount: 0
       }
     },
     async mounted () {
-      this.isOwnContent()
-      const query = {
-        'target.id': `${process.env.ASSOCIATION_BASE_URI}${this.item.uuid}`,
-        'target.type': 'WordAssociation',
-        'body.purpose': 'commenting',
-        'body.type': 'Video'
-      }
-      const responses = await this.$store.dispatch('annotations/find', query)
-      this.responseCount = responses.items ? responses.items.length : 0
+      this.parsedItem = JSON.parse(this.item.body.value)
+      console.log('a parsed recipe item', this.parsedItem)
+      console.log('recipe item', this.item)
     },
     methods: {
-      async deleteItem (uuid) {
-        await this.$store.dispatch('cloud/removeAssociation', uuid)
-        this.$root.$emit('updateClouds')
+      async deleteItem (item) {
+        try {
+          await this.$store.dispatch('annotations/delete', item)
+        }
+        catch (e) {
+          console.error('Failed to remove annotation', e.message)
+          this.$captureException(e)
+        }
+        this.$root.$emit('updateRecipes')
+        console.debug('recipe might be deleted', item)
+      },
+      openDeleteModal (item) {
+        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       isOwnContent () {
         return (this.item.author.id === this.user.uuid)
