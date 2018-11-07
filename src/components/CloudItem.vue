@@ -30,7 +30,7 @@
         q-popover.bg-dark(:offset="[10, 0]")
           q-list
             q-item(v-for="btn in buttonsY").q-px-sm
-              q-btn(round, flat, size="sm", :icon="btn.icon", @click="onAction(btn.label)")
+              q-btn(round, flat, size="sm", v-close-overlay, :icon="btn.icon", @click="onAction(btn.label)")
 
 </template>
 
