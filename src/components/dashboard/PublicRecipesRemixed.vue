@@ -9,7 +9,8 @@
         :buttonsX="buttonsX",
         :buttonsY="buttonsY",
         :items="recipes",
-        :showContentFlag="true")
+        :showContentFlag="true",
+        size="sm")
 </template>
 
 <script>

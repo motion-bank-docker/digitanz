@@ -22,7 +22,7 @@
       buttonsX: Array,
       buttonsY: Array,
       items: Array,
-      size: undefined,
+      size: String,
       showContentFlag: Boolean,
       color: String
     }
