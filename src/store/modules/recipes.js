@@ -1,4 +1,5 @@
 import { Assert } from 'mbjs-utils'
+import parseURI from 'mbjs-data-models/src/lib/parse-uri'
 
 const publicTimelineID = `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_RECIPES_TIMELINE_UUID}`
 
@@ -107,7 +108,11 @@ const recipes = {
       return []
     },
     async delete ({ dispatch }, annotation) {
-      const id = annotation.body.source && annotation.body.source.id ? annotation.body.source.id : annotation.id
+      let id = annotation.id, uuid = annotation.uuid
+      if (annotation.body.source && annotation.body.source.id) {
+        id = annotation.body.source.id
+        uuid = parseURI(id).uuid
+      }
       const query = {
         'target.id': publicTimelineID,
         'body.source.id': id,
@@ -123,7 +128,7 @@ const recipes = {
           catch (e) { console.debug('unable to remove acl for public recipe annotation', e) }
         }
       }
-      await dispatch('annotations/delete', annotation.uuid, { root: true })
+      await dispatch('annotations/delete', uuid, { root: true })
     }
   }
 }
