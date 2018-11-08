@@ -18,10 +18,12 @@
   import { mapGetters } from 'vuex'
 
   import CloudListView from '../CloudListView'
+  import LoadingSpinner from '../LoadingSpinner'
 
   export default {
     components: {
-      CloudListView
+      CloudListView,
+      LoadingSpinner
     },
     data () {
       return {

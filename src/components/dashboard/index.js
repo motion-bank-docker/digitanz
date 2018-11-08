@@ -6,6 +6,8 @@ import PublicMrGriddles from './PublicMrGriddles'
 import PublicClouds from './PublicClouds'
 import PublicArchive from './PublicArchive'
 import PublicUploads from './PublicUploads'
+import PublicRecipes from './PublicRecipes'
+import PublicRecipesRemixed from './PublicRecipesRemixed'
 import Portraits from './Portraits'
 import PortraitsPlusPlus from './PortraitsPlusPlus'
 import GroupVideoSequences from './GroupVideoSequences'
@@ -19,6 +21,8 @@ export {
   PublicUploads,
   PublicClouds,
   PublicArchive,
+  PublicRecipes,
+  PublicRecipesRemixed,
   Portraits,
   PortraitsPlusPlus,
   GroupVideoSequences

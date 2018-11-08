@@ -36,7 +36,7 @@
             },
             body: {
               type: 'Recipe',
-              value: '{"title":"moritz rezept","entries":["In die Hände klatschen","Die Luft umarmen","wie wild im Kreis laufen"]}',
+              value: '{"title":"Rezept zum Glück","entries":["In die Hände klatschen","Die Luft umarmen","wie wild im Kreis laufen"]}',
               purpose: 'personal'
             },
             created: '2018-11-07T13:07:47.951+00:00',
@@ -53,7 +53,7 @@
             },
             body: {
               type: 'Recipe',
-              value: '{"title":"moritz rezept","entries":["In die Hände klatschen","Die Luft umarmen","wie wild im Kreis laufen"]}',
+              value: '{"title":"Wie Schnecken über den Tanzboden","entries":["In die Hände klatschen","Die Luft umarmen","wie wild im Kreis laufen"]}',
               purpose: 'personal'
             },
             created: '2018-11-07T13:07:47.951+00:00',

@@ -23,7 +23,7 @@
 
 <script>
 
-  import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences, PublicClouds, PublicArchive } from '../components/dashboard'
+  import { PublicPortraits, PublicMrGriddles, PublicUploads, PublicSequences, PublicClouds, PublicArchive, PublicRecipes, PublicRecipesRemixed } from '../components/dashboard'
   import ContentBlock from '../components/ContentBlock'
 
   export default {
@@ -34,6 +34,8 @@
       PublicUploads,
       PublicClouds,
       PublicArchive,
+      PublicRecipes,
+      PublicRecipesRemixed,
       // PublicGroupSequences,
       ContentBlock
     },
@@ -41,6 +43,18 @@
       return {
         // dates: this.$dates(),
         components: [{
+          component: 'public-recipes',
+          day: '2018-08-24',
+          date: this.$t('navigation.portraitplusplus.sublabel'),
+          title: 'Rezepte',
+          description: 'Eure geteilten Rezepte'
+        }, {
+          component: 'public-recipes-remixed',
+          day: '2018-08-24',
+          date: this.$t('navigation.portraitplusplus.sublabel'),
+          title: 'Gemixte Rezepte',
+          description: 'Eure geteilten gemixten Rezepte'
+        }, {
           component: 'public-clouds',
           day: '2018-08-24',
           date: this.$t('navigation.portraitplusplus.sublabel'),
