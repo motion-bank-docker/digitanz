@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-card.relative-position.q-mb-lg.relative-position.bg-dark(:style="{'width':cardWidth}")
+  q-card.relative-position.q-mb-lg.relative-position.bg-dark
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item)")
     // q-window-resize-observable(@resize="onResize")
 
