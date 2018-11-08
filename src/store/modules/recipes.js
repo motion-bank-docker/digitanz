@@ -11,8 +11,7 @@ const recipes = {
       const query = {
         'target.id': publicTimelineID,
         'body.source.id': annotation.id,
-        'body.type': 'Recipe',
-        'body.purpose': 'linking'
+        'body.type': 'Recipe'
       }
       const results = await dispatch('annotations/find', query, { root: true })
       if (results && results.items && results.items.length) {
@@ -36,7 +35,7 @@ const recipes = {
             type: 'Timeline'
           },
           body: {
-            purpose: 'linking',
+            purpose: annotation.body.purpose,
             type: 'Recipe',
             value: annotation.body.value,
             source: {
@@ -58,8 +57,7 @@ const recipes = {
       const query = {
         'target.id': publicTimelineID,
         'body.source.id': annotation.id,
-        'body.type': 'Recipe',
-        'body.purpose': 'linking'
+        'body.type': 'Recipe'
       }
       const results = await dispatch('annotations/find', query, { root: true })
       return results && results.items && results.items.length
@@ -87,7 +85,18 @@ const recipes = {
     async getPublic ({ dispatch }) {
       const query = {
         'target.id': publicTimelineID,
-        'body.type': 'Recipe'
+        'body.type': 'Recipe',
+        'body.purpose': 'personal'
+      }
+      const results = await dispatch('annotations/find', query, { root: true })
+      if (results && results.items) return results.items
+      return []
+    },
+    async getPublicRemixed ({ dispatch }) {
+      const query = {
+        'target.id': publicTimelineID,
+        'body.type': 'Recipe',
+        'body.purpose': 'remix'
       }
       const results = await dispatch('annotations/find', query, { root: true })
       if (results && results.items) return results.items
@@ -97,8 +106,7 @@ const recipes = {
       const query = {
         'target.id': publicTimelineID,
         'body.source.id': annotation.id,
-        'body.source.type': 'Recipe',
-        'body.purpose': 'linking'
+        'body.type': 'Recipe'
       }
       const results = await dispatch('annotations/find', query, { root: true })
       if (results && results.items && results.items.length) {

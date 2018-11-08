@@ -61,42 +61,7 @@
     methods: {
       async loadData () {
         this.isLoading = true
-        // TODO Anton
-        // load public recipes here and smile
-        this.recipes = [{
-          _id: '5be2e3a378fa4017cbb12e3e',
-          uuid: '214369ed-3475-41db-9e46-e05b7b801148',
-          id: 'http://id.motionbank.org/annotations/214369ed-3475-41db-9e46-e05b7b801148',
-          type: 'Annotation',
-          author: {
-            id: '10df2080-a184-55df-a074-dfe74068761f',
-            name: 'denis.klein'
-          },
-          body: {
-            type: 'Recipe',
-            value: '{"title":"moritz rezept","entries":["In die Hände klatschen","Die Luft umarmen","wie wild im Kreis laufen"]}',
-            purpose: 'personal'
-          },
-          created: '2018-11-07T13:07:47.951+00:00',
-          _path: 'annotations/'
-        },
-        {
-          _id: '5be2e3a378fa4017cbb12e3e',
-          uuid: '214369ed-3475-41db-9e46-e05b7b801148',
-          id: 'http://id.motionbank.org/annotations/214369ed-3475-41db-9e46-e05b7b801148',
-          type: 'Annotation',
-          author: {
-            id: 'bc47bf32-156b-5bde-831e-efcf6a70e5aa',
-            name: 'denis.klein'
-          },
-          body: {
-            type: 'Recipe',
-            value: '{"title":"moritz rezept","entries":["Rezept von Maxi, Vicky und Anna-Lena","Die Luft umarmen","wie wild im Kreis laufen"]}',
-            purpose: 'personal'
-          },
-          created: '2018-11-07T13:07:47.951+00:00',
-          _path: 'annotations/'
-        }]
+        this.recipes = await this.$store.dispatch('recipes/getPublic')
         this.isLoading = false
       }
     }

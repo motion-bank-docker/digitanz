@@ -24,42 +24,7 @@
     data () {
       return {
         publicRecipesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_RECIPES_TIMELINE_UUID}`,
-        publicRecipes: [
-          {
-            _id: '5be2e3a378fa4017cbb12e3e',
-            uuid: '214369ed-3475-41db-9e46-e05b7b801148',
-            id: 'http://id.motionbank.org/annotations/214369ed-3475-41db-9e46-e05b7b801148',
-            type: 'Annotation',
-            author: {
-              id: '10df2080-a184-55df-a074-dfe74068761f',
-              name: 'denis.klein'
-            },
-            body: {
-              type: 'Recipe',
-              value: '{"title":"Rezept zum Glück","entries":["In die Hände klatschen","Die Luft umarmen","wie wild im Kreis laufen"]}',
-              purpose: 'personal'
-            },
-            created: '2018-11-07T13:07:47.951+00:00',
-            _path: 'annotations/'
-          },
-          {
-            _id: '5be2e3a378fa4017cbb12e3e',
-            uuid: '214369ed-3475-41db-9e46-e05b7b801148',
-            id: 'http://id.motionbank.org/annotations/214369ed-3475-41db-9e46-e05b7b801148',
-            type: 'Annotation',
-            author: {
-              id: '10df2080-a184-55df-a074-dfe74068761f',
-              name: 'denis.klein'
-            },
-            body: {
-              type: 'Recipe',
-              value: '{"title":"Wie Schnecken über den Tanzboden","entries":["In die Hände klatschen","Die Luft umarmen","wie wild im Kreis laufen"]}',
-              purpose: 'personal'
-            },
-            created: '2018-11-07T13:07:47.951+00:00',
-            _path: 'annotations/'
-          }
-        ],
+        publicRecipes: [],
         buttonsX: [{
           icon: 'people',
           label: 'visibility'
@@ -95,25 +60,8 @@
     methods: {
       async loadData () {
         this.isLoading = true
-        // const query = {
-        //   'target.id': this.publicRecipesMapUUID,
-        //   'author.id': this.user.uuid
-        // }
-        // const result = await this.$store.dispatch('annotations/find', query)
-
-        // let recipes = result.items.map(foo => {
-        //   return {
-        //     foo: foo,
-        //     author: {
-        //       id: this.user.uuid
-        //     },
-        //     body: {
-        //       type: 'Recipe',
-        //       bla: foo
-        //     }
-        //   }
-        // })
-        // this.publicRecipes = recipes
+        const publicRecipes = await this.$store.dispatch('recipes/getPublic')
+        this.publicRecipes = publicRecipes.filter(r => r.author.id === this.user.uuid)
         this.isLoading = false
         console.debug('publicRecipes', this.publicRecipes)
       }
