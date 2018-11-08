@@ -12,10 +12,11 @@
     // content
     q-card-main.q-mb-lg
       p.recipe-title(@click="$router.push('/recipes/edit/' + item.uuid)", :class="item.body.purpose === 'personal' ? 'text-primary' : 'text-secondary'") {{ parsedBody.title }}
-      <!--div(v-if="parsedBody.entries.length > 0")-->
-        <!--ol.q-pl-md-->
-          <!--li.q-mb-md(v-for="(ingr, index) in parsedBody.entries") {{ ingr }}-->
-
+      q-list(v-if="displayIngr && parsedBody.entries.length > 0", no-border, separator, dark, dense)
+        q-item.listItem(v-for="(ingr, index) in parsedBody.entries")
+          q-item-side {{ index + 1 }}
+          q-item-main
+            p.q-mb-none.word-break {{ ingr }}
     // buttons
     q-card-actions.absolute-bottom(v-if="buttonsX || buttonsY").row.justify-around
 
@@ -53,6 +54,10 @@
       buttonsY: Array,
       item: Object,
       showContentFlag: {
+        type: Boolean,
+        default: false
+      },
+      displayIngr: {
         type: Boolean,
         default: false
       }
@@ -199,4 +204,6 @@
     justify-content center
     align-items center
     padding 1px
+  .listItem
+    padding 8px 0!important
 </style>
