@@ -280,8 +280,8 @@
       },
       async loadRecipesData () {
         if (!this.user) return
-        this.recipesPersonal = await this.$store.dispatch('recipes/getPersonal')
-        this.recipesRemixed = await this.$store.dispatch('recipes/getRemixed')
+        this.recipesPersonal = await this.$store.dispatch('recipes/getPersonal', this.user.uuid)
+        this.recipesRemixed = await this.$store.dispatch('recipes/getRemixed', this.user.uuid)
         console.debug('personal recipes:', this.recipesPersonal)
         console.debug('remixed recipes:', this.recipesRemixed)
       },

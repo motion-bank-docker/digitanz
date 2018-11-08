@@ -8,9 +8,10 @@ const recipes = {
   actions: {
     async togglePublic ({ dispatch }, annotation) {
       Assert.isType(annotation.id, 'string', 'annotation id must be string')
+      const id = annotation.body.source && annotation.body.source.id ? annotation.body.source.id : annotation.id
       const query = {
         'target.id': publicTimelineID,
-        'body.source.id': annotation.id,
+        'body.source.id': id,
         'body.type': 'Recipe'
       }
       const results = await dispatch('annotations/find', query, { root: true })
@@ -54,16 +55,18 @@ const recipes = {
     },
     async isPublic ({ dispatch }, annotation) {
       Assert.isType(annotation.id, 'string', 'annotation id must be string')
+      const id = annotation.body.source && annotation.body.source.id ? annotation.body.source.id : annotation.id
       const query = {
         'target.id': publicTimelineID,
-        'body.source.id': annotation.id,
+        'body.source.id': id,
         'body.type': 'Recipe'
       }
       const results = await dispatch('annotations/find', query, { root: true })
       return results && results.items && results.items.length
     },
-    async getPersonal ({ dispatch }) {
+    async getPersonal ({ dispatch }, userID) {
       const query = {
+        'author.id': userID,
         'target.id': { $ne: publicTimelineID },
         'body.purpose': 'personal',
         'body.type': 'Recipe'
@@ -72,8 +75,9 @@ const recipes = {
       if (results && results.items) return results.items
       return []
     },
-    async getRemixed ({ dispatch }) {
+    async getRemixed ({ dispatch }, userID) {
       const query = {
+        'author.id': userID,
         'target.id': { $ne: publicTimelineID },
         'body.purpose': 'remix',
         'body.type': 'Recipe'
@@ -103,9 +107,10 @@ const recipes = {
       return []
     },
     async delete ({ dispatch }, annotation) {
+      const id = annotation.body.source && annotation.body.source.id ? annotation.body.source.id : annotation.id
       const query = {
         'target.id': publicTimelineID,
-        'body.source.id': annotation.id,
+        'body.source.id': id,
         'body.type': 'Recipe'
       }
       const results = await dispatch('annotations/find', query, { root: true })

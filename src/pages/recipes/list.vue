@@ -107,16 +107,8 @@
     methods: {
       async loadRecipes () {
         if (!this.user) return
-        const query = {'body.type': 'Recipe'}
-        const
-          _this = this,
-          recipes = await this.$store.dispatch('annotations/find', query)
-        this.personal = recipes.items.filter(recipe => {
-          return recipe.author.id === _this.user.uuid && recipe.body.purpose === 'personal'
-        })
-        this.remixed = recipes.items.filter(recipe => {
-          return recipe.author.id === _this.user.uuid && recipe.body.purpose === 'remix'
-        })
+        this.personal = await this.$store.dispatch('recipes/getPersonal', this.user.uuid)
+        this.remixed = await this.$store.dispatch('recipes/getRemixed', this.user.uuid)
       },
       async doRemix () {
         const query = {'body.type': 'Recipe'}

@@ -43,9 +43,11 @@
       }
     },
     async mounted () {
-      if (this.user) {
-        await this.loadData()
-      }
+      this.$root.on('updateRecipes', this.loadData)
+      await this.loadData()
+    },
+    beforeDestroy () {
+      this.$root.$off('updateRecipes', this.loadData)
     },
     computed: {
       ...mapGetters({
@@ -53,12 +55,13 @@
       })
     },
     watch: {
-      async user (val) {
-        if (val) await this.loadData()
+      async user () {
+        await this.loadData()
       }
     },
     methods: {
       async loadData () {
+        if (!this.user) return
         this.isLoading = true
         this.recipes = await this.$store.dispatch('recipes/getPublic')
         this.isLoading = false
