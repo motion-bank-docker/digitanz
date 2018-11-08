@@ -2,7 +2,7 @@
   q-page.q-ma-md
     upload-remix-modal(ref="uploadRemixModal")
 
-    recipe-item(v-if="recipe", :item="recipe")
+    recipe-item(v-if="recipe", :item="recipe", :displayIngr="true")
 
     q-btn.full-width.q-mb-md(dark, color="primary", @click="uploadResponse") {{ $t('buttons.upload_response') }}
 
