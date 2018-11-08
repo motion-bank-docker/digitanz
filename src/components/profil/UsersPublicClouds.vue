@@ -9,7 +9,7 @@
     :buttonsY="buttonsY",
     :items="associations",
     :size="`sm`",
-    @emitLoadData="loadData()"
+    @updateClouds="loadData()"
     )
 
 </template>

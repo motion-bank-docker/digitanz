@@ -6,8 +6,8 @@
     :buttonsY="buttonsY",
     :class="[size === 'sm' ? 'width-sm' : 'full-width']",
     :showContentFlag="showContentFlag",
-    :item="item"
-    )
+    :item="item",
+    @updateClouds="$emit('updateClouds')")
 </template>
 
 <script>
