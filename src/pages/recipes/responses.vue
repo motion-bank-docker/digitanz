@@ -85,7 +85,7 @@
         this.$q.loading.hide()
       },
       async loadResponses () {
-        if (this.association) {
+        if (this.recipe) {
           this.$q.loading.show({ message: this.$t('messages.loading_responses') })
           const query = {
             'target.id': this.recipe.id,
