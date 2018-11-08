@@ -78,18 +78,29 @@
     },
     watch: {
       async item () {
-        this.parsedBody = JSON.parse(this.item.body.value)
-        this.isPublic = await this.$store.dispatch('recipes/isPublic', this.item)
+        if (this.item) await this.loadData()
       }
     },
     async mounted () {
       this.parsedBody = JSON.parse(this.item.body.value)
       this.loadAuthorProfile()
-      if (this.item) this.isPublic = await this.$store.dispatch('recipes/isPublic', this.item)
-      console.debug('parsed recipe item', this.parsedBody)
-      console.debug('recipe item', this.item)
+      if (this.item) await this.loadData()
     },
     methods: {
+      async loadData () {
+        this.parsedBody = JSON.parse(this.item.body.value)
+        this.isPublic = await this.$store.dispatch('recipes/isPublic', this.item)
+        console.debug('parsed recipe item', this.parsedBody)
+        console.debug('recipe item', this.item)
+        const query = {
+          'target.id': this.item.id,
+          'target.type': 'Recipe',
+          'body.purpose': 'commenting',
+          'body.type': 'Video'
+        }
+        const responses = await this.$store.dispatch('annotations/find', query)
+        this.responseCount = responses.items ? responses.items.length : 0
+      },
       async loadAuthorProfile () {
         if (!this.user) return
         if (this.showContentFlag) {

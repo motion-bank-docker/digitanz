@@ -88,7 +88,7 @@
         if (this.association) {
           this.$q.loading.show({ message: this.$t('messages.loading_responses') })
           const query = {
-            'target.id': `${process.env.ASSOCIATION_BASE_URI}${this.association.uuid}`,
+            'target.id': this.recipe.id,
             'target.type': 'Recipe',
             'body.purpose': 'commenting',
             'body.type': 'Video'
@@ -103,7 +103,7 @@
           type: 'Recipe'
         })
         const message = {
-          association: this.recipe.uuid,
+          recipe: this.recipe.uuid,
           user: this.user.uuid
         }
         await this.$store.dispatch('logging/log', { action: 'open_response', message })
