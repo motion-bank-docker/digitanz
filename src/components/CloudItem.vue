@@ -80,6 +80,7 @@
       async deleteItem (uuid) {
         await this.$store.dispatch('cloud/removeAssociation', uuid)
         this.$root.$emit('updateClouds')
+        this.$emit('updateClouds')
       },
       isOwnContent () {
         return (this.item.author.id === this.user.uuid)

@@ -4,10 +4,15 @@
     q-input.q-title.q-my-md(dark, v-model="newRecipe.title", placeholder="Titel", :error="$v.newRecipe.title.$error",
     :readonly="!editMode", :hide-underline="!editMode")
     // h2.q-display-1.q-ml-lg(v-else) {{newRecipe.title}}
-    q-list.q-ml-lg(v-if="newRecipe.entries.length > 0", no-border)
-      q-item.items-baseline(v-for="(ingr, index) in newRecipe.entries", :description="ingr", :key="ingr")
+    q-list(v-if="newRecipe.entries.length > 0", no-border, separator, dark, :sparse="!editMode")
+      q-item.items-baseline(
+        v-for="(ingr, index) in newRecipe.entries",
+        :description="ingr",
+        :key="ingr",
+        :class="editMode ? 'listItemEditMode' : ''")
+        q-item-side(v-if="!editMode") {{ index + 1 }}
         q-item-main
-          p.q-title.word-break {{ ingr }}
+          p(:class="!editMode ? 'q-title' : ''").q-mb-none.word-break {{ ingr }}
         q-item-side(v-if="editMode")
           q-btn(icon="keyboard_arrow_up", @click="moveUp(index)")
           q-btn(icon="keyboard_arrow_down", @click="moveDown(index)")
@@ -15,8 +20,8 @@
     q-list.q-pa-lg.no-border.no-padding(v-if="editMode")
       q-item.no-padding
         q-item-main
-          q-input(dark, autofocus, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
-          placeholder="Rezeptpunkt hinzufügen", :error="$v.newRecipe.entries.$error")
+          q-input(dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
+          placeholder="Neuer Eintrag", :error="$v.newRecipe.entries.$error")
         q-item-side
           q-btn(@click="addTodoItem") hinzufügen
     div.justify-around.row
@@ -136,4 +141,7 @@
     border: 1px solid red
   .typo__p
     color: red
+  .listItemEditMode
+    padding-left 0 !important
+    padding-right 0 !important
 </style>
