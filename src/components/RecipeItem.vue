@@ -1,6 +1,6 @@
 <template lang="pug">
   q-card.relative-position.q-mb-lg.relative-position.bg-dark(:style="{'width':cardWidth}")
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item.uuid)")
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item)")
     // q-window-resize-observable(@resize="onResize")
 
     // icons
@@ -21,7 +21,7 @@
 
       // buttons
       q-btn(v-for="btn in buttonsX", @click="onAction(btn.label)", :icon="btn.icon",
-      round, flat, size="sm", :class="{'text-primary': item.isPublic && btn.label === 'visibility'}")
+      round, flat, size="sm", :class="{'text-primary': isPublic && btn.label === 'visibility'}")
         // q-chip(v-if="btn.label === 'response'", floating, color="red") {{ getResponseCount(item) }}
         q-chip(v-if="btn.label === 'response' && responseCount", floating, color="blue") {{ responseCount }}
 
@@ -67,17 +67,20 @@
         },
         responseCount: 0,
         portraitLoading: false,
-        portrait: undefined
+        portrait: undefined,
+        isPublic: false
       }
     },
     watch: {
-      item () {
+      async item () {
         this.parsedBody = JSON.parse(this.item.body.value)
+        this.isPublic = await this.$store.dispatch('recipes/isPublic', this.item)
       }
     },
     async mounted () {
       this.parsedBody = JSON.parse(this.item.body.value)
       this.loadAuthorProfile()
+      if (this.item) this.isPublic = await this.$store.dispatch('recipes/isPublic', this.item)
       console.debug('parsed recipe item', this.parsedBody)
       console.debug('recipe item', this.item)
     },
@@ -102,10 +105,10 @@
       },
       async deleteItem (item) {
         try {
-          await this.$store.dispatch('annotations/delete', item)
+          await this.$store.dispatch('recipes/delete', item)
         }
         catch (e) {
-          console.error('Failed to remove annotation', e.message)
+          console.error('Failed to remove recipe', e.message)
           this.$captureException(e)
         }
         this.$root.$emit('updateRecipes')
@@ -115,9 +118,8 @@
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       async togglePublic (item) {
-        // TODO Anton
-        // toggle recipes public settings
-        console.debug(item)
+        this.isPublic = await this.$store.dispatch('recipes/togglePublic', item)
+        console.debug('toggled public recipe', item, this.isPublic)
         this.$root.$emit('updateRecipes')
       },
       isOwnContent () {
