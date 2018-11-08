@@ -16,7 +16,8 @@
       template(v-else)
         q-btn.q-mx-md(round, flat, size="lg",
         @click="$router.go(-1)")
-          q-icon.rotate-270(name="navigation")
+          <!--q-icon.rotate-270(name="navigation")-->
+          q-icon(name="arrow_back_ios")
 
     q-page-container
       router-view
