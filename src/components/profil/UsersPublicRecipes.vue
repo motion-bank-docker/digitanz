@@ -62,9 +62,10 @@
     methods: {
       async loadData () {
         if (!this.user) return
+        const _this = this
         this.isLoading = true
         const publicRecipes = await this.$store.dispatch('recipes/getPublic')
-        this.publicRecipes = publicRecipes.filter(r => r.author.id === this.user.uuid)
+        this.publicRecipes = publicRecipes.filter(r => r.author.id === _this.user.uuid)
         this.isLoading = false
         console.debug('publicRecipes', this.publicRecipes)
       }
