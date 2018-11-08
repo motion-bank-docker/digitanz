@@ -73,7 +73,7 @@
       async user () {
         await this.loadData()
       },
-      async association () {
+      async recipe () {
         await this.loadResponses()
       }
     },
