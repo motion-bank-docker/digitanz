@@ -43,7 +43,7 @@
       }
     },
     async mounted () {
-      this.$root.on('updateRecipes', this.loadData)
+      this.$root.$on('updateRecipes', this.loadData)
       await this.loadData()
     },
     beforeDestroy () {
