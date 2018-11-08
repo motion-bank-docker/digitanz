@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-card.relative-position.q-mb-lg.relative-position.bg-dark
+  q-card.relative-position.q-mb-lg.relative-position.bg-dark(:style="{'width':cardWidth}")
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item.uuid)")
     // q-window-resize-observable(@resize="onResize")
 
@@ -62,7 +62,7 @@
       },
       color: {
         type: String,
-        default: 'red'
+        default: 'grey'
       }
     },
     data () {
@@ -188,7 +188,7 @@
     font-weight bold
     line-height 1.3em
     text-transform uppercase
-    font-size 1.5em
+    font-size 1.3em
     letter-spacing 0.05em
     color $grey-6
     overflow-wrap break-word

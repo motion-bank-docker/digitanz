@@ -1,5 +1,9 @@
 <template lang="pug">
   div
+    .text-center.q-mb-md(v-if="isLoading")
+      loading-spinner
+    .q-mb-md.no-content(v-else-if="associations.length <= 0 && !isLoading")
+      span.text-grey-8 {{ $t('pages.profile.no_content') }}
     cloud-list-view(
     :buttonsX="buttonsX",
     :buttonsY="buttonsY",
@@ -21,6 +25,7 @@
     },
     data () {
       return {
+        isLoading: false,
         associations: [],
         buttonsX: [{
           icon: 'people',
@@ -63,10 +68,12 @@
       },
       async loadData () {
         if (!this.user) return
+        this.isLoading = true
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
         this.associations = await this.$store.dispatch('cloud/listPublicAssociations', this.user.uuid)
         console.log('this.associations---', this.associations)
         this.$q.loading.hide()
+        this.isLoading = false
       }
     }
   }

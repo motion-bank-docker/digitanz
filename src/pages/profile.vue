@@ -65,6 +65,8 @@
           template(slot="title") {{ headline }}
           template(slot="content")
             div.row.justify-between
+              div(v-if="grouped[headline].length <= 0")
+                span.text-grey-8 {{ $t('pages.profile.no_content') }}
               div.inline(v-if="grouped[headline]", v-for="item in grouped[headline]", :style="{width: '46%'}")
                 div(v-if="item")
                   user-mr-griddles(@emitLoadData="loadGriddleData", v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
@@ -74,18 +76,24 @@
                   user-recipes(
                   v-else-if="item.body && item.body.type === 'Recipe'",
                   :items="[item]",
-                  :color="(item.body.purpose === 'personal' ? 'green' : 'blue')")
+                  :color="(item.body.purpose === 'personal' ? 'grey-9' : 'grey-9')")
 
       //
       // LIST PUBLIC
       div(v-else-if="displayType === 'visibility'")
 
         //
-        // Public Clouds
+        // Public Recipes
         content-block
           template(slot="title") Geteilte Rezepte
           template(slot="content")
             users-public-recipes
+
+        // Public Recipes
+        content-block
+          template(slot="title") Geteilte gemixte Rezepte
+          template(slot="content")
+            users-public-recipes-remixed
 
         //
         // Public Clouds
@@ -153,6 +161,7 @@
   import UserUploads from '../components/profil/UserUploads'
   import UsersPublicClouds from '../components/profil/UsersPublicClouds'
   import UsersPublicRecipes from '../components/profil/UsersPublicRecipes'
+  import UsersPublicRecipesRemixed from '../components/profil/UsersPublicRecipesRemixed'
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
   import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
@@ -174,6 +183,7 @@
       UsersPublicUploads,
       UsersPublicClouds,
       UsersPublicRecipes,
+      UsersPublicRecipesRemixed,
       FileUploaderMicro,
       ContentBlock,
       MrGriddleListView,
@@ -262,11 +272,11 @@
       async loadAllTheThings () {
         if (!this.user) return
         this.hasVoted = await this.$store.dispatch('survey/hasVoted', this.user.uuid)
+        await this.loadRecipesData()
         await this.loadGriddleData()
         await this.loadSequencesData()
         await this.loadUploadsData()
         await this.loadCloudsData()
-        await this.loadRecipesData()
       },
       async loadRecipesData () {
         if (!this.user) return
@@ -434,12 +444,12 @@
       },
       groupByType () {
         const grouped = {
+          'Meine Rezepte': [].concat(this.recipesPersonal),
+          'Meine gemixten Rezepte': [].concat(this.recipesRemixed),
+          'Meine Clouds': [].concat(this.associations),
           'Meine Mr. Griddle Sequenzen ': [].concat(this.griddles),
           'Meine Sequenzen': [].concat(this.sequences),
-          'Meine Uploads': [].concat(this.uploads),
-          'Meine Clouds': [].concat(this.associations),
-          'Meine Rezepte': [].concat(this.recipesPersonal),
-          'Meine gemixten Rezepte': [].concat(this.recipesRemixed)
+          'Meine Uploads': [].concat(this.uploads)
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped
