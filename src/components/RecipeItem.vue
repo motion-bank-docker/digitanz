@@ -11,7 +11,7 @@
 
     // content
     q-card-main.q-mb-lg
-      p.recipe-title(@click="$router.push('/recipes/edit/' + item.uuid)", :style="{'color':color}") {{ parsedBody.title }}
+      p.recipe-title(@click="$router.push('/recipes/edit/' + item.uuid)", :class="item.body.purpose === 'personal' ? 'text-primary' : 'text-secondary'") {{ parsedBody.title }}
       <!--div(v-if="parsedBody.entries.length > 0")-->
         <!--ol.q-pl-md-->
           <!--li.q-mb-md(v-for="(ingr, index) in parsedBody.entries") {{ ingr }}-->
@@ -37,13 +37,10 @@
 <script>
   import { mapGetters } from 'vuex'
   import ConfirmModal from '../components/ConfirmModal'
-  import Portrait from '../pages/portrait'
-  import { DateTime } from 'luxon'
-  // import { ObjectUtil } from 'mbjs-utils'
+  import VideoHelper from '../lib/video-helper'
 
   export default {
     components: {
-      Portrait,
       ConfirmModal
     },
     computed: {
@@ -55,14 +52,9 @@
       buttonsX: Array,
       buttonsY: Array,
       item: Object,
-      portrait: undefined,
       showContentFlag: {
         type: Boolean,
         default: false
-      },
-      color: {
-        type: String,
-        default: 'grey'
       }
     },
     data () {
@@ -73,7 +65,9 @@
           entries: [],
           position: undefined
         },
-        responseCount: 0
+        responseCount: 0,
+        portraitLoading: false,
+        portrait: undefined
       }
     },
     watch: {
@@ -83,10 +77,29 @@
     },
     async mounted () {
       this.parsedBody = JSON.parse(this.item.body.value)
-      console.log('a parsed recipe item', this.parsedBody)
-      console.log('recipe item', this.item)
+      this.loadAuthorProfile()
+      console.debug('parsed recipe item', this.parsedBody)
+      console.debug('recipe item', this.item)
     },
     methods: {
+      async loadAuthorProfile () {
+        if (!this.user) return
+        if (this.showContentFlag) {
+          let user = this.item.author.id
+          this.portraitLoading = true
+          const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
+          if (portraitsMapResult) {
+            const portraitsQuery = {
+              'target.id': `${process.env.TIMELINE_BASE_URI}${portraitsMapResult.uuid}`,
+              'author.id': user
+            }
+            let portrait = await VideoHelper.fetchVideoItems(this, portraitsQuery)
+            if (typeof portrait === 'undefined') return
+            this.portrait = portrait[0].preview.small
+            this.portraitLoading = false
+          }
+        }
+      },
       async deleteItem (item) {
         try {
           await this.$store.dispatch('annotations/delete', item)
@@ -102,56 +115,9 @@
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       async togglePublic (item) {
-        console.debug('togglePublic called')
-        const query = {
-          'target.id': this.publicRecipesMapUUID,
-          'author.id': this.user.uuid
-        }
-        let result = await this.$store.dispatch('annotations/find', query)
-
-        let isCurrentItem = false
-        for (let favouredItem of result.items) {
-          // remove only this current item
-          // console.log(favouredItem.body.value, item.body.value)
-          if (favouredItem.body.source && favouredItem.body.source.id === item.id) {
-            isCurrentItem = true
-            await this.$store.dispatch('annotations/delete', favouredItem.uuid)
-            await this.$store.dispatch('acl/remove', {uuid: favouredItem.uuid, role: 'public', permission: 'get'})
-            console.debug('item is now private')
-          }
-        }
-        const message = {
-          video: item.id,
-          user: this.user.uuid
-        }
-        if (!isCurrentItem) {
-          const annotation = {
-            author: {
-              id: this.user.uuid
-            },
-            // body: ObjectUtil.merge({}, item.body),
-            body: {
-              purpose: 'linking',
-              source: {
-                id: item.id
-              }
-            },
-            target: {
-              id: this.publicRecipesMapUUID,
-              type: 'Timeline',
-              selector: {
-                type: 'Fragment',
-                value: DateTime.local().toISO()
-              }
-            }
-          }
-          const favouredItem = await this.$store.dispatch('annotations/post', annotation)
-          console.debug('item is now public')
-          if (favouredItem) {
-            await this.$store.dispatch('acl/set', {uuid: favouredItem.uuid, role: 'public', permissions: ['get']})
-          }
-          await this.$store.dispatch('logging/log', { action: 'public_recipe_set', message })
-        }
+        // TODO Anton
+        // toggle recipes public settings
+        console.debug(item)
         this.$root.$emit('updateRecipes')
       },
       isOwnContent () {
@@ -167,16 +133,12 @@
           this.$router.push(`/recipes/edit/${this.item.uuid}`)
           break
         case 'response':
-          this.$router.push('/clouds/' + this.item.uuid + '/responses')
+          this.$router.push('/recipes/' + this.item.uuid + '/responses')
           break
         case 'visibility':
           await this.togglePublic(this.item)
           break
         }
-      },
-      async toggleItemPublic (item) {
-        await this.$store.dispatch('cloud/updateAssociationPublic', [item.uuid, !(item.isPublic === true)])
-        this.$root.$emit('updateClouds')
       }
     }
   }
@@ -186,11 +148,10 @@
   @import '~variables'
   .recipe-title
     font-weight bold
-    line-height 1.3em
+    line-height 1.25em
     text-transform uppercase
-    font-size 1.3em
+    font-size 1.1em
     letter-spacing 0.05em
-    color $grey-6
     overflow-wrap break-word
     word-wrap break-word
   .my-flag

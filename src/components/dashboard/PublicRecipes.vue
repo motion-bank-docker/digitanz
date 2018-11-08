@@ -9,6 +9,7 @@
         :buttonsX="buttonsX",
         :buttonsY="buttonsY",
         :items="recipes",
+        :showContentFlag="true",
         size="sm")
 </template>
 
@@ -85,7 +86,7 @@
           id: 'http://id.motionbank.org/annotations/214369ed-3475-41db-9e46-e05b7b801148',
           type: 'Annotation',
           author: {
-            id: '10df2080-a184-55df-a074-dfe74068761f',
+            id: 'bc47bf32-156b-5bde-831e-efcf6a70e5aa',
             name: 'denis.klein'
           },
           body: {

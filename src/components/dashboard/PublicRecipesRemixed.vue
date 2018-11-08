@@ -9,7 +9,8 @@
         :buttonsX="buttonsX",
         :buttonsY="buttonsY",
         :items="recipes",
-        size="sm")
+        :showContentFlag="true",
+      size="sm")
 </template>
 
 <script>
@@ -68,13 +69,13 @@
           id: 'http://id.motionbank.org/annotations/214369ed-3475-41db-9e46-e05b7b801148',
           type: 'Annotation',
           author: {
-            id: '10df2080-a184-55df-a074-dfe74068761f',
+            id: 'bc47bf32-156b-5bde-831e-efcf6a70e5aa',
             name: 'denis.klein'
           },
           body: {
             type: 'Recipe',
             value: '{"title":"Gemixtes Rezept aus der Hölle","entries":["Erst einmal Senf essen","Die Luft umarmen","wie wild im Kreis laufen"]}',
-            purpose: 'personal'
+            purpose: 'remix'
           },
           created: '2018-11-07T13:07:47.951+00:00',
           _path: 'annotations/'
@@ -91,7 +92,7 @@
           body: {
             type: 'Recipe',
             value: '{"title":"Unsere tolle Rezept Aufgabe","entries":["Nie wieder lügen","Die Luft umarmen","wie wild im Kreis laufen"]}',
-            purpose: 'personal'
+            purpose: 'remix'
           },
           created: '2018-11-07T13:07:47.951+00:00',
           _path: 'annotations/'
