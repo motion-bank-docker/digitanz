@@ -32,13 +32,6 @@
         }, {
           icon: 'chat',
           label: 'response'
-        }],
-        buttonsY: [{
-          icon: 'edit',
-          label: 'edit'
-        }, {
-          icon: 'delete',
-          label: 'delete'
         }]
       }
     },
