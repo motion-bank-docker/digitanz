@@ -86,9 +86,10 @@
       },
       async loadResponses () {
         if (this.recipe) {
+          const id = this.recipe.body.source && this.recipe.body.source.id ? this.recipe.body.source.id : this.recipe.id
           this.$q.loading.show({ message: this.$t('messages.loading_responses') })
           const query = {
-            'target.id': this.recipe.id,
+            'target.id': id,
             'target.type': 'Recipe',
             'body.purpose': 'commenting',
             'body.type': 'Video'
@@ -98,10 +99,8 @@
         }
       },
       async uploadResponse () {
-        this.$refs.uploadRemixModal.show({
-          id: this.recipe.id,
-          type: 'Recipe'
-        })
+        const id = this.recipe.body.source && this.recipe.body.source.id ? this.recipe.body.source.id : this.recipe.id
+        this.$refs.uploadRemixModal.show({ id, type: 'Recipe' })
         const message = {
           recipe: this.recipe.uuid,
           user: this.user.uuid

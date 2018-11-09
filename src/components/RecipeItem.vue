@@ -92,8 +92,9 @@
         this.isPublic = await this.$store.dispatch('recipes/isPublic', this.item)
         console.debug('parsed recipe item', this.parsedBody)
         console.debug('recipe item', this.item)
+        const id = this.item.body.source && this.item.body.source.id ? this.item.body.source.id : this.item.id
         const query = {
-          'target.id': this.item.id,
+          'target.id': id,
           'target.type': 'Recipe',
           'body.purpose': 'commenting',
           'body.type': 'Video'
