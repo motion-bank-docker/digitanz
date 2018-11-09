@@ -65,16 +65,35 @@
           template(slot="title") {{ headline }}
           template(slot="content")
             div.row.justify-between
+              div(v-if="grouped[headline].length <= 0")
+                span.text-grey-8 {{ $t('pages.profile.no_content') }}
               div.inline(v-if="grouped[headline]", v-for="item in grouped[headline]", :style="{width: '46%'}")
                 div(v-if="item")
                   user-mr-griddles(@emitLoadData="loadGriddleData", v-if="item.body && item.body.type === 'MrGriddleSkeleton'", :sequences="[item]")
                   user-sequences(v-else-if="item.annotation && item.type === 'Sequence'", :sequences="[item]")
                   user-uploads(@changed="fetchPortrait", v-else-if="item.annotation && item.type !== 'Sequence'", :uploads="[item]")
                   user-clouds(v-else-if="item.type === 'word-association'", :items="[item]")
+                  user-recipes(
+                  v-else-if="item.body && item.body.type === 'Recipe'",
+                  :items="[item]",
+                  :color="(item.body.purpose === 'personal' ? 'grey-9' : 'grey-9')")
 
       //
       // LIST PUBLIC
       div(v-else-if="displayType === 'visibility'")
+
+        //
+        // Public Recipes
+        content-block
+          template(slot="title") Geteilte Rezepte
+          template(slot="content")
+            users-public-recipes
+
+        // Public Recipes
+        content-block
+          template(slot="title") Geteilte gemixte Rezepte
+          template(slot="content")
+            users-public-recipes-remixed
 
         //
         // Public Clouds
@@ -136,10 +155,13 @@
   import LoadingSpinner from '../components/LoadingSpinner'
   import MrGriddleListView from '../components/MrGriddleListView'
   import UserClouds from '../components/profil/UserClouds'
+  import UserRecipes from '../components/profil/UserRecipes'
   import UserMrGriddles from '../components/profil/UserMrGriddles'
   import UserSequences from '../components/profil/UserSequences'
   import UserUploads from '../components/profil/UserUploads'
   import UsersPublicClouds from '../components/profil/UsersPublicClouds'
+  import UsersPublicRecipes from '../components/profil/UsersPublicRecipes'
+  import UsersPublicRecipesRemixed from '../components/profil/UsersPublicRecipesRemixed'
   import UsersPublicSequences from '../components/profil/UsersPublicSequences'
   import UsersPublicPortrait from '../components/profil/UsersPublicPortrait'
   import UsersPublicMrGriddles from '../components/profil/UsersPublicMrGriddles'
@@ -160,13 +182,16 @@
       UsersPublicMrGriddles,
       UsersPublicUploads,
       UsersPublicClouds,
+      UsersPublicRecipes,
+      UsersPublicRecipesRemixed,
       FileUploaderMicro,
       ContentBlock,
       MrGriddleListView,
       UserUploads,
       UserSequences,
       UserMrGriddles,
-      UserClouds
+      UserClouds,
+      UserRecipes
     },
     computed: {
       ...mapGetters({
@@ -192,6 +217,14 @@
       associations () {
         if (this.displayType === 'type') this.groupByType()
         else if (this.displayType === 'time') this.groupByDate()
+      },
+      recipesPersonal () {
+        if (this.displayType === 'type') this.groupByType()
+        else if (this.displayType === 'time') this.groupByDate()
+      },
+      recipesRemixed () {
+        if (this.displayType === 'type') this.groupByType()
+        else if (this.displayType === 'time') this.groupByDate()
       }
     },
     data () {
@@ -207,7 +240,9 @@
         portrait: [],
         portraitLoading: false,
         sequences: undefined,
-        uploads: undefined
+        uploads: undefined,
+        recipesPersonal: undefined,
+        recipesRemixed: undefined
       }
     },
     async mounted () {
@@ -215,6 +250,7 @@
       this.$root.$on('updateSequences', this.loadSequencesData)
       this.$root.$on('updateGriddles', this.loadGriddleData)
       this.$root.$on('updateClouds', this.loadCloudsData)
+      this.$root.$on('updateRecipes', this.loadRecipesData)
       this.dates = this.$dates()
       if (this.user) {
         this.nickname = this.user.nickname
@@ -227,6 +263,7 @@
       this.$root.$off('updateSequences', this.loadSequencesData)
       this.$root.$off('updateGriddles', this.loadGriddleData)
       this.$root.$off('updateClouds', this.loadCloudsData)
+      this.$root.$off('updateRecipes', this.loadRecipesData)
     },
     methods: {
       emitLoadData () {
@@ -235,10 +272,18 @@
       async loadAllTheThings () {
         if (!this.user) return
         this.hasVoted = await this.$store.dispatch('survey/hasVoted', this.user.uuid)
+        await this.loadRecipesData()
         await this.loadGriddleData()
         await this.loadSequencesData()
         await this.loadUploadsData()
         await this.loadCloudsData()
+      },
+      async loadRecipesData () {
+        if (!this.user) return
+        this.recipesPersonal = await this.$store.dispatch('recipes/getPersonal', this.user.uuid)
+        this.recipesRemixed = await this.$store.dispatch('recipes/getRemixed', this.user.uuid)
+        console.debug('personal recipes:', this.recipesPersonal)
+        console.debug('remixed recipes:', this.recipesRemixed)
       },
       async loadGriddleData () {
         const query = {
@@ -363,6 +408,8 @@
         if (this.uploads) allItems = allItems.concat(this.uploads)
         if (this.sequences) allItems = allItems.concat(this.sequences)
         if (this.associations) allItems = allItems.concat(this.associations)
+        if (this.recipesPersonal) allItems = allItems.concat(this.recipesPersonal)
+        if (this.recipesRemixed) allItems = allItems.concat(this.recipesRemixed)
         allItems = allItems.sort((a, b) => {
           const
             ac = a.annotation ? a.annotation.created : a.created,
@@ -386,13 +433,16 @@
       },
       groupByType () {
         const grouped = {
+          'Meine Rezepte': [].concat(this.recipesPersonal),
+          'Meine gemixten Rezepte': [].concat(this.recipesRemixed),
+          'Meine Clouds': [].concat(this.associations),
           'Meine Mr. Griddle Sequenzen ': [].concat(this.griddles),
           'Meine Sequenzen': [].concat(this.sequences),
-          'Meine Uploads': [].concat(this.uploads),
-          'Meine Clouds': [].concat(this.associations)
+          'Meine Uploads': [].concat(this.uploads)
         }
         this.headlines = Object.keys(grouped)
         this.grouped = grouped
+        console.debug('grouped:', this.grouped)
       },
       orderByTime () {
         this.displayType = 'time'

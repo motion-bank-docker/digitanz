@@ -6,7 +6,7 @@
 <script>
   import {QInput} from 'quasar'
   export default {
-    //name: 'Recipes'
+    // name: 'Recipes'
     components: {
       QInput
     }

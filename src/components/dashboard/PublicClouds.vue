@@ -1,5 +1,8 @@
 <template lang="pug">
   div
+    .q-mb-md.no-content(v-if="associations.length <= 0 && !isLoading")
+      span.text-grey-8 {{ $t('pages.profile.no_content') }}
+
     cloud-list-view(
     :buttonsX="buttonsX",
     :buttonsY="buttonsY",

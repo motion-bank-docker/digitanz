@@ -1,7 +1,6 @@
 <template lang="pug">
   q-card.relative-position.q-mb-lg.relative-position.bg-dark
-
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item.uuid)")
+    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem(item)")
     // q-window-resize-observable(@resize="onResize")
 
     // icons
@@ -12,16 +11,18 @@
 
     // content
     q-card-main.q-mb-lg
-      // | {{ item.isPublic }}
-      div(@click="$router.push('/clouds/' + item.uuid + '/responses')")
-        p(v-for="word in item.value") {{ word }}
-
+      p.recipe-title(@click="$router.push('/recipes/edit/' + item.uuid)", :class="item.body.purpose === 'personal' ? 'text-primary' : 'text-secondary'") {{ parsedBody.title }}
+      q-list(v-if="displayIngr && parsedBody.entries.length > 0", no-border, separator, dark, dense)
+        q-item.listItem(v-for="(ingr, index) in parsedBody.entries")
+          q-item-side {{ index + 1 }}
+          q-item-main
+            p.q-mb-none.word-break {{ ingr }}
     // buttons
     q-card-actions.absolute-bottom(v-if="buttonsX || buttonsY").row.justify-around
 
       // buttons
       q-btn(v-for="btn in buttonsX", @click="onAction(btn.label)", :icon="btn.icon",
-      round, flat, size="sm", :class="{'text-primary': item.isPublic && btn.label === 'visibility'}")
+      round, flat, size="sm", :class="{'text-primary': isPublic && btn.label === 'visibility'}")
         // q-chip(v-if="btn.label === 'response'", floating, color="red") {{ getResponseCount(item) }}
         q-chip(v-if="btn.label === 'response' && responseCount", floating, color="blue") {{ responseCount }}
 
@@ -35,11 +36,9 @@
 </template>
 
 <script>
-  // import { DateTime } from 'luxon'
   import { mapGetters } from 'vuex'
-  // import { ObjectUtil } from 'mbjs-utils'
-  import { VideoHelper } from '../lib/video-helper'
   import ConfirmModal from '../components/ConfirmModal'
+  import VideoHelper from '../lib/video-helper'
 
   export default {
     components: {
@@ -54,51 +53,93 @@
       buttonsX: Array,
       buttonsY: Array,
       item: Object,
-      portrait: undefined,
       showContentFlag: {
+        type: Boolean,
+        default: false
+      },
+      displayIngr: {
         type: Boolean,
         default: false
       }
     },
     data () {
       return {
-        responseCount: 0
+        publicRecipesMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_RECIPES_TIMELINE_UUID}`,
+        parsedBody: {
+          title: undefined,
+          entries: [],
+          position: undefined
+        },
+        responseCount: 0,
+        portraitLoading: false,
+        portrait: undefined,
+        isPublic: false
+      }
+    },
+    watch: {
+      async item () {
+        if (this.item) await this.loadData()
       }
     },
     async mounted () {
-      this.isOwnContent()
-      const query = {
-        'target.id': `${process.env.ASSOCIATION_BASE_URI}${this.item.uuid}`,
-        'target.type': 'WordAssociation',
-        'body.purpose': 'commenting',
-        'body.type': 'Video'
-      }
-      const responses = await this.$store.dispatch('annotations/find', query)
-      this.responseCount = responses.items ? responses.items.length : 0
+      this.parsedBody = JSON.parse(this.item.body.value)
+      this.loadAuthorProfile()
+      if (this.item) await this.loadData()
     },
     methods: {
-      async deleteItem (uuid) {
-        await this.$store.dispatch('cloud/removeAssociation', uuid)
-        this.$root.$emit('updateClouds')
-        this.$emit('updateClouds')
-      },
-      isOwnContent () {
-        return (this.item.author.id === this.user.uuid)
+      async loadData () {
+        this.parsedBody = JSON.parse(this.item.body.value)
+        this.isPublic = await this.$store.dispatch('recipes/isPublic', this.item)
+        console.debug('parsed recipe item', this.parsedBody)
+        console.debug('recipe item', this.item)
+        const query = {
+          'target.id': this.item.id,
+          'target.type': 'Recipe',
+          'body.purpose': 'commenting',
+          'body.type': 'Video'
+        }
+        const responses = await this.$store.dispatch('annotations/find', query)
+        this.responseCount = responses.items ? responses.items.length : 0
       },
       async loadAuthorProfile () {
-        let itemUser = this.item.author.id
-        if (itemUser) {
+        if (!this.user) return
+        if (this.showContentFlag) {
+          let user = this.item.author.id
+          this.portraitLoading = true
           const portraitsMapResult = await this.$store.dispatch('maps/get', process.env.PORTRAITS_TIMELINE_UUID)
           if (portraitsMapResult) {
             const portraitsQuery = {
               'target.id': `${process.env.TIMELINE_BASE_URI}${portraitsMapResult.uuid}`,
-              'author.id': itemUser
+              'author.id': user
             }
             let portrait = await VideoHelper.fetchVideoItems(this, portraitsQuery)
             if (typeof portrait === 'undefined') return
             this.portrait = portrait[0].preview.small
+            this.portraitLoading = false
           }
         }
+      },
+      async deleteItem (item) {
+        try {
+          await this.$store.dispatch('recipes/delete', item)
+        }
+        catch (e) {
+          console.error('Failed to remove recipe', e.message)
+          this.$captureException(e)
+        }
+        this.$root.$emit('updateRecipes')
+        console.debug('recipe might be deleted', item)
+      },
+      openDeleteModal (item) {
+        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
+      },
+      async togglePublic (item) {
+        this.isPublic = await this.$store.dispatch('recipes/togglePublic', item)
+        console.debug('toggled public recipe', item, this.isPublic)
+        this.$root.$emit('updateRecipes')
+      },
+      isOwnContent () {
+        return (this.item.author.id === this.user.uuid)
       },
       async onAction (val) {
         switch (val) {
@@ -107,26 +148,30 @@
           // await this.deleteItem(this.item.uuid)
           break
         case 'edit':
-          this.$router.push('/clouds/' + this.item.uuid + '/responses')
+          this.$router.push(`/recipes/edit/${this.item.uuid}`)
           break
         case 'response':
-          this.$router.push('/clouds/' + this.item.uuid + '/responses')
+          this.$router.push('/recipes/' + this.item.uuid + '/responses')
           break
         case 'visibility':
-          // this.toggleItemFavorite(this.item)
-          await this.toggleItemPublic(this.item)
+          await this.togglePublic(this.item)
           break
         }
-      },
-      async toggleItemPublic (item) {
-        await this.$store.dispatch('cloud/updateAssociationPublic', [item.uuid, !(item.isPublic === true)])
-        this.$root.$emit('updateClouds')
       }
     }
   }
 </script>
 
 <style scoped lang="stylus">
+  @import '~variables'
+  .recipe-title
+    font-weight bold
+    line-height 1.25em
+    text-transform uppercase
+    font-size 1.1em
+    letter-spacing 0.05em
+    overflow-wrap break-word
+    word-wrap break-word
   .my-flag
     z-index 1000
     position absolute
@@ -170,4 +215,6 @@
     justify-content center
     align-items center
     padding 1px
+  .listItem
+    padding 8px 0!important
 </style>

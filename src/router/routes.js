@@ -10,7 +10,12 @@ const routes = [
       { path: 'welcome', component: () => import('pages/welcome') },
       { path: 'dashboard', component: () => import('pages/dashboard'), meta: {private: true} },
       { path: 'dashboard-new', component: () => import('pages/dashboard-new'), meta: {private: true} },
-      { path: 'allrecipes', component: () => import('pages/allRecipes'), meta: {private: true} },
+      // { path: 'allrecipes', component: () => import('pages/allRecipes'), meta: {private: true} },
+      // { path: 'newrecipe/:uuid', component: () => import('pages/recipe'), meta: {private: true} },
+      { path: 'recipes', component: () => import('pages/recipes/list'), meta: {private: true} },
+      { path: 'recipes/create', component: () => import('pages/recipes/create'), meta: {private: true} },
+      { path: 'recipes/edit/:uuid', component: () => import('pages/recipes/create'), meta: {private: true} },
+      { path: 'recipes/:uuid/responses', component: () => import('pages/recipes/responses'), meta: {private: true} },
       { path: 'clouds', component: () => import('pages/clouds/list'), meta: {private: true} },
       { path: 'clouds/:uuid/responses', component: () => import('pages/clouds/responses'), meta: {private: true} },
       { path: 'profile', name: 'profile', component: () => import('pages/profile'), meta: {private: true} },
@@ -37,14 +42,14 @@ const routes = [
       { path: 'rhythm-creator', component: () => import('pages/rhythm-creator'), meta: {private: true} },
       { path: 'survey', component: () => import('pages/survey'), meta: {private: true} }
     ]
-  },
+  }/* ,
   {
     path: '/newrecipe/:uuid',
     component: () => import('layouts/none'),
     children: [
       { path: '', component: () => import('pages/recipe'), meta: {private: true} }
     ]
-  }
+  } */
 ]
 
 // Always leave this as last one

@@ -1,34 +1,31 @@
 <template lang="pug">
   div
-    .text-center.q-mb-md(v-if="isLoading")
+    .text-center.q-mb-md(v-if="recipes.length <= 0 && isLoading")
       loading-spinner
-    .q-mb-md.no-content(v-else-if="associations.length <= 0 && !isLoading")
+    .q-mb-md.no-content(v-else-if="recipes.length <= 0 && !isLoading")
       span.text-grey-8 {{ $t('pages.profile.no_content') }}
-    cloud-list-view(
-    :buttonsX="buttonsX",
-    :buttonsY="buttonsY",
-    :items="associations",
-    :size="`sm`",
-    @updateClouds="loadData()"
-    )
-
+    .row
+      recipe-list-view(v-if="recipes",
+        :buttonsX="buttonsX",
+        :buttonsY="buttonsY",
+        :items="recipes",
+        :showContentFlag="true")
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
-
-  import CloudListView from '../CloudListView'
   import LoadingSpinner from '../LoadingSpinner'
+  import RecipeListView from '../RecipeListView'
 
   export default {
     components: {
-      CloudListView,
-      LoadingSpinner
+      LoadingSpinner,
+      RecipeListView
     },
     data () {
       return {
+        recipes: [],
         isLoading: false,
-        associations: [],
         buttonsX: [{
           icon: 'people',
           label: 'visibility'
@@ -40,23 +37,22 @@
           icon: 'edit',
           label: 'edit'
         }, {
-          icon: 'cloud_download',
-          label: 'download'
-        }, {
           icon: 'delete',
           label: 'delete'
         }]
       }
     },
-    props: {
+    async mounted () {
+      this.$root.$on('updateRecipes', this.loadData)
+      await this.loadData()
+    },
+    beforeDestroy () {
+      this.$root.$off('updateRecipes', this.loadData)
     },
     computed: {
       ...mapGetters({
         user: 'auth/getUserState'
       })
-    },
-    mounted () {
-      this.loadData()
     },
     watch: {
       async user () {
@@ -64,22 +60,12 @@
       }
     },
     methods: {
-      async deleteItem (uuid) {
-        await this.$store.dispatch('cloud/removeAssociation', uuid)
-        this.loadData()
-      },
       async loadData () {
         if (!this.user) return
         this.isLoading = true
-        this.$q.loading.show({ message: this.$t('messages.loading_data') })
-        this.associations = await this.$store.dispatch('cloud/listPublicAssociations', this.user.uuid)
-        console.log('this.associations---', this.associations)
-        this.$q.loading.hide()
+        this.recipes = await this.$store.dispatch('recipes/getPublic')
         this.isLoading = false
       }
     }
   }
 </script>
-
-<style scoped>
-</style>

@@ -74,6 +74,7 @@
         this.publicUploads = publicUploads
         this.$q.loading.hide()
         this.isLoading = false
+        console.debug('public uploads', this.publicUploads)
       },
       async togglePublic (item, silent = true) {
         if (!silent) this.$q.loading.show({ message: this.$t('messages.setting_sequence') })

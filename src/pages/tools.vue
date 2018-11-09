@@ -29,6 +29,11 @@
           label: 'Wortwolke',
           status: true
         }, {
+          action: 'recipes',
+          icon: 'restaurant_menu',
+          label: 'Rezepte',
+          status: true
+        }, {
           action: 'space-tool',
           icon: 'scatter_plot',
           label: 'Raum',
@@ -53,11 +58,14 @@
         case 'mr-griddle':
           this.$router.push('/mr-griddle/create')
           break
-        case 'space-tool':
-          this.$router.push('/space-tool')
+        case 'recipes':
+          this.$router.push('/recipes')
           break
         case 'rhytmus':
           this.$router.push('/rhythm')
+          break
+        case 'space-tool':
+          this.$router.push('/space-tool')
           break
         case 'unset':
           console.log('unset')
