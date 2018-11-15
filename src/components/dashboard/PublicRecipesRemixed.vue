@@ -4,12 +4,13 @@
       loading-spinner
     .q-mb-md.no-content(v-else-if="recipes.length <= 0 && !isLoading")
       span.text-grey-8 {{ $t('pages.profile.no_content') }}
-    .row
+    .row.relative-position
       recipe-list-view(v-if="recipes",
         :buttonsX="buttonsX",
         :buttonsY="buttonsY",
         :items="recipes",
-        :showContentFlag="true")
+        :showContentFlag="true",
+        size="sm")
 </template>
 
 <script>

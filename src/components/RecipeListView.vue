@@ -1,5 +1,5 @@
 <template lang="pug">
-  .row.justify-between
+  .row.justify-between.full-width
     recipe-item(
     v-for="item in items",
     :buttonsX="buttonsX",

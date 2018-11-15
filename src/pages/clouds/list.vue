@@ -1,35 +1,66 @@
 <template lang="pug">
-  q-page.q-mx-md
-    content-block.q-pt-none
-      template(slot="title") Wortwolke
-      template(slot="buttons")
-        q-btn.bg-primary.text-white.q-mt-sm(
-        :class="{'rotate-45': addWordBubble}",
-        @click="handlerAddWord",
-        icon="add", round, size="sm")
+  q-page
+    q-tabs(animated, swipeable, color="transparent", text-color="primary", align="justify" v-model="selectedTab")
+      q-tab.text-center(default name="tab-1", slot="title")
+        | Gestaltungs-
+        br
+        | wolke
+      q-tab.text-center(name="tab-2", slot="title")
+        | Aktions-
+        br
+        | wolke
 
-      template(slot="content")
-        q-card.bg-dark.q-mb-md(v-if="addWordBubble")
-          q-card-main.q-pa-sm
-            q-input(v-model="inputNewWord", dark, float-label="Begriff hinzufügen")
-          q-card-actions
-            q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white.full-width(@click="addWord", label="Wort hinzufügen")
-            // q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordBubble = false, inputNewWord = ''", label="abbrechen")
+      // GESTALTUNGSWOLKE
+      //
+      q-tab-pane(keep alive, name="tab-1")
 
-        q-list.no-border.flex.gutter-xs.q-px-xs
+        content-block.q-mx-sm.q-pt-none.q-mt-none.q-mb-xl
+          // template(slot="title")
+            // | Gestaltungswolke
+          // template(slot="buttons")
 
-          q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm(
-          v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']")
+          template(slot="content")
+            q-card.bg-dark.q-mb-md.q-mt-none(v-if="addWordBubble")
+              q-card-main.q-pa-sm
+                q-input(v-model="inputNewWord", dark, float-label="Begriff hinzufügen")
+              q-card-actions
+                q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white.full-width(@click="addWord", label="Wort hinzufügen")
+                // q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordBubble = false, inputNewWord = ''", label="abbrechen")
 
-            input.hidden(v-model="selectedWords", type="checkbox", :id="word.uuid", :value="word.value")
-            label(:for="word.uuid")
-              | {{ word.value }}
+            q-list.no-border.flex.gutter-xs.q-px-xs
 
-    q-btn.full-width.q-mb-md.text-white(
-    @click="addAssociation",
-    :class="[selectedWords.length < 2 ? 'bg-grey-9' : 'bg-primary']",
-    :disabled="selectedWords.length < 2",
-    label="Wortwolke erstellen")
+              q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm
+                q-btn.bg-primary.text-white(
+                :class="{'rotate-45': addWordBubble}",
+                @click="handlerAddWord",
+                icon="add", round, size="sm")
+
+              q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm(
+              v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']")
+
+                input.hidden(v-model="selectedWords", type="checkbox", :id="word.uuid", :value="word.value")
+                label(:for="word.uuid")
+                  | {{ word.value }}
+
+        q-page-sticky.bg-dark.q-pt-md(position="bottom")
+          q-btn.full-width.q-mb-md.text-white(
+          @click="addAssociation",
+          :class="[selectedWords.length < 2 ? 'bg-grey-9' : 'bg-primary']",
+          :disabled="selectedWords.length < 2",
+          expand,
+          :label="$t('buttons.save_selection')")
+
+      // AKTIONSWOLKE
+      //
+      q-tab-pane(keep alive, name="tab-2")
+        content-block.q-pt-none
+          // template(slot="title")
+            // | Aktionswolke
+          // template(slot="buttons")
+          template(slot="content")
+            q-list.no-border.flex.gutter-xs.q-px-xs
+              q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.q-mx-sm(v-for="mJ in myJson")
+                | {{ mJ.label }}
 
 </template>
 
@@ -38,6 +69,7 @@
   import ConfirmModal from '../../components/ConfirmModal'
   import ContentBlock from '../../components/ContentBlock'
   import VideoListView from '../../components/VideoListView'
+  import json from '../../components/json/aktionsbegriffe.json'
 
   export default {
     components: {
@@ -56,6 +88,7 @@
         addWordBubble: false,
         dummyId: 0,
         inputNewWord: '',
+        myJson: json,
         option: '',
         publicUploads: [],
         publicUploadsMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_UPLOADS_TIMELINE_UUID}`,
