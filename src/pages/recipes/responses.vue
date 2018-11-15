@@ -8,10 +8,10 @@
 
     div
       video-list-view(
-      v-if="responses.length > 0"
-      :videos="responses"
-      layoutStyle="sm"
-      :buttons="['delete']"
+      v-if="responses.length > 0",
+      :videos="responses",
+      layoutStyle="sm",
+      :buttons="['delete']",
       :allowSelfResponse="$route.meta.allowSelfResponse")
 
       q-card.q-pa-md.q-mb-md.text-grey-8.text-center(v-else)

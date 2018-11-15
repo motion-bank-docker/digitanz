@@ -1,48 +1,105 @@
 <template lang="pug">
-  q-page.q-pa-lg
-    q-btn.float-right.no-padding.no-margin.q-ml-md(v-if="!editMode", @click="editMode = true", round, color="primary", icon="edit")
-    q-input.q-title.q-my-md(dark, v-model="newRecipe.title", placeholder="Titel", :error="$v.newRecipe.title.$error",
-    :readonly="!editMode", :hide-underline="!editMode")
-    // h2.q-display-1.q-ml-lg(v-else) {{newRecipe.title}}
-    q-list(v-if="newRecipe.entries.length > 0", no-border, separator, dark, :sparse="!editMode")
-      q-item.items-baseline(
-        v-for="(ingr, index) in newRecipe.entries",
-        :description="ingr",
-        :key="ingr",
-        :class="editMode ? 'listItemEditMode' : ''")
-        q-item-side(v-if="!editMode") {{ index + 1 }}
+  q-page.q-px-md(:class="[editMode ? 'q-pb-xl' : 'q-pb-md' ]")
+
+    q-card.bg-dark.q-px-md.q-mt-md
+      q-card-title.no-padding
+        q-input.q-title.q-mb-md(dark, v-model="newRecipe.title", placeholder="Titel", :error="$v.newRecipe.title.$error",
+        :readonly="!editMode", :hide-underline="!editMode",
+        :class="[editMode ? 'q-mt-md' : 'q-mt-lg' ]")
+        // h2.q-display-1.q-ml-lg(v-else) {{newRecipe.title}}
+      q-card-main.no-padding
+        q-list(v-if="newRecipe.entries.length > 0", no-border, dark)
+          q-item.items-baseline.no-padding(
+          v-for="(ingr, index) in newRecipe.entries",
+          :description="ingr",
+          :key="ingr",
+          :class="!editMode ? 'q-my-xs' : 'q-my-sm'"
+          )
+            q-item-side.text-grey-8(v-if="!editMode") {{ index + 1 }}.
+            q-item-main
+              p.q-mb-none.word-break {{ ingr }}
+            q-item-side(v-if="editMode")
+              q-btn(icon="keyboard_arrow_up", @click="moveUp(index)", round)
+              q-btn(icon="keyboard_arrow_down", @click="moveDown(index)", round)
+              q-btn(@click="deleteTodoItem(index)", icon="delete", round)
+
+    q-list.no-border.q-pt-none.q-mb-md.q-mt-xl(v-if="editMode")
+
+      // q-item.no-padding(v-if="!selectAktion && !selectGestaltung")
+      q-item.no-padding.q-mb-md
         q-item-main
-          p(:class="!editMode ? 'q-title' : ''").q-mb-none.word-break {{ ingr }}
-        q-item-side(v-if="editMode")
-          q-btn(icon="keyboard_arrow_up", @click="moveUp(index)")
-          q-btn(icon="keyboard_arrow_down", @click="moveDown(index)")
-          q-btn(@click="deleteTodoItem(index)", icon="delete")
-    q-list.q-pa-lg.no-border.no-padding(v-if="editMode")
-      q-item.no-padding
+          q-input.q-pa-sm.bg-dark(
+          @click="resetValues", dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
+          placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
+          hide-underline)
+        // q-item-side(v-if="addIngredient")
+          q-btn.text-grey-5(@click="addIngredient = ''", icon="clear", round)
+
+      // q-item.no-padding(v-if="!addIngredient && !selectAktion")
+      q-item.no-padding.q-mb-md
         q-item-main
-          q-input(dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
-          placeholder="Neuer Eintrag", :error="$v.newRecipe.entries.$error")
-        q-item-side
-          q-btn(@click="addTodoItem") hinzufügen
-    div.justify-around.row
-      q-btn.q-my-md.col-4(v-if="editMode", @click="submitRecipe", color="primary", type="submit") speichern
-      // q-btn.q-mt-sm.col-4(@click="remixArray", color="secondary") remix
+          q-select.q-pa-sm.bg-dark(
+          v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
+          placeholder="Gestaltungsbegriff", dark,
+          hide-underline)
+        // q-item-side(v-if="selectGestaltung")
+          q-btn.text-grey-5(@click="selectGestaltung = ''", icon="clear", round)
+
+      // q-item.no-padding(v-if="!addIngredient && !selectGestaltung")
+      q-item.no-padding.q-mb-md
+        q-item-main
+          q-select.q-pa-sm.bg-dark(
+          v-model="selectAktion", @focus="resetValues", :options="myJson",
+          placeholder="Aktionsbegriff", dark,
+          hide-underline)
+        // q-item-side(v-if="selectAktion")
+          q-btn.text-grey-5(@click="selectAktion = ''", icon="clear", round)
+
+      q-item.no-padding.q-mb-sm.row.justify-between.full-width
+        q-btn(@click="addTodoItem", color="primary",
+        :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 ? 'primary' : 'grey-9']",
+        style="width: 46%;"
+        )
+          | {{ $t('buttons.add') }}
+        q-btn(@click="resetValues", label="zurücksetzen",
+        :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 ? 'grey-10' : 'grey-9']",
+        style="width: 46%;"
+        )
+
+    q-page-sticky.q-pa-md.bg-dark(v-if="editMode", position="bottom", expand)
+      q-btn.full-width(@click="submitRecipe",
+      :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 ? 'grey-9' : 'primary']",
+      :disable="addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0",
+      type="submit",
+      )
+        | {{ $t('buttons.save') }}
+        // q-btn.q-mt-sm.col-4(@click="remixArray", color="secondary") remix
+
+    q-page-sticky(position="top-right")
+      q-btn.no-padding.q-ma-md(v-if="!editMode", @click="editMode = true", round, color="primary", icon="edit")
 
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import { required, minLength } from 'vuelidate/lib/validators'
+  import json from '../../components/json/aktionsbegriffe.json'
 
   export default {
     data () {
       return {
+        myJson: json,
         newRecipe: {
           title: undefined,
           entries: [],
           position: undefined
         },
         submitStatus: null,
-        addIngredient: undefined,
+        selectAktion: '',
+        selectGestaltung: '',
+        words: [],
+        wordsNewArranged: [],
+        addIngredient: '',
         editMode: false,
         cols: []
       }
@@ -72,6 +129,9 @@
         }
         this.editMode = true
       }
+      if (this.user) {
+        await this.loadData()
+      }
       /*
       if (!annos || !annos.length) {
         const anno = {
@@ -86,10 +146,40 @@
       }
       */
     },
+    computed: {
+      ...mapGetters({
+        user: 'auth/getUserState'
+      })
+    },
     methods: {
+      resetValues () {
+        this.addIngredient = ''
+        this.selectAktion = ''
+        this.selectGestaltung = ''
+      },
+      async loadData () {
+        // this.$q.loading.show({ message: this.$t('messages.loading_data') })
+        this.words = await this.$store.dispatch('cloud/listWords')
+        for (let i = 0; i <= this.words.length - 1; i++) {
+          this.wordsNewArranged.push({label: this.words[i].value, value: this.words[i].value})
+        }
+        // this.$q.loading.hide()
+      },
       addTodoItem: function () {
-        this.newRecipe.entries.push(this.addIngredient.trim())
-        this.addIngredient = undefined
+        if (this.addIngredient) {
+          this.newRecipe.entries.push(this.addIngredient.trim())
+        }
+        else if (this.selectAktion) {
+          this.newRecipe.entries.push(this.selectAktion.trim())
+          // this.newRecipe.entries.push(this.selectAktion.trim(), {type: 'aktionsbegriff'})
+        }
+        else if (this.selectGestaltung) {
+          this.newRecipe.entries.push(this.selectGestaltung.trim())
+          // this.newRecipe.entries.push(this.selectAktion.trim(), {type: 'gestaltungsbegriff'})
+        }
+        this.addIngredient = ''
+        this.selectAktion = ''
+        this.selectGestaltung = ''
       },
       deleteTodoItem: function (index) {
         this.newRecipe.entries.splice(index, 1)
@@ -144,4 +234,6 @@
   .listItemEditMode
     padding-left 0 !important
     padding-right 0 !important
+  .listItem
+    padding 8px 0!important
 </style>

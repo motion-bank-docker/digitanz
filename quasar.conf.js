@@ -160,7 +160,8 @@ module.exports = function (ctx) {
         'QBtnDropdown',
         'QPopover',
         'QSlider',
-        'QRadio'
+        'QRadio',
+        'QSelect'
       ],
       directives: [
         'Ripple',

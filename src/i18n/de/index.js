@@ -50,9 +50,11 @@ export default {
       landscape: 'Querformat',
       portrait: 'Hochformat'
     },
+    add: 'hinzufügen',
     next: 'weiter',
     okay: 'Okay',
-    save: 'speichern'
+    save: 'speichern',
+    save_selection: 'Auswahl speichern'
   },
   dates: {
     all_results: 'Ergebnisse von allen',
