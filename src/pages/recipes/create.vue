@@ -25,51 +25,49 @@
 
     q-list.no-border.q-pt-none.q-mb-md.q-mt-xl(v-if="editMode")
 
-      // q-item.no-padding(v-if="!selectAktion && !selectGestaltung")
       q-item.no-padding.q-mb-md
         q-item-main
           q-input.q-pa-sm.bg-dark(
           @click="resetValues", dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
           placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
           hide-underline)
-        // q-item-side(v-if="addIngredient")
-          q-btn.text-grey-5(@click="addIngredient = ''", icon="clear", round)
 
-      // q-item.no-padding(v-if="!addIngredient && !selectAktion")
       q-item.no-padding.q-mb-md
         q-item-main
           q-select.q-pa-sm.bg-dark(
           v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
-          placeholder="Gestaltungsbegriff", dark,
+          placeholder="Adjektiv", dark,
           hide-underline)
-        // q-item-side(v-if="selectGestaltung")
-          q-btn.text-grey-5(@click="selectGestaltung = ''", icon="clear", round)
 
-      // q-item.no-padding(v-if="!addIngredient && !selectGestaltung")
       q-item.no-padding.q-mb-md
         q-item-main
           q-select.q-pa-sm.bg-dark(
           v-model="selectAktion", @focus="resetValues", :options="myJson",
           placeholder="Aktionsbegriff", dark,
           hide-underline)
-        // q-item-side(v-if="selectAktion")
-          q-btn.text-grey-5(@click="selectAktion = ''", icon="clear", round)
+
+      q-item.no-padding.q-mb-md
+        q-item-main
+          q-select.q-pa-sm.bg-dark(
+          v-model="selectCloudThree", @focus="resetValues", :options="cloudThree",
+          placeholder="Gestaltungsbegriff", dark,
+          hide-underline)
 
       q-item.no-padding.q-mb-sm.row.justify-between.full-width
         q-btn(@click="addTodoItem", color="primary",
-        :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 ? 'primary' : 'grey-9']",
+        :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0 ? 'primary' : 'grey-9']",
         style="width: 46%;"
         )
           | {{ $t('buttons.add') }}
         q-btn(@click="resetValues", label="zurücksetzen",
-        :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 ? 'grey-10' : 'grey-9']",
+        :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0 ? 'grey-10' : 'grey-9']",
         style="width: 46%;"
         )
 
     q-page-sticky.q-pa-md.bg-dark(v-if="editMode", position="bottom", expand)
       q-btn.full-width(@click="submitRecipe",
-      :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 ? 'grey-9' : 'primary']",
-      :disable="addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0",
+      :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0 ? 'grey-9' : 'primary']",
+      :disable="addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0",
       type="submit",
       )
         | {{ $t('buttons.save') }}
@@ -84,11 +82,13 @@
   import { mapGetters } from 'vuex'
   import { required, minLength } from 'vuelidate/lib/validators'
   import json from '../../components/json/aktionsbegriffe.json'
+  import wolkeDrei from '../../components/json/wolkeDrei.json'
 
   export default {
     data () {
       return {
         myJson: json,
+        cloudThree: wolkeDrei,
         newRecipe: {
           title: undefined,
           entries: [],
@@ -97,6 +97,7 @@
         submitStatus: null,
         selectAktion: '',
         selectGestaltung: '',
+        selectCloudThree: '',
         words: [],
         wordsNewArranged: [],
         addIngredient: '',
@@ -156,6 +157,7 @@
         this.addIngredient = ''
         this.selectAktion = ''
         this.selectGestaltung = ''
+        this.selectCloudThree = ''
       },
       async loadData () {
         // this.$q.loading.show({ message: this.$t('messages.loading_data') })
@@ -171,15 +173,17 @@
         }
         else if (this.selectAktion) {
           this.newRecipe.entries.push(this.selectAktion.trim())
-          // this.newRecipe.entries.push(this.selectAktion.trim(), {type: 'aktionsbegriff'})
         }
         else if (this.selectGestaltung) {
           this.newRecipe.entries.push(this.selectGestaltung.trim())
-          // this.newRecipe.entries.push(this.selectAktion.trim(), {type: 'gestaltungsbegriff'})
+        }
+        else if (this.selectCloudThree) {
+          this.newRecipe.entries.push(this.selectCloudThree.trim())
         }
         this.addIngredient = ''
         this.selectAktion = ''
         this.selectGestaltung = ''
+        this.selectCloudThree = ''
       },
       deleteTodoItem: function (index) {
         this.newRecipe.entries.splice(index, 1)
