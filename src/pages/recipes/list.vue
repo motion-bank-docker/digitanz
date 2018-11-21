@@ -10,21 +10,21 @@
       template(slot="title") Meine Rezepte
       template(slot="content")
         q-list.no-padding.no-border
-          q-item.items-baseline(v-for="recipe in personal", :key="recipe.uuid")
+          q-item.items-baseline.q-px-none(v-for="recipe in personal", :key="recipe.uuid")
             q-item-main(dark)
               q-item-tile
                 // hier alle Titel meiner Rezepte anzeigen
                 // q-btn.full-width(@click="$router.push('/newrecipe/' + recipe.uuid)", align="left", outline)
-                q-btn.full-width(@click="$router.push(`/recipes/edit/${recipe.uuid}`)", align="left", outline)
+                q-btn.full-width.bg-grey-10(@click="$router.push(`/recipes/edit/${recipe.uuid}`)", align="left")
                   | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
             q-item-side
               q-item-tile
                 q-btn(icon="delete", @click="openDeleteModal(recipe)")
                 // q-btn(icon="delete" @click="openPopupDelete = true")
                 // q-btn(icon="share" @click="openPopupShare = true")
-          q-item
+          q-item.q-px-none
             q-item-main(dark)
-              q-btn.full-width.dashed(@click="$router.push('/recipes/create')", color="primary", align="left", outline)
+              q-btn.full-width.text-white(@click="$router.push('/recipes/create')", color="primary", align="left")
                 | Neues Rezept
             q-item-side
               q-btn.display-none(icon="delete")
@@ -38,21 +38,21 @@
       template(slot="title") Gemixte Rezepte
       template(slot="buttons")
       template(slot="content")
-        q-list.q-pa-none.no-border
-          q-item.items-baseline(v-for="recipe in remixed", :key="recipe.uuid")
+        q-list.q-pa-none.no-border.no-padding
+          q-item.items-baseline.q-px-none(v-for="recipe in remixed", :key="recipe.uuid")
             q-item-main(dark)
               q-item-tile
                 // Loop durch array aller Rezepte, Titel anzeigen
-                q-btn.full-width(@click="$router.push('/recipes/edit/' + recipe.uuid)", align="left", outline)
+                q-btn.full-width.bg-grey-10(@click="$router.push('/recipes/edit/' + recipe.uuid)", align="left")
                   | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
             q-item-side
               q-item-tile
                 q-btn(@click="openDeleteModal(recipe)", icon="delete")
                 // q-btn(icon="delete")
                 // q-btn(icon="share")
-          q-item
+          q-item.q-px-none
             q-item-main(dark)
-              q-btn.full-width.dashed(@click="doRemix", color="primary", align="left", outline)
+              q-btn.full-width.text-white(@click="doRemix", color="primary", align="left")
                 | Neuer Remix
             q-item-side
               q-btn.display-none(icon="delete")
@@ -150,6 +150,6 @@
 <style lang="stylus">
   .display-none
     opacity: 0
-  .dashed
-    border-style: dashed
+  /* .dashed
+    border-style: dashed */
 </style>
