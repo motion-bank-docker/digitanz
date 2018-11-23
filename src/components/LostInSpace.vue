@@ -39,7 +39,7 @@
           fill="rgba(255, 255, 255, 0.7)",
           :transform="`translate(${forceFieldDimensions.width / 2 + (i % forceFieldDimensions.columns) * forceFieldDimensions.width},${forceFieldDimensions.height / 2 + Math.floor(i / forceFieldDimensions.columns) * forceFieldDimensions.height}) rotate(${(cell / (Math.PI * 2)) * 360}) scale(${forceFieldDimensions.width / 70.0})`")
     g#shapes
-      template(v-if="showShapes", v-for="shape in shapes")
+      template(v-if="showShapePolys", v-for="shape in shapes")
         template(v-if="shape.points.length > 1")
           polygon(
             :points="shape.points.map(p=>{return `${p.x},${p.y} `})"
@@ -61,13 +61,16 @@
   export default {
     data () {
       return {
-        showShapeFilling: true,
-        showForceField: true,
-        showShapes: false,
+        showShapeFilling: false,
+        showForceField: false,
+        showShapePolys: false,
         forceFieldCellSize: 60,
+        forceFieldStrength: 0.05,
+        forceRepelStrength: 0.5,
         numberOfParticles: 100,
-        frameLength: 1000 / 30.0,
+        frameLength: 20.0,
         lastFrameTime: -1,
+        timerId: -1,
         currentShape: -1,
         shapeProtos: [],
         shapes: [],
@@ -90,6 +93,7 @@
     },
     beforeDestroy () {
       window.removeEventListener('keyup', this.handleKey)
+      clearInterval(this.timerId)
     },
     async mounted () {
       const that = this
@@ -155,6 +159,8 @@
       this.particles = Array(this.numberOfParticles).fill(0).map(() => {
         return that.makeParticle()
       })
+
+      this.timerId = setInterval(this.timerIntervalHandler, this.frameLength)
     },
     computed: {
       svgSize () {
@@ -166,15 +172,6 @@
           side: smallestLength,
           scale: smallestLength / 100.0
         }
-      },
-      nextFrame () {
-        return (this.$store.state.time - this.lastFrameTime) >= this.frameLength
-      }
-    },
-    watch: {
-      nextFrame () {
-        this.lastFrameTime = this.$store.state.time
-        this.updateParticles()
       }
     },
     methods: {
@@ -194,14 +191,17 @@
       //     return Math.atan2(yDist, xDist) + Math.PI / 2
       //   })
       // },
+      timerIntervalHandler () {
+        this.updateParticles()
+      },
       updateParticles () {
         let that = this
         if (this.particles) {
           this.particles = this.particles.map((particle, i) => {
             let rad = this.getForceFieldValue(particle.position.x, particle.position.y)
 
-            let forceX = Math.cos(rad) * 0.05
-            let forceY = Math.sin(rad) * 0.05
+            let forceX = Math.cos(rad) * this.forceFieldStrength
+            let forceY = Math.sin(rad) * this.forceFieldStrength
 
             particle.direction.x += forceX
             particle.direction.y += forceY
@@ -214,8 +214,8 @@
               let dist = Math.sqrt(distX * distX + distY * distY)
               if (dist < 30) {
                 let rad2 = Math.atan2(distY, distX)
-                let forceX = Math.cos(rad2) * 0.5
-                let forceY = Math.sin(rad2) * 0.5
+                let forceX = Math.cos(rad2) * this.forceRepelStrength
+                let forceY = Math.sin(rad2) * this.forceRepelStrength
                 particle.direction.x -= forceX
                 particle.direction.y -= forceY
                 particle2.direction.x += forceX
@@ -331,17 +331,28 @@
           return Math.atan2(yDist, xDist)
         })
       },
-      handleKey (event) {
+      async handleKey (event) {
         if (event.key === ' ') {
           this.nextShape()
         }
       },
-      nextShape () {
+      async nextShape () {
         this.currentShape++
         this.currentShape %= this.shapeProtos.length
 
         this.shapes = this.shapeProtos[this.currentShape]
         this.currentShapeId = this.shapeIds[this.currentShape]
+
+        const message = {
+          shapeNum: this.currentShape,
+          totalShapes: this.shapeProtos.length,
+          shapeId: this.currentShapeId,
+          numberOfParticles: this.numberOfParticles
+        }
+        await this.$store.dispatch('logging/log', {
+          action: 'space-shape',
+          message
+        })
 
         this.updateShapes()
         this.updateForceField()
