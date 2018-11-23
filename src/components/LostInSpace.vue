@@ -95,7 +95,7 @@
       window.removeEventListener('keyup', this.handleKey)
       clearInterval(this.timerId)
     },
-    async mounted () {
+    mounted () {
       const that = this
 
       window.addEventListener('keyup', this.handleKey)
