@@ -1,6 +1,6 @@
 <template lang="pug">
   q-page
-    q-tabs(animated, swipeable, color="transparent", text-color="primary", align="justify" v-model="selectedTab")
+    q-tabs(animated, color="transparent", text-color="primary", align="justify" v-model="selectedTab")
       q-tab.text-center(default name="tab-1", slot="title")
         q-btn.q-caption.text-weight-medium.q-px-none(label="Adjektive", flat, no-ripple)
           q-chip.q-mt-sm(v-if="countAdjektive > 0", floating, color="red")

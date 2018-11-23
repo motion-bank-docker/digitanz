@@ -1,6 +1,6 @@
 <template lang="pug">
   q-page.relative-position
-    q-tabs(animated, swipeable, color="transparent", text-color="primary", align="justify" v-model="selectedTab")
+    q-tabs(animated, color="transparent", text-color="primary", align="justify" v-model="selectedTab")
       q-tab(default name="tab-1" slot="title" icon="add")
       q-tab(name="tab-2" slot="title" icon="edit")
 
