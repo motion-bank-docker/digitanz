@@ -1,5 +1,5 @@
 <template lang="pug">
-  lost-in-space
+  lost-in-space#lostinspace
 </template>
 
 <script>
@@ -11,10 +11,7 @@
   }
 </script>
 
-<style lang="stylus">
-  footer
-    display none
-
-  .q-layout-page-container
-    background-color white
+<style lang="stylus" scoped>
+  #lostinspace
+    background white
 </style>
