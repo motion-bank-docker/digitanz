@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page
+  q-page.q-pb-xl
     q-tabs(animated, color="transparent", text-color="primary", align="justify" v-model="selectedTab")
       q-tab.text-center(default name="tab-1", slot="title")
         q-btn.q-caption.text-weight-medium.q-px-none(label="Adjektive", flat, no-ripple)
@@ -31,19 +31,23 @@
                 q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white.full-width(@click="addWord", label="Wort hinzufügen")
                 // q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordBubble = false, inputNewWord = ''", label="abbrechen")
 
-            q-list.no-border.flex.gutter-xs.q-px-xs
+            q-list.no-border.row.justify-between
 
-              q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm
-                q-btn.bg-primary.text-white(
-                :class="{'rotate-45': addWordBubble}",
-                @click="handlerAddWord",
-                icon="add", round, size="sm")
+              q-item.q-mb-md.shadow-2.round-borders.no-padding(
+              style="width: 46%;")
+                q-btn.text-white.full-width(
+                :class="[addWordBubble ? 'bg-dark' : 'bg-primary']",
+                @click="handlerAddWord", no-ripple)
+                  q-icon(v-if="addWordBubble", name="clear")
+                  q-icon(v-else, name="add")
+                  .q-pl-sm(v-if="addWordBubble") schliessen
 
-              q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm(
-              v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']")
+              q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
+              v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']",
+              style="width: 46%;")
 
                 input.hidden(@click="countWords('adjektive', word.value)", v-model="selectedWords", type="checkbox", :id="word.uuid", :value="word.value")
-                label(:for="word.uuid")
+                label.full-width(:for="word.uuid")
                   | {{ word.value }}
 
       // AKTIONSWOLKE
@@ -54,12 +58,15 @@
             // | Aktionswolke
           // template(slot="buttons")
           template(slot="content")
-            q-list.no-border.flex.gutter-xs.q-px-xs
-              q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm(
-              v-for="mJ in myJson", :class="[checkIfSelected(mJ.label) ? 'bg-grey-9 text-white' : 'bg-dark']")
+
+            q-list.no-border.row.justify-between
+
+              q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
+              v-for="mJ in myJson", :class="[checkIfSelected(mJ.label) ? 'bg-grey-9 text-white' : 'bg-dark']",
+              style="width: 46%;")
 
                 input.hidden(@click="countWords('aktionen', mJ.label)", v-model="selectedWords", type="checkbox", :id="mJ.label", :value="mJ.label")
-                label(:for="mJ.label")
+                label.full-width(:for="mJ.label")
                   | {{ mJ.label }}
 
               // q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.q-mx-sm(v-for="mJ in myJson")
@@ -74,13 +81,14 @@
           // template(slot="buttons")
           template(slot="content")
             // | > {{ countGestaltung }}
-            q-list.no-border.flex.gutter-xs.q-px-xs
+            q-list.no-border.row.justify-between
 
-              q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm(
-              v-for="cT in cloudThree", :class="[checkIfSelected(cT.label) ? 'bg-grey-9 text-white' : 'bg-dark']")
+              q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
+              v-for="cT in cloudThree", :class="[checkIfSelected(cT.label) ? 'bg-grey-9 text-white' : 'bg-dark']",
+              style="width: 46%;")
 
                 input.hidden(@click="countWords('gestaltung', cT.label)", v-model="selectedWords", type="checkbox", :id="cT.label", :value="cT.label")
-                label(:for="cT.label")
+                label.full-width(:for="cT.label")
                   | {{ cT.label }}
 
               // q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.q-mx-sm(v-for="cT in cloudThree")
@@ -89,8 +97,8 @@
       q-page-sticky.bg-dark.q-pt-md(position="bottom")
         q-btn.full-width.q-mb-md.text-white(
         @click="addAssociation",
-        :class="[selectedWords.length < 2 ? 'bg-grey-9' : 'bg-primary']",
-        :disabled="selectedWords.length < 2",
+        :class="[selectedWords.length < 1 ? 'bg-grey-9' : 'bg-primary']",
+        :disabled="selectedWords.length < 1",
         expand,
         :label="$t('buttons.save_selection')")
 
@@ -114,6 +122,28 @@
       if (this.user) {
         await this.loadData()
       }
+      this.myJson.sort(function (a, b) {
+        var nameA = a.label.toUpperCase()
+        var nameB = b.label.toUpperCase()
+        if (nameA < nameB) {
+          return -1
+        }
+        if (nameA > nameB) {
+          return 1
+        }
+        return 0
+      })
+      this.cloudThree.sort(function (a, b) {
+        var nameA = a.label.toUpperCase()
+        var nameB = b.label.toUpperCase()
+        if (nameA < nameB) {
+          return -1
+        }
+        if (nameA > nameB) {
+          return 1
+        }
+        return 0
+      })
     },
     data () {
       return {
@@ -183,6 +213,17 @@
       async loadData () {
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
         this.words = await this.$store.dispatch('cloud/listWords')
+        this.words.sort(function (a, b) {
+          var nameA = a.value.toUpperCase()
+          var nameB = b.value.toUpperCase()
+          if (nameA < nameB) {
+            return -1
+          }
+          if (nameA > nameB) {
+            return 1
+          }
+          return 0
+        })
         this.$q.loading.hide()
       },
       async loadPublicUploads () {
