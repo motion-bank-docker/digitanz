@@ -1,7 +1,7 @@
 <template lang="pug">
   q-card.q-mt-md.no-shadow
     q-card-title.q-px-none.q-pt-sm
-      .float-left.q-pt-sm
+      .float-left.q-pt-sm(style="line-height: 1.4rem;")
         slot(name="title")
       .float-right
         slot(name="buttons")

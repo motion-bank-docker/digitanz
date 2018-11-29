@@ -1,0 +1,49 @@
+[
+  {
+    "label": "Trailer Staatstheater Oldenburg (alt) und Mainz",
+    "value" : "",
+    "children": [
+      { "label": "Sehnsucht", "value": "https://www.youtube.com/watch?v=XI-sByRh9yU" },
+      { "label": "Soulchain", "value": "https://www.youtube.com/watch?v=MXLWhHsoyFg" },
+      { "label": "PLAFONA", "value": "https://www.youtube.com/watch?v=Iy0Ckm10D_4" },
+      { "label": "Impetus", "value": "https://www.youtube.com/watch?v=a_akwJrkMWk" },
+      { "label": "Romeo und Julia", "value": "https://www.youtube.com/watch?v=J6LL7pqVQBA" },
+      { "label": "FULL BODY", "value": "https://www.youtube.com/watch?v=FrRQF0xIhZQ" }
+    ]
+  },
+  {
+    "label": "Batsheva DC und Sharon Eyal",
+    "value" : "",
+    "children": [
+      { "label": "", "value": "https://www.youtube.com/watch?v=gRky99sO-og" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=7v6tY_u-Mls" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=A6RWvh0JMv8" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=3TGHhUAUJKA" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=z3Ka5A3tVOU" }
+    ]
+  },
+  {
+    "label": "Contemporary ballet",
+    "value" : "",
+    "children": [
+      { "label": "", "value": "https://www.youtube.com/watch?v=wjBtja-kKHY" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=UT7ilqcoTWI" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=SQaglZe4e1g" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=rta6iIwkhx8" }
+    ]
+  },
+  {
+    "label": "Pina & co",
+    "value" : "",
+    "children": [
+      { "label": "", "value": "https://www.youtube.com/watch?v=0VqaGkKQRCU" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=We9Rc9zO0vs" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=p8zkTclatRo" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=0VqaGkKQRCU" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=T1BbxTWsoO4" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=1g5fLgsSQWU" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=fVRHpIayzWA" },
+      { "label": "", "value": "https://www.youtube.com/watch?v=4zJhVgT1FtI" }
+    ]
+  }
+]
