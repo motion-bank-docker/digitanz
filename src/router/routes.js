@@ -40,7 +40,8 @@ const routes = [
       { path: 'space-tool', component: () => import('pages/space-tool'), meta: {private: true, hideFooter: true} },
       { path: 'rhythm', component: () => import('pages/rhythm'), meta: {private: true} },
       { path: 'rhythm-creator', component: () => import('pages/rhythm-creator'), meta: {private: true} },
-      { path: 'survey', component: () => import('pages/survey'), meta: {private: true} }
+      { path: 'survey', component: () => import('pages/survey'), meta: {private: true} },
+      { path: 'inspiration', component: () => import('pages/inspiration/list'), meta: {private: true} }
     ]
   }/* ,
   {

@@ -43,6 +43,11 @@
           icon: 'linear_scale',
           label: 'Rhythmus',
           status: false
+        }, {
+          action: 'inspiration',
+          icon: 'star_border',
+          label: 'Inspiration',
+          status: true
         }]
       }
     },
@@ -66,6 +71,9 @@
           break
         case 'space-tool':
           this.$router.push('/space-tool')
+          break
+        case 'inspiration':
+          this.$router.push('/inspiration')
           break
         case 'unset':
           console.log('unset')

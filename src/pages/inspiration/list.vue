@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.row
+  .q-mx-md.q-pt-md
     video-list-view(
     v-if="items && items.length > 0",
     :allowSelfResponse="true",
@@ -8,15 +8,18 @@
     :buttons="[]",
     :showContentFlag="false",
     :isArchive="true",
+    :hideButtons="true",
     card-width="100%")
-      template(slot="customButtons" slot-scope="{ video }")
+      template(slot="customButtons", slot-scope="{ video }")
+    q-page-sticky.text-center.full-width(v-else, position="left")
+        loading-spinner
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
-  import LoadingSpinner from '../LoadingSpinner'
-  import VideoListView from '../VideoListView'
-  import VideoModal from '../VideoModal'
+  import LoadingSpinner from '../../components/LoadingSpinner'
+  import VideoListView from '../../components/VideoListView'
+  import VideoModal from '../../components/VideoModal'
   import { VideoHelper } from '../../lib'
 
   export default {
@@ -52,7 +55,7 @@
         if (archiveMapResult) {
           const archiveQuery = {
             'target.id': `${process.env.TIMELINE_BASE_URI}${archiveMapResult.uuid}`,
-            'author.name': 'David Rittershaus'
+            'author.name': 'Christian Hansen'
           }
           let items = await VideoHelper.fetchVideoItems(this, archiveQuery)
           // this.archiveItems = archive[0]
