@@ -1,5 +1,5 @@
 <template lang="pug">
-  svg(width="100vw", height="100vh", @mouseup="addParticle")
+  svg(width="100vw", height="100vh", @mouseup="nextShape")
     defs
       g#shape-protos
         g#diagonal-lines-1
