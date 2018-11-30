@@ -156,10 +156,6 @@
 
       this.nextShape()
 
-      this.particles = Array(this.numberOfParticles).fill(0).map(() => {
-        return that.makeParticle()
-      })
-
       this.timerId = setInterval(this.timerIntervalHandler, this.frameLength)
     },
     computed: {
@@ -192,6 +188,12 @@
       //   })
       // },
       timerIntervalHandler () {
+        const that = this
+        if (!this.particles || this.particles.length === 0) {
+          this.particles = Array(this.numberOfParticles).fill(0).map(() => {
+            return that.makeParticle()
+          })
+        }
         this.updateParticles()
       },
       updateParticles () {
