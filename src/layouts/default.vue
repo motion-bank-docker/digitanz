@@ -5,23 +5,24 @@
       div.q-title.text-white.text-weight-bold #digitanz
         span.text-weight-light &nbsp;light
 
-    q-layout-footer.text-center.bg-dark.q-py-xs(v-if="userState && !$route.meta.hideFooter")
+    //
+      q-layout-footer.text-center.bg-dark.q-py-xs(v-if="userState && !$route.meta.hideFooter")
 
-      template(v-if="hideBackButton")
-        q-btn.q-ml-md.q-mr-md(
-        v-for="button in buttons", round, flat, size="lg",
-        :class="{ 'text-white bg-grey-9': currentApp === button.action }",
-        @click="executeApp(button.action)")
-          q-icon(:name="button.icon")
+        template(v-if="hideBackButton")
+          q-btn.q-ml-md.q-mr-md(
+          v-for="button in buttons", round, flat, size="lg",
+          // :class="{ 'text-white bg-grey-9': currentApp === button.action }",
+          @click="executeApp(button.action)")
+            q-icon(:name="button.icon")
 
-        span.q-py-md
-          file-uploader-micro(:query="uploaderQuery")
+          span.q-py-md
+            file-uploader-micro(:query="uploaderQuery")
 
-      template(v-else)
-        q-btn.q-mx-md(round, flat, size="lg",
-        @click="$router.go(-1)")
-          <!--q-icon.rotate-270(name="navigation")-->
-          q-icon(name="arrow_back_ios")
+        template(v-else)
+          q-btn.q-mx-md(round, flat, size="lg",
+          @click="$router.go(-1)")
+            <!--q-icon.rotate-270(name="navigation")-->
+            q-icon(name="arrow_back_ios")
 
     q-page-container
       router-view
