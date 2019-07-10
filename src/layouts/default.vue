@@ -1,9 +1,16 @@
 <template lang="pug">
   q-layout(view='lHh Lpr lFf')
 
-    q-layout-header.no-shadow.bg-dark(style="border-bottom: 1px solid #666;")
-      q-btn.q-title.text-white.text-weight-bold.lowercase(@click="$router.push('/')", flat) #digitanz
-        span.text-weight-light &nbsp;light
+    q-layout-drawer(v-model="showToolDescription", side="right")
+      q-btn.bg-dark.text-white.q-ma-sm(@click="handlerToolDescription()", size="sm", icon="clear", round)
+
+    q-layout-header.no-shadow.bg-dark
+      q-item.q-pa-none(style="border-bottom: 1px solid #666;")
+        .q-item-main
+          q-btn.q-title.text-white.text-weight-bold.lowercase(@click="$router.push('/')", flat) #digitanz
+            span.text-weight-light &nbsp;light
+        .q-item-side.q-pr-md
+          q-btn.text-white(@click="handlerToolDescription", round, flat, style="border: 1px solid #666;", size="sm") ?
 
     //
       q-layout-footer.text-center.bg-dark.q-py-xs(v-if="userState && !$route.meta.hideFooter")
@@ -21,7 +28,6 @@
         template(v-else)
           q-btn.q-mx-md(round, flat, size="lg",
           @click="$router.go(-1)")
-            <!--q-icon.rotate-270(name="navigation")-->
             q-icon(name="arrow_back_ios")
 
     q-page-container
@@ -47,6 +53,7 @@
     },
     data () {
       return {
+        showToolDescription: false,
         buttons: [{
           action: 'profile',
           icon: 'person',
@@ -81,6 +88,9 @@
       }
     },
     methods: {
+      handlerToolDescription () {
+        this.showToolDescription = !this.showToolDescription
+      },
       actions (val) {
         switch (val) {
         case 'profile':
