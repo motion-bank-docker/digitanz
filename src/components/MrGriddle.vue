@@ -5,7 +5,7 @@
       defs
         pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
           path(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
-          fill="none", stroke="gray", stroke-width="3")
+          fill="none", stroke="gray", stroke-width="1")
       g#mr-griddle(:class="{'random': currentState === -1}", @click="handleSkeletonClick")
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
         line(v-for="(line, i) in lines", :key="`line-${i}`",
