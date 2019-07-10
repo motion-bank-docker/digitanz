@@ -17,7 +17,7 @@
           action: 'sequenz',
           icon: 'extension',
           label: 'Sequenz',
-          status: true
+          status: false
         }, {
           action: 'mr-griddle',
           icon: 'accessibility',
@@ -37,7 +37,7 @@
           action: 'space-tool',
           icon: 'scatter_plot',
           label: 'Raum',
-          status: false
+          status: true
         }, {
           action: 'rhythmus',
           icon: 'linear_scale',
