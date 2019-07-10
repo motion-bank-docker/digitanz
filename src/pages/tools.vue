@@ -18,11 +18,6 @@
     data () {
       return {
         buttons: [{
-          action: 'sequenz',
-          icon: 'extension',
-          label: 'Sequenz',
-          status: false
-        }, {
           action: 'mr-griddle',
           icon: 'accessibility',
           label: 'Mr. Griddle Sequenz',
@@ -43,15 +38,20 @@
           label: 'Raum',
           status: true
         }, {
-          action: 'rhythmus',
-          icon: 'linear_scale',
-          label: 'Rhythmus',
-          status: false
-        }, {
           action: 'inspiration',
           icon: 'star_border',
           label: 'Inspiration',
           status: true
+        }, {
+          action: 'sequenz',
+          icon: 'extension',
+          label: 'Sequenz',
+          status: false
+        }, {
+          action: 'rhythmus',
+          icon: 'linear_scale',
+          label: 'Rhythmus',
+          status: false
         }]
       }
     },
