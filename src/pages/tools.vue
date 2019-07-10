@@ -1,11 +1,15 @@
 <template lang="pug">
   q-page
-    .q-mt-md.row
-      .column.items-center.q-mb-xs.col-xs-6.col-md-2(v-for="button in buttons", :class="{'inactive': !button.status}")
-        q-btn.q-ma-xs(@click.native="actions(button.action)", :class="{'bg-grey-10': button.status}",
-        :disabled="!button.status", round, size="xl")
-          q-icon(:name="button.icon", size="xl")
-        p {{ button.label }}
+    .q-pt-md.q-px-md.row.gutter-sm
+      .col-xs-6.col-md-2(v-for="button in buttons", :class="{'inactive': !button.status}")
+        q-btn.full-width.q-py-lg.capitalize(@click.native="actions(button.action)", :class="{'bg-grey-10': button.status}",
+        :disabled="!button.status", size="xl")
+          q-item.q-pa-none
+            q-item-main
+              q-item-tile.text-center.q-mb-sm
+                q-icon(:name="button.icon", size="xl")
+              q-item-tile.text-center
+                .q-caption {{ button.label }}
 
 </template>
 
