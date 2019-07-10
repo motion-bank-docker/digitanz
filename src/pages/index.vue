@@ -1,12 +1,12 @@
 <template lang="pug">
   q-page
-    q-card.q-ma-sm(v-for="(media, index) in savedFiles", :media="media" inline)
-      q-card-media
-        img(:src="media")
-      q-card-actions(align="around")
-        q-btn(flat round color="red" icon="favorite")
-        q-btn(flat round color="faded" icon="bookmark")
-        q-btn(flat round color="primary" icon="share")
+
+    div
+      griddle-moves(:enclosed="true", :time="1000")
+
+    q-page-sticky.q-pa-md(position="bottom")
+      q-btn(@click="$router.push({path: '/tools'})") Go!
+
 </template>
 
 <script>
@@ -15,12 +15,7 @@
     data () {
       return {
         name: pkg.name,
-        version: pkg.version,
-        savedFiles: [
-          { media: '.statics/test_eins.png' },
-          { media: 'assets/test_zwei.png' },
-          { media: 'assets/test_drei.png' }
-        ]
+        version: pkg.version
       }
     }
   }
