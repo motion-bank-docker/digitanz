@@ -1,19 +1,21 @@
 <template lang="pug">
   .bg-dark.row.items-center.q-px-xs
 
-    .col-xs-2.col-sm-1
-      q-btn(size="lg", @click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'")
+    q-item.q-pa-none
+      q-item-side(style="min-width: auto;")
+        q-btn(size="lg", @click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'")
 
-    .col-xs-8.col-sm-15
+      q-item-main
 
-      q-btn.q-mx-xs(v-for="(state, index) in states",
-      round, :color="currentState === index ? 'primary' : 'grey-6'", size="xs",
-      v-model="selectedStates",
-      val="'option-' + {{index}}",
-      @click="$emit('clickState', {state, index})",
-      v-touch-hold="() => {openDeleteModal({state, index})}")
+        q-btn.q-mx-xs(v-for="(state, index) in states",
+        round,
+        :color="currentState === index ? 'white' : 'grey-6 scaled'", size="sm",
+        v-model="selectedStates",
+        val="'option-' + {{index}}",
+        @click="$emit('clickState', {state, index})",
+        v-touch-hold="() => {openDeleteModal({state, index})}")
 
-      q-btn.no-padding(icon="add_circle", size="lg", flat, no-ripple, round, @click="$emit('clickAdd')")
+        q-btn.no-padding(icon="add_circle", size="lg", flat, no-ripple, round, @click="$emit('clickAdd')")
 
     //
       .col-xs-2.col-sm-1
@@ -84,3 +86,11 @@
     }
   }
 </script>
+
+<style scoped lang="stylus">
+  @import '~variables'
+
+  .scaled
+    transform scale(.5)
+
+</style>
