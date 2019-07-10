@@ -1,6 +1,10 @@
 <template lang="pug">
   q-layout(view='lHh Lpr lFf')
 
+    q-layout-header.q-pa-md.no-shadow.bg-dark(style="border-bottom: 1px solid #666;")
+      div.q-title.text-white.text-weight-bold #digitanz
+        span.text-weight-light &nbsp;light
+
     q-layout-footer.text-center.bg-dark.q-py-xs(v-if="userState && !$route.meta.hideFooter")
 
       template(v-if="hideBackButton")
