@@ -15,8 +15,9 @@
 
       q-btn.no-padding(icon="add_circle", size="lg", flat, no-ripple, round, @click="$emit('clickAdd')")
 
-    .col-xs-2.col-sm-1
-      q-btn(icon="save", size="lg", @click="$emit('saveSequence')", :disabled="states.length <= 0")
+    //
+      .col-xs-2.col-sm-1
+        q-btn(icon="save", size="lg", @click="$emit('saveSequence')", :disabled="states.length <= 0")
 
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
