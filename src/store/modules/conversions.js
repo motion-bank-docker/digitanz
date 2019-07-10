@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 const conversions = {
   namespaced: true,
   state: {
@@ -34,19 +32,12 @@ const conversions = {
     }
   },
   actions: {
-    async post ({ commit }, { conversion, detail }) {
-      const result = await axios.post(`${process.env.TRANSCODER_HOST}/conversions`, conversion)
-      console.debug('conversionn job added', conversion, result)
-      if (result.data.jobId) {
-        commit('addJobDetail', { jobId: result.data.jobId, detail })
-        commit('addJobId', result.data.jobId)
-      }
-      else throw new Error('Missing job id')
-      return result.data.jobId
+    async post (context, { conversion, detail }) {
+      console.debug('Conversion job added', conversion, detail)
     },
     async get (context, jobId) {
-      const result = await axios.get(`${process.env.TRANSCODER_HOST}/conversions/${jobId}`)
-      return result.data
+      console.debug('Get conversion job', jobId)
+      return 'dummyjob'
     }
   }
 }
