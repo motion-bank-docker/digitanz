@@ -1,9 +1,10 @@
 <template lang="pug">
-  .bg-dark.row.items-center.q-px-xs
+  .row.items-center(style="border-top: 1px solid #666; height: 52px;")
 
-    q-item.q-pa-none
-      q-item-side(style="min-width: auto;")
-        q-btn(size="lg", @click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'")
+    q-item.q-pa-none(style="min-height: auto;")
+      q-item-side.q-ml-sm(style="min-width: auto;")
+        q-btn(@click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'",
+        :class="{'bg-primary text-white': $props.play}")
 
       q-item-main
 
@@ -15,7 +16,7 @@
         @click="$emit('clickState', {state, index})",
         v-touch-hold="() => {openDeleteModal({state, index})}")
 
-        q-btn.no-padding(icon="add_circle", size="lg", flat, no-ripple, round, @click="$emit('clickAdd')")
+        q-btn.no-padding(icon="add_circle", size="md", flat, no-ripple, round, @click="$emit('clickAdd')")
 
     //
       .col-xs-2.col-sm-1
@@ -91,6 +92,6 @@
   @import '~variables'
 
   .scaled
-    transform scale(.5)
+    transform scale(.25)
 
 </style>
