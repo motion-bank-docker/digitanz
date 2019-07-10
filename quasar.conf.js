@@ -4,10 +4,10 @@ module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
     plugins: [
-      'raven',
+      // 'raven',
       'dt-components',
-      'api',
-      'auth',
+      // 'api',
+      // 'auth',
       'axios',
       'i18n',
       'notifications',
