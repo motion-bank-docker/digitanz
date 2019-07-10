@@ -4,8 +4,11 @@ import { ObjectUtil, Assert } from 'mbjs-utils'
 export default {
   namespaced: true,
   state: {
-    user: undefined,
-    redirectTo: localStorage.getItem('redirectTo') ? localStorage.getItem('redirectTo') : undefined
+    user: {
+      name: 'Anonymous',
+      uuid: ObjectUtil.uuid4()
+    },
+    redirectTo: undefined
   },
   getters: {
     getUserState: state => state.user
