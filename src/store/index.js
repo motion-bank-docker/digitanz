@@ -12,23 +12,12 @@ import survey from './modules/survey'
 import cloud from './modules/cloud'
 import recipes from './modules/recipes'
 
-import WebAuth from 'mbjs-api-client/src/web'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const apiClient = new WebAuth({
-  auth: {
-    domain: process.env.AUTH0_DOMAIN,
-    clientID: process.env.AUTH0_CLIENT_ID,
-    redirectUri: process.env.AUTH0_REDIRECT_URL,
-    audience: process.env.AUTH0_AUDIENCE,
-    scope: 'openid profile read write',
-    responseType: 'token id_token'
-  },
-  host: process.env.API_HOST
-})
+const apiClient = null
 
 /**
  * Set up VueX store with API service backends
