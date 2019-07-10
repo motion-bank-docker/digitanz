@@ -1,8 +1,8 @@
 <template lang="pug">
   q-layout(view='lHh Lpr lFf')
 
-    q-layout-header.q-pa-md.no-shadow.bg-dark(style="border-bottom: 1px solid #666;")
-      div.q-title.text-white.text-weight-bold #digitanz
+    q-layout-header.no-shadow.bg-dark(style="border-bottom: 1px solid #666;")
+      q-btn.q-title.text-white.text-weight-bold.lowercase(@click="$router.push('/')", flat) #digitanz
         span.text-weight-light &nbsp;light
 
     //
