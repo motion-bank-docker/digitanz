@@ -72,5 +72,5 @@
 <style lang="stylus">
   #mr-griddle-container
     width 100vw
-    height calc(100vh - 112px)
+    height calc(100vh - 110px)
 </style>

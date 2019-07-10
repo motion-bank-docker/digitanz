@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.row
+  div.row(style="margin-top: -1px;")
     svg(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
       .q-mt-xl.row.justify-end
       defs
