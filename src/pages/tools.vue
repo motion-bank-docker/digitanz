@@ -2,7 +2,9 @@
   q-page
     .q-pt-md.q-px-md.row.gutter-sm
       .col-xs-6.col-md-2(v-for="button in buttons", :class="{'inactive': !button.status}")
-        q-btn.full-width.q-py-lg.capitalize(@click.native="actions(button.action)", :class="{'bg-grey-10': button.status}",
+        // q-btn.full-width.q-py-lg.capitalize(@click.native="actions(button.action)", :class="{'bg-grey-10': button.status}",
+        // :disabled="!button.status", size="xl")
+        q-btn.full-width.q-py-lg.capitalize(@click.native="actions(button.action)", :class="{'bg-white text-grey-10': button.status}",
         :disabled="!button.status", size="xl")
           q-item.q-pa-none
             q-item-main
