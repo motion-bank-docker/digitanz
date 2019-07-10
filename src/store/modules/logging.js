@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { DateTime } from 'luxon'
 import { Assert } from 'mbjs-utils'
 
@@ -22,11 +21,7 @@ const logging = {
         action,
         message
       }
-      try {
-        const result = await axios.post(`${process.env.LOGGER_HOST}/entries`, entry)
-        return result.data
-      }
-      catch (e) { console.error(`Failed to store log entry: ${e.message}`) }
+      console.debug('logging', entry)
     }
   }
 }
