@@ -19,20 +19,24 @@
           <!--q-btn.q-pa-sm.absolute-top-right(color="white", flat, icon="arrow_forward",-->
           <!--v-if="!user", @click.prevent="login", rounded)-->
 
-      .text-center.q-mb-md.q-py-xl(v-if="!portrait || portrait.length <= 0 && !portraitLoading")
-        q-icon(name="person", size="35vw", color="grey-9")
-        p.q-mb-none.text-grey-8 Kein Portrait
-      .text-center.q-mb-md.q-py-xl(v-else-if="portraitLoading")
-        // q-spinner(:size="30")
-        loading-spinner
+      // portrait
+      //
+        .text-center.q-mb-md.q-py-xl(v-if="!portrait || portrait.length <= 0 && !portraitLoading")
+          q-icon(name="person", size="35vw", color="grey-9")
+          p.q-mb-none.text-grey-8 Kein Portrait
+        .text-center.q-mb-md.q-py-xl(v-else-if="portraitLoading")
+          // q-spinner(:size="30")
+          loading-spinner
 
-      section.q-pt-lg
-        video-list-view(:videos="portrait",
-                        layoutStyle="singleCenter",
-                        :roundImage="true",
-                        cardWidth="65%",
-                        :showDuration="false")
-        h3.q-my-none.text-center Hallo <br> {{ user ?  user.nickname : '' }}!
+      // welcome sentence
+      //
+        section.q-pt-lg
+          video-list-view(:videos="portrait",
+                          layoutStyle="singleCenter",
+                          // :roundImage="true",
+                          cardWidth="65%",
+                          // :showDuration="false")
+          h3.q-my-none.text-center Hallo <br> {{ user ?  user.nickname : '' }}!
 
       //
       // EVALUATION BTN
