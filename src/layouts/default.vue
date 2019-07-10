@@ -10,7 +10,7 @@
           q-btn.q-title.text-white.text-weight-bold.lowercase(@click="$router.push('/')", flat) #digitanz
             span.text-weight-light &nbsp;light
         .q-item-side.q-pr-md
-          q-btn.text-white(@click="handlerToolDescription", round, flat, style="border: 1px solid #666;", size="sm") ?
+          q-btn.text-grey-10.bg-white(@click="handlerToolDescription", round, flat, size="sm") ?
 
     //
       q-layout-footer.text-center.bg-dark.q-py-xs(v-if="userState && !$route.meta.hideFooter")
