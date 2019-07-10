@@ -6,7 +6,8 @@ const routes = [
     path: '/',
     component: () => import('layouts/default'),
     children: [
-      { path: '', component: () => import('pages/profile') },
+      { path: '', component: () => import('pages/index') },
+      // { path: '', component: () => import('pages/profile') },
       { path: 'welcome', component: () => import('pages/welcome') },
       { path: 'dashboard', component: () => import('pages/dashboard'), meta: {private: true} },
       { path: 'dashboard-new', component: () => import('pages/dashboard-new'), meta: {private: true} },
