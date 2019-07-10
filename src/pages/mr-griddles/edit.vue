@@ -1,13 +1,13 @@
 <template lang="pug">
-  q-page.row
+  q-page
     mr-griddle#mr-griddle-container(
     ref="mrGriddleContainer",
     :play="playing",
     @stateChanged="handleStateChanged",
     @editModeChanged="handleEditChange")
 
-    .fixed-bottom.q-mb-xl
-      mr-griddle-handler.q-mb-lg.shadow-up-2(
+    .fixed-bottom
+      mr-griddle-handler(
       v-if="!editMode",
       :play="playing",
       :states="storedStates",
