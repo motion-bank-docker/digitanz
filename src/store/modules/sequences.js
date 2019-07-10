@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 const sequences = {
   namespaced: true,
   state: {
@@ -34,19 +32,12 @@ const sequences = {
     }
   },
   actions: {
-    async post ({ commit }, { sequence, detail }) {
-      const result = await axios.post(`${process.env.TRANSCODER_HOST}/sequences`, sequence)
-      console.debug('sequence job added', sequence, detail, result)
-      if (result.data.jobId) {
-        commit('addJobDetail', { jobId: result.data.jobId, detail })
-        commit('addJobId', result.data.jobId)
-      }
-      else throw new Error('Missing job id')
-      return result.data.jobId
+    async post (context, { sequence, detail }) {
+      console.debug('Sequence: post', sequence, detail)
+      return 'dummyjob'
     },
     async get (context, jobId) {
-      const result = await axios.get(`${process.env.TRANSCODER_HOST}/sequences/${jobId}`)
-      return result.data
+      console.debug('Sequence: get', jobId)
     }
   }
 }
