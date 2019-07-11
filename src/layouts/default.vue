@@ -1,17 +1,27 @@
 <template lang="pug">
   q-layout(view='lHh Lpr lFf')
 
+    // ---------------------------------------------------------------------------------------------------------- drawer
     q-layout-drawer(v-model="showToolDescription", side="right", no-swipe-open)
-      q-item.q-pa-md
-        q-item-main.q-title.text-weight-bold
+
+      q-item.q-pa-md.items-stretch()
+
+        // app title
+        q-item-main.q-title.text-weight-bold.border-right.q-pr-md
           | {{ currentAppName }}
-        q-item-side
-          q-btn.bg-dark.text-white.q-ma-sm(@click="handlerToolDescription()", size="sm", icon="clear", round)
+
+        // close-button
+        q-item-side.q-pa-none.min-width-auto.q-pl-md
+          q-btn.text-dark.rotate-180.full-height(@click="handlerToolDescription()",
+          icon="clear", flat)
+
+      // content (dummy)
       div.q-pa-md
         | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
       div.q-pa-md
         | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
+    // ---------------------------------------------------------------------------------------------------------- header
     q-layout-header.no-shadow.bg-dark
       q-item.q-pa-none(style="border-bottom: 1px solid #666;")
 
@@ -37,6 +47,7 @@
         q-item-side.q-pr-md(v-if="usingTool")
           q-btn.border.text-white(@click="handlerToolDescription", round, flat, size="sm") ?
 
+    // ---------------------------------------------------------------------------------------------------------- footer
     //
       q-layout-footer.text-center.bg-dark.q-py-xs(v-if="userState && !$route.meta.hideFooter")
 
@@ -55,6 +66,7 @@
           @click="$router.go(-1)")
             q-icon(name="arrow_back_ios")
 
+    // ---------------------------------------------------------------------------------------------------------- others
     q-page-container
       router-view
     conversion-jobs
