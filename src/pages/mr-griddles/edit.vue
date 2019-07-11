@@ -4,6 +4,7 @@
     ref="mrGriddleContainer",
     :play="playing",
     :states="storedStates",
+    @clickPlay="handleClickPlay",
     @stateChanged="handleStateChanged",
     @editModeChanged="handleEditChange")
 
