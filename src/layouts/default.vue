@@ -14,8 +14,14 @@
 
         // title
         q-item-main
-          q-btn.q-title.text-white.text-weight-bold.lowercase(@click="$router.push('/')", flat) #digitanz
+
+          // digitanz light
+          q-btn.q-title.text-white.text-weight-bold.lowercase.full-width(v-if="!usingTool",
+          @click="$router.push('/')", flat, align="left") #digitanz
             span.text-weight-light &nbsp;light
+
+          // app name
+          q-btn.q-title.text-white.text-weight-bold.capitalize(v-else, flat, no-ripple) {{ currentAppName }}
 
         // info-button
         q-item-side.q-pr-md(v-if="usingTool")
@@ -79,6 +85,7 @@
         rootPaths: ['', 'profile', 'dashboard-new', 'tools'],
         hideBackButton: true,
         currentApp: null,
+        currentAppName: '',
         env: process.env,
         uploaderQuery: {
           'title': 'Meine Videos'
@@ -97,6 +104,7 @@
     watch: {
       $route (to, from) {
         console.log(to, from)
+        this.currentAppName = to.path.split('/')[1]
         this.hideBackButton = this.rootPaths.indexOf(to.fullPath.substr(1)) > -1
       }
     },
