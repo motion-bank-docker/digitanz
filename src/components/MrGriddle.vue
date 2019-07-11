@@ -23,13 +23,13 @@
       g#time-to-next-update
         rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="4", fill="white")
 
-    .bg-dark.fixed-bottom.q-mb-xl(v-if="editSettings")
-      q-list.no-border.full-width.q-mb-lg.shadow-up-2
-        q-item
-          q-item-side.text-primary.text-center(icon="timer")
-          q-item-main
+    .bg-dark.fixed-bottom.row.items-center(v-if="editSettings", style="border-top: 1px solid #666; height: 52px;")
+      q-list.no-border.full-width
+        q-item.q-pa-none(style="min-height: auto;")
+          q-item-side.q-pl-md.text-center(icon="timer", style="min-width: auto;")
+          q-item-main.q-pr-md
             q-slider(
-            fab, v-model="frameLength", color="primary", :min="minFrameLength", :max="maxFrameLength",
+            v-model="frameLength", color="white", :min="minFrameLength", :max="maxFrameLength",
             :step="20", fill-handle-always, snap)
 
     q-page-sticky(expand position="top-right")
@@ -330,4 +330,6 @@
   #resize-handle.resizing
     fill: gray
 
+  .q-slider-handle-container
+    margin-right 0
 </style>
