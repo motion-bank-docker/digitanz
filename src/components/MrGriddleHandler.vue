@@ -8,15 +8,16 @@
 
       q-item-main
 
+        // :color="currentState === index ? 'white' : 'grey-6 scaled'", size="sm",
         q-btn.q-mx-xs(v-for="(state, index) in states",
-        round,
-        :color="currentState === index ? 'white' : 'grey-6 scaled'", size="sm",
+        round,  size="sm",
+        :class="[currentState === index ? 'bg-white' : 'border scaled']",
         v-model="selectedStates",
         val="'option-' + {{index}}",
         @click="$emit('clickState', {state, index})",
         v-touch-hold="() => {openDeleteModal({state, index})}")
 
-        q-btn.no-padding(icon="add_circle", size="md", flat, no-ripple, round, @click="$emit('clickAdd')")
+        q-btn.no-padding.border(icon="add", size="sm", flat, no-ripple, round, @click="$emit('clickAdd')")
 
     //
       .col-xs-2.col-sm-1
@@ -92,6 +93,6 @@
   @import '~variables'
 
   .scaled
-    transform scale(.25)
+    transform scale(.5)
 
 </style>
