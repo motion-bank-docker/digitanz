@@ -24,9 +24,12 @@
 
         .q-mb-md(v-if="addWordBubble")
           .q-caption.q-mb-xs Begriff hinzufügen:
-          q-input.bg-grey-9.round-borders.q-px-sm.q-py-xs(v-model="inputNewWord", dark, hide-underline)
-          q-btn.q-mt-sm.bg-white.text-grey-10.full-width(@click="addWord", label="Wort hinzufügen",
-          :disabled="!inputNewWord.length", no-caps)
+          q-item.q-pa-none.items-center
+            q-item-main.q-pr-sm
+              q-input.bg-grey-9.round-borders.q-px-sm.q-py-xs(v-model="inputNewWord", dark, hide-underline)
+            q-item-side.min-width-auto
+              q-btn.bg-white.text-grey-10(@click="addWord", icon="check",
+              :disabled="!inputNewWord.length", no-caps, round, size="sm")
 
         q-list.q-pa-none.no-border.row.justify-between
 
