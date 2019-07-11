@@ -2,14 +2,15 @@
   .row.items-center(style="border-top: 1px solid #666; height: 52px;")
 
     q-item.q-pa-none.full-width(style="min-height: auto;")
+
+      // play-/stop-button
       q-item-side.q-ml-md(v-if="states.length > 0", style="min-width: auto;")
-        q-btn(@click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'",
+        q-btn.text-white(@click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'",
         :class="[$props.play ? 'bg-white text-grey-10' : 'border']", round, size="sm",
         :disabled="states.length === 0")
 
+      // state-buttons
       q-item-main.text-center
-
-        // :color="currentState === index ? 'white' : 'grey-6 scaled'", size="sm",
         q-btn.q-mx-xs(v-for="(state, index) in states",
         round,  size="sm",
         :class="[currentState === index ? 'bg-white' : 'border scaled']",
@@ -18,8 +19,9 @@
         @click="$emit('clickState', {state, index})",
         v-touch-hold="() => {openDeleteModal({state, index})}")
 
+      // add-butoon
       q-item-side.q-mr-md(style="min-width: auto;")
-        q-btn.no-padding.border(icon="add", size="sm", flat, no-ripple,
+        q-btn.no-padding.border.text-white(icon="add", size="sm", flat, no-ripple,
         round, @click="$emit('clickAdd')",
         :class="{'': states.length >= 5}",
         :disabled="states.length >= 5")
