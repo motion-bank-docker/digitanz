@@ -1,8 +1,16 @@
 <template lang="pug">
   q-layout(view='lHh Lpr lFf')
 
-    q-layout-drawer(v-model="showToolDescription", side="right")
-      q-btn.bg-dark.text-white.q-ma-sm(@click="handlerToolDescription()", size="sm", icon="clear", round)
+    q-layout-drawer(v-model="showToolDescription", side="right", no-swipe-open)
+      q-item.q-pa-md
+        q-item-main.q-title.text-weight-bold
+          | {{ currentAppName }}
+        q-item-side
+          q-btn.bg-dark.text-white.q-ma-sm(@click="handlerToolDescription()", size="sm", icon="clear", round)
+      div.q-pa-md
+        | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+      div.q-pa-md
+        | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
     q-layout-header.no-shadow.bg-dark
       q-item.q-pa-none(style="border-bottom: 1px solid #666;")
@@ -109,7 +117,7 @@
         let routeSplit = to.path.split('/')
         switch (routeSplit[1]) {
         case 'mr-griddle':
-          this.currentAppName = 'Mr. Griddle Sequensssss xasxaz'
+          this.currentAppName = 'Mr. Griddle Sequenz'
           break
         case 'clouds':
           this.currentAppName = 'Wortwolke'
