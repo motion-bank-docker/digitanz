@@ -1,14 +1,15 @@
 <template lang="pug">
-  q-page.q-pb-xl
+  q-page
 
-    q-tabs(animated, color="transparent", text-color="white", align="justify" v-model="selectedTab")
+    q-tabs(animated, color="transparent", text-color="white", align="justify" v-model="selectedTab",
+    style="padding-bottom: 52px;")
 
-      q-tab.text-center.border-bottom(name="tab-1", slot="title", default)
+      q-tab.text-center.border-bottom(name="tab-1", slot="title")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Adjektive", flat, no-ripple)
           q-chip.text-grey-10.q-mt-sm(v-if="countAdjektive > 0", floating, color="white")
             | {{ countAdjektive }}
 
-      q-tab.text-center.border-bottom(name="tab-2", slot="title")
+      q-tab.text-center.border-bottom(name="tab-2", slot="title", default)
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Aktionen", flat, no-ripple)
           q-chip.text-grey-10.q-mt-sm(v-if="countAktionen > 0", floating, color="white")
             | {{ countAktionen }}
@@ -41,23 +42,26 @@
               | {{ word.value }}
 
       // ------------------------------------------------------------------------------------------------------ Aktionen
-      q-tab-pane(keep alive, name="tab-2")
+      q-tab-pane.q-pa-md(keep alive, name="tab-2")
         q-list.q-pa-none.no-border.row.justify-between
 
-          q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
-          v-for="mJ in myJson", :class="[checkIfSelected(mJ.label) ? 'bg-grey-9 text-white' : 'bg-dark']",
+          q-item.shadow-2.round-borders(
+          v-for="(mJ, index) in myJson",
+          :class="[checkIfSelected(mJ.label) ? 'bg-grey-9 text-white' : 'bg-dark', {'q-mb-md': index < myJson.length - 1}]",
           style="width: 46%;")
 
-            input.hidden(@click="countWords('aktionen', mJ.label)", v-model="selectedWords", type="checkbox", :id="mJ.label", :value="mJ.label")
+            input.hidden(@click="countWords('aktionen', mJ.label)", v-model="selectedWords", type="checkbox",
+            :id="mJ.label", :value="mJ.label")
             label.full-width(:for="mJ.label")
               | {{ mJ.label }}
 
       // ---------------------------------------------------------------------------------------------------- Gestaltung
-      q-tab-pane(keep alive, name="tab-3")
+      q-tab-pane.q-pa-md(keep alive, name="tab-3")
         q-list.q-pa-none.no-border.row.justify-between
 
-          q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
-          v-for="cT in cloudThree", :class="[checkIfSelected(cT.label) ? 'bg-grey-9 text-white' : 'bg-dark']",
+          q-item.shadow-2.q-pr-sm.round-borders(
+          v-for="(cT, index) in cloudThree",
+          :class="[checkIfSelected(cT.label) ? 'bg-grey-9 text-white' : 'bg-dark', {'q-mb-md': index < cloudThree.length - 2}]",
           style="width: 46%;")
 
             input.hidden(@click="countWords('gestaltung', cT.label)", v-model="selectedWords", type="checkbox", :id="cT.label", :value="cT.label")
