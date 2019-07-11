@@ -6,14 +6,20 @@
 
     q-layout-header.no-shadow.bg-dark
       q-item.q-pa-none(style="border-bottom: 1px solid #666;")
-        // q-item-side(v-if="routeCheck", style="border-right: 1px solid #666;")
-        q-item-side(:class="{'offset': !routeCheck}", style="border-right: 1px solid #666; transition: all ease 200ms;")
+
+        // back-button
+        q-item-side.text-center(:class="{'offset': !usingTool}",
+        style="border-right: 1px solid #666; transition: all ease 200ms; width: 50px;")
           q-btn.text-white(@click="$router.push('/tools')", icon="keyboard_backspace", round, flat)
+
+        // title
         q-item-main
           q-btn.q-title.text-white.text-weight-bold.lowercase(@click="$router.push('/')", flat) #digitanz
             span.text-weight-light &nbsp;light
-        q-item-side.q-pr-md
-          q-btn.text-grey-10.bg-white(@click="handlerToolDescription", round, flat, size="sm") ?
+
+        // info-button
+        q-item-side.q-pr-md(v-if="usingTool")
+          q-btn.border.text-white(@click="handlerToolDescription", round, flat, size="sm") ?
 
     //
       q-layout-footer.text-center.bg-dark.q-py-xs(v-if="userState && !$route.meta.hideFooter")
@@ -83,7 +89,7 @@
       ...mapGetters({
         userState: 'auth/getUserState'
       }),
-      routeCheck () {
+      usingTool () {
         if (this.$route.path === '/' || this.$route.path === '/tools') return false
         else return true
       }
