@@ -3,6 +3,7 @@
     mr-griddle#mr-griddle-container(
     ref="mrGriddleContainer",
     :play="playing",
+    :states="storedStates",
     @stateChanged="handleStateChanged",
     @editModeChanged="handleEditChange")
 
