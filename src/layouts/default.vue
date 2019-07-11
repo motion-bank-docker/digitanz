@@ -22,7 +22,8 @@
             span.text-weight-light &nbsp;light
 
           // app name
-          q-btn.q-title.text-white.text-weight-bold.capitalize(v-else, flat, no-ripple) {{ currentAppName }}
+          q-btn.q-title.text-white.text-weight-bold.capitalize.full-width(v-else, flat, no-ripple, align="left")
+            .ellipsis {{ currentAppName }}
 
         // info-button
         q-item-side.q-pr-md(v-if="usingTool")
@@ -108,7 +109,7 @@
         let routeSplit = to.path.split('/')
         switch (routeSplit[1]) {
         case 'mr-griddle':
-          this.currentAppName = 'Mr. Griddle'
+          this.currentAppName = 'Mr. Griddle Sequensssss xasxaz'
           break
         case 'clouds':
           this.currentAppName = 'Wortwolke'
