@@ -3,23 +3,22 @@
 
     q-tabs(animated, color="transparent", text-color="white", align="justify" v-model="selectedTab")
 
-      q-tab.text-center(default name="tab-1", slot="title")
+      q-tab.text-center.border-bottom(default name="tab-1", slot="title")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Adjektive", flat, no-ripple)
           q-chip.text-grey-10.q-mt-sm(v-if="countAdjektive > 0", floating, color="white")
             | {{ countAdjektive }}
 
-      q-tab.text-center(name="tab-2", slot="title")
+      q-tab.text-center.border-bottom(name="tab-2", slot="title")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Aktionen", flat, no-ripple)
           q-chip.text-grey-10.q-mt-sm(v-if="countAktionen > 0", floating, color="white")
             | {{ countAktionen }}
 
-      q-tab.text-center(name="tab-3", slot="title")
+      q-tab.text-center.border-bottom(name="tab-3", slot="title")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Gestaltung", flat, no-ripple)
           q-chip.text-grey-10.q-mt-sm(v-if="countGestaltung > 0", floating, color="white")
             | {{ countGestaltung }}
 
-      // GESTALTUNGSWOLKE
-      //
+      // ---------------------------------------------------------------------------------------------- Gestaltungswolke
       q-tab-pane(keep alive, name="tab-1")
 
         content-block.q-mx-sm.q-pt-none.q-mt-none.q-mb-xl
@@ -54,8 +53,7 @@
                 label.full-width(:for="word.uuid")
                   | {{ word.value }}
 
-      // AKTIONSWOLKE
-      //
+      // -------------------------------------------------------------------------------------------------- Aktionswolke
       q-tab-pane(keep alive, name="tab-2")
         content-block.q-pt-none
           // template(slot="title")
@@ -76,8 +74,7 @@
               // q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.q-mx-sm(v-for="mJ in myJson")
                 | {{ mJ.label }}
 
-      // WOLKE DREI
-      //
+      // ---------------------------------------------------------------------------------------------------- Wolke drei
       q-tab-pane(keep alive, name="tab-3")
         content-block.q-pt-none
           // template(slot="title")
