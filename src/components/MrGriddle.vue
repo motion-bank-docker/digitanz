@@ -5,7 +5,7 @@
       defs
         pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
           path(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
-          fill="none", stroke="gray", stroke-width="1")
+          fill="none", stroke="gray", :stroke-width="gridStrokeWidth")
       g#mr-griddle(:class="{'random': currentState === -1}", @click="handleSkeletonClick")
         rect(width="100%", height="100%", fill="url(#cell-pattern)")
         line(v-for="(line, i) in lines", :key="`line-${i}`",
@@ -78,7 +78,8 @@
         timerId: undefined,
         storeStates: false,
         map: undefined,
-        editSettings: false
+        editSettings: false,
+        gridStrokeWidth: 0
       }
     },
     computed: {
@@ -183,6 +184,8 @@
       },
       handleModeChange () {
         this.editSettings = !this.editSettings
+        if (this.editSettings) this.gridStrokeWidth = 1
+        else this.gridStrokeWidth = 0
         this.$emit('editModeChanged', this.editSettings)
       },
       updateFrame () {
