@@ -84,7 +84,7 @@
           status: true
         }],
         rootPaths: ['', 'profile', 'dashboard-new', 'tools'],
-        hideBackButton: true,
+        // hideBackButton: true,
         currentApp: null,
         currentAppName: '',
         env: process.env,
@@ -106,7 +106,7 @@
       $route (to, from) {
         console.log(to, from)
         this.currentAppName = to.path.split('/')[1]
-        this.hideBackButton = this.rootPaths.indexOf(to.fullPath.substr(1)) > -1
+        // this.hideBackButton = this.rootPaths.indexOf(to.fullPath.substr(1)) > -1
       }
     },
     methods: {
