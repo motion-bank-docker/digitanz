@@ -67,12 +67,13 @@
           // q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.q-mx-sm(v-for="cT in cloudThree")
             | {{ cT.label }}
 
-      q-page-sticky.bg-dark.q-pt-md(position="bottom")
-        q-btn.full-width.q-mb-md.text-white(
+      .fixed-bottom.bg-dark(style="height: 52px;",
+      :class="[selectedWords.length < 1 ? 'border-top' : 'bg-white text-grey-10']")
+        q-btn.full-width.text-white.full-height.no-round-borders(
         @click="addAssociation",
-        :class="[selectedWords.length < 1 ? 'bg-grey-9' : 'bg-primary']",
+        :class="[selectedWords.length < 1 ? 'bg-transparent' : 'bg-white text-grey-10']",
         :disabled="selectedWords.length < 1",
-        expand,
+        expand, flat, no-caps,
         :label="$t('buttons.save_selection')")
 
 </template>
