@@ -22,6 +22,12 @@
       // ----------------------------------------------------------------------------------------------------- Adjektive
       q-tab-pane(keep alive, name="tab-1")
 
+        q-card.bg-dark.q-mb-md.q-mt-none(v-if="addWordBubble")
+          q-card-main.q-pa-sm
+            q-input(v-model="inputNewWord", dark, float-label="Begriff hinzufügen")
+          q-card-actions
+            q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white.full-width(@click="addWord", label="Wort hinzufügen")
+
         q-list.q-pa-none.no-border.row.justify-between
 
           q-item.q-mb-md.shadow-2.round-borders.no-padding(
