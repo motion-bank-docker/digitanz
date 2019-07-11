@@ -4,12 +4,12 @@
     q-tabs(animated, color="transparent", text-color="white", align="justify" v-model="selectedTab",
     style="padding-bottom: 52px;")
 
-      q-tab.text-center.border-bottom(name="tab-1", slot="title")
+      q-tab.text-center.border-bottom(name="tab-1", slot="title", default)
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Adjektive", flat, no-ripple)
           q-chip.text-grey-10.q-mt-sm(v-if="countAdjektive > 0", floating, color="white")
             | {{ countAdjektive }}
 
-      q-tab.text-center.border-bottom(name="tab-2", slot="title", default)
+      q-tab.text-center.border-bottom(name="tab-2", slot="title")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Aktionen", flat, no-ripple)
           q-chip.text-grey-10.q-mt-sm(v-if="countAktionen > 0", floating, color="white")
             | {{ countAktionen }}
@@ -22,11 +22,11 @@
       // ----------------------------------------------------------------------------------------------------- Adjektive
       q-tab-pane(keep alive, name="tab-1")
 
-        q-card.bg-dark.q-mb-md.q-mt-none(v-if="addWordBubble")
-          q-card-main.q-pa-sm
-            q-input(v-model="inputNewWord", dark, float-label="Begriff hinzufügen")
-          q-card-actions
-            q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white.full-width(@click="addWord", label="Wort hinzufügen")
+        .q-mb-md(v-if="addWordBubble")
+          .q-caption.q-mb-xs Begriff hinzufügen:
+          q-input.bg-grey-9.round-borders.q-px-sm.q-py-xs(v-model="inputNewWord", dark, hide-underline)
+          q-btn.q-mt-sm.bg-white.text-grey-10.full-width(@click="addWord", label="Wort hinzufügen",
+          :disabled="!inputNewWord.length", no-caps)
 
         q-list.q-pa-none.no-border.row.justify-between
 
