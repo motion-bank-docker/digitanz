@@ -9,8 +9,9 @@
 
         // back-button
         q-item-side.text-center(:class="{'offset': !usingTool}",
-        style="border-right: 1px solid #666; transition: all ease 200ms; width: 50px;")
-          q-btn.text-white(@click="$router.push('/tools')", icon="keyboard_backspace", round, flat)
+        style="transition: all ease 200ms; width: 55px;")
+          q-btn.text-white(@click="$router.push('/tools')", icon="keyboard_backspace", flat,
+          style="border-right: 1px solid #666; border-radius: 0;", no-ripple)
 
         // title
         q-item-main
@@ -149,5 +150,5 @@
 
 <style scoped lang="styl">
   .offset
-    margin-left -50px
+    margin-left -55px
 </style>
