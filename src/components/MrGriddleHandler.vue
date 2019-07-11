@@ -19,8 +19,10 @@
         v-touch-hold="() => {openDeleteModal({state, index})}")
 
       q-item-side.q-mr-md(style="min-width: auto;")
-        q-btn.no-padding.border(v-if="states.length < 5", icon="add", size="sm", flat, no-ripple,
-        round, @click="$emit('clickAdd')")
+        q-btn.no-padding.border(icon="add", size="sm", flat, no-ripple,
+        round, @click="$emit('clickAdd')",
+        :class="{'': states.length >= 5}",
+        :disabled="states.length >= 5")
 
     //
       .col-xs-2.col-sm-1
