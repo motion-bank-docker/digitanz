@@ -33,8 +33,8 @@
             :step="20", fill-handle-always, snap)
 
     q-page-sticky(expand position="top-right")
-      q-btn.bg-dark.q-mr-md.q-mt-sm(size="sm", @click="handleModeChange", :icon="editSettings ? 'check' : 'settings'", round,
-      style="border: 1px solid #666;")
+      q-btn.bg-dark.q-mr-md.q-mt-sm.border(@click="handleModeChange", :icon="editSettings ? 'check' : 'settings'",
+      round, size="sm")
 </template>
 
 <script>
