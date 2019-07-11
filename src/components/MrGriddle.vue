@@ -23,7 +23,7 @@
               polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
               polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
         g#time-to-next-update
-          rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="4", fill="white")
+          rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="3", fill="white")
 
       // slider
       .bg-dark.fixed-bottom.row.items-center(v-if="editSettings", style="border-top: 1px solid #666; height: 52px;")
