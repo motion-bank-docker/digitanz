@@ -3,7 +3,7 @@
 
     q-tabs(animated, color="transparent", text-color="white", align="justify" v-model="selectedTab")
 
-      q-tab.text-center.border-bottom(default name="tab-1", slot="title")
+      q-tab.text-center.border-bottom(name="tab-1", slot="title", default)
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Adjektive", flat, no-ripple)
           q-chip.text-grey-10.q-mt-sm(v-if="countAdjektive > 0", floating, color="white")
             | {{ countAdjektive }}
@@ -18,82 +18,54 @@
           q-chip.text-grey-10.q-mt-sm(v-if="countGestaltung > 0", floating, color="white")
             | {{ countGestaltung }}
 
-      // ---------------------------------------------------------------------------------------------- Gestaltungswolke
+      // ----------------------------------------------------------------------------------------------------- Adjektive
       q-tab-pane(keep alive, name="tab-1")
 
-        content-block.q-mx-sm.q-pt-none.q-mt-none.q-mb-xl
-          // template(slot="title")
-            // | Gestaltungswolke
-          // template(slot="buttons")
+        q-list.q-pa-none.no-border.row.justify-between
 
-          template(slot="content")
-            q-card.bg-dark.q-mb-md.q-mt-none(v-if="addWordBubble")
-              q-card-main.q-pa-sm
-                q-input(v-model="inputNewWord", dark, float-label="Begriff hinzufügen")
-              q-card-actions
-                q-btn.q-mx-xs.q-mt-sm.bg-primary.text-white.full-width(@click="addWord", label="Wort hinzufügen")
-                // q-btn.q-mx-xs.q-mt-sm.bg-dark.text-white(@click="addWordBubble = false, inputNewWord = ''", label="abbrechen")
+          q-item.q-mb-md.shadow-2.round-borders.no-padding(
+          style="width: 46%;")
+            q-btn.text-white.full-width(
+            :class="[addWordBubble ? 'bg-dark' : 'bg-primary']",
+            @click="handlerAddWord", no-ripple)
+              q-icon(v-if="addWordBubble", name="clear")
+              q-icon(v-else, name="add")
+              .q-pl-sm(v-if="addWordBubble") schliessen
 
-            q-list.no-border.row.justify-between
+          q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
+          v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']",
+          style="width: 46%;")
 
-              q-item.q-mb-md.shadow-2.round-borders.no-padding(
-              style="width: 46%;")
-                q-btn.text-white.full-width(
-                :class="[addWordBubble ? 'bg-dark' : 'bg-primary']",
-                @click="handlerAddWord", no-ripple)
-                  q-icon(v-if="addWordBubble", name="clear")
-                  q-icon(v-else, name="add")
-                  .q-pl-sm(v-if="addWordBubble") schliessen
+            input.hidden(@click="countWords('adjektive', word.value)", v-model="selectedWords", type="checkbox", :id="word.uuid", :value="word.value")
+            label.full-width(:for="word.uuid")
+              | {{ word.value }}
 
-              q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
-              v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']",
-              style="width: 46%;")
-
-                input.hidden(@click="countWords('adjektive', word.value)", v-model="selectedWords", type="checkbox", :id="word.uuid", :value="word.value")
-                label.full-width(:for="word.uuid")
-                  | {{ word.value }}
-
-      // -------------------------------------------------------------------------------------------------- Aktionswolke
+      // ------------------------------------------------------------------------------------------------------ Aktionen
       q-tab-pane(keep alive, name="tab-2")
-        content-block.q-pt-none
-          // template(slot="title")
-            // | Aktionswolke
-          // template(slot="buttons")
-          template(slot="content")
+        q-list.q-pa-none.no-border.row.justify-between
 
-            q-list.no-border.row.justify-between
+          q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
+          v-for="mJ in myJson", :class="[checkIfSelected(mJ.label) ? 'bg-grey-9 text-white' : 'bg-dark']",
+          style="width: 46%;")
 
-              q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
-              v-for="mJ in myJson", :class="[checkIfSelected(mJ.label) ? 'bg-grey-9 text-white' : 'bg-dark']",
-              style="width: 46%;")
+            input.hidden(@click="countWords('aktionen', mJ.label)", v-model="selectedWords", type="checkbox", :id="mJ.label", :value="mJ.label")
+            label.full-width(:for="mJ.label")
+              | {{ mJ.label }}
 
-                input.hidden(@click="countWords('aktionen', mJ.label)", v-model="selectedWords", type="checkbox", :id="mJ.label", :value="mJ.label")
-                label.full-width(:for="mJ.label")
-                  | {{ mJ.label }}
-
-              // q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.q-mx-sm(v-for="mJ in myJson")
-                | {{ mJ.label }}
-
-      // ---------------------------------------------------------------------------------------------------- Wolke drei
+      // ---------------------------------------------------------------------------------------------------- Gestaltung
       q-tab-pane(keep alive, name="tab-3")
-        content-block.q-pt-none
-          // template(slot="title")
-            // | Aktionswolke
-          // template(slot="buttons")
-          template(slot="content")
-            // | > {{ countGestaltung }}
-            q-list.no-border.row.justify-between
+        q-list.q-pa-none.no-border.row.justify-between
 
-              q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
-              v-for="cT in cloudThree", :class="[checkIfSelected(cT.label) ? 'bg-grey-9 text-white' : 'bg-dark']",
-              style="width: 46%;")
+          q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
+          v-for="cT in cloudThree", :class="[checkIfSelected(cT.label) ? 'bg-grey-9 text-white' : 'bg-dark']",
+          style="width: 46%;")
 
-                input.hidden(@click="countWords('gestaltung', cT.label)", v-model="selectedWords", type="checkbox", :id="cT.label", :value="cT.label")
-                label.full-width(:for="cT.label")
-                  | {{ cT.label }}
+            input.hidden(@click="countWords('gestaltung', cT.label)", v-model="selectedWords", type="checkbox", :id="cT.label", :value="cT.label")
+            label.full-width(:for="cT.label")
+              | {{ cT.label }}
 
-              // q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.q-mx-sm(v-for="cT in cloudThree")
-                | {{ cT.label }}
+          // q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.q-mx-sm(v-for="cT in cloudThree")
+            | {{ cT.label }}
 
       q-page-sticky.bg-dark.q-pt-md(position="bottom")
         q-btn.full-width.q-mb-md.text-white(
@@ -108,7 +80,6 @@
 <script>
   import { mapGetters } from 'vuex'
   import ConfirmModal from '../../components/ConfirmModal'
-  import ContentBlock from '../../components/ContentBlock'
   import VideoListView from '../../components/VideoListView'
   import json from '../../components/json/aktionsbegriffe.json'
   import wolkeDrei from '../../components/json/wolkeDrei.json'
@@ -116,7 +87,6 @@
   export default {
     components: {
       ConfirmModal,
-      ContentBlock,
       VideoListView
     },
     async mounted () {
