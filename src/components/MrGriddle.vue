@@ -25,6 +25,7 @@
         g#time-to-next-update
           rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="4", fill="white")
 
+      // slider
       .bg-dark.fixed-bottom.row.items-center(v-if="editSettings", style="border-top: 1px solid #666; height: 52px;")
         q-list.no-border.full-width
           q-item.q-pa-none(style="min-height: auto;")
@@ -34,10 +35,12 @@
               v-model="frameLength", color="white", :min="minFrameLength", :max="maxFrameLength",
               :step="20", fill-handle-always, snap)
 
+      // edit-button
       q-page-sticky(expand position="top-right")
         q-btn.q-mr-md.q-mt-sm(@click="handleModeChange", :icon="editSettings ? 'check' : 'settings'",
         round, size="sm", :class="[editSettings ? 'bg-white text-grey-10' : 'bg-dark border']")
 
+    // "resize grid"-buttons
     q-page-sticky.text-center.q-mx-md.q-my-sm(v-if="editSettings", position="top-left")
       div
         q-btn.border.bg-dark(@click="handleGridChange(0,-1)", round, size="sm", icon="remove")
