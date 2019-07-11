@@ -42,7 +42,7 @@
 
       // edit-button
       q-page-sticky(expand position="top-right")
-        q-btn.q-mr-md.q-mt-sm(@click="handleModeChange", :icon="editSettings ? 'check' : 'settings'",
+        q-btn.q-mr-md.q-mt-sm(@click="handleModeChange", icon="settings",
         round, size="sm", :class="[editSettings ? 'bg-white text-grey-10' : 'bg-dark border']")
 
     // "resize grid"-buttons
