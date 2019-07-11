@@ -29,13 +29,15 @@
       .bg-dark.fixed-bottom.row.items-center(v-if="editSettings", style="border-top: 1px solid #666; height: 52px;")
         q-list.no-border.full-width
           q-item.q-pa-none(style="min-height: auto;")
-            // q-item-side.q-pl-md.text-center(icon="timer", style="min-width: auto;")
-            q-item-side.q-pl-md.text-center(style="min-width: auto;")
-              q-btn(@click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'",
-              :class="[$props.play ? 'bg-white text-grey-10' : 'border']", round, size="sm",
-              :disabled="states.length === 0")
 
-            q-item-main.q-pr-md
+            q-item-side.text-center(style="min-width: auto;",
+            :class="{'hidden': states.length === 0}")
+
+              q-btn.q-ml-md(@click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'",
+              :class="[$props.play ? 'bg-white text-grey-10' : 'border']",
+              round, size="sm", :disabled="states.length === 0")
+
+            q-item-main.q-px-md
               q-slider(
               v-model="frameLength", color="white", :min="minFrameLength", :max="maxFrameLength",
               :step="20", fill-handle-always, snap)
@@ -353,7 +355,4 @@
   #resize-handle *:hover,
   #resize-handle.resizing
     fill: gray
-
-  .q-slider-handle-container
-    margin-right 0
 </style>
