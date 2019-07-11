@@ -314,12 +314,14 @@
   #mr-griddle
     line
       // griddle color
-      stroke $primary
+      // stroke $primary
+      stroke white
       stroke-linecap round
 
   #mr-griddle.random
     line
-      stroke white
+      // stroke white
+      stroke gray
 
   #resize-handle
     fill: white
