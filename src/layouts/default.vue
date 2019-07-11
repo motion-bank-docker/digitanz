@@ -6,10 +6,13 @@
 
     q-layout-header.no-shadow.bg-dark
       q-item.q-pa-none(style="border-bottom: 1px solid #666;")
-        .q-item-main
+        // q-item-side(v-if="routeCheck", style="border-right: 1px solid #666;")
+        q-item-side(:class="{'offset': !routeCheck}", style="border-right: 1px solid #666; transition: all ease 200ms;")
+          q-btn.text-white(@click="$router.push('/tools')", icon="keyboard_backspace", round, flat)
+        q-item-main
           q-btn.q-title.text-white.text-weight-bold.lowercase(@click="$router.push('/')", flat) #digitanz
             span.text-weight-light &nbsp;light
-        .q-item-side.q-pr-md
+        q-item-side.q-pr-md
           q-btn.text-grey-10.bg-white(@click="handlerToolDescription", round, flat, size="sm") ?
 
     //
@@ -79,7 +82,11 @@
     computed: {
       ...mapGetters({
         userState: 'auth/getUserState'
-      })
+      }),
+      routeCheck () {
+        if (this.$route.path === '/' || this.$route.path === '/tools') return false
+        else return true
+      }
     },
     watch: {
       $route (to, from) {
@@ -125,3 +132,8 @@
     }
   }
 </script>
+
+<style scoped lang="styl">
+  .offset
+    margin-left -50px
+</style>
