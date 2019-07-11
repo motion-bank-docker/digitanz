@@ -2,9 +2,9 @@
   .row.items-center(style="border-top: 1px solid #666; height: 52px;")
 
     q-item.q-pa-none(style="min-height: auto;")
-      q-item-side.q-ml-sm(style="min-width: auto;")
+      q-item-side.q-ml-md(style="min-width: auto;")
         q-btn(@click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'",
-        :class="{'bg-primary text-white': $props.play}")
+        :class="[$props.play ? 'bg-white text-grey-10' : 'border']", round, size="sm")
 
       q-item-main
 
