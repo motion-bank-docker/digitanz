@@ -1,17 +1,21 @@
 <template lang="pug">
   q-page.q-pb-xl
-    q-tabs(animated, color="transparent", text-color="primary", align="justify" v-model="selectedTab")
+
+    q-tabs(animated, color="transparent", text-color="white", align="justify" v-model="selectedTab")
+
       q-tab.text-center(default name="tab-1", slot="title")
-        q-btn.q-caption.text-weight-medium.q-px-none(label="Adjektive", flat, no-ripple)
-          q-chip.q-mt-sm(v-if="countAdjektive > 0", floating, color="red")
+        q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Adjektive", flat, no-ripple)
+          q-chip.text-grey-10.q-mt-sm(v-if="countAdjektive > 0", floating, color="white")
             | {{ countAdjektive }}
+
       q-tab.text-center(name="tab-2", slot="title")
-        q-btn.q-caption.text-weight-medium.q-px-none(label="Aktionen", flat, no-ripple)
-          q-chip.q-mt-sm(v-if="countAktionen > 0", floating, color="red")
+        q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Aktionen", flat, no-ripple)
+          q-chip.text-grey-10.q-mt-sm(v-if="countAktionen > 0", floating, color="white")
             | {{ countAktionen }}
+
       q-tab.text-center(name="tab-3", slot="title")
-        q-btn.q-caption.text-weight-medium.q-px-none(label="Gestaltung", flat, no-ripple)
-          q-chip.q-mt-sm(v-if="countGestaltung > 0", floating, color="red")
+        q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Gestaltung", flat, no-ripple)
+          q-chip.text-grey-10.q-mt-sm(v-if="countGestaltung > 0", floating, color="white")
             | {{ countGestaltung }}
 
       // GESTALTUNGSWOLKE
