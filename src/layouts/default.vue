@@ -105,7 +105,24 @@
     watch: {
       $route (to, from) {
         console.log(to, from)
-        this.currentAppName = to.path.split('/')[1]
+        let routeSplit = to.path.split('/')
+        switch (routeSplit[1]) {
+        case 'mr-griddle':
+          this.currentAppName = 'Mr. Griddle'
+          break
+        case 'clouds':
+          this.currentAppName = 'Wortwolke'
+          break
+        case 'recipes':
+          this.currentAppName = 'Rezepte'
+          break
+        case 'space-tool':
+          this.currentAppName = 'Raum'
+          break
+        case 'inspiration':
+          this.currentAppName = 'Inspiration'
+          break
+        }
         // this.hideBackButton = this.rootPaths.indexOf(to.fullPath.substr(1)) > -1
       }
     },
