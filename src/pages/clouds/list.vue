@@ -19,9 +19,10 @@
           q-chip.text-grey-10.q-mt-sm(v-if="countGestaltung > 0", floating, color="white")
             | {{ countGestaltung }}
 
-      // ----------------------------------------------------------------------------------------------------- Adjektive
-      q-tab-pane(keep alive, name="tab-1")
+      // --------------------------------------------------------------------------------------------- Adjektive (tab 1)
+      q-tab-pane.q-pa-md(keep alive, name="tab-1")
 
+        // "add term"-block
         .q-mb-md(v-if="addWordBubble")
           .q-caption.q-mb-xs Begriff hinzufügen:
           q-item.q-pa-none.items-center
@@ -33,14 +34,12 @@
 
         q-list.q-pa-none.no-border.row.justify-between
 
-          q-item.q-mb-md.shadow-2.round-borders.no-padding(
+          // show-/hide-button for "add term"-block
+          q-item.q-mb-md.no-padding.min-height-auto(
           style="width: 46%;")
-            q-btn.text-white.full-width(
-            :class="[addWordBubble ? 'bg-dark' : 'bg-primary']",
-            @click="handlerAddWord", no-ripple)
+            q-btn.full-width.bg-white.text-grey-10(@click="handlerAddWord", no-ripple)
               q-icon(v-if="addWordBubble", name="clear")
               q-icon(v-else, name="add")
-              .q-pl-sm(v-if="addWordBubble") schliessen
 
           q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
           v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']",
@@ -50,7 +49,7 @@
             label.full-width(:for="word.uuid")
               | {{ word.value }}
 
-      // ------------------------------------------------------------------------------------------------------ Aktionen
+      // ---------------------------------------------------------------------------------------------- Aktionen (tab 2)
       q-tab-pane.q-pa-md(keep alive, name="tab-2")
         q-list.q-pa-none.no-border.row.justify-between
 
@@ -64,7 +63,7 @@
             label.full-width(:for="mJ.label")
               | {{ mJ.label }}
 
-      // ---------------------------------------------------------------------------------------------------- Gestaltung
+      // -------------------------------------------------------------------------------------------- Gestaltung (tab 3)
       q-tab-pane.q-pa-md(keep alive, name="tab-3")
         q-list.q-pa-none.no-border.row.justify-between
 
