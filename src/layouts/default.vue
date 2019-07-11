@@ -2,18 +2,18 @@
   q-layout(view='lHh Lpr lFf')
 
     // ---------------------------------------------------------------------------------------------------------- drawer
-    q-layout-drawer(v-model="showToolDescription", side="right", no-swipe-open)
+    q-layout-drawer.text-grey-9(v-model="showToolDescription", side="right", no-swipe-open)
 
-      q-item.q-pa-md.items-stretch()
+      q-item.q-pa-none.items-stretch.border-bottom
 
         // app title
-        q-item-main.q-title.text-weight-bold.border-right.q-pr-md
-          | {{ currentAppName }}
+        q-item-main.q-title.text-weight-bold.q-pr-md
+          q-btn.q-title.capitalize.q-pl-md(no-ripple, flat) {{ currentAppName }}
 
         // close-button
-        q-item-side.q-pa-none.min-width-auto.q-pl-md
-          q-btn.text-dark.rotate-180.full-height(@click="handlerToolDescription()",
-          icon="clear", flat)
+        q-item-side.text-center.q-py-sm(style="width: 55px;")
+          q-btn.border-right.no-round-borders.text-dark.rotate-180.full-height(@click="handlerToolDescription()",
+          icon="clear", flat, no-ripple)
 
       // content (dummy)
       div.q-pa-md
