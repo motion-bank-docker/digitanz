@@ -50,13 +50,13 @@
     // "resize grid"-buttons
     q-page-sticky.text-center.q-mx-md.q-my-sm(v-if="editSettings", position="top-left")
       div
-        q-btn.border.bg-dark(@click="handleGridChange(0,-1)", round, size="sm", icon="remove")
+        q-btn.border.bg-dark.text-white(@click="handleGridChange(0,-1)", round, size="sm", icon="remove")
       div
-        q-btn.border.bg-dark(@click="handleGridChange(-1,0)", round, size="sm", icon="remove")
+        q-btn.border.bg-dark.text-white(@click="handleGridChange(-1,0)", round, size="sm", icon="remove")
         q-btn.border.invisible(round, size="sm")
-        q-btn.border.bg-dark(@click="handleGridChange(1,0)", round, size="sm", icon="add")
+        q-btn.border.bg-dark.text-white(@click="handleGridChange(1,0)", round, size="sm", icon="add")
       div
-        q-btn.border.bg-dark(@click="handleGridChange(0,1)", round, size="sm", icon="add")
+        q-btn.border.bg-dark.text-white(@click="handleGridChange(0,1)", round, size="sm", icon="add")
 
 </template>
 
