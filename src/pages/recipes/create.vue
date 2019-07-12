@@ -22,6 +22,8 @@
           q-btn.bg-grey-10(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm")
           q-btn.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm")
           q-btn(@click="deleteTodoItem(index)", icon="delete", round, size="sm")
+    div.text-grey-9(v-else)
+      | Noch keine Einträge hinzugefügt.
 
     // ---------------------------------------------------------------------------------------------------------- inputs
     q-list.no-border.q-pa-none.q-my-md(v-if="editMode")
@@ -66,14 +68,15 @@
           no-caps, icon="add", round, size="sm")
 
     // ----------------------------------------------------------------------------------------------------- save button
-    q-page-sticky.q-pa-md.bg-dark(v-if="editMode", position="bottom", expand)
-      q-btn.full-width(@click="submitRecipe",
-      :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0 ? 'grey-9' : 'primary']",
-      :disable="addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0",
-      type="submit",
-      )
-        | {{ $t('buttons.save') }}
-        // q-btn.q-mt-sm.col-4(@click="remixArray", color="secondary") remix
+    q-page-sticky.q-px-md.bg-dark.border-top.row(v-if="editMode", position="bottom", expand, style="height: 52px;")
+      .col-6.q-pr-md.border-right
+        q-btn.full-width(@click="$router.push('/recipes')", flat, no-caps) Cancel
+      .col-6.q-pl-md
+        q-btn.capitalize.full-width(@click="submitRecipe",
+        :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? '' : 'bg-white text-grey-10']",
+        :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
+        type="submit", no-caps)
+          | {{ $t('buttons.save') }}
 
     q-page-sticky(position="top-right")
       q-btn.no-padding.q-ma-md(v-if="!editMode", @click="editMode = true", round, color="primary", icon="edit")
