@@ -2,7 +2,7 @@
   q-page.q-pa-md
 
     // ----------------------------------------------------------------------------------------------------- cloud title
-    q-input.q-title.q-mb-md.bg-grey-9.q-pa-sm.round-borders(dark, v-model="newRecipe.title", placeholder="Titel",
+    q-input.q-title.q-mb-md.bg-grey-10.q-pa-sm.round-borders(dark, v-model="newRecipe.title", placeholder="ohne Titel",
     :error="$v.newRecipe.title.$error",
     :readonly="!editMode", hide-underline,
     :class="[editMode ? '' : 'q-mt-lg' ]")
@@ -28,7 +28,7 @@
     // ---------------------------------------------------------------------------------------------------------- inputs
     q-list.no-border.q-pa-none.q-my-md(v-if="editMode")
 
-      .border-top.q-pt-md
+      .q-pt-md
         q-item.no-padding.q-mb-md
           q-item-main
             q-input.q-pa-sm.bg-dark(
