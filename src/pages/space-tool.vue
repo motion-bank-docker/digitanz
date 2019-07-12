@@ -1,5 +1,7 @@
 <template lang="pug">
-  lost-in-space#lostinspace
+  q-page
+    div(style="overflow: hidden; height: calc(100vh - 52px);")
+      lost-in-space#lostinspace
 </template>
 
 <script>
@@ -7,6 +9,9 @@
   export default {
     components: {
       LostInSpace
+    },
+    mounted () {
+      this.window.scrollTo(52, 0)
     }
   }
 </script>

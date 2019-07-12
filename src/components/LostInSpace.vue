@@ -1,5 +1,5 @@
 <template lang="pug">
-  svg(width="100vw", height="100vh", @mouseup="nextShape")
+  svg(width="100vw", :height="heightWithoutHeader", @mouseup="nextShape")
     rect(width="100%" height="100%" fill="#252324")
     defs
       g#shape-protos
@@ -101,6 +101,8 @@
 
       window.addEventListener('keyup', this.handleKey)
 
+      this.heightWithoutHeader = window.innerHeight - 52
+
       const shapeProtos = this.$el.querySelectorAll('#shape-protos > g')
 
       const winHalfWidth = this.svgSize.width / 2
@@ -161,11 +163,11 @@
     },
     computed: {
       svgSize () {
-        const smallestLengthFull = Math.min(window.innerWidth, window.innerHeight)
+        const smallestLengthFull = Math.min(window.innerWidth, window.innerHeight - 52)
         const smallestLength = smallestLengthFull * 0.7
         return {
           width: window.innerWidth,
-          height: window.innerHeight,
+          height: window.innerHeight - 52,
           side: smallestLength,
           scale: smallestLength / 100.0
         }
