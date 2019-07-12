@@ -57,9 +57,11 @@
             placeholder="Gestaltungsbegriff", dark, color="white",
             hide-underline)
 
-        q-item.no-padding.q-mb-sm.row.justify-end.full-width
+        div.no-padding.q-mb-sm.row.justify-end.transition(
+        :class="[!(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-right' : '']",
+        )
           q-btn.border.capitalize.q-mr-md(@click="resetValues",
-          :disabled="!(addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0)",
+          :disabled="!(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
           no-caps, icon="clear", round, size="sm")
 
           q-btn.border.capitalize(@click="addTodoItem",
@@ -71,9 +73,10 @@
     q-page-sticky.q-px-md.bg-dark.border-top.row(v-if="editMode", position="bottom", expand, style="height: 52px;")
       .col-6.q-pr-md.border-right
         q-btn.full-width(@click="$router.push('/recipes')", flat, no-caps) Cancel
-      .col-6.q-pl-md
-        q-btn.capitalize.full-width(@click="submitRecipe",
-        :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? '' : 'bg-white text-grey-10']",
+      .col-6.q-pl-md.relative-position
+        q-btn.capitalize.full-width(
+        @click="submitRecipe",
+        :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-bottom' : 'bg-white text-grey-10']",
         :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
         type="submit", no-caps)
           | {{ $t('buttons.save') }}
@@ -245,4 +248,9 @@
     padding-right 0 !important
   .listItem
     padding 8px 0!important
+  .leave-right
+    margin-right -50vw
+
+  .leave-bottom
+    margin-bottom -100px
 </style>
