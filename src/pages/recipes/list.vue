@@ -1,61 +1,88 @@
 <template lang="pug">
-  q-page.q-pa-lg.relative-position
+  q-page.q-pa-md.relative-position
     //
     // DELETE MODAL
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteRecipe")
 
-    //
-    // LISTE DER REZEPTE
-    content-block.no-margin
-      template(slot="title") Meine Rezepte
-      template(slot="content")
-        q-list.no-padding.no-border
-          q-item.items-baseline.q-px-none(v-for="recipe in personal", :key="recipe.uuid")
-            q-item-main(dark)
-              q-item-tile
-                // hier alle Titel meiner Rezepte anzeigen
-                // q-btn.full-width(@click="$router.push('/newrecipe/' + recipe.uuid)", align="left", outline)
-                q-btn.full-width.bg-grey-10(@click="$router.push(`/recipes/edit/${recipe.uuid}`)", align="left")
-                  | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
-            q-item-side
-              q-item-tile
-                q-btn(icon="delete", @click="openDeleteModal(recipe)")
-                // q-btn(icon="delete" @click="openPopupDelete = true")
-                // q-btn(icon="share" @click="openPopupShare = true")
-          q-item.q-px-none
-            q-item-main(dark)
-              q-btn.full-width.text-white(@click="$router.push('/recipes/create')", color="primary", align="left")
-                | Neues Rezept
-            q-item-side
-              q-btn.display-none(icon="delete")
-          // q-item.q-pa-none
-            // q-btn.q-ml-md.q-mt-sm.q-mb-md(@click="$router.push('/newrecipe/create')", align="left", color="primary", icon="add circle")
-            q-btn(@click="$router.push('/recipes/' + recipe.uuid + '/create')", align="left", color="primary", icon="add circle")
+    // ---------------------------------------------------------------------------------------------------- recipes list
+    div.border-bottom.q-pb-xl
+      .q-mb-md Meine Rezepte
+
+      q-list.no-padding.no-border
+        q-item.items-baseline.q-px-none(v-for="recipe in personal", :key="recipe.uuid")
+          q-item-main(dark)
+            q-item-tile
+              q-btn.full-width.bg-grey-10(@click="$router.push(`/recipes/edit/${recipe.uuid}`)", align="left")
+                | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
+          q-item-side
+            q-item-tile
+              q-btn(icon="delete", @click="openDeleteModal(recipe)")
+
+      q-btn.full-width.text-white.border(@click="$router.push('/recipes/create')", align="left",  no-caps)
+        | Neues Rezept
 
     //
-    // GEMIXTE REZEPTE
-    content-block
-      template(slot="title") Gemixte Rezepte
-      template(slot="buttons")
-      template(slot="content")
-        q-list.q-pa-none.no-border.no-padding
-          q-item.items-baseline.q-px-none(v-for="recipe in remixed", :key="recipe.uuid")
-            q-item-main(dark)
-              q-item-tile
-                // Loop durch array aller Rezepte, Titel anzeigen
-                q-btn.full-width.bg-grey-10(@click="$router.push('/recipes/edit/' + recipe.uuid)", align="left")
-                  | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
-            q-item-side
-              q-item-tile
-                q-btn(@click="openDeleteModal(recipe)", icon="delete")
-                // q-btn(icon="delete")
-                // q-btn(icon="share")
-          q-item.q-px-none
-            q-item-main(dark)
-              q-btn.full-width.text-white(@click="doRemix", color="primary", align="left")
-                | Neuer Remix
-            q-item-side
-              q-btn.display-none(icon="delete")
+      content-block.no-margin
+        // template(slot="title") Meine Rezepte
+        template(slot="content")
+          q-list.no-padding.no-border
+            q-item.items-baseline.q-px-none(v-for="recipe in personal", :key="recipe.uuid")
+              q-item-main(dark)
+                q-item-tile
+                  // hier alle Titel meiner Rezepte anzeigen
+                  q-btn.full-width.bg-grey-10(@click="$router.push(`/recipes/edit/${recipe.uuid}`)", align="left")
+                    | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
+              q-item-side
+                q-item-tile
+                  q-btn(icon="delete", @click="openDeleteModal(recipe)")
+
+            //
+              q-item.q-px-none
+                q-item-main(dark)
+                  q-btn.full-width.text-white(@click="$router.push('/recipes/create')", color="primary", align="left")
+                    | Neues Rezept
+                q-item-side
+                  q-btn.display-none(icon="delete")
+
+    // --------------------------------------------------------------------------------------------------- mixed recipes
+    div.q-mt-xl
+      .q-mb-md Gemixte Rezepte
+
+      q-list.q-pa-none.no-border.no-padding
+        q-item.items-baseline.q-px-none(v-for="recipe in remixed", :key="recipe.uuid")
+          q-item-main(dark)
+            q-item-tile
+              q-btn.full-width.bg-grey-10(@click="$router.push('/recipes/edit/' + recipe.uuid)", align="left")
+                | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
+          q-item-side
+            q-item-tile
+              q-btn(@click="openDeleteModal(recipe)", icon="delete")
+      q-btn.full-width.text-white.border(@click="doRemix", align="left", no-caps)
+        | Neuer Remix
+
+    //
+      content-block
+        template(slot="title") Gemixte Rezepte
+        template(slot="buttons")
+        template(slot="content")
+          q-list.q-pa-none.no-border.no-padding
+            q-item.items-baseline.q-px-none(v-for="recipe in remixed", :key="recipe.uuid")
+              q-item-main(dark)
+                q-item-tile
+                  // Loop durch array aller Rezepte, Titel anzeigen
+                  q-btn.full-width.bg-grey-10(@click="$router.push('/recipes/edit/' + recipe.uuid)", align="left")
+                    | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
+              q-item-side
+                q-item-tile
+                  q-btn(@click="openDeleteModal(recipe)", icon="delete")
+                  // q-btn(icon="delete")
+                  // q-btn(icon="share")
+            q-item.q-px-none
+              q-item-main(dark)
+                q-btn.full-width.text-white(@click="doRemix", color="primary", align="left")
+                  | Neuer Remix
+              q-item-side
+                q-btn.display-none(icon="delete")
 </template>
 
 <script>
