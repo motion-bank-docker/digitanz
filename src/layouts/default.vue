@@ -23,7 +23,7 @@
 
     // ---------------------------------------------------------------------------------------------------------- header
     q-layout-header.no-shadow.bg-dark
-      q-item.q-pa-none(style="border-bottom: 1px solid #666;")
+      q-item.q-pa-none.border-bottom
 
         // back-button
         q-item-side.text-center(:class="{'offset': !usingTool}",
