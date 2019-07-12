@@ -23,7 +23,9 @@
       q-tab-pane.q-pa-md(keep alive, name="tab-1")
 
         // "add term"-block
-        .q-mb-md(v-if="addWordBubble")
+        //
+          .q-mb-md(v-if="addWordBubble")
+        .q-mb-md
           .q-caption.q-mb-xs Begriff hinzufügen:
           q-item.q-pa-none.items-center
             q-item-main.q-pr-sm
@@ -35,11 +37,12 @@
         q-list.q-pa-none.no-border.row.justify-between
 
           // show-/hide-button for "add term"-block
-          q-item.q-mb-md.no-padding.min-height-auto(
-          style="width: 46%;")
-            q-btn.full-width.bg-white.text-grey-10(@click="handlerAddWord", no-ripple)
-              q-icon(v-if="addWordBubble", name="clear")
-              q-icon(v-else, name="add")
+          //
+            q-item.q-mb-md.no-padding.min-height-auto(
+            style="width: 46%;")
+              q-btn.full-width.bg-white.text-grey-10(@click="handlerAddWord", no-ripple)
+                q-icon(v-if="addWordBubble", name="clear")
+                q-icon(v-else, name="add")
 
           q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
           v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']",
