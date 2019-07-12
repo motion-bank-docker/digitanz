@@ -28,8 +28,8 @@
         // back-button
         q-item-side.text-center(:class="{'offset': !usingTool}",
         style="transition: all ease 200ms; width: 55px;")
-          q-btn.text-white(@click="$router.push('/tools')", icon="keyboard_backspace", flat,
-          style="border-right: 1px solid #666; border-radius: 0;", no-ripple)
+          q-btn.text-white.border-right.no-round-borders(@click="$router.push('/tools')", icon="keyboard_backspace",
+          flat, no-ripple)
 
         // title
         q-item-main
