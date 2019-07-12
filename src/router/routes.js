@@ -17,6 +17,7 @@ const routes = [
       { path: 'recipes/create', component: () => import('pages/recipes/create'), meta: {private: true} },
       { path: 'recipes/edit/:uuid', component: () => import('pages/recipes/create'), meta: {private: true} },
       { path: 'recipes/:uuid/responses', component: () => import('pages/recipes/responses'), meta: {private: true} },
+      { path: 'clouds/overview', component: () => import('pages/clouds/overview'), meta: {private: true} },
       { path: 'clouds', component: () => import('pages/clouds/list'), meta: {private: true} },
       { path: 'clouds/:uuid/responses', component: () => import('pages/clouds/responses'), meta: {private: true} },
       { path: 'profile', name: 'profile', component: () => import('pages/profile'), meta: {private: true} },

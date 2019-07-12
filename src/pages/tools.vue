@@ -62,7 +62,7 @@
       actions (val) {
         switch (val) {
         case 'clouds':
-          this.$router.push('/clouds')
+          this.$router.push('/clouds/overview')
           break
         case 'sequenz':
           this.$router.push('/sequences/create')
