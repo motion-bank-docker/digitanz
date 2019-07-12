@@ -56,15 +56,14 @@
             hide-underline)
 
         q-item.no-padding.q-mb-sm.row.justify-between.full-width
-          q-btn(@click="addTodoItem", color="primary",
-          :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0 ? 'primary' : 'grey-9']",
-          style="width: 46%;"
-          )
-            | {{ $t('buttons.add') }}
-          q-btn(@click="resetValues", label="zurücksetzen",
-          :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0 ? 'grey-10' : 'grey-9']",
-          style="width: 46%;"
-          )
+          q-btn.border.capitalize(@click="resetValues",
+          :disabled="!(addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0)",
+          no-caps, icon="clear", round, size="sm")
+
+          q-btn.border.capitalize(@click="addTodoItem",
+          :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'bg-white text-grey-10' : '']",
+          :disabled="!(addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0)",
+          no-caps, icon="add", round, size="sm")
 
     // ----------------------------------------------------------------------------------------------------- save button
     q-page-sticky.q-pa-md.bg-dark(v-if="editMode", position="bottom", expand)
