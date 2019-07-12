@@ -40,21 +40,21 @@
           q-item-main
             q-select.q-pa-sm.bg-dark(
             v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
-            placeholder="Adjektiv", dark,
+            placeholder="Adjektiv", dark, color="white",
             hide-underline)
 
         q-item.no-padding.q-mb-md
           q-item-main
             q-select.q-pa-sm.bg-dark(
             v-model="selectAktion", @focus="resetValues", :options="myJson",
-            placeholder="Aktionsbegriff", dark,
+            placeholder="Aktionsbegriff", dark, color="white",
             hide-underline)
 
         q-item.no-padding.q-mb-md
           q-item-main
             q-select.q-pa-sm.bg-dark(
             v-model="selectCloudThree", @focus="resetValues", :options="cloudThree",
-            placeholder="Gestaltungsbegriff", dark,
+            placeholder="Gestaltungsbegriff", dark, color="white",
             hide-underline)
 
         q-item.no-padding.q-mb-sm.row.justify-between.full-width
