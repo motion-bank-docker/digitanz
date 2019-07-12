@@ -1,5 +1,6 @@
 <template lang="pug">
   svg(width="100vw", height="100vh", @mouseup="nextShape")
+    rect(width="100%" height="100%" fill="black")
     defs
       g#shape-protos
         g#diagonal-lines-1
@@ -42,7 +43,7 @@
       template(v-if="showShapePolys", v-for="shape in shapes")
         template(v-if="shape.points.length > 1")
           polygon(
-            :points="shape.points.map(p=>{return `${p.x},${p.y} `})"
+            :points="shape.points.map(p=>{return `${p.x},${p.y} `})",
             :fill="'none' || shape.fill || 'black'", stroke="black", stroke-width="5")
           <!--ellipse(:cx="shape.center.x", :cy="shape.center.y", :rx="5", :ry="5",-->
             <!--fill="yellow", stroke="blue", stroke-width="3")-->
@@ -54,7 +55,7 @@
         fill="none", stroke="rgb(120,120,120)", stroke-width="4")
     g#particles
       template(v-for="particle in particles")
-        ellipse(:cx="particle.position.x", :cy="particle.position.y", rx="10", ry="10")
+        ellipse(:cx="particle.position.x", :cy="particle.position.y", rx="10", ry="10", fill="white")
 </template>
 
 <script>
