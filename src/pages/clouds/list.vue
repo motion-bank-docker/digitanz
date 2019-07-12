@@ -81,18 +81,16 @@
 
       .fixed-bottom.bg-dark.border-top.items-center.row.q-px-md(style="height: 52px;",
       :class="[selectedWords.length < 1 ? 'border-top' : 'bg-white text-grey-10']")
-        .row.justify-between.full-width.items-center
-          q-btn(
-          @click="clearSelection",
-          :class="[selectedWords.length < 1 ? 'bg-transparent' : 'border text-white']",
-          :disabled="selectedWords.length < 1",
-          flat, label="Auswahl aufheben", no-caps)
+        .row.full-width.items-center
+          .col-6.border-right.q-pr-md
+            q-btn.text-white.full-width(
+            @click="$router.push('/clouds/overview')", flat, no-caps, label="Cancel")
 
-          q-btn.text-white.bg-white(
-          @click="addAssociation",
-          :class="[selectedWords.length < 1 ? 'bg-transparent' : 'bg-white text-grey-10']",
-          :disabled="selectedWords.length < 1",
-          round, size="sm", flat, no-caps, icon="check")
+          .col-6.q-pl-md
+            q-btn.text-white.bg-white.full-width(
+            @click="addAssociation",
+            :class="[selectedWords.length < 1 ? 'bg-transparent' : 'bg-white text-grey-10']",
+            :disabled="selectedWords.length < 1", flat, no-caps, label="Speichern")
 
 </template>
 
