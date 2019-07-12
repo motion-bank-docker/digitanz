@@ -55,7 +55,7 @@
         fill="none", stroke="rgb(120,120,120)", stroke-width="4")
     g#particles
       template(v-for="particle in particles")
-        ellipse(:cx="particle.position.x", :cy="particle.position.y", rx="10", ry="10", fill="white")
+        ellipse(:cx="particle.position.x", :cy="particle.position.y", rx="3", ry="3", fill="white")
 </template>
 
 <script>
