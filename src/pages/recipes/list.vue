@@ -18,7 +18,7 @@
             q-item-tile
               q-btn(icon="delete", @click="openDeleteModal(recipe)")
 
-      q-btn.full-width.text-white.border(@click="$router.push('/recipes/create')", align="left",  no-caps)
+      q-btn.full-width.text-white.border(@click="$router.push('/recipes/create')", align="left",  no-caps, flat)
         | Neues Rezept
 
     //
@@ -45,7 +45,7 @@
                   q-btn.display-none(icon="delete")
 
     // --------------------------------------------------------------------------------------------------- mixed recipes
-    div.q-mt-xl
+    div.q-mt-md
       .q-mb-md Gemixte Rezepte
 
       q-list.q-pa-none.no-border.no-padding
@@ -57,7 +57,7 @@
           q-item-side
             q-item-tile
               q-btn(@click="openDeleteModal(recipe)", icon="delete")
-      q-btn.full-width.text-white.border(@click="doRemix", align="left", no-caps)
+      q-btn.full-width.text-white.border(@click="doRemix", align="left", no-caps, flat)
         | Neuer Remix
 
     //
