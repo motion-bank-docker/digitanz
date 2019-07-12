@@ -79,14 +79,20 @@
           // q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.q-mx-sm(v-for="cT in cloudThree")
             | {{ cT.label }}
 
-      .fixed-bottom.bg-dark(style="height: 52px;",
+      .fixed-bottom.bg-dark.border-top.items-center.row.q-px-md(style="height: 52px;",
       :class="[selectedWords.length < 1 ? 'border-top' : 'bg-white text-grey-10']")
-        q-btn.full-width.text-white.full-height.no-round-borders(
-        @click="addAssociation",
-        :class="[selectedWords.length < 1 ? 'bg-transparent' : 'bg-white text-grey-10']",
-        :disabled="selectedWords.length < 1",
-        expand, flat, no-caps,
-        :label="$t('buttons.save_selection')")
+        .row.justify-between.full-width.items-center
+          q-btn(
+          @click="clearSelection",
+          :class="[selectedWords.length < 1 ? 'bg-transparent' : 'border text-white']",
+          :disabled="selectedWords.length < 1",
+          flat, label="Auswahl aufheben", no-caps)
+
+          q-btn.text-white.bg-white(
+          @click="addAssociation",
+          :class="[selectedWords.length < 1 ? 'bg-transparent' : 'bg-white text-grey-10']",
+          :disabled="selectedWords.length < 1",
+          round, size="sm", flat, no-caps, icon="check")
 
 </template>
 
@@ -155,6 +161,9 @@
       })
     },
     methods: {
+      clearSelection () {
+        this.selectedWords = []
+      },
       countWords (target, val) {
         switch (target) {
         case 'adjektive':
