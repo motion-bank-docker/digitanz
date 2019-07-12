@@ -31,8 +31,9 @@
             q-item-main.q-pr-sm
               q-input.bg-grey-9.round-borders.q-px-sm.q-py-xs(v-model="inputNewWord", dark, hide-underline)
             q-item-side.min-width-auto
-              q-btn.bg-white.text-grey-10(@click="addWord", icon="check",
-              :disabled="!inputNewWord.length", no-caps, round, size="sm")
+              q-btn(@click="addWord", icon="check",
+              :disabled="!inputNewWord.length", no-caps, round, size="sm",
+              :class="[inputNewWord.length ? 'bg-white text-grey-10' : 'text-white']")
 
         q-list.q-pa-none.no-border.row.justify-between
 
