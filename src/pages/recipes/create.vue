@@ -57,8 +57,8 @@
             placeholder="Gestaltungsbegriff", dark, color="white",
             hide-underline)
 
-        q-item.no-padding.q-mb-sm.row.justify-between.full-width
-          q-btn.border.capitalize(@click="resetValues",
+        q-item.no-padding.q-mb-sm.row.justify-end.full-width
+          q-btn.border.capitalize.q-mr-md(@click="resetValues",
           :disabled="!(addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0)",
           no-caps, icon="clear", round, size="sm")
 
