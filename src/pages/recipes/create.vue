@@ -1,69 +1,72 @@
 <template lang="pug">
-  q-page.q-px-md(:class="[editMode ? 'q-pb-xl' : 'q-pb-md' ]")
+  q-page.q-pa-md
 
-    q-card.bg-dark.q-px-md.q-mt-md
-      q-card-title.no-padding
-        q-input.q-title.q-mb-md(dark, v-model="newRecipe.title", placeholder="Titel", :error="$v.newRecipe.title.$error",
-        :readonly="!editMode", :hide-underline="!editMode",
-        :class="[editMode ? 'q-mt-md' : 'q-mt-lg' ]")
-        // h2.q-display-1.q-ml-lg(v-else) {{newRecipe.title}}
-      q-card-main.no-padding
-        q-list(v-if="newRecipe.entries.length > 0", no-border, dark)
-          q-item.items-baseline.no-padding(
-          v-for="(ingr, index) in newRecipe.entries",
-          :description="ingr",
-          :key="ingr",
-          :class="!editMode ? 'q-my-xs' : 'q-my-sm'"
+    // ----------------------------------------------------------------------------------------------------- cloud title
+    q-input.q-title.q-mb-md.bg-grey-9.q-pa-sm.round-borders(dark, v-model="newRecipe.title", placeholder="Titel",
+    :error="$v.newRecipe.title.$error",
+    :readonly="!editMode", hide-underline,
+    :class="[editMode ? '' : 'q-mt-lg' ]")
+
+    // -------------------------------------------------------------------------------------------------- selected terms
+    q-list.q-pa-none(v-if="newRecipe.entries.length > 0", no-border, dark)
+      q-item.items-baseline.no-padding(
+      v-for="(ingr, index) in newRecipe.entries",
+      :description="ingr",
+      :key="ingr",
+      :class="!editMode ? 'q-my-xs' : 'q-my-sm'"
+      )
+        q-item-side.text-grey-8(v-if="!editMode") {{ index + 1 }}.
+        q-item-main
+          p.q-mb-none.word-break {{ ingr }}
+        q-item-side(v-if="editMode")
+          q-btn.bg-grey-10(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm")
+          q-btn.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm")
+          q-btn(@click="deleteTodoItem(index)", icon="delete", round, size="sm")
+
+    // ---------------------------------------------------------------------------------------------------------- inputs
+    q-list.no-border.q-pa-none.q-my-md(v-if="editMode")
+
+      .border-top.q-pt-md
+        q-item.no-padding.q-mb-md
+          q-item-main
+            q-input.q-pa-sm.bg-dark(
+            @click="resetValues", dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
+            placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
+            hide-underline)
+
+        q-item.no-padding.q-mb-md
+          q-item-main
+            q-select.q-pa-sm.bg-dark(
+            v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
+            placeholder="Adjektiv", dark,
+            hide-underline)
+
+        q-item.no-padding.q-mb-md
+          q-item-main
+            q-select.q-pa-sm.bg-dark(
+            v-model="selectAktion", @focus="resetValues", :options="myJson",
+            placeholder="Aktionsbegriff", dark,
+            hide-underline)
+
+        q-item.no-padding.q-mb-md
+          q-item-main
+            q-select.q-pa-sm.bg-dark(
+            v-model="selectCloudThree", @focus="resetValues", :options="cloudThree",
+            placeholder="Gestaltungsbegriff", dark,
+            hide-underline)
+
+        q-item.no-padding.q-mb-sm.row.justify-between.full-width
+          q-btn(@click="addTodoItem", color="primary",
+          :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0 ? 'primary' : 'grey-9']",
+          style="width: 46%;"
           )
-            q-item-side.text-grey-8(v-if="!editMode") {{ index + 1 }}.
-            q-item-main
-              p.q-mb-none.word-break {{ ingr }}
-            q-item-side(v-if="editMode")
-              q-btn(icon="keyboard_arrow_up", @click="moveUp(index)", round)
-              q-btn(icon="keyboard_arrow_down", @click="moveDown(index)", round)
-              q-btn(@click="deleteTodoItem(index)", icon="delete", round)
+            | {{ $t('buttons.add') }}
+          q-btn(@click="resetValues", label="zurücksetzen",
+          :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0 ? 'grey-10' : 'grey-9']",
+          style="width: 46%;"
+          )
 
-    q-list.no-border.q-pt-none.q-mb-md.q-mt-xl(v-if="editMode")
-
-      q-item.no-padding.q-mb-md
-        q-item-main
-          q-input.q-pa-sm.bg-dark(
-          @click="resetValues", dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
-          placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
-          hide-underline)
-
-      q-item.no-padding.q-mb-md
-        q-item-main
-          q-select.q-pa-sm.bg-dark(
-          v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
-          placeholder="Adjektiv", dark,
-          hide-underline)
-
-      q-item.no-padding.q-mb-md
-        q-item-main
-          q-select.q-pa-sm.bg-dark(
-          v-model="selectAktion", @focus="resetValues", :options="myJson",
-          placeholder="Aktionsbegriff", dark,
-          hide-underline)
-
-      q-item.no-padding.q-mb-md
-        q-item-main
-          q-select.q-pa-sm.bg-dark(
-          v-model="selectCloudThree", @focus="resetValues", :options="cloudThree",
-          placeholder="Gestaltungsbegriff", dark,
-          hide-underline)
-
-      q-item.no-padding.q-mb-sm.row.justify-between.full-width
-        q-btn(@click="addTodoItem", color="primary",
-        :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0 ? 'primary' : 'grey-9']",
-        style="width: 46%;"
-        )
-          | {{ $t('buttons.add') }}
-        q-btn(@click="resetValues", label="zurücksetzen",
-        :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0 ? 'grey-10' : 'grey-9']",
-        style="width: 46%;"
-        )
-
+    // ----------------------------------------------------------------------------------------------------- save button
     q-page-sticky.q-pa-md.bg-dark(v-if="editMode", position="bottom", expand)
       q-btn.full-width(@click="submitRecipe",
       :color="[addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0 ? 'grey-9' : 'primary']",
