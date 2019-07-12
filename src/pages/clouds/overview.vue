@@ -1,6 +1,6 @@
 <template lang="pug">
-  q-page
-    q-btn(@click="$router.push('/clouds')") create
+  q-page.q-pa-md
+    q-btn.border.full-width(@click="$router.push('/clouds')", no-caps) Wolke hinzufügen
 </template>
 
 <script>
