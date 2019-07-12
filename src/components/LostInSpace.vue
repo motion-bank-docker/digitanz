@@ -1,6 +1,6 @@
 <template lang="pug">
   svg(width="100vw", height="100vh", @mouseup="nextShape")
-    rect(width="100%" height="100%" fill="black")
+    rect(width="100%" height="100%" fill="#252324")
     defs
       g#shape-protos
         g#diagonal-lines-1
