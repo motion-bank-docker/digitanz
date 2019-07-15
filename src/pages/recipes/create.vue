@@ -1,6 +1,5 @@
 <template lang="pug">
   q-page(style="padding-bottom: 52px;")
-
     // ----------------------------------------------------------------------------------------------------- cloud title
     .q-px-md.q-pt-md
       // .q-caption.q-mb-xs Titel:
@@ -166,6 +165,8 @@
       }
     },
     async mounted () {
+      this.$root.$on('saveTempRecipe', this.onSaveTempRecipe)
+
       if (this.$route.params.uuid) {
         this.anno = await this.$store.dispatch('annotations/get', this.$route.params.uuid)
         this.newRecipe = JSON.parse(this.anno.body.value)
@@ -199,10 +200,17 @@
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState'
+        user: 'auth/getUserState',
+        tempRecipes: 'recipes/getTempRecipes'
       })
     },
     methods: {
+      onSaveTempRecipe (val) {
+        // console.log(typeof val)
+        // console.log(val.length)
+        console.log(val)
+        this.$store.commit('recipes/setTempRecipes', this.newRecipe)
+      },
       handlerRadiobutton (val) {
         // console.log('bla', val, this.option)
         this.addIngredient = ''
@@ -261,6 +269,7 @@
         a.splice(index + 1, 0, moved[0])
       },
       submitRecipe () {
+        this.$root.$emit('saveTempRecipe')
         console.log('submit!')
         this.$v.$touch()
         if (this.$v.$invalid) {
