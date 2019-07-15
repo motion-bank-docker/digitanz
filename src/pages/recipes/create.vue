@@ -13,7 +13,7 @@
     // -------------------------------------------------------------------------------------------------- selected terms
     // .q-caption.q-mb-xs.q-px-md Einträge:
     q-list.q-pa-none(v-if="newRecipe.entries.length > 0", no-border, dark, multiline)
-      q-item.items-baseline.q-px-md.q-py-sm(
+      q-item.items-baseline.q-px-md.q-py-sm.min-height-auto(
       v-for="(ingr, index) in newRecipe.entries",
       :description="ingr",
       :key="ingr",
@@ -26,7 +26,7 @@
             q-item-tile
               | {{ index + 1 }}.
           q-item-tile
-            q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr") {{ ingr }}
+            q-radio.full-width.q-mb-none.word-break.q-py-xs(v-model="option", :val="ingr") {{ ingr }}
 
           .absolute-top-right.transition.full-height.border-left.q-px-sm.items-center.row.bg-body-background(
           v-if="editMode", :class="[option !== ingr ? 'leave-right-absolute' : '']")
