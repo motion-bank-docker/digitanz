@@ -12,7 +12,8 @@
 
     // -------------------------------------------------------------------------------------------------- selected terms
     // .q-caption.q-mb-xs.q-px-md Einträge:
-    q-list.q-pa-none(v-if="newRecipe.entries.length > 0", no-border, dark, multiline)
+    q-list.q-pa-none(v-if="newRecipe.entries.length > 0", no-border, dark, multiline,
+    style="overflow-x: hidden;")
       q-item.items-baseline.q-px-md.q-py-sm.min-height-auto(
       v-for="(ingr, index) in newRecipe.entries",
       :description="ingr",
@@ -47,7 +48,7 @@
     // ---------------------------------------------------------------------------------------------------------- inputs
     // .q-caption.q-mb-sm.q-px-md.q-mt-lg Begriffe hinzufügen:
     // .border-top.q-mt-md.q-mx-md
-    q-list.no-border.q-pa-none.q-mb-md.q-px-md.q-mt-xl(v-if="editMode")
+    q-list.no-border.q-pa-none.q-mb-md.q-px-md.q-mt-xl(v-if="editMode", style="overflow-x: hidden;")
 
       q-item.no-padding.q-mb-md
         q-item-main(style="max-width: 100%;")
