@@ -29,7 +29,7 @@
             q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr")
               div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
 
-          .absolute-top-right.transition.full-height.border-left.q-px-sm.items-center.row.bg-body-background(
+          .absolute-top-right.transition.full-height.q-px-sm.items-center.row.bg-body-background(
           v-if="editMode", :class="[option !== ingr ? 'leave-right-absolute' : '']")
             q-btn.border(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
             q-btn.border.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
@@ -56,7 +56,7 @@
           placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
           hide-underline)
         q-item-side.min-width-auto.transition.row.self-stretch(:class="[!addIngredient ? 'leave-right' : '']")
-          .transition.border-left.q-pl-sm.items-center.row
+          .transition.q-pl-sm.items-center.row
             q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
             q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
