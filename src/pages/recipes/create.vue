@@ -1,33 +1,37 @@
 <template lang="pug">
-  q-page.q-pa-md
-    .bg-grey-7.q-pa-sm(style="width: 50px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;")
-      .bg-orange chdiuchadscilu cdhsiuzcads hcudisac
+  q-page
+
     // ----------------------------------------------------------------------------------------------------- cloud title
-    q-input.q-title.q-mb-md.bg-dark.q-pa-sm.round-borders(dark, v-model="newRecipe.title", placeholder="ohne Titel",
-    :error="$v.newRecipe.title.$error",
-    :readonly="!editMode", hide-underline,
-    :class="[editMode ? '' : 'q-mt-lg' ]")
+    .q-px-md.q-pt-md
+      .q-caption.q-mb-xs Titel:
+      q-input.q-title.q-mb-md.bg-dark.q-pa-sm.round-borders(dark, v-model="newRecipe.title",
+      :error="$v.newRecipe.title.$error",
+      :readonly="!editMode", hide-underline,
+      :class="[editMode ? '' : 'q-mt-lg' ]")
 
     // -------------------------------------------------------------------------------------------------- selected terms
-    q-list.q-pa-none(v-if="newRecipe.entries.length > 0", no-border, dark)
-      q-item.items-baseline.no-padding(
+    q-list.q-pa-none(v-if="newRecipe.entries.length > 0", no-border, dark, multiline)
+      q-item.items-baseline.q-px-md.q-py-sm(
       v-for="(ingr, index) in newRecipe.entries",
       :description="ingr",
       :key="ingr",
-      :class="!editMode ? 'q-my-xs' : 'q-my-sm'"
+      :class="[!editMode ? 'q-my-xs' : '', {'bg-grey-9': option === ingr}]"
       )
-        q-item-side.text-grey-8(v-if="!editMode") {{ index + 1 }}.
-        q-item-main
-          p.q-mb-none.word-break {{ ingr }}
-        q-item-side(v-if="editMode")
-          q-btn.bg-grey-10(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm")
-          q-btn.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm")
-          q-btn(@click="deleteTodoItem(index)", icon="delete", round, size="sm")
-    div.text-grey-9(v-else)
+        // q-item-side.text-grey-8(v-if="!editMode") {{ index + 1 }}.
+        q-item-side.text-grey-8 {{ index + 1 }}.
+        q-item-main(style="max-width: 100%;")
+          q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr") {{ ingr }}
+        // q-item-side(v-if="editMode && option === ingr")
+        q-item-side.min-width-auto.q-pl-sm.transition(v-if="editMode", :class="[option !== ingr ? 'leave-right' : '']")
+          .transition
+            q-btn.bg-grey-10(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm")
+            q-btn.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm")
+            q-btn(@click="deleteTodoItem(index)", icon="delete", round, size="sm")
+    div.text-grey-9.q-px-md(v-else)
       | Noch keine Einträge hinzugefügt.
 
     // ---------------------------------------------------------------------------------------------------------- inputs
-    q-list.no-border.q-pa-none.q-my-md(v-if="editMode")
+    q-list.no-border.q-pa-none.q-my-md.q-pa-md(v-if="editMode")
 
       .q-pt-md
         q-item.no-padding.q-mb-md
@@ -131,7 +135,8 @@
         wordsNewArranged: [],
         addIngredient: '',
         editMode: false,
-        cols: []
+        cols: [],
+        option: []
       }
     },
     validations: {
@@ -187,6 +192,7 @@
         this.selectAktion = ''
         this.selectGestaltung = ''
         this.selectCloudThree = ''
+        this.option = []
       },
       async loadData () {
         // this.$q.loading.show({ message: this.$t('messages.loading_data') })
@@ -275,4 +281,16 @@
 
   .leave-bottom
     margin-bottom -100px
+</style>
+
+<style lang="stylus">
+  q-if-inner
+    background-color green!important
+    overflow hidden
+    width 100px
+    text-overflow ellipsis
+  .column
+    flex-wrap nowrap
+  .q-option-inner
+    display none
 </style>
