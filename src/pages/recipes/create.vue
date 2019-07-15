@@ -26,7 +26,8 @@
             q-item-tile
               | {{ index + 1 }}.
           q-item-tile
-            q-radio.full-width.q-mb-none.word-break.q-py-xs(v-model="option", :val="ingr") {{ ingr }}
+            q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr")
+              div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
 
           .absolute-top-right.transition.full-height.border-left.q-px-sm.items-center.row.bg-body-background(
           v-if="editMode", :class="[option !== ingr ? 'leave-right-absolute' : '']")
@@ -201,6 +202,10 @@
       })
     },
     methods: {
+      handlerRadiobutton (val) {
+        // console.log('bla', val, this.option)
+        if (val === this.option) this.option = []
+      },
       resetValues () {
         this.addIngredient = ''
         this.selectAktion = ''
