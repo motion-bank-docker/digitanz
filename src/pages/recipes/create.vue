@@ -10,75 +10,81 @@
       :class="[editMode ? '' : 'q-mt-lg' ]")
 
     // -------------------------------------------------------------------------------------------------- selected terms
+    .q-caption.q-mb-xs.q-px-md Einträge:
     q-list.q-pa-none(v-if="newRecipe.entries.length > 0", no-border, dark, multiline)
       q-item.items-baseline.q-px-md.q-py-sm(
       v-for="(ingr, index) in newRecipe.entries",
       :description="ingr",
       :key="ingr",
-      :class="[!editMode ? 'q-my-xs' : '', {'bg-grey-9': option === ingr}]"
+      :class="[!editMode ? 'q-my-xs' : '', {'bg-dark': option === ingr}]"
       )
         // q-item-side.text-grey-8(v-if="!editMode") {{ index + 1 }}.
-        q-item-side.text-grey-8 {{ index + 1 }}.
+        // q-item-side.text-grey-8.min-width-auto
         q-item-main(style="max-width: 100%;")
-          q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr") {{ ingr }}
+          //
+            q-item-tile
+              | {{ index + 1 }}.
+          q-item-tile
+            q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr") {{ ingr }}
         // q-item-side(v-if="editMode && option === ingr")
         q-item-side.min-width-auto.q-pl-sm.transition(v-if="editMode", :class="[option !== ingr ? 'leave-right' : '']")
           .transition
-            q-btn.bg-grey-10(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm")
-            q-btn.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm")
-            q-btn(@click="deleteTodoItem(index)", icon="delete", round, size="sm")
+            q-btn.border(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
+            q-btn.border.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
+            q-btn.border(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
     div.text-grey-9.q-px-md(v-else)
       | Noch keine Einträge hinzugefügt.
 
     // ---------------------------------------------------------------------------------------------------------- inputs
-    q-list.no-border.q-pa-none.q-my-md.q-pa-md(v-if="editMode")
+    // .q-caption.q-mb-sm.q-px-md.q-mt-lg Begriffe hinzufügen:
+    .border-top.q-mt-md.q-mx-md
+    q-list.no-border.q-pa-none.q-mb-md.q-px-md.q-mt-md(v-if="editMode")
 
-      .q-pt-md
-        q-item.no-padding.q-mb-md
-          q-item-main(style="max-width: 100%;")
-            q-input.q-pa-sm.bg-dark(
-            @click="resetValues", dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
-            placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
-            hide-underline)
-          q-item-side.min-width-auto.q-pl-sm.transition(:class="[!addIngredient ? 'leave-right' : '']")
-            .transition
-              q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
-              q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
+      q-item.no-padding.q-mb-md
+        q-item-main(style="max-width: 100%;")
+          q-input.q-pa-sm.bg-dark(
+          @click="resetValues", dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
+          placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
+          hide-underline)
+        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!addIngredient ? 'leave-right' : '']")
+          .transition
+            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
+            q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
-        q-item.no-padding.q-mb-md
-          q-item-main(style="max-width: 100%;")
-            q-select.q-pa-sm.bg-dark(
-            v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
-            placeholder="Adjektiv", dark, color="white",
-            hide-underline)
-          q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectGestaltung ? 'leave-right' : '']")
-            .transition
-              q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
-              q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
+      q-item.no-padding.q-mb-md
+        q-item-main(style="max-width: 100%;")
+          q-select.q-pa-sm.bg-dark(
+          v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
+          placeholder="Adjektiv", dark, color="white",
+          hide-underline)
+        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectGestaltung ? 'leave-right' : '']")
+          .transition
+            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
+            q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
-        q-item.no-padding.q-mb-md
-          q-item-main(style="max-width: 100%;")
-            q-select.q-pa-sm.bg-dark(
-            v-model="selectAktion", @focus="resetValues", :options="myJson",
-            placeholder="Aktionsbegriff", dark, color="white",
-            hide-underline)
-          q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectAktion ? 'leave-right' : '']")
-            .transition
-              q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
-              q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
+      q-item.no-padding.q-mb-md
+        q-item-main(style="max-width: 100%;")
+          q-select.q-pa-sm.bg-dark(
+          v-model="selectAktion", @focus="resetValues", :options="myJson",
+          placeholder="Aktionsbegriff", dark, color="white",
+          hide-underline)
+        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectAktion ? 'leave-right' : '']")
+          .transition
+            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
+            q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
-        q-item.no-padding.q-mb-md
-          q-item-main(style="max-width: 100%;")
-            q-select.q-pa-sm.bg-dark(
-            v-model="selectCloudThree", @focus="resetValues", :options="cloudThree",
-            placeholder="Gestaltungsbegriff", dark, color="white",
-            hide-underline,
-            style="overflow: hidden; text-overflow: ellipsis;")
-          <!--q-item-side.min-width-auto.q-pl-sm.transition(v-if="selectCloudThree")-->
-          q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectCloudThree ? 'leave-right' : '']")
-            .transition
-              q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
-              q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
+      q-item.no-padding.q-mb-md
+        q-item-main(style="max-width: 100%;")
+          q-select.q-pa-sm.bg-dark(
+          v-model="selectCloudThree", @focus="resetValues", :options="cloudThree",
+          placeholder="Gestaltungsbegriff", dark, color="white",
+          hide-underline,
+          style="overflow: hidden; text-overflow: ellipsis;")
+        <!--q-item-side.min-width-auto.q-pl-sm.transition(v-if="selectCloudThree")-->
+        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectCloudThree ? 'leave-right' : '']")
+          .transition
+            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
+            q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
         //
           div.no-padding.q-mb-sm.row.justify-end.transition(
