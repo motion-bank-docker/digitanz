@@ -50,12 +50,12 @@
 
       q-item.no-padding.q-mb-md
         q-item-main(style="max-width: 100%;")
-          q-input.q-pa-sm.bg-dark(
+          q-input.bg-dark.q-pa-sm(
           @click="resetValues", dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
           placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
           hide-underline)
-        q-item-side.min-width-auto.transition.full-height(:class="[!addIngredient ? 'leave-right' : '']")
-          .transition.border-left.q-pl-sm.full-height
+        q-item-side.min-width-auto.transition.row.self-stretch(:class="[!addIngredient ? 'leave-right' : '']")
+          .transition.border-left.q-pl-sm.items-center.row
             q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
             q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
