@@ -1,6 +1,17 @@
 const cloud = {
   namespaced: true,
-  state: {},
+  state: {
+    clouds: []
+  },
+  getters: {
+    getClouds: state => state.clouds
+  },
+  mutations: {
+    setClouds (state, val) {
+      // console.log('####', state, val)
+      state.clouds.push(val)
+    }
+  },
   actions: {
     async addWord (context, word) {
       console.debug('addWord', word)
