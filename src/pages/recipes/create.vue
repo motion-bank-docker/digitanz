@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page
+  q-page(style="padding-bottom: 52px;")
 
     // ----------------------------------------------------------------------------------------------------- cloud title
     .q-px-md.q-pt-md
@@ -48,7 +48,7 @@
     // ---------------------------------------------------------------------------------------------------------- inputs
     // .q-caption.q-mb-sm.q-px-md.q-mt-lg Begriffe hinzufügen:
     // .border-top.q-mt-md.q-mx-md
-    q-list.no-border.q-pa-none.q-mb-md.q-px-md.q-mt-xl(v-if="editMode", style="overflow-x: hidden;")
+    q-list.no-border.q-pa-none.q-px-md.q-mt-xl(v-if="editMode", style="overflow-x: hidden;")
 
       q-item.no-padding.q-mb-md
         q-item-main(style="max-width: 100%;")
