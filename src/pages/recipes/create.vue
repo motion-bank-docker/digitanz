@@ -204,6 +204,11 @@
     methods: {
       handlerRadiobutton (val) {
         // console.log('bla', val, this.option)
+        this.addIngredient = ''
+        this.selectAktion = ''
+        this.selectGestaltung = ''
+        this.selectCloudThree = ''
+
         if (val === this.option) this.option = []
       },
       resetValues () {
