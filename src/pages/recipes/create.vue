@@ -1,8 +1,9 @@
 <template lang="pug">
   q-page.q-pa-md
-
+    .bg-grey-7.q-pa-sm(style="width: 50px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;")
+      .bg-orange chdiuchadscilu cdhsiuzcads hcudisac
     // ----------------------------------------------------------------------------------------------------- cloud title
-    q-input.q-title.q-mb-md.bg-grey-10.q-pa-sm.round-borders(dark, v-model="newRecipe.title", placeholder="ohne Titel",
+    q-input.q-title.q-mb-md.bg-dark.q-pa-sm.round-borders(dark, v-model="newRecipe.title", placeholder="ohne Titel",
     :error="$v.newRecipe.title.$error",
     :readonly="!editMode", hide-underline,
     :class="[editMode ? '' : 'q-mt-lg' ]")
@@ -30,11 +31,16 @@
 
       .q-pt-md
         q-item.no-padding.q-mb-md
-          q-item-main
+          q-item-main(style="max-width: 100%;")
             q-input.q-pa-sm.bg-dark(
             @click="resetValues", dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
             placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
             hide-underline)
+          q-item-side.min-width-auto.q-pl-sm.transition(:class="[!addIngredient ? 'leave-right' : '']")
+            // (v-if="addIngredient")
+            div.transition
+              q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
+              q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
         q-item.no-padding.q-mb-md
           q-item-main
@@ -42,6 +48,8 @@
             v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
             placeholder="Adjektiv", dark, color="white",
             hide-underline)
+          q-item-side.min-width-auto.q-pl-sm.transition(v-if="selectGestaltung")
+            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
 
         q-item.no-padding.q-mb-md
           q-item-main
@@ -49,25 +57,32 @@
             v-model="selectAktion", @focus="resetValues", :options="myJson",
             placeholder="Aktionsbegriff", dark, color="white",
             hide-underline)
+          q-item-side.min-width-auto.q-pl-sm.transition(v-if="selectAktion")
+            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
 
         q-item.no-padding.q-mb-md
           q-item-main
             q-select.q-pa-sm.bg-dark(
             v-model="selectCloudThree", @focus="resetValues", :options="cloudThree",
             placeholder="Gestaltungsbegriff", dark, color="white",
-            hide-underline)
+            hide-underline,
+            style="overflow: hidden; text-overflow: ellipsis;")
+          q-item-side.min-width-auto.q-pl-sm.transition(v-if="selectCloudThree")
+            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
 
-        div.no-padding.q-mb-sm.row.justify-end.transition(
-        :class="[!(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-right' : '']",
-        )
-          q-btn.border.capitalize.q-mr-md(@click="resetValues",
-          :disabled="!(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
-          no-caps, icon="clear", round, size="sm")
+        //
+          div.no-padding.q-mb-sm.row.justify-end.transition(
+          // :class="[!(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-right' : '']",
+          )
+            q-btn.border(@click="resetValues",
+            // :disabled="!(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
+            no-caps, label="Clear")
 
-          q-btn.border.capitalize(@click="addTodoItem",
-          :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'bg-white text-grey-10' : '']",
-          :disabled="!(addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0)",
-          no-caps, icon="add", round, size="sm")
+          //
+            q-btn.border.capitalize(@click="addTodoItem",
+            // :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'bg-white text-grey-10' : '']",
+            // :disabled="!(addIngredient.length > 0 || selectAktion.length > 0 || selectGestaltung.length > 0 || selectCloudThree.length > 0)",
+            no-caps, icon="add", round, size="sm")
 
     // ----------------------------------------------------------------------------------------------------- save button
     q-page-sticky.q-px-md.bg-dark.border-top.row(v-if="editMode", position="bottom", expand, style="height: 52px;")
@@ -250,6 +265,7 @@
     padding 8px 0!important
   .leave-right
     margin-right -50vw
+    padding-left 10vw
 
   .leave-bottom
     margin-bottom -100px
