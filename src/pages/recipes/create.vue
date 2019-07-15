@@ -37,38 +37,44 @@
             placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
             hide-underline)
           q-item-side.min-width-auto.q-pl-sm.transition(:class="[!addIngredient ? 'leave-right' : '']")
-            // (v-if="addIngredient")
-            div.transition
+            .transition
               q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
               q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
         q-item.no-padding.q-mb-md
-          q-item-main
+          q-item-main(style="max-width: 100%;")
             q-select.q-pa-sm.bg-dark(
             v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
             placeholder="Adjektiv", dark, color="white",
             hide-underline)
-          q-item-side.min-width-auto.q-pl-sm.transition(v-if="selectGestaltung")
-            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
+          q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectGestaltung ? 'leave-right' : '']")
+            .transition
+              q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
+              q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
         q-item.no-padding.q-mb-md
-          q-item-main
+          q-item-main(style="max-width: 100%;")
             q-select.q-pa-sm.bg-dark(
             v-model="selectAktion", @focus="resetValues", :options="myJson",
             placeholder="Aktionsbegriff", dark, color="white",
             hide-underline)
-          q-item-side.min-width-auto.q-pl-sm.transition(v-if="selectAktion")
-            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
+          q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectAktion ? 'leave-right' : '']")
+            .transition
+              q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
+              q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
         q-item.no-padding.q-mb-md
-          q-item-main
+          q-item-main(style="max-width: 100%;")
             q-select.q-pa-sm.bg-dark(
             v-model="selectCloudThree", @focus="resetValues", :options="cloudThree",
             placeholder="Gestaltungsbegriff", dark, color="white",
             hide-underline,
             style="overflow: hidden; text-overflow: ellipsis;")
-          q-item-side.min-width-auto.q-pl-sm.transition(v-if="selectCloudThree")
-            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
+          <!--q-item-side.min-width-auto.q-pl-sm.transition(v-if="selectCloudThree")-->
+          q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectCloudThree ? 'leave-right' : '']")
+            .transition
+              q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
+              q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
         //
           div.no-padding.q-mb-sm.row.justify-end.transition(
