@@ -3,14 +3,15 @@
 
     // ----------------------------------------------------------------------------------------------------- cloud title
     .q-px-md.q-pt-md
-      .q-caption.q-mb-xs Titel:
+      // .q-caption.q-mb-xs Titel:
       q-input.q-title.q-mb-md.bg-dark.q-pa-sm.round-borders(dark, v-model="newRecipe.title",
       :error="$v.newRecipe.title.$error",
       :readonly="!editMode", hide-underline,
-      :class="[editMode ? '' : 'q-mt-lg' ]")
+      :class="[editMode ? '' : 'q-mt-lg' ]",
+      placeholder="Titel")
 
     // -------------------------------------------------------------------------------------------------- selected terms
-    .q-caption.q-mb-xs.q-px-md Einträge:
+    // .q-caption.q-mb-xs.q-px-md Einträge:
     q-list.q-pa-none(v-if="newRecipe.entries.length > 0", no-border, dark, multiline)
       q-item.items-baseline.q-px-md.q-py-sm(
       v-for="(ingr, index) in newRecipe.entries",
@@ -19,26 +20,33 @@
       :class="[!editMode ? 'q-my-xs' : '', {'bg-dark': option === ingr}]"
       )
         // q-item-side.text-grey-8(v-if="!editMode") {{ index + 1 }}.
-        // q-item-side.text-grey-8.min-width-auto
+
         q-item-main(style="max-width: 100%;")
           //
             q-item-tile
               | {{ index + 1 }}.
           q-item-tile
             q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr") {{ ingr }}
-        // q-item-side(v-if="editMode && option === ingr")
-        q-item-side.min-width-auto.q-pl-sm.transition(v-if="editMode", :class="[option !== ingr ? 'leave-right' : '']")
-          .transition
+
+          .absolute-top-right.transition.full-height.border-left.q-px-sm.items-center.row.bg-body-background(
+          v-if="editMode", :class="[option !== ingr ? 'leave-right-absolute' : '']")
             q-btn.border(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
             q-btn.border.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
             q-btn.border(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
+        // q-item-side(v-if="editMode && option === ingr")
+        //
+          q-item-side.min-width-auto.q-pl-sm.transition(v-if="editMode", :class="[option !== ingr ? 'leave-right' : '']")
+            .transition
+              q-btn.border(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
+              q-btn.border.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
+              q-btn.border(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
     div.text-grey-9.q-px-md(v-else)
       | Noch keine Einträge hinzugefügt.
 
     // ---------------------------------------------------------------------------------------------------------- inputs
     // .q-caption.q-mb-sm.q-px-md.q-mt-lg Begriffe hinzufügen:
-    .border-top.q-mt-md.q-mx-md
-    q-list.no-border.q-pa-none.q-mb-md.q-px-md.q-mt-md(v-if="editMode")
+    // .border-top.q-mt-md.q-mx-md
+    q-list.no-border.q-pa-none.q-mb-md.q-px-md.q-mt-xl(v-if="editMode")
 
       q-item.no-padding.q-mb-md
         q-item-main(style="max-width: 100%;")
@@ -46,8 +54,8 @@
           @click="resetValues", dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
           placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
           hide-underline)
-        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!addIngredient ? 'leave-right' : '']")
-          .transition
+        q-item-side.min-width-auto.transition.full-height(:class="[!addIngredient ? 'leave-right' : '']")
+          .transition.border-left.q-pl-sm.full-height
             q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
             q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
@@ -284,6 +292,9 @@
   .leave-right
     margin-right -50vw
     padding-left 10vw
+
+  .leave-right-absolute
+    right -50vw
 
   .leave-bottom
     margin-bottom -100px
