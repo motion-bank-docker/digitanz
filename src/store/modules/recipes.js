@@ -1,6 +1,16 @@
 const recipes = {
   namespaced: true,
-  state: {},
+  state: {
+    tempRecipes: []
+  },
+  getters: {
+    getTempRecipes: state => state.tempRecipes
+  },
+  mutations: {
+    setTempRecipes (state, val) {
+      state.tempRecipes.push(val)
+    }
+  },
   actions: {
     async togglePublic (context, annotation) {
       console.debug('Recipes: togglePublic', annotation)
