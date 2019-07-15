@@ -8,6 +8,9 @@
     div.border-bottom.q-pb-xl
       .q-mb-md Meine Rezepte
 
+      q-list.q-pa-no.no-border
+        q-item.q-pa-none(v-for="recipe in tempRecipes") {{ recipe }}
+
       q-list.no-padding.no-border
         q-item.items-baseline.q-px-none(v-for="recipe in personal", :key="recipe.uuid")
           q-item-main(dark)
@@ -123,7 +126,8 @@
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState'
+        user: 'auth/getUserState',
+        tempRecipes: 'recipes/getTempRecipes'
       })
     },
     watch: {
