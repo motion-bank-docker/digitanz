@@ -16,7 +16,7 @@
 
       // ---------------------------------------------------------------------------------------------------- recipes list
       // div.border-bottom.q-pb-xl
-      q-tab-pane.q-px-none(keep alive, name="tab-1")
+      q-tab-pane.q-px-none.q-mb-sm(keep alive, name="tab-1")
 
         q-btn.full-width.text-white.border.q-mb-md(@click="$router.push('/recipes/create')",
         icon="add", label="Neues Rezept", align="left",  no-caps, flat)
