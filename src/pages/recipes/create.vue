@@ -19,6 +19,7 @@
       :class="[!editMode ? 'q-my-xs' : '', {'bg-dark': option === ingr}]"
       )
         // q-item-side.text-grey-8(v-if="!editMode") {{ index + 1 }}.
+        q-item-side.q-py-xs.text-grey-8.min-width-auto(style="width: 30px;") {{ index + 1 }}.
 
         q-item-main(style="max-width: 100%;")
           //

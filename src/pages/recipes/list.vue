@@ -26,7 +26,9 @@
           :class="{'border-bottom q-pb-md': index < tempRecipes.length - 1}")
             q-list.q-pa-none.no-border
               .q-title.text-white.q-pb-md {{ recipe.title }}
-              q-item.q-pa-none.min-height-auto.q-mt-md(v-for="entry in recipe.entries") {{ entry }}
+              q-item.items-baseline.q-px-none.q-py-none.min-height-auto(v-for="(entry, i) in recipe.entries")
+                q-item-side.q-py-xs.text-grey-8.min-width-auto(style="width: 30px;") {{ i + 1 }}.
+                q-item-main.q-pa-none.min-height-auto.q-mt-md {{ entry }}
 
         template(v-else)
           .q-mt-md empty
