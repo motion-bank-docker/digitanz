@@ -21,11 +21,15 @@
         q-btn.full-width.text-white.border.q-mb-md(@click="$router.push('/recipes/create')",
         icon="add", label="Neues Rezept", align="left",  no-caps, flat)
 
-        .q-mt-md(v-for="(recipe, index) in tempRecipes",
-        :class="{'border-bottom q-pb-md': index < tempRecipes.length - 1}")
-          q-list.q-pa-none.no-border
-            .q-title.text-white.q-pb-md {{ recipe.title }}
-            q-item.q-pa-none.min-height-auto.q-mt-md(v-for="entry in recipe.entries") {{ entry }}
+        template(v-if="tempRecipes.length")
+          .q-mt-md(v-for="(recipe, index) in tempRecipes",
+          :class="{'border-bottom q-pb-md': index < tempRecipes.length - 1}")
+            q-list.q-pa-none.no-border
+              .q-title.text-white.q-pb-md {{ recipe.title }}
+              q-item.q-pa-none.min-height-auto.q-mt-md(v-for="entry in recipe.entries") {{ entry }}
+
+        template(v-else)
+          .q-mt-md empty
 
         //
           q-list.no-padding.no-border
