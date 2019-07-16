@@ -22,13 +22,25 @@
         icon="add", label="Neues Rezept", align="left",  no-caps, flat)
 
         template(v-if="tempRecipes.length")
-          .q-mt-md(v-for="(recipe, index) in tempRecipes",
+
+          div.q-mt-md(v-for="(recipe, index) in tempRecipes",
           :class="{'border-bottom q-pb-md': index < tempRecipes.length - 1}")
-            q-list.q-pa-none.no-border
-              .q-title.text-white.q-pb-md {{ recipe.title }}
-              q-item.items-baseline.q-px-none.q-py-none.min-height-auto(v-for="(entry, i) in recipe.entries")
-                q-item-side.q-py-xs.text-grey-8.min-width-auto(style="width: 30px;") {{ i + 1 }}.
-                q-item-main.q-pa-none.min-height-auto.q-mt-md {{ entry }}
+            div.relative-position
+              q-radio.full-width.q-mb-none.word-break(v-model="option", :val="index")
+
+                q-list.q-pa-none.no-border
+                  .q-title.text-white.q-pb-md {{ recipe.title }}
+                  q-item.items-baseline.q-px-none.q-py-none.min-height-auto(v-for="(entry, i) in recipe.entries")
+                    q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;") {{ i + 1 }}.
+                    q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
+
+              .absolute-top-right.transition.full-height.items-center.row.bg-body-background.q-mb-md(
+              :class="[option !== index ? 'leave-right-absolute' : '']")
+                .q-mb-md.border-left.full-height.items-center.row.q-pl-md
+                  div
+                    .full-width.q-mb-sm
+                      q-btn.border(icon="edit", @click="", round, size="sm", flat)
+                    q-btn.border(icon="delete", @click="", round, size="sm", flat)
 
         template(v-else)
           .q-mt-md empty
@@ -137,7 +149,8 @@
         recipes: [],
         personal: [],
         remixed: [],
-        selectedTab: undefined
+        selectedTab: undefined,
+        option: undefined
       }
     },
     async mounted () {
@@ -196,6 +209,11 @@
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+  .leave-right-absolute
+    right -50vw
+</style>
 
 <style lang="stylus">
   .display-none
