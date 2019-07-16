@@ -8,7 +8,8 @@
     div.border-bottom.q-pb-xl
       .q-mb-md Meine Rezepte
 
-      div.q-mb-md.bg-dark(v-for="recipe in tempRecipes")
+      .q-mb-md(v-for="(recipe, index) in tempRecipes",
+      :class="{'border-bottom q-pb-md': index < tempRecipes.length - 1}")
         q-list.q-pa-none.no-border
           q-list-header.q-title.text-white {{ recipe.title }}
           q-item.q-pa-none.q-px-md(v-for="entry in recipe.entries") {{ entry }}
