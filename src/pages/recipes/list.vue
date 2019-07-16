@@ -8,8 +8,10 @@
     div.border-bottom.q-pb-xl
       .q-mb-md Meine Rezepte
 
-      q-list.q-pa-no.no-border
-        q-item.q-pa-none(v-for="recipe in tempRecipes") {{ recipe }}
+      div.q-mb-md.bg-dark(v-for="recipe in tempRecipes")
+        q-list.q-pa-none.no-border
+          q-list-header.q-title.text-white {{ recipe.title }}
+          q-item.q-pa-none.q-px-md(v-for="entry in recipe.entries") {{ entry }}
 
       q-list.no-padding.no-border
         q-item.items-baseline.q-px-none(v-for="recipe in personal", :key="recipe.uuid")
