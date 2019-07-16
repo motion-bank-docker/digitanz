@@ -6,10 +6,12 @@
 
     q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab")
 
-      q-tab.text-center.border-bottom(name="tab-1", slot="title", default)
+      q-tab.text-center.border-bottom(name="tab-1", slot="title", default,
+      :class="[selectedTab === 'tab-1' ? 'bg-white text-grey-10' : '']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Meine Rezepte", flat, no-ripple)
 
-      q-tab.text-center.border-bottom(name="tab-2", slot="title")
+      q-tab.text-center.border-bottom(name="tab-2", slot="title",
+      :class="[selectedTab === 'tab-2' ? 'bg-white text-grey-10' : '']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Gemixte Rezepte", flat, no-ripple)
 
       // ---------------------------------------------------------------------------------------------------- recipes list
@@ -21,8 +23,9 @@
           q-list.q-pa-none.no-border
             q-list-header.q-pa-none.q-title.text-white {{ recipe.title }}
             q-item.q-pa-none(v-for="entry in recipe.entries") {{ entry }}
-        q-btn.full-width.text-white.border(@click="$router.push('/recipes/create')", align="left",  no-caps, flat)
-          | Neues Rezept
+        q-btn.full-width.text-white.border(@click="$router.push('/recipes/create')",
+        icon="add", label="Neues Rezept", align="left",  no-caps, flat)
+
         //
           q-list.no-padding.no-border
             q-item.items-baseline.q-px-none(v-for="recipe in personal", :key="recipe.uuid")
@@ -126,7 +129,8 @@
       return {
         recipes: [],
         personal: [],
-        remixed: []
+        remixed: [],
+        selectedTab: undefined
       }
     },
     async mounted () {
@@ -191,4 +195,6 @@
     opacity: 0
   /* .dashed
     border-style: dashed */
+  .q-tabs-position-top .q-tabs-bar
+    border-color transparent
 </style>
