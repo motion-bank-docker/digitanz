@@ -13,15 +13,16 @@
           q-list-header.q-title.text-white {{ recipe.title }}
           q-item.q-pa-none.q-px-md(v-for="entry in recipe.entries") {{ entry }}
 
-      q-list.no-padding.no-border
-        q-item.items-baseline.q-px-none(v-for="recipe in personal", :key="recipe.uuid")
-          q-item-main(dark)
-            q-item-tile
-              q-btn.full-width.bg-grey-10(@click="$router.push(`/recipes/edit/${recipe.uuid}`)", align="left")
-                | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
-          q-item-side
-            q-item-tile
-              q-btn(icon="delete", @click="openDeleteModal(recipe)")
+      //
+        q-list.no-padding.no-border
+          q-item.items-baseline.q-px-none(v-for="recipe in personal", :key="recipe.uuid")
+            q-item-main(dark)
+              q-item-tile
+                q-btn.full-width.bg-grey-10(@click="$router.push(`/recipes/edit/${recipe.uuid}`)", align="left")
+                  | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
+            q-item-side
+              q-item-tile
+                q-btn(icon="delete", @click="openDeleteModal(recipe)")
 
       q-btn.full-width.text-white.border(@click="$router.push('/recipes/create')", align="left",  no-caps, flat)
         | Neues Rezept
