@@ -4,19 +4,19 @@
     // DELETE MODAL
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteRecipe")
 
-    q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab")
+    q-tabs.q-pa-md(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab")
 
-      q-tab.text-center.border-bottom(name="tab-1", slot="title", default,
+      q-tab.text-center.round-borders(name="tab-1", slot="title", default,
       :class="[selectedTab === 'tab-1' ? 'bg-white text-grey-10' : '']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Meine Rezepte", flat, no-ripple)
 
-      q-tab.text-center.border-bottom(name="tab-2", slot="title",
+      q-tab.text-center.round-borders(name="tab-2", slot="title",
       :class="[selectedTab === 'tab-2' ? 'bg-white text-grey-10' : '']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Gemixte Rezepte", flat, no-ripple)
 
       // ---------------------------------------------------------------------------------------------------- recipes list
       // div.border-bottom.q-pb-xl
-      q-tab-pane(keep alive, name="tab-1")
+      q-tab-pane.q-px-none(keep alive, name="tab-1")
 
         .q-mb-md(v-for="(recipe, index) in tempRecipes",
         :class="{'border-bottom q-pb-md': index < tempRecipes.length - 1}")
@@ -59,7 +59,7 @@
                     q-btn.display-none(icon="delete")
       // --------------------------------------------------------------------------------------------------- mixed recipes
       // div.q-mt-md
-      q-tab-pane.q-pa-md(keep alive, name="tab-2")
+      q-tab-pane.q-px-none.q-py-md(keep alive, name="tab-2")
         // .q-mb-md Gemixte Rezepte
 
         q-list.q-pa-none.no-border.no-padding
