@@ -28,11 +28,12 @@
             div.relative-position(:class="{'bg-transparent': option === index}")
               q-radio.full-width.q-mb-none.word-break.q-py-sm(v-model="option", :val="index")
 
-                q-list.q-pa-none.no-border
-                  .q-title.text-white.q-pb-md {{ recipe.title }}
-                  q-item.items-baseline.q-px-none.q-py-none.min-height-auto(v-for="(entry, i) in recipe.entries")
-                    q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;") {{ i + 1 }}.
-                    q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
+                div.full-width(@click="handlerRadiobutton(index)")
+                  q-list.q-pa-none.no-border.full-width
+                    .q-title.text-white.q-pb-md {{ recipe.title }}
+                    q-item.items-baseline.q-px-none.q-py-none.min-height-auto(v-for="(entry, i) in recipe.entries")
+                      q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;") {{ i + 1 }}.
+                      q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
 
               .absolute-top-right.transition.full-height.items-center.row.bg-body-background.q-mb-md(
               :class="[option !== index ? 'leave-right-absolute' : '']")
@@ -168,6 +169,10 @@
       }
     },
     methods: {
+      handlerRadiobutton (val) {
+        if (val === this.option) this.option = undefined
+        console.log(val, this.option)
+      },
       async loadRecipes () {
         if (!this.user) return
         this.personal = await this.$store.dispatch('recipes/getPersonal', this.user.uuid)
