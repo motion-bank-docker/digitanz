@@ -16,7 +16,7 @@
       v-for="(ingr, index) in newRecipe.entries",
       :description="ingr",
       :key="ingr",
-      :class="[!editMode ? 'q-my-xs' : '', {'bg-dark': option === ingr}]"
+      :class="{'bg-dark': option === ingr}"
       )
         // q-item-side.text-grey-8(v-if="!editMode") {{ index + 1 }}.
         q-item-side.q-py-xs.text-grey-8.min-width-auto(style="width: 30px;") {{ index + 1 }}.
