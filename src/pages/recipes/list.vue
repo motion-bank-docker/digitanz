@@ -4,7 +4,7 @@
     // DELETE MODAL
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteRecipe")
 
-    q-tabs.q-pa-md(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab")
+    q-tabs.q-px-md.q-pt-md(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab")
 
       q-tab.text-center.round-borders(name="tab-1", slot="title", default,
       :class="[selectedTab === 'tab-1' ? 'bg-white text-grey-10' : '']")
@@ -18,13 +18,14 @@
       // div.border-bottom.q-pb-xl
       q-tab-pane.q-px-none(keep alive, name="tab-1")
 
-        .q-mb-md(v-for="(recipe, index) in tempRecipes",
+        q-btn.full-width.text-white.border.q-mb-md(@click="$router.push('/recipes/create')",
+        icon="add", label="Neues Rezept", align="left",  no-caps, flat)
+
+        .q-mt-md(v-for="(recipe, index) in tempRecipes",
         :class="{'border-bottom q-pb-md': index < tempRecipes.length - 1}")
           q-list.q-pa-none.no-border
-            q-list-header.q-pa-none.q-title.text-white {{ recipe.title }}
-            q-item.q-pa-none(v-for="entry in recipe.entries") {{ entry }}
-        q-btn.full-width.text-white.border(@click="$router.push('/recipes/create')",
-        icon="add", label="Neues Rezept", align="left",  no-caps, flat)
+            .q-title.text-white.q-pb-md {{ recipe.title }}
+            q-item.q-pa-none.min-height-auto.q-mt-md(v-for="entry in recipe.entries") {{ entry }}
 
         //
           q-list.no-padding.no-border
