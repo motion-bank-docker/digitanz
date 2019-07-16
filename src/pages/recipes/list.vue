@@ -23,10 +23,10 @@
 
         template(v-if="tempRecipes.length")
 
-          div.q-mt-md(v-for="(recipe, index) in tempRecipes",
+          div.q-mt-md.q-px-md(v-for="(recipe, index) in tempRecipes",
           :class="{'border-bottom q-pb-md': index < tempRecipes.length - 1}")
-            div.relative-position
-              q-radio.full-width.q-mb-none.word-break(v-model="option", :val="index")
+            div.relative-position(:class="{'bg-transparent': option === index}")
+              q-radio.full-width.q-mb-none.word-break.q-py-sm(v-model="option", :val="index")
 
                 q-list.q-pa-none.no-border
                   .q-title.text-white.q-pb-md {{ recipe.title }}
@@ -36,7 +36,7 @@
 
               .absolute-top-right.transition.full-height.items-center.row.bg-body-background.q-mb-md(
               :class="[option !== index ? 'leave-right-absolute' : '']")
-                .q-mb-md.border-left.full-height.items-center.row.q-pl-md
+                .q-mb-md.full-height.items-center.row.q-pl-md
                   div
                     .full-width.q-mb-sm
                       q-btn.border(icon="edit", @click="", round, size="sm", flat)
