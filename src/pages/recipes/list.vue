@@ -26,8 +26,9 @@
           //
             div.q-mt-md.q-px-md.shadow-3.border.round-borders(v-for="(recipe, index) in tempRecipes",
             // :class="{'border-bottom q-pb-md': index < tempRecipes.length - 1}", style="overflow-x: hidden;")
-          div.q-mt-md.shadow-3.bg-dark.round-borders.border(v-for="(recipe, index) in tempRecipes",
-          style="overflow: hidden; border-color: #ffffff11!important;")
+          div.q-mt-md.shadow-3.bg-dark.round-borders(v-for="(recipe, index) in tempRecipes",
+          style="overflow: hidden;",
+          :class="[option !== index ? 'border-white-1' : 'border-white-3']")
             div.relative-position(:class="{'bg-transparent': option === index}")
               q-radio.full-width.q-mb-none.word-break.q-py-md(v-model="option", :val="index")
 
@@ -39,12 +40,15 @@
                       q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;") {{ i + 1 }}.
                       q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
 
-              .absolute-top-right.transition.full-height.items-center.row.q-mb-md.bg-body-background.border-left(
+              // .absolute-top-right.transition.full-height.items-center.row.q-mb-md.bg-body-background.border-left(
+              .absolute-top-right.transition.full-height.items-center.row.q-mb-md(
               :class="[option !== index ? 'leave-right-absolute' : '']",
               style="border-color: #ffffff11!important;")
-                .q-mb-md.full-height.items-start.row.q-px-sm.q-pt-sm
+                // .q-mb-md.full-height.items-start.row.q-px-sm.q-pt-sm
+                .q-mb-md.full-height.items-start.row.q-ma-sm
                   div
-                    .full-width.q-mb-sm
+                    q-btn.border.bg-body-background.text-white.q-mr-sm(icon="edit", @click="", round, size="sm", flat)
+                    // .full-width.q-mb-sm
                       q-btn.border.bg-body-background.text-white(icon="edit", @click="", round, size="sm", flat)
                     q-btn.border.bg-body-background.text-white(icon="delete", @click="", round, size="sm", flat)
 
@@ -222,6 +226,12 @@
 <style lang="stylus" scoped>
   .leave-right-absolute
     right -50vw
+  .border-transparent
+    border 1px solid transparent
+  .border-white-1
+    border 1px solid rgba(255, 255, 255, .1)
+  .border-white-3
+    border 1px solid rgba(255, 255, 255, .3)
 </style>
 
 <style lang="stylus">
