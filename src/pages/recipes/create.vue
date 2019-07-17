@@ -7,7 +7,10 @@
           q-input.q-title.q-pa-sm(dark, v-model="newRecipe.title",
           :error="$v.newRecipe.title.$error",
           :readonly="!editMode", hide-underline,
-          placeholder="Titel", autofocus)
+          placeholder="Titel", autofocus,
+          @focus="showIcon = false",
+          @blur="showIcon = true",
+          :after="[{icon: 'edit', condition: showIcon && editMode}]")
 
         q-item-separator.q-ma-none.q-mb-sm.bg-grey-9
         q-item.q-px-sm.q-py-xs.min-height-auto(
@@ -210,7 +213,8 @@
         addIngredient: '',
         editMode: false,
         cols: [],
-        option: []
+        option: [],
+        showIcon: false
       }
     },
     validations: {
