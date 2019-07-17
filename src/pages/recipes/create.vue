@@ -38,30 +38,26 @@
 
     // -------------------------------------------------------------------------------------------------- selected terms
     // .q-caption.q-mb-xs.q-px-md Einträge:
-    q-list.q-pa-none(v-if="newRecipe.entries.length > 0", no-border, dark, multiline,
-    style="overflow-x: hidden;")
-      q-item.items-baseline.q-px-md.q-py-sm.min-height-auto(
-      v-for="(ingr, index) in newRecipe.entries",
-      :description="ingr",
-      :key="ingr",
-      :class="{'bg-dark': option === ingr}"
-      )
-        // q-item-side.text-grey-8(v-if="!editMode") {{ index + 1 }}.
-        q-item-side.q-py-xs.text-grey-8.min-width-auto(style="width: 30px;") {{ index + 1 }}.
-
-        q-item-main(style="max-width: 100%;")
-          //
+    //
+      q-list.q-pa-none(v-if="newRecipe.entries.length > 0", no-border, dark, multiline,
+      style="overflow-x: hidden;")
+        q-item.items-baseline.q-px-md.q-py-sm.min-height-auto(
+        v-for="(ingr, index) in newRecipe.entries",
+        // :description="ingr",
+        // :key="ingr",
+        // :class="{'bg-dark': option === ingr}"
+        )
+          q-item-side.q-py-xs.text-grey-8.min-width-auto(style="width: 30px;") {{ index + 1 }}.
+          q-item-main(style="max-width: 100%;")
             q-item-tile
-              | {{ index + 1 }}.
-          q-item-tile
-            q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr")
-              div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
+              q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr")
+                div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
+            .absolute-top-right.transition.full-height.q-px-sm.items-center.row.bg-body-background(
+            v-if="editMode", :class="[option !== ingr ? 'leave-right-absolute' : '']")
+              q-btn.border(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
+              q-btn.border.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
+              q-btn.border(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
 
-          .absolute-top-right.transition.full-height.q-px-sm.items-center.row.bg-body-background(
-          v-if="editMode", :class="[option !== ingr ? 'leave-right-absolute' : '']")
-            q-btn.border(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
-            q-btn.border.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
-            q-btn.border(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
         // q-item-side(v-if="editMode && option === ingr")
         //
           q-item-side.min-width-auto.q-pl-sm.transition(v-if="editMode", :class="[option !== ingr ? 'leave-right' : '']")
