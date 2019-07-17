@@ -1,9 +1,9 @@
 <template lang="pug">
-  q-page.q-pt-md(style="padding-bottom: 52px;")
+  q-page.q-py-md
     // ----------------------------------------------------------------------------------------------------- cloud title
     div.q-mx-md.shadow-3.bg-dark.round-borders.border-white-1
       q-list.q-pa-none.no-border.full-width(style="overflow-x: hidden;")
-        q-list-header.q-title.min-height-auto.q-px-none.q-py-sm
+        q-list-header.q-title.min-height-auto.q-px-none.q-py-sm.bg-body-background
           q-input.q-title.q-pa-sm(dark, v-model="newRecipe.title",
           :error="$v.newRecipe.title.$error",
           :readonly="!editMode", hide-underline,
@@ -135,27 +135,49 @@
             no-caps, icon="add", round, size="sm")
 
     // ----------------------------------------------------------------------------------------------------- save button
-    q-page-sticky.q-px-md.bg-dark.border-top(position="bottom", expand, style="height: 52px;")
-      .row.full-width(v-if="editMode")
-        .col-6.q-pr-md.border-right
-          q-btn.full-width(@click="$router.push('/recipes')", flat, no-caps) Abbrechen
-        .col-6.q-pl-md.relative-position
-          q-btn.capitalize.full-width(
-          @click="submitRecipe",
-          :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-bottom' : 'bg-white text-grey-10']",
-          :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
-          type="submit", no-caps)
-            | {{ $t('buttons.save') }}
+    .q-mx-md.q-mt-lg.overflow-hidden
+      .row.gutter-sm
+        template(v-if="editMode")
+          .col-6
+            q-btn.border.full-width(@click="$router.push('/recipes')", flat, no-caps) Abbrechen
+          .col-6.relative-position
+            q-btn.capitalize.full-width(
+            @click="submitRecipe",
+            :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-bottom' : 'bg-white text-grey-10']",
+            :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
+            type="submit", no-caps)
+              | {{ $t('buttons.save') }}
+        template(v-else)
+          .col-6
+            q-btn.capitalize.full-width.bg-white.text-grey-10(
+            @click="editMode = true",
+            type="submit", no-caps)
+              | Bearbeiten
+          .col-6.relative-position
+            q-btn.capitalize.full-width.bg-white.text-grey-10(@click="$router.push('/recipes')",
+            icon="done", flat, no-caps, label="Fertig")
+    //
+      q-page-sticky.q-px-md.bg-dark.border-top(position="bottom", expand, style="height: 52px;")
+        .row.full-width(v-if="editMode")
+          .col-6.q-pr-md.border-right
+            q-btn.full-width(@click="$router.push('/recipes')", flat, no-caps) Abbrechen
+          .col-6.q-pl-md.relative-position
+            q-btn.capitalize.full-width(
+            @click="submitRecipe",
+            // :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-bottom' : 'bg-white text-grey-10']",
+            // :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
+            type="submit", no-caps)
+              | {{ $t('buttons.save') }}
 
-      .row.full-width(v-else)
-        .col-6.q-pr-md.border-right
-          q-btn.capitalize.full-width.bg-white.text-grey-10(
-          @click="editMode = true",
-          type="submit", no-caps)
-            | Bearbeiten
-        .col-6.q-pl-md.relative-position
-          q-btn.capitalize.full-width.bg-white.text-grey-10(@click="$router.push('/recipes')",
-          icon="done", flat, no-caps, label="Fertig")
+        .row.full-width(v-else)
+          .col-6.q-pr-md.border-right
+            q-btn.capitalize.full-width.bg-white.text-grey-10(
+            @click="editMode = true",
+            type="submit", no-caps)
+              | Bearbeiten
+          .col-6.q-pl-md.relative-position
+            q-btn.capitalize.full-width.bg-white.text-grey-10(@click="$router.push('/recipes')",
+            icon="done", flat, no-caps, label="Fertig")
 
     //
       q-page-sticky(position="top-right")

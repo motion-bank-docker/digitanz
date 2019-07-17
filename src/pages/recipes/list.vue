@@ -30,11 +30,12 @@
           style="overflow: hidden;",
           :class="[option !== index ? 'border-white-1 text-grey-8' : 'border-white-3 text-white']")
             div.relative-position(:class="{'bg-transparent': option === index}")
-              q-radio.full-width.q-mb-none.word-break.q-py-md(v-model="option", :val="index")
+              q-radio.full-width.q-mb-none.word-break.q-pb-md(v-model="option", :val="index")
 
                 div.full-width(@click="handlerRadiobutton(index)")
                   q-list.q-pa-none.no-border.full-width
-                    q-list-header.q-title.q-pa-none.q-mb-md.q-py-none.min-height-auto.q-px-sm {{ recipe.title }}
+                    q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm.bg-body-background
+                      | {{ recipe.title }}
                     q-item-separator.q-ma-none.bg-grey-9
                     q-item.items-baseline.q-px-sm.q-py-none.min-height-auto(v-for="(entry, i) in recipe.entries")
                       q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;") {{ i + 1 }}.
