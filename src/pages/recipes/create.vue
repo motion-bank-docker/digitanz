@@ -8,26 +8,28 @@
             q-input.q-title.q-pa-sm(dark, v-model="newRecipe.title",
             :error="$v.newRecipe.title.$error",
             :readonly="!editMode", hide-underline,
-            placeholder="Titel")
+            placeholder="Titel", autofocus)
 
           q-item-separator.q-ma-none.bg-grey-9
-          q-item.items-baseline.q-px-md.q-py-sm.min-height-auto(
+          q-item.q-px-sm.q-py-sm.min-height-auto(
           v-for="(ingr, index) in newRecipe.entries",
           :description="ingr",
           :key="ingr",
-          :class="{'bg-dark': option === ingr}"
+          :class="{'bg-dark': option === ingr}",
+          multiline
           )
             q-item-side.q-py-xs.text-grey-8.min-width-auto(style="width: 30px;") {{ index + 1 }}.
             q-item-main(style="max-width: 100%;")
               q-item-tile
-                q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr")
+                q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr",
+                :class="[option === ingr ? 'text-grey-8' : '']")
                   div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
 
-              .absolute-top-right.transition.full-height.q-px-sm.items-center.row.bg-body-background(
+              .absolute-top-right.transition.full-height.q-px-sm.items-center.row(
               v-if="editMode", :class="[option !== ingr ? 'leave-right-absolute' : '']")
-                q-btn.border(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
-                q-btn.border.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
-                q-btn.border(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
+                q-btn.bg-white.text-grey-10(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
+                q-btn.bg-white.text-grey-10.q-ml-xs.q-mr-md(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
+                q-btn.bg-dark.border.text-grey-6(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
 
     //
       .q-px-md.q-pt-md
