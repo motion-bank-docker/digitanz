@@ -171,7 +171,6 @@
     methods: {
       handlerRadiobutton (val) {
         if (val === this.option) this.option = undefined
-        console.log(val, this.option)
       },
       async loadRecipes () {
         if (!this.user) return
