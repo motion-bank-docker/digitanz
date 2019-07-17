@@ -18,7 +18,7 @@
       // div.border-bottom.q-pb-xl
       q-tab-pane.q-px-none.q-mb-sm(keep alive, name="tab-1")
 
-        div.q-py-md.text-center.shadow-3.bg-dark.round-borders.border-white-1.q-mb-md(@click="$router.push('/recipes/create')")
+        div.q-py-md.text-center.shadow-3.bg-dark.round-borders.border-white-1.q-mb-md.q-mt-lg(@click="$router.push('/recipes/create')")
           q-icon(name="add")
 
         template(v-if="tempRecipes.length")
@@ -47,10 +47,10 @@
                 // .q-mb-md.full-height.items-start.row.q-px-sm.q-pt-sm
                 .q-mb-md.full-height.items-start.row.q-ma-sm
                   div
-                    q-btn.border.bg-body-background.text-white.q-mr-sm(icon="edit", @click="", round, size="sm", flat)
+                    q-btn.bg-grey-6.text-black.q-mr-sm(icon="edit", @click="", round, size="sm", flat)
                     // .full-width.q-mb-sm
                       q-btn.border.bg-body-background.text-white(icon="edit", @click="", round, size="sm", flat)
-                    q-btn.border.bg-body-background.text-white(icon="delete", @click="", round, size="sm", flat)
+                    q-btn.bg-grey-6.text-black(icon="delete", @click="", round, size="sm", flat)
 
         // template(v-else)
           .q-mt-md empty
