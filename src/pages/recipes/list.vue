@@ -18,8 +18,8 @@
       // div.border-bottom.q-pb-xl
       q-tab-pane.q-px-none.q-mb-sm(keep alive, name="tab-1")
 
-        q-btn.full-width.text-white.border.q-mb-md(@click="$router.push('/recipes/create')",
-        icon="add", label="Neues Rezept", align="left",  no-caps, flat)
+        div.q-py-md.text-center.shadow-3.bg-dark.round-borders.border-white-1.q-mb-md(@click="$router.push('/recipes/create')")
+          q-icon(name="add")
 
         template(v-if="tempRecipes.length")
 
@@ -28,13 +28,13 @@
             // :class="{'border-bottom q-pb-md': index < tempRecipes.length - 1}", style="overflow-x: hidden;")
           div.q-mt-md.shadow-3.bg-dark.round-borders(v-for="(recipe, index) in tempRecipes",
           style="overflow: hidden;",
-          :class="[option !== index ? 'border-white-1' : 'border-white-3']")
+          :class="[option !== index ? 'border-white-1 text-grey-8' : 'border-white-3 text-white']")
             div.relative-position(:class="{'bg-transparent': option === index}")
               q-radio.full-width.q-mb-none.word-break.q-py-md(v-model="option", :val="index")
 
                 div.full-width(@click="handlerRadiobutton(index)")
                   q-list.q-pa-none.no-border.full-width
-                    q-list-header.q-title.text-white.q-pa-none.q-mb-md.q-py-none.min-height-auto.q-px-sm {{ recipe.title }}
+                    q-list-header.q-title.q-pa-none.q-mb-md.q-py-none.min-height-auto.q-px-sm {{ recipe.title }}
                     q-item-separator.q-ma-none.bg-grey-9
                     q-item.items-baseline.q-px-sm.q-py-none.min-height-auto(v-for="(entry, i) in recipe.entries")
                       q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;") {{ i + 1 }}.
@@ -52,7 +52,7 @@
                       q-btn.border.bg-body-background.text-white(icon="edit", @click="", round, size="sm", flat)
                     q-btn.border.bg-body-background.text-white(icon="delete", @click="", round, size="sm", flat)
 
-        template(v-else)
+        // template(v-else)
           .q-mt-md empty
 
         //
