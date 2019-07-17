@@ -1,12 +1,40 @@
 <template lang="pug">
-  q-page(style="padding-bottom: 52px;")
+  q-page.q-pt-md(style="padding-bottom: 52px;")
     // ----------------------------------------------------------------------------------------------------- cloud title
-    .q-px-md.q-pt-md
-      // .q-caption.q-mb-xs Titel:
-      q-input.q-title.q-mb-md.bg-dark.q-pa-sm.round-borders(dark, v-model="newRecipe.title",
-      :error="$v.newRecipe.title.$error",
-      :readonly="!editMode", hide-underline,
-      placeholder="Titel")
+    .q-mt-md
+      div.q-mx-md.shadow-3.bg-dark.round-borders.border-white-1
+        q-list.q-pa-none.no-border.full-width(style="overflow-x: hidden;")
+          q-list-header.q-title.min-height-auto.q-px-none.q-py-none
+            q-input.q-title.q-pa-sm(dark, v-model="newRecipe.title",
+            :error="$v.newRecipe.title.$error",
+            :readonly="!editMode", hide-underline,
+            placeholder="Titel")
+
+          q-item-separator.q-ma-none.bg-grey-9
+          q-item.items-baseline.q-px-md.q-py-sm.min-height-auto(
+          v-for="(ingr, index) in newRecipe.entries",
+          :description="ingr",
+          :key="ingr",
+          :class="{'bg-dark': option === ingr}"
+          )
+            q-item-side.q-py-xs.text-grey-8.min-width-auto(style="width: 30px;") {{ index + 1 }}.
+            q-item-main(style="max-width: 100%;")
+              q-item-tile
+                q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr")
+                  div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
+
+              .absolute-top-right.transition.full-height.q-px-sm.items-center.row.bg-body-background(
+              v-if="editMode", :class="[option !== ingr ? 'leave-right-absolute' : '']")
+                q-btn.border(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
+                q-btn.border.q-mx-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
+                q-btn.border(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
+
+    //
+      .q-px-md.q-pt-md
+        q-input.q-title.q-mb-md.bg-dark.q-pa-sm.round-borders(dark, v-model="newRecipe.title",
+        // :error="$v.newRecipe.title.$error",
+        // :readonly="!editMode", hide-underline,
+        placeholder="Titel")
 
     // -------------------------------------------------------------------------------------------------- selected terms
     // .q-caption.q-mb-xs.q-px-md Einträge:
@@ -330,6 +358,8 @@
 
   .leave-bottom
     margin-bottom -100px
+  .border-white-1
+    border 1px solid rgba(255, 255, 255, .1)
 </style>
 
 <style lang="stylus">
