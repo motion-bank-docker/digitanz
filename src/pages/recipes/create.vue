@@ -3,11 +3,12 @@
     // ----------------------------------------------------------------------------------------------------- cloud title
     div.q-mx-md.shadow-3.bg-dark.round-borders.border-white-1
       q-list.q-pa-none.no-border.full-width(style="overflow-x: hidden;")
-        q-list-header.q-title.min-height-auto.q-px-none.q-py-sm
-          q-input.q-title.q-pa-sm(dark, v-model="newRecipe.title",
+        q-list-header.q-title.min-height-auto.q-px-none.q-py-none
+          q-input.q-title.q-px-sm.q-py-md(dark, v-model="newRecipe.title",
           type="textarea",
           :error="$v.newRecipe.title.$error",
           :readonly="!editMode", hide-underline,
+          :class="{'bg-body-background': !showIcon.recipeTitle}",
           placeholder="Titel", autofocus,
           @focus="showIcon.recipeTitle = false; option = '';",
           @blur="showIcon.recipeTitle = true",
