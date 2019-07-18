@@ -76,11 +76,11 @@
     // ---------------------------------------------------------------------------------------------------------- inputs
     // .q-caption.q-mb-sm.q-px-md.q-mt-lg Begriffe hinzufügen:
     // .border-top.q-mt-md.q-mx-md
-    q-list.no-border.q-pa-none.q-mx-md.q-mt-xl.bg-dark(v-if="editMode", style="overflow-x: hidden;")
+    q-list.no-border.q-pa-none.q-mx-md.q-mt-xl(v-if="editMode", style="overflow-x: hidden;")
 
       q-item.no-padding.q-mb-sm
-        q-item-main(style="max-width: 100%;")
-          q-input.bg-dark.q-pa-sm(
+        q-item-main.border-bottom(style="max-width: 100%;")
+          q-input.q-pa-sm(
           @click="resetValues", dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
           placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
           hide-underline,
@@ -89,41 +89,41 @@
           :after="[{icon: 'edit', condition: showIcon.newRecipeEntry}]")
 
         q-item-side.min-width-auto.transition.row.self-stretch(:class="[!addIngredient ? 'leave-right' : '']")
-          .transition.q-px-sm.items-center.row
+          .transition.q-pl-sm.items-center.row
             q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
             q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
       q-item.no-padding.q-mb-sm
-        q-item-main(style="max-width: 100%;")
-          q-select.q-pa-sm.bg-dark(
+        q-item-main.border-bottom(style="max-width: 100%;")
+          q-select.q-pa-sm(
           v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
           placeholder="Adjektiv", dark, color="white",
           hide-underline)
-        q-item-side.min-width-auto.q-px-sm.transition(:class="[!selectGestaltung ? 'leave-right' : '']")
+        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectGestaltung ? 'leave-right' : '']")
           .transition
             q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
             q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
       q-item.no-padding.q-mb-sm
-        q-item-main(style="max-width: 100%;")
-          q-select.q-pa-sm.bg-dark(
+        q-item-main.border-bottom(style="max-width: 100%;")
+          q-select.q-pa-sm(
           v-model="selectAktion", @focus="resetValues", :options="myJson",
           placeholder="Aktionsbegriff", dark, color="white",
           hide-underline)
-        q-item-side.min-width-auto.q-px-sm.transition(:class="[!selectAktion ? 'leave-right' : '']")
+        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectAktion ? 'leave-right' : '']")
           .transition
             q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
             q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
       q-item.no-padding
-        q-item-main(style="max-width: 100%;")
-          q-select.q-pa-sm.bg-dark(
+        q-item-main.border-bottom(style="max-width: 100%;")
+          q-select.q-pa-sm(
           v-model="selectCloudThree", @focus="resetValues", :options="cloudThree",
           placeholder="Gestaltungsbegriff", dark, color="white",
           hide-underline,
           style="overflow: hidden; text-overflow: ellipsis;")
         <!--q-item-side.min-width-auto.q-pl-sm.transition(v-if="selectCloudThree")-->
-        q-item-side.min-width-auto.q-px-sm.transition(:class="[!selectCloudThree ? 'leave-right' : '']")
+        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectCloudThree ? 'leave-right' : '']")
           .transition
             q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
             q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
@@ -143,7 +143,7 @@
             no-caps, icon="add", round, size="sm")
 
     // ----------------------------------------------------------------------------------------------------- save button
-    .q-mx-md.q-mt-lg.overflow-hidden
+    .q-mx-md.q-mt-xl.overflow-hidden
       .row.gutter-sm
         template(v-if="editMode")
           .col-6
