@@ -19,14 +19,14 @@
         v-for="(ingr, index) in newRecipe.entries",
         :description="ingr",
         :key="ingr",
-        :class="[{'bg-body-background': option === ingr}, {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
+        :class="[{'bg-body-background': option === ingr && editMode}, {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
         multiline
         )
           q-item-side.q-py-xs.text-grey-8.min-width-auto(style="width: 30px;") {{ index + 1 }}.
           q-item-main(style="max-width: 100%;")
             q-item-tile
               q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr",
-              :class="[option === ingr ? 'text-grey-8' : '']")
+              :class="[option === ingr && editMode ? 'text-grey-8' : '']")
                 div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
 
             .absolute-top-right.transition.q-px-sm.items-start.row(
