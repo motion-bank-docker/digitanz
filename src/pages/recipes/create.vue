@@ -8,7 +8,7 @@
           :error="$v.newRecipe.title.$error",
           :readonly="!editMode", hide-underline,
           placeholder="Titel", autofocus,
-          @focus="showIcon = false",
+          @focus="showIcon = false; option = '';",
           @blur="showIcon = true",
           :after="[{icon: 'edit', condition: showIcon && editMode}]")
 
