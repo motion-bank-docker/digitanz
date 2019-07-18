@@ -51,7 +51,7 @@
                     q-btn.bg-grey-6.text-black.q-mr-sm(icon="edit", @click="", round, size="sm", flat)
                     // .full-width.q-mb-sm
                       q-btn.border.bg-body-background.text-white(icon="edit", @click="", round, size="sm", flat)
-                    q-btn.bg-grey-6.text-black(icon="delete", @click="", round, size="sm", flat)
+                    q-btn.bg-grey-6.text-black(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
         // template(v-else)
           .q-mt-md empty
@@ -179,6 +179,9 @@
       }
     },
     methods: {
+      removeFromTempRecipe (val) {
+        this.$store.commit('recipes/removeFromTempRecipes', val)
+      },
       handlerRadiobutton (val) {
         if (val === this.option) this.option = undefined
       },
