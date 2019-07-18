@@ -48,7 +48,7 @@
                 // .q-mb-md.full-height.items-start.row.q-px-sm.q-pt-sm
                 .q-mb-md.full-height.items-start.row.q-ma-sm
                   div
-                    q-btn.bg-grey-6.text-black.q-mr-sm(icon="edit", @click="", round, size="sm", flat)
+                    q-btn.bg-grey-6.text-black.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
                     // .full-width.q-mb-sm
                       q-btn.border.bg-body-background.text-white(icon="edit", @click="", round, size="sm", flat)
                     q-btn.bg-grey-6.text-black(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
@@ -179,6 +179,11 @@
       }
     },
     methods: {
+      editRecipe (val) {
+        console.log(val)
+        // this.$router.push('/recipes/create/' + this.tempRecipes[val])
+        this.$router.push({name: 'recipes.edit', params: {index: val, recipe: this.tempRecipes[val]}})
+      },
       removeFromTempRecipe (val) {
         this.$store.commit('recipes/removeFromTempRecipes', val)
         this.option = undefined

@@ -80,10 +80,14 @@
     div.text-grey-9.q-px-md(v-else)
       | Noch keine Einträge hinzugefügt.
 
+    // ------------------------------------------------------------------------------------------------------------ icon
+    //
+      div.text-center.q-my-md
+        q-btn.rotate-90(icon="keyboard_backspace", round, flat, disabled)
     // ---------------------------------------------------------------------------------------------------------- inputs
     // .q-caption.q-mb-sm.q-px-md.q-mt-lg Begriffe hinzufügen:
     // .border-top.q-mt-md.q-mx-md
-    q-list.no-border.q-pa-none.q-mx-md.q-mt-xl(v-if="editMode", style="overflow-x: hidden;")
+    q-list.no-border.q-pa-none.q-mx-md.q-mt-lg(v-if="editMode", style="overflow-x: hidden;")
 
       q-item.no-padding.q-mb-sm
         q-item-main.border-bottom(style="max-width: 100%;")
@@ -97,7 +101,7 @@
 
         q-item-side.min-width-auto.transition.row.self-stretch(:class="[!addIngredient ? 'leave-right' : '']")
           .transition.q-pl-sm.items-center.row
-            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
+            q-btn.bg-white.text-grey-10.rotate-90(@click="addTodoItem", icon="keyboard_backspace", round, size="sm")
             q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
       q-item.no-padding.q-mb-sm
@@ -229,7 +233,8 @@
         showIcon: {
           recipeTitle: false,
           newRecipeEntry: true
-        }
+        },
+        recipe: this.$route.params
       }
     },
     validations: {
@@ -243,6 +248,8 @@
       }
     },
     async mounted () {
+      console.log('recipe.index', this.recipe.index)
+      console.log('recipe.recipe', this.recipe.recipe)
       this.$root.$on('saveTempRecipe', this.onSaveTempRecipe)
 
       if (this.$route.params.uuid) {
