@@ -11,7 +11,7 @@ const recipes = {
       state.tempRecipes.push(val)
     },
     removeFromTempRecipes (state, val) {
-      console.log('store/removeFromTempRecipes', state, val)
+      state.tempRecipes.splice(val, 1)
     }
   },
   actions: {
