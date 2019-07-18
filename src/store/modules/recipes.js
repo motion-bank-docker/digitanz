@@ -7,8 +7,11 @@ const recipes = {
     getTempRecipes: state => state.tempRecipes
   },
   mutations: {
-    setTempRecipes (state, val) {
+    addToTempRecipes (state, val) {
       state.tempRecipes.push(val)
+    },
+    removeFromTempRecipes (state, val) {
+      console.log('store/removeFromTempRecipes', state, val)
     }
   },
   actions: {

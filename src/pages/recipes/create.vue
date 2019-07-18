@@ -280,7 +280,7 @@
         // console.log(typeof val)
         // console.log(val.length)
         console.log(val)
-        this.$store.commit('recipes/setTempRecipes', this.newRecipe)
+        this.$store.commit('recipes/addToTempRecipes', this.newRecipe)
       },
       handlerRadiobutton (val) {
         // console.log('bla', val, this.option)
