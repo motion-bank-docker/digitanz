@@ -8,9 +8,9 @@
           :error="$v.newRecipe.title.$error",
           :readonly="!editMode", hide-underline,
           placeholder="Titel", autofocus,
-          @focus="showIcon = false; option = '';",
-          @blur="showIcon = true",
-          :after="[{icon: 'edit', condition: showIcon && editMode}]")
+          @focus="showIcon.recipeTitle = false; option = '';",
+          @blur="showIcon.recipeTitle = true",
+          :after="[{icon: 'edit', condition: showIcon.recipeTitle && editMode}]")
 
         q-item-separator.q-ma-none.q-mb-sm.bg-grey-9
         q-item.q-px-sm.q-py-xs.min-height-auto(
@@ -75,42 +75,46 @@
     // ---------------------------------------------------------------------------------------------------------- inputs
     // .q-caption.q-mb-sm.q-px-md.q-mt-lg Begriffe hinzufügen:
     // .border-top.q-mt-md.q-mx-md
-    q-list.no-border.q-pa-none.q-px-md.q-mt-xl(v-if="editMode", style="overflow-x: hidden;")
+    q-list.no-border.q-pa-none.q-mx-md.q-mt-xl.bg-dark(v-if="editMode", style="overflow-x: hidden;")
 
-      q-item.no-padding.q-mb-md
+      q-item.no-padding.q-mb-sm
         q-item-main(style="max-width: 100%;")
           q-input.bg-dark.q-pa-sm(
           @click="resetValues", dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
           placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
-          hide-underline)
+          hide-underline,
+          @focus="showIcon.newRecipeEntry = false; option = '';",
+          @blur="showIcon.newRecipeEntry = true",
+          :after="[{icon: 'edit', condition: showIcon.newRecipeEntry}]")
+
         q-item-side.min-width-auto.transition.row.self-stretch(:class="[!addIngredient ? 'leave-right' : '']")
-          .transition.q-pl-sm.items-center.row
+          .transition.q-px-sm.items-center.row
             q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
             q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
-      q-item.no-padding.q-mb-md
+      q-item.no-padding.q-mb-sm
         q-item-main(style="max-width: 100%;")
           q-select.q-pa-sm.bg-dark(
           v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
           placeholder="Adjektiv", dark, color="white",
           hide-underline)
-        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectGestaltung ? 'leave-right' : '']")
+        q-item-side.min-width-auto.q-px-sm.transition(:class="[!selectGestaltung ? 'leave-right' : '']")
           .transition
             q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
             q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
-      q-item.no-padding.q-mb-md
+      q-item.no-padding.q-mb-sm
         q-item-main(style="max-width: 100%;")
           q-select.q-pa-sm.bg-dark(
           v-model="selectAktion", @focus="resetValues", :options="myJson",
           placeholder="Aktionsbegriff", dark, color="white",
           hide-underline)
-        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectAktion ? 'leave-right' : '']")
+        q-item-side.min-width-auto.q-px-sm.transition(:class="[!selectAktion ? 'leave-right' : '']")
           .transition
             q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
             q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
 
-      q-item.no-padding.q-mb-md
+      q-item.no-padding
         q-item-main(style="max-width: 100%;")
           q-select.q-pa-sm.bg-dark(
           v-model="selectCloudThree", @focus="resetValues", :options="cloudThree",
@@ -118,7 +122,7 @@
           hide-underline,
           style="overflow: hidden; text-overflow: ellipsis;")
         <!--q-item-side.min-width-auto.q-pl-sm.transition(v-if="selectCloudThree")-->
-        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectCloudThree ? 'leave-right' : '']")
+        q-item-side.min-width-auto.q-px-sm.transition(:class="[!selectCloudThree ? 'leave-right' : '']")
           .transition
             q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
             q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
@@ -214,7 +218,10 @@
         editMode: false,
         cols: [],
         option: [],
-        showIcon: false
+        showIcon: {
+          recipeTitle: false,
+          newRecipeEntry: true
+        }
       }
     },
     validations: {
