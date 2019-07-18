@@ -250,6 +250,10 @@
     async mounted () {
       console.log('recipe.index', this.recipe.index)
       console.log('recipe.recipe', this.recipe.recipe)
+      if (this.recipe.recipe !== undefined) {
+        this.newRecipe.title = this.recipe.recipe.title
+        this.newRecipe.entries = this.recipe.recipe.entries
+      }
       this.$root.$on('saveTempRecipe', this.onSaveTempRecipe)
 
       if (this.$route.params.uuid) {
