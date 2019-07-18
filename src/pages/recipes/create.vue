@@ -348,6 +348,7 @@
       },
       submitRecipe () {
         this.$root.$emit('saveTempRecipe')
+        this.$router.push('/recipes')
         console.log('submit!')
         this.$v.$touch()
         if (this.$v.$invalid) {
