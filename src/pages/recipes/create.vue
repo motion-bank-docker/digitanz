@@ -5,6 +5,7 @@
       q-list.q-pa-none.no-border.full-width(style="overflow-x: hidden;")
         q-list-header.q-title.min-height-auto.q-px-none.q-py-sm.bg-body-background
           q-input.q-title.q-pa-sm(dark, v-model="newRecipe.title",
+          type="textarea",
           :error="$v.newRecipe.title.$error",
           :readonly="!editMode", hide-underline,
           placeholder="Titel", autofocus,
