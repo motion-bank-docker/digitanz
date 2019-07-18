@@ -6,12 +6,12 @@
 
     q-tabs.q-px-md.q-pt-md(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab")
 
-      q-tab.text-center.round-borders(name="tab-1", slot="title", default,
-      :class="[selectedTab === 'tab-1' ? 'bg-white text-grey-10' : '']")
+      q-tab.text-center.round-borders(name="tab-1", slot="title", default, no-ripple,
+      :class="[selectedTab === 'tab-1' ? 'bg-dark text-white border-white-1' : 'border-transparent']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Meine Rezepte", flat, no-ripple)
 
       q-tab.text-center.round-borders(name="tab-2", slot="title",
-      :class="[selectedTab === 'tab-2' ? 'bg-white text-grey-10' : '']")
+      :class="[selectedTab === 'tab-2' ? 'bg-dark text-white border-white-1' : 'border-transparent']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Gemixte Rezepte", flat, no-ripple)
 
       // ---------------------------------------------------------------------------------------------------- recipes list
@@ -233,6 +233,8 @@
     right -50vw
   .border-transparent
     border 1px solid transparent
+  .border-transparent
+    border 1px solid rgba(255, 255, 255, 0)
   .border-white-1
     border 1px solid rgba(255, 255, 255, .1)
   .border-white-3
