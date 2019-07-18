@@ -181,6 +181,7 @@
     methods: {
       removeFromTempRecipe (val) {
         this.$store.commit('recipes/removeFromTempRecipes', val)
+        this.option = undefined
       },
       handlerRadiobutton (val) {
         if (val === this.option) this.option = undefined
