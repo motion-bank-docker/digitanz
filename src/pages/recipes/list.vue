@@ -55,9 +55,9 @@
                   q-btn.bg-grey-4.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
               //----- "standalone"-button
-              .absolute-bottom-right.transition.q-mb-sm.q-pr-sm.q-pb-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
-                q-btn(icon="remove_red_eye", @click="handlerStandalone", round, size="sm", flat,
-                :class="[recipeStandalone ? 'bg-grey-4 text-grey-10' : 'bg-dark border text-grey-4']")
+                .absolute-bottom-right.transition.q-mb-sm.q-pr-sm(:class="[option !== index ? 'leave-right-absolute' : '']")
+                  q-btn(icon="remove_red_eye", @click="handlerStandalone", round, size="sm", flat,
+                  // :class="[recipeStandalone ? 'bg-grey-4 text-grey-10' : 'bg-dark border text-grey-4']")
 
             //
               template(v-if="option === index")
@@ -186,7 +186,13 @@
         this.option = undefined
       },
       handlerRadiobutton (val) {
-        if (val === this.option) this.option = undefined
+        if (val === this.option) {
+          this.option = undefined
+          // this.recipeStandalone = false
+        }
+        else {
+          // this.recipeStandalone = true
+        }
       },
       async loadRecipes () {
         if (!this.user) return
