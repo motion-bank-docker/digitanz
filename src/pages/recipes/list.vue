@@ -209,31 +209,6 @@
           title: chance.name()
         }
         this.$store.commit('recipes/addToTempRemixes', remix)
-        /*
-        const query = {'body.type': 'Recipe'}
-        const recipes = await this.$store.dispatch('annotations/find', query)
-        const ingredients = chance.shuffle(recipes.items.reduce((all, val) => {
-          if (!val.body.value) return all
-          const {entries} = JSON.parse(val.body.value)
-          entries.forEach(entry => {
-            if (all.indexOf(entry) === -1) all.push(entry.trim())
-          })
-          return all
-        }, [])).splice(0, chance.integer({min: 3, max: 4}))
-        console.debug(ingredients)
-        const anno = {
-          body: {
-            type: 'Recipe',
-            purpose: 'remix',
-            value: JSON.stringify({
-              title: `${chance.name()}`,
-              entries: ingredients
-            })
-          }
-        }
-        await this.$store.dispatch('annotations/post', anno)
-        await this.loadRecipes()
-        */
       },
       openDeleteModal (uuid) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', uuid, 'buttons.delete')
