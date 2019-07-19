@@ -82,12 +82,39 @@
       q-tab-pane.q-px-none.q-py-md(keep alive, name="tab-2")
         // .q-mb-md Gemixte Rezepte
 
+        //----- remixes
+        div.q-mt-md.shadow-3.round-borders.border-white-1.transition(v-for="(remix, index) in tempRemixes",
+        style="overflow: hidden;",
+        :class="[optionRemix !== index ? 'bg-body-background text-grey-8' : 'text-white bg-dark', {'hidden': optionRemix !== index && remixStandalone}]")
+          div.relative-position(:class="{'bg-transparent': optionRemix === index}")
+            q-radio.full-width.q-mb-none.word-break(v-model="optionRemix", :val="index",
+            :class="{'q-pb-md': optionRemix === index}")
+
+              div.full-width(@click="handlerRadiobutton(index)")
+                q-list.q-pa-none.no-border.full-width
+
+                  //----- title
+                  q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm(
+                  :class="[optionRemix !== index ? 'text-grey-8' : 'text-white']")
+                    | {{ remix.title }}
+
+                  template(v-if="optionRemix === index")
+                    q-item-separator.q-ma-none.bg-grey-9
+
+                    q-item.items-baseline.q-px-sm.q-py-none.min-height-auto(v-for="(entry, i) in remix.entries")
+
+                      //----- ingredient position
+                      q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;")
+                        | {{ i + 1 }}.
+
+                      //----- ingredient
+                      q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
+
         //----- "add"-button
         div.text-center.bg-grey-4.text-grey-10.round-borders.q-mt-md.q-py-md(@click="doRemix")
           q-icon(name="add")
 
         //----- mixed recipes
-        | {{ tempRemixes }}
         q-list.q-pa-none.no-border.no-padding
           q-item.items-baseline.q-px-none(v-for="recipe in remixed", :key="recipe.uuid")
             q-item-main(dark)
@@ -156,6 +183,7 @@
         remixed: [],
         selectedTab: undefined,
         option: undefined,
+        optionRemix: undefined,
         recipeStandalone: false
       }
     },
