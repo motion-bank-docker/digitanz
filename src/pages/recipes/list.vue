@@ -30,7 +30,8 @@
           style="overflow: hidden;",
           :class="[option !== index ? 'text-white bg-dark' : 'bg-body-background text-grey-8']")
             div.relative-position(:class="{'bg-transparent': option === index}")
-              q-radio.full-width.q-mb-none.word-break.q-pb-md(v-model="option", :val="index")
+              q-radio.full-width.q-mb-none.word-break(v-model="option", :val="index",
+              :class="{'q-pb-md': option === index}")
 
                 div.full-width(@click="handlerRadiobutton(index)")
                   q-list.q-pa-none.no-border.full-width
@@ -40,23 +41,21 @@
                     :class="[option !== index ? 'text-white' : 'text-grey-8']")
                       | {{ recipe.title }}
 
-                    q-item-separator.q-ma-none.bg-grey-9
+                    template(v-if="option === index")
+                      q-item-separator.q-ma-none.bg-grey-9
 
-                    q-item.items-baseline.q-px-sm.q-py-none.min-height-auto(v-for="(entry, i) in recipe.entries")
+                      q-item.items-baseline.q-px-sm.q-py-none.min-height-auto(v-for="(entry, i) in recipe.entries")
 
-                      //----- ingredient position
-                      q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;")
-                        | {{ i + 1 }}.
+                        //----- ingredient position
+                        q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;")
+                          | {{ i + 1 }}.
 
-                      //----- ingredient
-                      q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
+                        //----- ingredient
+                        q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
 
               //----- "edit"-button
-              .absolute-top-right.transition.q-ma-sm(:class="[option !== index ? 'leave-right-absolute' : '']")
-                q-btn.bg-grey-4.text-grey-10(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
-
-              //----- "remove"-button
-              .absolute-top-left.transition.q-ma-sm(:class="[option !== index ? 'leave-left-absolute' : '']")
+              .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
+                q-btn.bg-grey-4.text-grey-10.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
                 q-btn.bg-grey-4.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
       // --------------------------------------------------------------------------------------------- "gemixte rezepte"
