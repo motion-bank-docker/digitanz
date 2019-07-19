@@ -35,7 +35,7 @@
           q-item-main.transition(style="max-width: 100%;",
           :class="[option === ingr ? 'q-pl-sm' : 'q-pr-sm']")
             q-item-tile
-              q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr",
+              q-radio.full-width.q-mb-none(v-model="option", :val="ingr",
               :class="[option === ingr ? 'text-grey-8' : '']")
                 div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
 
@@ -241,28 +241,19 @@
 </script>
 
 <style lang="stylus" scoped>
-  .word-break
-    hyphens: auto
-  .error
-    border: 1px solid red
-  .typo__p
-    color: red
-  .listItemEditMode
-    padding-left 0 !important
-    padding-right 0 !important
-  .listItem
-    padding 8px 0!important
   .leave-right
     margin-right -50vw
     padding-left 10vw
 
   .leave-right-absolute
     right -50vw
+
   .leave-left-absolute
     left -50vw
 
   .leave-bottom
     margin-bottom -100px
+
   .border-white-1
     border 1px solid rgba(255, 255, 255, .1)
 </style>
@@ -273,8 +264,10 @@
     overflow hidden
     width 100px
     text-overflow ellipsis
+
   .column
     flex-wrap nowrap
+
   .q-option-inner
     display none
 </style>
