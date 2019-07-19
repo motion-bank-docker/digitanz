@@ -26,15 +26,16 @@
           //
             div.q-mt-md.q-px-md.shadow-3.border.round-borders(v-for="(recipe, index) in tempRecipes",
             // :class="{'border-bottom q-pb-md': index < tempRecipes.length - 1}", style="overflow-x: hidden;")
-          div.q-mt-md.shadow-3.bg-dark.round-borders(v-for="(recipe, index) in tempRecipes",
+          div.q-mt-md.shadow-3.round-borders.border-white-1(v-for="(recipe, index) in tempRecipes",
           style="overflow: hidden;",
-          :class="[option !== index ? 'border-white-1 text-grey-8' : 'border-white-3 text-white']")
+          :class="[option !== index ? 'text-white bg-dark' : 'bg-body-background text-grey-8']")
             div.relative-position(:class="{'bg-transparent': option === index}")
               q-radio.full-width.q-mb-none.word-break.q-pb-md(v-model="option", :val="index")
 
                 div.full-width(@click="handlerRadiobutton(index)")
                   q-list.q-pa-none.no-border.full-width
-                    q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm.bg-body-background
+                    q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm(
+                    :class="[option !== index ? 'text-white' : 'text-grey-8']")
                       | {{ recipe.title }}
                     q-item-separator.q-ma-none.bg-grey-9
                     q-item.items-baseline.q-px-sm.q-py-none.min-height-auto(v-for="(entry, i) in recipe.entries")
@@ -48,10 +49,10 @@
                 // .q-mb-md.full-height.items-start.row.q-px-sm.q-pt-sm
                 .q-mb-md.full-height.items-start.row.q-ma-sm
                   div
-                    q-btn.bg-grey-6.text-black.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
+                    q-btn.bg-white.text-grey-10.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
                     // .full-width.q-mb-sm
                       q-btn.border.bg-body-background.text-white(icon="edit", @click="", round, size="sm", flat)
-                    q-btn.bg-grey-6.text-black(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+                    q-btn.bg-white.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
         // template(v-else)
           .q-mt-md empty
