@@ -1,7 +1,7 @@
 <template lang="pug">
   q-page.relative-position
-    //
-    // DELETE MODAL
+
+    //----- "delete"-modal
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteRecipe")
 
     q-tabs.q-px-md.q-pt-md(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab")
@@ -16,7 +16,6 @@
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Gemixte Rezepte", flat, no-ripple)
 
       // ----------------------------------------------------------------------------------------------- "meine rezepte"
-      // div.border-bottom.q-pb-xl
       q-tab-pane.q-px-none.q-mb-sm(keep alive, name="tab-1")
 
         //----- "add"-button
@@ -26,9 +25,6 @@
         //----- recipes list
         template(v-if="tempRecipes.length")
 
-          //
-            div.q-mt-md.q-px-md.shadow-3.border.round-borders(v-for="(recipe, index) in tempRecipes",
-            // :class="{'border-bottom q-pb-md': index < tempRecipes.length - 1}", style="overflow-x: hidden;")
           div.q-mt-md.shadow-3.round-borders.border-white-1(v-for="(recipe, index) in tempRecipes",
           style="overflow: hidden;",
           :class="[option !== index ? 'text-white bg-dark' : 'bg-body-background text-grey-8']")
@@ -45,52 +41,14 @@
                       q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;") {{ i + 1 }}.
                       q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
 
-              // .absolute-top-right.transition.full-height.items-center.row.q-mb-md.bg-body-background.border-left(
               .absolute-top-right.transition.full-height.items-center.row.q-mb-md(
               :class="[option !== index ? 'leave-right-absolute' : '']",
               style="border-color: #ffffff11!important;")
-                // .q-mb-md.full-height.items-start.row.q-px-sm.q-pt-sm
                 .q-mb-md.full-height.items-start.row.q-ma-sm
                   div
                     q-btn.bg-grey-4.text-grey-10.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
-                    // .full-width.q-mb-sm
-                      q-btn.border.bg-body-background.text-white(icon="edit", @click="", round, size="sm", flat)
                     q-btn.bg-grey-4.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
-        // template(v-else)
-          .q-mt-md empty
-
-        //
-          q-list.no-padding.no-border
-            q-item.items-baseline.q-px-none(v-for="recipe in personal", :key="recipe.uuid")
-              q-item-main(dark)
-                q-item-tile
-                  q-btn.full-width.bg-grey-10(@click="$router.push(`/recipes/edit/${recipe.uuid}`)", align="left")
-                    | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
-              q-item-side
-                q-item-tile
-                  q-btn(icon="delete", @click="openDeleteModal(recipe)")
-      //
-        content-block.no-margin
-          // template(slot="title") Meine Rezepte
-          template(slot="content")
-            q-list.no-padding.no-border
-              q-item.items-baseline.q-px-none(v-for="recipe in personal", :key="recipe.uuid")
-                q-item-main(dark)
-                  q-item-tile
-                    // hier alle Titel meiner Rezepte anzeigen
-                    q-btn.full-width.bg-grey-10(@click="$router.push(`/recipes/edit/${recipe.uuid}`)", align="left")
-                      | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
-                q-item-side
-                  q-item-tile
-                    q-btn(icon="delete", @click="openDeleteModal(recipe)")
-              //
-                q-item.q-px-none
-                  q-item-main(dark)
-                    q-btn.full-width.text-white(@click="$router.push('/recipes/create')", color="primary", align="left")
-                      | Neues Rezept
-                  q-item-side
-                    q-btn.display-none(icon="delete")
       // --------------------------------------------------------------------------------------------- "gemixte rezepte"
       // div.q-mt-md
       q-tab-pane.q-px-none.q-py-md(keep alive, name="tab-2")
