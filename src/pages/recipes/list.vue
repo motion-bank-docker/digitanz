@@ -6,6 +6,7 @@
 
     q-tabs.q-px-md.q-pt-md(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab")
 
+      // ---------------------------------------------------------------------------------------------------------- tabs
       q-tab.text-center.round-borders(name="tab-1", slot="title", default, no-ripple,
       :class="[selectedTab === 'tab-1' ? 'bg-dark text-white border-white-1' : 'border-transparent']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Meine Rezepte", flat, no-ripple)
@@ -14,13 +15,15 @@
       :class="[selectedTab === 'tab-2' ? 'bg-dark text-white border-white-1' : 'border-transparent']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Gemixte Rezepte", flat, no-ripple)
 
-      // ---------------------------------------------------------------------------------------------------- recipes list
+      // ----------------------------------------------------------------------------------------------- "meine rezepte"
       // div.border-bottom.q-pb-xl
       q-tab-pane.q-px-none.q-mb-sm(keep alive, name="tab-1")
 
+        //----- "add"-button
         div.q-py-md.text-center.shadow-3.bg-dark.round-borders.border-white-1.q-mb-md.q-mt-lg(@click="$router.push('/recipes/create')")
           q-icon(name="add")
 
+        //----- recipes list
         template(v-if="tempRecipes.length")
 
           //
@@ -88,11 +91,16 @@
                       | Neues Rezept
                   q-item-side
                     q-btn.display-none(icon="delete")
-      // --------------------------------------------------------------------------------------------------- mixed recipes
+      // --------------------------------------------------------------------------------------------- "gemixte rezepte"
       // div.q-mt-md
       q-tab-pane.q-px-none.q-py-md(keep alive, name="tab-2")
         // .q-mb-md Gemixte Rezepte
 
+        //----- "add"-button
+        q-btn.full-width.text-white.border(@click="doRemix", align="left", no-caps, flat)
+          | Neuer Remix
+
+        //----- mixed recipes
         q-list.q-pa-none.no-border.no-padding
           q-item.items-baseline.q-px-none(v-for="recipe in remixed", :key="recipe.uuid")
             q-item-main(dark)
@@ -102,8 +110,6 @@
             q-item-side
               q-item-tile
                 q-btn(@click="openDeleteModal(recipe)", icon="delete")
-        q-btn.full-width.text-white.border(@click="doRemix", align="left", no-caps, flat)
-          | Neuer Remix
 
     //
       content-block
