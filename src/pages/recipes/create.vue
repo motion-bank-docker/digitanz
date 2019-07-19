@@ -22,7 +22,7 @@
         :class="[{'bg-body-background': option === ingr && editMode}, {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
         multiline
         )
-          q-item-side.q-py-xs.text-grey-8.min-width-auto(style="width: 30px;") {{ index + 1 }}.
+          q-item-side.q-py-xs.text-grey-8.min-width-auto(style="width: 38px;") {{ index + 1 }}.
           q-item-main(style="max-width: 100%;")
             q-item-tile
               q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr",
@@ -32,14 +32,14 @@
             .absolute-top-right.transition.q-px-sm.items-start.row(
             v-if="editMode", :class="[option !== ingr ? 'leave-right-absolute' : '']",
             style="margin-top: 3px;")
-              q-btn.bg-body-background.text-white(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
-              q-btn.bg-body-background.text-white.q-ml-xs(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
+              q-btn.bg-grey-4.text-grey-10(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
+              q-btn.bg-grey-4.text-grey-10.q-ml-sm(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
               // q-btn.bg-dark.border.text-grey-6(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
 
-            .absolute-top-left.transition.items-start.row(
+            .absolute-top-left.transition.items-start.row.q-pl-sm(
             v-if="editMode", :class="[option !== ingr ? 'leave-left-absolute' : '']",
             style="margin-top: 3px;")
-               q-btn.bg-body-background.text-white(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
+               q-btn.bg-grey-4.text-grey-10(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
 
     //
       .q-px-md.q-pt-md

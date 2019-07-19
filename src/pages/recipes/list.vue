@@ -49,10 +49,10 @@
                 // .q-mb-md.full-height.items-start.row.q-px-sm.q-pt-sm
                 .q-mb-md.full-height.items-start.row.q-ma-sm
                   div
-                    q-btn.bg-white.text-grey-10.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
+                    q-btn.bg-grey-4.text-grey-10.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
                     // .full-width.q-mb-sm
                       q-btn.border.bg-body-background.text-white(icon="edit", @click="", round, size="sm", flat)
-                    q-btn.bg-white.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+                    q-btn.bg-grey-4.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
         // template(v-else)
           .q-mt-md empty
