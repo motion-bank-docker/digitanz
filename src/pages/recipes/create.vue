@@ -218,7 +218,8 @@
         newRecipe: {
           title: undefined,
           entries: [],
-          position: undefined
+          position: undefined,
+          index: undefined
         },
         submitStatus: null,
         selectAktion: '',
@@ -254,7 +255,7 @@
         this.newRecipe.title = this.recipe.recipe.title
         this.newRecipe.entries = this.recipe.recipe.entries
       }
-      this.$root.$on('saveTempRecipe', this.onSaveTempRecipe)
+      // this.$root.$on('saveTempRecipe', this.onSaveTempRecipe)
 
       if (this.$route.params.uuid) {
         this.anno = await this.$store.dispatch('annotations/get', this.$route.params.uuid)
@@ -294,14 +295,17 @@
       })
     },
     methods: {
+      /*
       onSaveTempRecipe (val) {
-        // console.log(typeof val)
-        // console.log(val.length)
         console.log(val)
+        console.log('this.recipe.index', this.recipe.index)
+        if (this.recipe.recipe !== undefined) {
+          this.$store.commit('recipes/updateExistingRecipe', this.newRecipe)
+        }
         this.$store.commit('recipes/addToTempRecipes', this.newRecipe)
       },
+      */
       handlerRadiobutton (val) {
-        // console.log('bla', val, this.option)
         this.addIngredient = ''
         this.selectAktion = ''
         this.selectGestaltung = ''
@@ -358,7 +362,16 @@
         a.splice(index + 1, 0, moved[0])
       },
       submitRecipe () {
-        this.$root.$emit('saveTempRecipe')
+        // this.$root.$emit('saveTempRecipe')
+
+        if (this.recipe.recipe !== undefined) {
+          this.newRecipe.index = this.recipe.index
+          this.$store.commit('recipes/updateExistingRecipe', this.newRecipe)
+        }
+        else {
+          this.$store.commit('recipes/addToTempRecipes', this.newRecipe)
+        }
+
         this.$router.push('/recipes')
         /*
         console.log('submit!')

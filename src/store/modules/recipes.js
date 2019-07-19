@@ -12,6 +12,9 @@ const recipes = {
     },
     removeFromTempRecipes (state, val) {
       state.tempRecipes.splice(val, 1)
+    },
+    updateExistingRecipe (state, recipe) {
+      state.tempRecipes.splice(recipe.index, 1, recipe)
     }
   },
   actions: {
