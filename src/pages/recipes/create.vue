@@ -3,6 +3,8 @@
     // ----------------------------------------------------------------------------------------------------- cloud title
     div.q-mx-md.shadow-3.bg-dark.round-borders.border-white-1
       q-list.q-pa-none.no-border.full-width(style="overflow-x: hidden;")
+
+        // title
         q-list-header.q-title.min-height-auto.q-px-none.q-py-none
           q-input.q-title.q-px-sm.q-py-md(dark, v-model="newRecipe.title",
           type="textarea",
@@ -15,6 +17,8 @@
           :after="[{icon: 'edit', condition: showIcon.recipeTitle && editMode}]")
 
         q-item-separator.q-ma-none.q-mb-sm.bg-grey-9
+
+        // ingredients
         q-item.q-px-sm.q-py-xs.min-height-auto(
         v-for="(ingr, index) in newRecipe.entries",
         :description="ingr",
@@ -22,8 +26,11 @@
         :class="[{'bg-body-background': option === ingr && editMode}, {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
         multiline
         )
+          // show list-position from ingredient
           q-item-side.q-py-xs.text-grey-8.min-width-auto.transition(style="width: 30px;",
           :class="{'invisible': option === ingr}") {{ index + 1 }}.
+
+          // ingredient
           q-item-main.transition(style="max-width: 100%;",
           :class="[option === ingr ? 'q-pl-sm' : 'q-pr-sm']")
             q-item-tile
@@ -31,6 +38,7 @@
               :class="[option === ingr && editMode ? 'text-grey-8' : '']")
                 div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
 
+            // move-buttons
             .absolute-top-right.transition.q-px-sm.items-start.row(
             v-if="editMode", :class="[option !== ingr ? 'leave-right-absolute' : '']",
             style="margin-top: 3px;")
@@ -38,6 +46,7 @@
               q-btn.bg-grey-4.text-grey-10.q-ml-sm(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
               // q-btn.bg-dark.border.text-grey-6(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
 
+            // delete-button
             .absolute-top-left.transition.items-start.row.q-pl-sm(
             v-if="editMode", :class="[option !== ingr ? 'leave-left-absolute' : '']",
             style="margin-top: 3px;")
@@ -100,7 +109,6 @@
           @focus="showIcon.newRecipeEntry = false; option = '';",
           @blur="showIcon.newRecipeEntry = true",
           :after="[{icon: 'edit', condition: showIcon.newRecipeEntry}]")
-
         q-item-side.min-width-auto.transition.row.self-stretch(:class="[!addIngredient ? 'leave-right' : '']")
           .transition.q-pl-sm.items-center.row
             q-btn.bg-white.text-grey-10.rotate-90(@click="addTodoItem", icon="keyboard_backspace", round, size="sm")
