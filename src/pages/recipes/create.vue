@@ -10,12 +10,12 @@
           q-input.q-title.q-px-sm.q-py-md(dark, v-model="newRecipe.title",
           type="textarea",
           :error="$v.newRecipe.title.$error",
-          :readonly="!editMode", hide-underline,
+          hide-underline,
           :class="{'bg-body-background': !showIcon.recipeTitle}",
           placeholder="Titel", autofocus,
           @focus="showIcon.recipeTitle = false; option = '';",
           @blur="showIcon.recipeTitle = true",
-          :after="[{icon: 'edit', condition: showIcon.recipeTitle && editMode}]")
+          :after="[{icon: 'edit', condition: showIcon.recipeTitle}]")
 
         q-item-separator.q-ma-none.q-mb-sm.bg-grey-9
 
@@ -24,7 +24,7 @@
         v-for="(ingr, index) in newRecipe.entries",
         :description="ingr",
         :key="ingr",
-        :class="[{'bg-body-background': option === ingr && editMode}, {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
+        :class="[{'bg-body-background': option === ingr}, {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
         multiline
         )
           //----- show list-position from ingredient
@@ -36,24 +36,24 @@
           :class="[option === ingr ? 'q-pl-sm' : 'q-pr-sm']")
             q-item-tile
               q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr",
-              :class="[option === ingr && editMode ? 'text-grey-8' : '']")
+              :class="[option === ingr ? 'text-grey-8' : '']")
                 div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
 
             //----- move-buttons
             .absolute-top-right.transition.q-px-sm.items-start.row(
-            v-if="editMode", :class="[option !== ingr ? 'leave-right-absolute' : '']",
+            :class="[option !== ingr ? 'leave-right-absolute' : '']",
             style="margin-top: 3px;")
               q-btn.bg-grey-4.text-grey-10(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
               q-btn.bg-grey-4.text-grey-10.q-ml-sm(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
 
             //----- delete-button
             .absolute-top-left.transition.items-start.row.q-pl-sm(
-            v-if="editMode", :class="[option !== ingr ? 'leave-left-absolute' : '']",
+            :class="[option !== ingr ? 'leave-left-absolute' : '']",
             style="margin-top: 3px;")
                q-btn.bg-grey-4.text-grey-10(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
 
     // ---------------------------------------------------------------------------------------------------------- inputs
-    q-list.no-border.q-pa-none.q-mx-md.q-mt-lg(v-if="editMode", style="overflow-x: hidden;")
+    q-list.no-border.q-pa-none.q-mx-md.q-mt-lg(style="overflow-x: hidden;")
 
       q-item.no-padding.q-mb-sm
         q-item-main.border-bottom(style="max-width: 100%;")
@@ -106,26 +106,15 @@
     // ----------------------------------------------------------------------------------------------- buttons at bottom
     .q-mx-md.q-mt-xl.overflow-hidden
       .row.gutter-sm
-        template(v-if="editMode")
-          .col-6
-            q-btn.border.full-width(@click="$router.push('/recipes')", flat, no-caps) Abbrechen
-          .col-6.relative-position
-            q-btn.capitalize.full-width(
-            @click="submitRecipe",
-            :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-bottom' : 'bg-white text-grey-10']",
-            :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
-            type="submit", no-caps)
-              | {{ $t('buttons.save') }}
-        template(v-else)
-          .col-6
-            q-btn.capitalize.full-width.bg-white.text-grey-10(
-            @click="editMode = true",
-            type="submit", no-caps)
-              | Bearbeiten
-          .col-6.relative-position
-            q-btn.capitalize.full-width.bg-white.text-grey-10(@click="$router.push('/recipes')",
-            icon="done", flat, no-caps, label="Fertig")
-
+        .col-6
+          q-btn.border.full-width(@click="$router.push('/recipes')", flat, no-caps) Abbrechen
+        .col-6.relative-position
+          q-btn.capitalize.full-width(
+          @click="submitRecipe",
+          :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-bottom' : 'bg-white text-grey-10']",
+          :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
+          type="submit", no-caps)
+            | {{ $t('buttons.save') }}
 </template>
 
 <script>
@@ -152,7 +141,6 @@
         words: [],
         wordsNewArranged: [],
         addIngredient: '',
-        editMode: false,
         cols: [],
         option: [],
         showIcon: {
@@ -177,8 +165,6 @@
         this.newRecipe.title = this.recipe.recipe.title
         this.newRecipe.entries = this.recipe.recipe.entries
       }
-
-      this.editMode = true
     },
     computed: {
       ...mapGetters({
