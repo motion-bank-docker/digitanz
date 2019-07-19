@@ -173,62 +173,19 @@
       }
     },
     async mounted () {
-      console.log('recipe.index', this.recipe.index)
-      console.log('recipe.recipe', this.recipe.recipe)
       if (this.recipe.recipe !== undefined) {
         this.newRecipe.title = this.recipe.recipe.title
         this.newRecipe.entries = this.recipe.recipe.entries
       }
-      // this.$root.$on('saveTempRecipe', this.onSaveTempRecipe)
 
-      if (this.$route.params.uuid) {
-        this.anno = await this.$store.dispatch('annotations/get', this.$route.params.uuid)
-        this.newRecipe = JSON.parse(this.anno.body.value)
-      }
-      else {
-        this.anno = {
-          body: {
-            type: 'Recipe',
-            purpose: 'personal',
-            value: JSON.stringify(this.newRecipe)
-          }
-        }
-        this.editMode = true
-      }
-      if (this.user) {
-        await this.loadData()
-      }
-      /*
-      if (!annos || !annos.length) {
-        const anno = {
-          body: {
-            type: 'Recipe',
-            source: JSON.stringify({
-              title: '',
-              entries: []
-            })
-          }
-        }
-      }
-      */
+      this.editMode = true
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState',
         tempRecipes: 'recipes/getTempRecipes'
       })
     },
     methods: {
-      /*
-      onSaveTempRecipe (val) {
-        console.log(val)
-        console.log('this.recipe.index', this.recipe.index)
-        if (this.recipe.recipe !== undefined) {
-          this.$store.commit('recipes/updateExistingRecipe', this.newRecipe)
-        }
-        this.$store.commit('recipes/addToTempRecipes', this.newRecipe)
-      },
-      */
       handlerRadiobutton (val) {
         this.addIngredient = ''
         this.selectAktion = ''
@@ -245,12 +202,10 @@
         this.option = []
       },
       async loadData () {
-        // this.$q.loading.show({ message: this.$t('messages.loading_data') })
         this.words = await this.$store.dispatch('cloud/listWords')
         for (let i = 0; i <= this.words.length - 1; i++) {
           this.wordsNewArranged.push({label: this.words[i].value, value: this.words[i].value})
         }
-        // this.$q.loading.hide()
       },
       addTodoItem: function () {
         if (this.addIngredient) {
@@ -286,8 +241,6 @@
         a.splice(index + 1, 0, moved[0])
       },
       submitRecipe () {
-        // this.$root.$emit('saveTempRecipe')
-
         if (this.recipe.recipe !== undefined) {
           this.newRecipe.index = this.recipe.index
           this.$store.commit('recipes/updateExistingRecipe', this.newRecipe)
@@ -295,32 +248,7 @@
         else {
           this.$store.commit('recipes/addToTempRecipes', this.newRecipe)
         }
-
         this.$router.push('/recipes')
-        /*
-        console.log('submit!')
-        this.$v.$touch()
-        if (this.$v.$invalid) {
-          this.submitStatus = 'ERROR'
-        }
-        else {
-          const _this = this
-          console.log(this.newRecipe)
-          this.anno.body.value = JSON.stringify(this.newRecipe)
-          if (this.anno.uuid) {
-            return this.$store.dispatch('annotations/patch', [this.anno.uuid, this.anno])
-              .then(recipe => {
-                console.log('updated recipe', recipe)
-                _this.editMode = false
-              })
-          }
-          return this.$store.dispatch('annotations/post', this.anno)
-            .then(recipe => {
-              console.log('added recipe', recipe)
-              _this.editMode = false
-            })
-        }
-        */
       }
     }
   }
