@@ -22,8 +22,10 @@
         :class="[{'bg-body-background': option === ingr && editMode}, {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
         multiline
         )
-          q-item-side.q-py-xs.text-grey-8.min-width-auto(style="width: 38px;") {{ index + 1 }}.
-          q-item-main(style="max-width: 100%;")
+          q-item-side.q-py-xs.text-grey-8.min-width-auto.transition(style="width: 30px;",
+          :class="{'invisible': option === ingr}") {{ index + 1 }}.
+          q-item-main.transition(style="max-width: 100%;",
+          :class="[option === ingr ? 'q-pl-sm' : 'q-pr-sm']")
             q-item-tile
               q-radio.full-width.q-mb-none.word-break(v-model="option", :val="ingr",
               :class="[option === ingr && editMode ? 'text-grey-8' : '']")
