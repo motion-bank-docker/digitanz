@@ -20,37 +20,36 @@
         q-item-separator.q-ma-none.q-mb-sm.bg-grey-9
 
         //----- ingredients
-        q-item.q-px-sm.q-py-xs.min-height-auto(
+        q-item.q-px-sm.q-py-xs.min-height-auto.transition-padding(
         v-for="(ingr, index) in newRecipe.entries",
         :description="ingr",
         :key="ingr",
-        :class="[{'bg-body-background': option === ingr}, {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
+        :class="[option === ingr ? 'bg-body-background q-py-md' : 'q-py-sm', {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
         multiline
         )
           //----- show list-position from ingredient
-          q-item-side.q-py-xs.text-grey-8.min-width-auto.transition(style="width: 30px;",
-          :class="{'invisible': option === ingr}") {{ index + 1 }}.
+          q-item-side.q-py-xs.text-grey-8.min-width-auto.transition(style="width: 30px;") {{ index + 1 }}
 
           //----- ingredient
-          q-item-main.transition(style="max-width: 100%;",
-          :class="[option === ingr ? 'q-pl-sm' : 'q-pr-sm']")
+          q-item-main.transition(style="max-width: 100%;")
             q-item-tile
               q-radio.full-width.q-mb-none(v-model="option", :val="ingr",
               :class="[option === ingr ? 'text-grey-8' : '']")
                 div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
 
-            //----- move-buttons
-            .absolute-top-right.transition.q-px-sm.items-start.row(
+            //----- move-buttons, delete-button
+            .absolute-top-right.transition.q-px-sm.items-start.row.q-mt-sm.q-pt-xs(
             :class="[option !== ingr ? 'leave-right-absolute' : '']",
-            style="margin-top: 3px;")
+            style="margin-top: 10px;")
               q-btn.bg-grey-4.text-grey-10(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
-              q-btn.bg-grey-4.text-grey-10.q-ml-sm(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
+              q-btn.bg-grey-4.text-grey-10.q-ml-sm.q-mr-md(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
+              q-btn.bg-grey-4.text-grey-10(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
 
             //----- delete-button
-            .absolute-top-left.transition.items-start.row.q-pl-sm(
-            :class="[option !== ingr ? 'leave-left-absolute' : '']",
-            style="margin-top: 3px;")
-               q-btn.bg-grey-4.text-grey-10(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
+              .absolute-top-left.transition.items-start.row.q-pl-sm(
+              // :class="[option !== ingr ? 'leave-left-absolute' : '']",
+              style="margin-top: 3px;")
+                 q-btn.bg-grey-4.text-grey-10(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
 
     // ---------------------------------------------------------------------------------------------------------- inputs
     q-list.no-border.q-pa-none.q-mx-md.q-mt-lg(style="overflow-x: hidden;")
@@ -256,6 +255,9 @@
 
   .border-white-1
     border 1px solid rgba(255, 255, 255, .1)
+
+  .transition-padding
+    transition ease 300ms padding
 </style>
 
 <style lang="stylus">
