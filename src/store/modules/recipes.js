@@ -1,20 +1,48 @@
 const recipes = {
   namespaced: true,
   state: {
-    tempRecipes: []
+    tempRecipes: [],
+    allIngredients: []
   },
   getters: {
-    getTempRecipes: state => state.tempRecipes
+    getTempRecipes: state => state.tempRecipes,
+    getAllIngredients: state => state.allIngredients
   },
   mutations: {
     addToTempRecipes (state, val) {
       state.tempRecipes.push(val)
+
+      state.allIngredients = []
+      for (let [key, value] of Object.entries(state.tempRecipes)) {
+        console.log(`${key}: ${value}`)
+        let entries = Object.values(value)[1]
+        for (let entry of Object.entries(entries)) {
+          state.allIngredients.push(entry[1])
+        }
+      }
     },
     removeFromTempRecipes (state, val) {
       state.tempRecipes.splice(val, 1)
+
+      state.allIngredients = []
+      for (let [key, value] of Object.entries(state.tempRecipes)) {
+        console.log(`${key}: ${value}`)
+        let entries = Object.values(value)[1]
+        for (let entry of Object.entries(entries)) {
+          state.allIngredients.push(entry[1])
+        }
+      }
     },
     updateExistingRecipe (state, recipe) {
       state.tempRecipes.splice(recipe.index, 1, recipe)
+      state.allIngredients = []
+      for (let [key, value] of Object.entries(state.tempRecipes)) {
+        console.log(`${key}: ${value}`)
+        let entries = Object.values(value)[1]
+        for (let entry of Object.entries(entries)) {
+          state.allIngredients.push(entry[1])
+        }
+      }
     }
   },
   actions: {
