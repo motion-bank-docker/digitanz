@@ -21,7 +21,7 @@
         //----- recipes list
         template(v-if="tempRecipes.length")
 
-          div.q-mt-md.shadow-3.round-borders.border-white-1(v-for="(recipe, index) in tempRecipes",
+          div.q-mt-md.shadow-3.round-borders.border-white-1.transition(v-for="(recipe, index) in tempRecipes",
           style="overflow: hidden;",
           :class="[option !== index ? 'bg-body-background text-grey-8' : 'text-white bg-dark']")
             div.relative-position(:class="{'bg-transparent': option === index}")
