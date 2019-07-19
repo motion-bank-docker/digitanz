@@ -7,11 +7,11 @@
     q-tabs.q-px-md.q-pt-md(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab")
 
       // ---------------------------------------------------------------------------------------------------------- tabs
-      q-tab.text-center.round-borders(name="tab-1", slot="title", default, no-ripple,
+      q-tab.text-center.round-borders(v-if="!recipeStandalone", name="tab-1", slot="title", default, no-ripple,
       :class="[selectedTab === 'tab-1' ? 'bg-dark text-white border-white-1' : 'border-transparent']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Meine Rezepte", flat, no-ripple)
 
-      q-tab.text-center.round-borders(name="tab-2", slot="title",
+      q-tab.text-center.round-borders(v-if="!recipeStandalone", name="tab-2", slot="title",
       :class="[selectedTab === 'tab-2' ? 'bg-dark text-white border-white-1' : 'border-transparent']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Gemixte Rezepte", flat, no-ripple)
 
@@ -23,7 +23,7 @@
 
           div.q-mt-md.shadow-3.round-borders.border-white-1.transition(v-for="(recipe, index) in tempRecipes",
           style="overflow: hidden;",
-          :class="[option !== index ? 'bg-body-background text-grey-8' : 'text-white bg-dark']")
+          :class="[option !== index ? 'bg-body-background text-grey-8' : 'text-white bg-dark', {'hidden': option !== index && recipeStandalone}]")
             div.relative-position(:class="{'bg-transparent': option === index}")
               q-radio.full-width.q-mb-none.word-break(v-model="option", :val="index",
               :class="{'q-pb-md': option === index}")
@@ -50,13 +50,31 @@
 
               //----- "edit"-button
               .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
-                q-btn.bg-grey-4.text-grey-10.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
-                q-btn.bg-grey-4.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+                template(v-if="!recipeStandalone")
+                  q-btn.bg-grey-4.text-grey-10.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
+                  q-btn.bg-grey-4.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+
+              //----- "standalone"-button
+              .absolute-bottom-right.transition.q-mb-sm.q-pr-sm.q-pb-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
+                q-btn(icon="remove_red_eye", @click="handlerStandalone", round, size="sm", flat,
+                :class="[recipeStandalone ? 'bg-grey-4 text-grey-10' : 'bg-dark border text-grey-4']")
+
+            //
+              template(v-if="option === index")
+                q-item-separator.q-ma-none.bg-grey-9
+                q-item.q-pa-none.min-height-auto.q-pa-sm(:class="[option !== index ? '' : '']")
+                  q-item-side
+                    q-btn(icon="remove_red_eye", @click="handlerStandalone", round, size="sm", flat,
+                    // :class="[recipeStandalone ? 'bg-grey-4 text-grey-10' : 'bg-dark border text-grey-4 q-mr-md']")
+                  q-item-main.text-right(v-if="!recipeStandalone")
+                    q-btn.bg-grey-4.text-grey-10.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
+                    q-btn.bg-grey-4.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
         //----- "add"-button
-        div.q-py-md.text-center.shadow-3.bg-dark.round-borders.border-white-1.q-mb-md.q-mt-lg(
-        @click="$router.push('/recipes/create')")
-          q-icon(name="add")
+        .q-mt-md(v-if="!recipeStandalone")
+          div.text-center.bg-grey-4.text-grey-10.round-borders.q-mt-md.q-py-md(
+          @click="$router.push('/recipes/create')")
+            q-icon(name="add")
 
       // --------------------------------------------------------------------------------------------- "gemixte rezepte"
       // div.q-mt-md
@@ -135,7 +153,8 @@
         personal: [],
         remixed: [],
         selectedTab: undefined,
-        option: undefined
+        option: undefined,
+        recipeStandalone: false
       }
     },
     async mounted () {
@@ -153,6 +172,10 @@
       }
     },
     methods: {
+      handlerStandalone () {
+        console.log('bla')
+        this.recipeStandalone = !this.recipeStandalone
+      },
       editRecipe (val) {
         console.log(val)
         // this.$router.push('/recipes/create/' + this.tempRecipes[val])
