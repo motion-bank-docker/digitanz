@@ -18,11 +18,6 @@
       // ----------------------------------------------------------------------------------------------- "meine rezepte"
       q-tab-pane.q-px-none.q-mb-sm(keep alive, name="tab-1")
 
-        //----- "add"-button
-        div.q-py-md.text-center.shadow-3.bg-dark.round-borders.border-white-1.q-mb-md.q-mt-lg(
-        @click="$router.push('/recipes/create')")
-          q-icon(name="add")
-
         //----- recipes list
         template(v-if="tempRecipes.length")
 
@@ -57,6 +52,11 @@
               .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
                 q-btn.bg-grey-4.text-grey-10.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
                 q-btn.bg-grey-4.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+
+        //----- "add"-button
+        div.q-py-md.text-center.shadow-3.bg-dark.round-borders.border-white-1.q-mb-md.q-mt-lg(
+        @click="$router.push('/recipes/create')")
+          q-icon(name="add")
 
       // --------------------------------------------------------------------------------------------- "gemixte rezepte"
       // div.q-mt-md
