@@ -7,15 +7,16 @@
 
         //----- title
         q-list-header.q-title.min-height-auto.q-px-none.q-py-none
-          q-input.q-title.q-px-sm.q-py-md(dark, v-model="newRecipe.title",
+          .absolute-right.q-mt-md.q-pt-md.q-mr-md.q-px-sm.text-grey-6(v-if="showIcon.recipeTitle")
+            q-icon(name="edit", round, size="24px")
+          q-input.q-title.q-px-sm.q-py-md.q-pr-xl(dark, v-model="newRecipe.title",
           type="textarea",
           :error="$v.newRecipe.title.$error",
           hide-underline,
           :class="{'bg-body-background': !showIcon.recipeTitle}",
           placeholder="Titel", autofocus,
           @focus="showIcon.recipeTitle = false; option = '';",
-          @blur="showIcon.recipeTitle = true",
-          :after="[{icon: 'edit', condition: showIcon.recipeTitle}]")
+          @blur="showIcon.recipeTitle = true")
 
         q-item-separator.q-ma-none.q-mb-sm.bg-grey-9
 
