@@ -4,7 +4,8 @@
     //----- "delete"-modal
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteRecipe")
 
-    q-tabs.q-px-md.q-pt-md(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab")
+    q-tabs.q-px-md.q-pt-md(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
+    swipeable)
 
       // ---------------------------------------------------------------------------------------------------------- tabs
       q-tab.text-center.round-borders(v-if="!recipeStandalone", name="tab-1", slot="title", default, no-ripple,
@@ -82,10 +83,11 @@
         // .q-mb-md Gemixte Rezepte
 
         //----- "add"-button
-        q-btn.full-width.text-white.border(@click="doRemix", align="left", no-caps, flat)
-          | Neuer Remix
+        div.text-center.bg-grey-4.text-grey-10.round-borders.q-mt-md.q-py-md(@click="doRemix")
+          q-icon(name="add")
 
         //----- mixed recipes
+        | {{ tempRemixes }}
         q-list.q-pa-none.no-border.no-padding
           q-item.items-baseline.q-px-none(v-for="recipe in remixed", :key="recipe.uuid")
             q-item-main(dark)
@@ -163,7 +165,9 @@
     computed: {
       ...mapGetters({
         user: 'auth/getUserState',
-        tempRecipes: 'recipes/getTempRecipes'
+        tempRecipes: 'recipes/getTempRecipes',
+        allIngredients: 'recipes/getAllIngredients',
+        tempRemixes: 'recipes/getTempRemixes'
       })
     },
     watch: {
@@ -199,7 +203,13 @@
         this.personal = await this.$store.dispatch('recipes/getPersonal', this.user.uuid)
         this.remixed = await this.$store.dispatch('recipes/getRemixed', this.user.uuid)
       },
-      async doRemix () {
+      doRemix () {
+        const remix = {
+          entries: chance.shuffle(this.allIngredients).splice(0, chance.integer({min: 3, max: 4})),
+          title: chance.name()
+        }
+        this.$store.commit('recipes/addToTempRemixes', remix)
+        /*
         const query = {'body.type': 'Recipe'}
         const recipes = await this.$store.dispatch('annotations/find', query)
         const ingredients = chance.shuffle(recipes.items.reduce((all, val) => {
@@ -223,6 +233,7 @@
         }
         await this.$store.dispatch('annotations/post', anno)
         await this.loadRecipes()
+        */
       },
       openDeleteModal (uuid) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', uuid, 'buttons.delete')

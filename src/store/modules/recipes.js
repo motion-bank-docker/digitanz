@@ -2,13 +2,18 @@ const recipes = {
   namespaced: true,
   state: {
     tempRecipes: [],
+    tempRemixes: [],
     allIngredients: []
   },
   getters: {
     getTempRecipes: state => state.tempRecipes,
+    getTempRemixes: state => state.tempRemixes,
     getAllIngredients: state => state.allIngredients
   },
   mutations: {
+    addToTempRemixes (state, val) {
+      state.tempRemixes.push(val)
+    },
     addToTempRecipes (state, val) {
       state.tempRecipes.push(val)
 
