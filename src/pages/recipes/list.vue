@@ -23,7 +23,7 @@
 
           div.q-mt-md.shadow-3.round-borders.border-white-1(v-for="(recipe, index) in tempRecipes",
           style="overflow: hidden;",
-          :class="[option !== index ? 'text-white bg-dark' : 'bg-body-background text-grey-8']")
+          :class="[option !== index ? 'bg-body-background text-grey-8' : 'text-white bg-dark']")
             div.relative-position(:class="{'bg-transparent': option === index}")
               q-radio.full-width.q-mb-none.word-break(v-model="option", :val="index",
               :class="{'q-pb-md': option === index}")
@@ -33,7 +33,7 @@
 
                     //----- title
                     q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm(
-                    :class="[option !== index ? 'text-white' : 'text-grey-8']")
+                    :class="[option !== index ? 'text-grey-8' : 'text-white']")
                       | {{ recipe.title }}
 
                     template(v-if="option === index")
