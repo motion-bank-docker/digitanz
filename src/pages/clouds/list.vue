@@ -29,14 +29,19 @@
         //
           .q-mb-md(v-if="addWordBubble")
         .q-mb-md
-          .q-caption.q-mb-xs Begriff hinzufügen:
           q-item.q-pa-none.items-center
-            q-item-main.q-pr-sm
-              q-input.bg-grey-9.round-borders.q-px-sm.q-py-xs(v-model="inputNewWord", dark, hide-underline)
-            q-item-side.min-width-auto
-              q-btn(@click="addWord", icon="check",
-              :disabled="!inputNewWord.length", no-caps, round, size="sm",
-              :class="[inputNewWord.length ? 'bg-white text-grey-10' : 'text-white']")
+            q-item-main(style="max-width: 100%;")
+              q-input.border-bottom.border-color-grey-4.q-px-sm.q-py-xs(v-model="inputNewWord", hide-underline)
+            //
+              q-item-side.min-width-auto
+                q-btn(@click="addWord", icon="check",
+                // :disabled="!inputNewWord.length", no-caps, round, size="sm",
+                // :class="[inputNewWord.length ? 'bg-white text-grey-10' : 'text-white']")
+
+            q-item-side.min-width-auto.transition.row.self-stretch(:class="[!inputNewWord ? 'leave-right' : '']")
+              .transition.q-pl-sm.items-center.row
+                q-btn.bg-grey-9.text-grey-2.rotate-90(@click="addWord", icon="add", round, size="sm", flat)
+                q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="inputNewWord = ''", round, icon="clear", size="sm", flat)
 
         q-list.q-pa-none.no-border.row.justify-between
 
@@ -146,7 +151,7 @@
         activeImpulse: '',
         addWordBubble: false,
         dummyId: 0,
-        inputNewWord: '',
+        inputNewWord: undefined,
         myJson: json,
         cloudThree: wolkeDrei,
         option: '',
