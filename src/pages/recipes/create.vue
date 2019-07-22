@@ -259,24 +259,6 @@
 </script>
 
 <style lang="stylus" scoped>
-  .leave-right
-    margin-right -50vw
-    padding-left 10vw
-
-  .leave-right-absolute
-    right -50vw
-
-  .leave-left-absolute
-    left -50vw
-
-  .leave-bottom
-    margin-bottom -100px
-
-  .border-white-1
-    border 1px solid rgba(255, 255, 255, .1)
-
-  .transition-padding
-    transition ease 300ms padding
 </style>
 
 <style lang="stylus">
