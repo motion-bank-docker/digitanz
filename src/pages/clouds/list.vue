@@ -28,11 +28,11 @@
         //----- list
         q-list.q-pa-none.no-border.row.justify-between
           q-item.q-mb-md.shadow-1.q-pr-sm.round-borders(
-          v-for="term in tempTerms", :class="[checkIfSelected(term) ? 'bg-grey-9 text-white' : 'bg-grey-4 text-grey-8']",
+          v-for="term in tempTerms", :class="[checkIfSelected(term) ? 'bg-white text-grey-8' : 'bg-grey-4 text-grey-8']",
           style="width: 46%;")
 
-            input.hidden(@click="countWords('adjektive', word.value)", v-model="selectedWords", type="checkbox", :id="term", :value="term")
-            label.full-width
+            input.hidden(@click="countWords('adjektive', term)", v-model="selectedWords", type="checkbox", :id="term", :value="term")
+            label.full-width(:for="term")
               | {{ term }}
 
         //----- "add term"-block
