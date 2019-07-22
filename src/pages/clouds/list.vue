@@ -1,26 +1,29 @@
 <template lang="pug">
   q-page
 
-    q-tabs(animated, color="transparent", text-color="white", align="justify" v-model="selectedTab",
+    q-tabs.q-px-md.q-pt-md(animated, color="transparent", text-color="white", align="justify" v-model="selectedTab",
     style="padding-bottom: 52px;")
 
-      q-tab.text-center.border-bottom(name="tab-1", slot="title", default)
-        q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Adjektive", flat, no-ripple)
-          q-chip.text-grey-10.q-mt-sm(v-if="countAdjektive > 0", floating, color="white")
+      q-tab.text-center.q-mb-md.round-borders-5(name="tab-1", slot="title", default,
+      :class="[selectedTab === 'tab-1' ? 'bg-white text-grey-9' : 'text-grey-9']")
+        q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize(label="Adjektive", flat, no-ripple)
+          q-chip.bg-grey-9.text-grey-2.q-mt-sm(v-if="countAdjektive > 0", floating, color="white")
             | {{ countAdjektive }}
 
-      q-tab.text-center.border-bottom(name="tab-2", slot="title")
-        q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Aktionen", flat, no-ripple)
-          q-chip.text-grey-10.q-mt-sm(v-if="countAktionen > 0", floating, color="white")
+      q-tab.text-center.q-mb-md.round-borders-5(name="tab-2", slot="title",
+      :class="[selectedTab === 'tab-2' ? 'bg-white text-grey-9' : 'text-grey-9']")
+        q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize(label="Aktionen", flat, no-ripple)
+          q-chip.bg-grey-9.text-grey-2.q-mt-sm(v-if="countAktionen > 0", floating, color="white")
             | {{ countAktionen }}
 
-      q-tab.text-center.border-bottom(name="tab-3", slot="title")
-        q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Gestaltung", flat, no-ripple)
-          q-chip.text-grey-10.q-mt-sm(v-if="countGestaltung > 0", floating, color="white")
+      q-tab.text-center.q-mb-md.round-borders-5(name="tab-3", slot="title",
+      :class="[selectedTab === 'tab-3' ? 'bg-white text-grey-9' : 'text-grey-9']")
+        q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize(label="Gestaltung", flat, no-ripple)
+          q-chip.bg-grey-9.text-grey-2.q-mt-sm(v-if="countGestaltung > 0", floating, color="white")
             | {{ countGestaltung }}
 
       // --------------------------------------------------------------------------------------------- Adjektive (tab 1)
-      q-tab-pane.q-pa-md(keep alive, name="tab-1")
+      q-tab-pane.q-px-none(keep alive, name="tab-1")
 
         // "add term"-block
         //
@@ -54,7 +57,7 @@
               | {{ word.value }}
 
       // ---------------------------------------------------------------------------------------------- Aktionen (tab 2)
-      q-tab-pane.q-pa-md(keep alive, name="tab-2")
+      q-tab-pane.q-px-none(keep alive, name="tab-2")
         q-list.q-pa-none.no-border.row.justify-between
 
           q-item.shadow-1.round-borders(
@@ -68,7 +71,7 @@
               | {{ mJ.label }}
 
       // -------------------------------------------------------------------------------------------- Gestaltung (tab 3)
-      q-tab-pane.q-pa-md(keep alive, name="tab-3")
+      q-tab-pane.q-px-none(keep alive, name="tab-3")
         q-list.q-pa-none.no-border.row.justify-between
 
           q-item.shadow-1.q-pr-sm.round-borders(
@@ -152,7 +155,8 @@
         selectedVideos: [],
         selectedWords: [],
         showOverlay: false,
-        words: []
+        words: [],
+        selectedTab: undefined
       }
     },
     computed: {
