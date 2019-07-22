@@ -284,6 +284,4 @@
     opacity: 0
   /* .dashed
     border-style: dashed */
-  .q-tabs-position-top .q-tabs-bar
-    border-color transparent
 </style>
