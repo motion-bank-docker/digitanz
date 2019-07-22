@@ -1,7 +1,7 @@
 <template lang="pug">
   q-page.q-pa-md
-    .q-mb-md Meine Wortwolken
-    q-btn.border.full-width.text-white(@click="$router.push('/clouds')", no-caps, align="left") Neue Wortwolke
+    .text-right
+      q-btn.bg-grey-9.text-grey-2(@click="$router.push('/clouds')", no-caps, flat, icon="add", round)
 </template>
 
 <script>
