@@ -74,6 +74,8 @@
 
         //----- "add"-button
         .q-mt-md.text-right(v-if="!recipeStandalone")
+          .text-center.border-bottom.border-color-grey-4.q-pb-md(v-if="tempRecipes.length <= 0") Leer
+
           q-btn.bg-grey-9.text-white.q-mt-md(
           @click="$router.push('/recipes/create')", round)
             q-icon(name="add")
@@ -120,13 +122,13 @@
 
         //----- "add"-button
         .q-mt-md
-          .text-center(v-if="tempRemixes.length <= 0") leer
+          .text-center(v-if="tempRemixes.length <= 0") Leer
 
           .text-right(v-if="allIngredients.length >= 4")
             q-btn.bg-grey-9.text-white.q-mt-md(
             @click="doRemix", round, flat, :disabled="allIngredients.length < 4")
               q-icon(name="add")
-          .text-center(v-else) Nicht genug Zutaten vorhanden.
+          .text-center.q-mt-md.border-top.border-color-grey-4.q-pt-md(v-else) Nicht genügend Zutaten vorhanden.
 
         //----- mixed recipes
         q-list.q-pa-none.no-border.no-padding
