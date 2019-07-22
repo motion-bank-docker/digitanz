@@ -170,6 +170,7 @@
         this.$store.commit('cloud/addToTempClouds', this.selectedWords)
         this.selectedWords = []
         this.countAdjektive = this.countAktionen = this.countGestaltung = 0
+        this.$router.push('/clouds/overview')
       },
       clearSelection () {
         this.selectedWords = []
