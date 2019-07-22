@@ -91,7 +91,7 @@
             q-radio.full-width.q-mb-none.word-break(v-model="optionRemix", :val="index",
             :class="{'q-pb-md': optionRemix === index}")
 
-              div.full-width(@click="handlerRadiobutton(index)")
+              div.full-width(@click="handlerRadiobuttonRemix(index)")
                 q-list.q-pa-none.no-border.full-width
 
                   //----- title
@@ -236,6 +236,9 @@
         else {
           // this.recipeStandalone = true
         }
+      },
+      handlerRadiobuttonRemix (val) {
+        if (val === this.optionRemix) this.optionRemix = undefined
       },
       async loadRecipes () {
         if (!this.user) return
