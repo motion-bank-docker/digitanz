@@ -72,9 +72,14 @@
       q-item.no-padding.q-mb-sm
         q-item-main.border-bottom.border-color-grey-4(style="max-width: 100%;")
           q-select.q-pa-sm(
-          v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
+          v-model="selectGestaltung", @focus="resetValues", :options="tempTermsNewArranged",
           placeholder="Adjektiv", color="grey-8",
           hide-underline)
+          //
+            q-select.q-pa-sm(
+            v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
+            placeholder="Adjektiv", color="grey-8",
+            hide-underline)
         q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectGestaltung ? 'leave-right' : '']")
           .transition
             q-btn.bg-grey-9.text-grey-2(@click="addTodoItem", icon="add", round, size="sm", flat)
@@ -158,7 +163,8 @@
           recipeTitle: false,
           newRecipeEntry: true
         },
-        recipe: this.$route.params
+        recipe: this.$route.params,
+        tempTermsNewArranged: []
       }
     },
     validations: {
@@ -176,10 +182,14 @@
         this.newRecipe.title = this.recipe.recipe.title
         this.newRecipe.entries = this.recipe.recipe.entries
       }
+      for (let i = 0; i <= this.tempTerms.length - 1; i++) {
+        this.tempTermsNewArranged.push({label: this.tempTerms[i], value: this.tempTerms[i]})
+      }
     },
     computed: {
       ...mapGetters({
-        tempRecipes: 'recipes/getTempRecipes'
+        tempRecipes: 'recipes/getTempRecipes',
+        tempTerms: 'cloud/getTempTerms'
       })
     },
     methods: {
