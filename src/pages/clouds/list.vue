@@ -31,7 +31,11 @@
         .q-mb-md
           q-item.q-pa-none.items-center
             q-item-main(style="max-width: 100%;")
-              q-input.border-bottom.border-color-grey-4.q-px-sm.q-py-xs(v-model="inputNewWord", hide-underline)
+              q-input.border-bottom.border-color-grey-4.q-px-sm.q-py-xs(v-model="inputNewWord", hide-underline,
+              placeholder="neues Adjektiv",
+              @focus="showIcon = false",
+              @blur="showIcon = true",
+              :after="[{icon: 'edit', condition: showIcon}]")
             //
               q-item-side.min-width-auto
                 q-btn(@click="addWord", icon="check",
@@ -161,7 +165,8 @@
         selectedWords: [],
         showOverlay: false,
         words: [],
-        selectedTab: undefined
+        selectedTab: undefined,
+        showIcon: false
       }
     },
     computed: {
