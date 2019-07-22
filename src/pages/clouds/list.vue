@@ -57,9 +57,9 @@
       q-tab-pane.q-pa-md(keep alive, name="tab-2")
         q-list.q-pa-none.no-border.row.justify-between
 
-          q-item.shadow-2.round-borders(
+          q-item.shadow-1.round-borders(
           v-for="(mJ, index) in myJson",
-          :class="[checkIfSelected(mJ.label) ? 'bg-grey-9 text-white' : 'bg-dark', {'q-mb-md': index < myJson.length - 1}]",
+          :class="[checkIfSelected(mJ.label) ? 'bg-white text-grey-8' : '', {'q-mb-md': index < myJson.length - 1}]",
           style="width: 46%;")
 
             input.hidden(@click="countWords('aktionen', mJ.label)", v-model="selectedWords", type="checkbox",
@@ -71,9 +71,9 @@
       q-tab-pane.q-pa-md(keep alive, name="tab-3")
         q-list.q-pa-none.no-border.row.justify-between
 
-          q-item.shadow-2.q-pr-sm.round-borders(
+          q-item.shadow-1.q-pr-sm.round-borders(
           v-for="(cT, index) in cloudThree",
-          :class="[checkIfSelected(cT.label) ? 'bg-grey-9 text-white' : 'bg-dark', {'q-mb-md': index < cloudThree.length - 2}]",
+          :class="[checkIfSelected(cT.label) ? 'bg-white text-grey-8' : '', {'q-mb-md': index < cloudThree.length - 2}]",
           style="width: 46%;")
 
             input.hidden(@click="countWords('gestaltung', cT.label)", v-model="selectedWords", type="checkbox", :id="cT.label", :value="cT.label")
@@ -83,18 +83,16 @@
           // q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.q-mx-sm(v-for="cT in cloudThree")
             | {{ cT.label }}
 
-      .fixed-bottom.bg-dark.border-top.items-center.row.q-px-md(style="height: 52px;",
-      :class="[selectedWords.length < 1 ? 'border-top' : 'bg-white text-grey-10']")
-        .row.full-width.items-center
-          .col-6.border-right.q-pr-md
-            q-btn.text-white.full-width(
-            @click="$router.push('/clouds/overview')", flat, no-caps, label="Cancel")
+      .fixed-bottom-right.q-px-md(style="height: 52px;",
+      :class="[selectedWords.length < 1 ? '' : '']")
 
-          .col-6.q-pl-md
-            q-btn.text-white.bg-white.full-width(
-            @click="addAssociation",
-            :class="[selectedWords.length < 1 ? 'bg-transparent' : 'bg-white text-grey-10']",
-            :disabled="selectedWords.length < 1", flat, no-caps, label="Speichern")
+        q-btn.bg-grey-9.text-white-2(
+        @click="$router.push('/clouds/overview')", flat, no-caps, icon="clear", round)
+
+        q-btn.bg-grey-9.text-white-2.q-ml-md(
+        @click="addAssociation",
+        :class="[selectedWords.length < 1 ? '' : '']",
+        :disabled="selectedWords.length < 1", flat, no-caps, icon="check", round)
 
 </template>
 
