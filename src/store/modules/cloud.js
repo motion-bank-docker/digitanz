@@ -1,15 +1,19 @@
 const cloud = {
   namespaced: true,
   state: {
-    clouds: []
+    tempClouds: [],
+    tempTerms: []
   },
   getters: {
-    getClouds: state => state.clouds
+    getTempClouds: state => state.tempClouds,
+    getTempTerms: state => state.tempTerms
   },
   mutations: {
-    setClouds (state, val) {
-      // console.log('####', state, val)
-      state.clouds.push(val)
+    addToTempClouds (state, val) {
+      state.tempClouds.push(val)
+    },
+    addToTempTerms (state, val) {
+      state.tempTerms.push(val)
     }
   },
   actions: {

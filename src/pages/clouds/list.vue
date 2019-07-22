@@ -44,7 +44,7 @@
 
             q-item-side.min-width-auto.transition.row.self-stretch(:class="[!inputNewWord ? 'leave-right' : '']")
               .transition.q-pl-sm.items-center.row
-                q-btn.bg-grey-9.text-grey-2.rotate-90(@click="addWord", icon="add", round, size="sm", flat)
+                q-btn.bg-grey-9.text-grey-2.rotate-90(@click="addWord(inputNewWord)", icon="add", round, size="sm", flat)
                 q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="inputNewWord = ''", round, icon="clear", size="sm", flat)
 
         q-list.q-pa-none.no-border.row.justify-between
@@ -57,13 +57,13 @@
                 q-icon(v-if="addWordBubble", name="clear")
                 q-icon(v-else, name="add")
 
-          q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
-          v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-grey-4 text-grey-8']",
+          q-item.q-mb-md.shadow-1.q-pr-sm.round-borders(
+          v-for="term in tempTerms", :class="[checkIfSelected(term) ? 'bg-grey-9 text-white' : 'bg-grey-4 text-grey-8']",
           style="width: 46%;")
 
-            input.hidden(@click="countWords('adjektive', word.value)", v-model="selectedWords", type="checkbox", :id="word.uuid", :value="word.value")
-            label.full-width(:for="word.uuid")
-              | {{ word.value }}
+            input.hidden(@click="countWords('adjektive', word.value)", v-model="selectedWords", type="checkbox", :id="term", :value="term")
+            label.full-width
+              | {{ term }}
 
       // ---------------------------------------------------------------------------------------------- Aktionen (tab 2)
       q-tab-pane.q-px-none(keep alive, name="tab-2")
@@ -171,7 +171,8 @@
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState'
+        user: 'auth/getUserState',
+        tempTerms: 'cloud/getTempTerms'
       })
     },
     methods: {
@@ -197,12 +198,18 @@
           break
         }
       },
+      /*
       async addWord () {
         this.$q.loading.show({ message: this.$t('messages.saving') })
         await this.$store.dispatch('cloud/addWord', this.inputNewWord)
         this.$q.loading.hide()
         this.inputNewWord = ''
         await this.loadData()
+      },
+      */
+      addWord (val) {
+        this.$store.commit('cloud/addToTempTerms', val)
+        this.inputNewWord = ''
       },
       async addAssociation () {
         this.$q.loading.show({ message: this.$t('messages.saving') })
