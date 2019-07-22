@@ -35,7 +35,7 @@
               placeholder="neues Adjektiv",
               @focus="showIcon = false",
               @blur="showIcon = true",
-              :after="[{icon: 'edit', condition: showIcon}]")
+              :after="[{icon: 'edit', condition: showIcon && !inputNewWord}]")
             //
               q-item-side.min-width-auto
                 q-btn(@click="addWord", icon="check",
