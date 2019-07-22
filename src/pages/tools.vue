@@ -4,9 +4,9 @@
       .col-xs-6.col-md-2(v-for="button in buttons", :class="{'inactive': !button.status}")
         // q-btn.full-width.q-py-lg.capitalize(@click.native="actions(button.action)", :class="{'bg-grey-10': button.status}",
         // :disabled="!button.status", size="xl")
-        q-btn.full-width.q-px-none.q-py-lg.capitalize.border(@click.native="actions(button.action)",
-        :class="{'bg-grey-10': button.status}",
-        :disabled="!button.status", size="xl")
+        q-btn.full-width.q-px-none.q-py-lg.capitalize(@click.native="actions(button.action)",
+        :class="[button.status ? 'bg-grey-9 text-grey-2 shadow-1' : 'text-grey-9 shadow-3']",
+        :disabled="!button.status", size="xl", flat)
           q-item.q-pa-none
             q-item-main
               q-item-tile.text-center.q-mb-sm
