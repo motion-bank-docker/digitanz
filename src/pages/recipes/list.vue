@@ -22,7 +22,7 @@
         //----- recipes list
         template(v-if="tempRecipes.length")
 
-          div.q-mt-md.shadow-3.round-borders.border-white-1.transition(v-for="(recipe, index) in tempRecipes",
+          div.q-mt-md.shadow-3.round-borders.transition(v-for="(recipe, index) in tempRecipes",
           style="overflow: hidden;",
           :class="[option !== index ? 'bg-body-background text-grey-8' : 'text-white bg-dark', {'hidden': option !== index && recipeStandalone}]")
             div.relative-position(:class="{'bg-transparent': option === index}")
@@ -50,6 +50,7 @@
                         q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
 
               //----- "edit"-button
+              //----- "remove"-button
               .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
                 template(v-if="!recipeStandalone")
                   q-btn.bg-grey-4.text-grey-10.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
@@ -109,6 +110,13 @@
 
                       //----- ingredient
                       q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
+
+            //----- "edit"-button
+            //----- "remove"-button
+            .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
+              template(v-if="!recipeStandalone")
+                q-btn.bg-grey-4.text-grey-10.q-mr-sm(icon="edit", @click="editRemix(index)", round, size="sm", flat)
+                q-btn.bg-grey-4.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
         //----- "add"-button
         div.text-center.bg-grey-4.text-grey-10.round-borders.q-mt-md.q-py-md(@click="doRemix")
@@ -208,10 +216,13 @@
         console.log('bla')
         this.recipeStandalone = !this.recipeStandalone
       },
+      editRemix (val) {
+        this.$router.push({name: 'recipes.edit', params: {index: val, recipe: this.tempRemixes[val], type: 'remix'}})
+      },
       editRecipe (val) {
         console.log(val)
         // this.$router.push('/recipes/create/' + this.tempRecipes[val])
-        this.$router.push({name: 'recipes.edit', params: {index: val, recipe: this.tempRecipes[val]}})
+        this.$router.push({name: 'recipes.edit', params: {index: val, recipe: this.tempRecipes[val], type: 'recipe'}})
       },
       removeFromTempRecipe (val) {
         this.$store.commit('recipes/removeFromTempRecipes', val)

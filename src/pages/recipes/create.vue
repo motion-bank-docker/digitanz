@@ -110,6 +110,14 @@
           q-btn.border.full-width(@click="$router.push('/recipes')", flat, no-caps) Abbrechen
         .col-6.relative-position
           q-btn.capitalize.full-width(
+          v-if="recipe.type === 'remix'",
+          @click="submitRemix",
+          :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-bottom' : 'bg-white text-grey-10']",
+          :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
+          type="submit", no-caps)
+            | {{ $t('buttons.save') }}
+          q-btn.capitalize.full-width(
+          v-else,
           @click="submitRecipe",
           :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-bottom' : 'bg-white text-grey-10']",
           :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
@@ -233,6 +241,13 @@
         }
         else {
           this.$store.commit('recipes/addToTempRecipes', this.newRecipe)
+        }
+        this.$router.push('/recipes')
+      },
+      submitRemix () {
+        console.log('SUBMIT REMIX')
+        if (this.recipe.recipe !== undefined) {
+          this.$store.commit('recipes/updateExistingRemix', this.newRecipe)
         }
         this.$router.push('/recipes')
       }

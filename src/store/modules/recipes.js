@@ -48,6 +48,17 @@ const recipes = {
           state.allIngredients.push(entry[1])
         }
       }
+    },
+    updateExistingRemix (state, remix) {
+      state.tempRemixes.splice(remix.index, 1, remix)
+      state.allIngredients = []
+      for (let [key, value] of Object.entries(state.tempRemixes)) {
+        console.log(`${key}: ${value}`)
+        let entries = Object.values(value)[1]
+        for (let entry of Object.entries(entries)) {
+          state.allIngredients.push(entry[1])
+        }
+      }
     }
   },
   actions: {
