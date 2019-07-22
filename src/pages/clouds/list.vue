@@ -7,19 +7,19 @@
       q-tab.text-center.q-mb-md.round-borders-5(name="tab-2", slot="title", default,
       :class="[selectedTab === 'tab-2' ? 'bg-white text-grey-9' : 'text-grey-9']")
         q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize(label="Aktionen", flat, no-ripple)
-          q-chip.bg-grey-9.text-grey-2.q-mt-sm(v-if="countAktionen > 0", floating, color="white")
+          q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countAktionen > 0", floating, color="white")
             | {{ countAktionen }}
 
       q-tab.text-center.q-mb-md.round-borders-5(name="tab-3", slot="title",
       :class="[selectedTab === 'tab-3' ? 'bg-white text-grey-9' : 'text-grey-9']")
         q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize(label="Gestaltung", flat, no-ripple)
-          q-chip.bg-grey-9.text-grey-2.q-mt-sm(v-if="countGestaltung > 0", floating, color="white")
+          q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countGestaltung > 0", floating, color="white")
             | {{ countGestaltung }}
 
       q-tab.text-center.q-mb-md.round-borders-5(name="tab-1", slot="title",
       :class="[selectedTab === 'tab-1' ? 'bg-white text-grey-9' : 'text-grey-9']")
         q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize(label="Adjektive", flat, no-ripple)
-          q-chip.bg-grey-9.text-grey-2.q-mt-sm(v-if="countAdjektive > 0", floating, color="white")
+          q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countAdjektive > 0", floating, color="white")
             | {{ countAdjektive }}
 
       // --------------------------------------------------------------------------------------------- Adjektive (tab 1)
@@ -166,7 +166,7 @@
         showOverlay: false,
         words: [],
         selectedTab: undefined,
-        showIcon: false
+        showIcon: true
       }
     },
     computed: {
