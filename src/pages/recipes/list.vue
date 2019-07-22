@@ -8,12 +8,12 @@
     swipeable)
 
       // ---------------------------------------------------------------------------------------------------------- tabs
-      q-tab.text-center.round-borders(v-if="!recipeStandalone", name="tab-1", slot="title", default, no-ripple,
-      :class="[selectedTab === 'tab-1' ? 'bg-dark text-white border-white-1' : 'border-transparent']")
+      q-tab.text-center.round-borders-5(v-if="!recipeStandalone", name="tab-1", slot="title", default,
+      :class="[selectedTab === 'tab-1' ? 'bg-white text-grey-9' : 'text-grey-9']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Meine Rezepte", flat, no-ripple)
 
-      q-tab.text-center.round-borders(v-if="!recipeStandalone", name="tab-2", slot="title",
-      :class="[selectedTab === 'tab-2' ? 'bg-dark text-white border-white-1' : 'border-transparent']")
+      q-tab.text-center.round-borders-5(v-if="!recipeStandalone", name="tab-2", slot="title",
+      :class="[selectedTab === 'tab-2' ? 'bg-white text-grey-9' : 'text-grey-9']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Gemixte Rezepte", flat, no-ripple)
 
       // ----------------------------------------------------------------------------------------------- "meine rezepte"
@@ -22,9 +22,9 @@
         //----- recipes list
         template(v-if="tempRecipes.length")
 
-          div.q-mt-md.shadow-3.round-borders.transition(v-for="(recipe, index) in tempRecipes",
+          div.q-mt-md.shadow-1.round-borders.transition(v-for="(recipe, index) in tempRecipes",
           style="overflow: hidden;",
-          :class="[option !== index ? 'bg-body-background text-grey-8' : 'text-white bg-dark', {'hidden': option !== index && recipeStandalone}]")
+          :class="[option !== index ? 'bg-grey-4 text-grey-8' : 'text-grey-10 bg-white', {'hidden': option !== index && recipeStandalone}]")
             div.relative-position(:class="{'bg-transparent': option === index}")
               q-radio.full-width.q-mb-none.word-break(v-model="option", :val="index",
               :class="{'q-pb-md': option === index}")
@@ -34,11 +34,11 @@
 
                     //----- title
                     q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm(
-                    :class="[option !== index ? 'text-grey-8' : 'text-white']")
+                    :class="[option !== index ? 'text-grey-6' : 'text-grey-8']")
                       | {{ recipe.title }}
 
                     template(v-if="option === index")
-                      q-item-separator.q-ma-none.bg-grey-9
+                      q-item-separator.q-ma-none.bg-grey-2
 
                       q-item.items-baseline.q-px-sm.q-py-none.min-height-auto(v-for="(entry, i) in recipe.entries")
 
@@ -51,10 +51,12 @@
 
               //----- "edit"-button
               //----- "remove"-button
-              .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
+              .absolute-top-right.transition.q-px-sm.q-pt-sm.bg-white.border-left.border-color-grey-3.full-height(:class="[option !== index ? 'leave-right-absolute' : '']")
                 template(v-if="!recipeStandalone")
-                  q-btn.bg-grey-4.text-grey-10.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
-                  q-btn.bg-grey-4.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+                  div.q-mb-sm
+                    q-btn.bg-grey-9.text-grey-2(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
+                  div
+                    q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
               //----- "standalone"-button
                 .absolute-bottom-right.transition.q-mb-sm.q-pr-sm(:class="[option !== index ? 'leave-right-absolute' : '']")
@@ -73,9 +75,9 @@
                     q-btn.bg-grey-4.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
         //----- "add"-button
-        .q-mt-md(v-if="!recipeStandalone")
-          div.text-center.bg-grey-4.text-grey-10.round-borders.q-mt-md.q-py-md(
-          @click="$router.push('/recipes/create')")
+        .q-mt-md.text-right(v-if="!recipeStandalone")
+          q-btn.bg-grey-9.text-white.q-mt-md(
+          @click="$router.push('/recipes/create')", round)
             q-icon(name="add")
 
       // --------------------------------------------------------------------------------------------- "gemixte rezepte"
