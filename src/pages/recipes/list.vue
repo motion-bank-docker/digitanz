@@ -51,12 +51,10 @@
 
               //----- "edit"-button
               //----- "remove"-button
-              .absolute-top-right.transition.q-px-sm.q-pt-sm.bg-white.border-left.border-color-grey-3.full-height(:class="[option !== index ? 'leave-right-absolute' : '']")
+              .absolute-top-right.transition.q-px-sm.q-pt-sm.q-mt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
                 template(v-if="!recipeStandalone")
-                  div.q-mb-sm
-                    q-btn.bg-grey-9.text-grey-2(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
-                  div
-                    q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+                  q-btn.bg-grey-9.text-grey-2.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
+                  q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
               //----- "standalone"-button
                 .absolute-bottom-right.transition.q-mb-sm.q-pr-sm(:class="[option !== index ? 'leave-right-absolute' : '']")

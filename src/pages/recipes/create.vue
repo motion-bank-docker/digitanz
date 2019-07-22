@@ -2,30 +2,30 @@
   q-page.q-py-md
 
     // ---------------------------------------------------------------------------------------------------------- recipe
-    div.q-mx-md.shadow-3.bg-dark.round-borders.border-white-1
+    div.q-mx-md.shadow-1.bg-grey-4.text-grey-8.round-borders.border-white-1
       q-list.q-pa-none.no-border.full-width(style="overflow-x: hidden;")
 
         //----- title
         q-list-header.q-title.min-height-auto.q-px-none.q-py-none
           .absolute-right.q-mt-md.q-pt-md.q-mr-md.q-px-sm.text-grey-6(v-if="showIcon.recipeTitle")
             q-icon(name="edit", round, size="24px")
-          q-input.q-title.q-px-sm.q-py-md.q-pr-xl(dark, v-model="newRecipe.title",
+          q-input.q-title.q-px-sm.q-py-md.q-pr-xl(v-model="newRecipe.title",
           type="textarea",
           :error="$v.newRecipe.title.$error",
           hide-underline,
-          :class="{'bg-body-background': !showIcon.recipeTitle}",
+          :class="{'bg-white': !showIcon.recipeTitle}",
           placeholder="Titel", autofocus,
           @focus="showIcon.recipeTitle = false; option = '';",
           @blur="showIcon.recipeTitle = true")
 
-        q-item-separator.q-ma-none.q-mb-sm.bg-grey-9
+        q-item-separator.q-ma-none.q-mb-sm.bg-grey-5
 
         //----- ingredients
         q-item.q-px-sm.q-py-xs.min-height-auto.transition-padding(
         v-for="(ingr, index) in newRecipe.entries",
         :description="ingr",
         :key="ingr",
-        :class="[option === ingr ? 'bg-body-background q-py-md' : 'q-py-sm', {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
+        :class="[option === ingr ? 'bg-white q-py-md' : 'q-py-sm', {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
         multiline
         )
           //----- show list-position from ingredient
@@ -42,9 +42,9 @@
             .absolute-top-right.transition.q-px-sm.items-start.row.q-mt-sm.q-pt-xs(
             :class="[option !== ingr ? 'leave-right-absolute' : '']",
             style="margin-top: 10px;")
-              q-btn.bg-grey-4.text-grey-10(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
-              q-btn.bg-grey-4.text-grey-10.q-ml-sm.q-mr-md(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
-              q-btn.bg-grey-4.text-grey-10(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
+              q-btn.bg-grey-9.text-grey-2(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
+              q-btn.bg-grey-9.text-grey-2.q-ml-sm.q-mr-md(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
+              q-btn.bg-grey-9.text-grey-2(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
 
             //----- delete-button
               .absolute-top-left.transition.items-start.row.q-pl-sm(
@@ -56,9 +56,9 @@
     q-list.no-border.q-pa-none.q-mx-md.q-mt-lg(style="overflow-x: hidden;")
 
       q-item.no-padding.q-mb-sm
-        q-item-main.border-bottom(style="max-width: 100%;")
+        q-item-main.border-bottom.border-color-grey-4(style="max-width: 100%;")
           q-input.q-pa-sm(
-          @click="resetValues", dark, v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
+          @click="resetValues", v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
           placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
           hide-underline,
           @focus="showIcon.newRecipeEntry = false; option = '';",
@@ -66,63 +66,66 @@
           :after="[{icon: 'edit', condition: showIcon.newRecipeEntry}]")
         q-item-side.min-width-auto.transition.row.self-stretch(:class="[!addIngredient ? 'leave-right' : '']")
           .transition.q-pl-sm.items-center.row
-            q-btn.bg-white.text-grey-10.rotate-90(@click="addTodoItem", icon="keyboard_backspace", round, size="sm")
-            q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
+            q-btn.bg-grey-9.text-grey-2.rotate-90(@click="addTodoItem", icon="add", round, size="sm", flat)
+            q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="resetValues", round, icon="clear", size="sm", flat)
 
       q-item.no-padding.q-mb-sm
-        q-item-main.border-bottom(style="max-width: 100%;")
+        q-item-main.border-bottom.border-color-grey-4(style="max-width: 100%;")
           q-select.q-pa-sm(
           v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
-          placeholder="Adjektiv", dark, color="white",
+          placeholder="Adjektiv", color="grey-8",
           hide-underline)
         q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectGestaltung ? 'leave-right' : '']")
           .transition
-            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
-            q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
+            q-btn.bg-grey-9.text-grey-2(@click="addTodoItem", icon="add", round, size="sm", flat)
+            q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="resetValues", round, icon="clear", size="sm", flat)
 
       q-item.no-padding.q-mb-sm
-        q-item-main.border-bottom(style="max-width: 100%;")
+        q-item-main.border-bottom.border-color-grey-4(style="max-width: 100%;")
           q-select.q-pa-sm(
           v-model="selectAktion", @focus="resetValues", :options="myJson",
-          placeholder="Aktionsbegriff", dark, color="white",
+          placeholder="Aktionsbegriff", color="grey-8",
           hide-underline)
         q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectAktion ? 'leave-right' : '']")
           .transition
-            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
-            q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
+            q-btn.bg-grey-9.text-grey-2(@click="addTodoItem", icon="add", round, size="sm", flat)
+            q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="resetValues", round, icon="clear", size="sm", flat)
 
       q-item.no-padding
-        q-item-main.border-bottom(style="max-width: 100%;")
+        q-item-main.border-bottom.border-color-grey-4(style="max-width: 100%;")
           q-select.q-pa-sm(
           v-model="selectCloudThree", @focus="resetValues", :options="cloudThree",
-          placeholder="Gestaltungsbegriff", dark, color="white",
+          placeholder="Gestaltungsbegriff", color="grey-8",
           hide-underline,
           style="overflow: hidden; text-overflow: ellipsis;")
         q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectCloudThree ? 'leave-right' : '']")
           .transition
-            q-btn.bg-white.text-grey-10(@click="addTodoItem", icon="add", round, size="sm")
-            q-btn.border.q-ml-sm(@click="resetValues", round, icon="clear", size="sm")
+            q-btn.bg-grey-9.text-grey-2(@click="addTodoItem", icon="add", round, size="sm", flat)
+            q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="resetValues", round, icon="clear", size="sm", flat)
 
     // ----------------------------------------------------------------------------------------------- buttons at bottom
     .q-mx-md.q-mt-xl.overflow-hidden
-      .row.gutter-sm
-        .col-6
-          q-btn.border.full-width(@click="$router.push('/recipes')", flat, no-caps) Abbrechen
-        .col-6.relative-position
-          q-btn.capitalize.full-width(
-          v-if="recipe.type === 'remix'",
-          @click="submitRemix",
-          :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-bottom' : 'bg-white text-grey-10']",
-          :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
-          type="submit", no-caps)
-            | {{ $t('buttons.save') }}
-          q-btn.capitalize.full-width(
-          v-else,
-          @click="submitRecipe",
-          :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-bottom' : 'bg-white text-grey-10']",
-          :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
-          type="submit", no-caps)
-            | {{ $t('buttons.save') }}
+      // .row.gutter-sm
+      div.text-right
+        // .col-6
+        q-btn.border.bg-grey-9.text-grey-2.q-mr-md(@click="$router.push('/recipes')", flat, no-caps, icon="clear",
+        round)
+            // | Abbrechen
+        // .col-6.relative-position
+        q-btn.capitalize(
+        v-if="recipe.type === 'remix'",
+        @click="submitRemix",
+        :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? '' : 'bg-grey-9 text-grey-2']",
+        :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
+        type="submit", no-caps, icon="check", round, flat)
+          // | {{ $t('buttons.save') }}
+        q-btn.capitalize(
+        v-else,
+        @click="submitRecipe",
+        :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? '' : 'bg-grey-9 text-grey-2']",
+        :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
+        type="submit", no-caps, icon="check", round, flat)
+          // | {{ $t('buttons.save') }}
 </template>
 
 <script>
