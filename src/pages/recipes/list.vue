@@ -122,13 +122,13 @@
 
         //----- "add"-button
         .q-mt-md
-          .text-center(v-if="tempRemixes.length <= 0") Leer
+          .text-center.border-bottom.border-color-grey-4.q-pb-md(v-if="tempRemixes.length <= 0") Leer
 
           .text-right(v-if="allIngredients.length >= 4")
             q-btn.bg-grey-9.text-white.q-mt-md(
             @click="doRemix", round, flat, :disabled="allIngredients.length < 4")
               q-icon(name="add")
-          .text-center.q-mt-md.border-top.border-color-grey-4.q-pt-md(v-else) Nicht genügend Zutaten vorhanden.
+          .text-center.q-mt-md.q-mt-md(v-else) Nicht genügend Zutaten vorhanden.
 
         //----- mixed recipes
         q-list.q-pa-none.no-border.no-padding
