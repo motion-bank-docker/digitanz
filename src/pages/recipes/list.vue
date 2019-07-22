@@ -119,8 +119,10 @@
                 q-btn.bg-grey-4.text-grey-10(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
         //----- "add"-button
-        div.text-center.bg-grey-4.text-grey-10.round-borders.q-mt-md.q-py-md(@click="doRemix")
-          q-icon(name="add")
+        .q-mt-md.text-right
+          q-btn.bg-grey-9.text-white.q-mt-md(
+          @click="doRemix", round)
+            q-icon(name="add")
 
         //----- mixed recipes
         q-list.q-pa-none.no-border.no-padding
