@@ -54,7 +54,7 @@
                 q-icon(v-else, name="add")
 
           q-item.q-mb-md.shadow-2.q-pr-sm.round-borders(
-          v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-dark']",
+          v-for="word in words", :class="[checkIfSelected(word.value) ? 'bg-grey-9 text-white' : 'bg-grey-4 text-grey-8']",
           style="width: 46%;")
 
             input.hidden(@click="countWords('adjektive', word.value)", v-model="selectedWords", type="checkbox", :id="word.uuid", :value="word.value")
@@ -67,7 +67,7 @@
 
           q-item.shadow-1.round-borders(
           v-for="(mJ, index) in myJson",
-          :class="[checkIfSelected(mJ.label) ? 'bg-white text-grey-8' : '', {'q-mb-md': index < myJson.length - 1}]",
+          :class="[checkIfSelected(mJ.label) ? 'bg-white text-grey-8' : 'bg-grey-4 text-grey-8', {'q-mb-md': index < myJson.length - 1}]",
           style="width: 46%;")
 
             input.hidden(@click="countWords('aktionen', mJ.label)", v-model="selectedWords", type="checkbox",
@@ -81,7 +81,7 @@
 
           q-item.shadow-1.q-pr-sm.round-borders(
           v-for="(cT, index) in cloudThree",
-          :class="[checkIfSelected(cT.label) ? 'bg-white text-grey-8' : '', {'q-mb-md': index < cloudThree.length - 2}]",
+          :class="[checkIfSelected(cT.label) ? 'bg-white text-grey-8' : 'bg-grey-4 text-grey-8', {'q-mb-md': index < cloudThree.length - 2}]",
           style="width: 46%;")
 
             input.hidden(@click="countWords('gestaltung', cT.label)", v-model="selectedWords", type="checkbox", :id="cT.label", :value="cT.label")
