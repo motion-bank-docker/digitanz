@@ -25,9 +25,17 @@
       // --------------------------------------------------------------------------------------------- Adjektive (tab 1)
       q-tab-pane.q-px-none(keep alive, name="tab-1")
 
-        // "add term"-block
-        //
-          .q-mb-md(v-if="addWordBubble")
+        //----- list
+        q-list.q-pa-none.no-border.row.justify-between
+          q-item.q-mb-md.shadow-1.q-pr-sm.round-borders(
+          v-for="term in tempTerms", :class="[checkIfSelected(term) ? 'bg-grey-9 text-white' : 'bg-grey-4 text-grey-8']",
+          style="width: 46%;")
+
+            input.hidden(@click="countWords('adjektive', word.value)", v-model="selectedWords", type="checkbox", :id="term", :value="term")
+            label.full-width
+              | {{ term }}
+
+        //----- "add term"-block
         .q-mb-md
           q-item.q-pa-none.items-center
             q-item-main(style="max-width: 100%;")
@@ -36,34 +44,10 @@
               @focus="showIcon = false",
               @blur="showIcon = true",
               :after="[{icon: 'edit', condition: showIcon && !inputNewWord}]")
-            //
-              q-item-side.min-width-auto
-                q-btn(@click="addWord", icon="check",
-                // :disabled="!inputNewWord.length", no-caps, round, size="sm",
-                // :class="[inputNewWord.length ? 'bg-white text-grey-10' : 'text-white']")
-
             q-item-side.min-width-auto.transition.row.self-stretch(:class="[!inputNewWord ? 'leave-right' : '']")
               .transition.q-pl-sm.items-center.row
                 q-btn.bg-grey-9.text-grey-2.rotate-90(@click="addWord(inputNewWord)", icon="add", round, size="sm", flat)
                 q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="inputNewWord = ''", round, icon="clear", size="sm", flat)
-
-        q-list.q-pa-none.no-border.row.justify-between
-
-          // show-/hide-button for "add term"-block
-          //
-            q-item.q-mb-md.no-padding.min-height-auto(
-            style="width: 46%;")
-              q-btn.full-width.bg-white.text-grey-10(@click="handlerAddWord", no-ripple)
-                q-icon(v-if="addWordBubble", name="clear")
-                q-icon(v-else, name="add")
-
-          q-item.q-mb-md.shadow-1.q-pr-sm.round-borders(
-          v-for="term in tempTerms", :class="[checkIfSelected(term) ? 'bg-grey-9 text-white' : 'bg-grey-4 text-grey-8']",
-          style="width: 46%;")
-
-            input.hidden(@click="countWords('adjektive', word.value)", v-model="selectedWords", type="checkbox", :id="term", :value="term")
-            label.full-width
-              | {{ term }}
 
       // ---------------------------------------------------------------------------------------------- Aktionen (tab 2)
       q-tab-pane.q-px-none(keep alive, name="tab-2")
