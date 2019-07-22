@@ -85,8 +85,13 @@
         q-btn.bg-grey-9.text-white-2(
         @click="$router.push('/clouds/overview')", flat, no-caps, icon="clear", round)
 
+        //
+          q-btn.bg-grey-9.text-white-2.q-ml-md(
+          @click="addAssociation",
+          // :class="[selectedWords.length < 1 ? '' : '']",
+          // :disabled="selectedWords.length < 1", flat, no-caps, icon="check", round)
         q-btn.bg-grey-9.text-white-2.q-ml-md(
-        @click="addAssociation",
+        @click="addTempCloud",
         :class="[selectedWords.length < 1 ? '' : '']",
         :disabled="selectedWords.length < 1", flat, no-caps, icon="check", round)
 
@@ -160,6 +165,12 @@
       })
     },
     methods: {
+      addTempCloud () {
+        console.log('bla')
+        this.$store.commit('cloud/addToTempClouds', this.selectedWords)
+        this.selectedWords = []
+        this.countAdjektive = this.countAktionen = this.countGestaltung = 0
+      },
       clearSelection () {
         this.selectedWords = []
       },
