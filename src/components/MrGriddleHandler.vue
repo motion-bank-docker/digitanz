@@ -6,11 +6,11 @@
       // play-/stop-button
       q-item-side.q-ml-md(v-if="states.length > 0", style="min-width: auto;")
         q-btn.text-white(@click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'",
-        :class="[$props.play ? 'bg-white text-grey-10' : 'border']", round, size="sm",
+        :class="[$props.play ? 'bg-white text-grey-10' : 'border']", round, size="sm", flat,
         :disabled="states.length === 0")
 
       // state-buttons
-      q-item-main.text-center
+      q-item-main.q-pl-md
         q-btn.q-mx-xs(v-for="(state, index) in states",
         round,  size="sm",
         :class="[currentState === index ? 'bg-white' : 'border scaled']",
