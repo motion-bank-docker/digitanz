@@ -97,7 +97,7 @@
         timeToNextFrame: 1,
         settingFrameLength: false,
         lines: [],
-        storedStates: [],
+        // storedStates: [],
         currentState: -1,
         timerId: undefined,
         storeStates: false,
@@ -108,7 +108,8 @@
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState'
+        user: 'auth/getUserState',
+        storedStates: 'mrGriddle/getTempPoses'
       }),
       strokeWidth () {
         return 20 * this.skeletonScale
