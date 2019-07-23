@@ -7,9 +7,6 @@ const poses = {
     getTempPoses: state => state.tempPoses
   },
   mutations: {
-    addToTempRemixes (state, val) {
-      state.tempPoses.push(val)
-    }
   },
   actions: {
   }
