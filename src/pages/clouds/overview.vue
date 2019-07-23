@@ -4,16 +4,21 @@
     template(v-else)
       .row.justify-between
         template(v-for="(cloud, index) in tempClouds")
-          q-list.q-pa-none.q-mb-md.min-height-auto(no-border,
-          style="width: 46%;")
-            .shadow-1.round-borders(:class="[index < tempClouds.length - 1 ? 'bg-grey-4' : 'bg-white text-grey-8']")
-              template(v-for="(term, i) in cloud")
-                q-item.q-pa-none.q-px-sm
-                  // q-item-side.text-grey-4 {{ i }}
-                  q-item-main.q-caption
-                    | {{ term }}
-                q-item-separator(v-if="i < cloud.length -1 && index < tempClouds.length - 1").bg-grey-5.q-ma-none
-                q-item-separator(v-if="i < cloud.length -1 && index >= tempClouds.length - 1").bg-grey-3.q-ma-none
+          .relative-position.overflow-hidden(style="width: 46%;")
+            q-list.q-pa-none.q-mb-md.min-height-auto(no-border)
+              q-radio.full-width.q-mb-none.word-break(v-model="optionCloud", :val="index")
+                .shadow-1.round-borders.full-width(:class="[optionCloud === index ? 'bg-white text-grey-8' : 'bg-grey-4']")
+                  template(v-for="(term, i) in cloud")
+                    q-item.q-pa-none.q-px-sm
+                      // q-item-side.text-grey-4 {{ i }}
+                      q-item-main.q-caption
+                        | {{ term }}
+                    q-item-separator.q-ma-none(:class="[optionCloud === index ? 'bg-grey-3' : 'bg-grey-5']")
+
+              //----- "remove"-button
+              .absolute-top-right.transition.q-px-sm.q-pt-xs(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
+                q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+
     .text-right
       q-btn.bg-grey-9.text-grey-2(@click="$router.push('/clouds')", no-caps, flat, icon="add", round)
 </template>
@@ -25,6 +30,7 @@
     name: 'overview',
     data () {
       return {
+        optionCloud: undefined
       }
     },
     computed: {
