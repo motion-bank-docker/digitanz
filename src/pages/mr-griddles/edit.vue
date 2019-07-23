@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page
+  q-page.bg-grey-9
     mr-griddle#mr-griddle-container(
     ref="mrGriddleContainer",
     :play="playing",
