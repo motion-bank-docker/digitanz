@@ -1,6 +1,6 @@
 <template lang="pug">
   svg(width="100vw", :height="heightWithoutHeader", @mouseup="nextShape")
-    rect(width="100%" height="100%" fill="#252324")
+    rect(width="100%" height="100%" fill="#424242")
     defs
       g#shape-protos
         g#diagonal-lines-1
@@ -52,7 +52,7 @@
       use(x="0", y="0",
         :href="`#${currentShapeId}`",
         :transform="`translate(${svgSize.width/2},${svgSize.height/2}) scale(${svgSize.scale})`",
-        fill="none", stroke="rgb(120,120,120)", stroke-width="4")
+        fill="none", stroke="#E0E0E0", stroke-width="1")
     g#particles
       template(v-for="particle in particles")
         ellipse(:cx="particle.position.x", :cy="particle.position.y", rx="3", ry="3", fill="white")
