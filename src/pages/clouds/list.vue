@@ -1,29 +1,32 @@
 <template lang="pug">
   q-page
 
-    q-tabs.q-px-md.q-pt-md(animated, color="transparent", text-color="white", align="justify" v-model="selectedTab",
+    q-tabs(animated, color="transparent", text-color="white", align="justify" v-model="selectedTab",
     style="padding-bottom: 52px;")
 
-      q-tab.text-center.q-mb-md.round-borders-5(name="tab-2", slot="title", default,
-      :class="[selectedTab === 'tab-2' ? 'bg-white text-grey-9' : 'text-grey-9']")
-        q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize(label="Aktionen", flat, no-ripple)
+      q-tab.text-center.q-mb-md.round-borders-5.q-pl-md.q-pl-md.q-pr-xs(name="tab-2", slot="title", default)
+        q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
+        label="Aktionen", flat, no-ripple,
+        :class="[selectedTab === 'tab-2' ? 'bg-white shadow-1' : '']",)
           q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countAktionen > 0", floating, color="white")
             | {{ countAktionen }}
 
-      q-tab.text-center.q-mb-md.round-borders-5(name="tab-3", slot="title",
-      :class="[selectedTab === 'tab-3' ? 'bg-white text-grey-9' : 'text-grey-9']")
-        q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize(label="Gestaltung", flat, no-ripple)
+      q-tab.text-center.q-mb-md.round-borders-5.q-px-xs.q-py-md(name="tab-3", slot="title")
+        q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
+        label="Gestaltung", flat, no-ripple,
+        :class="[selectedTab === 'tab-3' ? 'bg-white shadow-1' : '']",)
           q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countGestaltung > 0", floating, color="white")
             | {{ countGestaltung }}
 
-      q-tab.text-center.q-mb-md.round-borders-5(name="tab-1", slot="title",
-      :class="[selectedTab === 'tab-1' ? 'bg-white text-grey-9' : 'text-grey-9']")
-        q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize(label="Adjektive", flat, no-ripple)
+      q-tab.text-center.q-mb-md.round-borders-5.q-pr-md.q-pl-xs(name="tab-1", slot="title")
+        q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
+        label="Adjektive", flat, no-ripple,
+        :class="[selectedTab === 'tab-1' ? 'bg-white shadow-1' : '']",)
           q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countAdjektive > 0", floating, color="white")
             | {{ countAdjektive }}
 
       // --------------------------------------------------------------------------------------------- Adjektive (tab 1)
-      q-tab-pane.q-px-none(keep alive, name="tab-1")
+      q-tab-pane.q-px-md(keep alive, name="tab-1")
 
         //----- list
         q-list.q-pa-none.no-border.row.justify-between
@@ -50,7 +53,7 @@
                 q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="inputNewWord = ''", round, icon="clear", size="sm", flat)
 
       // ---------------------------------------------------------------------------------------------- Aktionen (tab 2)
-      q-tab-pane.q-px-none(keep alive, name="tab-2")
+      q-tab-pane.q-px-md(keep alive, name="tab-2")
         q-list.q-pa-none.no-border.row.justify-between
 
           q-item.shadow-1.round-borders(
@@ -64,7 +67,7 @@
               | {{ mJ.label }}
 
       // -------------------------------------------------------------------------------------------- Gestaltung (tab 3)
-      q-tab-pane.q-px-none(keep alive, name="tab-3")
+      q-tab-pane.q-px-md(keep alive, name="tab-3")
         q-list.q-pa-none.no-border.row.justify-between
 
           q-item.shadow-1.q-pr-sm.round-borders(
