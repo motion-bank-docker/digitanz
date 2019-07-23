@@ -9,6 +9,9 @@ const cloud = {
     getTempTerms: state => state.tempTerms
   },
   mutations: {
+    removeFromTempClouds (state, index) {
+      state.tempClouds.splice(index, 1)
+    },
     addToTempClouds (state, val) {
       state.tempClouds.push(val)
     },

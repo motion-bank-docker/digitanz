@@ -17,7 +17,7 @@
 
               //----- "remove"-button
               .absolute-top-right.transition.q-px-sm.q-pt-xs(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
-                q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+                q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeTempCloud(index)", round, size="sm", flat)
 
     .text-right
       q-btn.bg-grey-9.text-grey-2(@click="$router.push('/clouds')", no-caps, flat, icon="add", round)
@@ -37,6 +37,11 @@
       ...mapGetters({
         tempClouds: 'cloud/getTempClouds'
       })
+    },
+    methods: {
+      removeTempCloud (index) {
+        this.$store.commit('cloud/removeFromTempClouds', index)
+      }
     }
   }
 </script>
