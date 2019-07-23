@@ -1,11 +1,12 @@
 <template lang="pug">
-  q-page
+  q-page.bg-grey-9
 
     div
       griddle-moves(:enclosed="true", :time="1000")
 
     q-page-sticky.q-pb-md(position="bottom")
-      q-btn.q-px-lg(@click="$router.push({path: '/tools'})", style="border: 1px solid #666;", label="Go!", rounded)
+      q-btn.bg-grey-2.text-grey-7.q-px-lg(@click="$router.push({path: '/tools'})",
+      label="Go!", rounded, flat)
 
 </template>
 
