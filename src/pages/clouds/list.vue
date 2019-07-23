@@ -166,7 +166,6 @@
     },
     methods: {
       addTempCloud () {
-        console.log('bla')
         this.$store.commit('cloud/addToTempClouds', this.selectedWords)
         this.selectedWords = []
         this.countAdjektive = this.countAktionen = this.countGestaltung = 0
