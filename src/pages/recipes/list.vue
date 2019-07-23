@@ -122,7 +122,7 @@
             .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
               template(v-if="!recipeStandalone")
                 q-btn.bg-grey-9.text-grey-2.q-mr-sm(icon="edit", @click="editRemix(index)", round, size="sm", flat)
-                q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+                q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeTempRemix(index)", round, size="sm", flat)
 
         //----- "add"-button
         .q-mt-md
@@ -200,6 +200,9 @@
       }
     },
     methods: {
+      removeTempRemix (val) {
+        this.$store.commit('recipes/removeFromTempRemixes', val)
+      },
       handlerStandalone () {
         console.log('bla')
         this.recipeStandalone = !this.recipeStandalone

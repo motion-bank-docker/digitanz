@@ -38,6 +38,9 @@ const recipes = {
         }
       }
     },
+    removeFromTempRemixes (state, val) {
+      state.tempRemixes.splice(val, 1)
+    },
     updateExistingRecipe (state, recipe) {
       state.tempRecipes.splice(recipe.index, 1, recipe)
       state.allIngredients = []
