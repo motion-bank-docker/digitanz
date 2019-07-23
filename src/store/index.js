@@ -11,6 +11,7 @@ import metadata from './modules/metadata'
 import survey from './modules/survey'
 import cloud from './modules/cloud'
 import recipes from './modules/recipes'
+import mrGriddle from './modules/mr-griddle'
 
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -40,7 +41,8 @@ const store = new Vuex.Store({
     survey,
     cloud,
     recipes,
-    auth
+    auth,
+    mrGriddle
   }
 })
 
