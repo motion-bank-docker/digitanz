@@ -26,10 +26,10 @@
       q-item.q-pa-none.border-bottom
 
         // back-button
-        q-item-side.text-center(:class="{'offset': !usingTool}",
-        style="transition: all ease 200ms; width: 55px;")
-          q-btn.text-white.border-right.no-round-borders(@click="$router.push('/tools')", icon="keyboard_backspace",
-          flat, no-ripple)
+        q-item-side.text-center.min-width-auto.q-pl-md(:class="{'offset': !usingTool}",
+        style="transition: all ease 200ms; width: 50px;")
+          q-btn.bg-grey-2.text-grey-9(@click="$router.push('/tools')",
+          icon="keyboard_backspace", flat, no-ripple, round, size="sm")
 
         // title
         q-item-main
@@ -188,5 +188,5 @@
 
 <style scoped lang="styl">
   .offset
-    margin-left -55px
+    margin-left -50px
 </style>
