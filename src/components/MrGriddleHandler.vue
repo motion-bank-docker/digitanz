@@ -21,7 +21,7 @@
 
       // add-butoon
       q-item-side.q-mr-md(style="min-width: auto;")
-        q-btn.no-padding.border.text-white(icon="add", size="sm", flat, no-ripple,
+        q-btn.no-padding.border.bg-white.text-grey-9(icon="add", size="sm", flat, no-ripple,
         round, @click="$emit('clickAdd')",
         :class="{'': states.length >= 5}",
         :disabled="states.length >= 5")
