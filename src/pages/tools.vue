@@ -44,7 +44,7 @@
           action: 'inspiration',
           icon: 'star_border',
           label: 'Inspiration',
-          status: true
+          status: false
         }, {
           action: 'sequenz',
           icon: 'extension',
