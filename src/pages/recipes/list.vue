@@ -4,20 +4,24 @@
     //----- "delete"-modal
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteRecipe")
 
-    q-tabs.q-px-md.q-pt-md(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
+    q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
     swipeable)
 
       // ---------------------------------------------------------------------------------------------------------- tabs
-      q-tab.text-center.round-borders-5(v-if="!recipeStandalone", name="tab-1", slot="title", default,
-      :class="[selectedTab === 'tab-1' ? 'bg-white text-grey-9' : 'text-grey-9']")
-        q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Meine Rezepte", flat, no-ripple)
+      q-tab.text-center.round-borders-5.q-pl-md.q-pr-sm.q-py-md(v-if="!recipeStandalone", name="tab-1", slot="title", default,
+      :class="[selectedTab === 'tab-1' ? 'text-grey-9' : 'text-grey-9']")
+        q-btn.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
+        :class="[selectedTab === 'tab-1' ? 'bg-white shadow-1' : '']",
+        label="Meine Rezepte", flat, no-ripple)
 
-      q-tab.text-center.round-borders-5(v-if="!recipeStandalone", name="tab-2", slot="title",
-      :class="[selectedTab === 'tab-2' ? 'bg-white text-grey-9' : 'text-grey-9']")
-        q-btn.q-caption.text-weight-medium.q-px-none.capitalize(label="Gemixte Rezepte", flat, no-ripple)
+      q-tab.text-center.round-borders-5.q-pl-sm.q-pr-md.q-py-md(v-if="!recipeStandalone", name="tab-2", slot="title",
+      :class="[selectedTab === 'tab-2' ? 'text-grey-9' : 'text-grey-9']")
+        q-btn.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
+        :class="[selectedTab === 'tab-2' ? 'bg-white shadow-1' : '']",
+        label="Gemixte Rezepte", flat, no-ripple)
 
       // ----------------------------------------------------------------------------------------------- "meine rezepte"
-      q-tab-pane.q-px-none.q-mb-sm(keep alive, name="tab-1")
+      q-tab-pane.q-px-md.q-mb-sm(keep alive, name="tab-1")
 
         //----- recipes list
         template(v-if="tempRecipes.length")
@@ -82,7 +86,7 @@
 
       // --------------------------------------------------------------------------------------------- "gemixte rezepte"
       // div.q-mt-md
-      q-tab-pane.q-px-none.q-py-md(keep alive, name="tab-2")
+      q-tab-pane.q-px-md.q-py-md(keep alive, name="tab-2")
         // .q-mb-md Gemixte Rezepte
 
         //----- remixes
