@@ -18,7 +18,7 @@
         @click="handlerStateButton(state, index)",
         v-touch-hold="() => {openDeleteModal({state, index})}")
           q-btn(round,  size="sm", flat, :class="[currentState === index ? 'bg-white' : 'border scaled']")
-          q-popover.q-pa-xs(anchor="top middle", self="bottom middle", :offset="[0, 8]")
+          q-popover.q-pa-xs(anchor="top middle", self="bottom middle", :offset="[0, 8]", ref="popover")
             q-btn.text-grey-9(@click="deleteItem({state, index})", icon="delete", round, flat)
 
       // add-butoon
@@ -68,6 +68,7 @@
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
       deleteItem (item) {
+        this.$refs.popover[item.index].hide()
         this.$emit('deleteItem', item)
       }
       // },
