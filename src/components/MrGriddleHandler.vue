@@ -12,12 +12,14 @@
       // state-buttons
       q-item-main.q-pl-md
         q-btn.q-mx-xs(v-for="(state, index) in states",
-        round,  size="sm",
-        :class="[currentState === index ? 'bg-white' : 'border scaled']",
+        round,  size="sm", flat,
         v-model="selectedStates",
         val="'option-' + {{index}}",
-        @click="$emit('clickState', {state, index})",
+        @click="handlerStateButton(state, index)",
         v-touch-hold="() => {openDeleteModal({state, index})}")
+          q-btn(round,  size="sm", flat, :class="[currentState === index ? 'bg-white' : 'border scaled']")
+          q-popover.q-pa-xs(anchor="top middle", self="bottom middle", :offset="[0, 8]")
+            q-btn.text-grey-9(@click="() => {openDeleteModal({state, index})}", icon="delete", round, flat)
 
       // add-butoon
       q-item-side.q-mr-md(style="min-width: auto;")
@@ -58,6 +60,10 @@
       }
     },
     methods: {
+      handlerStateButton (state, index) {
+        this.$emit('clickState', {state, index})
+        if (this.$props.play) this.$emit('clickPlay')
+      },
       openDeleteModal (item) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
       },
