@@ -60,7 +60,7 @@
   import { mapGetters } from 'vuex'
 
   const skeleton = new Skeleton()
-  const UI_RESIZER_FACTOR = 2
+  // const UI_RESIZER_FACTOR = 2
 
   export default {
     props: [
@@ -81,7 +81,7 @@
           width: 0,
           height: 0
         },
-        resizerFactor: UI_RESIZER_FACTOR,
+        // resizerFactor: UI_RESIZER_FACTOR,
         currentTime: 0,
         resizingCell: false,
         frameLength: 300,
@@ -102,7 +102,7 @@
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState',
+        // user: 'auth/getUserState',
         storedStates: 'mrGriddle/getTempPoses'
       }),
       strokeWidth () {
@@ -128,7 +128,7 @@
         height: this.svgSize.height / this.grid.rows
       }
       this.updateFrame()
-      this.loadData()
+      // this.loadData()
 
       // this is a "driver" for the "time to update bar"
       setInterval(function () {
@@ -142,9 +142,11 @@
       this.timerId = undefined
     },
     watch: {
+      /*
       async user (val) {
         if (val) await this.loadData()
       },
+      */
       frameLength () {
         const wasPlaying = this.timerId
         clearInterval(this.timerId)
@@ -166,6 +168,7 @@
       }
     },
     methods: {
+      /*
       async loadData () {
         if (!this.user) return
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
@@ -187,6 +190,7 @@
         }
         this.$q.loading.hide()
       },
+      */
       startTimer () {
         this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
         this.lastFrameTime = Date.now()
