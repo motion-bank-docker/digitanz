@@ -27,20 +27,20 @@
 
       // slider
       .bg-grey-9.fixed-bottom.row.items-center(v-if="editSettings", style="border-top: 1px solid #666; height: 52px;")
-        q-list.no-border.full-width
-          q-item.q-pa-none(style="min-height: auto;")
+        q-item.q-pa-none.full-width(style="min-height: auto;")
 
-            q-item-side.text-center(style="min-width: auto;",
-            :class="{'hidden': states.length === 0}")
+          q-item-side.q-ml-md(style="min-width: auto;",
+          :class="{'hidden': states.length === 0}")
 
-              q-btn.q-ml-md(@click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'",
-              :class="[$props.play ? 'bg-white text-grey-10' : 'border']",
-              round, size="sm", :disabled="states.length === 0")
+            q-btn.text-white.q-pa-none(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
+            :class="[$props.play ? 'text-grey-2' : 'text-grey-2', {'leave-bottom': states.length <= 0}]", flat,
+            size="lg", no-ripple,
+            :disabled="states.length === 0")
 
-            q-item-main.q-px-md
-              q-slider(
-              v-model="frameLength", color="white", :min="minFrameLength", :max="maxFrameLength",
-              :step="20", fill-handle-always, snap)
+          q-item-main.q-px-md
+            q-slider(
+            v-model="frameLength", color="white", :min="minFrameLength", :max="maxFrameLength",
+            :step="20", fill-handle-always, snap)
 
       // edit-button
       q-page-sticky(expand position="top-right")

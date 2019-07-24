@@ -4,13 +4,14 @@
     q-item.q-pa-none.full-width(style="min-height: auto;")
 
       // play-/stop-button
-      q-item-side.q-ml-md(style="min-width: auto;")
-        q-btn.text-white(@click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'",
-        :class="[$props.play ? 'bg-white text-grey-10' : 'border', {'leave-bottom': states.length <= 0}]", round, size="sm", flat,
+      q-item-side.q-ml-md.q-pr-xs(style="min-width: auto;")
+        q-btn.text-white.q-pa-none(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
+        :class="[$props.play ? 'text-grey-2' : 'text-grey-2', {'leave-bottom': states.length <= 0}]", flat,
+        size="lg", no-ripple,
         :disabled="states.length === 0")
 
       // state-buttons
-      q-item-main.q-pl-md
+      q-item-main.q-pl-sm
         q-btn.q-mx-xs(v-for="(state, index) in states",
         round,  size="sm", flat,
         v-model="selectedStates",
