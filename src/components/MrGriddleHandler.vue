@@ -1,5 +1,5 @@
 <template lang="pug">
-  .row.items-center(style="border-top: 1px solid #666; height: 52px;")
+  .row.items-center(style="height: 52px;")
 
     q-item.q-pa-none.full-width(style="min-height: auto;")
 
