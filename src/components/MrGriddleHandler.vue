@@ -4,9 +4,9 @@
     q-item.q-pa-none.full-width(style="min-height: auto;")
 
       // play-/stop-button
-      q-item-side.q-ml-md(v-if="states.length > 0", style="min-width: auto;")
+      q-item-side.q-ml-md(style="min-width: auto;")
         q-btn.text-white(@click="$emit('clickPlay')", :icon="$props.play ? 'stop' : 'play_arrow'",
-        :class="[$props.play ? 'bg-white text-grey-10' : 'border']", round, size="sm", flat,
+        :class="[$props.play ? 'bg-white text-grey-10' : 'border', {'leave-bottom': states.length <= 0}]", round, size="sm", flat,
         :disabled="states.length === 0")
 
       // state-buttons
@@ -23,9 +23,9 @@
 
       // add-butoon
       q-item-side.q-mr-md(style="min-width: auto;")
-        q-btn.no-padding.border.bg-white.text-grey-9(icon="add", size="sm", flat, no-ripple,
+        q-btn.no-padding.border.bg-white.text-grey-9.transition(icon="add", size="sm", flat, no-ripple,
         round, @click="$emit('clickAdd')",
-        :class="{'': states.length >= 5}",
+        :class="{'leave-bottom': states.length >= 5}",
         :disabled="states.length >= 5")
 
     //
