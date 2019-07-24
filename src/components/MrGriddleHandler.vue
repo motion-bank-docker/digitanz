@@ -33,10 +33,6 @@
         :class="{'leave-bottom': states.length >= 5}",
         :disabled="states.length >= 5")
 
-    //
-      .col-xs-2.col-sm-1
-        q-btn(icon="save", size="lg", @click="$emit('saveSequence')", :disabled="states.length <= 0")
-
     confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
 </template>
