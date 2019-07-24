@@ -82,8 +82,8 @@
           height: 0
         },
         // resizerFactor: UI_RESIZER_FACTOR,
-        currentTime: 0,
-        resizingCell: false,
+        // currentTime: 0,
+        // resizingCell: false,
         frameLength: 300,
         minFrameLength: 60 / 3,
         maxFrameLength: 60 * 6,
@@ -94,8 +94,8 @@
         // storedStates: [],
         currentState: -1,
         timerId: undefined,
-        storeStates: false,
-        map: undefined,
+        // storeStates: false,
+        // map: undefined,
         editSettings: false,
         gridStrokeWidth: 0
       }
@@ -216,6 +216,7 @@
         let nextState = (this.currentState + 1) % this.storedStates.length
         this.setCurrentState(nextState)
       },
+      /*
       async saveSequence () {
         this.$q.loading.show({ message: this.$t('messages.saving_sequence') })
         if (!this.map) {
@@ -257,6 +258,7 @@
         this.$router.push('/profile')
         this.$q.loading.hide()
       },
+      */
       getState () {
         return {
           skeleton: skeleton.getEdges(),
