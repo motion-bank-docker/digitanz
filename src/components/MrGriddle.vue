@@ -14,15 +14,6 @@
           :stroke-width="strokeWidth",
           :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
           :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
-          //
-            g#resize-handle(v-if="editSettings", :transform="`translate(${gridCell.width * resizerFactor},${gridCell.height * resizerFactor})`")
-              rect(
-              x="-12", y="-12", width="24", height="24")
-                // @mousedown="initResizeCell", :class="{resizing: resizingCell}")
-              polygon(points="12,-12 30,0 12,12", @mousedown="handleGridChange(-2,0)")
-              polygon(points="-12,-12 -30,0 -12,12", @mousedown="handleGridChange(2,0)")
-              polygon(points="-12,-12 0,-30 12,-12", @mousedown="handleGridChange(0,2)")
-              polygon(points="-12,12 0,30 12,12", @mousedown="handleGridChange(0,-2)")
         g#time-to-next-update
           rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="3", fill="white")
 
