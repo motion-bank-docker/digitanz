@@ -60,7 +60,6 @@
   import { mapGetters } from 'vuex'
 
   const skeleton = new Skeleton()
-  // const UI_RESIZER_FACTOR = 2
 
   export default {
     props: [
@@ -81,9 +80,6 @@
           width: 0,
           height: 0
         },
-        // resizerFactor: UI_RESIZER_FACTOR,
-        // currentTime: 0,
-        // resizingCell: false,
         frameLength: 300,
         minFrameLength: 60 / 3,
         maxFrameLength: 60 * 6,
@@ -91,18 +87,14 @@
         timeToNextFrame: 1,
         settingFrameLength: false,
         lines: [],
-        // storedStates: [],
         currentState: -1,
         timerId: undefined,
-        // storeStates: false,
-        // map: undefined,
         editSettings: false,
         gridStrokeWidth: 0
       }
     },
     computed: {
       ...mapGetters({
-        // user: 'auth/getUserState',
         storedStates: 'mrGriddle/getTempPoses'
       }),
       strokeWidth () {
@@ -128,7 +120,6 @@
         height: this.svgSize.height / this.grid.rows
       }
       this.updateFrame()
-      // this.loadData()
 
       // this is a "driver" for the "time to update bar"
       setInterval(function () {
@@ -142,11 +133,6 @@
       this.timerId = undefined
     },
     watch: {
-      /*
-      async user (val) {
-        if (val) await this.loadData()
-      },
-      */
       frameLength () {
         const wasPlaying = this.timerId
         clearInterval(this.timerId)
@@ -168,29 +154,6 @@
       }
     },
     methods: {
-      /*
-      async loadData () {
-        if (!this.user) return
-        this.$q.loading.show({ message: this.$t('messages.loading_data') })
-        if (this.$route.params.uuid) {
-          this.map = await this.$store.dispatch('maps/get', this.$route.params.uuid)
-          if (this.map) {
-            const query = {
-              'target.id': this.map.id
-            }
-            const annotations = await this.$store.dispatch('annotations/find', query)
-            if (annotations && annotations.items) {
-              const states = annotations.items.map(a => {
-                return JSON.parse(a.body.value)
-              })
-              this.storedStates = states
-              this.setCurrentState(0)
-            }
-          }
-        }
-        this.$q.loading.hide()
-      },
-      */
       startTimer () {
         this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
         this.lastFrameTime = Date.now()
@@ -216,49 +179,6 @@
         let nextState = (this.currentState + 1) % this.storedStates.length
         this.setCurrentState(nextState)
       },
-      /*
-      async saveSequence () {
-        this.$q.loading.show({ message: this.$t('messages.saving_sequence') })
-        if (!this.map) {
-          const prefix = 'GriddleSequence '
-          let newMap = {
-            type: ['Timeline'],
-            title: prefix + Date.now()
-          }
-          this.map = await this.$store.dispatch('maps/post', newMap)
-          await this.$store.dispatch('acl/set', {uuid: this.map.uuid, role: 'digitanz', permissions: ['get']})
-        }
-        const oldStates = await this.$store.dispatch('annotations/find', {'target.id': this.map.id})
-        if (oldStates && oldStates.items) {
-          for (let oState of oldStates.items) {
-            await this.$store.dispatch('annotations/delete', oState.uuid)
-            await this.$store.dispatch('acl/delete', {uuid: oState.uuid, role: 'digitanz', permissions: ['get']})
-          }
-        }
-        for (let state of this.storedStates) {
-          let annotation = {
-            body: {
-              type: 'MrGriddleSkeleton',
-              purpose: 'linking',
-              value: JSON.stringify(state)
-            },
-            target: {
-              type: 'Timeline',
-              id: this.map.id,
-              selector: {
-                type: 'Fragment',
-                value: state.timeStamp
-              }
-            }
-          }
-          const annot = await this.$store.dispatch('annotations/post', annotation)
-          await this.$store.dispatch('acl/set', {uuid: annot.uuid, role: 'digitanz', permissions: ['get']})
-        }
-        // this.$router.push('/mr-griddles')
-        this.$router.push('/profile')
-        this.$q.loading.hide()
-      },
-      */
       getState () {
         return {
           skeleton: skeleton.getEdges(),
@@ -306,7 +226,6 @@
         else {
           let state = this.storedStates[this.currentState]
           skeletonLines = state.skeleton
-          // Vue.set(this, 'grid', state.grid)
           this.grid.columns = state.grid.columns
           this.grid.rows = state.grid.rows
           this.grid.width = state.grid.width
@@ -338,14 +257,11 @@
 
   #mr-griddle
     line
-      // griddle color
-      // stroke $primary
       stroke white
       stroke-linecap round
 
   #mr-griddle.random
     line
-      // stroke white
       stroke gray
 
   #resize-handle
