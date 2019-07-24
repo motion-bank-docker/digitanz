@@ -8,9 +8,8 @@
     @stateChanged="handleStateChanged",
     @editModeChanged="handleEditChange")
 
-    .fixed-bottom
+    .fixed-bottom.transition(:class="{'leave-bottom' : editMode}")
       mr-griddle-handler(
-      v-if="!editMode",
       :play="playing",
       :states="storedStates",
       :currentState="currentState",

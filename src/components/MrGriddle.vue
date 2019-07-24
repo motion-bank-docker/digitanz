@@ -1,7 +1,8 @@
 <template lang="pug">
   div
     div.row(style="margin-top: -1px;")
-      svg(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
+      svg(ref="svgContainer", :width="svgSize.width", :height="svgSize.height",
+      :class="{'border-bottom': editSettings}")
         .q-mt-xl.row.justify-end
         defs
           pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
@@ -26,7 +27,9 @@
           rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="3", fill="white")
 
       // slider
-      .bg-grey-9.fixed-bottom.row.items-center(v-if="editSettings", style="border-top: 1px solid #666; height: 52px;")
+      .bg-grey-9.fixed-bottom.row.items-center.transition(
+      style="height: 52px;",
+      :class="{'leave-bottom' : !editSettings}")
         q-item.q-pa-none.full-width(style="min-height: auto;")
 
           q-item-side.q-ml-md(style="min-width: auto;",
