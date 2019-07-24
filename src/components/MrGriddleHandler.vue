@@ -18,7 +18,10 @@
         @click="handlerStateButton(state, index)",
         v-touch-hold="() => {openDeleteModal({state, index})}")
           q-btn(round,  size="sm", flat, :class="[currentState === index ? 'bg-white' : 'border scaled']")
-          q-popover.q-pa-xs(anchor="top middle", self="bottom middle", :offset="[0, 8]", ref="popover")
+          q-popover.q-pa-xs(anchor="top middle", self="bottom middle", :offset="[0, 12]", ref="popover",
+          style="overflow: visible;")
+            div.absolute-bottom.full-width(style="align-items: center; display: flex; justify-content: center;")
+              div.rotate-45.bg-white(style="width: 20px; height: 20px;")
             q-btn.text-grey-9(@click="deleteItem({state, index})", icon="delete", round, flat)
 
       // add-butoon
