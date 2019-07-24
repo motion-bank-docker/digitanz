@@ -16,8 +16,7 @@
         round,  size="sm", flat,
         v-model="selectedStates",
         val="'option-' + {{index}}",
-        @click="handlerStateButton(state, index)",
-        v-touch-hold="() => {openDeleteModal({state, index})}")
+        @click="handlerStateButton(state, index)")
           q-btn(round,  size="sm", flat, :class="[currentState === index ? 'bg-white' : 'border scaled']")
           q-popover.q-pa-xs(anchor="top middle", self="bottom middle", :offset="[0, 12]", ref="popover",
           style="overflow: visible;")
@@ -32,8 +31,6 @@
         round, @click="$emit('clickAdd')",
         :class="{'leave-bottom': states.length >= 5}",
         :disabled="states.length >= 5")
-
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteItem")
 
 </template>
 
@@ -65,41 +62,10 @@
         this.$emit('clickState', {state, index})
         if (this.$props.play) this.$emit('clickPlay')
       },
-      openDeleteModal (item) {
-        this.$refs.confirmDeleteModal.show('labels.confirm_delete', item, 'buttons.delete')
-      },
       deleteItem (item) {
         this.$refs.popover[item.index].hide()
         this.$emit('deleteItem', item)
       }
-      // },
-      // async deleteItem (item) {
-      //   console.log('item should get deleted')
-      //   this.$q.loading.show({ message: this.$t('messages.deleting_video') })
-      //   // remove portrait annotation (if any)
-      //   const query = {
-      //     'target.id': `${process.env.TIMELINE_BASE_URI}${process.env.PORTRAITS_TIMELINE_UUID}`,
-      //     'author.id': this.user.uuid,
-      //     'body.source.id': item.annotation.body.source.id
-      //   }
-      //   let result = await this.$store.dispatch('annotations/find', query)
-      //   if (result.items) {
-      //     for (const portrait of result.items) {
-      //       await this.$store.dispatch('annotations/delete', portrait.uuid)
-      //       await this.$store.dispatch('acl/remove', {uuid: portrait.uuid, role: 'public', permission: 'get'})
-      //     }
-      //     const message = {
-      //       video: item.annotation.body.source.id,
-      //       user: this.user.uuid
-      //     }
-      //     await this.$store.dispatch('logging/log', { action: 'portrait_unset', message })
-      //   }
-      //   // remove item / annotation
-      //   await VideoHelper.deleteVideoItem(this, item)
-      //   this.$q.loading.hide()
-      //   // await this.fetchVideos()
-      //   this.$emit('changed')
-      // }
     }
   }
 </script>
@@ -110,6 +76,7 @@
   .scaled
     transform scale(.5)
 
+  // prevents fading of the arrow below the "delete"-popover for whatever reason
   .animation
     animation ease
 
