@@ -1,12 +1,8 @@
 <template lang="pug">
   q-page.q-pa-md
 
-    //----- "empty"-message
-    .inactive.q-mb-md(v-if="tempClouds.length <= 0")
-      q-btn.full-width.capitalize.text-grey-9.shadow-3(disabled, flat) Leer
-
     //----- clouds
-    template(v-else)
+    template(v-if="tempClouds.length > 0")
       .row.justify-between
 
         template(v-for="(cloud, index) in tempClouds")
@@ -27,8 +23,14 @@
                 q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeTempCloud(index)", round, size="sm", flat)
 
     //----- "add"-button
-    .text-right
-      q-btn.bg-grey-9.text-grey-2(@click="$router.push('/clouds')", no-caps, flat, icon="add", round)
+    template
+      q-item.q-pa-none.row.items-center
+        q-item-side.inactive(v-if="tempClouds.length <= 0") Leer
+
+        q-item-main.text-right
+          q-btn.bg-grey-9.text-white(@click="$router.push('/clouds')", round, flat)
+            q-icon(name="add")
+
 </template>
 
 <script>
