@@ -39,7 +39,7 @@
                       | {{ recipe.title }}
 
                     template(v-if="option === index")
-                      q-item-separator.q-ma-none.bg-grey-2
+                      q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
                       q-item.items-baseline.q-px-sm.q-py-none.min-height-auto(v-for="(entry, i) in recipe.entries")
 
@@ -74,7 +74,7 @@
         //----- remixes
         div.q-mb-md.shadow-1.round-borders.transition(v-for="(remix, index) in tempRemixes",
         style="overflow: hidden;",
-        :class="[optionRemix !== index ? 'bg-grey-4 text-grey-8' : 'bg-white text-grey-8', {'hidden': optionRemix !== index && remixStandalone}]")
+        :class="[optionRemix !== index ? 'bg-e4 text-grey-8' : 'text-grey-9 bg-grey-1', {'hidden': optionRemix !== index && remixStandalone}]")
           div.relative-position(:class="{'bg-transparent': optionRemix === index}")
             q-radio.full-width.q-mb-none.word-break(v-model="optionRemix", :val="index",
             :class="{'q-pb-md': optionRemix === index}")
@@ -88,7 +88,7 @@
                     | {{ remix.title }}
 
                   template(v-if="optionRemix === index")
-                    q-item-separator.q-ma-none.bg-grey-2
+                    q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
                     q-item.items-baseline.q-px-sm.q-py-none.min-height-auto(v-for="(entry, i) in remix.entries")
 
