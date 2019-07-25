@@ -92,6 +92,4 @@
 </script>
 
 <style scoped lang="stylus">
-  .inactive
-    opacity .4
 </style>
