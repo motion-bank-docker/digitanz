@@ -16,7 +16,7 @@
                     q-item.q-pa-none.q-px-sm
                       q-item-main.q-caption {{ term }}
 
-                    q-item-separator.q-ma-none(:class="[optionCloud === index ? 'bg-grey-3' : 'bg-grey-5']")
+                    q-item-separator.q-ma-none(:class="[optionCloud === index ? 'bg-grey-3' : 'bg-grey-5 opacity-4']")
 
               //----- "remove"-button
               .absolute-top-right.transition.q-px-sm.q-pt-xs(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
