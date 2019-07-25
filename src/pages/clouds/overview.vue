@@ -2,9 +2,8 @@
   q-page.q-pa-md
 
     //----- "empty"-message
-    .inactive.q-mb-md
-      q-btn.full-width.capitalize.text-grey-9.shadow-3(v-if="tempClouds.length <= 0",
-      disabled, flat) Leer
+    .inactive.q-mb-md(v-if="tempClouds.length <= 0")
+      q-btn.full-width.capitalize.text-grey-9.shadow-3(disabled, flat) Leer
 
     //----- clouds
     template(v-else)
