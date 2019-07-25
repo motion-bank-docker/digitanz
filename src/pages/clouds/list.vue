@@ -79,8 +79,8 @@
             label.full-width(:for="cT.label")
               | {{ cT.label }}
 
-      .fixed-bottom-right.q-px-md(style="height: 52px;",
-      :class="[selectedWords.length < 1 ? '' : '']")
+      // ------------------------------------------------------------------------------------------------------- buttons
+      .fixed-bottom-right.q-px-md(style="height: 52px;", :class="[selectedWords.length < 1 ? '' : '']")
 
         q-btn.bg-grey-9.text-white-2(
         @click="$router.push('/clouds/overview')", flat, no-caps, icon="clear", round)
@@ -94,20 +94,22 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import ConfirmModal from '../../components/ConfirmModal'
+  // import ConfirmModal from '../../components/ConfirmModal'
   import VideoListView from '../../components/VideoListView'
   import json from '../../components/json/aktionsbegriffe.json'
   import wolkeDrei from '../../components/json/wolkeDrei.json'
 
   export default {
     components: {
-      ConfirmModal,
+      // ConfirmModal,
       VideoListView
     },
     async mounted () {
+      /*
       if (this.user) {
         await this.loadData()
       }
+      */
       this.myJson.sort(function (a, b) {
         var nameA = a.label.toUpperCase()
         var nameB = b.label.toUpperCase()
@@ -136,26 +138,26 @@
         countAdjektive: 0,
         countAktionen: 0,
         countGestaltung: 0,
-        activeImpulse: '',
-        addWordBubble: false,
-        dummyId: 0,
+        // activeImpulse: '',
+        // addWordBubble: false,
+        // dummyId: 0,
         inputNewWord: undefined,
         myJson: json,
         cloudThree: wolkeDrei,
         option: '',
-        publicUploads: [],
-        publicUploadsMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_UPLOADS_TIMELINE_UUID}`,
+        // publicUploads: [],
+        // publicUploadsMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_UPLOADS_TIMELINE_UUID}`,
         selectedVideos: [],
         selectedWords: [],
-        showOverlay: false,
-        words: [],
+        // showOverlay: false,
+        // words: [],
         selectedTab: undefined,
         showIcon: true
       }
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState',
+        // user: 'auth/getUserState',
         tempTerms: 'cloud/getTempTerms'
       })
     },
@@ -201,19 +203,24 @@
         this.$store.commit('cloud/addToTempTerms', val)
         this.inputNewWord = ''
       },
+      /*
       async addAssociation () {
         this.$q.loading.show({ message: this.$t('messages.saving') })
         const result = await this.$store.dispatch('cloud/addAssociation', this.selectedWords)
         this.$q.loading.hide()
         this.$router.push('/clouds/' + result.uuid + '/responses')
       },
+      */
       checkIfSelected (val) {
         return this.selectedWords.includes(val)
-      },
+      }
+      /*
       handlerAddWord () {
         this.inputNewWord = ''
         this.addWordBubble = !this.addWordBubble
-      },
+      }
+      */
+      /*
       async loadData () {
         this.$q.loading.show({ message: this.$t('messages.loading_data') })
         this.words = await this.$store.dispatch('cloud/listWords')
@@ -229,7 +236,9 @@
           return 0
         })
         this.$q.loading.hide()
-      },
+      }
+      */
+      /*
       async loadPublicUploads () {
         const query = {
           'target.id': this.publicUploadsMapUUID,
@@ -237,6 +246,7 @@
         }
         this.publicUploads = await this.$store.dispatch('annotations/find', query)
       }
+      */
     }
   }
 </script>
