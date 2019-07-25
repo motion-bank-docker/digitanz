@@ -1,28 +1,28 @@
 <template lang="pug">
   q-page
 
-    q-tabs(animated, color="transparent", text-color="white", align="justify" v-model="selectedTab",
+    q-tabs(animated, color="transparent", text-color="grey-1", align="justify" v-model="selectedTab",
     style="padding-bottom: 52px;")
 
       q-tab.text-center.q-mb-md.round-borders-5.q-pl-md.q-pl-md.q-pr-xs(name="tab-2", slot="title", default)
         q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
         label="Aktionen", flat, no-ripple,
-        :class="[selectedTab === 'tab-2' ? 'bg-white shadow-1' : '']",)
-          q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countAktionen > 0", floating, color="white")
+        :class="[selectedTab === 'tab-2' ? 'bg-grey-1 shadow-1' : '']",)
+          q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countAktionen > 0", floating, color="grey-1")
             | {{ countAktionen }}
 
       q-tab.text-center.q-mb-md.round-borders-5.q-px-xs.q-py-md(name="tab-3", slot="title")
         q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
         label="Gestaltung", flat, no-ripple,
-        :class="[selectedTab === 'tab-3' ? 'bg-white shadow-1' : '']",)
-          q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countGestaltung > 0", floating, color="white")
+        :class="[selectedTab === 'tab-3' ? 'bg-grey-1 shadow-1' : '']",)
+          q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countGestaltung > 0", floating, color="grey-1")
             | {{ countGestaltung }}
 
       q-tab.text-center.q-mb-md.round-borders-5.q-pr-md.q-pl-xs(name="tab-1", slot="title")
         q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
         label="Adjektive", flat, no-ripple,
-        :class="[selectedTab === 'tab-1' ? 'bg-white shadow-1' : '']",)
-          q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countAdjektive > 0", floating, color="white")
+        :class="[selectedTab === 'tab-1' ? 'bg-grey-1 shadow-1' : '']",)
+          q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countAdjektive > 0", floating, color="grey-1")
             | {{ countAdjektive }}
 
       // --------------------------------------------------------------------------------------------- Adjektive (tab 1)
@@ -31,7 +31,7 @@
         //----- list
         q-list.q-pa-none.no-border.row.justify-between
           q-item.q-mb-md.shadow-1.q-pr-sm.round-borders(
-          v-for="term in tempTerms", :class="[checkIfSelected(term) ? 'bg-white text-grey-8' : 'bg-grey-4 text-grey-8']",
+          v-for="term in tempTerms", :class="[checkIfSelected(term) ? 'bg-grey-1 text-grey-8' : 'bg-grey-4 text-grey-8']",
           style="width: 46%;")
 
             input.hidden(@click="countWords('adjektive', term)", v-model="selectedWords", type="checkbox", :id="term", :value="term")
@@ -58,7 +58,7 @@
 
           q-item.shadow-1.round-borders(
           v-for="(mJ, index) in myJson",
-          :class="[checkIfSelected(mJ.label) ? 'bg-white text-grey-8' : 'bg-grey-4 text-grey-8', {'q-mb-md': index < myJson.length - 1}]",
+          :class="[checkIfSelected(mJ.label) ? 'bg-grey-1 text-grey-8' : 'bg-grey-4 text-grey-8', {'q-mb-md': index < myJson.length - 1}]",
           style="width: 46%;")
 
             input.hidden(@click="countWords('aktionen', mJ.label)", v-model="selectedWords", type="checkbox",
@@ -72,7 +72,7 @@
 
           q-item.shadow-1.q-pr-sm.round-borders(
           v-for="(cT, index) in cloudThree",
-          :class="[checkIfSelected(cT.label) ? 'bg-white text-grey-8' : 'bg-grey-4 text-grey-8', {'q-mb-md': index < cloudThree.length - 2}]",
+          :class="[checkIfSelected(cT.label) ? 'bg-grey-1 text-grey-8' : 'bg-grey-4 text-grey-8', {'q-mb-md': index < cloudThree.length - 2}]",
           style="width: 46%;")
 
             input.hidden(@click="countWords('gestaltung', cT.label)", v-model="selectedWords", type="checkbox", :id="cT.label", :value="cT.label")
@@ -82,10 +82,10 @@
       // ------------------------------------------------------------------------------------------------------- buttons
       .fixed-bottom-right.q-px-md(style="height: 52px;", :class="[selectedWords.length < 1 ? '' : '']")
 
-        q-btn.bg-grey-9.text-white-2(
+        q-btn.bg-grey-9.text-grey-1(
         @click="$router.push('/clouds/overview')", flat, no-caps, icon="clear", round)
 
-        q-btn.bg-grey-9.text-white-2.q-ml-md(
+        q-btn.bg-grey-9.text-grey-1.q-ml-md(
         @click="addTempCloud",
         :class="[selectedWords.length < 1 ? '' : '']",
         :disabled="selectedWords.length < 1", flat, no-caps, icon="check", round)

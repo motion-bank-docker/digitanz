@@ -8,13 +8,13 @@
       q-tab.text-center.round-borders-5.q-pl-md.q-pr-sm.q-py-md(v-if="!recipeStandalone", name="tab-1", slot="title", default,
       :class="[selectedTab === 'tab-1' ? 'text-grey-9' : 'text-grey-9']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
-        :class="[selectedTab === 'tab-1' ? 'bg-white' : '']",
+        :class="[selectedTab === 'tab-1' ? 'bg-grey-1' : '']",
         label="Meine Rezepte", flat, no-ripple)
 
       q-tab.text-center.round-borders-5.q-pl-sm.q-pr-md.q-py-md(v-if="!recipeStandalone", name="tab-2", slot="title",
       :class="[selectedTab === 'tab-2' ? 'text-grey-9' : 'text-grey-9']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
-        :class="[selectedTab === 'tab-2' ? 'bg-white' : '']",
+        :class="[selectedTab === 'tab-2' ? 'bg-grey-1' : '']",
         label="Gemixte Rezepte", flat, no-ripple)
 
       // ----------------------------------------------------------------------------------------------- "meine rezepte"
@@ -25,7 +25,7 @@
 
           div.q-mb-md.shadow-1.round-borders.transition(v-for="(recipe, index) in tempRecipes",
           style="overflow: hidden;",
-          :class="[option !== index ? 'bg-grey-4 text-grey-8' : 'text-grey-10 bg-white', {'hidden': option !== index && recipeStandalone}]")
+          :class="[option !== index ? 'bg-e4 text-grey-8' : 'text-grey-9 bg-grey-1', {'hidden': option !== index && recipeStandalone}]")
             div.relative-position(:class="{'bg-transparent': option === index}")
               q-radio.full-width.q-mb-none.word-break(v-model="option", :val="index",
               :class="{'q-pb-md': option === index}")

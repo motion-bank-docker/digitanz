@@ -2,7 +2,7 @@
   q-page.q-py-md
 
     // ---------------------------------------------------------------------------------------------------------- recipe
-    div.q-mx-md.shadow-1.bg-grey-4.text-grey-8.round-borders(style="overflow: hidden;")
+    div.q-mx-md.shadow-1.bg-e4.text-grey-8.round-borders(style="overflow: hidden;")
       q-list.q-pa-none.no-border.full-width(style="overflow-x: hidden;")
 
         //----- title
@@ -13,19 +13,19 @@
           type="textarea",
           :error="$v.newRecipe.title.$error",
           hide-underline,
-          :class="{'bg-white': !showIcon.recipeTitle}",
+          :class="{'bg-grey-1': !showIcon.recipeTitle}",
           placeholder="Titel", autofocus,
           @focus="showIcon.recipeTitle = false; option = '';",
           @blur="showIcon.recipeTitle = true")
 
-        q-item-separator.q-ma-none.q-mb-sm.bg-grey-5
+        q-item-separator.q-ma-none.q-mb-sm.bg-grey-5.opacity-4
 
         //----- ingredients
         q-item.q-px-sm.q-py-xs.min-height-auto.transition-padding(
         v-for="(ingr, index) in newRecipe.entries",
         :description="ingr",
         :key="ingr",
-        :class="[option === ingr ? 'bg-white q-py-md' : 'q-py-sm', {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
+        :class="[option === ingr ? 'bg-grey-1 q-py-md' : 'q-py-sm', {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
         multiline
         )
           //----- show list-position from ingredient
