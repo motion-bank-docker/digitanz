@@ -94,22 +94,15 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  // import ConfirmModal from '../../components/ConfirmModal'
   import VideoListView from '../../components/VideoListView'
   import json from '../../components/json/aktionsbegriffe.json'
   import wolkeDrei from '../../components/json/wolkeDrei.json'
 
   export default {
     components: {
-      // ConfirmModal,
       VideoListView
     },
     async mounted () {
-      /*
-      if (this.user) {
-        await this.loadData()
-      }
-      */
       this.myJson.sort(function (a, b) {
         var nameA = a.label.toUpperCase()
         var nameB = b.label.toUpperCase()
@@ -138,26 +131,18 @@
         countAdjektive: 0,
         countAktionen: 0,
         countGestaltung: 0,
-        // activeImpulse: '',
-        // addWordBubble: false,
-        // dummyId: 0,
         inputNewWord: undefined,
         myJson: json,
         cloudThree: wolkeDrei,
         option: '',
-        // publicUploads: [],
-        // publicUploadsMapUUID: `${process.env.TIMELINE_BASE_URI}${process.env.PUBLIC_UPLOADS_TIMELINE_UUID}`,
         selectedVideos: [],
         selectedWords: [],
-        // showOverlay: false,
-        // words: [],
         selectedTab: undefined,
         showIcon: true
       }
     },
     computed: {
       ...mapGetters({
-        // user: 'auth/getUserState',
         tempTerms: 'cloud/getTempTerms'
       })
     },
@@ -190,63 +175,13 @@
           break
         }
       },
-      /*
-      async addWord () {
-        this.$q.loading.show({ message: this.$t('messages.saving') })
-        await this.$store.dispatch('cloud/addWord', this.inputNewWord)
-        this.$q.loading.hide()
-        this.inputNewWord = ''
-        await this.loadData()
-      },
-      */
       addWord (val) {
         this.$store.commit('cloud/addToTempTerms', val)
         this.inputNewWord = ''
       },
-      /*
-      async addAssociation () {
-        this.$q.loading.show({ message: this.$t('messages.saving') })
-        const result = await this.$store.dispatch('cloud/addAssociation', this.selectedWords)
-        this.$q.loading.hide()
-        this.$router.push('/clouds/' + result.uuid + '/responses')
-      },
-      */
       checkIfSelected (val) {
         return this.selectedWords.includes(val)
       }
-      /*
-      handlerAddWord () {
-        this.inputNewWord = ''
-        this.addWordBubble = !this.addWordBubble
-      }
-      */
-      /*
-      async loadData () {
-        this.$q.loading.show({ message: this.$t('messages.loading_data') })
-        this.words = await this.$store.dispatch('cloud/listWords')
-        this.words.sort(function (a, b) {
-          var nameA = a.value.toUpperCase()
-          var nameB = b.value.toUpperCase()
-          if (nameA < nameB) {
-            return -1
-          }
-          if (nameA > nameB) {
-            return 1
-          }
-          return 0
-        })
-        this.$q.loading.hide()
-      }
-      */
-      /*
-      async loadPublicUploads () {
-        const query = {
-          'target.id': this.publicUploadsMapUUID,
-          'author.id': this.user.uuid
-        }
-        this.publicUploads = await this.$store.dispatch('annotations/find', query)
-      }
-      */
     }
   }
 </script>
