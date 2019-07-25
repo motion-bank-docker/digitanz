@@ -46,12 +46,6 @@
               q-btn.bg-grey-9.text-grey-2.q-ml-sm.q-mr-md(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
               q-btn.bg-grey-9.text-grey-2(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
 
-            //----- delete-button
-              .absolute-top-left.transition.items-start.row.q-pl-sm(
-              // :class="[option !== ingr ? 'leave-left-absolute' : '']",
-              style="margin-top: 3px;")
-                 q-btn.bg-grey-4.text-grey-10(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
-
     // ---------------------------------------------------------------------------------------------------------- inputs
     q-list.no-border.q-pa-none.q-mx-md.q-mt-lg(style="overflow-x: hidden;")
 
@@ -75,11 +69,7 @@
           v-model="selectGestaltung", @focus="resetValues", :options="tempTermsNewArranged",
           placeholder="Adjektiv", color="grey-8",
           hide-underline)
-          //
-            q-select.q-pa-sm(
-            v-model="selectGestaltung", @focus="resetValues", :options="wordsNewArranged",
-            placeholder="Adjektiv", color="grey-8",
-            hide-underline)
+
         q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectGestaltung ? 'leave-right' : '']")
           .transition
             q-btn.bg-grey-9.text-grey-2(@click="addTodoItem", icon="add", round, size="sm", flat)
@@ -110,27 +100,25 @@
 
     // ----------------------------------------------------------------------------------------------- buttons at bottom
     .q-mx-md.q-mt-xl.overflow-hidden
-      // .row.gutter-sm
+
       div.text-right
-        // .col-6
+
         q-btn.border.bg-grey-9.text-grey-2.q-mr-md(@click="$router.push('/recipes')", flat, no-caps, icon="clear",
         round)
-            // | Abbrechen
-        // .col-6.relative-position
+
         q-btn.capitalize(
         v-if="recipe.type === 'remix'",
         @click="submitRemix",
         :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? '' : 'bg-grey-9 text-grey-2']",
         :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
         type="submit", no-caps, icon="check", round, flat)
-          // | {{ $t('buttons.save') }}
+
         q-btn.capitalize(
         v-else,
         @click="submitRecipe",
         :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? '' : 'bg-grey-9 text-grey-2']",
         :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
         type="submit", no-caps, icon="check", round, flat)
-          // | {{ $t('buttons.save') }}
 </template>
 
 <script>
@@ -150,14 +138,10 @@
           position: undefined,
           index: undefined
         },
-        // submitStatus: null,
         selectAktion: '',
         selectGestaltung: '',
         selectCloudThree: '',
-        // words: [],
-        // wordsNewArranged: [],
         addIngredient: '',
-        // cols: [],
         option: [],
         showIcon: {
           recipeTitle: false,
@@ -208,14 +192,6 @@
         this.selectCloudThree = ''
         this.option = []
       },
-      /*
-      async loadData () {
-        this.words = await this.$store.dispatch('cloud/listWords')
-        for (let i = 0; i <= this.words.length - 1; i++) {
-          this.wordsNewArranged.push({label: this.words[i].value, value: this.words[i].value})
-        }
-      },
-      */
       addTodoItem: function () {
         if (this.addIngredient) {
           this.newRecipe.entries.push(this.addIngredient.trim())
