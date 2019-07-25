@@ -2,7 +2,7 @@
   q-page.relative-position
 
     //----- "delete"-modal
-    confirm-modal(ref="confirmDeleteModal", @confirm="deleteRecipe")
+    // confirm-modal(ref="confirmDeleteModal", @confirm="deleteRecipe")
 
     q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
     swipeable)
@@ -135,27 +135,29 @@
           .text-center.q-mt-md.q-mt-md(v-else) Nicht genügend Zutaten vorhanden.
 
         //----- mixed recipes
-        q-list.q-pa-none.no-border.no-padding
-          q-item.items-baseline.q-px-none(v-for="recipe in remixed", :key="recipe.uuid")
-            q-item-main(dark)
-              q-item-tile
-                q-btn.full-width.bg-grey-10(@click="$router.push('/recipes/edit/' + recipe.uuid)", align="left")
-                  | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
-            q-item-side
-              q-item-tile
-                q-btn(@click="openDeleteModal(recipe)", icon="delete")
+        //
+          q-list.q-pa-none.no-border.no-padding
+            q-item.items-baseline.q-px-none(v-for="recipe in remixed", :key="recipe.uuid")
+              q-item-main(dark)
+                q-item-tile
+                  q-btn.full-width.bg-grey-10(@click="$router.push('/recipes/edit/' + recipe.uuid)", align="left")
+                    | {{ recipe.body.value ? JSON.parse(recipe.body.value).title : 'no title' }}
+              q-item-side
+                q-item-tile
+                  q-btn(@click="openDeleteModal(recipe)", icon="delete")
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import Chance from 'chance'
-  import ContentBlock from '../../components/ContentBlock'
-  import ConfirmModal from '../../components/ConfirmModal'
+  // import ContentBlock from '../../components/ContentBlock'
+  // import ConfirmModal from '../../components/ConfirmModal'
 
-  import {QInput, QBtn, QList, QItem, QPage, QItemMain, QItemSide, QItemTile, QModal, QModalLayout, QSearch, QAutocomplete, QChipsInput} from 'quasar'
+  // import {QInput, QBtn, QList, QItem, QPage, QItemMain, QItemSide, QItemTile, QModal, QModalLayout, QSearch, QAutocomplete, QChipsInput} from 'quasar'
   const chance = new Chance()
   export default {
     components: {
+      /*
       ContentBlock,
       QInput,
       QBtn,
@@ -171,12 +173,13 @@
       QAutocomplete,
       QChipsInput,
       ConfirmModal
+      */
     },
     data () {
       return {
-        recipes: [],
-        personal: [],
-        remixed: [],
+        // recipes: [],
+        // personal: [],
+        // remixed: [],
         selectedTab: undefined,
         option: undefined,
         optionRemix: undefined,
@@ -184,27 +187,29 @@
       }
     },
     async mounted () {
-      await this.loadRecipes()
+      // await this.loadRecipes()
     },
     computed: {
       ...mapGetters({
-        user: 'auth/getUserState',
+        // user: 'auth/getUserState',
         tempRecipes: 'recipes/getTempRecipes',
         allIngredients: 'recipes/getAllIngredients',
         tempRemixes: 'recipes/getTempRemixes'
       })
     },
     watch: {
+      /*
       async user () {
         await this.loadRecipes()
       }
+      */
     },
     methods: {
       removeTempRemix (val) {
         this.$store.commit('recipes/removeFromTempRemixes', val)
       },
       handlerStandalone () {
-        console.log('bla')
+        // console.log('bla')
         this.recipeStandalone = !this.recipeStandalone
       },
       editRemix (val) {
@@ -231,26 +236,32 @@
       handlerRadiobuttonRemix (val) {
         if (val === this.optionRemix) this.optionRemix = undefined
       },
+      /*
       async loadRecipes () {
         if (!this.user) return
         this.personal = await this.$store.dispatch('recipes/getPersonal', this.user.uuid)
         this.remixed = await this.$store.dispatch('recipes/getRemixed', this.user.uuid)
       },
+      */
       doRemix () {
         const remix = {
           entries: chance.shuffle(this.allIngredients).splice(0, chance.integer({min: 3, max: 4})),
           title: chance.name()
         }
         this.$store.commit('recipes/addToTempRemixes', remix)
-      },
+      }
+      /*
       openDeleteModal (uuid) {
         this.$refs.confirmDeleteModal.show('labels.confirm_delete', uuid, 'buttons.delete')
-      },
+      }
+      */
+      /*
       async deleteRecipe (recipe) {
         console.log(recipe)
         await this.$store.dispatch('annotations/delete', recipe.uuid)
         await this.loadRecipes()
       }
+      */
     }
   }
 </script>
