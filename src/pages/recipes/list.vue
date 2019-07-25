@@ -8,13 +8,13 @@
       q-tab.text-center.round-borders-5.q-pl-md.q-pr-sm.q-py-md(v-if="!recipeStandalone", name="tab-1", slot="title", default,
       :class="[selectedTab === 'tab-1' ? 'text-grey-9' : 'text-grey-9']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
-        :class="[selectedTab === 'tab-1' ? 'bg-white shadow-1' : '']",
+        :class="[selectedTab === 'tab-1' ? 'bg-white' : '']",
         label="Meine Rezepte", flat, no-ripple)
 
       q-tab.text-center.round-borders-5.q-pl-sm.q-pr-md.q-py-md(v-if="!recipeStandalone", name="tab-2", slot="title",
       :class="[selectedTab === 'tab-2' ? 'text-grey-9' : 'text-grey-9']")
         q-btn.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
-        :class="[selectedTab === 'tab-2' ? 'bg-white shadow-1' : '']",
+        :class="[selectedTab === 'tab-2' ? 'bg-white' : '']",
         label="Gemixte Rezepte", flat, no-ripple)
 
       // ----------------------------------------------------------------------------------------------- "meine rezepte"
@@ -23,7 +23,7 @@
         //----- recipes list
         template(v-if="tempRecipes.length")
 
-          div.q-mt-md.shadow-1.round-borders.transition(v-for="(recipe, index) in tempRecipes",
+          div.q-mb-md.shadow-1.round-borders.transition(v-for="(recipe, index) in tempRecipes",
           style="overflow: hidden;",
           :class="[option !== index ? 'bg-grey-4 text-grey-8' : 'text-grey-10 bg-white', {'hidden': option !== index && recipeStandalone}]")
             div.relative-position(:class="{'bg-transparent': option === index}")
@@ -58,19 +58,21 @@
                   q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
 
         //----- "add"-button
-        .q-mt-md.text-right(v-if="!recipeStandalone")
-          .text-center.border-bottom.border-color-grey-4.q-pb-md(v-if="tempRecipes.length <= 0") Leer
+        template(v-if="!recipeStandalone")
+          q-item.q-pa-none.row.items-center
+            q-item-side.inactive(v-if="tempRecipes.length <= 0") Leer
 
-          q-btn.bg-grey-9.text-white.q-mt-md(
-          @click="$router.push('/recipes/create')", round)
-            q-icon(name="add")
+            q-item-main.text-right
+              q-btn.bg-grey-9.text-white(
+              @click="$router.push('/recipes/create')", round, flat)
+                q-icon(name="add")
 
       // --------------------------------------------------------------------------------------------- "gemixte rezepte"
       // div.q-mt-md
-      q-tab-pane.q-px-md.q-py-md(keep alive, name="tab-2")
+      q-tab-pane.q-px-md.q-mb-sm(keep alive, name="tab-2")
 
         //----- remixes
-        div.q-mt-md.shadow-1.round-borders.transition(v-for="(remix, index) in tempRemixes",
+        div.q-mb-md.shadow-1.round-borders.transition(v-for="(remix, index) in tempRemixes",
         style="overflow: hidden;",
         :class="[optionRemix !== index ? 'bg-grey-4 text-grey-8' : 'bg-white text-grey-8', {'hidden': optionRemix !== index && remixStandalone}]")
           div.relative-position(:class="{'bg-transparent': optionRemix === index}")
@@ -105,14 +107,26 @@
                 q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeTempRemix(index)", round, size="sm", flat)
 
         //----- "add"-button
-        .q-mt-md
-          .text-center.border-bottom.border-color-grey-4.q-pb-md(v-if="tempRemixes.length <= 0") Leer
+        template
+          q-item.q-pa-none.row.items-center
+            q-item-side.inactive(v-if="tempRemixes.length <= 0") Leer
 
-          .text-right(v-if="allIngredients.length >= 4")
-            q-btn.bg-grey-9.text-white.q-mt-md(
-            @click="doRemix", round, flat, :disabled="allIngredients.length < 4")
-              q-icon(name="add")
-          .text-center.q-mt-md.q-mt-md(v-else) Nicht genügend Zutaten vorhanden.
+            q-item-main.text-right
+              q-btn.bg-grey-9.text-white(v-if="allIngredients.length >= 4", @click="doRemix", round, flat)
+                q-icon(name="add")
+              q-btn.bg-grey-9.text-white(v-else, round, flat)
+                q-icon(name="add")
+                q-tooltip.bg-transparent.text-grey-9.q-px-md(anchor="bottom middle", self="top middle")
+                  .bg-white.q-px-sm.q-py-sm.round-borders.shadow-1 In deinen erstellten Rezepten müssen zusammen mindestens vier Zutaten verwendet worden sein um einen Remix erstellen zu können.
+
+          //
+            .text-center.border-bottom.border-color-grey-4.q-pb-md(v-if="tempRemixes.length <= 0") Leer
+
+            .text-right(v-if="allIngredients.length >= 4")
+              q-btn.bg-grey-9.text-white.q-mt-md(
+              @click="doRemix", round, flat, :disabled="allIngredients.length < 4")
+                q-icon(name="add")
+            .text-center.q-mt-md.q-mt-md(v-else) Nicht genügend Zutaten vorhanden.
 
 </template>
 
