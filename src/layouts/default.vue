@@ -22,30 +22,34 @@
         | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
     // ---------------------------------------------------------------------------------------------------------- header
-    q-layout-header.no-shadow.bg-grey-9
-      q-item.q-pa-none.border-bottom
+    q-layout-header.bg-grey-3.text-grey-9(style="box-shadow: 0 0 5px 0 rgba(0, 0, 0, .1)")
+      q-item.q-pa-none
 
         // back-button
-        q-item-side.text-center.min-width-auto.q-pl-md(:class="{'offset': !usingTool}",
+        q-item-side.text-center.min-width-auto.full-height.overflow-hidden(:class="{'offset': !usingTool}",
         style="transition: all ease 200ms; width: 50px;")
-          q-btn.bg-grey-2.text-grey-9(@click="$router.push('/tools')",
-          icon="keyboard_backspace", flat, no-ripple, round, size="sm")
+          //
+            q-btn.bg-grey-2.text-grey-9(@click="$router.push('/tools')",
+            icon="keyboard_backspace", flat, no-ripple, round, size="sm")
+          q-btn.bg-transparent.full-width.full-height.no-round-borders(@click="$router.push('/tools')",
+          icon="keyboard_backspace", flat, no-ripple, style="height: 53px!important;")
 
         // title
-        q-item-main
+        q-item-main.text-weight-bold
 
           // digitanz light
-          q-btn.q-title.text-white.text-weight-bold.lowercase.full-width(v-if="!usingTool",
+          q-btn.q-title.lowercase.full-width(v-if="!usingTool",
           @click="$router.push('/')", flat, align="left") #digitanz
             span.text-weight-light &nbsp;light
 
           // app name
-          q-btn.q-title.text-white.text-weight-bold.capitalize.full-width(v-else, flat, no-ripple, align="left")
+          q-btn.q-title.capitalize.full-width(v-else, flat, no-ripple, align="left")
             .ellipsis {{ currentAppName }}
 
         // info-button
-        q-item-side.q-pr-md(v-if="usingTool")
-          q-btn.border.text-white(@click="handlerToolDescription", round, flat, size="sm") ?
+        //
+          q-item-side.q-pr-md(v-if="usingTool")
+            q-btn.border.text-white(@click="handlerToolDescription", round, flat, size="sm") ?
 
     // ---------------------------------------------------------------------------------------------------------- footer
     //
