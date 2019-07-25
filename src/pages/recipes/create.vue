@@ -6,14 +6,14 @@
       q-list.q-pa-none.no-border.full-width(style="overflow-x: hidden;")
 
         //----- title
-        q-list-header.q-title.min-height-auto.q-px-none.q-py-none
+        q-list-header.q-title.min-height-auto.q-px-none.q-py-none(:class="{'bg-grey-1': !showIcon.recipeTitle}")
           .absolute-right.q-mt-md.q-pt-md.q-mr-md.q-px-sm.text-grey-6(v-if="showIcon.recipeTitle")
             q-icon(name="edit", round, size="24px")
           q-input.q-title.q-px-sm.q-py-md.q-pr-xl(v-model="newRecipe.title",
           type="textarea",
           :error="$v.newRecipe.title.$error",
           hide-underline,
-          :class="{'bg-grey-1': !showIcon.recipeTitle}",
+          :class="[!showIcon.recipeTitle ? 'opacity-7' : 'opacity-3']",
           placeholder="Titel", autofocus,
           @focus="showIcon.recipeTitle = false; option = '';",
           @blur="showIcon.recipeTitle = true")
@@ -25,11 +25,11 @@
         v-for="(ingr, index) in newRecipe.entries",
         :description="ingr",
         :key="ingr",
-        :class="[option === ingr ? 'bg-grey-1 q-py-md' : 'q-py-sm', {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
+        :class="[option === ingr ? 'bg-grey-1 text-grey-8 q-py-md' : 'text-grey-6 q-py-sm', {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]",
         multiline
         )
           //----- show list-position from ingredient
-          q-item-side.q-py-xs.text-grey-8.min-width-auto.transition(style="width: 30px;") {{ index + 1 }}
+          q-item-side.q-py-xs.min-width-auto.transition.text-grey-6(style="width: 30px;") {{ index + 1 }}
 
           //----- ingredient
           q-item-main.transition(style="max-width: 100%;")
@@ -99,7 +99,7 @@
             q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="resetValues", round, icon="clear", size="sm", flat)
 
     // ----------------------------------------------------------------------------------------------- buttons at bottom
-    .q-mx-md.q-mt-xl.overflow-hidden
+    .q-mx-md.q-mt-lg.overflow-hidden
 
       div.text-right
 
