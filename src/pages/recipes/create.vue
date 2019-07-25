@@ -150,14 +150,14 @@
           position: undefined,
           index: undefined
         },
-        submitStatus: null,
+        // submitStatus: null,
         selectAktion: '',
         selectGestaltung: '',
         selectCloudThree: '',
-        words: [],
-        wordsNewArranged: [],
+        // words: [],
+        // wordsNewArranged: [],
         addIngredient: '',
-        cols: [],
+        // cols: [],
         option: [],
         showIcon: {
           recipeTitle: false,
@@ -208,12 +208,14 @@
         this.selectCloudThree = ''
         this.option = []
       },
+      /*
       async loadData () {
         this.words = await this.$store.dispatch('cloud/listWords')
         for (let i = 0; i <= this.words.length - 1; i++) {
           this.wordsNewArranged.push({label: this.words[i].value, value: this.words[i].value})
         }
       },
+      */
       addTodoItem: function () {
         if (this.addIngredient) {
           this.newRecipe.entries.push(this.addIngredient.trim())
