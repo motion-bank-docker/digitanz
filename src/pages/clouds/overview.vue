@@ -11,7 +11,7 @@
               q-radio.full-width.q-mb-none.word-break.relative-position(v-model="optionCloud",
               :val="index")
                 .round-borders.full-width.shadow-1(@click="handlerRadiobutton(index)",
-                :class="[optionCloud === index ? 'bg-grey-1 text-grey-8' : 'bg-e4']")
+                :class="[optionCloud === index ? 'bg-grey-1 text-grey-8' : 'bg-e4 text-grey-6']")
                   template(v-for="(term, i) in cloud")
                     q-item.q-pa-none.q-px-sm
                       q-item-main.q-caption {{ term }}
