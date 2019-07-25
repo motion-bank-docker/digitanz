@@ -17,7 +17,7 @@
         v-model="selectedStates",
         val="'option-' + {{index}}",
         @click="handlerStateButton(state, index)")
-          q-btn(round,  size="sm", flat, :class="[currentState === index ? 'bg-white' : 'border scaled']")
+          q-btn(round,  size="sm", flat, :class="[currentState === index ? 'bg-white' : 'bg-grey-7 scaled']")
           q-popover.q-pa-xs(anchor="top middle", self="bottom middle", :offset="[0, 12]", ref="popover",
           style="overflow: visible;")
             div.absolute-bottom.full-width.animation(

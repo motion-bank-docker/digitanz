@@ -262,8 +262,10 @@
 
   #mr-griddle.random
     line
-      stroke gray
+      // stroke gray
+      stroke #757575
 
+  /*
   #resize-handle
     fill: white
     stroke: gray
@@ -272,4 +274,5 @@
   #resize-handle *:hover,
   #resize-handle.resizing
     fill: gray
+  */
 </style>
