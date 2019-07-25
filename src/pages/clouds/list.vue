@@ -79,20 +79,12 @@
             label.full-width(:for="cT.label")
               | {{ cT.label }}
 
-          // q-item.q-mr-sm.q-mb-sm.shadow-2.q-pr-sm.q-mx-sm(v-for="cT in cloudThree")
-            | {{ cT.label }}
-
       .fixed-bottom-right.q-px-md(style="height: 52px;",
       :class="[selectedWords.length < 1 ? '' : '']")
 
         q-btn.bg-grey-9.text-white-2(
         @click="$router.push('/clouds/overview')", flat, no-caps, icon="clear", round)
 
-        //
-          q-btn.bg-grey-9.text-white-2.q-ml-md(
-          @click="addAssociation",
-          // :class="[selectedWords.length < 1 ? '' : '']",
-          // :disabled="selectedWords.length < 1", flat, no-caps, icon="check", round)
         q-btn.bg-grey-9.text-white-2.q-ml-md(
         @click="addTempCloud",
         :class="[selectedWords.length < 1 ? '' : '']",
