@@ -22,7 +22,7 @@
         buttons: [{
           action: 'mr-griddle',
           icon: 'accessibility',
-          label: 'Mr. Griddle Sequenz',
+          label: 'Mr. Griddle',
           status: true
         }, {
           action: 'clouds',

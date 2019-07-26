@@ -81,7 +81,7 @@
         let routeSplit = to.path.split('/')
         switch (routeSplit[1]) {
         case 'mr-griddle':
-          this.currentAppName = 'Mr. Griddle Sequenz'
+          this.currentAppName = 'Mr. Griddle'
           break
         case 'clouds':
           this.currentAppName = 'Wortwolke'
