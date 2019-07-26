@@ -59,17 +59,9 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import ConversionJobs from '../components/ConversionJobs'
-  import SequenceJobs from '../components/SequenceJobs'
-  import QUploaderExtendedSimpleMicro from '../components/QUploaderExtendedSimpleMicro'
-  import FileUploaderMicro from '../components/FileUploaderMicro'
 
   export default {
     components: {
-      ConversionJobs,
-      SequenceJobs,
-      QUploaderExtendedSimpleMicro,
-      FileUploaderMicro
     },
     data () {
       return {
