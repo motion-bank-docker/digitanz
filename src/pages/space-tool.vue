@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page.bg-grey-3
+  q-page.bg-grey-3(style="margin-top: -1px;")
     div(style="overflow: hidden; height: calc(100vh - 52px);")
       lost-in-space#lostinspace
 </template>
