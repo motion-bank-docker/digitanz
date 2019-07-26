@@ -39,8 +39,13 @@
 
       //----- edit-button
       q-page-sticky(position="top-right")
-        q-btn.q-mr-sm.q-mt-sm.text-grey-9(@click="handleModeChange", icon="edit",
-        round, flat, no-ripple)
+        .relative-position
+          q-btn.absolute-top-right.q-mr-sm.q-mt-sm.text-grey-9.transition(@click="handleModeChange", icon="edit",
+          round, flat, no-ripple,
+          :class="{'leave-right': editSettings}")
+          q-btn.absolute-top-right.q-mr-md.q-mt-md.text-grey-2.bg-grey-9.transition(@click="handleModeChange", icon="clear",
+          round, flat, no-ripple, size="sm",
+          :class="{'leave-right': !editSettings}")
 
     //----- "resize grid"-buttons
     q-page-sticky.text-center.q-mx-md.q-my-sm(v-if="editSettings", position="top-left")
