@@ -52,9 +52,7 @@
     // ---------------------------------------------------------------------------------------------------------- others
     q-page-container
       router-view
-    conversion-jobs
-    sequence-jobs
-    mb-notification-service
+
 </template>
 
 <script>
