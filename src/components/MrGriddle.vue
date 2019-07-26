@@ -2,13 +2,12 @@
   div
     div.row(style="margin-top: -1px;")
       //----- mr griddle
-      svg(ref="svgContainer", :width="svgSize.width", :height="svgSize.height",
-      :class="{'border-bottom border-color-d4': editSettings}")
+      svg(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
         .q-mt-xl.row.justify-end
         defs
           pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
-            path(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
-            fill="none", stroke="#bdbdbd", :stroke-width="gridStrokeWidth")
+            path.transition-200(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
+            fill="none", stroke="#bdbdbd", :stroke-width="gridStrokeWidth", :opacity="patternOpacity")
         g#mr-griddle(:class="{'random': currentState === -1}", @click="handleSkeletonClick")
           rect(width="100%", height="100%", fill="url(#cell-pattern)")
           line(v-for="(line, i) in lines", :key="`line-${i}`",
@@ -17,6 +16,13 @@
           :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
         g#time-to-next-update
           rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="3", fill="e0e0e0")
+        line.transition-200(x1="0", y1="0", x2="0", :y2="svgSize.height", stroke="#eeeeee", :stroke-width="gridStrokeWidth * 2",
+        :opacity="patternOpacity")
+        line.transition-200(:x1="svgSize.width", :y1="0", :x2="svgSize.width", :y2="svgSize.height", stroke="#eeeeee",
+        :stroke-width="gridStrokeWidth * 2", :opacity="patternOpacity")
+        //----- line above slider
+        line.transition-200(x1="0", :y1="svgSize.height", :x2="svgSize.width", :y2="svgSize.height", stroke="#bdbdbd",
+        :stroke-width="gridStrokeWidth", :opacity="patternOpacity")
 
       //----- slider
       .fixed-bottom.row.items-center.transition(
@@ -48,7 +54,8 @@
           :class="{'leave-right': !editSettings}")
 
     //----- "resize grid"-buttons
-    q-page-sticky.text-center.q-mx-md.q-my-sm(v-if="editSettings", position="top-left")
+    // q-page-sticky.text-center.q-mx-md.q-my-sm.bg-red(v-if="editSettings", position="top-left")
+    q-page-sticky.text-center.q-mx-md.q-my-sm.transition(position="top-left", :class="{'leave-left-absolute' : !editSettings}")
       div
         q-btn.border.bg-grey-9.text-grey-1(@click="handleGridChange(0,-1)", round, size="sm", icon="remove", flat)
       div
@@ -96,7 +103,8 @@
         currentState: -1,
         timerId: undefined,
         editSettings: false,
-        gridStrokeWidth: 0
+        gridStrokeWidth: 0,
+        patternOpacity: 0
       }
     },
     computed: {
@@ -176,8 +184,14 @@
       },
       handleModeChange () {
         this.editSettings = !this.editSettings
-        if (this.editSettings) this.gridStrokeWidth = 1
-        else this.gridStrokeWidth = 0
+        if (this.editSettings) {
+          this.gridStrokeWidth = 1
+          this.patternOpacity = 1
+        }
+        else {
+          this.gridStrokeWidth = 0
+          this.patternOpacity = 0
+        }
         this.$emit('editModeChanged', this.editSettings)
       },
       updateFrame () {
