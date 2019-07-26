@@ -236,8 +236,8 @@
         this.$router.push('/recipes')
       },
       submitRemix () {
-        console.log('SUBMIT REMIX')
         if (this.recipe.recipe !== undefined) {
+          this.newRecipe.index = this.recipe.index
           this.$store.commit('recipes/updateExistingRemix', this.newRecipe)
         }
         this.$router.push({name: 'recipes', params: {target: 'remix'}})
