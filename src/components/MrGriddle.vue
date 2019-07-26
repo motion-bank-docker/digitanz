@@ -1,13 +1,14 @@
 <template lang="pug">
   div
     div.row(style="margin-top: -1px;")
+      //----- mr griddle
       svg(ref="svgContainer", :width="svgSize.width", :height="svgSize.height",
-      :class="{'border-bottom': editSettings}")
+      :class="{'border-bottom border-color-d4': editSettings}")
         .q-mt-xl.row.justify-end
         defs
           pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
             path(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
-            fill="none", stroke="gray", :stroke-width="gridStrokeWidth")
+            fill="none", stroke="#bdbdbd", :stroke-width="gridStrokeWidth")
         g#mr-griddle(:class="{'random': currentState === -1}", @click="handleSkeletonClick")
           rect(width="100%", height="100%", fill="url(#cell-pattern)")
           line(v-for="(line, i) in lines", :key="`line-${i}`",
@@ -15,10 +16,10 @@
           :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
           :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
         g#time-to-next-update
-          rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="3", fill="white")
+          rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="3", fill="e0e0e0")
 
-      // slider
-      .bg-grey-9.fixed-bottom.row.items-center.transition(
+      //----- slider
+      .fixed-bottom.row.items-center.transition(
       style="height: 52px;",
       :class="{'leave-bottom' : !editSettings}")
         q-item.q-pa-none.full-width(style="min-height: auto;")
@@ -26,31 +27,31 @@
           q-item-side.q-ml-md(style="min-width: auto;",
           :class="{'hidden': states.length === 0}")
 
-            q-btn.text-white.q-pa-none(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
-            :class="[$props.play ? 'text-grey-2' : 'text-grey-2', {'leave-bottom': states.length <= 0}]", flat,
+            q-btn.text-white.q-pa-none.text-grey-9(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
+            :class="{'leave-bottom': states.length <= 0}", flat,
             size="lg", no-ripple,
             :disabled="states.length === 0")
 
           q-item-main.q-px-md
             q-slider(
-            v-model="frameLength", color="white", :min="minFrameLength", :max="maxFrameLength",
+            v-model="frameLength", color="grey-9", :min="minFrameLength", :max="maxFrameLength",
             :step="20", fill-handle-always, snap)
 
-      // edit-button
-      q-page-sticky(expand position="top-right")
-        q-btn.q-mr-md.q-mt-sm(@click="handleModeChange", icon="settings",
-        round, size="sm", :class="[editSettings ? 'bg-white text-grey-9' : 'border']", flat)
+      //----- edit-button
+      q-page-sticky(position="top-right")
+        q-btn.q-mr-sm.q-mt-sm.text-grey-9(@click="handleModeChange", icon="edit",
+        round, flat, no-ripple)
 
-    // "resize grid"-buttons
+    //----- "resize grid"-buttons
     q-page-sticky.text-center.q-mx-md.q-my-sm(v-if="editSettings", position="top-left")
       div
-        q-btn.border.bg-grey-9.text-grey-2(@click="handleGridChange(0,-1)", round, size="sm", icon="remove", flat)
+        q-btn.border.bg-grey-9.text-grey-1(@click="handleGridChange(0,-1)", round, size="sm", icon="remove", flat)
       div
-        q-btn.border.bg-grey-9.text-grey-2(@click="handleGridChange(-1,0)", round, size="sm", icon="remove", flat)
+        q-btn.border.bg-grey-9.text-grey-1(@click="handleGridChange(-1,0)", round, size="sm", icon="remove", flat)
         q-btn.border.invisible(round, size="sm")
-        q-btn.border.bg-grey-9.text-grey-2(@click="handleGridChange(1,0)", round, size="sm", icon="add", flat)
+        q-btn.border.bg-grey-9.text-grey-1(@click="handleGridChange(1,0)", round, size="sm", icon="add", flat)
       div
-        q-btn.border.bg-grey-9.text-grey-2(@click="handleGridChange(0,1)", round, size="sm", icon="add", flat)
+        q-btn.border.bg-grey-9.text-grey-1(@click="handleGridChange(0,1)", round, size="sm", icon="add", flat)
 
 </template>
 
@@ -257,13 +258,16 @@
 
   #mr-griddle
     line
-      stroke white
+      /*stroke white*/
+      stroke $grey-9
       stroke-linecap round
 
   #mr-griddle.random
     line
       // stroke gray
-      stroke #757575
+      /*stroke #757575*/
+      // stroke $ce
+      stroke $d4
 
   /*
   #resize-handle

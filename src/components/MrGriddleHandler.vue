@@ -3,21 +3,21 @@
 
     q-item.q-pa-none.full-width(style="min-height: auto;")
 
-      // play-/stop-button
+      //----- play-/stop-button
       q-item-side.q-ml-md.q-pr-xs(style="min-width: auto;")
         q-btn.text-white.q-pa-none(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
-        :class="[$props.play ? 'text-grey-2' : 'text-grey-2', {'leave-bottom': states.length <= 0}]", flat,
+        :class="[$props.play ? 'text-grey-9' : 'text-grey-9', {'leave-bottom': states.length <= 0}]", flat,
         size="lg", no-ripple,
         :disabled="states.length === 0")
 
-      // state-buttons
+      //----- state-buttons
       q-item-main.q-pl-sm
         q-btn.q-mx-xs(v-for="(state, index) in states",
         round,  size="sm", flat,
         v-model="selectedStates",
         val="'option-' + {{index}}",
         @click="handlerStateButton(state, index)")
-          q-btn(round,  size="sm", flat, :class="[currentState === index ? 'bg-white' : 'bg-grey-7 scaled']")
+          q-btn(round,  size="sm", flat, :class="[currentState === index ? 'bg-grey-9' : 'bg-d4 scaled']")
           q-popover.q-pa-xs(anchor="top middle", self="bottom middle", :offset="[0, 12]", ref="popover",
           style="overflow: visible;")
             div.absolute-bottom.full-width.animation(
@@ -25,9 +25,9 @@
               div.rotate-45.bg-white(style="width: 20px; height: 20px;")
             q-btn.text-grey-9(@click="deleteItem({state, index})", icon="delete", round, flat)
 
-      // add-butoon
+      //----- add-butoon
       q-item-side.q-mr-md(style="min-width: auto;")
-        q-btn.no-padding.border.bg-white.text-grey-9.transition(icon="add", size="sm", flat, no-ripple,
+        q-btn.no-padding.bg-grey-9.text-grey-2.transition(icon="add", size="sm", flat, no-ripple,
         round, @click="$emit('clickAdd')",
         :class="{'leave-bottom': states.length >= 5}",
         :disabled="states.length >= 5")
