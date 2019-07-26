@@ -6,16 +6,16 @@
 
       q-item.q-pa-none.items-stretch.border-bottom
 
-        // app title
+        //----- app title
         q-item-main.q-title.text-weight-bold.q-pr-md
           q-btn.q-title.capitalize.q-pl-md(no-ripple, flat) {{ currentAppName }}
 
-        // close-button
+        //----- close-button
         q-item-side.text-center.q-py-sm(style="width: 55px;")
           q-btn.border-right.no-round-borders.text-dark.rotate-180.full-height(@click="handlerToolDescription()",
           icon="clear", flat, no-ripple)
 
-      // content (dummy)
+      //----- content (dummy)
       div.q-pa-md
         | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
       div.q-pa-md
@@ -25,24 +25,21 @@
     q-layout-header.bg-grey-3.text-grey-9(style="box-shadow: 0 0 5px 0 rgba(0, 0, 0, .1)")
       q-item.q-pa-none
 
-        // back-button
+        //----- back-button
         q-item-side.text-center.min-width-auto.full-height.overflow-hidden(:class="{'offset': !usingTool}",
         style="transition: all ease 200ms; width: 50px;")
-          //
-            q-btn.bg-grey-2.text-grey-9(@click="$router.push('/tools')",
-            icon="keyboard_backspace", flat, no-ripple, round, size="sm")
           q-btn.bg-transparent.full-width.full-height.no-round-borders.text-grey-9(@click="$router.push('/tools')",
           icon="keyboard_backspace", flat, no-ripple, style="height: 53px!important;")
 
-        // title
+        //----- title
         q-item-main.text-weight-bold
 
-          // digitanz light
+          //----- digitanz light
           q-btn.q-title.lowercase.full-width(v-if="!usingTool",
           @click="$router.push('/')", flat, align="left") #digitanz
             span.text-weight-light &nbsp;light
 
-          // app name
+          //----- app name
           q-btn.q-title.capitalize.full-width.q-pl-none(v-else, flat, no-ripple, align="left")
             .ellipsis {{ currentAppName }}
 
@@ -95,6 +92,7 @@
     data () {
       return {
         showToolDescription: false,
+        /*
         buttons: [{
           action: 'profile',
           icon: 'person',
@@ -108,19 +106,22 @@
           icon: 'build',
           status: true
         }],
-        rootPaths: ['', 'profile', 'dashboard-new', 'tools'],
+        */
+        // rootPaths: ['', 'profile', 'dashboard-new', 'tools'],
         // hideBackButton: true,
-        currentApp: null,
-        currentAppName: '',
-        env: process.env,
+        // currentApp: null,
+        currentAppName: ''
+        // env: process.env,
+        /*
         uploaderQuery: {
           'title': 'Meine Videos'
         }
+        */
       }
     },
     computed: {
       ...mapGetters({
-        userState: 'auth/getUserState'
+        // userState: 'auth/getUserState'
       }),
       usingTool () {
         if (this.$route.path === '/' || this.$route.path === '/tools') return false
@@ -155,6 +156,7 @@
       handlerToolDescription () {
         this.showToolDescription = !this.showToolDescription
       },
+      /*
       actions (val) {
         switch (val) {
         case 'profile':
@@ -171,13 +173,17 @@
           break
         }
       },
+      */
+      /*
       clickTitle () {
         this.$router.push('/')
       },
+      */
       executeApp (appName) {
-        this.currentApp = appName
+        // this.currentApp = appName
         this.$router.push({path: '/' + appName})
-      },
+      }
+      /*
       login () {
         // this.$auth.authenticate()
       },
@@ -186,6 +192,7 @@
         // this.$store.commit('auth/setUser', undefined)
         // this.$auth.logout()
       }
+      */
     }
   }
 </script>
