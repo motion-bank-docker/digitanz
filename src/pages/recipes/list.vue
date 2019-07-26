@@ -151,6 +151,9 @@
         tempRemixes: 'recipes/getTempRemixes'
       })
     },
+    mounted () {
+      if (this.$route.params.target === 'remix') this.selectedTab = 'tab-2'
+    },
     methods: {
       removeTempRemix (val) {
         this.$store.commit('recipes/removeFromTempRemixes', val)

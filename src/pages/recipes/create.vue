@@ -240,7 +240,7 @@
         if (this.recipe.recipe !== undefined) {
           this.$store.commit('recipes/updateExistingRemix', this.newRecipe)
         }
-        this.$router.push('/recipes')
+        this.$router.push({name: 'recipes', params: {target: 'remix'}})
       }
     }
   }

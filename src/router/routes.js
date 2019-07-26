@@ -13,7 +13,12 @@ const routes = [
       { path: 'dashboard-new', component: () => import('pages/dashboard-new'), meta: {private: true} },
       // { path: 'allrecipes', component: () => import('pages/allRecipes'), meta: {private: true} },
       // { path: 'newrecipe/:uuid', component: () => import('pages/recipe'), meta: {private: true} },
-      { path: 'recipes', component: () => import('pages/recipes/list'), meta: {private: true} },
+      {
+        path: 'recipes',
+        component: () => import('pages/recipes/list'),
+        meta: {private: true},
+        name: 'recipes'
+      },
       { path: 'recipes/create', component: () => import('pages/recipes/create'), meta: {private: true} },
 
       // { path: 'recipes/create/:recipe', component: () => import('pages/recipes/create'), meta: {private: true} },
