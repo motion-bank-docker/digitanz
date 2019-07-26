@@ -269,6 +269,7 @@
 
 <style scoped lang="stylus">
   @import '~variables'
+
   svg
     position absolute
     top 0
@@ -276,25 +277,10 @@
 
   #mr-griddle
     line
-      /*stroke white*/
       stroke $grey-9
       stroke-linecap round
 
   #mr-griddle.random
     line
-      // stroke gray
-      /*stroke #757575*/
-      // stroke $ce
       stroke $d4
-
-  /*
-  #resize-handle
-    fill: white
-    stroke: gray
-    stroke-width: 2
-
-  #resize-handle *:hover,
-  #resize-handle.resizing
-    fill: gray
-  */
 </style>
