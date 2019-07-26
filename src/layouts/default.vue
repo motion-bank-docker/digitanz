@@ -40,8 +40,8 @@
             span.text-weight-light &nbsp;light
 
           //----- app name
-          q-btn.q-title.capitalize.full-width.q-pl-none(v-else, flat, no-ripple, align="left")
-            .ellipsis {{ currentAppName }}
+          q-btn.q-title.capitalize.full-width(v-else, flat, no-ripple, align="left")
+            .ellipsis(style="margin-left: -16px;") {{ currentAppName }}
 
         // info-button
         //
