@@ -31,7 +31,7 @@
           //
             q-btn.bg-grey-2.text-grey-9(@click="$router.push('/tools')",
             icon="keyboard_backspace", flat, no-ripple, round, size="sm")
-          q-btn.bg-transparent.full-width.full-height.no-round-borders(@click="$router.push('/tools')",
+          q-btn.bg-transparent.full-width.full-height.no-round-borders.text-grey-9(@click="$router.push('/tools')",
           icon="keyboard_backspace", flat, no-ripple, style="height: 53px!important;")
 
         // title
@@ -43,7 +43,7 @@
             span.text-weight-light &nbsp;light
 
           // app name
-          q-btn.q-title.capitalize.full-width(v-else, flat, no-ripple, align="left")
+          q-btn.q-title.capitalize.full-width.q-pl-none(v-else, flat, no-ripple, align="left")
             .ellipsis {{ currentAppName }}
 
         // info-button
