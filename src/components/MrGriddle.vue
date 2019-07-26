@@ -54,8 +54,7 @@
           :class="{'leave-right': !editSettings}")
 
     //----- "resize grid"-buttons
-    // q-page-sticky.text-center.q-mx-md.q-my-sm.bg-red(v-if="editSettings", position="top-left")
-    q-page-sticky.text-center.q-mx-md.q-my-sm.transition(position="top-left", :class="{'leave-left-absolute' : !editSettings}")
+    q-page-sticky.text-center.q-mx-md.q-mt-md.transition(position="top-left", :class="{'leave-left-absolute' : !editSettings}")
       div
         q-btn.border.bg-grey-9.text-grey-1(@click="handleGridChange(0,-1)", round, size="sm", icon="remove", flat)
       div
