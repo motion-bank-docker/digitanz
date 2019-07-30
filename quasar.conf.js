@@ -53,49 +53,12 @@ module.exports = function (ctx) {
         //
         // Hosts
         //
-        API_HOST: JSON.stringify(process.env.API_HOST || 'https://api.motionbank.org'),
-        DIGITANZ_API_HOST: JSON.stringify(process.env.DIGITANZ_API_HOST || 'https://api.digitanz.de'),
-        TRANSCODER_HOST: JSON.stringify(process.env.TRANSCODER_HOST || 'https://transcoder.motionbank.org'),
-        LOGGER_HOST: JSON.stringify(process.env.LOGGER_HOST || 'https://logging.motionbank.org'),
-        UI_HOST: JSON.stringify(process.env.UI_HOST || 'https://app.digitanz.de'),
-        ASSETS_BASE_PATH: JSON.stringify(process.env.ASSETS_BASE_PATH || 'https://assets.motionbank.org/piecemaker/'),
-        //
-        // Resources
-        //
-        TIMELINE_BASE_URI: JSON.stringify(process.env.TIMELINE_BASE_URI || 'http://id.motionbank.org/maps/'),
-        ANNOTATION_BASE_URI: JSON.stringify(process.env.ANNOTATION_BASE_URI || 'http://id.motionbank.org/annotations/'),
-        ASSOCIATION_BASE_URI: JSON.stringify(process.env.ASSOCIATION_BASE_URI || 'http://id.motionbank.org/associations/'),
-        GRID_BASE_URI: JSON.stringify(process.env.GRID_BASE_URI || 'http://id.motionbank.org/maps/'),
-        ID_FIELD: JSON.stringify(process.env.ID_FIELD || 'uuid'),
-        SYSTEM_USER_UUID: JSON.stringify(process.env.SYSTEM_USER_UUID || 'aa5a24cc-dbd3-5b5d-8ca6-76552699cbd9'),
-        PORTRAITS_TIMELINE_UUID: JSON.stringify(process.env.PORTRAITS_TIMELINE_UUID || 'dfceff69-75a8-4087-b3cc-0bbd23c833c3'),
-        SEQUENCES_TIMELINE_UUID: JSON.stringify(process.env.SEQUENCES_TIMELINE_UUID || 'd93ebf09-2c01-4d28-9cbb-0a6d1629b4be'),
-        PUBLIC_UPLOADS_TIMELINE_UUID: JSON.stringify(process.env.PUBLIC_UPLOADS_TIMELINE_UUID || '7f72ebc3-b56a-4214-8425-3ce097419358'),
-        MR_GRIDDLE_TIMELINE_UUID: JSON.stringify(process.env.MR_GRIDDLE_TIMELINE_UUID || 'd9bdddbf-f70f-45b0-a733-7c3737758747'),
-        MR_GRIDDLE_SEQUENCES_TIMELINE_UUID: JSON.stringify(process.env.MR_GRIDDLE_SEQUENCES_TIMELINE_UUID || '91b4bd23-8272-44bd-8879-785d8092edc8'),
-        ABGABEN_TIMELINE_UUID: JSON.stringify(process.env.ABGABEN_TIMELINE_UUID || '8b008aea-12a9-4dd9-b70b-aee0f56a203f'),
-        ARCHIVE_TIMELINE_UUID: JSON.stringify(process.env.ARCHIVE_TIMELINE_UUID || 'f6d1f4f9-f79b-4996-9c95-8ecb4ae6dbed'),
-        PUBLIC_RECIPES_TIMELINE_UUID: JSON.stringify(process.env.PUBLIC_RECIPES_TIMELINE_UUID || '8176b3a2-9b51-47c8-869c-426ce2f48719'),
-        APP_NAME: JSON.stringify(process.env.APP_NAME || 'digitanz'),
-        //
-        // Auth0
-        //
-        AUTH0_DOMAIN: JSON.stringify(process.env.AUTH0_DOMAIN || 'auth.motionbank.org'),
-        AUTH0_CLIENT_ID: JSON.stringify(process.env.AUTH0_CLIENT_ID || '80t5TRU9MVhGDVnZ522CvX4hutBxDB6U'),
-        AUTH0_REDIRECT_URL: JSON.stringify(process.env.AUTH0_REDIRECT_URL || 'https://app.digitanz.de/users/callback'),
-        AUTH0_AUDIENCE: JSON.stringify(process.env.AUTH0_AUDIENCE || 'https://api.motionbank.org'),
+        UI_HOST: JSON.stringify(process.env.UI_HOST || 'https://lite.digitanz.de'),
+        APP_NAME: JSON.stringify(process.env.APP_NAME || '#digitanz lite'),
         //
         //
         //
-        SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN || null),
-        //
-        // Toggle tools/features
-        //
-        FEATURE_MR_GRIDDLE: JSON.stringify(process.env.FEATURE_MR_GRIDDLE || false),
-        FEATURE_RECIPES: JSON.stringify(process.env.FEATURE_RECIPES || false),
-        FEATURE_SPACE: JSON.stringify(process.env.FEATURE_SPACE || false),
-        FEATURE_SEQUENCER: JSON.stringify(process.env.FEATURE_SEQUENCER || true),
-        FEATURE_UPLOAD: JSON.stringify(process.env.FEATURE_MR_GRIDDLE || true)
+        SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN || null)
       }
     },
     devServer: {
