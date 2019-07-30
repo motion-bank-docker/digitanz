@@ -29,6 +29,7 @@
     "mbjs-quasar": "0.0.27",
     "mbjs-utils": "0.0.6",
     "raven-js": "^3.26.4",
+    "sentencer": "^0.2.0",
     "superagent": "^3.8.2",
     "tiny-emitter": "^2.0.2",
     "video.js": "^6.8.0",
