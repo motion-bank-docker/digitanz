@@ -7,7 +7,7 @@
 
         //----- title
         q-list-header.q-title.min-height-auto.q-px-none.q-py-none(:class="{'bg-grey-1': !showIcon.recipeTitle}")
-          .absolute-right.q-mt-md.q-pt-md.q-mr-md.q-px-sm.text-grey-6(v-if="showIcon.recipeTitle")
+          .absolute-right.q-mt-md.q-pt-md.q-mr-md.q-px-sm.text-grey-6(v-if="showIcon.recipeTitle && !newRecipe.title")
             q-icon(name="edit", round, size="24px")
           q-input.q-title.q-px-sm.q-py-md.q-pr-xl(v-model="newRecipe.title",
           type="textarea",
@@ -46,57 +46,22 @@
               q-btn.bg-grey-9.text-grey-2.q-ml-sm.q-mr-md(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
               q-btn.bg-grey-9.text-grey-2(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
 
-    // ---------------------------------------------------------------------------------------------------------- inputs
-    q-list.no-border.q-pa-none.q-mx-md.q-mt-lg(style="overflow-x: hidden;")
+        q-item-separator.q-ma-none.q-mb-sm.bg-grey-5.opacity-4(v-if="newRecipe.entries.length")
 
-      q-item.no-padding.q-mb-sm
-        q-item-main.border-bottom.border-color-grey-4(style="max-width: 100%;")
-          q-input.q-pa-sm(
-          @click="resetValues", v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
-          placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
-          hide-underline,
-          @focus="showIcon.newRecipeEntry = false; option = '';",
-          @blur="showIcon.newRecipeEntry = true",
-          :after="[{icon: 'edit', condition: showIcon.newRecipeEntry}]")
-        q-item-side.min-width-auto.transition.row.self-stretch(:class="[!addIngredient ? 'leave-right' : '']")
-          .transition.q-pl-sm.items-center.row
-            q-btn.bg-grey-9.text-grey-2.rotate-90(@click="addTodoItem", icon="add", round, size="sm", flat)
-            q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="resetValues", round, icon="clear", size="sm", flat)
-
-      q-item.no-padding.q-mb-sm
-        q-item-main.border-bottom.border-color-grey-4(style="max-width: 100%;")
-          q-select.q-pa-sm(
-          v-model="selectGestaltung", @focus="resetValues", :options="tempTermsNewArranged",
-          placeholder="Adjektiv", color="grey-8",
-          hide-underline)
-
-        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectGestaltung ? 'leave-right' : '']")
-          .transition
-            q-btn.bg-grey-9.text-grey-2(@click="addTodoItem", icon="add", round, size="sm", flat)
-            q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="resetValues", round, icon="clear", size="sm", flat)
-
-      q-item.no-padding.q-mb-sm
-        q-item-main.border-bottom.border-color-grey-4(style="max-width: 100%;")
-          q-select.q-pa-sm(
-          v-model="selectAktion", @focus="resetValues", :options="myJson",
-          placeholder="Aktionsbegriff", color="grey-8",
-          hide-underline)
-        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectAktion ? 'leave-right' : '']")
-          .transition
-            q-btn.bg-grey-9.text-grey-2(@click="addTodoItem", icon="add", round, size="sm", flat)
-            q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="resetValues", round, icon="clear", size="sm", flat)
-
-      q-item.no-padding
-        q-item-main.border-bottom.border-color-grey-4(style="max-width: 100%;")
-          q-select.q-pa-sm(
-          v-model="selectCloudThree", @focus="resetValues", :options="cloudThree",
-          placeholder="Gestaltungsbegriff", color="grey-8",
-          hide-underline,
-          style="overflow: hidden; text-overflow: ellipsis;")
-        q-item-side.min-width-auto.q-pl-sm.transition(:class="[!selectCloudThree ? 'leave-right' : '']")
-          .transition
-            q-btn.bg-grey-9.text-grey-2(@click="addTodoItem", icon="add", round, size="sm", flat)
-            q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="resetValues", round, icon="clear", size="sm", flat)
+        //----- input
+        q-item.no-padding.q-mb-sm
+          q-item-main.border-bottom.border-color-grey-4(style="max-width: 100%;")
+            q-input.q-pa-sm(
+            @click="resetValues", v-model="addIngredient", type="textarea", v-on:keyup.enter="addTodoItem",
+            placeholder="Rezepteintrag", :error="$v.newRecipe.entries.$error",
+            hide-underline,
+            @focus="showIcon.newRecipeEntry = false; option = '';",
+            @blur="showIcon.newRecipeEntry = true",
+            :after="[{icon: 'edit', condition: showIcon.newRecipeEntry && !addIngredient}]")
+          q-item-side.min-width-auto.transition.row.self-stretch(:class="[!addIngredient ? 'leave-right' : '']")
+            .transition.q-px-sm.items-top.row.q-pt-xs
+              q-btn.bg-grey-9.text-grey-2.rotate-90(@click="addTodoItem", icon="add", round, size="sm", flat)
+              q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="resetValues", round, icon="clear", size="sm", flat)
 
     // ----------------------------------------------------------------------------------------------- buttons at bottom
     .q-mx-md.q-mt-lg.overflow-hidden
