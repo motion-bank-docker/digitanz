@@ -7,7 +7,7 @@
         q-item-main(dark)
           q-item-tile
             // hier alle Titel meiner Rezepte anzeigen
-            q-btn.full-width(@click="$router.push('/newrecipe/' + recipe.uuid)", align="left", outline)
+            q-btn.full-width.capitalize(@click="$router.push('/newrecipe/' + recipe.uuid)", align="left", outline)
               | {{ JSON.parse(recipe.body.source).title }}
         q-item-side
           q-item-tile
@@ -22,7 +22,7 @@
         q-item-main(dark)
           q-item-tile
             // Loop durch array aller Rezepte, Titel anzeigen
-            q-btn.full-width(align="left", outline, @click="$router.push('/newrecipe/' + recipe.uuid)")
+            q-btn.full-width.capitalize(align="left", outline, @click="$router.push('/newrecipe/' + recipe.uuid)")
               | {{ JSON.parse(recipe.body.source).title }}
         q-item-side
           q-item-tile
@@ -81,6 +81,7 @@
 
 <script>
   import Chance from 'chance'
+  import Sentencer from 'sentencer'
   import {QInput, QBtn, QList, QItem, QPage, QItemMain, QItemSide, QItemTile, QModal, QModalLayout, QSearch, QAutocomplete, QChipsInput} from 'quasar'
   const chance = new Chance()
   export default {
@@ -146,7 +147,7 @@
             type: 'Recipe',
             purpose: 'remix',
             source: JSON.stringify({
-              title: `${chance.name()}`,
+              title: Sentencer.make('{{ adjective }} {{ noun }}'),
               entries: ingredients
             })
           }

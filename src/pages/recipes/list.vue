@@ -34,7 +34,7 @@
                   q-list.q-pa-none.no-border.full-width
 
                     //----- title
-                    q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm(
+                    q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm.capitalize(
                     :class="[option !== index ? 'text-grey-6' : 'text-grey-8']")
                       | {{ recipe.title }}
 
@@ -83,7 +83,7 @@
                 q-list.q-pa-none.no-border.full-width
 
                   //----- title
-                  q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm(
+                  q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm.capitalize(
                   :class="[optionRemix !== index ? '' : '']")
                     | {{ remix.title }}
 
@@ -133,6 +133,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import Chance from 'chance'
+  import Sentencer from 'sentencer'
 
   const chance = new Chance()
   export default {
@@ -181,7 +182,7 @@
       doRemix () {
         const remix = {
           entries: chance.shuffle(this.allIngredients).splice(0, chance.integer({min: 3, max: 4})),
-          title: chance.name()
+          title: Sentencer.make('{{ adjective }} {{ noun }}')
         }
         this.$store.commit('recipes/addToTempRemixes', remix)
       }
