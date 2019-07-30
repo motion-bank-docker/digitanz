@@ -37,7 +37,7 @@
           //----- digitanz light
           q-btn.q-title.lowercase.full-width(v-if="!usingTool",
           @click="$router.push('/')", flat, align="left") #digitanz
-            span.text-weight-light &nbsp;light
+            span.text-weight-light &nbsp;lite
 
           //----- app name
           q-btn.q-title.capitalize.full-width(v-else, flat, no-ripple, align="left")
