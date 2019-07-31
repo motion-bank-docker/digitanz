@@ -26,7 +26,7 @@
         q-item-side.q-pr-md.absolute-top-right.q-pt-sm.q-mt-xs
           q-btn.absolute-top-right.bg-grey-3.text-grey-9.transition.q-mt-sm.q-mr-md(@click="handlerInfoBox", round,
           size="sm", :class="[showInfoBox ? 'leave-right' : '']")
-            | ?
+            .q-subheading ?
 
     // ---------------------------------------------------------------------------------------------------------- others
     q-page-container
