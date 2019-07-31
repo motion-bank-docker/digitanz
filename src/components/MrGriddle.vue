@@ -25,7 +25,7 @@
         :stroke-width="gridStrokeWidth", :opacity="patternOpacity")
 
       //----- slider
-      .fixed-bottom.row.items-center.transition(
+      .absolute-bottom.row.items-center.transition(
       style="height: 52px;",
       :class="{'leave-bottom' : !editSettings}")
         q-item.q-pa-none.full-width(style="min-height: auto;")
@@ -44,7 +44,7 @@
             :step="20", fill-handle-always, snap)
 
       //----- edit-button
-      q-page-sticky(position="top-right")
+      .absolute-top-right
         .relative-position
           q-btn.absolute-top-right.q-mr-sm.q-mt-sm.text-grey-9.transition(@click="handleModeChange", icon="edit",
           round, flat, no-ripple,
@@ -54,7 +54,7 @@
           :class="{'leave-right': !editSettings}")
 
     //----- "resize grid"-buttons
-    q-page-sticky.text-center.q-mx-md.q-mt-md.transition(position="top-left", :class="{'leave-left-absolute' : !editSettings}")
+    .absolute-top-left.text-center.q-mx-md.q-mt-md.transition(:class="{'leave-left-absolute' : !editSettings}")
       div
         q-btn.border.bg-grey-9.text-grey-1(@click="handleGridChange(0,-1)", round, size="sm", icon="remove", flat)
       div

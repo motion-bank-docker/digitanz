@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page.bg-grey-3
+  q-page.bg-grey-3.relative-position.overflow-hidden
     mr-griddle#mr-griddle-container(
     ref="mrGriddleContainer",
     :play="playing",
@@ -8,7 +8,7 @@
     @stateChanged="handleStateChanged",
     @editModeChanged="handleEditChange")
 
-    .fixed-bottom.transition(:class="{'leave-bottom' : editMode}")
+    .absolute-bottom.transition(:class="{'leave-bottom' : editMode}")
       mr-griddle-handler(
       :play="playing",
       :states="storedStates",
