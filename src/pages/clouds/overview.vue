@@ -6,17 +6,15 @@
       .row.justify-between.q-px-sm
 
         template(v-for="(cloud, index) in tempClouds")
-          .col-6
+          .col-12
             q-list.min-height-auto.q-pa-sm(no-border)
               q-radio.full-width.q-mb-none.word-break.relative-position(v-model="optionCloud",
               :val="index")
-                .round-borders.full-width.shadow-1(@click="handlerRadiobutton(index)",
-                :class="[optionCloud === index ? 'bg-grey-1 text-grey-8' : 'bg-e4 text-grey-6']")
+                .round-borders.full-width.shadow-1.q-pa-md.text-center(@click="handlerRadiobutton(index)",
+                :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']")
                   template(v-for="(term, i) in cloud")
-                    q-item.q-pa-none.q-px-sm
-                      q-item-main.q-caption {{ term }}
-
-                    q-item-separator.q-ma-none(:class="[optionCloud === index ? 'bg-grey-3' : 'bg-grey-5 opacity-4']")
+                    span {{ term }}
+                    span(v-if="i < cloud.length - 1") ,&#32;
 
                 //----- "remove"-button
                 .absolute.full-width.full-height.overflow-hidden(@click="handlerRadiobutton(index)")
