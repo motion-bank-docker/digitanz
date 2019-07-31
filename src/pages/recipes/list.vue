@@ -91,11 +91,12 @@
                   template(v-if="optionRemix === index")
                     q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
-                    q-item.items-baseline.q-px-sm.q-py-none.min-height-auto(v-for="(entry, i) in remix.entries")
+                    q-item.items-baseline.q-px-sm.q-py-sm.min-height-auto(v-for="(entry, i) in remix.entries")
 
                       //----- ingredient position
-                      q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;")
-                        | {{ i + 1 }}.
+                      //
+                        q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;")
+                          | {{ i + 1 }}.
 
                       //----- ingredient
                       q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
