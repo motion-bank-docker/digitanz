@@ -1,26 +1,6 @@
 <template lang="pug">
   q-layout(view='lHh Lpr lFf')
 
-    // ---------------------------------------------------------------------------------------------------------- drawer
-    q-layout-drawer.text-grey-9(v-model="showToolDescription", side="right", no-swipe-open)
-
-      q-item.q-pa-none.items-stretch.border-bottom
-
-        //----- app title
-        q-item-main.q-title.text-weight-bold.q-pr-md
-          q-btn.q-title.capitalize.q-pl-md(no-ripple, flat) {{ currentAppName }}
-
-        //----- close-button
-        q-item-side.text-center.q-py-sm(style="width: 55px;")
-          q-btn.border-right.no-round-borders.text-dark.rotate-180.full-height(@click="handlerToolDescription()",
-          icon="clear", flat, no-ripple)
-
-      //----- content (dummy)
-      div.q-pa-md
-        | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-      div.q-pa-md
-        | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
     // ---------------------------------------------------------------------------------------------------------- header
     q-layout-header.bg-grey-3.text-grey-9(style="box-shadow: 0 0 5px 0 rgba(0, 0, 0, .1)")
       q-item.q-pa-none
@@ -43,14 +23,14 @@
           q-btn.q-title.capitalize.full-width(v-else, flat, no-ripple, align="left")
             .ellipsis(style="margin-left: -16px;") {{ currentAppName }}
 
-        // info-button
-        // todo: embed info drawer?
-        //
-          q-item-side.q-pr-md(v-if="usingTool")
-            q-btn.border.text-white(@click="handlerToolDescription", round, flat, size="sm") ?
+        //----- info-button
+        //----- todo: embed info drawer?
+        q-item-side.q-pr-md(v-if="usingTool")
+          q-btn.bg-grey-9.text-grey-1(@click="handlerToolDescription", round, flat, size="md") ?
 
     // ---------------------------------------------------------------------------------------------------------- others
     q-page-container
+      .bg-white(v-if="showInfoBox").q-pa-md blablabla
       router-view
 
 </template>
@@ -63,7 +43,7 @@
     },
     data () {
       return {
-        showToolDescription: false,
+        showInfoBox: false,
         currentAppName: ''
       }
     },
@@ -100,7 +80,7 @@
     },
     methods: {
       handlerToolDescription () {
-        this.showToolDescription = !this.showToolDescription
+        this.showInfoBox = !this.showInfoBox
       },
       executeApp (appName) {
         // this.currentApp = appName
