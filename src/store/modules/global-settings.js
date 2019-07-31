@@ -7,7 +7,8 @@ const global = {
     getStatusInfoBox: state => state.statusInfoBox
   },
   mutations: {
-    handlerStatusInfoBox (state) {
+    handlerStatusInfoBox (state, buttonAction) {
+      console.log(buttonAction)
       state.statusInfoBox = !state.statusInfoBox
     }
   },

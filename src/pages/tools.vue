@@ -12,7 +12,7 @@
                 //
                   q-btn.q-ml-md.absolute-top-right.bg-grey-3(v-if="button.status", @click="handlerVideoButton()",
                   icon="videocam", size="md", round, style="margin-right: -32px;")
-                q-btn.q-ml-md.absolute-top-right.bg-grey-3(v-if="button.status", @click="handlerVideoButton()",
+                q-btn.q-ml-md.absolute-top-right.bg-grey-3(v-if="button.status", @click="handlerVideoButton(button.action)",
                 size="md", round, style="margin-right: -32px;")
                   .q-subheading ?
               q-item-tile.text-center
@@ -70,8 +70,8 @@
       })
     },
     methods: {
-      handlerVideoButton () {
-        this.$store.commit('globalSettings/handlerStatusInfoBox')
+      handlerVideoButton (buttonAction) {
+        this.$store.commit('globalSettings/handlerStatusInfoBox', buttonAction)
       },
       actions (val) {
         switch (val) {
