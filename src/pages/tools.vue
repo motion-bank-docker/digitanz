@@ -3,12 +3,12 @@
     .q-pt-md.q-px-lg.row.gutter-sm
       .col-xs-6.col-md-2(v-for="button in buttons", :class="{'inactive': !button.status}")
 
-        q-btn.full-width.q-pa-none.capitalize.q-mb-xs(@click.native="actions(button.action)",
-        :disabled="!button.status", size="xl", flat)
+        q-btn.full-width.q-pa-none.capitalize.q-mb-xs(:disabled="!button.status", size="xl", flat, no-ripple)
           q-item.q-pa-none
             q-item-main
               q-item-tile.text-center.q-mb-sm.text-grey-9
-                q-btn(:icon="button.icon", size="xl", round, flat, :class="{'shadow-2': button.status}")
+                q-btn(@click.native="actions(button.action)",
+                :icon="button.icon", size="xl", round, flat, :class="{'shadow-2': button.status}")
               q-item-tile.text-center
                 .q-caption.q-pt-xs {{ button.label }}
 
