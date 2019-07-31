@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page
+  q-page.q-pb-sm
 
     q-tabs(animated, color="transparent", text-color="grey-1", align="justify" v-model="selectedTab",
     style="padding-bottom: 52px;")
@@ -79,14 +79,14 @@
                 | {{ cT.label }}
 
       // ------------------------------------------------------------------------------------------------------- buttons
-      .fixed-bottom-right.q-px-md(style="height: 52px;", :class="[selectedWords.length < 1 ? '' : '']")
-
+      .fixed-bottom-left.q-pa-md
         q-btn.bg-grey-9.text-grey-1(
         @click="$router.push('/clouds/overview')", flat, no-caps, icon="clear", round)
 
-        q-btn.bg-grey-9.text-grey-1.q-ml-md(
+      .fixed-bottom-right.q-pa-md
+        q-btn(
         @click="addTempCloud",
-        :class="[selectedWords.length < 1 ? '' : '']",
+        :class="[selectedWords.length < 1 ? '' : 'bg-grey-9 text-grey-2']",
         :disabled="selectedWords.length < 1", flat, no-caps, icon="check", round)
 
 </template>
