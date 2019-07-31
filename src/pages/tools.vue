@@ -1,17 +1,16 @@
 <template lang="pug">
   q-page
-    .q-pt-md.q-px-md.row.gutter-sm
+    .q-pt-md.q-px-lg.row.gutter-sm
       .col-xs-6.col-md-2(v-for="button in buttons", :class="{'inactive': !button.status}")
 
-        q-btn.full-width.q-px-none.q-py-lg.capitalize(@click.native="actions(button.action)",
-        :class="[button.status ? 'bg-grey-9 text-grey-3 shadow-1' : 'text-grey-9 shadow-3']",
+        q-btn.full-width.q-pa-none.capitalize.q-mb-xs(@click.native="actions(button.action)",
         :disabled="!button.status", size="xl", flat)
           q-item.q-pa-none
             q-item-main
               q-item-tile.text-center.q-mb-sm
-                q-icon(:name="button.icon", size="xl")
+                q-btn(:icon="button.icon", size="xl", round, flat, :class="{'shadow-1': button.status}")
               q-item-tile.text-center
-                .q-caption {{ button.label }}
+                .q-caption.q-pt-xs {{ button.label }}
 
 </template>
 
