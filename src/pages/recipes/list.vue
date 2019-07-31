@@ -35,7 +35,7 @@
 
                     //----- title
                     q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm.capitalize(
-                    :class="[option !== index ? 'text-grey-6' : 'text-grey-8']")
+                    :class="[option !== index ? 'text-grey-8' : 'text-grey-9']")
                       | {{ recipe.title }}
 
                     template(v-if="option === index")
@@ -85,7 +85,7 @@
 
                   //----- title
                   q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm.capitalize(
-                  :class="[optionRemix !== index ? '' : '']")
+                  :class="[optionRemix !== index ? 'text-grey-8' : 'text-grey-9']")
                     | {{ remix.title }}
 
                   template(v-if="optionRemix === index")
