@@ -14,7 +14,7 @@
                   icon="videocam", size="md", round, style="margin-right: -32px;")
                 q-btn.q-ml-md.absolute-top-right.bg-grey-3(v-if="button.status", @click="handlerVideoButton()",
                 size="md", round, style="margin-right: -32px;")
-                  .q-title ?
+                  .q-subheading ?
               q-item-tile.text-center
                 .q-caption.q-pt-xs {{ button.label }}
 
