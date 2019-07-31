@@ -24,13 +24,23 @@
             .ellipsis(style="margin-left: -16px;") {{ currentAppName }}
 
         //----- info-button
-        //----- todo: embed info drawer?
-        q-item-side.q-pr-md(v-if="usingTool")
-          q-btn.bg-grey-9.text-grey-1(@click="handlerToolDescription", round, flat, size="md") ?
+        q-item-side.q-pr-md.absolute-top-right.q-pt-sm.q-mt-xs
+          q-btn.absolute-top-right.bg-grey-3.text-grey-9.transition.q-mt-sm.q-mr-md(@click="handlerToolDescription", round,
+          size="sm", :class="[showInfoBox ? 'leave-right' : '']")
+            | ?
 
     // ---------------------------------------------------------------------------------------------------------- others
     q-page-container
-      .bg-white(v-if="showInfoBox").q-pa-md blablabla
+
+      .relative-position
+        q-btn.absolute-top-right.shadow-2.bg-grey-3.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerToolDescription", round, flat,
+        size="sm", :class="[showInfoBox ? '' : 'leave-right']")
+          q-icon(name="clear")
+
+        div.bg-grey-1.text-grey-9.transition.overflow-hidden(:class="[showInfoBox ? 'height-auto' : 'height-0']")
+          .q-pa-md
+            | Info-Box
+
       router-view
 
 </template>
@@ -93,4 +103,10 @@
 <style scoped lang="styl">
   .offset
     margin-left -50px
+
+  .height-0
+    height 0
+
+  .height-auto
+    height calc(100vw * 0.5625)
 </style>
