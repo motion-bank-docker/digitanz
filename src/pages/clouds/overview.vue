@@ -4,7 +4,7 @@
     //----- cloud in detail
     .absolute.fit.bg-grey-3.transition.overflow-hidden.transition(style="z-index: 10;",
     :class="[zoom ? '' : 'leave-right-100']")
-      .column.text-center.bg-grey-3.items-center.row(@click="handlerZoom(selectedCloud.terms, selectedCloud.index)",
+      .column.text-center.items-center.row(@click="handlerZoom(selectedCloud.terms, selectedCloud.index)",
       style="height: calc(100vh - 52px);")
         .col.q-title.row(v-for="(term, index) in selectedCloud.terms")
           .self-center {{ term }}
@@ -20,7 +20,7 @@
     .q-pt-sm
       template(v-if="tempClouds.length > 0")
         q-list.min-height-auto.q-pa-sm.q-px-md(v-for="(cloud, index) in tempClouds", no-border)
-          .round-borders.full-width.shadow-1.q-pa-md.text-center(@click="handlerZoom(cloud, index)")
+          .round-borders.full-width.shadow-1.bg-e4.q-pa-md.text-center(@click="handlerZoom(cloud, index)")
             template(v-for="(term, i) in cloud")
               span {{ term }}
               span(v-if="i < cloud.length - 1") ,&#32;
@@ -60,7 +60,6 @@
       handlerZoom (cloud, index) {
         this.selectedCloud.terms = cloud
         this.selectedCloud.index = index
-        console.log('----->', cloud)
         this.zoom = !this.zoom
       },
       removeTempCloud (index) {
