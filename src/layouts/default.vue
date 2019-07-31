@@ -94,7 +94,6 @@
     methods: {
       handlerInfoBox () {
         this.showInfoBox = !this.showInfoBox
-        console.log(this.showInfoBox)
       },
       executeApp (appName) {
         // this.currentApp = appName
