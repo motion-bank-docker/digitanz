@@ -1,14 +1,16 @@
 <template lang="pug">
   q-page
-    .q-pt-md.q-px-lg.row.gutter-sm
+    .q-pt-lg.q-px-lg.row.gutter-sm
       .col-xs-6.col-md-2(v-for="button in buttons", :class="{'inactive': !button.status}")
 
         q-btn.full-width.q-pa-none.capitalize.q-mb-xs(:disabled="!button.status", size="xl", flat, no-ripple)
           q-item.q-pa-none
             q-item-main
-              q-item-tile.text-center.q-mb-sm.text-grey-9
+              q-item-tile.text-center.q-mb-sm.text-grey-9.relative-position(:class="{'button-offset' : button.status}")
                 q-btn(@click.native="actions(button.action)",
                 :icon="button.icon", size="xl", round, flat, :class="{'shadow-2': button.status}")
+                q-btn.q-ml-md.absolute-top-right.bg-grey-1(v-if="button.status", @click="",
+                icon="videocam", size="md", round, style="margin-right: -32px;")
               q-item-tile.text-center
                 .q-caption.q-pt-xs {{ button.label }}
 
@@ -90,4 +92,6 @@
 </script>
 
 <style scoped lang="stylus">
+  .button-offset
+    margin-right 32px
 </style>
