@@ -10,9 +10,8 @@
           .self-center {{ term }}
 
       .absolute-top-right.q-ma-md
-        //
-          div.q-bt-sm
-            q-btn.bg-grey-9.text-grey-1(@click="handlerZoom", icon="clear", round, flat, size="sm")
+        div.q-mb-sm
+          q-btn.bg-grey-9.text-grey-1(@click="handlerZoom", icon="clear", round, flat, size="sm")
         div
           q-btn.bg-grey-9.text-grey-1(icon="delete", @click="removeTempCloud(selectedCloud.index)", round, size="sm", flat)
 
