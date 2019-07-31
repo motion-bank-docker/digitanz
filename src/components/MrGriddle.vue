@@ -46,8 +46,8 @@
       //----- edit-button
       .absolute-top-right
         .relative-position
-          q-btn.absolute-top-right.q-mr-sm.q-mt-sm.text-grey-9.transition(@click="handleModeChange", icon="edit",
-          round, flat, no-ripple,
+          q-btn.absolute-top-right.q-mr-md.q-mt-md.text-grey-9.transition.shadow-1(@click="handleModeChange", icon="edit",
+          round, flat, no-ripple, size="sm",
           :class="{'leave-right': editSettings}")
           q-btn.absolute-top-right.q-mr-md.q-mt-md.text-grey-2.bg-grey-9.transition(@click="handleModeChange", icon="clear",
           round, flat, no-ripple, size="sm",
