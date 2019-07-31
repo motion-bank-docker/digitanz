@@ -4,22 +4,22 @@
     q-tabs(animated, color="transparent", text-color="grey-1", align="justify" v-model="selectedTab",
     style="padding-bottom: 52px;")
 
-      q-tab.text-center.q-mb-md.round-borders-5.q-pl-md.q-pl-md.q-pr-xs(name="tab-2", slot="title", default)
-        q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
+      q-tab.text-center.q-mb-md.round-borders-5.q-pl-md.q-pl-md.q-pr-sm(name="tab-2", slot="title", default)
+        q-btn.shadow-1.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
         label="Aktionen", flat, no-ripple,
         :class="[selectedTab === 'tab-2' ? 'bg-grey-1' : '']",)
           q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countAktionen > 0", floating, color="grey-1")
             | {{ countAktionen }}
 
       q-tab.text-center.q-mb-md.round-borders-5.q-px-xs.q-py-md(name="tab-3", slot="title")
-        q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
+        q-btn.shadow-1.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
         label="Gestaltung", flat, no-ripple,
         :class="[selectedTab === 'tab-3' ? 'bg-grey-1' : '']",)
           q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countGestaltung > 0", floating, color="grey-1")
             | {{ countGestaltung }}
 
-      q-tab.text-center.q-mb-md.round-borders-5.q-pr-md.q-pl-xs(name="tab-1", slot="title")
-        q-btn.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
+      q-tab.text-center.q-mb-md.round-borders-5.q-pr-md.q-pl-sm(name="tab-1", slot="title")
+        q-btn.shadow-1.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
         label="Adjektive", flat, no-ripple,
         :class="[selectedTab === 'tab-1' ? 'bg-grey-1' : '']",)
           q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countAdjektive > 0", floating, color="grey-1")
@@ -33,7 +33,7 @@
           .col-6.q-px-sm(v-for="term in tempTerms")
 
             q-item.q-mb-md.shadow-1.round-borders.q-caption(
-            :class="[checkIfSelected(term) ? 'bg-grey-1 text-grey-8' : 'bg-grey-4 text-grey-6']")
+            :class="[checkIfSelected(term) ? 'bg-grey-1 text-grey-9' : 'text-grey-8']")
 
               input.hidden(@click="countWords('adjektive', term)", v-model="selectedWords", type="checkbox", :id="term", :value="term")
               label.full-width(:for="term")
@@ -59,7 +59,7 @@
 
           .col-6.q-px-sm(v-for="(mJ, index) in myJson")
             q-item.shadow-1.round-borders.q-caption(
-            :class="[checkIfSelected(mJ.label) ? 'bg-grey-1 text-grey-8' : 'bg-grey-4 text-grey-6', {'q-mb-md': index < myJson.length - 1}]")
+            :class="[checkIfSelected(mJ.label) ? 'bg-grey-1 text-grey-9' : 'text-grey-8', {'q-mb-md': index < myJson.length - 1}]")
 
               input.hidden(@click="countWords('aktionen', mJ.label)", v-model="selectedWords", type="checkbox",
               :id="mJ.label", :value="mJ.label")
@@ -72,7 +72,7 @@
 
           .col-6.q-px-sm(v-for="(cT, index) in cloudThree")
             q-item.shadow-1.round-borders.q-caption(
-            :class="[checkIfSelected(cT.label) ? 'bg-grey-1 text-grey-8' : 'bg-grey-4 text-grey-6', {'q-mb-md': index < cloudThree.length - 2}]")
+            :class="[checkIfSelected(cT.label) ? 'bg-grey-1 text-grey-9' : 'text-grey-8', {'q-mb-md': index < cloudThree.length - 2}]")
 
               input.hidden(@click="countWords('gestaltung', cT.label)", v-model="selectedWords", type="checkbox", :id="cT.label", :value="cT.label")
               label.full-width(:for="cT.label")
