@@ -4,7 +4,6 @@
     // ---------------------------------------------------------------------------------------------------------- header
     q-layout-header.bg-grey-3.text-grey-9(style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
       q-item.q-pa-none
-
         //----- back-button
         q-item-side.text-center.min-width-auto.full-height.overflow-hidden(:class="{'offset': !usingTool}",
         style="transition: all ease 200ms; width: 50px;")
@@ -25,7 +24,7 @@
 
         //----- info-button
         q-item-side.q-pr-md.absolute-top-right.q-pt-sm.q-mt-xs
-          q-btn.absolute-top-right.bg-grey-3.text-grey-9.transition.q-mt-sm.q-mr-md(@click="handlerToolDescription", round,
+          q-btn.absolute-top-right.bg-grey-3.text-grey-9.transition.q-mt-sm.q-mr-md(@click="handlerInfoBox", round,
           size="sm", :class="[showInfoBox ? 'leave-right' : '']")
             | ?
 
@@ -33,7 +32,7 @@
     q-page-container
 
       .relative-position
-        q-btn.absolute-top-right.shadow-2.bg-grey-3.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerToolDescription", round, flat,
+        q-btn.absolute-top-right.shadow-2.bg-grey-3.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox", round, flat,
         size="sm", :class="[showInfoBox ? '' : 'leave-right']")
           q-icon(name="clear")
 
@@ -59,6 +58,7 @@
     },
     computed: {
       ...mapGetters({
+        statusInfoBox: 'globalSettings/getStatusInfoBox'
       }),
       usingTool () {
         if (this.$route.path === '/' || this.$route.path === '/tools') return false
@@ -66,6 +66,9 @@
       }
     },
     watch: {
+      statusInfoBox () {
+        if (!this.showInfoBox) this.handlerInfoBox()
+      },
       $route (to, from) {
         console.log(to, from)
         let routeSplit = to.path.split('/')
@@ -89,8 +92,9 @@
       }
     },
     methods: {
-      handlerToolDescription () {
+      handlerInfoBox () {
         this.showInfoBox = !this.showInfoBox
+        console.log(this.showInfoBox)
       },
       executeApp (appName) {
         // this.currentApp = appName

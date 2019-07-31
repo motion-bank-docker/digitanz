@@ -9,7 +9,7 @@
               q-item-tile.text-center.q-mb-sm.text-grey-9.relative-position(:class="{'button-offset' : button.status}")
                 q-btn(@click.native="actions(button.action)",
                 :icon="button.icon", size="xl", round, flat, :class="{'shadow-2': button.status}")
-                q-btn.q-ml-md.absolute-top-right.bg-grey-1(v-if="button.status", @click="",
+                q-btn.q-ml-md.absolute-top-right.bg-grey-1(v-if="button.status", @click="handlerVideoButton()",
                 icon="videocam", size="md", round, style="margin-right: -32px;")
               q-item-tile.text-center
                 .q-caption.q-pt-xs {{ button.label }}
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     data () {
       return {
@@ -58,7 +60,15 @@
         }]
       }
     },
+    computed: {
+      ...mapGetters({
+        statusInfoBox: 'globalSettings/getStatusInfoBox'
+      })
+    },
     methods: {
+      handlerVideoButton () {
+        this.$store.commit('globalSettings/handlerStatusInfoBox')
+      },
       actions (val) {
         switch (val) {
         case 'clouds':
