@@ -4,21 +4,21 @@
     q-tabs(animated, color="transparent", text-color="grey-1", align="justify" v-model="selectedTab",
     style="padding-bottom: 52px;")
 
-      q-tab.text-center.q-mb-md.round-borders-5.q-pl-md.q-pl-md.q-pr-sm(name="tab-2", slot="title", default)
+      q-tab.text-center.round-borders-5.q-pl-md.q-pl-md.q-pr-sm(name="tab-2", slot="title", default)
         q-btn.shadow-1.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
         label="Aktionen", flat, no-ripple,
         :class="[selectedTab === 'tab-2' ? 'bg-grey-1' : '']",)
           q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countAktionen > 0", floating, color="grey-1")
             | {{ countAktionen }}
 
-      q-tab.text-center.q-mb-md.round-borders-5.q-px-xs.q-py-md(name="tab-3", slot="title")
+      q-tab.text-center.round-borders-5.q-px-xs.q-py-md(name="tab-3", slot="title")
         q-btn.shadow-1.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
         label="Gestaltung", flat, no-ripple,
         :class="[selectedTab === 'tab-3' ? 'bg-grey-1' : '']",)
           q-chip.bg-grey-8.text-grey-2.q-mt-xs(v-if="countGestaltung > 0", floating, color="grey-1")
             | {{ countGestaltung }}
 
-      q-tab.text-center.q-mb-md.round-borders-5.q-pr-md.q-pl-sm(name="tab-1", slot="title")
+      q-tab.text-center.round-borders-5.q-pr-md.q-pl-sm(name="tab-1", slot="title")
         q-btn.shadow-1.text-grey-8.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
         label="Adjektive", flat, no-ripple,
         :class="[selectedTab === 'tab-1' ? 'bg-grey-1' : '']",)
