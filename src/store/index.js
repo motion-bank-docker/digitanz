@@ -12,6 +12,7 @@ import survey from './modules/survey'
 import cloud from './modules/cloud'
 import recipes from './modules/recipes'
 import mrGriddle from './modules/mr-griddle'
+import globalSettings from './modules/global-settings'
 
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -42,7 +43,8 @@ const store = new Vuex.Store({
     cloud,
     recipes,
     auth,
-    mrGriddle
+    mrGriddle,
+    globalSettings
   }
 })
 
