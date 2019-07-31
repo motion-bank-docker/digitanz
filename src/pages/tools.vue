@@ -7,8 +7,8 @@
         :disabled="!button.status", size="xl", flat)
           q-item.q-pa-none
             q-item-main
-              q-item-tile.text-center.q-mb-sm
-                q-btn(:icon="button.icon", size="xl", round, flat, :class="{'shadow-1': button.status}")
+              q-item-tile.text-center.q-mb-sm.text-grey-9
+                q-btn(:icon="button.icon", size="xl", round, flat, :class="{'shadow-2': button.status}")
               q-item-tile.text-center
                 .q-caption.q-pt-xs {{ button.label }}
 
