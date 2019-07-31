@@ -2,7 +2,7 @@
   q-layout(view='lHh Lpr lFf')
 
     // ---------------------------------------------------------------------------------------------------------- header
-    q-layout-header.bg-grey-3.text-grey-9(style="box-shadow: 0 0 5px 0 rgba(0, 0, 0, .1)")
+    q-layout-header.bg-grey-3.text-grey-9(style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
       q-item.q-pa-none
 
         //----- back-button
