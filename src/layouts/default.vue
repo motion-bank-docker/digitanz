@@ -25,7 +25,7 @@
         //----- info-button
         q-item-side.q-pr-md.absolute-top-right.q-pt-sm.q-mt-xs
           q-btn.absolute-top-right.bg-grey-3.text-grey-9.transition.q-mt-sm.q-mr-md(@click="handlerInfoBox", round,
-          size="sm", :class="[showInfoBox ? 'leave-right' : '']")
+          size="sm", :class="[showInfoBox || currentAppName === 'Tools' ? 'leave-right' : '']")
             .q-subheading ?
 
     // ---------------------------------------------------------------------------------------------------------- others
@@ -87,6 +87,9 @@
           break
         case 'inspiration':
           this.currentAppName = 'Inspiration'
+          break
+        case 'tools':
+          this.currentAppName = 'Tools'
           break
         }
       }
