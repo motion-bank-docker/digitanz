@@ -1,7 +1,7 @@
 <template lang="pug">
   q-page.relative-position
 
-    // ------------------------------------------------------------------------------------------------ recipe in detail
+    // -------------------------------------------------------------------------------------------------------- zoom-box
     .absolute.fit.bg-grey-3.transition.overflow-hidden.transition(style="z-index: 10;",
     :class="[zoom ? '' : 'leave-right-100']")
       .column.row.bg-grey-1.q-ma-md.shadow-1.round-borders(@click="handlerZoom(selectedRecipe.ingredients, selectedRecipe.index)",
