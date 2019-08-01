@@ -1,22 +1,22 @@
 <template lang="pug">
-  q-page
+  q-page.q-pt-sm
     .q-pt-lg.q-px-lg.row.gutter-sm
       .col-xs-6.col-md-2(v-for="button in buttons", :class="{'inactive': !button.status}")
 
-        q-btn.full-width.q-pa-none.capitalize.q-mb-xs(:disabled="!button.status", size="xl", flat, no-ripple)
-          q-item.q-pa-none.q-mb-xs
-            q-item-main
-              q-item-tile.text-center.q-mb-sm.text-grey-9.relative-position(:class="{'button-offset' : button.status}")
-                q-btn(@click.native="actions(button.action)",
-                :icon="button.icon", size="xl", round, flat, :class="{'shadow-2': button.status}")
-                //
-                  q-btn.q-ml-md.absolute-top-right.bg-grey-3(v-if="button.status", @click="handlerVideoButton()",
-                  icon="videocam", size="md", round, style="margin-right: -32px;")
-                q-btn.q-ml-md.absolute-top-right.bg-grey-3(v-if="button.status", @click="handlerVideoButton(button.action)",
-                size="md", round, style="margin-right: -32px;")
-                  .q-subheading ?
-              q-item-tile.text-center
-                .q-caption.q-pt-xs {{ button.label }}
+        q-item.q-pa-none.q-mb-xs
+          q-item-main
+            q-item-tile.text-center.q-mb-sm.text-grey-9.relative-position(:class="{'button-offset' : button.status}")
+              q-btn(@click.native="actions(button.action)",
+              :icon="button.icon", size="xl", round, flat, :class="{'shadow-2': button.status}",
+              :disabled="!button.status")
+              //
+                q-btn.q-ml-md.absolute-top-right.bg-grey-3(v-if="button.status", @click="handlerVideoButton()",
+                icon="videocam", size="md", round, style="margin-right: -32px;")
+              q-btn.q-ml-md.absolute-top-right.bg-grey-3(v-if="button.status", @click="handlerVideoButton(button.action)",
+              size="md", round, style="margin-right: -16px;")
+                .q-subheading ?
+            q-item-tile.text-center
+              .q-caption.q-pt-xs {{ button.label }}
 
 </template>
 
