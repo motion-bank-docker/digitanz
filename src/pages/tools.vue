@@ -9,7 +9,7 @@
 
               //----- tool-button
               q-btn(@click.native="actions(button.action)",
-              :icon="button.icon", size="xl", round, flat, :class="{'shadow-2': button.status}",
+              :icon="button.icon", size="xl", round, flat, :class="{'shadow-2': button.action === tool}",
               :disabled="!button.status")
 
             q-item-tile.text-center
@@ -63,39 +63,46 @@
     },
     computed: {
       ...mapGetters({
-        statusInfoBox: 'globalSettings/getStatusInfoBox'
+        statusInfoBox: 'globalSettings/getStatusInfoBox',
+        tool: 'globalSettings/getTool'
       })
+    },
+    mounted () {
+      this.$store.commit('globalSettings/handlerStatusInfoBox')
     },
     methods: {
       handlerVideoButton (buttonAction) {
         this.$store.commit('globalSettings/handlerStatusInfoBox', buttonAction)
       },
       actions (val) {
-        switch (val) {
-        case 'clouds':
-          this.$router.push('/clouds/overview')
-          break
-        case 'sequenz':
-          this.$router.push('/sequences/create')
-          break
-        case 'mr-griddle':
-          this.$router.push('/mr-griddle/create')
-          break
-        case 'recipes':
-          this.$router.push('/recipes')
-          break
-        case 'rhytmus':
-          this.$router.push('/rhythm')
-          break
-        case 'space-tool':
-          this.$router.push('/space-tool')
-          break
-        case 'inspiration':
-          this.$router.push('/inspiration')
-          break
-        case 'unset':
-          console.log('unset')
-          break
+        this.$store.commit('globalSettings/handlerTool', val)
+        if (val === 'xxxxx') {
+          switch (val) {
+          case 'clouds':
+            this.$router.push('/clouds/overview')
+            break
+          case 'sequenz':
+            this.$router.push('/sequences/create')
+            break
+          case 'mr-griddle':
+            this.$router.push('/mr-griddle/create')
+            break
+          case 'recipes':
+            this.$router.push('/recipes')
+            break
+          case 'rhytmus':
+            this.$router.push('/rhythm')
+            break
+          case 'space-tool':
+            this.$router.push('/space-tool')
+            break
+          case 'inspiration':
+            this.$router.push('/inspiration')
+            break
+          case 'unset':
+            console.log('unset')
+            break
+          }
         }
       }
     }
