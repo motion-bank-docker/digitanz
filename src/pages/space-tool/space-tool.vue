@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import LostInSpace from '../components/LostInSpace'
+  import LostInSpace from '../../components/LostInSpace'
   export default {
     components: {
       LostInSpace
