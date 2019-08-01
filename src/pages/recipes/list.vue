@@ -1,10 +1,24 @@
 <template lang="pug">
   q-page.relative-position
 
+    // ------------------------------------------------------------------------------------------------ recipe in detail
+    .absolute.fit.bg-grey-3.transition.overflow-hidden.transition(style="z-index: 10;",
+    :class="[zoom ? '' : 'leave-right-100']")
+      .column.text-center.items-center.row.q-px-xl(@click="handlerZoom(selectedRecipe.ingredients, selectedRecipe.index)",
+      style="height: calc(100vh - 52px);")
+        .col.q-title.row(v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;")
+          .self-center {{ ingredient }}
+
+      .absolute-top-right.q-ma-md
+        div.q-mb-sm
+          q-btn.bg-grey-9.text-grey-1(@click="handlerZoom", icon="clear", round, flat, size="sm")
+        div
+          q-btn.bg-grey-9.text-grey-1(icon="delete", @click="removeTempCloud(selectedRecipe.index)", round, size="sm", flat)
+
+    // ------------------------------------------------------------------------------------------------------------ tabs
     q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
     swipeable)
 
-      // ---------------------------------------------------------------------------------------------------------- tabs
       q-tab.text-center.round-borders-5.q-pl-md.q-pr-sm.q-py-md(v-if="!recipeStandalone", name="tab-1", slot="title", default,
       :class="[selectedTab === 'tab-1' ? 'text-grey-9' : 'text-grey-9']")
         q-btn.shadow-1.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
@@ -53,10 +67,14 @@
 
               //----- "edit"-button
               //----- "remove"-button
+              //----- "zoom"-button
               .absolute-top-right.transition.q-px-sm.q-pt-sm.q-mt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
                 template(v-if="!recipeStandalone")
-                  q-btn.bg-grey-9.text-grey-2.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
-                  q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+                  div
+                    q-btn.bg-grey-9.text-grey-2.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
+                    q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+                  div.q-mt-sm.text-right
+                    q-btn.bg-grey-9.text-grey-2(icon="remove_red_eye", @click="handlerZoom(recipe, index)", round, size="sm", flat)
 
         //----- "add"-button
         template(v-if="!recipeStandalone")
@@ -144,7 +162,9 @@
         selectedTab: undefined,
         option: undefined,
         optionRemix: undefined,
-        recipeStandalone: false
+        recipeStandalone: false,
+        zoom: false,
+        selectedRecipe: {index: undefined, ingredients: undefined}
       }
     },
     computed: {
@@ -158,6 +178,11 @@
       if (this.$route.params.target === 'remix') this.selectedTab = 'tab-2'
     },
     methods: {
+      handlerZoom (recipe, index) {
+        this.selectedRecipe.ingredients = recipe
+        this.selectedRecipe.index = index
+        this.zoom = !this.zoom
+      },
       removeTempRemix (val) {
         this.$store.commit('recipes/removeFromTempRemixes', val)
       },
