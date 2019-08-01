@@ -1,7 +1,7 @@
 <template lang="pug">
   q-page.relative-position
 
-    //----- cloud in detail
+    //--------------------------------------------------------------------------------------------------------- zoom box
     .absolute.fit.bg-grey-3.transition.overflow-hidden.transition(style="z-index: 10;",
     :class="[zoom ? '' : 'leave-right-100']")
       .column.text-center.items-center.row.q-px-xl.bg-grey-1.shadow-1.q-ma-md.round-borders(
@@ -13,20 +13,21 @@
       .absolute-top-right.q-ma-md.q-pt-sm.q-pr-sm
         div.q-mb-sm
           q-btn.bg-grey-9.text-grey-1(@click="handlerZoom", icon="clear", round, flat, size="sm")
-        div
-          q-btn.bg-grey-9.text-grey-1(icon="delete", @click="removeTempCloud(selectedCloud.index)", round, size="sm", flat)
+        //
+          div
+            q-btn.bg-grey-9.text-grey-1(icon="delete", @click="removeTempCloud(selectedCloud.index)", round, size="sm", flat)
 
-    //----- clouds
+    //----------------------------------------------------------------------------------------------------------- clouds
     .q-pt-sm
       template(v-if="tempClouds.length > 0")
         q-list.min-height-auto.q-pa-sm.q-px-md(v-for="(cloud, index) in tempClouds", no-border)
-          // .round-borders.full-width.shadow-1.bg-e4.q-pa-md.text-center(@click="handlerZoom(cloud, index)")
           q-radio.round-borders.full-width.shadow-1.bg-e4.q-pa-md.text-center.relative-position.overflow-hidden(
           v-model="optionCloud", :val="index",
+          @click="handlerRadiobutton(index)",
           :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']")
             template(v-for="(term, i) in cloud")
               span {{ term }}
-              span(v-if="i < cloud.length - 1") ,&#32;
+              span(v-if="i < cloud.length - 1") ,&ensp;
 
             //----- "remove"-button
             .absolute.full-width.full-height.overflow-hidden.items-center(@click="handlerRadiobutton(index)")
@@ -34,7 +35,7 @@
                 q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeTempCloud(index)", round, size="sm", flat)
                 q-btn.bg-grey-9.text-grey-2.q-ml-sm(icon="zoom_in", @click="handlerZoom(cloud)", round, size="sm", flat)
 
-    //----- "add"-button
+    // ---------------------------------------------------------------------------------------------------- "add"-button
     .q-px-md.q-pb-md.q-pt-sm
       q-item.q-pa-none.row.items-center
         q-item-side.inactive(v-if="tempClouds.length <= 0") Leer
@@ -69,6 +70,9 @@
         this.selectedCloud.terms = cloud
         this.selectedCloud.index = index
         this.zoom = !this.zoom
+      },
+      handlerRadiobutton (index) {
+        if (index === this.optionCloud) this.optionCloud = undefined
       },
       removeTempCloud (index) {
         this.zoom = false
