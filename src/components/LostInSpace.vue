@@ -52,10 +52,10 @@
       use(x="0", y="0",
         :href="`#${currentShapeId}`",
         :transform="`translate(${svgSize.width/2},${svgSize.height/2}) scale(${svgSize.scale})`",
-        fill="none", stroke="#d4d4d4", stroke-width="1")
+        fill="none", stroke="#424242", stroke-width="2")
     g#particles
       template(v-for="particle in particles")
-        ellipse(:cx="particle.position.x", :cy="particle.position.y", rx="3", ry="3", fill="#424242")
+        ellipse(:cx="particle.position.x", :cy="particle.position.y", rx="2", ry="2", fill="#999999")
 </template>
 
 <script>
