@@ -24,16 +24,20 @@
           q-radio.round-borders.full-width.shadow-1.bg-e4.q-pa-md.text-center.relative-position.overflow-hidden(
           v-model="optionCloud", :val="index",
           @click="handlerRadiobutton(index)",
-          :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']")
-            template(v-for="(term, i) in cloud")
-              span {{ term }}
-              span(v-if="i < cloud.length - 1") ,&ensp;
+          :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']",
+          style="min-height: 100px;")
+            .word-break.full-width.q-mx-md
+              template(v-for="(term, i) in cloud")
+                span {{ term }}
+                span(v-if="i < cloud.length - 1") ,&ensp;
 
             //----- "remove"-button
             .absolute.full-width.full-height.overflow-hidden.items-center(@click="handlerRadiobutton(index)")
-              .absolute-top-right.transition.q-mr-md.q-px-sm.q-pt-sm.q-mt-xs(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
+              .absolute-top-right.transition.q-mr-md.q-px-sm.q-pt-sm(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
                 q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeTempCloud(index)", round, size="sm", flat)
-                q-btn.bg-grey-9.text-grey-2.q-ml-sm(icon="zoom_in", @click="handlerZoom(cloud)", round, size="sm", flat)
+              .absolute-bottom-right.transition.q-mr-md(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
+                q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="zoom_in", @click="handlerZoom(cloud, index)", size="lg",
+                flat, no-ripple)
 
     // ---------------------------------------------------------------------------------------------------- "add"-button
     .q-px-md.q-pb-md.q-pt-sm
