@@ -24,7 +24,9 @@
 
         //----- info-button
         q-item-side.q-pr-md.absolute-top-right.q-pt-sm.q-mt-xs
-          q-btn.absolute-top-right.bg-grey-3.text-grey-9.transition.q-mt-sm.q-mr-md(@click="handlerInfoBox", round,
+          q-btn.absolute-top-right.bg-grey-3.text-grey-9.transition.q-mt-sm.q-mr-md(
+          v-if="currentAppName !== 'Startscreen'",
+          @click="handlerInfoBox", round,
           size="sm", :class="[showInfoBox || currentAppName === 'Tools' ? 'leave-right' : '']")
             .q-subheading ?
 
@@ -53,7 +55,7 @@
     data () {
       return {
         showInfoBox: false,
-        currentAppName: ''
+        currentAppName: undefined
       }
     },
     computed: {
@@ -64,6 +66,9 @@
         if (this.$route.path === '/' || this.$route.path === '/tools') return false
         else return true
       }
+    },
+    mounted () {
+      this.currentAppName = 'Startscreen'
     },
     watch: {
       statusInfoBox () {
@@ -90,6 +95,9 @@
           break
         case 'tools':
           this.currentAppName = 'Tools'
+          break
+        case '':
+          this.currentAppName = 'Startscreen'
           break
         }
       }
