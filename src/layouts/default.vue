@@ -40,7 +40,8 @@
 
         div.bg-grey-1.text-grey-9.transition.overflow-hidden(:class="[showInfoBox ? 'height-auto' : 'height-0']")
           .q-pa-md
-            | Info-Box
+            p Info-Box
+            p {{ tool }}
 
       router-view
 
@@ -60,7 +61,8 @@
     },
     computed: {
       ...mapGetters({
-        statusInfoBox: 'globalSettings/getStatusInfoBox'
+        statusInfoBox: 'globalSettings/getStatusInfoBox',
+        tool: 'globalSettings/getTool'
       }),
       usingTool () {
         if (this.$route.path === '/' || this.$route.path === '/tools') return false

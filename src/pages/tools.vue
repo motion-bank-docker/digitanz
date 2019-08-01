@@ -8,9 +8,10 @@
             q-item-tile.text-center.q-mb-sm.text-grey-9
 
               //----- tool-button
-              q-btn(@click.native="actions(button.action)",
-              :icon="button.icon", size="xl", round, flat, :class="{'shadow-2': button.action === tool}",
-              :disabled="!button.status")
+              q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
+              :icon="button.icon", size="xl", round, flat :disabled="!button.status")
+
+              q-btn.shadow-2(v-else, @click.native="actions(button.action)", :icon="button.icon", size="xl", round, flat)
 
             q-item-tile.text-center
               .q-caption.q-pt-xs {{ button.label }}
@@ -74,35 +75,35 @@
       handlerVideoButton (buttonAction) {
         this.$store.commit('globalSettings/handlerStatusInfoBox', buttonAction)
       },
-      actions (val) {
+      highlightButton (val) {
         this.$store.commit('globalSettings/handlerTool', val)
-        if (val === 'xxxxx') {
-          switch (val) {
-          case 'clouds':
-            this.$router.push('/clouds/overview')
-            break
-          case 'sequenz':
-            this.$router.push('/sequences/create')
-            break
-          case 'mr-griddle':
-            this.$router.push('/mr-griddle/create')
-            break
-          case 'recipes':
-            this.$router.push('/recipes')
-            break
-          case 'rhytmus':
-            this.$router.push('/rhythm')
-            break
-          case 'space-tool':
-            this.$router.push('/space-tool')
-            break
-          case 'inspiration':
-            this.$router.push('/inspiration')
-            break
-          case 'unset':
-            console.log('unset')
-            break
-          }
+      },
+      actions (val) {
+        switch (val) {
+        case 'clouds':
+          this.$router.push('/clouds/overview')
+          break
+        case 'sequenz':
+          this.$router.push('/sequences/create')
+          break
+        case 'mr-griddle':
+          this.$router.push('/mr-griddle/create')
+          break
+        case 'recipes':
+          this.$router.push('/recipes')
+          break
+        case 'rhytmus':
+          this.$router.push('/rhythm')
+          break
+        case 'space-tool':
+          this.$router.push('/space-tool')
+          break
+        case 'inspiration':
+          this.$router.push('/inspiration')
+          break
+        case 'unset':
+          console.log('unset')
+          break
         }
       }
     }
