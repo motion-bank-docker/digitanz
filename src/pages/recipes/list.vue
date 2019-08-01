@@ -15,7 +15,7 @@
         .col.q-title.row.q-px-sm(v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;")
           .self-center {{ ingredient }}
 
-      .absolute-top-right.q-ma-md.q-pt-md.q-pr-md
+      .absolute-top-right.q-ma-md.q-pt-sm.q-pr-sm
         q-btn.bg-grey-9.text-grey-1(@click="handlerZoom", icon="clear", round, flat, size="sm")
 
     // ------------------------------------------------------------------------------------------------------------ tabs
