@@ -4,9 +4,9 @@
     //----- cloud in detail
     .absolute.fit.bg-grey-3.transition.overflow-hidden.transition(style="z-index: 10;",
     :class="[zoom ? '' : 'leave-right-100']")
-      .column.text-center.items-center.row(@click="handlerZoom(selectedCloud.terms, selectedCloud.index)",
+      .column.text-center.items-center.row.q-px-xl(@click="handlerZoom(selectedCloud.terms, selectedCloud.index)",
       style="height: calc(100vh - 52px);")
-        .col.q-title.row(v-for="(term, index) in selectedCloud.terms")
+        .col.q-title.row(v-for="(term, index) in selectedCloud.terms", style="font-weight: normal;")
           .self-center {{ term }}
 
       .absolute-top-right.q-ma-md
