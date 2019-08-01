@@ -195,19 +195,4 @@
 <style lang="stylus" scoped>
   .leave-right-absolute
     right -50vw
-  .leave-left-absolute
-    left -50vw
-  .border-transparent
-    border 1px solid transparent
-  .border-transparent
-    border 1px solid rgba(255, 255, 255, 0)
-  .border-white-1
-    border 1px solid rgba(255, 255, 255, .1)
-  .border-white-3
-    border 1px solid rgba(255, 255, 255, .3)
-</style>
-
-<style lang="stylus">
-  .display-none
-    opacity: 0
 </style>
