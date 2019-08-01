@@ -20,10 +20,19 @@
     .q-pt-sm
       template(v-if="tempClouds.length > 0")
         q-list.min-height-auto.q-pa-sm.q-px-md(v-for="(cloud, index) in tempClouds", no-border)
-          .round-borders.full-width.shadow-1.bg-e4.q-pa-md.text-center(@click="handlerZoom(cloud, index)")
+          // .round-borders.full-width.shadow-1.bg-e4.q-pa-md.text-center(@click="handlerZoom(cloud, index)")
+          q-radio.round-borders.full-width.shadow-1.bg-e4.q-pa-md.text-center.relative-position.overflow-hidden(
+          v-model="optionCloud", :val="index",
+          :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']")
             template(v-for="(term, i) in cloud")
               span {{ term }}
               span(v-if="i < cloud.length - 1") ,&#32;
+
+            //----- "remove"-button
+            .absolute.full-width.full-height.overflow-hidden.items-center(@click="handlerRadiobutton(index)")
+              .absolute-top-right.transition.q-mr-md.q-px-sm.q-pt-sm.q-mt-xs(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
+                q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeTempCloud(index)", round, size="sm", flat)
+                q-btn.bg-grey-9.text-grey-2.q-ml-sm(icon="zoom_in", @click="handlerZoom(cloud)", round, size="sm", flat)
 
     //----- "add"-button
     .q-px-md.q-pb-md.q-pt-sm
@@ -43,6 +52,7 @@
     name: 'overview',
     data () {
       return {
+        optionCloud: undefined,
         zoom: false,
         selectedCloud: {index: undefined, terms: undefined}
       }
