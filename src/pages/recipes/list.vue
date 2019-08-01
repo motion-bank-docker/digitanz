@@ -4,12 +4,18 @@
     // ------------------------------------------------------------------------------------------------ recipe in detail
     .absolute.fit.bg-grey-3.transition.overflow-hidden.transition(style="z-index: 10;",
     :class="[zoom ? '' : 'leave-right-100']")
-      .column.text-center.items-center.row.q-px-xl(@click="handlerZoom(selectedRecipe.ingredients, selectedRecipe.index)",
-      style="height: calc(100vh - 52px);")
-        .col.q-title.row(v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;")
+      .column.row.bg-grey-1.q-ma-md.shadow-1.round-borders(@click="handlerZoom(selectedRecipe.ingredients, selectedRecipe.index)",
+      style="height: calc(100vh - 52px - 16px - 16px);")
+
+        //----- title
+        .col.q-title.row.q-px-sm.text-weight-bold.full-width.border-bottom(style="border-color: #e0e0e0;")
+          .self-center {{ selectedRecipe.title }}
+
+        //----- ingredients
+        .col.q-title.row.q-px-sm(v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;")
           .self-center {{ ingredient }}
 
-      .absolute-top-right.q-ma-md
+      .absolute-top-right.q-ma-md.q-pt-md.q-pr-md
         div.q-mb-sm
           q-btn.bg-grey-9.text-grey-1(@click="handlerZoom", icon="clear", round, flat, size="sm")
         div
@@ -164,7 +170,7 @@
         optionRemix: undefined,
         recipeStandalone: false,
         zoom: false,
-        selectedRecipe: {index: undefined, ingredients: undefined}
+        selectedRecipe: {index: undefined, ingredients: undefined, title: undefined}
       }
     },
     computed: {
@@ -179,7 +185,9 @@
     },
     methods: {
       handlerZoom (recipe, index) {
-        this.selectedRecipe.ingredients = recipe
+        console.log(recipe)
+        this.selectedRecipe.ingredients = recipe.entries
+        this.selectedRecipe.title = recipe.title
         this.selectedRecipe.index = index
         this.zoom = !this.zoom
       },
