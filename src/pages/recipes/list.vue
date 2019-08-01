@@ -76,11 +76,10 @@
               //----- "zoom"-button
               .absolute-top-right.transition.q-px-sm.q-pt-sm.q-mt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
                 template(v-if="!recipeStandalone")
-                  div
-                    q-btn.bg-grey-9.text-grey-2.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
-                    q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
-                  div.q-mt-sm.text-right
-                    q-btn.bg-grey-9.text-grey-2(icon="remove_red_eye", @click="handlerZoom(recipe, index)", round, size="sm", flat)
+                  q-btn.bg-grey-9.text-grey-2.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
+                  q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+              .absolute-bottom-right.transition(:class="[option !== index ? 'leave-right-absolute' : '']")
+                  q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="zoom_in", @click="handlerZoom(recipe, index)", size="lg", flat)
 
         //----- "add"-button
         template(v-if="!recipeStandalone")
