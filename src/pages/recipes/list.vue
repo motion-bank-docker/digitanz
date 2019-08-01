@@ -16,10 +16,7 @@
           .self-center {{ ingredient }}
 
       .absolute-top-right.q-ma-md.q-pt-md.q-pr-md
-        div.q-mb-sm
-          q-btn.bg-grey-9.text-grey-1(@click="handlerZoom", icon="clear", round, flat, size="sm")
-        div
-          q-btn.bg-grey-9.text-grey-1(icon="delete", @click="removeTempCloud(selectedRecipe.index)", round, size="sm", flat)
+        q-btn.bg-grey-9.text-grey-1(@click="handlerZoom", icon="clear", round, flat, size="sm")
 
     // ------------------------------------------------------------------------------------------------------------ tabs
     q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
