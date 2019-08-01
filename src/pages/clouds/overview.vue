@@ -43,8 +43,7 @@
     data () {
       return {
         zoom: false,
-        selectedCloud: {index: undefined, terms: undefined},
-        windowInnerHeight: undefined
+        selectedCloud: {index: undefined, terms: undefined}
       }
     },
     computed: {
@@ -53,7 +52,6 @@
       })
     },
     mounted () {
-      this.windowInnerHeight = window.innerHeight - 52
     },
     methods: {
       handlerZoom (cloud, index) {
