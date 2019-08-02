@@ -12,8 +12,10 @@ const global = {
     handlerTool (state, target) {
       state.tool = target
     },
-    handlerStatusInfoBox (state) {
-      state.statusInfoBox = !state.statusInfoBox
+    handlerStatusInfoBox (state, param) {
+      if (param === 'close') state.statusInfoBox = false
+      if (param === 'open') state.statusInfoBox = true
+      // else state.statusInfoBox = !state.statusInfoBox
     }
   },
   actions: {

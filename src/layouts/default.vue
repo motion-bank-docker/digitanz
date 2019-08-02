@@ -91,7 +91,8 @@
     },
     watch: {
       statusInfoBox () {
-        if (!this.showInfoBox) this.handlerInfoBox()
+        // if (!this.showInfoBox) this.handlerInfoBox()
+        this.showInfoBox = this.statusInfoBox
       },
       $route (to, from) {
         console.log(to, from)
@@ -99,24 +100,31 @@
         switch (routeSplit[1]) {
         case 'mr-griddle':
           this.currentAppName = 'Mr. Griddle'
+          this.$store.commit('globalSettings/handlerStatusInfoBox', 'close')
           break
         case 'clouds':
           this.currentAppName = 'Wortwolke'
+          this.$store.commit('globalSettings/handlerStatusInfoBox', 'close')
           break
         case 'recipes':
           this.currentAppName = 'Rezepte'
+          this.$store.commit('globalSettings/handlerStatusInfoBox', 'close')
           break
         case 'space-tool':
           this.currentAppName = 'Raum'
+          this.$store.commit('globalSettings/handlerStatusInfoBox', 'close')
           break
         case 'inspiration':
           this.currentAppName = 'Inspiration'
+          this.$store.commit('globalSettings/handlerStatusInfoBox', 'close')
           break
         case 'tools':
           this.currentAppName = 'Tools'
+          this.$store.commit('globalSettings/handlerStatusInfoBox', 'open')
           break
         case '':
           this.currentAppName = 'Startscreen'
+          this.$store.commit('globalSettings/handlerStatusInfoBox', 'close')
           break
         }
       }
