@@ -15,8 +15,8 @@
         q-item-main.text-weight-bold
 
           //----- digitanz light
-          q-btn.q-title.lowercase.full-width(v-if="!usingTool",
-          @click="$router.push('/')", flat, align="left") #digitanz
+          q-btn.q-title.lowercase(v-if="!usingTool",
+          @click="$router.push('/')", flat, align="left", no-ripple) #digitanz
             span.text-weight-light &nbsp;lite
 
           //----- app name
