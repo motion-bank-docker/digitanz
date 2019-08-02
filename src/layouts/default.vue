@@ -4,11 +4,12 @@
     // ---------------------------------------------------------------------------------------------------------- header
     q-layout-header.bg-grey-3.text-grey-9(style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
       q-item.q-pa-none
+
         //----- back-button
-        q-item-side.text-center.min-width-auto.full-height.overflow-hidden(:class="{'offset': !usingTool}",
-        style="transition: all ease 200ms; width: 50px;")
-          q-btn.bg-transparent.full-width.full-height.no-round-borders.text-grey-9(@click="$router.push('/tools')",
-          icon="keyboard_backspace", flat, no-ripple, style="height: 53px!important;")
+        q-item-side.min-width-auto.overflow-hidden.row.items-center.justify-center(:class="{'offset': !usingTool}",
+        style="transition: all ease 200ms; width: 50px; min-height: 50px;")
+          q-btn.self-center.bg-grey-1.text-grey-9(@click="$router.push('/tools')", no-ripple, round, size="sm")
+            q-icon(name="keyboard_backspace", size="16px")
 
         //----- title
         q-item-main.text-weight-bold
