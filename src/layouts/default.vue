@@ -47,11 +47,16 @@
           //----- content
           .q-pa-md
             p Info-Box
-            p {{ tool }}
+            //
+              p {{ currentAppName }}
+              p {{ tool }}
+              p usingTool: {{ usingTool }}
+              p showInfoBox: {{ showInfoBox }}
 
           //----- close-button
-          q-btn.absolute-top-right.shadow-2.bg-grey-3.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox", round, flat,
-          size="sm", :class="[showInfoBox ? '' : 'leave-right']")
+          q-btn.absolute-top-right.shadow-2.bg-grey-3.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
+          round, flat, size="sm",
+          :class="[(showInfoBox ? '' : 'leave-right'), (currentAppName === 'Tools' ? 'leave-right' : '')]")
             q-icon(name="clear")
 
       router-view
