@@ -3,7 +3,7 @@
 
     //--------------------------------------------------------------------------------------------------------- zoom box
     q-modal.bg-grey-3(v-model="zoom", minimized)
-      div.modal-inner.shadow-1
+      div.fit.bg-grey-1.shadow-1
 
         .column.text-center.items-center.row(
         @click="handlerZoom(selectedCloud.terms, selectedCloud.index)",
@@ -87,19 +87,7 @@
 
 <style scoped lang="styl">
   @import '~variables'
-  .modal-inner
-    height 100%
-    width 100%
-    background-color $grey-1
 </style>
 
 <style lang="styl">
-  .modal
-  .modal-content
-    min-width calc(100vw - 30px)!important
-    min-height calc(100vh - 30px)!important
-    width 100%
-    height 100%
-  .modal-backdrop
-    display none
 </style>
