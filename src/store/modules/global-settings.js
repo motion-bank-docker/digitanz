@@ -12,8 +12,7 @@ const global = {
     handlerTool (state, target) {
       state.tool = target
     },
-    handlerStatusInfoBox (state, buttonAction) {
-      console.log(buttonAction)
+    handlerStatusInfoBox (state) {
       state.statusInfoBox = !state.statusInfoBox
     }
   },
