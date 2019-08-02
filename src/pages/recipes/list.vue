@@ -11,10 +11,8 @@
             q-btn.q-px-md.self-center.q-title.full-width.full-height.q-pr-md.overflow-hidden(flat, no-caps, no-ripple,
             align="left",
             @click="showLongTitle = true")
-              .ellipsis {{ selectedRecipe.title }}
-              q-popover#zoom-title(v-model="showLongTitle",
-              anchor="center left", :offset="[-16, 0]",
-              style="max-width: calc(100vw - 16px - 16px - 16px - 16px)!important")
+              .ellipsis.text-weight-bold {{ selectedRecipe.title }}
+              q-popover#zoom-title(v-model="showLongTitle", anchor="center left", :offset="[-16, 0]")
                 div.q-pa-md(@click="showLongTitle = false") {{ selectedRecipe.title }}
 
         //----- ingredients
@@ -23,7 +21,7 @@
         style="height: calc(100vh - 30px - 60px);")
 
           .col.q-title.row.full-width(v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;")
-            .self-start {{ ingredient }}
+            .self-start.text-grey-9 {{ ingredient }}
 
     // ------------------------------------------------------------------------------------------------------------ tabs
     q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
