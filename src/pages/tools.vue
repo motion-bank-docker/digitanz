@@ -11,7 +11,8 @@
               q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
               :icon="button.icon", size="xl", round, flat :disabled="!button.status", no-ripple)
 
-              q-btn.shadow-2.bg-grey-1(v-else, @click.native="actions(button.action)", :icon="button.icon", size="xl", round, flat)
+              q-btn.shadow-2.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", size="xl", round, flat)
+                q-icon.rotate-180(name="keyboard_backspace", size="30px")
 
             q-item-tile.text-center
               .q-caption.q-pt-xs {{ button.label }}
