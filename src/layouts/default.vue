@@ -34,14 +34,25 @@
     q-page-container
 
       .relative-position
-        q-btn.absolute-top-right.shadow-2.bg-grey-3.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox", round, flat,
-        size="sm", :class="[showInfoBox ? '' : 'leave-right']")
-          q-icon(name="clear")
 
-        div.bg-grey-1.text-grey-9.transition.overflow-hidden(:class="[showInfoBox ? 'height-auto' : 'height-0']")
+        //----- invisible space placeholder
+        div.bg-grey-3.text-grey-9.transition.overflow-hidden(:class="[showInfoBox ? 'height-auto' : 'height-0']")
+
+        //----- visible info-box
+        .fixed-top.bg-grey-1.text-grey-9.transition.overflow-hidden(
+        style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3); z-index: 10; top: 52px",
+        position="top",
+        :class="[showInfoBox ? 'height-auto' : 'height-0']")
+
+          //----- content
           .q-pa-md
             p Info-Box
             p {{ tool }}
+
+          //----- close-button
+          q-btn.absolute-top-right.shadow-2.bg-grey-3.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox", round, flat,
+          size="sm", :class="[showInfoBox ? '' : 'leave-right']")
+            q-icon(name="clear")
 
       router-view
 
