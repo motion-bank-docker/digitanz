@@ -2,21 +2,20 @@
   q-page.relative-position.min-height-auto
 
     // -------------------------------------------------------------------------------------------------------- zoom-box
-    .absolute.fit.bg-grey-3.transition.overflow-hidden.transition(style="z-index: 10;",
-    :class="[zoom ? '' : 'leave-right-100']")
-      .column.row.bg-grey-1.q-ma-md.shadow-1.round-borders(@click="handlerZoom(selectedRecipe.ingredients, selectedRecipe.index)",
-      style="height: calc(100vh - 52px - 16px - 16px);")
+    q-modal.bg-grey-3(v-model="zoom", minimized)
+      div.modal-inner.shadow-1
 
-        //----- title
-        .col.q-title.row.q-px-sm.text-weight-bold.full-width.border-bottom(style="border-color: #e0e0e0;")
-          .self-center {{ selectedRecipe.title }}
+        .column.text-center.items-center.row(
+        @click="handlerZoom(selectedRecipe.ingredients, selectedRecipe.index)",
+        style="height: calc(100vh - 30px);")
 
-        //----- ingredients
-        .col.q-title.row.q-px-sm(v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;")
-          .self-center {{ ingredient }}
+          //----- title
+          .col.q-title.row.q-px-sm.text-weight-bold.full-width.border-bottom(style="border-color: #e0e0e0;")
+            .self-center {{ selectedRecipe.title }}
 
-      .absolute-top-right.q-ma-md.q-pt-sm.q-pr-sm
-        q-btn.bg-grey-9.text-grey-1(@click="handlerZoom", icon="clear", round, flat, size="sm")
+          //----- ingredients
+          .col.q-title.row.q-px-md(v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;")
+            .self-center {{ ingredient }}
 
     // ------------------------------------------------------------------------------------------------------------ tabs
     q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
@@ -222,6 +221,8 @@
 </script>
 
 <style lang="stylus" scoped>
+  @import '~variables'
+
   .leave-right-absolute
     right -50vw
 </style>
