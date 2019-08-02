@@ -2,20 +2,19 @@
   q-page.relative-position.min-height-auto
 
     //--------------------------------------------------------------------------------------------------------- zoom box
-    .absolute.fit.bg-grey-3.transition.overflow-hidden.transition(style="z-index: 10;",
-    :class="[zoom ? '' : 'leave-right-100']")
-      .column.text-center.items-center.row.q-px-xl.bg-grey-1.shadow-1.q-ma-md.round-borders(
-      @click="handlerZoom(selectedCloud.terms, selectedCloud.index)",
-      style="height: calc(100vh - 52px - 16px - 16px);")
-        .col.q-title.row(v-for="(term, index) in selectedCloud.terms", style="font-weight: normal;")
-          .self-center {{ term }}
+    q-modal.bg-grey-3(v-model="zoom", minimized)
+      div.modal-inner.shadow-1
 
-      .absolute-top-right.q-ma-md.q-pt-sm.q-pr-sm
-        div.q-mb-sm
-          q-btn.bg-grey-9.text-grey-1(@click="handlerZoom", icon="clear", round, flat, size="sm")
+        .column.text-center.items-center.row(
+        @click="handlerZoom(selectedCloud.terms, selectedCloud.index)",
+        style="height: calc(100vh - 30px);")
+          .col.q-title.row.q-px-md(v-for="(term, index) in selectedCloud.terms", style="font-weight: normal;")
+            .self-center {{ term }}
+
         //
-          div
-            q-btn.bg-grey-9.text-grey-1(icon="delete", @click="removeTempCloud(selectedCloud.index)", round, size="sm", flat)
+          .absolute-top-right
+            q-btn.text-grey-9(@click="handlerZoom", round, flat)
+              q-icon(name="clear")
 
     //----------------------------------------------------------------------------------------------------------- clouds
     .q-pt-sm
@@ -87,4 +86,20 @@
 </script>
 
 <style scoped lang="styl">
+  @import '~variables'
+  .modal-inner
+    height 100%
+    width 100%
+    background-color $grey-1
+</style>
+
+<style lang="styl">
+  .modal
+  .modal-content
+    min-width calc(100vw - 30px)!important
+    min-height calc(100vh - 30px)!important
+    width 100%
+    height 100%
+  .modal-backdrop
+    display none
 </style>
