@@ -6,8 +6,16 @@
       div.modal-inner.shadow-1
 
         //----- title
-        .col.q-title.row.q-px-md.text-weight-bold.full-width.border-bottom(style="border-color: #e0e0e0; height: 60px;")
-          .self-center.ellipsis {{ selectedRecipe.title }}
+        .col.q-title.row.text-weight-bold.full-width.border-bottom(style="border-color: #e0e0e0; height: 60px;")
+          .col-12
+            q-btn.q-px-md.self-center.q-title.full-width.full-height.q-pr-md.overflow-hidden(flat, no-caps, no-ripple,
+            align="left",
+            @click="showLongTitle = true")
+              .ellipsis {{ selectedRecipe.title }}
+              q-popover#zoom-title(v-model="showLongTitle",
+              anchor="center left", :offset="[-16, 0]",
+              style="max-width: calc(100vw - 16px - 16px - 16px - 16px)!important")
+                div.q-pa-md(@click="showLongTitle = false") {{ selectedRecipe.title }}
 
         //----- ingredients
         .column.items-center.row.q-pa-md(
@@ -165,7 +173,8 @@
         optionRemix: undefined,
         recipeStandalone: false,
         zoom: false,
-        selectedRecipe: {index: undefined, ingredients: undefined, title: undefined}
+        selectedRecipe: {index: undefined, ingredients: undefined, title: undefined},
+        showLongTitle: false
       }
     },
     computed: {
@@ -225,4 +234,8 @@
 
   .leave-right-absolute
     right -50vw
+</style>
+<style lang="stylus">
+  .q-popover#zoom-title
+    max-width calc(100vw - 16px - 16px - 16px - 16px)!important
 </style>
