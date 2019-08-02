@@ -5,17 +5,17 @@
     q-modal.bg-grey-3(v-model="zoom", minimized)
       div.modal-inner.shadow-1
 
-        .column.text-center.items-center.row(
+        //----- title
+        .col.q-title.row.q-px-md.text-weight-bold.full-width.border-bottom(style="border-color: #e0e0e0; height: 60px;")
+          .self-center.ellipsis {{ selectedRecipe.title }}
+
+        //----- ingredients
+        .column.items-center.row.q-pa-md(
         @click="handlerZoom(selectedRecipe.ingredients, selectedRecipe.index)",
-        style="height: calc(100vh - 30px);")
+        style="height: calc(100vh - 30px - 60px);")
 
-          //----- title
-          .col.q-title.row.q-px-sm.text-weight-bold.full-width.border-bottom(style="border-color: #e0e0e0;")
-            .self-center {{ selectedRecipe.title }}
-
-          //----- ingredients
-          .col.q-title.row.q-px-md(v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;")
-            .self-center {{ ingredient }}
+          .col.q-title.row.full-width(v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;")
+            .self-start {{ ingredient }}
 
     // ------------------------------------------------------------------------------------------------------------ tabs
     q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
