@@ -73,9 +73,6 @@
       this.$store.commit('globalSettings/handlerStatusInfoBox')
     },
     methods: {
-      handlerVideoButton (buttonAction) {
-        this.$store.commit('globalSettings/handlerStatusInfoBox', buttonAction)
-      },
       highlightButton (val) {
         this.$store.commit('globalSettings/handlerTool', val)
       },
