@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page.q-py-md
+  q-page.q-py-md.min-height-auto
 
     // ---------------------------------------------------------------------------------------------------------- recipe
     div.q-mx-md.shadow-1.bg-e4.text-grey-8.round-borders(style="overflow: hidden;")

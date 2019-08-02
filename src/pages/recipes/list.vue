@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page.relative-position
+  q-page.relative-position.min-height-auto
 
     // -------------------------------------------------------------------------------------------------------- zoom-box
     .absolute.fit.bg-grey-3.transition.overflow-hidden.transition(style="z-index: 10;",

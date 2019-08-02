@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page.q-pb-sm
+  q-page.q-pb-sm.min-height-auto
 
     q-tabs(animated, color="transparent", text-color="grey-1", align="justify" v-model="selectedTab",
     style="padding-bottom: 52px;")
