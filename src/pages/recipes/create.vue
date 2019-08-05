@@ -44,9 +44,9 @@
             .absolute-top-right.transition.q-px-sm.items-start.row.q-mt-sm.q-pt-xs(
             :class="[option !== ingr ? 'leave-right-absolute' : '']",
             style="margin-top: 10px;")
-              q-btn.bg-grey-9.text-grey-2(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
-              q-btn.bg-grey-9.text-grey-2.q-ml-sm.q-mr-md(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
-              q-btn.bg-grey-9.text-grey-2(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
+              q-btn.bg-grey-3.text-grey-9.shadow-1(icon="keyboard_arrow_up", @click="moveUp(index)", round, size="sm", flat)
+              q-btn.bg-grey-3.text-grey-9.shadow-1.q-ml-sm.q-mr-md(icon="keyboard_arrow_down", @click="moveDown(index)", round, size="sm", flat)
+              q-btn.bg-grey-3.text-grey-9.shadow-1(@click="deleteTodoItem(index)", icon="delete", round, size="sm", flat)
 
         q-item-separator.q-ma-none.bg-grey-5.opacity-4(v-if="newRecipe.entries.length")
 
@@ -62,8 +62,8 @@
             :after="[{icon: 'edit', condition: showIcon.newRecipeEntry && !addIngredient}]")
           q-item-side.min-width-auto.min-height-auto.transition.row.self-stretch(:class="[!addIngredient ? 'leave-right' : '']")
             .transition.q-px-sm.items-top.row.q-pt-xs.q-mt-sm
-              q-btn.bg-grey-9.text-grey-2.rotate-90(@click="addTodoItem", icon="add", round, size="sm", flat)
-              q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="resetValues", round, icon="clear", size="sm", flat)
+              q-btn.bg-grey-3.text-grey-9.shadow-1(@click="addTodoItem", icon="add", round, size="sm", flat)
+              q-btn.bg-grey-3.text-grey-9.shadow-1.q-ml-sm(@click="resetValues", round, icon="clear", size="sm", flat)
 
     // ----------------------------------------------------------------------------------------------- buttons at bottom
     .q-mx-md.q-mt-md.overflow-hidden
