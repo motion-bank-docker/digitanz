@@ -45,12 +45,14 @@
           icon: 'scatter_plot',
           label: 'Raum',
           status: true
-        }, {
+        },
+        /* {
           action: 'inspiration',
           icon: 'star_border',
           label: 'Inspiration',
           status: false
-        }, {
+        }, */
+        {
           action: 'sequenz',
           icon: 'extension',
           label: 'Sequenz',
