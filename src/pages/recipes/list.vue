@@ -78,8 +78,10 @@
               //----- "zoom"-button
               .absolute-top-right.transition.q-px-sm.q-pt-sm.q-mt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
                 template(v-if="!recipeStandalone")
-                  q-btn.bg-grey-9.text-grey-2.q-mr-sm(icon="edit", @click="editRecipe(index)", round, size="sm", flat)
-                  q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeFromTempRecipe(index)", round, size="sm", flat)
+                  q-btn.bg-grey-3.text-grey-9.shadow-1.q-mr-sm(@click="editRecipe(index)", round, size="sm", flat)
+                    q-icon(name="edit", size="16px")
+                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeFromTempRecipe(index)", round, size="sm", flat)
+                    q-icon(name="delete", size="16px")
               .absolute-bottom-right.transition(:class="[option !== index ? 'leave-right-absolute' : '']")
                   q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="zoom_in", @click="handlerZoom(recipe, index)", size="lg", flat)
 
@@ -130,8 +132,12 @@
             //----- "remove"-button
             .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
               template(v-if="!recipeStandalone")
-                q-btn.bg-grey-9.text-grey-2.q-mr-sm(icon="edit", @click="editRemix(index)", round, size="sm", flat)
-                q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeTempRemix(index)", round, size="sm", flat)
+                q-btn.bg-grey-3.text-grey-9.shadow-1.q-mr-sm(@click="editRemix(index)", round, size="sm", flat)
+                  q-icon(name="edit", size="16px")
+                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempRemix(index)", round, size="sm", flat)
+                  q-icon(name="delete", size="16px")
+            .absolute-bottom-right.transition(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
+              q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="zoom_in", @click="handlerZoom(remix, index)", size="lg", flat)
 
         //----- "add"-button
         template
