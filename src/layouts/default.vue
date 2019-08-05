@@ -6,9 +6,9 @@
       q-item.q-pa-none
 
         //----- back-button
-        q-item-side.min-width-auto.overflow-hidden.row.items-center.justify-center(:class="{'offset': !usingTool}",
-        style="transition: all ease 200ms; width: 50px; min-height: 50px;")
-          q-btn.self-center.bg-grey-1.text-grey-9(@click="$router.push('/tools')", no-ripple, round, size="sm")
+        q-item-side.min-width-auto.overflow-hidden.row(:class="{'offset': !usingTool}",
+        style="transition: all ease 200ms; width: 54px; min-height: 50px;")
+          q-btn.self-center.bg-grey-1.text-grey-9.q-ml-md(@click="$router.push('/tools')", no-ripple, round, size="sm")
             q-icon(name="keyboard_backspace", size="16px")
 
         //----- title
@@ -20,8 +20,8 @@
             span.text-weight-light &nbsp;lite
 
           //----- app name
-          q-btn.q-title.capitalize.full-width(v-else, flat, no-ripple, align="left")
-            .ellipsis(style="margin-left: -16px;") {{ currentAppName }}
+          q-btn.q-title.capitalize.full-width.q-pl-sm(v-else, flat, no-ripple, align="left")
+            .ellipsis {{ currentAppName }}
 
         //----- info-button
         q-item-side.q-pr-md.absolute-top-right.q-pt-sm.q-mt-xs
@@ -143,7 +143,7 @@
 
 <style scoped lang="styl">
   .offset
-    margin-left -50px
+    margin-left -54px
 
   .height-0
     height 0
