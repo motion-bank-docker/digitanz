@@ -25,15 +25,16 @@
           @click="handlerRadiobutton(index)",
           :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']",
           style="min-height: 100px;")
-            .word-break.full-width.q-mx-md
+            .word-break.full-width.q-mx-lg
               template(v-for="(term, i) in cloud")
                 span {{ term }}
                 span(v-if="i < cloud.length - 1") ,&ensp;
 
-            //----- "remove"-button
             .absolute.full-width.full-height.overflow-hidden.items-center(@click="handlerRadiobutton(index)")
+              //----- "remove"-button
               .absolute-top-right.transition.q-mr-md.q-px-sm.q-pt-sm(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
-                q-btn.bg-grey-9.text-grey-2(icon="delete", @click="removeTempCloud(index)", round, size="sm", flat)
+                q-btn.bg-grey-3.text-grey-9.shadow-1(icon="delete", @click="removeTempCloud(index)", round, size="sm", flat)
+              //----- "zoom-box"-button
               .absolute-bottom-right.transition.q-mr-md(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
                 q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="zoom_in", @click="handlerZoom(cloud, index)", size="lg",
                 flat, no-ripple)
