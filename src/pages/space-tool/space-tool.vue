@@ -2,6 +2,10 @@
   q-page.bg-grey-3(style="margin-top: -1px;")
     .overflow-hidden(style="height: calc(100vh - 52px);")
       lost-in-space
+
+    .absolute-bottom.q-ma-md
+      q-btn.bg-grey-9.text-grey-2(@click="$router.push('/space-tool/list')", round, flat, size="sm")
+        q-icon(name="clear", size="16px")
 </template>
 
 <script>
