@@ -13,6 +13,7 @@ import cloud from './modules/cloud'
 import recipes from './modules/recipes'
 import mrGriddle from './modules/mr-griddle'
 import globalSettings from './modules/global-settings'
+import spaceTool from './modules/space-tool'
 
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -44,7 +45,8 @@ const store = new Vuex.Store({
     recipes,
     auth,
     mrGriddle,
-    globalSettings
+    globalSettings,
+    spaceTool
   }
 })
 
