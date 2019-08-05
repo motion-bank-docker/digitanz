@@ -1,18 +1,19 @@
 <template lang="pug">
   q-page
-    div list
-    div {{ shapes }}
-    q-btn(@click="$router.push('/space-tool')") go
+    div
+      q-btn(@click="$router.push('/space-tool')") go
 
-    svg(width="100vw", height="50vh")
-      rect(width="100%" height="100%" fill="#3e3e99")
-      defs
-        g#shape-protos
-          g#diagonal-lines-1
-            line(x1="-50", y1="-50", x2="50", y2="50")
-          g#diagonal-lines-2
-            line(x1="-50", y1="-50", x2="50", y2="50")
-            line(x1="50",  y1="-50", x2="-50", y2="50")
+    div(v-for="shape in shapes")
+      svg(width="100px", height="100px")
+
+        template(v-for="element in shape.elements")
+
+          polygon(v-if="element.type === 'polygon'",
+          :points="element.points", stroke="black", fill="none")
+
+          line(v-if="element.type === 'line'",
+          :x1="element.x1", :x2="element.x2", :y1="element.y1", :y2="element.y2",
+          stroke="black", stroke-width="1")
 </template>
 
 <script>
