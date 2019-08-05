@@ -1,6 +1,6 @@
 <template lang="pug">
   q-page
-    | create
+    | list
     q-btn(@click="$router.push('/space-tool')") go
 </template>
 

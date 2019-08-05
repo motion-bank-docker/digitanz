@@ -96,7 +96,7 @@
           this.$router.push('/rhythm')
           break
         case 'space-tool':
-          this.$router.push('/space-tool/create')
+          this.$router.push('/space-tool/list')
           break
         case 'inspiration':
           this.$router.push('/inspiration')
