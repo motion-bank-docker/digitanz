@@ -13,7 +13,7 @@
             @click="showLongTitle = true")
               .ellipsis.text-weight-bold {{ selectedRecipe.title }}
               q-popover#zoom-title(v-model="showLongTitle", anchor="center left", :offset="[-16, 0]")
-                div.q-pa-md(@click="showLongTitle = false") {{ selectedRecipe.title }}
+                div.q-pa-md.q-title(@click="showLongTitle = false") {{ selectedRecipe.title }}
 
         //----- ingredients
         .column.items-center.row.q-pa-md(
