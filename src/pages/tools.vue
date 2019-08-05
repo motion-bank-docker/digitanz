@@ -1,6 +1,6 @@
 <template lang="pug">
-  q-page.q-pt-sm.q-pb-lg
-    .q-pt-lg.q-px-lg.row.gutter-sm
+  q-page.min-height-auto
+    .q-px-lg.row.items-center(style="height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
       .col-xs-6.col-md-2(v-for="button in buttons", :class="{'inactive': !button.status}")
 
         q-item.q-pa-none.q-mb-xs
@@ -9,13 +9,13 @@
 
               //----- tool-button
               q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
-              :icon="button.icon", size="xl", round, flat :disabled="!button.status", no-ripple)
+              :icon="button.icon", size="lg", round, flat :disabled="!button.status", no-ripple)
 
-              q-btn.shadow-2.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", size="xl", round, flat)
+              q-btn.shadow-2.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", size="lg", round, flat)
                 q-icon.rotate-180(name="keyboard_backspace", size="30px")
 
             q-item-tile.text-center
-              .q-caption.q-pt-xs {{ button.label }}
+              .q-caption {{ button.label }}
 
 </template>
 
