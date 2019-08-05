@@ -19,25 +19,28 @@
     //----------------------------------------------------------------------------------------------------------- clouds
     .q-pt-sm
       template(v-if="tempClouds.length > 0")
-        q-list.min-height-auto.q-pa-sm.q-px-md(v-for="(cloud, index) in tempClouds", no-border)
-          q-radio.round-borders.full-width.shadow-1.bg-e4.q-pa-md.text-center.relative-position.overflow-hidden(
-          v-model="optionCloud", :val="index",
-          @click="handlerRadiobutton(index)",
-          :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']",
-          style="min-height: 100px;")
-            .word-break.full-width.q-mx-lg
-              template(v-for="(term, i) in cloud")
-                span {{ term }}
-                span(v-if="i < cloud.length - 1") ,&ensp;
+        q-list.min-height-auto.q-py-none(v-for="(cloud, index) in tempClouds", no-border)
+          div.relative-position.overflow-hidden.q-px-md.q-py-sm
+            div.shadow-1.bg-e4.text-center.round-borders
+              .overflow-hidden.relative-position.round-borders
+                q-radio.full-width(
+                v-model="optionCloud", :val="index",
+                @click="handlerRadiobutton(index)",
+                :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']",
+                style="min-height: 100px;")
+                  .word-break.full-width.q-px-lg
+                    template(v-for="(term, i) in cloud")
+                      span {{ term }}
+                      span(v-if="i < cloud.length - 1") ,&ensp;
 
-            .absolute.full-width.full-height.overflow-hidden.items-center(@click="handlerRadiobutton(index)")
-              //----- "remove"-button
-              .absolute-top-right.transition.q-mr-md.q-px-sm.q-pt-sm(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
-                q-btn.bg-grey-3.text-grey-9.shadow-1(icon="delete", @click="removeTempCloud(index)", round, size="sm", flat)
-              //----- "zoom-box"-button
-              .absolute-bottom-right.transition.q-mr-md(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
-                q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="zoom_in", @click="handlerZoom(cloud, index)", size="lg",
-                flat, no-ripple)
+                //----- "remove"-button
+                .absolute-top-right.transition.q-mr-sm.q-pt-sm(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
+                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempCloud(index)", round, size="sm", flat)
+                    q-icon(name="delete", size="16px")
+                //----- "zoom-box"-button
+                .absolute-bottom-right.transition(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
+                  q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="zoom_in", @click="handlerZoom(cloud, index)", size="lg",
+                  flat, no-ripple)
 
     // ---------------------------------------------------------------------------------------------------- "add"-button
     .q-px-md.q-pb-md.q-pt-sm
