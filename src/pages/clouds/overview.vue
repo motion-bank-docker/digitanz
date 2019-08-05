@@ -25,10 +25,9 @@
               .overflow-hidden.relative-position.round-borders
                 q-radio.full-width(
                 v-model="optionCloud", :val="index",
-                @click="handlerRadiobutton(index)",
                 :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']",
                 style="min-height: 100px;")
-                  .word-break.full-width.q-px-lg
+                  .word-break.full-width.q-px-lg(@click="handlerRadiobutton(index)")
                     template(v-for="(term, i) in cloud")
                       span {{ term }}
                       span(v-if="i < cloud.length - 1") ,&ensp;
