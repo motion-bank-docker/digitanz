@@ -54,6 +54,7 @@ const routes = [
       { path: 'mr-griddle-tv', component: () => import('components/MrGriddleStandalone'), meta: {private: true} },
       { path: 'presentation', component: () => import('pages/presentation'), meta: {private: true} },
       { path: 'space-tool', component: () => import('pages/space-tool/space-tool'), meta: {private: true, hideFooter: true} },
+      { path: 'space-tool/create', component: () => import('pages/space-tool/create'), meta: {private: true, hideFooter: true} },
       { path: 'rhythm', component: () => import('pages/rhythm'), meta: {private: true} },
       { path: 'rhythm-creator', component: () => import('pages/rhythm-creator'), meta: {private: true} },
       { path: 'survey', component: () => import('pages/survey'), meta: {private: true} },
