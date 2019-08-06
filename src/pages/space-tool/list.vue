@@ -5,21 +5,23 @@
     .shadow-1.round-borders.bg-e4.q-mt-md.q-mx-md
       template(v-if="selectedShapes.length > 0")
         q-item.row.q-pa-sm
-          .col-3.q-px-md.q-py-sm.round-borders(v-for="(shape, index) in selectedShapes",
+          .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="(shape, index) in selectedShapes",
           @click="selectShape(shape, index)",
           :class="[selectedShape === index ? 'bg-grey-1 shadow-1' : '']")
             shape-icon(:shape="shape", :cols="4")
-        .q-pa-sm.text-right
-          q-btn.bg-grey-3.shadow-1(:disabled="selectedShape === undefined", size="sm", round, flat)
-            q-icon(name="keyboard_arrow_left", size="16px")
-          q-btn.bg-grey-3.shadow-1.q-ml-sm.q-mr-md(:disabled="selectedShape === undefined", size="sm", round, flat)
-            q-icon(name="keyboard_arrow_right", size="16px")
-          q-btn.bg-grey-3.shadow-1(@click="removeSelectedShape()",
-          :disabled="selectedShape === undefined", size="sm", round, flat)
-            q-icon(name="delete", size="16px")
+            .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.bg-grey-3(v-if="selectedShape !== index") {{ index + 1 }}
       template(v-else)
         .q-pa-sm
           | Leer
+    template(v-if="selectedShapes.length > 0")
+      .q-px-md.q-py-sm.text-right
+        q-btn.bg-grey-3.shadow-1(:disabled="selectedShape === undefined", size="sm", round, flat)
+          q-icon(name="keyboard_arrow_left", size="18px")
+        q-btn.bg-grey-3.shadow-1.q-ml-sm.q-mr-md(:disabled="selectedShape === undefined", size="sm", round, flat)
+          q-icon(name="keyboard_arrow_right", size="18px")
+        q-btn.bg-grey-3.shadow-1(@click="removeSelectedShape()",
+        :disabled="selectedShape === undefined", size="sm", round, flat)
+          q-icon(name="delete", size="16px")
 
     //----- shapes
     .row.q-px-sm.q-mb-md.q-pb-md
