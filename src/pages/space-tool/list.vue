@@ -14,7 +14,8 @@
             q-icon(name="keyboard_arrow_left", size="16px")
           q-btn.bg-grey-3.shadow-1.q-ml-sm.q-mr-md(:disabled="selectedShape === undefined", size="sm", round, flat)
             q-icon(name="keyboard_arrow_right", size="16px")
-          q-btn.bg-grey-3.shadow-1(:disabled="selectedShape === undefined", size="sm", round, flat)
+          q-btn.bg-grey-3.shadow-1(@click="removeSelectedShape()",
+          :disabled="selectedShape === undefined", size="sm", round, flat)
             q-icon(name="delete", size="16px")
       template(v-else)
         .q-pa-sm
@@ -62,8 +63,15 @@
       if (this.selectedShapes.length > 0) this.selection = this.selectedShapes
     },
     watch: {
+      selection () {
+        this.$store.commit('spaceTool/setSelectedShapes', this.selection)
+      }
     },
     methods: {
+      removeSelectedShape () {
+        this.selection.splice(this.selectedShape, 1)
+        this.selectedShape = undefined
+      },
       selectShape (shape, index) {
         if (this.selectedShape === index) this.selectedShape = undefined
         else this.selectedShape = index
@@ -73,7 +81,6 @@
       },
       addToSelection (val) {
         this.selection.push(val)
-        this.$store.commit('spaceTool/setSelectedShapes', this.selection)
       }
     }
   }
