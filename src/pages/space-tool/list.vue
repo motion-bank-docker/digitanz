@@ -50,8 +50,12 @@
     },
     computed: {
       ...mapGetters({
-        shapes: 'spaceTool/getShapes'
+        shapes: 'spaceTool/getShapes',
+        selectedShapes: 'spaceTool/getSelectedShapes'
       })
+    },
+    mounted () {
+      if (this.selectedShapes.length > 0) this.checkboxSelectedShapes = this.selectedShapes
     },
     watch: {
       checkboxSelectedShapes (val) {
