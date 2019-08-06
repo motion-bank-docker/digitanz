@@ -1,7 +1,9 @@
 <template lang="pug">
   q-page.q-pb-xl.min-height-auto
-    .q-mt-md.row(v-if="selectedShapes.length > 0")
-      .col-3.q-px-md.q-py-sm(v-for="(shape, index) in selectedShapes")
+    .shadow-1.round-borders.bg-e4.q-mt-md.row.q-mx-md.q-pa-sm(v-if="selectedShapes.length > 0")
+      .col-3.q-px-md.q-py-sm.round-borders(v-for="(shape, index) in selectedShapes",
+      @click="selectShape(shape, index)",
+      :class="[selectedShape === index ? 'bg-grey-1' : '']")
         shape-icon(:shape="shape", :cols="4")
 
     .row.q-px-sm.q-mb-md.q-pb-md
@@ -27,7 +29,8 @@
   export default {
     data () {
       return {
-        selection: []
+        selection: [],
+        selectedShape: undefined
       }
     },
     components: {
@@ -45,6 +48,10 @@
     watch: {
     },
     methods: {
+      selectShape (shape, index) {
+        if (this.selectedShape === index) this.selectedShape = undefined
+        else this.selectedShape = index
+      },
       checkIfSelected (val) {
         return this.checkboxSelectedShapes.includes(val)
       },
