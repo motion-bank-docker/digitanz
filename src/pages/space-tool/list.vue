@@ -8,11 +8,19 @@
           .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="(shape, index) in selectedShapes",
           @click="selectShape(shape, index)",
           :class="[selectedShapeIndex === index ? 'bg-grey-1 shadow-1' : '']")
+
+            //----- number
+            .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.bg-grey-3.shadow-1(v-if="selectedShapeIndex !== index")
+              | {{ index + 1 }}
+
+            //----- icon
             shape-icon(:shape="shape", :cols="4")
-            .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.bg-grey-3(v-if="selectedShapeIndex !== index") {{ index + 1 }}
+
       template(v-else)
         .q-pa-sm
           | Leer
+
+    //----- buttons
     template(v-if="selectedShapes.length > 0")
       .q-px-md.q-py-sm.text-right
         q-btn.bg-grey-3.shadow-1(@click="moveSelectedShape('left')",
