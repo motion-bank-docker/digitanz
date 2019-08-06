@@ -1,13 +1,17 @@
 <template lang="pug">
   q-page.q-pb-xl
+    .bg-e4.shadow-1.round-borders.q-mt-md.q-mx-md(v-if="selectedShapes.length > 0")
+      .q-px-md.q-py-sm(v-for="shape in selectedShapes") {{ shape }}
+
     .row.q-px-sm.q-mb-md
-      .col-4.q-px-sm.q-mt-md.text-center.round-borders(v-for="shape in shapes")
+      .col-3.q-px-sm.q-mt-md.text-center.round-borders.items-center(v-for="shape in shapes")
 
         input.hidden(v-model="checkboxSelectedShapes", type="checkbox", :id="shape.id", :value="shape.id")
 
-        label.full-width.full-height(:for="shape.id")
-          div.shadow-1.q-pa-md.bg-e4.round-borders(:class="[checkIfSelected(shape.id) ? 'bg-grey-1 text-grey-9' : 'text-grey-8']")
-            svg(width="100%", height="calc(calc(calc(100vw - calc(16px * 4)) / 3) * 1.33)", viewBox="0 0 100 100")
+        label.full-width.full-height.self-center(:for="shape.id")
+          div.shadow-1.q-px-sm.bg-e4.text-grey-8.round-borders(
+          @click="addToSelection(shape.id)")
+            svg(width="100%", height="calc(calc(100vw - calc(16px * 5)) / 4)", viewBox="0 0 100 100")
 
               template(v-for="element in shape.elements")
 
@@ -38,15 +42,17 @@
 <script>
   import { mapGetters } from 'vuex'
 
-  // import LostInSpace from '../../components/LostInSpace'
+  import shapeIcon from '../../components/ShapeIcon'
+
   export default {
     data () {
       return {
-        checkboxSelectedShapes: []
+        checkboxSelectedShapes: [],
+        selection: []
       }
     },
     components: {
-      // LostInSpace
+      shapeIcon
     },
     computed: {
       ...mapGetters({
@@ -58,13 +64,17 @@
       if (this.selectedShapes.length > 0) this.checkboxSelectedShapes = this.selectedShapes
     },
     watch: {
-      checkboxSelectedShapes (val) {
-        this.$store.commit('spaceTool/setSelectedShapes', val)
-      }
+      // checkboxSelectedShapes (val) {
+      //   this.$store.commit('spaceTool/setSelectedShapes', val)
+      // }
     },
     methods: {
       checkIfSelected (val) {
         return this.checkboxSelectedShapes.includes(val)
+      },
+      addToSelection (val) {
+        this.selection.push(val)
+        this.$store.commit('spaceTool/setSelectedShapes', this.selection)
       }
     }
   }
