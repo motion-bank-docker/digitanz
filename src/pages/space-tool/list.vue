@@ -44,7 +44,7 @@
       })
     },
     mounted () {
-      if (this.selectedShapes.length > 0) this.checkboxSelectedShapes = this.selectedShapes
+      if (this.selectedShapes.length > 0) this.selection = this.selectedShapes
     },
     watch: {
       // checkboxSelectedShapes (val) {
