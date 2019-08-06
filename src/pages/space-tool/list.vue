@@ -17,7 +17,7 @@
             shape-icon(:shape="shape", :cols="4")
 
       template(v-else)
-        .q-pa-sm
+        .q-pa-sm.inactive
           | Leer
 
     //----- buttons
