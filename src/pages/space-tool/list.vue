@@ -1,11 +1,26 @@
 <template lang="pug">
   q-page.q-pb-xl.min-height-auto
-    .shadow-1.round-borders.bg-e4.q-mt-md.row.q-mx-md.q-pa-sm(v-if="selectedShapes.length > 0")
-      .col-3.q-px-md.q-py-sm.round-borders(v-for="(shape, index) in selectedShapes",
-      @click="selectShape(shape, index)",
-      :class="[selectedShape === index ? 'bg-grey-1' : '']")
-        shape-icon(:shape="shape", :cols="4")
 
+    //----- selection-box
+    .shadow-1.round-borders.bg-e4.q-mt-md.q-mx-md
+      template(v-if="selectedShapes.length > 0")
+        q-item.row.q-pa-sm
+          .col-3.q-px-md.q-py-sm.round-borders(v-for="(shape, index) in selectedShapes",
+          @click="selectShape(shape, index)",
+          :class="[selectedShape === index ? 'bg-grey-1 shadow-1' : '']")
+            shape-icon(:shape="shape", :cols="4")
+        .q-pa-sm.text-right
+          q-btn.bg-grey-3.shadow-1(:disabled="selectedShape === undefined", size="sm", round, flat)
+            q-icon(name="keyboard_arrow_left", size="16px")
+          q-btn.bg-grey-3.shadow-1.q-ml-sm.q-mr-md(:disabled="selectedShape === undefined", size="sm", round, flat)
+            q-icon(name="keyboard_arrow_right", size="16px")
+          q-btn.bg-grey-3.shadow-1(:disabled="selectedShape === undefined", size="sm", round, flat)
+            q-icon(name="delete", size="16px")
+      template(v-else)
+        .q-pa-sm
+          | Leer
+
+    //----- shapes
     .row.q-px-sm.q-mb-md.q-pb-md
       .col-3.q-px-sm.q-mt-md.text-center.round-borders.items-center(v-for="shape in shapes")
 
@@ -13,6 +28,7 @@
         @click="addToSelection(shape)")
           shape-icon(:shape="shape", :cols="4")
 
+    //----- okay-button
     .fixed-bottom-right.q-px-md.q-mt-md.q-mb-md
       q-btn(@click="$router.push('/space-tool')", round, flat,
       :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
