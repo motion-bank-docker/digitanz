@@ -1,10 +1,10 @@
 <template lang="pug">
-  q-page.q-pb-xl
-    .bg-e4.shadow-1.round-borders.q-mt-md.q-mx-md(v-if="selectedShapes.length > 0")
-      .q-px-md.q-py-sm(v-for="shape in selectedShapes")
-        shape-icon(:shape="shape", :cols="6")
+  q-page.q-pb-xl.min-height-auto
+    .q-mt-md.row(v-if="selectedShapes.length > 0")
+      .col-3.q-px-md.q-py-sm(v-for="(shape, index) in selectedShapes")
+        shape-icon(:shape="shape", :cols="4")
 
-    .row.q-px-sm.q-mb-md
+    .row.q-px-sm.q-mb-md.q-pb-md
       .col-3.q-px-sm.q-mt-md.text-center.round-borders.items-center(v-for="shape in shapes")
 
         input.hidden(v-model="checkboxSelectedShapes", type="checkbox", :id="shape.id", :value="shape.id")
