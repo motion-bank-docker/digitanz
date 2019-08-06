@@ -59,6 +59,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     data () {
       return {
@@ -103,7 +105,13 @@
 
       this.heightWithoutHeader = window.innerHeight - 52
 
-      const shapeProtos = this.$el.querySelectorAll('#shape-protos > g')
+      const shapeProtosAll = this.$el.querySelectorAll('#shape-protos > g')
+      const shapeProtos = []
+      Object.keys(shapeProtosAll).forEach(key => {
+        if (Object.values(this.selectedShapes).indexOf(shapeProtosAll[key].id) >= 0) {
+          shapeProtos.push(shapeProtosAll[key])
+        }
+      })
 
       const winHalfWidth = this.svgSize.width / 2
       const winHalfHeight = this.svgSize.height / 2
@@ -162,6 +170,9 @@
       this.timerId = setInterval(this.timerIntervalHandler, this.frameLength)
     },
     computed: {
+      ...mapGetters({
+        selectedShapes: 'spaceTool/getSelectedShapes'
+      }),
       svgSize () {
         const smallestLengthFull = Math.min(window.innerWidth, window.innerHeight - 52)
         const smallestLength = smallestLengthFull * 0.7
