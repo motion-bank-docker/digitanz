@@ -110,10 +110,12 @@
       const shapeIDs = []
       this.selectedShapes.map(shape => shapeIDs.push(shape['id']))
 
-      Object.keys(shapeProtosAll).forEach(key => {
-        if (Object.values(shapeIDs).indexOf(shapeProtosAll[key].id) >= 0) {
-          shapeProtos.push(shapeProtosAll[key])
-        }
+      Object.values(this.selectedShapes).forEach(shape => {
+        Object.keys(shapeProtosAll).forEach(key => {
+          if (shape.id === shapeProtosAll[key].id) {
+            shapeProtos.push(shapeProtosAll[key])
+          }
+        })
       })
 
       const winHalfWidth = this.svgSize.width / 2
