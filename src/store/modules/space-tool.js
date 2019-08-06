@@ -69,7 +69,6 @@ const spaceTool = {
   },
   mutations: {
     setSelectedShapes (state, val) {
-      console.log(state, val, this.selectedShapes)
       state.selectedShapes = val
     }
   },
