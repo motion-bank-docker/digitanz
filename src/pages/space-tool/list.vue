@@ -16,8 +16,8 @@
 
     .fixed-bottom-right.q-px-md.q-mt-md.q-mb-md
       q-btn(@click="$router.push('/space-tool')", round, flat,
-      :class="[checkboxSelectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
-      :disabled="checkboxSelectedShapes.length <= 0")
+      :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
+      :disabled="selectedShapes.length <= 0")
         q-icon(name="check")
 
 </template>
