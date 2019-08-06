@@ -7,20 +7,22 @@
         q-item.row.q-pa-sm
           .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="(shape, index) in selectedShapes",
           @click="selectShape(shape, index)",
-          :class="[selectedShape === index ? 'bg-grey-1 shadow-1' : '']")
+          :class="[selectedShapeIndex === index ? 'bg-grey-1 shadow-1' : '']")
             shape-icon(:shape="shape", :cols="4")
-            .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.bg-grey-3(v-if="selectedShape !== index") {{ index + 1 }}
+            .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.bg-grey-3(v-if="selectedShapeIndex !== index") {{ index + 1 }}
       template(v-else)
         .q-pa-sm
           | Leer
     template(v-if="selectedShapes.length > 0")
       .q-px-md.q-py-sm.text-right
-        q-btn.bg-grey-3.shadow-1(:disabled="selectedShape === undefined", size="sm", round, flat)
+        q-btn.bg-grey-3.shadow-1(@click="moveSelectedShape('left')",
+        :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
           q-icon(name="keyboard_arrow_left", size="18px")
-        q-btn.bg-grey-3.shadow-1.q-ml-sm.q-mr-md(:disabled="selectedShape === undefined", size="sm", round, flat)
+        q-btn.bg-grey-3.shadow-1.q-ml-sm.q-mr-md(@click="moveSelectedShape('right')",
+        :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
           q-icon(name="keyboard_arrow_right", size="18px")
         q-btn.bg-grey-3.shadow-1(@click="removeSelectedShape()",
-        :disabled="selectedShape === undefined", size="sm", round, flat)
+        :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
           q-icon(name="delete", size="16px")
 
     //----- shapes
@@ -49,6 +51,7 @@
     data () {
       return {
         selection: [],
+        selectedShapeIndex: undefined,
         selectedShape: undefined
       }
     },
@@ -70,13 +73,31 @@
       }
     },
     methods: {
+      moveSelectedShape (direction) {
+        const tempSelection = this.selection
+        const targetShape = tempSelection.splice(this.selectedShapeIndex, 1)
+        if (direction === 'left') {
+          tempSelection.splice(this.selectedShapeIndex - 1, 0, targetShape[0])
+          this.selectedShapeIndex -= 1
+        }
+        else {
+          tempSelection.splice(this.selectedShapeIndex + 1, 0, targetShape[0])
+          this.selectedShapeIndex += 1
+        }
+      },
       removeSelectedShape () {
-        this.selection.splice(this.selectedShape, 1)
-        this.selectedShape = undefined
+        this.selection.splice(this.selectedShapeIndex, 1)
+        this.selectedShapeIndex = undefined
       },
       selectShape (shape, index) {
-        if (this.selectedShape === index) this.selectedShape = undefined
-        else this.selectedShape = index
+        if (this.selectedShapeIndex === index) {
+          this.selectedShapeIndex = undefined
+          this.selectedShape = undefined
+        }
+        else {
+          this.selectedShapeIndex = index
+          this.selectedShape = shape
+        }
       },
       checkIfSelected (val) {
         return this.checkboxSelectedShapes.includes(val)
