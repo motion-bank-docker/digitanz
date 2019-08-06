@@ -1,7 +1,8 @@
 <template lang="pug">
   q-page.q-pb-xl
     .bg-e4.shadow-1.round-borders.q-mt-md.q-mx-md(v-if="selectedShapes.length > 0")
-      .q-px-md.q-py-sm(v-for="shape in selectedShapes") {{ shape }}
+      .q-px-md.q-py-sm(v-for="shape in selectedShapes")
+        shape-icon(:shape="shape", :cols="6")
 
     .row.q-px-sm.q-mb-md
       .col-3.q-px-sm.q-mt-md.text-center.round-borders.items-center(v-for="shape in shapes")
@@ -10,7 +11,7 @@
 
         label.full-width.full-height.self-center(:for="shape.id")
           div.shadow-1.q-px-sm.bg-e4.text-grey-8.round-borders(
-          @click="addToSelection(shape.id)")
+          @click="addToSelection(shape)")
             shape-icon(:shape="shape", :cols="4")
 
     .fixed-bottom-right.q-px-md.q-mt-md.q-mb-md

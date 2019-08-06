@@ -107,8 +107,11 @@
 
       const shapeProtosAll = this.$el.querySelectorAll('#shape-protos > g')
       const shapeProtos = []
+      const shapeIDs = []
+      this.selectedShapes.map(shape => shapeIDs.push(shape['id']))
+
       Object.keys(shapeProtosAll).forEach(key => {
-        if (Object.values(this.selectedShapes).indexOf(shapeProtosAll[key].id) >= 0) {
+        if (Object.values(shapeIDs).indexOf(shapeProtosAll[key].id) >= 0) {
           shapeProtos.push(shapeProtosAll[key])
         }
       })
