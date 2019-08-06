@@ -10,7 +10,8 @@
           :class="[selectedShapeIndex === index ? 'bg-grey-1 shadow-1' : '']")
 
             //----- number
-            .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.bg-grey-3.shadow-1(v-if="selectedShapeIndex !== index")
+            .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.bg-grey-3.shadow-1(
+            v-if="selectedShapeIndex !== index")
               | {{ index + 1 }}
 
             //----- icon
@@ -21,17 +22,19 @@
           | Leer
 
     //----- buttons
-    template(v-if="selectedShapes.length > 0")
-      .q-px-md.q-py-sm.text-right
-        q-btn.bg-grey-3.shadow-1(@click="moveSelectedShape('left')",
-        :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
-          q-icon(name="keyboard_arrow_left", size="18px")
-        q-btn.bg-grey-3.shadow-1.q-ml-sm.q-mr-md(@click="moveSelectedShape('right')",
-        :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
-          q-icon(name="keyboard_arrow_right", size="18px")
-        q-btn.bg-grey-3.shadow-1(@click="removeSelectedShape()",
-        :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
-          q-icon(name="delete", size="16px")
+    template
+      .relative-position.overflow-hidden.q-mx-md.transition(:class="[selectedShapes.length > 0 ? 'height-46' : 'height-0']")
+        .q-pt-sm.absolute-top-right.transition(
+        :class="[selectedShapes.length > 0 ? '' : 'leave-right']")
+          q-btn.bg-grey-3.shadow-1(@click="moveSelectedShape('left')",
+          :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
+            q-icon(name="keyboard_arrow_left", size="18px")
+          q-btn.bg-grey-3.shadow-1.q-ml-sm.q-mr-md(@click="moveSelectedShape('right')",
+          :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
+            q-icon(name="keyboard_arrow_right", size="18px")
+          q-btn.bg-grey-3.shadow-1(@click="removeSelectedShape()",
+          :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
+            q-icon(name="delete", size="16px")
 
     //----- shapes
     .row.q-px-sm.q-mb-md.q-pb-md
@@ -118,4 +121,8 @@
 </script>
 
 <style lang="stylus" scoped>
+  .height-0
+    height 0
+  .height-46
+    height 46px
 </style>
