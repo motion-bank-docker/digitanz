@@ -3,7 +3,7 @@
     .row.q-px-sm.q-mb-md
       .col-4.q-px-sm.q-mt-md.text-center.round-borders(v-for="shape in shapes")
 
-        input.hidden(v-model="selectedShapes", type="checkbox", :id="shape.id", :value="shape.id")
+        input.hidden(v-model="checkboxSelectedShapes", type="checkbox", :id="shape.id", :value="shape.id")
 
         label.full-width.full-height(:for="shape.id")
           div.shadow-1.q-pa-md.bg-e4.round-borders(:class="[checkIfSelected(shape.id) ? 'bg-grey-1 text-grey-9' : 'text-grey-8']")
@@ -40,7 +40,7 @@
   export default {
     data () {
       return {
-        selectedShapes: []
+        checkboxSelectedShapes: []
       }
     },
     components: {
@@ -51,9 +51,14 @@
         shapes: 'spaceTool/getShapes'
       })
     },
+    watch: {
+      checkboxSelectedShapes (val) {
+        this.$store.commit('spaceTool/setSelectedShapes', val)
+      }
+    },
     methods: {
       checkIfSelected (val) {
-        return this.selectedShapes.includes(val)
+        return this.checkboxSelectedShapes.includes(val)
       }
     }
   }

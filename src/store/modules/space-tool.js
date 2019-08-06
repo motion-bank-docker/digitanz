@@ -60,16 +60,18 @@ const spaceTool = {
       elements: [
         {type: 'polygon', points: '53,100 3,25 93,25'}
       ]
-    }]
+    }],
+    selectedShapes: []
   },
   getters: {
-    getShapes: state => state.shapes
+    getShapes: state => state.shapes,
+    getSelectedShapes: state => state.selectedShapes
   },
   mutations: {
-    /*
-    handlerTool (state, val) {
+    setSelectedShapes (state, val) {
+      console.log(state, val, this.selectedShapes)
+      state.selectedShapes = val
     }
-    */
   },
   actions: {
   }
