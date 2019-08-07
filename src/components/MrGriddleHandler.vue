@@ -5,7 +5,7 @@
 
       //----- play-/stop-button
       q-item-side.q-ml-md.q-pr-xs(style="min-width: auto;")
-        q-btn.text-white.q-pa-none(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
+        q-btn.text-white.q-pa-none.bg-transparent(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
         :class="[$props.play ? 'text-grey-9' : 'text-grey-9', {'leave-bottom': states.length <= 0}]", flat,
         size="lg", no-ripple,
         :disabled="states.length === 0")

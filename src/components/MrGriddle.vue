@@ -33,7 +33,7 @@
           q-item-side.q-ml-md(style="min-width: auto;",
           :class="{'hidden': states.length === 0}")
 
-            q-btn.text-white.q-pa-none.text-grey-9(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
+            q-btn.text-white.q-pa-none.text-grey-9.bg-transparent(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
             :class="{'leave-bottom': states.length <= 0}", flat,
             size="lg", no-ripple,
             :disabled="states.length === 0")
