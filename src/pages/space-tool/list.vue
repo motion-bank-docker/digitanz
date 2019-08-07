@@ -39,15 +39,22 @@
           :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
             q-icon(name="delete", size="16px")
 
-    //----- shapes
+    // ---------------------------------------------------------------------------------------------------------- shapes
     .row.q-px-sm.q-mb-md.q-pb-md
+
+      //----- shapes
       .col-3.q-px-sm.q-mt-md.text-center.round-borders.items-center(v-for="shape in shapes")
 
         div.shadow-1.q-px-sm.bg-e4.text-grey-8.round-borders(
         @click="addToSelection(shape)")
           shape-icon(:shape="shape", :cols="4")
 
-    //----- okay-button
+      //----- "shape editor"-button
+      .col-3.q-mt-md.items-center.row
+        .text-center.full-width
+          q-btn.self-center(@click="$router.push('')", round, disabled)
+            q-icon(name="edit")
+    // --------------------------------------------------------------------------------------------------- "okay"-button
     .fixed-bottom-right.q-px-md.q-mt-md.q-mb-md
       .relative-position
         q-btn.absolute-bottom-right.transition(@click="$router.push('/space-tool')", round, flat,
