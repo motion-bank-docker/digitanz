@@ -95,7 +95,7 @@
           height: 0
         },
         // frameLength: 300,
-        frameLengthSlider: 300,
+        frameLengthSlider: undefined,
         minFrameLength: 60 / 3,
         maxFrameLength: 60 * 6,
         lastFrameTime: undefined,
@@ -128,7 +128,7 @@
     },
     mounted () {
       const _this = this
-
+      this.frameLengthSlider = this.frameLength
       this.svgSize = {
         width: this.$el.offsetWidth,
         height: this.$el.offsetHeight
