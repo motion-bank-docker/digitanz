@@ -152,7 +152,26 @@
 
         //----- "add"-button
         template
-          q-item.q-pa-none.row.items-center
+          div.row.items-center.height-empty(v-if="tempRemixes.length <= 0")
+            q-item.text-center.q-ma-none.full-width
+              q-item-main.q-mb-lg(v-if="tempRecipes.length <= 0")
+                q-item-tile.inactive.q-title.text-weight-light
+                  | Du brauchst mindestens ein Rezept für einen Remix.
+
+              q-item-main.q-mb-lg(v-else)
+                q-item-tile.inactive.q-title.text-weight-light
+                  | Noch keine Einträge,
+                  br
+                  | füge einen hinzu.
+                q-item-tile.q-pt-sm.q-mt-xs
+                  q-btn.bg-grey-9.text-white(v-if="allIngredients.length >= 4", @click="doRemix", round, flat)
+                    q-icon(name="add")
+                  q-btn.bg-grey-9.text-white(v-else, round, flat)
+                    q-icon(name="add")
+                    q-tooltip.bg-transparent.text-grey-9.q-px-md(anchor="bottom middle", self="top middle")
+                      .bg-white.q-px-sm.q-py-sm.round-borders.shadow-1 In deinen erstellten Rezepten müssen zusammen mindestens vier Zutaten verwendet worden sein um einen Remix erstellen zu können.
+
+          q-item.q-pa-none.row.items-center(v-else)
             q-item-side.inactive(v-if="tempRemixes.length <= 0") Leer
 
             q-item-main.text-right
