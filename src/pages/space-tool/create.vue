@@ -59,13 +59,21 @@
         .text-center.full-width
           q-btn.self-center(@click="$router.push('')", round, disabled)
             q-icon(name="edit")
-    // --------------------------------------------------------------------------------------------------- "okay"-button
+    // --------------------------------------------------------------------------------------------------- buttons below
     .fixed-bottom-right.q-px-md.q-mt-md.q-mb-md
       .relative-position
-        q-btn.absolute-bottom-right.transition(@click="$router.push('/space-tool')", round, flat,
-        :class="[selectedShapes.length <= 0 ? 'leave-right' : 'bg-grey-9 text-grey-2']",
-        :disabled="selectedShapes.length <= 0")
-          q-icon(name="check")
+        .absolute-bottom-right.transition(:class="[selectedShapes.length <= 0 ? 'leave-right' : '']")
+          div(style="white-space: nowrap;")
+
+            q-btn.q-mr-sm(@click="saveSpace()", round, flat,
+            :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
+            :disabled="selectedShapes.length <= 0")
+              q-icon(name="add")
+
+            q-btn(@click="$router.push('/space-tool')", round, flat,
+            :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
+            :disabled="selectedShapes.length <= 0")
+              q-icon(name="visibility")
 
 </template>
 
@@ -100,6 +108,9 @@
       }
     },
     methods: {
+      saveSpace () {
+        console.log('SAVE SPACE')
+      },
       checkIfDisabled (direction) {
         let position
         if (direction === 'left') position = this.selectedShapeIndex === 0
