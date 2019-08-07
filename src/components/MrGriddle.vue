@@ -84,10 +84,12 @@
           width: 0,
           height: 0
         },
+        /*
         grid: {
           columns: 10,
           rows: 16
         },
+        */
         gridCell: {
           width: 0,
           height: 0
@@ -108,7 +110,8 @@
     },
     computed: {
       ...mapGetters({
-        storedStates: 'mrGriddle/getTempPoses'
+        storedStates: 'mrGriddle/getTempPoses',
+        grid: 'mrGriddle/getTempGrid'
       }),
       strokeWidth () {
         return 20 * this.skeletonScale

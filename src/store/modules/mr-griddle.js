@@ -1,10 +1,12 @@
 const poses = {
   namespaced: true,
   state: {
-    tempPoses: []
+    tempPoses: [],
+    tempGrid: {columns: 10, rows: 16}
   },
   getters: {
-    getTempPoses: state => state.tempPoses
+    getTempPoses: state => state.tempPoses,
+    getTempGrid: state => state.tempGrid
   },
   mutations: {
   },
