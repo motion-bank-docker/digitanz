@@ -40,7 +40,7 @@
 
           q-item-main.q-px-md
             q-slider(
-            v-model="frameLength", color="grey-9", :min="minFrameLength", :max="maxFrameLength",
+            v-model="frameLengthSlider", color="grey-9", :min="minFrameLength", :max="maxFrameLength",
             :step="20", fill-handle-always, snap)
 
       //----- edit-button
@@ -94,7 +94,8 @@
           width: 0,
           height: 0
         },
-        frameLength: 300,
+        // frameLength: 300,
+        frameLengthSlider: 300,
         minFrameLength: 60 / 3,
         maxFrameLength: 60 * 6,
         lastFrameTime: undefined,
@@ -111,7 +112,8 @@
     computed: {
       ...mapGetters({
         storedStates: 'mrGriddle/getTempPoses',
-        grid: 'mrGriddle/getTempGrid'
+        grid: 'mrGriddle/getTempGrid',
+        frameLength: 'mrGriddle/getTempFrameLength'
       }),
       strokeWidth () {
         return 20 * this.skeletonScale
@@ -149,6 +151,9 @@
       this.timerId = undefined
     },
     watch: {
+      frameLengthSlider (val) {
+        this.$store.commit('mrGriddle/setTempFrameLength', val)
+      },
       frameLength () {
         const wasPlaying = this.timerId
         clearInterval(this.timerId)
