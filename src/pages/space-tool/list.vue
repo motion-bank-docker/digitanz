@@ -18,20 +18,23 @@
             shape-icon(:shape="shape", :cols="4")
 
       template(v-else)
-        .q-pa-sm.inactive
-          | Leer
+        .q-pa-sm.inactive.text-center
+          | Noch keine Form ausgewählt.
 
     //----- buttons
     template
-      .relative-position.overflow-hidden.q-mx-md.transition(:class="[selectedShapes.length > 0 ? 'height-46' : 'height-0']")
+      .relative-position.overflow-hidden.q-mx-md(:class="[selectedShapes.length > 0 ? 'height-46' : 'height-0']")
         .q-pt-sm.absolute-top-right.transition(
         :class="[selectedShapes.length > 0 ? '' : 'leave-right']")
+
           q-btn.bg-grey-3.shadow-1(@click="moveSelectedShape('left')",
           :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
             q-icon(name="keyboard_arrow_left", size="18px")
+
           q-btn.bg-grey-3.shadow-1.q-ml-sm.q-mr-md(@click="moveSelectedShape('right')",
           :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
             q-icon(name="keyboard_arrow_right", size="18px")
+
           q-btn.bg-grey-3.shadow-1(@click="removeSelectedShape()",
           :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
             q-icon(name="delete", size="16px")
@@ -45,11 +48,12 @@
           shape-icon(:shape="shape", :cols="4")
 
     //----- okay-button
-    .fixed-bottom-right.q-px-md.q-mt-md.q-mb-md(v-if="selectedShapes.length > 0")
-      q-btn(@click="$router.push('/space-tool')", round, flat,
-      :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
-      :disabled="selectedShapes.length <= 0")
-        q-icon(name="check")
+    .fixed-bottom-right.q-px-md.q-mt-md.q-mb-md
+      .relative-position
+        q-btn.absolute-bottom-right.transition(@click="$router.push('/space-tool')", round, flat,
+        :class="[selectedShapes.length <= 0 ? 'leave-right' : 'bg-grey-9 text-grey-2']",
+        :disabled="selectedShapes.length <= 0")
+          q-icon(name="check")
 
 </template>
 
