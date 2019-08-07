@@ -45,7 +45,7 @@
           shape-icon(:shape="shape", :cols="4")
 
     //----- okay-button
-    .fixed-bottom-right.q-px-md.q-mt-md.q-mb-md
+    .fixed-bottom-right.q-px-md.q-mt-md.q-mb-md(v-if="selectedShapes.length > 0")
       q-btn(@click="$router.push('/space-tool')", round, flat,
       :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
       :disabled="selectedShapes.length <= 0")
