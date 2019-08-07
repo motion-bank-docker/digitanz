@@ -1,8 +1,10 @@
 <template lang="pug">
   q-page.q-pb-xl.min-height-auto
 
-    //----- selection-box
+    // --------------------------------------------------------------------------------------------------- selection-box
     .shadow-1.round-borders.bg-e4.q-mt-md.q-mx-md
+
+      // shapes
       template(v-if="selectedShapes.length > 0")
         q-item.row.q-pa-sm
           .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="(shape, index) in selectedShapes",
@@ -28,11 +30,12 @@
         :class="[selectedShapes.length > 0 ? '' : 'leave-right']")
 
           q-btn.bg-grey-3.shadow-1(@click="moveSelectedShape('left')",
-          :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
+          :disabled="checkIfDisabled('left')", size="sm", round, flat)
             q-icon(name="keyboard_arrow_left", size="18px")
 
           q-btn.bg-grey-3.shadow-1.q-ml-sm.q-mr-md(@click="moveSelectedShape('right')",
-          :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
+          :disabled="checkIfDisabled('right')", size="sm", round, flat,
+          :class="[]")
             q-icon(name="keyboard_arrow_right", size="18px")
 
           q-btn.bg-grey-3.shadow-1(@click="removeSelectedShape()",
@@ -95,6 +98,12 @@
       }
     },
     methods: {
+      checkIfDisabled (direction) {
+        let position
+        if (direction === 'left') position = this.selectedShapeIndex === 0
+        if (direction === 'right') position = this.selectedShapeIndex === this.selectedShapes.length - 1
+        return this.selectedShapeIndex === undefined || position
+      },
       moveSelectedShape (direction) {
         const tempSelection = this.selection
         const targetShape = tempSelection.splice(this.selectedShapeIndex, 1)
