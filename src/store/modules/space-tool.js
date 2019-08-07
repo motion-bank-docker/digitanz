@@ -61,11 +61,13 @@ const spaceTool = {
         {type: 'polygon', points: '53,100 3,25 93,25'}
       ]
     }],
-    selectedShapes: []
+    selectedShapes: [],
+    spaces: []
   },
   getters: {
     getShapes: state => state.shapes,
-    getSelectedShapes: state => state.selectedShapes
+    getSelectedShapes: state => state.selectedShapes,
+    getSpaces: state => state.spaces
   },
   mutations: {
     setSelectedShapes (state, val) {
