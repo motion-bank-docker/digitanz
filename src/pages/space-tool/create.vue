@@ -65,7 +65,7 @@
         .absolute-bottom-right.transition(:class="[selectedShapes.length <= 0 ? 'leave-right' : '']")
           div(style="white-space: nowrap;")
 
-            q-btn.q-mr-sm(@click="saveSpace()", round, flat,
+            q-btn.q-mr-sm(@click="addSpace()", round, flat,
             :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
             :disabled="selectedShapes.length <= 0")
               q-icon(name="add")
@@ -108,8 +108,11 @@
       }
     },
     methods: {
-      saveSpace () {
-        console.log('SAVE SPACE')
+      addSpace () {
+        let sel = []
+        sel.push(this.selection)
+        this.$store.commit('spaceTool/setTempSpaces', sel)
+        this.$router.push('/space-tool/list')
       },
       checkIfDisabled (direction) {
         let position

@@ -72,6 +72,9 @@ const spaceTool = {
   mutations: {
     setSelectedShapes (state, val) {
       state.selectedShapes = val
+    },
+    setTempSpaces (state, val) {
+      state.tempSpaces = val
     }
   },
   actions: {

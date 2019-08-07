@@ -1,8 +1,18 @@
 <template lang="pug">
   q-page.min-height-auto.q-pa-md
 
-    div(v-for="space in tempSpaces") {{ space }}
+    // ---------------------------------------------------------------------------------------------------------- spaces
+    .shadow-1.round-borders.bg-e4.q-mt-md.row(v-for="space in tempSpaces")
+      .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="(shape, index) in space")
 
+        //----- number
+        .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.bg-grey-3.shadow-1()
+          | {{ index + 1 }}
+
+        //----- icon
+        shape-icon(:shape="shape", :cols="4")
+
+    // --------------------------------------------------------------------------------------------------- buttons below
     template
       div.row.items-center.height-empty(v-if="tempSpaces.length <= 0")
         q-item.text-center.q-ma-none.full-width
@@ -25,10 +35,11 @@
 <script>
   import { mapGetters } from 'vuex'
 
-  // import LostInSpace from '../../components/LostInSpace'
+  import shapeIcon from '../../components/ShapeIcon'
+
   export default {
     components: {
-      // LostInSpace
+      shapeIcon
     },
     computed: {
       ...mapGetters({
