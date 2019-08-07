@@ -29,17 +29,19 @@
         .q-pt-sm.absolute-top-right.transition(
         :class="[selectedShapes.length > 0 ? '' : 'leave-right']")
 
-          q-btn.bg-grey-3.shadow-1(@click="moveSelectedShape('left')",
-          :disabled="checkIfDisabled('left')", size="sm", round, flat)
-            q-icon(name="keyboard_arrow_left", size="18px")
+          q-btn.bg-grey-3.transition(@click="moveSelectedShape('left')",
+          :disabled="checkIfDisabled('left')", size="sm", round, flat,
+          :class="[checkIfDisabled('left') ? '' : 'shadow-1']")
+            q-icon(name="keyboard_arrow_left", size="20px")
 
-          q-btn.bg-grey-3.shadow-1.q-ml-sm.q-mr-md(@click="moveSelectedShape('right')",
+          q-btn.bg-grey-3.q-ml-sm.q-mr-md.transition(@click="moveSelectedShape('right')",
           :disabled="checkIfDisabled('right')", size="sm", round, flat,
-          :class="[]")
-            q-icon(name="keyboard_arrow_right", size="18px")
+          :class="[checkIfDisabled('right') ? '' : 'shadow-1']")
+            q-icon(name="keyboard_arrow_right", size="20px")
 
-          q-btn.bg-grey-3.shadow-1(@click="removeSelectedShape()",
-          :disabled="selectedShapeIndex === undefined", size="sm", round, flat)
+          q-btn.bg-grey-3(@click="removeSelectedShape()",
+          :disabled="selectedShapeIndex === undefined", size="sm", round, flat,
+          :class="[this.selectedShapeIndex === undefined ? '' : 'shadow-1']")
             q-icon(name="delete", size="16px")
 
     // ---------------------------------------------------------------------------------------------------------- shapes
