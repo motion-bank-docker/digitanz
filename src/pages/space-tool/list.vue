@@ -2,15 +2,13 @@
   q-page.min-height-auto.q-px-md.q-pb-md
 
     // ---------------------------------------------------------------------------------------------------------- spaces
-    .shadow-1.round-borders.bg-e4.q-mt-md.row(v-for="space in tempSpaces")
-      .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="(shape, index) in space")
+    .shadow-1.round-borders.bg-e4.q-mt-md(v-for="(space, index) in tempSpaces")
+      q-radio.q-mb-none.round-borders(v-model="optionSpace", :val="index",
+      :class="{'bg-grey-1': optionSpace === index}")
 
-        //----- number
-        .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.bg-grey-3.shadow-1()
-          | {{ index + 1 }}
-
-        //----- icon
-        shape-icon(:shape="shape", :cols="4")
+        .row(@click="handlerRadiobutton(index)")
+          .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="shape in space")
+            shape-icon(:shape="shape", :cols="4")
 
     // --------------------------------------------------------------------------------------------------- buttons below
     template
@@ -41,12 +39,22 @@
     components: {
       shapeIcon
     },
+    data () {
+      return {
+        optionSpace: undefined
+      }
+    },
     computed: {
       ...mapGetters({
         shapes: 'spaceTool/getShapes',
         selectedShapes: 'spaceTool/getSelectedShapes',
         tempSpaces: 'spaceTool/getTempSpaces'
       })
+    },
+    methods: {
+      handlerRadiobutton (index) {
+        if (index === this.optionSpace) this.optionSpace = undefined
+      }
     }
   }
 </script>
