@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page.min-height-auto.q-pa-md
+  q-page.min-height-auto.q-px-md.q-pb-md
 
     // ---------------------------------------------------------------------------------------------------------- spaces
     .shadow-1.round-borders.bg-e4.q-mt-md.row(v-for="space in tempSpaces")
@@ -25,7 +25,7 @@
               q-btn.bg-grey-9.text-white(
               @click="$router.push('/space-tool/create')", round, flat)
                 q-icon(name="add")
-      q-item.q-pa-none.row.items-center(v-else)
+      q-item.q-pa-none.row.items-center.q-mt-md(v-else)
         q-item-main.text-right
           q-btn.bg-grey-9.text-white(
           @click="$router.push('/space-tool/create')", round, flat)
