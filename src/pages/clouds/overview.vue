@@ -31,14 +31,14 @@
                       span {{ term }}
                       span(v-if="i < cloud.length - 1") ,&ensp;
 
-                //----- "remove"-button
                 .absolute-top-right.transition.q-mr-sm.q-pt-sm(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
+                  //----- "zoom-box"-button
+                  q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="handlerZoom(cloud, index)", round, size="sm", flat)
+                    q-icon(name="fullscreen", size="16px")
+
+                  //----- "remove"-button
                   q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempCloud(index)", round, size="sm", flat)
                     q-icon(name="delete", size="16px")
-                //----- "zoom-box"-button
-                .absolute-bottom-right.transition(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
-                  q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="zoom_in", @click="handlerZoom(cloud, index)", size="lg",
-                  flat, no-ripple)
 
     // ---------------------------------------------------------------------------------------------------- "add"-button
     .q-px-md.q-pb-md.q-pt-sm
