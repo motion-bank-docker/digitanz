@@ -2,13 +2,18 @@ const cloud = {
   namespaced: true,
   state: {
     tempClouds: [],
-    tempTerms: []
+    tempTerms: [],
+    cloudIndex: []
   },
   getters: {
     getTempClouds: state => state.tempClouds,
-    getTempTerms: state => state.tempTerms
+    getTempTerms: state => state.tempTerms,
+    getCloudIndex: state => state.cloudIndex
   },
   mutations: {
+    setCloudIndex (state, val) {
+      state.cloudIndex = val
+    },
     removeFromTempClouds (state, index) {
       state.tempClouds.splice(index, 1)
     },

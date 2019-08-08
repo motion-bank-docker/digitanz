@@ -37,8 +37,7 @@
                     q-icon(name="fullscreen", size="16px")
 
                   //----- "zoom-box"-button
-                  q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editCloud(cloud, index)", round, size="sm", flat,
-                  disabled)
+                  q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editCloud(index)", round, size="sm", flat)
                     q-icon(name="edit", size="16px")
 
                   //----- "remove"-button
@@ -55,14 +54,14 @@
               br
               | füge einen hinzu.
             q-item-tile.q-pt-sm.q-mt-xs
-              q-btn.bg-grey-9.text-white(@click="$router.push('/clouds')", round, flat)
+              q-btn.bg-grey-9.text-white(@click="addCloud()", round, flat)
                 q-icon(name="add")
       q-item.q-pa-none.row.items-center(v-else)
         // q-item-side.inactive(v-if="tempRecipes.length <= 0") Leer
 
         q-item-main.text-right
           q-btn.bg-grey-9.text-white(
-          @click="$router.push('/recipes/create')", round, flat)
+          @click="addCloud()", round, flat)
             q-icon(name="add")
       //
         q-item.q-pa-none.row.items-center
@@ -88,12 +87,21 @@
     },
     computed: {
       ...mapGetters({
-        tempClouds: 'cloud/getTempClouds'
+        tempClouds: 'cloud/getTempClouds',
+        cloudIndex: 'cloud/getCloudIndex'
       })
     },
     mounted () {
     },
     methods: {
+      addCloud () {
+        this.$store.commit('cloud/setCloudIndex', undefined)
+        this.$router.push('/clouds')
+      },
+      editCloud (index) {
+        this.$store.commit('cloud/setCloudIndex', index)
+        this.$router.push('/clouds')
+      },
       handlerZoom (cloud, index) {
         this.selectedCloud.terms = cloud
         this.selectedCloud.index = index

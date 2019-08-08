@@ -124,6 +124,7 @@
         }
         return 0
       })
+      console.log('this.cloudIndex', this.cloudIndex)
     },
     data () {
       return {
@@ -142,7 +143,8 @@
     },
     computed: {
       ...mapGetters({
-        tempTerms: 'cloud/getTempTerms'
+        tempTerms: 'cloud/getTempTerms',
+        cloudIndex: 'cloud/getCloudIndex'
       })
     },
     methods: {
