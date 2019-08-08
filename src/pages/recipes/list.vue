@@ -2,26 +2,25 @@
   q-page.relative-position.min-height-auto
 
     // -------------------------------------------------------------------------------------------------------- zoom-box
-    q-modal.bg-grey-3(v-model="zoom", minimized)
-      div.modal-inner.shadow-1
+    q-modal.bg-grey-1(v-model="zoom", minimized)
+      //----- title
+      .col.q-title.row.text-weight-bold.full-width.border-bottom(style="border-color: #e0e0e0; height: 60px;")
+        .col-12
+          q-btn.q-px-md.self-center.q-title.full-width.full-height.q-pr-md.overflow-hidden(flat, no-caps, no-ripple,
+          align="left",
+          @click="showLongTitle = true")
+            .ellipsis.text-weight-bold {{ selectedRecipe.title }}
+            q-popover#zoom-title(v-model="showLongTitle", anchor="center left", :offset="[-16, 0]")
+              div.q-pa-md.q-title(@click="showLongTitle = false") {{ selectedRecipe.title }}
 
-        //----- title
-        .col.q-title.row.text-weight-bold.full-width.border-bottom(style="border-color: #e0e0e0; height: 60px;")
-          .col-12
-            q-btn.q-px-md.self-center.q-title.full-width.full-height.q-pr-md.overflow-hidden(flat, no-caps, no-ripple,
-            align="left",
-            @click="showLongTitle = true")
-              .ellipsis.text-weight-bold {{ selectedRecipe.title }}
-              q-popover#zoom-title(v-model="showLongTitle", anchor="center left", :offset="[-16, 0]")
-                div.q-pa-md.q-title(@click="showLongTitle = false") {{ selectedRecipe.title }}
+      //----- ingredients
+      .q-px-md.q-pb-md(@click="handlerZoom(selectedRecipe.ingredients, selectedRecipe.index)",
+      style="min-height: calc(100vh - 60px - 16px);")
 
-        //----- ingredients
-        .column.items-center.row.q-pa-md(
-        @click="handlerZoom(selectedRecipe.ingredients, selectedRecipe.index)",
-        style="height: calc(100vh - 30px - 60px);")
-
-          .col.q-title.row.full-width(v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;")
-            .self-start.text-grey-9 {{ ingredient }}
+        q-item.q-pa-none.q-title.q-mt-md(
+        v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;")
+          q-item-side.inactive {{ index + 1 }}.
+          q-item-main.text-grey-9 {{ ingredient }}
 
     // ------------------------------------------------------------------------------------------------------------ tabs
     q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
@@ -63,27 +62,23 @@
                     template(v-if="option === index")
                       q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
+                      //----- ingredient
                       q-item.items-baseline.q-px-sm.q-py-sm.min-height-auto(v-for="(entry, i) in recipe.entries")
-
-                        //----- ingredient position
-                        //
-                          q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;")
-                            | {{ i + 1 }}.
-
-                        //----- ingredient
                         q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
 
-              //----- "edit"-button
-              //----- "remove"-button
-              //----- "zoom"-button
               .absolute-top-right.transition.q-px-sm.q-pt-sm.q-mt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
                 template(v-if="!recipeStandalone")
-                  q-btn.bg-grey-3.text-grey-9.shadow-1.q-mr-sm(@click="editRecipe(index)", round, size="sm", flat)
+                  //----- "zoom"-button
+                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(recipe, index)", round, size="sm", flat)
+                    q-icon(name="fullscreen", size="18px")
+
+                  //----- "edit"-button
+                  q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editRecipe(index)", round, size="sm", flat)
                     q-icon(name="edit", size="16px")
+
+                  //----- "remove"-button
                   q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeFromTempRecipe(index)", round, size="sm", flat)
                     q-icon(name="delete", size="16px")
-              .absolute-bottom-right.transition(:class="[option !== index ? 'leave-right-absolute' : '']")
-                  q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="fullscreen", @click="handlerZoom(recipe, index)", size="lg", flat)
 
         //----- "add"-button
         template(v-if="!recipeStandalone")
