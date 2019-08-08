@@ -100,7 +100,6 @@
     computed: {
       ...mapGetters({
         shapes: 'spaceTool/getShapes',
-        // selectedShapes: 'spaceTool/getSelectedShapes',
         currentShapes: 'spaceTool/getCurrentShapes',
         spaceIndex: 'spaceTool/getSpaceIndex'
       })
