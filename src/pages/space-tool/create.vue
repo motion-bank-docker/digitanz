@@ -5,9 +5,9 @@
     .bg-e4.q-mt-md.q-mx-md.round-borders
 
       // shapes
-      template(v-if="selectedShapes.length > 0")
+      template(v-if="currentShapes.length > 0")
         q-item.row.q-pa-sm
-          .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="(shape, index) in selectedShapes",
+          .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="(shape, index) in currentShapes",
           @click="selectShape(shape, index)",
           :class="[selectedShapeIndex === index ? 'bg-grey-1' : '']")
 
@@ -25,13 +25,13 @@
 
     //----- buttons
     template
-      .relative-position.overflow-hidden.q-mx-md(:class="[selectedShapes.length > 0 ? 'height-46' : 'height-0']")
+      .relative-position.overflow-hidden.q-mx-md(:class="[currentShapes.length > 0 ? 'height-46' : 'height-0']")
         .q-pt-sm.absolute-top-left.transition
           q-btn.shadow-1.text-grey-9(@click="$router.push('/space-tool')", round, flat, size="sm")
             q-icon(name="play_arrow", size="18px")
 
         .q-pt-sm.absolute-top-right.transition(
-        :class="[selectedShapes.length > 0 ? '' : 'leave-right']")
+        :class="[currentShapes.length > 0 ? '' : 'leave-right']")
 
           q-btn.bg-grey-3.transition(@click="moveSelectedShape('left')",
           :disabled="checkIfDisabled('left')", size="sm", round, flat,
@@ -70,12 +70,12 @@
 
     .fixed-bottom-right.q-px-md.q-mt-md.q-mb-md
       .relative-position
-        .absolute-bottom-right.transition(:class="[selectedShapes.length <= 0 ? 'leave-right' : '']")
+        .absolute-bottom-right.transition(:class="[currentShapes.length <= 0 ? 'leave-right' : '']")
           div(style="white-space: nowrap;")
 
             q-btn.q-ml-sm(@click="addSpace()", round, flat,
-            :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
-            :disabled="selectedShapes.length <= 0")
+            :class="[currentShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
+            :disabled="currentShapes.length <= 0")
               q-icon(name="check")
 
 </template>
@@ -99,13 +99,17 @@
     computed: {
       ...mapGetters({
         shapes: 'spaceTool/getShapes',
-        selectedShapes: 'spaceTool/getSelectedShapes',
+        // selectedShapes: 'spaceTool/getSelectedShapes',
+        currentShapes: 'spaceTool/getSelectedShapes',
         spaceIndex: 'spaceTool/getSpaceIndex'
       })
     },
     mounted () {
-      if (!this.spaceIndex) console.log('spaceIndex UNDEFINED', this.spaceIndex)
+      // if (this.spaceIndex >= 0) console.log(this.spaceIndex)
+      // else console.log('UNDEFINED')
+
       // if (this.selectedShapes.length > 0) this.selection = this.selectedShapes
+      console.log(this.currentShapes)
     },
     watch: {
       selection () {
@@ -120,7 +124,7 @@
       checkIfDisabled (direction) {
         let position
         if (direction === 'left') position = this.selectedShapeIndex === 0
-        if (direction === 'right') position = this.selectedShapeIndex === this.selectedShapes.length - 1
+        if (direction === 'right') position = this.selectedShapeIndex === this.currentShapes.length - 1
         return this.selectedShapeIndex === undefined || position
       },
       moveSelectedShape (direction) {
