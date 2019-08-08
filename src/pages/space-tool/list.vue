@@ -87,7 +87,7 @@
           this.$router.push('/space-tool/create')
           break
         case 'delete':
-          this.$router.push('/space-tool/list')
+          this.tempSpaces.splice(index, 1)
           break
         case 'play':
           this.$router.push('/space-tool')
