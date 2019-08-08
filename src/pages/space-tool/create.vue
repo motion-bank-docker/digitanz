@@ -73,11 +73,11 @@
         .absolute-bottom-right.transition(:class="[currentShapes.length <= 0 ? 'leave-right' : '']")
           div(style="white-space: nowrap;")
 
-            q-btn.q-ml-sm(@click="addSpace()", round, flat,
+            q-btn.q-ml-sm(
+            @click="handlerCreateButton()", round, flat,
             :class="[currentShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
             :disabled="currentShapes.length <= 0")
               q-icon(name="check")
-
 </template>
 
 <script>
@@ -90,7 +90,8 @@
       return {
         selection: [],
         selectedShapeIndex: undefined,
-        selectedShape: undefined
+        selectedShape: undefined,
+        editMode: undefined
       }
     },
     components: {
@@ -105,7 +106,13 @@
       })
     },
     mounted () {
-      if (this.currentShapes) this.currentShapes.forEach(item => this.selection.push(item))
+      if (this.currentShapes) {
+        this.currentShapes.forEach(item => this.selection.push(item))
+        this.editMode = 'edit'
+      }
+      else {
+        this.editMode = 'new'
+      }
     },
     watch: {
       selection () {
@@ -113,6 +120,13 @@
       }
     },
     methods: {
+      handlerCreateButton () {
+        if (this.editMode === 'new') this.addSpace()
+        else this.saveEditedSpace()
+      },
+      saveEditedSpace () {
+        console.log('SAVE EDIT')
+      },
       addSpace () {
         this.$store.commit('spaceTool/setTempSpaces', this.selection)
         this.$router.push('/space-tool/list')
