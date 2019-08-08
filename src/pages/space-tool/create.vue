@@ -60,20 +60,26 @@
           q-btn.self-center(@click="$router.push('')", round, disabled)
             q-icon(name="edit")
     // --------------------------------------------------------------------------------------------------- buttons below
+    .fixed-bottom-left.q-px-md.q-mt-md.q-mb-md
+      .relative-position
+        .absolute-bottom-left.transition
+          q-btn.q-mr-sm.bg-grey-9.text-grey-2(@click="$router.push('/space-tool/list')", round, flat)
+            q-icon(name="clear")
+
     .fixed-bottom-right.q-px-md.q-mt-md.q-mb-md
       .relative-position
         .absolute-bottom-right.transition(:class="[selectedShapes.length <= 0 ? 'leave-right' : '']")
           div(style="white-space: nowrap;")
 
-            q-btn.q-mr-sm(@click="addSpace()", round, flat,
-            :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
-            :disabled="selectedShapes.length <= 0")
-              q-icon(name="add")
-
             q-btn(@click="$router.push('/space-tool')", round, flat,
             :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
             :disabled="selectedShapes.length <= 0")
-              q-icon(name="visibility")
+              q-icon(name="play_arrow")
+
+            q-btn.q-ml-sm(@click="addSpace()", round, flat,
+            :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
+            :disabled="selectedShapes.length <= 0")
+              q-icon(name="check")
 
 </template>
 
