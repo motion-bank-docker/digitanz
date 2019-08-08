@@ -100,7 +100,7 @@
       ...mapGetters({
         shapes: 'spaceTool/getShapes',
         // selectedShapes: 'spaceTool/getSelectedShapes',
-        currentShapes: 'spaceTool/getSelectedShapes',
+        currentShapes: 'spaceTool/getCurrentShapes',
         spaceIndex: 'spaceTool/getSpaceIndex'
       })
     },
@@ -113,7 +113,7 @@
     },
     watch: {
       selection () {
-        this.$store.commit('spaceTool/setSelectedShapes', this.selection)
+        this.$store.commit('spaceTool/setCurrentShapes', this.selection)
       }
     },
     methods: {

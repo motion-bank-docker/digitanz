@@ -64,7 +64,6 @@
     computed: {
       ...mapGetters({
         shapes: 'spaceTool/getShapes',
-        // selectedShapes: 'spaceTool/getSelectedShapes',
         tempSpaces: 'spaceTool/getTempSpaces',
         spaceIndex: 'space-tool/getSpaceIndex'
       })
@@ -78,12 +77,12 @@
       handlerSpaceButtons (action, index, space) {
         switch (action) {
         case 'add':
-          this.$store.commit('spaceTool/setSelectedShapes', '')
+          this.$store.commit('spaceTool/setCurrentShapes', '')
           this.$store.commit('spaceTool/setSpaceIndex')
           this.$router.push('/space-tool/create')
           break
         case 'edit':
-          this.$store.commit('spaceTool/setSelectedShapes', space)
+          this.$store.commit('spaceTool/setCurrentShapes', space)
           this.$store.commit('spaceTool/setSpaceIndex', index)
           this.$router.push('/space-tool/create')
           break
