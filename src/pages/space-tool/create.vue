@@ -105,11 +105,7 @@
       })
     },
     mounted () {
-      // if (this.spaceIndex >= 0) console.log(this.spaceIndex)
-      // else console.log('UNDEFINED')
-
-      // if (this.selectedShapes.length > 0) this.selection = this.selectedShapes
-      console.log(this.currentShapes)
+      if (this.currentShapes) this.currentShapes.forEach(item => this.selection.push(item))
     },
     watch: {
       selection () {
