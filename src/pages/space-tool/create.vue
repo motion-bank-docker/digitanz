@@ -26,6 +26,10 @@
     //----- buttons
     template
       .relative-position.overflow-hidden.q-mx-md(:class="[selectedShapes.length > 0 ? 'height-46' : 'height-0']")
+        .q-pt-sm.absolute-top-left.transition
+          q-btn.shadow-1.text-grey-9(@click="$router.push('/space-tool')", round, flat, size="sm")
+            q-icon(name="play_arrow", size="18px")
+
         .q-pt-sm.absolute-top-right.transition(
         :class="[selectedShapes.length > 0 ? '' : 'leave-right']")
 
@@ -45,7 +49,7 @@
             q-icon(name="delete", size="16px")
 
     // ---------------------------------------------------------------------------------------------------------- shapes
-    .row.q-px-sm.q-mb-md.q-pb-md
+    .row.q-px-sm.q-mb-md.q-pb-sm
 
       //----- shapes
       .col-3.q-px-sm.q-mt-md.text-center.items-center(v-for="shape in shapes")
@@ -69,11 +73,6 @@
         .absolute-bottom-right.transition(:class="[selectedShapes.length <= 0 ? 'leave-right' : '']")
           div(style="white-space: nowrap;")
 
-            q-btn(@click="$router.push('/space-tool')", round, flat,
-            :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
-            :disabled="selectedShapes.length <= 0")
-              q-icon(name="play_arrow")
-
             q-btn.q-ml-sm(@click="addSpace()", round, flat,
             :class="[selectedShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
             :disabled="selectedShapes.length <= 0")
@@ -94,6 +93,7 @@
         selectedShape: undefined
       }
     },
+    props: ['space'],
     components: {
       shapeIcon
     },
@@ -104,6 +104,7 @@
       })
     },
     mounted () {
+      console.log('create space', this.space)
       if (this.selectedShapes.length > 0) this.selection = this.selectedShapes
     },
     watch: {
