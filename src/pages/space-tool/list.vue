@@ -18,7 +18,7 @@
             q-icon(name="play_arrow", size="18px")
 
           //----- "edit"-button
-          q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="handlerSpaceButtons('edit', index)", round, size="sm", flat)
+          q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="handlerSpaceButtons('edit', index, space)", round, size="sm", flat)
             q-icon(name="edit", size="16px")
 
           //----- "delete"-button
@@ -69,17 +69,21 @@
         spaceIndex: 'space-tool/getSpaceIndex'
       })
     },
+    mounted () {
+    },
     methods: {
       handlerRadiobutton (index) {
         if (index === this.optionSpace) this.optionSpace = undefined
       },
-      handlerSpaceButtons (action, index) {
+      handlerSpaceButtons (action, index, space) {
         switch (action) {
         case 'add':
+          this.$store.commit('spaceTool/setSelectedShapes', '')
           this.$store.commit('spaceTool/setSpaceIndex')
           this.$router.push('/space-tool/create')
           break
         case 'edit':
+          this.$store.commit('spaceTool/setSelectedShapes', space)
           this.$store.commit('spaceTool/setSpaceIndex', index)
           this.$router.push('/space-tool/create')
           break
