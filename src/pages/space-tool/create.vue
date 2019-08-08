@@ -6,7 +6,7 @@
 
       // shapes
       template(v-if="currentShapes.length > 0")
-        q-item.row.q-pa-sm
+        .row.q-pa-sm(:class="[currentShapes.length <= 3 ? 'justify-center' : '']")
           .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="(shape, index) in currentShapes",
           @click="selectShape(shape, index)",
           :class="[selectedShapeIndex === index ? 'bg-grey-1' : '']")
