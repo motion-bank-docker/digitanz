@@ -83,7 +83,7 @@
                   q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeFromTempRecipe(index)", round, size="sm", flat)
                     q-icon(name="delete", size="16px")
               .absolute-bottom-right.transition(:class="[option !== index ? 'leave-right-absolute' : '']")
-                  q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="zoom_in", @click="handlerZoom(recipe, index)", size="lg", flat)
+                  q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="fullscreen", @click="handlerZoom(recipe, index)", size="lg", flat)
 
         //----- "add"-button
         template(v-if="!recipeStandalone")
@@ -148,7 +148,7 @@
                 q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempRemix(index)", round, size="sm", flat)
                   q-icon(name="delete", size="16px")
             .absolute-bottom-right.transition(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
-              q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="zoom_in", @click="handlerZoom(remix, index)", size="lg", flat)
+              q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="fullscreen", @click="handlerZoom(remix, index)", size="lg", flat)
 
         //----- "add"-button
         template
