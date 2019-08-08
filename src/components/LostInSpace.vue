@@ -108,9 +108,9 @@
       const shapeProtosAll = this.$el.querySelectorAll('#shape-protos > g')
       const shapeProtos = []
       const shapeIDs = []
-      this.selectedShapes.map(shape => shapeIDs.push(shape['id']))
+      this.currentShapes.map(shape => shapeIDs.push(shape['id']))
 
-      Object.values(this.selectedShapes).forEach(shape => {
+      Object.values(this.currentShapes).forEach(shape => {
         Object.keys(shapeProtosAll).forEach(key => {
           if (shape.id === shapeProtosAll[key].id) {
             shapeProtos.push(shapeProtosAll[key])
@@ -176,7 +176,7 @@
     },
     computed: {
       ...mapGetters({
-        selectedShapes: 'spaceTool/getSelectedShapes'
+        currentShapes: 'spaceTool/getCurrentShapes'
       }),
       svgSize () {
         const smallestLengthFull = Math.min(window.innerWidth, window.innerHeight - 52)
