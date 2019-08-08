@@ -101,7 +101,8 @@
       ...mapGetters({
         shapes: 'spaceTool/getShapes',
         currentShapes: 'spaceTool/getCurrentShapes',
-        spaceIndex: 'spaceTool/getSpaceIndex'
+        spaceIndex: 'spaceTool/getSpaceIndex',
+        tempSpaces: 'spaceTool/getTempSpaces'
       })
     },
     mounted () {
@@ -124,7 +125,8 @@
         else this.saveEditedSpace()
       },
       saveEditedSpace () {
-        console.log('SAVE EDIT')
+        this.tempSpaces.splice(this.spaceIndex, 1, this.selection)
+        this.$router.push('/space-tool/list')
       },
       addSpace () {
         this.$store.commit('spaceTool/setTempSpaces', this.selection)
