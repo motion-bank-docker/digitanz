@@ -3,12 +3,28 @@
 
     // ---------------------------------------------------------------------------------------------------------- spaces
     .shadow-1.round-borders.bg-e4.q-mt-md(v-for="(space, index) in tempSpaces")
-      q-radio.q-mb-none.round-borders(v-model="optionSpace", :val="index",
-      :class="{'bg-grey-1': optionSpace === index}")
+      .relative-position.overflow-hidden
+        q-radio.q-mb-none.round-borders(v-model="optionSpace", :val="index",
+        :class="{'bg-grey-1': optionSpace === index}")
 
-        .row(@click="handlerRadiobutton(index)")
-          .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="shape in space")
-            shape-icon(:shape="shape", :cols="4")
+          .row.q-pa-md(@click="handlerRadiobutton(index)",
+          :class="[space.length <= 3 ? 'justify-center' : '']")
+            .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="shape in space")
+              shape-icon(:shape="shape", :cols="4")
+
+        //----- "edit"-button
+        //----- "remove"-button
+        .absolute-top-right.transition.q-px-sm.q-pt-sm.q-mt-xs(:class="[optionSpace !== index ? 'leave-right-absolute' : '']")
+          template(v-if="!recipeStandalone")
+            q-btn.bg-grey-3.text-grey-9.shadow-1.q-mr-sm(@click="handlerSpaceButtons('edit', index)", round, size="sm", flat)
+              q-icon(name="edit", size="16px")
+            q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerSpaceButtons('delete', index)", round, size="sm", flat)
+              q-icon(name="delete", size="16px")
+
+        //----- "play"-button
+        .absolute-bottom-right.transition(:class="[optionSpace !== index ? 'leave-right-absolute' : '']")
+          q-btn.text-grey-9.q-pr-sm.q-pb-none(@click="handlerSpaceButtons('play', index)", size="lg", flat)
+            q-icon(name="play_arrow")
 
     // --------------------------------------------------------------------------------------------------- buttons below
     template
@@ -54,6 +70,24 @@
     methods: {
       handlerRadiobutton (index) {
         if (index === this.optionSpace) this.optionSpace = undefined
+      },
+      editSpace (space) {
+        console.log(space)
+        this.$router.push('/space-tool/create')
+      },
+      handlerSpaceButtons (action, space) {
+        console.log('handlerSpaceButtons - space', space)
+        switch (action) {
+        case 'edit':
+          this.$router.push('/space-tool/create')
+          break
+        case 'delete':
+          this.$router.push('/space-tool/list')
+          break
+        case 'play':
+          this.$router.push('/space-tool')
+          break
+        }
       }
     }
   }
