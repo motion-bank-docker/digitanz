@@ -93,19 +93,19 @@
         selectedShape: undefined
       }
     },
-    props: ['space'],
     components: {
       shapeIcon
     },
     computed: {
       ...mapGetters({
         shapes: 'spaceTool/getShapes',
-        selectedShapes: 'spaceTool/getSelectedShapes'
+        selectedShapes: 'spaceTool/getSelectedShapes',
+        spaceIndex: 'spaceTool/getSpaceIndex'
       })
     },
     mounted () {
-      console.log('create space', this.space)
-      if (this.selectedShapes.length > 0) this.selection = this.selectedShapes
+      if (!this.spaceIndex) console.log('spaceIndex UNDEFINED', this.spaceIndex)
+      // if (this.selectedShapes.length > 0) this.selection = this.selectedShapes
     },
     watch: {
       selection () {
@@ -114,9 +114,7 @@
     },
     methods: {
       addSpace () {
-        let sel = []
-        sel.push(this.selection)
-        this.$store.commit('spaceTool/setTempSpaces', sel)
+        this.$store.commit('spaceTool/setTempSpaces', this.selection)
         this.$router.push('/space-tool/list')
       },
       checkIfDisabled (direction) {

@@ -62,19 +62,24 @@ const spaceTool = {
       ]
     }],
     selectedShapes: [],
-    tempSpaces: []
+    tempSpaces: [],
+    spaceIndex: undefined
   },
   getters: {
     getShapes: state => state.shapes,
     getSelectedShapes: state => state.selectedShapes,
-    getTempSpaces: state => state.tempSpaces
+    getTempSpaces: state => state.tempSpaces,
+    getSpaceIndex: state => state.spaceIndex
   },
   mutations: {
     setSelectedShapes (state, val) {
       state.selectedShapes = val
     },
     setTempSpaces (state, val) {
-      state.tempSpaces = val
+      state.tempSpaces.push(val)
+    },
+    setSpaceIndex (state, val) {
+      state.spaceIndex = val
     }
   },
   actions: {

@@ -64,25 +64,23 @@
     computed: {
       ...mapGetters({
         shapes: 'spaceTool/getShapes',
-        selectedShapes: 'spaceTool/getSelectedShapes',
-        tempSpaces: 'spaceTool/getTempSpaces'
+        // selectedShapes: 'spaceTool/getSelectedShapes',
+        tempSpaces: 'spaceTool/getTempSpaces',
+        spaceIndex: 'space-tool/getSpaceIndex'
       })
     },
     methods: {
       handlerRadiobutton (index) {
         if (index === this.optionSpace) this.optionSpace = undefined
       },
-      editSpace (space) {
-        console.log(space)
-        this.$router.push('/space-tool/create')
-      },
       handlerSpaceButtons (action, index) {
-        console.log('handlerSpaceButtons - index', index)
         switch (action) {
         case 'add':
+          this.$store.commit('spaceTool/setSpaceIndex')
           this.$router.push('/space-tool/create')
           break
         case 'edit':
+          this.$store.commit('spaceTool/setSpaceIndex', index)
           this.$router.push('/space-tool/create')
           break
         case 'delete':
