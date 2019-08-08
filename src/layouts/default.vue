@@ -94,8 +94,11 @@
         // if (!this.showInfoBox) this.handlerInfoBox()
         this.showInfoBox = this.statusInfoBox
       },
+      /*
       $route (to, from) {
         console.log(to, from)
+      */
+      $route (to) {
         let routeSplit = to.path.split('/')
         switch (routeSplit[1]) {
         case 'mr-griddle':
