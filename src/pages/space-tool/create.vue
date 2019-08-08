@@ -2,17 +2,17 @@
   q-page.q-pb-xl.min-height-auto
 
     // --------------------------------------------------------------------------------------------------- selection-box
-    .shadow-1.round-borders.bg-e4.q-mt-md.q-mx-md
+    .bg-e4.q-mt-md.q-mx-md.round-borders
 
       // shapes
       template(v-if="selectedShapes.length > 0")
         q-item.row.q-pa-sm
           .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="(shape, index) in selectedShapes",
           @click="selectShape(shape, index)",
-          :class="[selectedShapeIndex === index ? 'bg-grey-1 shadow-1' : '']")
+          :class="[selectedShapeIndex === index ? 'bg-grey-1' : '']")
 
             //----- number
-            .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.bg-grey-3.shadow-1(
+            .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.inactive(
             v-if="selectedShapeIndex !== index")
               | {{ index + 1 }}
 
@@ -48,10 +48,8 @@
     .row.q-px-sm.q-mb-md.q-pb-md
 
       //----- shapes
-      .col-3.q-px-sm.q-mt-md.text-center.round-borders.items-center(v-for="shape in shapes")
-
-        div.shadow-1.q-px-sm.bg-e4.text-grey-8.round-borders(
-        @click="addToSelection(shape)")
+      .col-3.q-px-sm.q-mt-md.text-center.items-center(v-for="shape in shapes")
+        .q-px-md.bg-e4.text-grey-8.round-borders(@click="addToSelection(shape)")
           shape-icon(:shape="shape", :cols="4")
 
       //----- "shape editor"-button

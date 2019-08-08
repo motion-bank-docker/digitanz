@@ -2,9 +2,9 @@
   q-page.min-height-auto.q-px-md.q-pb-md
 
     // ---------------------------------------------------------------------------------------------------------- spaces
-    .shadow-1.round-borders.bg-e4.q-mt-md(v-for="(space, index) in tempSpaces")
-      .relative-position.overflow-hidden
-        q-radio.q-mb-none.round-borders(v-model="optionSpace", :val="index",
+    .bg-e4.q-mt-md(v-for="(space, index) in tempSpaces")
+      .relative-position.overflow-hidden.round-borders
+        q-radio.q-mb-none(v-model="optionSpace", :val="index",
         :class="{'bg-grey-1': optionSpace === index}")
 
           .row.q-pa-md(@click="handlerRadiobutton(index)",
@@ -14,17 +14,16 @@
 
         //----- "edit"-button
         //----- "remove"-button
-        .absolute-top-right.transition.q-px-sm.q-pt-sm.q-mt-xs(:class="[optionSpace !== index ? 'leave-right-absolute' : '']")
-          template(v-if="!recipeStandalone")
-            q-btn.bg-grey-3.text-grey-9.shadow-1.q-mr-sm(@click="handlerSpaceButtons('edit', index)", round, size="sm", flat)
-              q-icon(name="edit", size="16px")
-            q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerSpaceButtons('delete', index)", round, size="sm", flat)
-              q-icon(name="delete", size="16px")
-
         //----- "play"-button
-        .absolute-bottom-right.transition(:class="[optionSpace !== index ? 'leave-right-absolute' : '']")
-          q-btn.text-grey-9.q-pr-sm.q-pb-none(@click="handlerSpaceButtons('play', index)", size="lg", flat)
-            q-icon(name="play_arrow")
+        .absolute-top-right.transition.q-px-sm.q-pt-sm(:class="[optionSpace !== index ? 'leave-right-absolute' : '']")
+          q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerSpaceButtons('play', index)", flat, size="sm", round)
+            q-icon(name="play_arrow", size="18px")
+
+          q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="handlerSpaceButtons('edit', index)", round, size="sm", flat)
+            q-icon(name="edit", size="16px")
+
+          q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerSpaceButtons('delete', index)", round, size="sm", flat)
+            q-icon(name="delete", size="16px")
 
     // --------------------------------------------------------------------------------------------------- buttons below
     template
