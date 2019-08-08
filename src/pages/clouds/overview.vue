@@ -2,8 +2,7 @@
   q-page.relative-position.min-height-auto
 
     //--------------------------------------------------------------------------------------------------------- zoom box
-    q-modal.bg-grey-3(v-model="zoom", minimized)
-      div.fit.bg-grey-1.shadow-1
+    q-modal.bg-grey-1(v-model="zoom", minimized)
 
         .column.text-center.items-center.row(
         @click="handlerZoom(selectedCloud.terms, selectedCloud.index)",
