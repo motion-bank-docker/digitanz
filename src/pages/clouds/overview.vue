@@ -33,8 +33,13 @@
 
                 .absolute-top-right.transition.q-mr-sm.q-pt-sm(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
                   //----- "zoom-box"-button
-                  q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="handlerZoom(cloud, index)", round, size="sm", flat)
+                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(cloud, index)", round, size="sm", flat)
                     q-icon(name="fullscreen", size="16px")
+
+                  //----- "zoom-box"-button
+                  q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editCloud(cloud, index)", round, size="sm", flat,
+                  disabled)
+                    q-icon(name="edit", size="16px")
 
                   //----- "remove"-button
                   q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempCloud(index)", round, size="sm", flat)
