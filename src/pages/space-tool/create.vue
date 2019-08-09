@@ -57,10 +57,11 @@
           shape-icon(:shape="shape", :cols="4")
 
       //----- "shape editor"-button
-      .col-3.q-mt-md.items-center.row
-        .text-center.full-width
-          q-btn.self-center(@click="$router.push('')", round, disabled)
-            q-icon(name="edit")
+      //
+        .col-3.q-mt-md.items-center.row
+          .text-center.full-width
+            q-btn.self-center(@click="$router.push('')", round, disabled)
+              q-icon(name="edit")
     // --------------------------------------------------------------------------------------------------- buttons below
     .fixed-bottom-left.q-px-md.q-mt-md.q-mb-md
       .relative-position
