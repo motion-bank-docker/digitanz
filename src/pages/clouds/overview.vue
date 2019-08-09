@@ -10,11 +10,6 @@
           .col.q-title.row.q-px-md(v-for="(term, index) in selectedCloud.terms", style="font-weight: normal;")
             .self-center {{ term }}
 
-        //
-          .absolute-top-right
-            q-btn.text-grey-9(@click="handlerZoom", round, flat)
-              q-icon(name="clear")
-
     //----------------------------------------------------------------------------------------------------------- clouds
     .q-pt-sm
       template(v-if="tempClouds.length > 0")
@@ -56,20 +51,12 @@
             q-item-tile.q-pt-sm.q-mt-xs
               q-btn.bg-grey-9.text-white(@click="addCloud()", round, flat)
                 q-icon(name="add")
-      q-item.q-pa-none.row.items-center(v-else)
-        // q-item-side.inactive(v-if="tempRecipes.length <= 0") Leer
 
+      q-item.q-pa-none.row.items-center(v-else)
         q-item-main.text-right
           q-btn.bg-grey-9.text-white(
           @click="addCloud()", round, flat)
             q-icon(name="add")
-      //
-        q-item.q-pa-none.row.items-center
-          q-item-side.inactive(v-if="tempClouds.length <= 0") Leer
-
-          q-item-main.text-right
-            q-btn.bg-grey-9.text-white(@click="$router.push('/clouds')", round, flat)
-              q-icon(name="add")
 
 </template>
 
