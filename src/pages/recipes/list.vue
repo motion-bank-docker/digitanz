@@ -102,7 +102,6 @@
                 q-icon(name="add")
 
       // --------------------------------------------------------------------------------------------- "gemixte rezepte"
-      // div.q-mt-md
       q-tab-pane.q-px-md.q-mb-sm.q-pt-none(keep alive, name="tab-2")
 
         //----- remixes
@@ -125,11 +124,6 @@
                     q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
                     q-item.items-baseline.q-px-sm.q-py-sm.min-height-auto(v-for="(entry, i) in remix.entries")
-
-                      //----- ingredient position
-                      //
-                        q-item-side.q-pa-none.q-mt-md.min-height-auto.min-width-auto.text-grey-8(style="width: 30px;")
-                          | {{ i + 1 }}.
 
                       //----- ingredient
                       q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
@@ -176,15 +170,6 @@
                 q-icon(name="add")
                 q-tooltip.bg-transparent.text-grey-9.q-px-md(anchor="bottom middle", self="top middle")
                   .bg-white.q-px-sm.q-py-sm.round-borders.shadow-1 In deinen erstellten Rezepten müssen zusammen mindestens vier Zutaten verwendet worden sein um einen Remix erstellen zu können.
-
-          //
-            .text-center.border-bottom.border-color-grey-4.q-pb-md(v-if="tempRemixes.length <= 0") Leer
-
-            .text-right(v-if="allIngredients.length >= 4")
-              q-btn.bg-grey-9.text-white.q-mt-md(
-              @click="doRemix", round, flat, :disabled="allIngredients.length < 4")
-                q-icon(name="add")
-            .text-center.q-mt-md.q-mt-md(v-else) Nicht genügend Zutaten vorhanden.
 
 </template>
 
