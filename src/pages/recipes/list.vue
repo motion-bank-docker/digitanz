@@ -45,14 +45,13 @@
           style="overflow: hidden;",
           :class="[option !== index ? 'bg-e4 text-grey-8' : 'text-grey-9 bg-grey-1']")
             div.relative-position(:class="{'bg-transparent': option === index}")
-              q-radio.full-width.q-mb-none.word-break(v-model="option", :val="index",
-              :class="{'q-pb-md': option === index}")
+              q-radio.full-width.q-mb-none.word-break(v-model="option", :val="index")
 
                 div.full-width(@click="handlerRadiobutton(index)")
                   q-list.q-pa-none.no-border.full-width
 
                     //----- title
-                    q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm.capitalize(
+                    q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm(
                     :class="[option !== index ? 'text-grey-8' : 'text-grey-9']")
                       | {{ recipe.title }}
 
@@ -60,8 +59,10 @@
                       q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
                       //----- ingredient
-                      q-item.items-baseline.q-px-sm.q-py-sm.min-height-auto(v-for="(entry, i) in recipe.entries")
-                        q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
+                      template(v-for="(entry, i) in recipe.entries")
+                        q-item.items-baseline.q-px-sm.q-py-sm.q-my-xs.min-height-auto
+                          q-item-main {{ entry }}
+                        q-item-separator.q-ma-none
 
               .absolute-top-right.transition.q-px-sm.q-pt-sm.q-mt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
                 //----- "zoom"-button
@@ -113,7 +114,7 @@
                 q-list.q-pa-none.no-border.full-width
 
                   //----- title
-                  q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm.capitalize(
+                  q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm(
                   :class="[optionRemix !== index ? 'text-grey-8' : 'text-grey-9']")
                     | {{ remix.title }}
 
