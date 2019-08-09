@@ -2,7 +2,7 @@
   q-page.q-py-md.min-height-auto
 
     // ---------------------------------------------------------------------------------------------------------- recipe
-    div.q-mx-md.shadow-1.bg-e4.text-grey-8.round-borders(style="overflow: hidden;")
+    div.q-mx-md.bg-e4.text-grey-8.round-borders(style="overflow: hidden;")
       q-list.q-pa-none.no-border.full-width(style="overflow-x: hidden;")
 
         //----- title
