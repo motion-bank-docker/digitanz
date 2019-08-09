@@ -107,8 +107,7 @@
         style="overflow: hidden;",
         :class="[optionRemix !== index ? 'bg-e4 text-grey-8' : 'text-grey-9 bg-grey-1', {'hidden': optionRemix !== index && remixStandalone}]")
           div.relative-position(:class="{'bg-transparent': optionRemix === index}")
-            q-radio.full-width.q-mb-none.word-break(v-model="optionRemix", :val="index",
-            :class="{'q-pb-md': optionRemix === index}")
+            q-radio.full-width.q-mb-none.word-break(v-model="optionRemix", :val="index")
 
               div.full-width(@click="handlerRadiobuttonRemix(index)")
                 q-list.q-pa-none.no-border.full-width
@@ -122,8 +121,10 @@
                     q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
                     //----- ingredient
-                    q-item.items-baseline.q-px-sm.q-py-sm.min-height-auto(v-for="(entry, i) in remix.entries")
-                      q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
+                    template(v-for="(entry, i) in remix.entries")
+                      q-item.items-baseline.q-px-sm.q-py-sm.q-my-xs.min-height-auto
+                        q-item-main {{ entry }}
+                      q-item-separator.q-ma-none
 
             .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
 
