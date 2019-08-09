@@ -290,5 +290,6 @@
 
   #mr-griddle.random
     line
-      stroke $d4
+      // stroke $d4
+      stroke $grey-9
 </style>
