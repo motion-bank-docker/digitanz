@@ -34,12 +34,16 @@
         q-list.q-pa-none.no-border.row
           .col-6.q-px-sm(v-for="term in tempTerms")
 
-            q-item.q-px-sm.q-mb-md.round-borders.q-caption.bg-e4(
+            q-item.q-px-sm.q-mb-md.round-borders.q-caption.bg-e4.relative-position.overflow-hidden(
             :class="[checkIfSelected(term) ? 'bg-grey-1 text-grey-9' : 'text-grey-8']")
 
               input.hidden(@click="countWords('adjektive', term)", v-model="selectedWords", type="checkbox", :id="term", :value="term")
               label.full-width(:for="term")
                 | {{ term }}
+
+              .absolute-right.q-pt-xs.q-pr-xs.transition(:class="[checkIfSelected(term) ? '' : 'leave-right']")
+                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="", size="sm", flat, round)
+                  q-icon(name="delete", size="16px")
 
         //----- "add term"-block
         .q-mb-md.q-px-sm
