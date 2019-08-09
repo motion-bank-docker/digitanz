@@ -71,26 +71,23 @@
                 q-icon(name="clear", size="16px")
 
     // ----------------------------------------------------------------------------------------------- buttons at bottom
-    .q-mx-md.q-mt-md.overflow-hidden
+    .q-px-md.q-mt-md.overflow-hidden.row
 
-      .row
+      .col-6
+        q-btn.border.bg-grey-9.text-grey-2.q-mr-md(@click="$router.push('/recipes')", flat, no-caps, icon="clear",
+        round)
 
-        .col-6
-          q-btn.border.bg-grey-9.text-grey-2.q-mr-md(@click="$router.push('/recipes')", flat, no-caps, icon="clear",
-          round)
-
-        .col-6.text-right
-          q-btn.capitalize(
+      .col-6.text-right.relative-position
+        .absolute-right.transition(:class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? 'leave-right' : '']")
+          q-btn.bg-grey-9.text-grey-2.capitalize(
           v-if="recipe.type === 'remix'",
           @click="submitRemix",
-          :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? '' : 'bg-grey-9 text-grey-2']",
           :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
           type="submit", no-caps, icon="check", round, flat)
 
-          q-btn.capitalize(
+          q-btn.bg-grey-9.text-grey-2.capitalize(
           v-else,
           @click="submitRecipe",
-          :class="[(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0 ? '' : 'bg-grey-9 text-grey-2']",
           :disable="(addIngredient.length || selectAktion.length || selectGestaltung.length || selectCloudThree.length) > 0",
           type="submit", no-caps, icon="check", round, flat)
 </template>
