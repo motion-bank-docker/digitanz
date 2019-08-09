@@ -32,7 +32,7 @@
         q-list.q-pa-none.no-border.row
           .col-6.q-px-sm(v-for="term in tempTerms")
 
-            q-item.q-mb-md.shadow-1.round-borders.q-caption.bg-e4(
+            q-item.q-mb-md.round-borders.q-caption.bg-e4(
             :class="[checkIfSelected(term) ? 'bg-grey-1 text-grey-9' : 'text-grey-8']")
 
               input.hidden(@click="countWords('adjektive', term)", v-model="selectedWords", type="checkbox", :id="term", :value="term")
@@ -58,7 +58,7 @@
         q-list.q-pa-none.no-border.row
 
           .col-6.q-px-sm(v-for="(mJ, index) in myJson")
-            q-item.shadow-1.round-borders.q-caption.bg-e4(
+            q-item.round-borders.q-caption.bg-e4(
             :class="[checkIfSelected(mJ.label) ? 'bg-grey-1 text-grey-9' : 'text-grey-8', {'q-mb-md': index < myJson.length - 1}]")
 
               input.hidden(@click="countWords('aktionen', mJ.label)", v-model="selectedWords", type="checkbox",
@@ -71,7 +71,7 @@
         q-list.q-pa-none.no-border.row
 
           .col-6.q-px-sm(v-for="(cT, index) in cloudThree")
-            q-item.shadow-1.round-borders.q-caption.bg-e4(
+            q-item.round-borders.q-caption.bg-e4(
             :class="[checkIfSelected(cT.label) ? 'bg-grey-1 text-grey-9' : 'text-grey-8', {'q-mb-md': index < cloudThree.length - 2}]")
 
               input.hidden(@click="countWords('gestaltung', cT.label)", v-model="selectedWords", type="checkbox", :id="cT.label", :value="cT.label")
