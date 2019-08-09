@@ -129,19 +129,21 @@
 
             .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
 
+              //----- "zoom"-button
+              q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(remix, index)", round, size="sm", flat)
+                q-icon(name="fullscreen", size="18px")
+
               //----- "edit"-button
-              q-btn.bg-grey-3.text-grey-9.shadow-1.q-mr-sm(@click="editRemix(index)", round, size="sm", flat)
+              q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editRemix(index)", round, size="sm", flat)
                 q-icon(name="edit", size="16px")
 
               //----- "remove"-button
               q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempRemix(index)", round, size="sm", flat)
                 q-icon(name="delete", size="16px")
 
-            .absolute-bottom-right.transition(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
-              q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="fullscreen", @click="handlerZoom(remix, index)", size="lg", flat)
-
         // ------------------------------------------------------------------------------- buttons below, "empty"-screen
         template
+
           //----- empty screen
           div.row.items-center.height-empty(v-if="tempRemixes.length <= 0")
             q-item.text-center.q-ma-none.full-width
