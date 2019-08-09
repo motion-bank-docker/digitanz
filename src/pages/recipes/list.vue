@@ -26,17 +26,11 @@
     q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
     swipeable)
 
-      q-tab.text-center.round-borders-5.q-pl-md.q-pr-sm.q-py-md(name="tab-1", slot="title", default,
-      :class="[selectedTab === 'tab-1' ? 'text-grey-9' : 'text-grey-9']")
-        q-btn.shadow-1.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
-        :class="[selectedTab === 'tab-1' ? 'bg-grey-1' : '']",
-        label="Eigene", flat, no-ripple)
+      q-tab.capitalize.q-caption.text-weight-medium.q-mb-md.text-center.q-pa-none.text-grey-9(name="tab-1", slot="title",
+      :class="[selectedTab === 'tab-1' ? 'bg-grey-1' : '']", default) Eigene
 
-      q-tab.text-center.round-borders-5.q-pl-sm.q-pr-md.q-py-md(name="tab-2", slot="title",
-      :class="[selectedTab === 'tab-2' ? 'text-grey-9' : 'text-grey-9']")
-        q-btn.shadow-1.q-caption.text-weight-medium.q-px-none.capitalize.full-width.q-py-md(
-        :class="[selectedTab === 'tab-2' ? 'bg-grey-1' : '']",
-        label="Remixed", flat, no-ripple)
+      q-tab.capitalize.q-caption.text-weight-medium.q-mb-md.text-center.q-pa-none.text-grey-9(name="tab-2", slot="title",
+      :class="[selectedTab === 'tab-2' ? 'bg-grey-1' : '']") Remixed
 
       // ----------------------------------------------------------------------------------------------- "meine rezepte"
       q-tab-pane.q-px-md.q-mb-sm.q-pt-none(keep alive, name="tab-1")
