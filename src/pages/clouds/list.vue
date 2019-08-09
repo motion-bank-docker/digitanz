@@ -39,7 +39,6 @@
 
               input.hidden(@click="countWords('adjektive', term)", v-model="selectedWords", type="checkbox", :id="term", :value="term")
               label.full-width(:for="term")
-                | ({{ countCustomTermUsages(term) }})
                 | {{ term }}
 
               .absolute-right.q-pt-xs.q-pr-xs.transition(:class="[checkIfSelected(term) ? '' : 'leave-right']")
@@ -168,14 +167,14 @@
           if (arrTempTerms.includes(item)) this.countAdjektive++
         })
 
-        this.otherClouds = this.tempClouds.slice()
-        this.otherClouds.splice(this.spaceIndex, 1)
+        this.tempClouds.forEach((item, index) => {
+          if (index !== this.cloudIndex) this.otherClouds.push(item)
+        })
       }
       else {
         this.editMode = 'new'
         this.otherClouds = this.tempClouds
       }
-      console.log('other clouds', this.otherClouds)
     },
     data () {
       return {
@@ -250,7 +249,6 @@
           else this.countGestaltung--
           break
         }
-        console.log('selectedWords', this.selectedWords)
       },
       addWord (val) {
         this.$store.commit('cloud/addToTempTerms', val)
