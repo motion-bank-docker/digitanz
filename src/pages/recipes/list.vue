@@ -18,7 +18,7 @@
       style="min-height: calc(100vh - 60px - 16px);")
 
         q-item.q-pa-none.q-title.q-mt-md(
-        v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;")
+        v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;", multiline)
           q-item-side.inactive {{ index + 1 }}.
           q-item-main.text-grey-9 {{ ingredient }}
 
