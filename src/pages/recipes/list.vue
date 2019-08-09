@@ -80,8 +80,8 @@
                   q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeFromTempRecipe(index)", round, size="sm", flat)
                     q-icon(name="delete", size="16px")
 
-        //----- "add"-button
         template(v-if="!recipeStandalone")
+          //----- "empty"-screen
           div.row.items-center.height-empty(v-if="tempRecipes.length <= 0")
             q-item.text-center.q-ma-none.full-width
               q-item-main.q-mb-xl
@@ -93,9 +93,9 @@
                   q-btn.bg-grey-9.text-white(
                   @click="$router.push('/recipes/create')", round, flat)
                     q-icon(name="add")
-          q-item.q-pa-none.row.items-center(v-else)
-            q-item-side.inactive(v-if="tempRecipes.length <= 0") Leer
 
+          //----- "add"-button
+          q-item.q-pa-none.row.items-center(v-else)
             q-item-main.text-right
               q-btn.bg-grey-9.text-white(
               @click="$router.push('/recipes/create')", round, flat)
