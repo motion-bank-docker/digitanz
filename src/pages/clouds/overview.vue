@@ -6,7 +6,7 @@
 
         .column.text-center.items-center.row(
         @click="handlerZoom(selectedCloud.terms, selectedCloud.index)",
-        style="height: calc(100vh - 30px);")
+        style="height: 100vh;")
           .col.q-title.row.q-px-md(v-for="(term, index) in selectedCloud.terms", style="font-weight: normal;")
             .self-center {{ term }}
 
