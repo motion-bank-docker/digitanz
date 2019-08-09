@@ -25,26 +25,26 @@
           q-item.q-px-sm.q-py-sm.min-height-auto.transition-padding(
           :description="ingr",
           :key="ingr",
+          @click="handlerRadiobutton(ingr)",
           :class="[option === ingr ? 'bg-grey-1 text-grey-8' : 'text-grey-6 q-py-sm', {'q-py-md' : (option === ingr)}]",
           multiline)
 
-            //----- ingredient
+            //----- ingredient & index
+            q-item-side.inactive.q-py-xs
+              | {{ index + 1 }}
             q-item-main.transition(style="max-width: 100%;")
-              q-item-tile
-                q-radio.full-width.q-mb-none(v-model="option", :val="ingr",
-                :class="[option === ingr ? 'text-grey-9' : 'text-grey-9']")
-                  div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
+              q-radio.text-grey-9.q-py-xs.full-width(v-model="option", :val="ingr") {{ ingr }}
 
-              //----- move-buttons, delete-button
-              .absolute-top-right.transition.q-px-sm.items-start.row.q-mt-sm.q-pt-xs(
-              :class="[option !== ingr ? 'leave-right-absolute' : '']",
-              style="margin-top: 10px;")
-                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="moveUp(index)", round, size="sm", flat)
-                  q-icon(name="keyboard_arrow_up", size="18px")
-                q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="moveDown(index)", round, size="sm", flat)
-                  q-icon(name="keyboard_arrow_down", size="18px")
-                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="deleteTodoItem(index)", round, size="sm", flat)
-                  q-icon(name="delete", size="16px")
+            //----- move-buttons, delete-button
+            .absolute-top-right.transition.q-px-sm.items-start.row.q-mt-sm.q-pt-xs(
+            :class="[option !== ingr ? 'leave-right-absolute' : '']",
+            style="margin-top: 10px;")
+              q-btn.bg-grey-3.text-grey-9.shadow-1(@click="moveUp(index)", round, size="sm", flat)
+                q-icon(name="keyboard_arrow_up", size="18px")
+              q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="moveDown(index)", round, size="sm", flat)
+                q-icon(name="keyboard_arrow_down", size="18px")
+              q-btn.bg-grey-3.text-grey-9.shadow-1(@click="deleteTodoItem(index)", round, size="sm", flat)
+                q-icon(name="delete", size="16px")
 
           q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
@@ -150,6 +150,7 @@
         this.selectGestaltung = ''
         this.selectCloudThree = ''
 
+        console.log(val, this.option)
         if (val === this.option) this.option = []
       },
       resetValues () {
