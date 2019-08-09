@@ -22,7 +22,7 @@
 
       q-tab.capitalize.q-caption.text-weight-medium.q-mb-md.text-center.q-pa-none.text-grey-9(
       name="tab-1", slot="title", :class="[selectedTab === 'tab-1' ? 'bg-grey-1' : '']",
-      label="Adjektive")
+      label="Eigene")
         .absolute-top-right.q-caption.q-ma-sm.q-px-xs.round-borders.inactive(v-if="countAdjektive > 0",
         :class="[selectedTab === 'tab-1' ? '' : '']")
           | {{ countAdjektive }}
@@ -32,7 +32,7 @@
 
         //----- list
         q-list.q-pa-none.no-border.row
-          .col-6.q-px-sm(v-for="term in tempTerms")
+          .col-6.q-px-sm(v-for="(term, index) in tempTerms")
 
             q-item.q-px-sm.q-mb-md.round-borders.q-caption.bg-e4.relative-position.overflow-hidden(
             :class="[checkIfSelected(term) ? 'bg-grey-1 text-grey-9' : 'text-grey-8']")
@@ -42,7 +42,7 @@
                 | {{ term }}
 
               .absolute-right.q-pt-xs.q-pr-xs.transition(:class="[checkIfSelected(term) ? '' : 'leave-right']")
-                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="", size="sm", flat, round)
+                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="deleteCustomTerm(term, index)", size="sm", flat, round)
                   q-icon(name="delete", size="16px")
 
         //----- "add term"-block
@@ -187,6 +187,15 @@
       })
     },
     methods: {
+      deleteCustomTerm (term, index) {
+        // console.log(term, index)
+
+        let termIndex = this.selectedWords.findIndex(item => item === term)
+        // console.log('findTermIndex', termIndex)
+        this.selectedWords.splice(termIndex, 1)
+        this.tempTerms.splice(index, 1)
+        this.countAdjektive--
+      },
       handlerCreateButton () {
         if (this.editMode === 'new') this.addTempCloud()
         else this.saveEditedWord()
