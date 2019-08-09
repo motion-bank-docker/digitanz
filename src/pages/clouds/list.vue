@@ -167,10 +167,15 @@
           if (arrCloudThree.includes(item)) this.countGestaltung++
           if (arrTempTerms.includes(item)) this.countAdjektive++
         })
+
+        this.otherClouds = this.tempClouds.slice()
+        this.otherClouds.splice(this.spaceIndex, 1)
       }
       else {
         this.editMode = 'new'
+        this.otherClouds = this.tempClouds
       }
+      console.log('other clouds', this.otherClouds)
     },
     data () {
       return {
@@ -185,7 +190,8 @@
         selectedWords: [],
         selectedTab: undefined,
         showIcon: true,
-        editMode: undefined
+        editMode: undefined,
+        otherClouds: []
       }
     },
     computed: {
@@ -197,10 +203,8 @@
     },
     methods: {
       countCustomTermUsages (term) {
-        console.log(term)
         let counter = 0
-        this.tempClouds.map(cloud => {
-          console.log(cloud)
+        this.otherClouds.map(cloud => {
           if (cloud.includes(term)) counter++
         })
         return counter
