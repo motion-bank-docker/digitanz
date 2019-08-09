@@ -48,10 +48,11 @@
                     q-icon(name="delete", size="16px")
 
                 template(v-else)
-                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="", size="sm", flat, round)
+                  q-btn.bg-grey-3.text-grey-9.shadow-1.inactive(@click="", size="sm", flat, round)
                     q-icon(name="delete", size="16px")
-                    q-popover.q-pa-sm.q-caption
-                      | Dieser Begriff kann nicht gelöscht werden, da er noch woanders in Verwendung ist.
+                    q-popover.q-pa-md.q-caption.full-width.custom-term-usage(
+                    anchor="bottom middle", self="top middle")
+                      | Dieser Begriff kann nicht gelöscht werden, da er in einer anderen Wolke in Verwendung ist.
 
         //----- "add term"-block
         .q-mb-md.q-px-sm
@@ -262,4 +263,11 @@
 </script>
 
 <style scoped lang="stylus">
+</style>
+
+<style lang="stylus">
+  .q-popover.custom-term-usage
+    max-width calc(100vw - 16px - 16px)!important
+    margin-left 16px
+    left 16px!important
 </style>
