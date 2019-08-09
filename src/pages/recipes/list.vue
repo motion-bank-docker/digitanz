@@ -7,20 +7,23 @@
       .col.q-title.row.text-weight-bold.full-width.border-bottom(style="border-color: #e0e0e0; height: 60px;")
         .col-12
           q-btn.q-px-md.self-center.q-title.full-width.full-height.q-pr-md.overflow-hidden(flat, no-caps, no-ripple,
-          align="left",
+          align="center",
           @click="showLongTitle = true")
             .ellipsis.text-weight-bold {{ selectedRecipe.title }}
             q-popover#zoom-title(v-model="showLongTitle", anchor="center left", :offset="[-16, 0]")
               div.q-pa-md.q-title(@click="showLongTitle = false") {{ selectedRecipe.title }}
 
       //----- ingredients
-      .q-px-md.q-pb-md(@click="handlerZoom(selectedRecipe.ingredients, selectedRecipe.index)",
+      div(@click="handlerZoom(selectedRecipe.ingredients, selectedRecipe.index)",
       style="min-height: calc(100vh - 60px - 16px);")
 
-        q-item.q-pa-none.q-title.q-mt-md(
-        v-for="(ingredient, index) in selectedRecipe.ingredients", style="font-weight: normal;", multiline)
-          q-item-side.inactive {{ index + 1 }}.
-          q-item-main.text-grey-9 {{ ingredient }}
+        template(v-for="(ingredient, index) in selectedRecipe.ingredients")
+          q-item.q-px-md.q-py-md.q-title.min-height-auto(style="font-weight: normal; line-height: 1.35;", multiline)
+            q-item-side
+              q-btn.bg-grey-3.text-grey-9(round, flat, size="sm")
+                span(style="font-size: 16px;") {{ index + 1 }}
+            q-item-main.text-grey-9.q-pt-xs.q-pl-sm {{ ingredient }}
+          q-item-separator.q-ma-none
 
     // ------------------------------------------------------------------------------------------------------------ tabs
     q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
@@ -247,5 +250,5 @@
 
 <style lang="stylus">
   .q-popover#zoom-title
-    max-width calc(100vw - 16px - 16px - 16px - 16px)!important
+    max-width calc(100vw - 16px - 16px)!important
 </style>
