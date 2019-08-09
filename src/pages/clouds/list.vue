@@ -39,11 +39,20 @@
 
               input.hidden(@click="countWords('adjektive', term)", v-model="selectedWords", type="checkbox", :id="term", :value="term")
               label.full-width(:for="term")
+                | ({{ countCustomTermUsages(term) }})
                 | {{ term }}
 
               .absolute-right.q-pt-xs.q-pr-xs.transition(:class="[checkIfSelected(term) ? '' : 'leave-right']")
-                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="deleteCustomTerm(term, index)", size="sm", flat, round)
-                  q-icon(name="delete", size="16px")
+
+                template(v-if="countCustomTermUsages(term) <= 0")
+                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="deleteCustomTerm(term, index)", size="sm", flat, round)
+                    q-icon(name="delete", size="16px")
+
+                template(v-else)
+                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="", size="sm", flat, round)
+                    q-icon(name="delete", size="16px")
+                    q-popover.q-pa-sm.q-caption
+                      | Dieser Begriff kann nicht gelöscht werden, da er noch woanders in Verwendung ist.
 
         //----- "add term"-block
         .q-mb-md.q-px-sm
@@ -187,11 +196,17 @@
       })
     },
     methods: {
+      countCustomTermUsages (term) {
+        console.log(term)
+        let counter = 0
+        this.tempClouds.map(cloud => {
+          console.log(cloud)
+          if (cloud.includes(term)) counter++
+        })
+        return counter
+      },
       deleteCustomTerm (term, index) {
-        // console.log(term, index)
-
         let termIndex = this.selectedWords.findIndex(item => item === term)
-        // console.log('findTermIndex', termIndex)
         this.selectedWords.splice(termIndex, 1)
         this.tempTerms.splice(index, 1)
         this.countAdjektive--
