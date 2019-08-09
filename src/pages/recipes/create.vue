@@ -21,37 +21,32 @@
         q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
         //----- ingredients
-        q-item.q-px-sm.q-py-sm.min-height-auto.transition-padding(
-        v-for="(ingr, index) in newRecipe.entries",
-        :description="ingr",
-        :key="ingr",
-        :class="[option === ingr ? 'bg-grey-1 text-grey-8' : 'text-grey-6 q-py-sm', {'q-pt-md' : (option === ingr) && (index > 0)}, {'q-pb-md' : (option === ingr) && (index !== newRecipe.entries.length - 1)}]",
-        multiline
-        )
-          //----- show list-position from ingredient
-          //
-            q-item-side.q-py-xs.min-width-auto.transition.text-grey-6(style="width: 30px;") {{ index + 1 }}
+        template(v-for="(ingr, index) in newRecipe.entries")
+          q-item.q-px-sm.q-py-sm.min-height-auto.transition-padding(
+          :description="ingr",
+          :key="ingr",
+          :class="[option === ingr ? 'bg-grey-1 text-grey-8' : 'text-grey-6 q-py-sm', {'q-py-md' : (option === ingr)}]",
+          multiline)
 
-          //----- ingredient
-          q-item-main.transition(style="max-width: 100%;")
-            q-item-tile
-              q-radio.full-width.q-mb-none(v-model="option", :val="ingr",
-              :class="[option === ingr ? 'text-grey-9' : 'text-grey-9']")
-                div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)",
-                :class="[{'q-mt-sm': index === 0}, {'q-mb-sm': index === newRecipe.entries.length - 1 || 0}]") {{ ingr }}
+            //----- ingredient
+            q-item-main.transition(style="max-width: 100%;")
+              q-item-tile
+                q-radio.full-width.q-mb-none(v-model="option", :val="ingr",
+                :class="[option === ingr ? 'text-grey-9' : 'text-grey-9']")
+                  div.q-py-xs.full-width(@click="handlerRadiobutton(ingr)") {{ ingr }}
 
-            //----- move-buttons, delete-button
-            .absolute-top-right.transition.q-px-sm.items-start.row.q-mt-sm.q-pt-xs(
-            :class="[option !== ingr ? 'leave-right-absolute' : '']",
-            style="margin-top: 10px;")
-              q-btn.bg-grey-3.text-grey-9.shadow-1(@click="moveUp(index)", round, size="sm", flat)
-                q-icon(name="keyboard_arrow_up", size="18px")
-              q-btn.bg-grey-3.text-grey-9.shadow-1.q-ml-sm.q-mr-md(@click="moveDown(index)", round, size="sm", flat)
-                q-icon(name="keyboard_arrow_down", size="18px")
-              q-btn.bg-grey-3.text-grey-9.shadow-1(@click="deleteTodoItem(index)", round, size="sm", flat)
-                q-icon(name="delete", size="16px")
+              //----- move-buttons, delete-button
+              .absolute-top-right.transition.q-px-sm.items-start.row.q-mt-sm.q-pt-xs(
+              :class="[option !== ingr ? 'leave-right-absolute' : '']",
+              style="margin-top: 10px;")
+                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="moveUp(index)", round, size="sm", flat)
+                  q-icon(name="keyboard_arrow_up", size="18px")
+                q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="moveDown(index)", round, size="sm", flat)
+                  q-icon(name="keyboard_arrow_down", size="18px")
+                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="deleteTodoItem(index)", round, size="sm", flat)
+                  q-icon(name="delete", size="16px")
 
-        q-item-separator.q-ma-none.bg-grey-5.opacity-4(v-if="newRecipe.entries.length")
+          q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
         //----- input
         q-item.no-padding(:class="{'bg-white': focusOnInput}")
