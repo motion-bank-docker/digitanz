@@ -79,6 +79,7 @@
                 q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeFromTempRecipe(index)", round, size="sm", flat)
                   q-icon(name="delete", size="16px")
 
+        // ------------------------------------------------------------------------------- buttons below, "empty"-screen
         template
           //----- "empty"-screen
           div.row.items-center.height-empty(v-if="tempRecipes.length <= 0")
@@ -122,24 +123,26 @@
                   template(v-if="optionRemix === index")
                     q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
+                    //----- ingredient
                     q-item.items-baseline.q-px-sm.q-py-sm.min-height-auto(v-for="(entry, i) in remix.entries")
-
-                      //----- ingredient
                       q-item-main.q-pa-none.q-mt-md.min-height-auto {{ entry }}
 
-            //----- "edit"-button
-            //----- "remove"-button
             .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
+
+              //----- "edit"-button
               q-btn.bg-grey-3.text-grey-9.shadow-1.q-mr-sm(@click="editRemix(index)", round, size="sm", flat)
                 q-icon(name="edit", size="16px")
+
+              //----- "remove"-button
               q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempRemix(index)", round, size="sm", flat)
                 q-icon(name="delete", size="16px")
 
             .absolute-bottom-right.transition(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
               q-btn.text-grey-9.q-pr-sm.q-pb-none(icon="fullscreen", @click="handlerZoom(remix, index)", size="lg", flat)
 
-        //----- "add"-button
+        // ------------------------------------------------------------------------------- buttons below, "empty"-screen
         template
+          //----- empty screen
           div.row.items-center.height-empty(v-if="tempRemixes.length <= 0")
             q-item.text-center.q-ma-none.full-width
               q-item-main.q-mb-lg(v-if="tempRecipes.length <= 0")
@@ -159,9 +162,8 @@
                     q-tooltip.bg-transparent.text-grey-9.q-px-md(anchor="bottom middle", self="top middle")
                       .bg-white.q-px-sm.q-py-sm.round-borders.shadow-1 In deinen erstellten Rezepten müssen zusammen mindestens vier Zutaten verwendet worden sein um einen Remix erstellen zu können.
 
+          //----- "add"-button
           q-item.q-pa-none.row.items-center(v-else)
-            q-item-side.inactive(v-if="tempRemixes.length <= 0") Leer
-
             q-item-main.text-right
               q-btn.bg-grey-9.text-white(v-if="allIngredients.length >= 4", @click="doRemix", round, flat)
                 q-icon(name="add")
