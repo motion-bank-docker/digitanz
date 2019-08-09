@@ -129,10 +129,21 @@
         }
         return 0
       })
+
       if (this.cloudIndex !== undefined) {
-        let cloud = this.tempClouds[this.cloudIndex]
-        cloud.forEach(item => this.selectedWords.push(item))
         this.editMode = 'edit'
+
+        let arrMyJson = this.myJson.map(item => { return item.label })
+        let arrCloudThree = this.cloudThree.map(item => { return item.label })
+        let arrTempTerms = this.tempTerms.map(item => { return item })
+
+        let cloud = this.tempClouds[this.cloudIndex]
+        cloud.forEach(item => {
+          this.selectedWords.push(item)
+          if (arrMyJson.includes(item)) this.countAktionen++
+          if (arrCloudThree.includes(item)) this.countGestaltung++
+          if (arrTempTerms.includes(item)) this.countAdjektive++
+        })
       }
       else {
         this.editMode = 'new'
@@ -197,6 +208,7 @@
           else this.countGestaltung--
           break
         }
+        console.log('selectedWords', this.selectedWords)
       },
       addWord (val) {
         this.$store.commit('cloud/addToTempTerms', val)
