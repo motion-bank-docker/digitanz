@@ -92,13 +92,14 @@
         @click="$router.push('/clouds/overview')", flat, no-caps, icon="clear", round)
 
       //----- add/save
-      .fixed-bottom-right.q-pa-md
-        q-btn(
-        @click="handlerCreateButton()",
-        :class="[selectedWords.length < 1 ? '' : 'bg-grey-9 text-grey-2']",
-        :disabled="selectedWords.length < 1", flat, no-caps, round)
-          q-icon(v-if="editMode === 'edit'", name="check")
-          q-icon(v-if="editMode === 'new'", name="add")
+      .fixed-bottom-right.q-pb-md
+        .relative-position
+          .absolute-position.transition.q-mr-md(:class="[selectedWords.length < 1 ? 'leave-right' : '']")
+            q-btn.bg-grey-9.text-grey-2(
+            @click="handlerCreateButton()",
+            :disabled="selectedWords.length < 1", flat, no-caps, round)
+              q-icon(v-if="editMode === 'edit'", name="check")
+              q-icon(v-if="editMode === 'new'", name="add")
 
 </template>
 
