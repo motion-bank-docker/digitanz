@@ -43,21 +43,24 @@
 
         //----- "add term"-block
         .q-mb-md.q-px-sm
-          q-item.q-pa-none.items-center
+          q-item.q-pa-none.round-borders.overflow-hidden.min-height-auto.q-py-sm(
+          :class="[showIcon && !inputNewWord ? 'bg-e4' : 'bg-grey-1']", multiline)
 
+            //----- input-field
             q-item-main(style="max-width: 100%;")
-              q-input.border-bottom.border-color-grey-4.q-px-sm.q-py-xs(v-model="inputNewWord", hide-underline,
-              placeholder="neues Adjektiv",
+              q-input.q-px-sm.q-py-xs(v-model="inputNewWord", hide-underline,
+              placeholder="neuer Begriff",
+              type="textarea",
               @focus="showIcon = false",
               @blur="showIcon = true",
               :after="[{icon: 'edit', condition: showIcon && !inputNewWord}]")
 
-            q-item-side.min-width-auto.transition.row.self-stretch(:class="[!inputNewWord ? 'leave-right' : '']")
-              .transition.q-pl-sm.items-center.row
-                q-btn.text-grey-9.shadow-1(@click="addWord(inputNewWord)", round, size="sm", flat)
-                  q-icon(name="add", size="16px")
-                q-btn.text-grey-9.shadow-1.q-ml-sm(@click="inputNewWord = ''", round, size="sm", flat)
-                  q-icon(name="clear", size="16px")
+            //----- buttons
+            q-item-side.min-width-auto.transition.q-mr-sm(:class="[!inputNewWord ? 'leave-right' : '']")
+              q-btn.text-grey-9.bg-grey-3.shadow-1(@click="addWord(inputNewWord)", round, size="sm", flat)
+                q-icon(name="add", size="16px")
+              q-btn.text-grey-9.bg-grey-3.shadow-1.q-ml-sm(@click="inputNewWord = ''", round, size="sm", flat)
+                q-icon(name="clear", size="16px")
 
       // ---------------------------------------------------------------------------------------------- Aktionen (tab 2)
       q-tab-pane.q-px-sm.q-pt-none(keep alive, name="tab-2")
