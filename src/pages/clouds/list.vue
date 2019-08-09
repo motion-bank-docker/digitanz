@@ -42,16 +42,20 @@
         //----- "add term"-block
         .q-mb-md.q-px-sm
           q-item.q-pa-none.items-center
+
             q-item-main(style="max-width: 100%;")
               q-input.border-bottom.border-color-grey-4.q-px-sm.q-py-xs(v-model="inputNewWord", hide-underline,
               placeholder="neues Adjektiv",
               @focus="showIcon = false",
               @blur="showIcon = true",
               :after="[{icon: 'edit', condition: showIcon && !inputNewWord}]")
+
             q-item-side.min-width-auto.transition.row.self-stretch(:class="[!inputNewWord ? 'leave-right' : '']")
               .transition.q-pl-sm.items-center.row
-                q-btn.bg-grey-9.text-grey-2.rotate-90(@click="addWord(inputNewWord)", icon="add", round, size="sm", flat)
-                q-btn.bg-grey-9.text-grey-2.q-ml-sm(@click="inputNewWord = ''", round, icon="clear", size="sm", flat)
+                q-btn.text-grey-9.shadow-1(@click="addWord(inputNewWord)", round, size="sm", flat)
+                  q-icon(name="add", size="16px")
+                q-btn.text-grey-9.shadow-1.q-ml-sm(@click="inputNewWord = ''", round, size="sm", flat)
+                  q-icon(name="clear", size="16px")
 
       // ---------------------------------------------------------------------------------------------- Aktionen (tab 2)
       q-tab-pane.q-px-sm.q-pt-none(keep alive, name="tab-2")
