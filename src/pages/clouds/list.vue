@@ -110,7 +110,7 @@
       //----- add/save
       .fixed-bottom-right.q-pb-md
         .relative-position
-          .absolute-position.transition.q-mr-md(:class="[selectedWords.length < 1 ? 'leave-right' : '']")
+          .absolute-position.transition.q-mr-md(:class="[selectedWords.length < 1 || inputNewWord ? 'leave-right' : '']")
             q-btn.bg-grey-9.text-grey-2(
             @click="handlerCreateButton()",
             :disabled="selectedWords.length < 1", flat, no-caps, round)
