@@ -20,9 +20,11 @@
         template(v-for="(ingredient, index) in selectedRecipe.ingredients")
           q-item.q-px-md.q-py-md.q-title.min-height-auto(style="font-weight: normal; line-height: 1.35;", multiline)
             q-item-side
-              q-btn.bg-grey-3.text-grey-9(round, flat, size="sm")
-                span(style="font-size: 16px;") {{ index + 1 }}
-            q-item-main.text-grey-9.q-pt-xs.q-pl-sm {{ ingredient }}
+              //
+                q-btn.bg-grey-3.text-grey-9.q-mt-xs(round, flat, size="sm")
+                  span(style="font-size: 12px;") {{ index + 1 }}
+              .inactive {{ index + 1 }}
+            q-item-main.text-grey-9.q-pl-sm {{ ingredient }}
           q-item-separator.q-ma-none
 
     // ------------------------------------------------------------------------------------------------------------ tabs
@@ -61,6 +63,8 @@
                       //----- ingredient
                       template(v-for="(entry, i) in recipe.entries")
                         q-item.items-baseline.q-px-sm.q-py-sm.q-my-xs.min-height-auto
+                          q-item-side.inactive {{ i + 1 }}
+
                           q-item-main {{ entry }}
                         q-item-separator.q-ma-none
 
