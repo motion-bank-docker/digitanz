@@ -43,26 +43,35 @@
             v-model="frameLengthSlider", color="grey-9", :min="minFrameLength", :max="maxFrameLength",
             :step="20", fill-handle-always, snap)
 
-      //----- edit-button
+      //----- edit-button (top right)
       .absolute-top-right
         .relative-position
-          q-btn.absolute-top-right.q-mr-md.q-mt-md.text-grey-9.transition.shadow-1(@click="handleModeChange", icon="edit",
+          q-btn.absolute-top-right.q-mr-md.q-mt-md.text-grey-9.shadow-1.transition(@click="handleModeChange",
           round, flat, no-ripple, size="sm",
           :class="{'leave-right': editSettings}")
-          q-btn.absolute-top-right.q-mr-md.q-mt-md.text-grey-2.bg-grey-9.transition(@click="handleModeChange", icon="clear",
+            q-icon(name="edit", size="16px")
+
+          q-btn.absolute-top-right.q-mr-md.q-mt-md.text-grey-9.shadow-1.bg-grey-3.transition(@click="handleModeChange",
           round, flat, no-ripple, size="sm",
           :class="{'leave-right': !editSettings}")
+            q-icon(name="clear", size="16px")
 
-    //----- "resize grid"-buttons
+    //----- "resize grid"-buttons (top left)
     .absolute-top-left.text-center.q-mx-md.q-mt-md.transition(:class="{'leave-left-absolute' : !editSettings}")
       div
-        q-btn.border.bg-grey-9.text-grey-1(@click="handleGridChange(0,-1)", round, size="sm", icon="remove", flat)
+        q-btn.shadow-1.bg-grey-3.text-grey-9(@click="handleGridChange(0,-1)", round, size="sm", flat)
+          q-icon(name="remove", size="16px")
       div
-        q-btn.border.bg-grey-9.text-grey-1(@click="handleGridChange(-1,0)", round, size="sm", icon="remove", flat)
+        q-btn.shadow-1.bg-grey-3.text-grey-9(@click="handleGridChange(-1,0)", round, size="sm", flat)
+          q-icon(name="remove", size="16px")
+
         q-btn.border.invisible(round, size="sm")
-        q-btn.border.bg-grey-9.text-grey-1(@click="handleGridChange(1,0)", round, size="sm", icon="add", flat)
+
+        q-btn.shadow-1.bg-grey-3.text-grey-9(@click="handleGridChange(1,0)", round, size="sm", flat)
+          q-icon(name="add", size="16px")
       div
-        q-btn.border.bg-grey-9.text-grey-1(@click="handleGridChange(0,1)", round, size="sm", icon="add", flat)
+        q-btn.shadow-1.bg-grey-3.text-grey-9(@click="handleGridChange(0,1)", round, size="sm", flat)
+          q-icon(name="add", size="16px")
 
 </template>
 
