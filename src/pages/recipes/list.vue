@@ -44,7 +44,7 @@
         //----- recipes list
         template(v-if="tempRecipes.length")
 
-          div.q-mb-md.shadow-1.round-borders.transition(v-for="(recipe, index) in tempRecipes",
+          div.q-mb-md.round-borders.transition(v-for="(recipe, index) in tempRecipes",
           style="overflow: hidden;",
           :class="[option !== index ? 'bg-e4 text-grey-8' : 'text-grey-9 bg-grey-1', {'hidden': option !== index && recipeStandalone}]")
             div.relative-position(:class="{'bg-transparent': option === index}")
@@ -106,7 +106,7 @@
       q-tab-pane.q-px-md.q-mb-sm.q-pt-none(keep alive, name="tab-2")
 
         //----- remixes
-        div.q-mb-md.shadow-1.round-borders.transition(v-for="(remix, index) in tempRemixes",
+        div.q-mb-md.round-borders.transition(v-for="(remix, index) in tempRemixes",
         style="overflow: hidden;",
         :class="[optionRemix !== index ? 'bg-e4 text-grey-8' : 'text-grey-9 bg-grey-1', {'hidden': optionRemix !== index && remixStandalone}]")
           div.relative-position(:class="{'bg-transparent': optionRemix === index}")
