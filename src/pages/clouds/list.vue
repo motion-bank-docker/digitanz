@@ -79,15 +79,20 @@
                 | {{ cT.label }}
 
       // ------------------------------------------------------------------------------------------------------- buttons
+
+      //----- cancel
       .fixed-bottom-left.q-pa-md
         q-btn.bg-grey-9.text-grey-1(
         @click="$router.push('/clouds/overview')", flat, no-caps, icon="clear", round)
 
+      //----- add/save
       .fixed-bottom-right.q-pa-md
         q-btn(
-        @click="addTempCloud",
+        @click="handlerCreateButton()",
         :class="[selectedWords.length < 1 ? '' : 'bg-grey-9 text-grey-2']",
-        :disabled="selectedWords.length < 1", flat, no-caps, icon="check", round)
+        :disabled="selectedWords.length < 1", flat, no-caps, round)
+          q-icon(v-if="editMode === 'edit'", name="check")
+          q-icon(v-if="editMode === 'new'", name="add")
 
 </template>
 
@@ -124,7 +129,14 @@
         }
         return 0
       })
-      console.log('this.cloudIndex', this.cloudIndex)
+      if (this.cloudIndex !== undefined) {
+        let cloud = this.tempClouds[this.cloudIndex]
+        cloud.forEach(item => this.selectedWords.push(item))
+        this.editMode = 'edit'
+      }
+      else {
+        this.editMode = 'new'
+      }
     },
     data () {
       return {
@@ -138,16 +150,26 @@
         selectedVideos: [],
         selectedWords: [],
         selectedTab: undefined,
-        showIcon: true
+        showIcon: true,
+        editMode: undefined
       }
     },
     computed: {
       ...mapGetters({
         tempTerms: 'cloud/getTempTerms',
+        tempClouds: 'cloud/getTempClouds',
         cloudIndex: 'cloud/getCloudIndex'
       })
     },
     methods: {
+      handlerCreateButton () {
+        if (this.editMode === 'new') this.addTempCloud()
+        else this.saveEditedWord()
+      },
+      saveEditedWord () {
+        this.tempClouds.splice(this.cloudIndex, 1, this.selectedWords)
+        this.$router.push('/clouds/overview')
+      },
       addTempCloud () {
         this.$store.commit('cloud/addToTempClouds', this.selectedWords)
         this.selectedWords = []
