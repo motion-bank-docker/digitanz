@@ -41,22 +41,25 @@
 
     // ---------------------------------------------------------------------------------------------------- "add"-button
     .q-px-md.q-pb-md.q-pt-sm
-      div.row.items-center.height-empty(v-if="tempClouds.length <= 0")
+
+      //----- empty screen
+      .row.items-center.height-empty(v-if="tempClouds.length <= 0")
         q-item.text-center.q-ma-none.full-width
           q-item-main.q-mb-xl
+
             q-item-tile.inactive.q-title.text-weight-light
               | Noch keine Einträge,
               br
               | füge einen hinzu.
+
             q-item-tile.q-pt-sm.q-mt-xs
               q-btn.bg-grey-9.text-white(@click="addCloud()", round, flat)
                 q-icon(name="add")
 
-      q-item.q-pa-none.row.items-center(v-else)
-        q-item-main.text-right
-          q-btn.bg-grey-9.text-white(
-          @click="addCloud()", round, flat)
-            q-icon(name="add")
+      //----- filled screen
+      .text-right(v-else)
+        q-btn.bg-grey-9.text-white(@click="addCloud()", round, flat)
+          q-icon(name="add")
 
 </template>
 
