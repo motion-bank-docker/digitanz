@@ -48,8 +48,8 @@
                     q-icon(name="delete", size="16px")
 
                 template(v-else)
-                  q-btn.bg-grey-3.text-grey-9.shadow-1.inactive(@click="", size="sm", flat, round)
-                    q-icon(name="delete", size="16px")
+                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="", size="sm", flat, round)
+                    q-icon.inactive(name="delete", size="16px")
                     q-popover.q-pa-md.q-caption.full-width.custom-term-usage(
                     anchor="bottom middle", self="top middle")
                       | Dieser Begriff kann nicht gelöscht werden, da er in einer anderen Wolke in Verwendung ist.
