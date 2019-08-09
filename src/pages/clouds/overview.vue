@@ -20,7 +20,7 @@
       template(v-if="tempClouds.length > 0")
         q-list.min-height-auto.q-py-none(v-for="(cloud, index) in tempClouds", no-border)
           div.relative-position.overflow-hidden.q-px-md.q-py-sm
-            div.shadow-1.bg-e4.text-center.round-borders
+            div.bg-e4.text-center.round-borders
               .overflow-hidden.relative-position.round-borders
                 q-radio.full-width(
                 v-model="optionCloud", :val="index",
