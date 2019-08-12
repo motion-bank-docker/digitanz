@@ -2,7 +2,6 @@
   q-btn(v-if="showInfoBox", flat, :size="buttonSize", round)
     q-spinner-puff(color="grey-9", :size="spinnerSize")
     q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm
-      | {{ statusInfoBox }}
       slot
 </template>
 
