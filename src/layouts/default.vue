@@ -37,17 +37,21 @@
       .relative-position
 
         //----- invisible space placeholder
-        div.bg-grey-3.text-grey-9.transition.overflow-hidden(:class="[showInfoBox ? 'height-auto' : 'height-0']")
+        div.bg-grey-3.text-grey-9.transition.overflow-hidden(:class="[showInfoBox ? 'height-auto' : 'height-0']",
+        :style="{height: infoBoxHeight + 'px'}")
 
         //----- visible info-box
         .fixed-top.bg-grey-1.text-grey-9.transition.overflow-hidden(
         style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3); z-index: 10; top: 52px",
         position="top",
-        :class="[showInfoBox ? 'height-auto' : 'height-0']")
+        :class="[showInfoBox ? 'height-auto' : 'height-0']",
+        :style="{height: infoBoxHeight + 'px'}")
 
+          //----- title
+          .bg-grey-3.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-sm.q-py-xs.round-borders(v-if="!usingTool") {{ tool }}
+          .q-px-md.q-py-sm(v-else, style="height: 46px;")
+            q-btn.bg-grey-3.shadow-1(size="sm", round, flat) 1.
           //----- content
-          .q-pa-md
-            p Info-Box
             //
               p {{ currentAppName }}
               p {{ tool }}
@@ -73,7 +77,8 @@
     data () {
       return {
         showInfoBox: false,
-        currentAppName: undefined
+        currentAppName: undefined,
+        infoBoxHeight: undefined
       }
     },
     computed: {
@@ -90,6 +95,11 @@
       this.currentAppName = 'Startscreen'
     },
     watch: {
+      usingTool (val) {
+        if (val) this.infoBoxHeight = 46
+        else this.infoBoxHeight = window.innerWidth * 0.5625
+        console.log(this.infoBoxHeight)
+      },
       statusInfoBox () {
         // if (!this.showInfoBox) this.handlerInfoBox()
         this.showInfoBox = this.statusInfoBox
@@ -149,7 +159,7 @@
     margin-left -54px
 
   .height-0
-    height 0
+    height 0!important
 
   .height-auto
     height calc(100vw * 0.5625)
