@@ -104,7 +104,6 @@
       usingTool (val) {
         if (val) this.infoBoxHeight = 46
         else this.infoBoxHeight = window.innerWidth * 0.5625
-        console.log(this.infoBoxHeight)
       },
       statusInfoBox () {
         // if (!this.showInfoBox) this.handlerInfoBox()
