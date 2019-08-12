@@ -8,8 +8,8 @@
         //----- back-button
         q-item-side.min-width-auto.overflow-hidden.row(:class="{'offset': !usingTool}",
         style="transition: all ease 200ms; width: 54px; min-height: 50px;")
-          q-btn.self-center.bg-grey-1.text-grey-9.q-ml-md(@click="$router.push('/tools')", no-ripple, round, size="sm")
-            q-icon(name="keyboard_backspace", size="16px")
+          q-btn.self-center.bg-grey-1.text-grey-9.q-ml-md.shadow-1(@click="$router.push('/tools')", no-ripple, round, size="sm")
+            q-icon(name="keyboard_backspace", size="16px", flat)
 
         //----- title
         q-item-main.text-weight-bold
@@ -25,10 +25,10 @@
 
         //----- info-button
         q-item-side.q-pr-md.absolute-top-right.q-pt-sm.q-mt-xs
-          q-btn.absolute-top-right.bg-grey-3.text-grey-9.transition.q-mt-sm.q-mr-md(
+          q-btn.absolute-top-right.bg-grey-3.text-grey-9.transition.q-mt-sm.q-mr-md.shadow-1(
           v-if="currentAppName !== 'Startscreen'",
           @click="handlerInfoBox", round,
-          size="sm", :class="[showInfoBox || currentAppName === 'Tools' ? 'leave-right' : '']")
+          size="sm", flat, :class="[showInfoBox || currentAppName === 'Tools' ? 'leave-right' : '']")
             .q-subheading ?
 
     // ---------------------------------------------------------------------------------------------------------- others
@@ -49,8 +49,11 @@
 
           //----- title
           .bg-grey-3.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-sm.q-py-xs.round-borders(v-if="!usingTool") {{ tool }}
-          .q-px-md.q-py-sm(v-else, style="height: 46px;")
-            q-btn.bg-grey-3.shadow-1(size="sm", round, flat) 1.
+          .q-px-md.q-py-sm.row.full-width.bg-grey-9(v-else, style="height: 46px;")
+            // span.q-mr-sm.self-center.text-grey-9 Hilfe:
+            // q-btn.bg-grey-3.shadow-1.q-mr-sm(v-for="n in 3", size="sm", round, flat) {{ n }}
+            q-btn.bg-grey-1.text-grey-9.q-mr-sm(size="sm", flat, no-caps) Zurück
+            q-btn.bg-grey-1.text-grey-9(size="sm", flat, no-caps) Weiter
           //----- content
             //
               p {{ currentAppName }}
@@ -59,7 +62,7 @@
               p showInfoBox: {{ showInfoBox }}
 
           //----- close-button
-          q-btn.absolute-top-right.shadow-2.bg-grey-3.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
+          q-btn.absolute-top-right.shadow-1.bg-grey-3.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
           round, flat, size="sm",
           :class="[(showInfoBox ? '' : 'leave-right'), (currentAppName === 'Tools' ? 'leave-right' : '')]")
             q-icon(name="clear")
