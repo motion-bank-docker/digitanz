@@ -125,7 +125,8 @@ module.exports = function (ctx) {
         'QPopover',
         'QSlider',
         'QRadio',
-        'QSelect'
+        'QSelect',
+        'QSpinnerPuff'
       ],
       directives: [
         'Ripple',
