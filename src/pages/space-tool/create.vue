@@ -2,7 +2,7 @@
   q-page.q-pb-xl.min-height-auto
 
     // --------------------------------------------------------------------------------------------------- selection-box
-    .bg-e4.q-mt-md.q-mx-md.round-borders
+    .bg-e4.q-mt-md.q-mx-md.round-borders.relative-position
 
       // shapes
       template(v-if="currentShapes.length > 0")
@@ -19,6 +19,9 @@
             //----- icon
             shape-icon(:shape="shape", :cols="4")
 
+          info-button.absolute-top-right(:size="'sm'")
+            | Markiere eine Form um sie zu verschieben oder zu löschen.
+
       template(v-else)
         .q-pa-sm.inactive.text-center.relative-position
           | Noch keine Form ausgewählt.
@@ -32,6 +35,8 @@
         .q-pt-sm.absolute-top-left.transition
           q-btn.shadow-1.text-grey-9(@click="$router.push('/space-tool')", round, flat, size="sm")
             q-icon(name="play_arrow", size="18px")
+          info-button.q-ml-sm(:size="'sm'")
+            | Geht zum Tool.
 
         .q-pt-sm.absolute-top-right.transition(
         :class="[currentShapes.length > 0 ? '' : 'leave-right']")
