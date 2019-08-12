@@ -1,9 +1,9 @@
 <template lang="pug">
   q-btn.relative-position(v-if="showInfoBox", flat, :size="buttonSize", round)
-    span.absolute {{ text }}
+    span.absolute {{ nr }}
     q-spinner-puff(color="grey-9", :size="spinnerSize")
     q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm
-      span.q-mr-sm {{ text }}
+      span.q-mr-sm {{ nr }}
       .absolute-top-left(style="margin-top: 1px; margin-left: 1px;")
         q-spinner-puff.q-mt-xs.q-ml-sm(color="grey-1", :size="20")
       slot
@@ -21,7 +21,7 @@
         showInfoBox: undefined
       }
     },
-    props: ['size', 'text'],
+    props: ['size', 'nr'],
     computed: {
       ...mapGetters({
         statusInfoBox: 'globalSettings/getStatusInfoBox'

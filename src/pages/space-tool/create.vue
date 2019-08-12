@@ -19,14 +19,14 @@
             //----- icon
             shape-icon(:shape="shape", :cols="4")
 
-          info-button.absolute-top-right(:size="'sm'", :text="'4'")
+          info-button.absolute-top-right(:size="'sm'", :nr="'4'")
             | Markiere eine Form um sie zu verschieben oder zu löschen.
 
       template(v-else)
         .q-pa-sm.inactive.text-center.relative-position
           | Noch keine Form ausgewählt.
 
-          info-button.absolute-left.q-mt-xs.q-ml-xs(:size="'sm'", :text="'2'")
+          info-button.absolute-left.q-mt-xs.q-ml-xs(:size="'sm'", :nr="'2'")
             | Ausgewählte Formen werden hier angezeigt, die Reihenfolge lässt sich hier bearbeiten.
 
     //----- buttons
@@ -35,13 +35,13 @@
         .q-pt-sm.absolute-top-left.transition
           q-btn.shadow-1.text-grey-9(@click="$router.push('/space-tool')", round, flat, size="sm")
             q-icon(name="play_arrow", size="18px")
-          info-button.q-ml-sm(:size="'sm'", :text="'3'")
+          info-button.q-ml-sm(:size="'sm'", :nr="'3'")
             | Geht zum Tool.
 
         .q-pt-sm.absolute-top-right.transition(
         :class="[currentShapes.length > 0 ? '' : 'leave-right']")
 
-          info-button.q-mr-sm(:size="'sm'", :text="'2'")
+          info-button.q-mr-sm(:size="'sm'", :nr="'2'")
             | Die Reihenfolge lässt sich hier bearbeiten.
 
           q-btn.bg-grey-3.transition(@click="moveSelectedShape('left')",
@@ -69,7 +69,7 @@
 
       //----- help-spinner
       .col-3.q-px-sm.q-mt-md.text-center.items-center
-        info-button.q-mt-sm(:size="'md'", :text="'1'")
+        info-button.q-mt-sm(:size="'md'", :nr="'1'")
           | Füge eine oder mehrere Formen hinzu.
 
       //----- "shape editor"-button
