@@ -20,8 +20,11 @@
             shape-icon(:shape="shape", :cols="4")
 
       template(v-else)
-        .q-pa-sm.inactive.text-center
+        .q-pa-sm.inactive.text-center.relative-position
           | Noch keine Form ausgewählt.
+
+          info-button.absolute-left.q-mt-xs.q-ml-xs(:size="'sm'")
+            | Ausgewählte Formen werden hier angezeigt, die Reihenfolge lässt sich hier bearbeiten.
 
     //----- buttons
     template
@@ -32,6 +35,9 @@
 
         .q-pt-sm.absolute-top-right.transition(
         :class="[currentShapes.length > 0 ? '' : 'leave-right']")
+
+          info-button.q-mr-sm(:size="'sm'")
+            | Die Reihenfolge lässt sich hier bearbeiten.
 
           q-btn.bg-grey-3.transition(@click="moveSelectedShape('left')",
           :disabled="checkIfDisabled('left')", size="sm", round, flat,
@@ -55,6 +61,11 @@
       .col-3.q-px-sm.q-mt-md.text-center.items-center(v-for="shape in shapes")
         .q-px-md.bg-e4.text-grey-8.round-borders(@click="addToSelection(shape)")
           shape-icon(:shape="shape", :cols="4")
+
+      //----- help-spinner
+      .col-3.q-px-sm.q-mt-md.text-center.items-center
+        info-button.q-mt-sm(:size="'md'")
+          | Füge eine oder mehrere Formen hinzu.
 
       //----- "shape editor"-button
       //
@@ -85,6 +96,7 @@
   import { mapGetters } from 'vuex'
 
   import shapeIcon from '../../components/ShapeIcon'
+  import infoButton from '../../components/InfoButton'
 
   export default {
     data () {
@@ -96,6 +108,7 @@
       }
     },
     components: {
+      infoButton,
       shapeIcon
     },
     computed: {

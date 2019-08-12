@@ -149,7 +149,9 @@
     },
     methods: {
       handlerInfoBox () {
-        this.showInfoBox = !this.showInfoBox
+        // this.showInfoBox = !this.showInfoBox
+        if (this.showInfoBox) this.$store.commit('globalSettings/handlerStatusInfoBox', 'close')
+        else this.$store.commit('globalSettings/handlerStatusInfoBox', 'open')
       },
       executeApp (appName) {
         // this.currentApp = appName
