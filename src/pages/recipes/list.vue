@@ -64,8 +64,8 @@
                       template(v-for="(entry, i) in recipe.entries")
                         q-item.items-baseline.q-px-sm.q-py-sm.q-my-xs.min-height-auto
                           q-item-side.inactive {{ i + 1 }}
-
                           q-item-main {{ entry }}
+
                         q-item-separator.q-ma-none
 
               .absolute-top-right.transition.q-px-sm.q-pt-sm.q-mt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
@@ -127,7 +127,9 @@
                     //----- ingredient
                     template(v-for="(entry, i) in remix.entries")
                       q-item.items-baseline.q-px-sm.q-py-sm.q-my-xs.min-height-auto
+                        q-item-side.inactive {{ i + 1 }}
                         q-item-main {{ entry }}
+
                       q-item-separator.q-ma-none
 
             .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
