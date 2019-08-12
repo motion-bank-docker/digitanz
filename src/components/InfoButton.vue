@@ -1,7 +1,7 @@
 <template lang="pug">
   q-btn(flat, :size="buttonSize", round)
     q-spinner-puff(color="grey-9", :size="spinnerSize")
-    q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption
+    q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm
       slot
 </template>
 
