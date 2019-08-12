@@ -49,11 +49,14 @@
 
           //----- title
           .bg-grey-3.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-sm.q-py-xs.round-borders(v-if="!usingTool") {{ tool }}
+          //----- info-modus
           .q-px-md.q-py-sm.row.full-width.bg-grey-9(v-else, style="height: 46px;")
+            span.q-mr-sm.self-center.text-grey-1 Hilfe-Modus
             // span.q-mr-sm.self-center.text-grey-9 Hilfe:
             // q-btn.bg-grey-3.shadow-1.q-mr-sm(v-for="n in 3", size="sm", round, flat) {{ n }}
-            q-btn.bg-grey-1.text-grey-9.q-mr-sm(size="sm", flat, no-caps) Zurück
-            q-btn.bg-grey-1.text-grey-9(size="sm", flat, no-caps) Weiter
+            <!--q-btn.bg-grey-1.text-grey-9.q-mr-sm(size="sm", flat, no-caps) Zurück-->
+            <!--q-btn.bg-grey-1.text-grey-9(size="sm", flat, no-caps) Weiter-->
+
           //----- content
             //
               p {{ currentAppName }}
