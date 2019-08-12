@@ -4,40 +4,40 @@ const spaceTool = {
     shapes: [{
       id: 'diagonal-lines-1',
       elements: [
-        {type: 'line', x1: '0', y1: '0', x2: '100', y2: '100'}
+        {type: 'line', x1: '1', y1: '1', x2: '99', y2: '99'}
       ]
     }, {
       id: 'diagonal-lines-2',
       elements: [
-        {type: 'line', x1: '0', y1: '0', x2: '100', y2: '100'},
-        {type: 'line', x1: '100', y1: '0', x2: '0', y2: '100'}
+        {type: 'line', x1: '1', y1: '1', x2: '98', y2: '98'},
+        {type: 'line', x1: '98', y1: '1', x2: '1', y2: '98'}
       ]
     }, {
       id: 'two-triangles-1',
       elements: [
-        {type: 'polygon', points: '0,0 100,0 50,50'},
-        {type: 'polygon', points: '0,100 100,100 50,50'}
+        {type: 'polygon', points: '1,1 98,1 50,50'},
+        {type: 'polygon', points: '1,98 98,98 50,50'}
       ]
     }, {
       id: 'two-triangles-2',
       elements: [
-        {type: 'polygon', points: '0,0 0,100 50,50'},
-        {type: 'polygon', points: '100,0 100,100 50,50'}
+        {type: 'polygon', points: '1,1 1,98 49,49'},
+        {type: 'polygon', points: '98,1 98,98 49,49'}
       ]
     }, {
       id: 'two-triangles-3',
       elements: [
-        {type: 'polygon', points: '0,0 100,0 100,100'}
+        {type: 'polygon', points: '1,1 98,1 98,98'}
       ]
     }, {
       id: 'rect-1',
       elements: [
-        {type: 'rect', x: '0', y: '0', width: '100', height: '100'}
+        {type: 'rect', x: '1', y: '1', width: '98', height: '98'}
       ]
     }, {
       id: 'ellipses-1',
       elements: [
-        {type: 'ellipse', cx: '50', cy: '50', rx: '50', ry: '50'}
+        {type: 'ellipse', cx: '50', cy: '50', rx: '49', ry: '49'}
       ]
     }, {
       id: 'ellipses-2',
