@@ -28,17 +28,31 @@
     // --------------------------------------------------------------------------------------------------- buttons below
     template
 
-      div.row.items-center.height-empty(v-if="tempSpaces.length <= 0")
+      div.row.items-center.height-empty.relative-position(v-if="tempSpaces.length <= 0")
+
+        .absolute-top-right
+          info-button.q-mt-sm(:size="'md'", :nr="'1'")
+            div Hier steht beschrieben was das Tool macht.
+            .q-mt-sm
+              | Zur Zeit sind noch keine Einträge vorhanden. Mit dem Button bei
+              info-number(:number="'2'")
+              | kannst du Einträge hinzufügen.
+
         q-item.text-center.q-ma-none.full-width
           q-item-main.q-mb-xl
             q-item-tile.inactive.q-title.text-weight-light
               | Noch keine Einträge,
               br
               | füge einen hinzu.
+
             q-item-tile.q-pt-sm.q-mt-xs
               q-btn.bg-grey-9.text-white(
               @click="handlerSpaceButtons('add')", round, flat)
                 q-icon(name="add")
+
+            q-item-tile.q-mt-xs
+              info-button(:size="'md'", :nr="'2'")
+                | Füge hier einen Eintrag hinzu.
 
       q-item.q-pa-none.row.items-center.q-mt-md(v-else)
         q-item-main.text-right
@@ -51,10 +65,14 @@
   import { mapGetters } from 'vuex'
 
   import shapeIcon from '../../components/ShapeIcon'
+  import infoButton from '../../components/InfoButton'
+  import infoNumber from '../../components/InfoNumber'
 
   export default {
     components: {
-      shapeIcon
+      shapeIcon,
+      infoButton,
+      infoNumber
     },
     data () {
       return {
