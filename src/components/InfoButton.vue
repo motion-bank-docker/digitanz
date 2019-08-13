@@ -35,7 +35,7 @@
       }
     },
     mounted () {
-      console.log(this.statusInfoBox)
+      // console.log(this.statusInfoBox)
       if (this.size === ('md' || '')) {
         this.spinnerSize = '30'
         this.buttonSize = 'md'
