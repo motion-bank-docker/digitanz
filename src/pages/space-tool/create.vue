@@ -33,7 +33,7 @@
     template
       .relative-position.overflow-hidden.q-mx-md(:class="[currentShapes.length > 0 ? 'height-46' : 'height-0']")
         .q-pt-sm.absolute-top-left.transition
-          q-btn.shadow-1.text-grey-9(@click="$router.push('/space-tool')", round, flat, size="sm")
+          q-btn.shadow-1.text-grey-9(@click="handlerPlayButton()", round, flat, size="sm")
             q-icon(name="play_arrow", size="18px")
 
           template(v-if="selection.length && selectedShapeIndex === undefined")
@@ -173,13 +173,20 @@
       }
     },
     methods: {
+      handlerPlayButton () {
+        this.handlerCreateButton()
+        this.$router.push('/space-tool')
+      },
       handlerCreateButton () {
         if (this.editMode === 'new') this.addSpace()
-        else this.saveEditedSpace()
+        else {
+          this.saveEditedSpace()
+          this.$router.push('/space-tool/list')
+        }
       },
       saveEditedSpace () {
         this.tempSpaces.splice(this.spaceIndex, 1, this.selection)
-        this.$router.push('/space-tool/list')
+        // this.$router.push('/space-tool/list')
       },
       addSpace () {
         this.$store.commit('spaceTool/setTempSpaces', this.selection)
