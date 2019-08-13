@@ -29,7 +29,7 @@
           v-if="currentAppName !== 'Startscreen'",
           @click="handlerInfoBox", round,
           size="sm", flat, :class="[showInfoBox || currentAppName === 'Tools' ? 'leave-right' : '']")
-            .q-subheading ?
+            .q-subheading.text-weight-medium.text-weight-regular ?
 
     // ---------------------------------------------------------------------------------------------------------- others
     q-page-container
