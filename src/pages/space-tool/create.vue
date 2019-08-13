@@ -27,9 +27,10 @@
           .inactive
             | Noch keine Form ausgewählt.
 
-          .absolute-left.full-height.row.items-center
-            info-button.q-ml-xs(:size="'sm'", :nr="'2'")
-              | Ausgewählte Formen werden hier angezeigt, die Reihenfolge lässt sich hier bearbeiten.
+          //
+            .absolute-left.full-height.row.items-center
+              info-button.q-ml-xs(:size="'sm'", :nr="'2'")
+                | Ausgewählte Formen werden hier angezeigt, die Reihenfolge lässt sich hier bearbeiten.
 
     //----- buttons
     template
@@ -72,7 +73,7 @@
       //----- help-spinner
       .col-3.q-px-sm.q-mt-md.text-center.items-center
         info-button.q-mt-sm(:size="'md'", :nr="'1'")
-          | Füge eine oder mehrere Formen hinzu.
+          | Füge eine oder mehrere Formen hinzu indem du auf eines der Symbole klickst.
 
       //----- "shape editor"-button
       //
