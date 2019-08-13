@@ -3,9 +3,11 @@
     span.absolute {{ nr }}
     q-spinner-puff(color="grey-9", :size="spinnerSize")
     q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm
-      span.q-mr-sm.q-pr-xs {{ nr }}
-      .absolute-top-left(style="margin-top: 2px; margin-left: 3px;")
-        q-spinner-puff.q-ml-xs(color="grey-1", :size="25")
+      //
+        span.q-mr-sm.q-pr-xs {{ nr }}
+      //
+        .absolute-top-left(style="margin-top: 2px; margin-left: 3px;")
+          q-spinner-puff.q-ml-xs(color="grey-1", :size="25")
       slot
 </template>
 
@@ -39,7 +41,7 @@
         this.buttonSize = 'md'
       }
       if (this.size === 'sm') {
-        this.spinnerSize = '25'
+        this.spinnerSize = '26'
         this.buttonSize = 'sm'
       }
       if (this.size === 'lg') {
