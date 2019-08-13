@@ -2,7 +2,8 @@
   q-btn.relative-position(v-if="statusInfoBox", flat, :size="buttonSize", round)
     span.absolute {{ nr }}
     q-spinner-puff(color="grey-9", :size="spinnerSize")
-    q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm
+    q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm.q-mb-sm(touch-position, anchor="bottom middle",
+    self="top middle")
       //
         span.q-mr-sm.q-pr-xs {{ nr }}
       //
