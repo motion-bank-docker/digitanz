@@ -58,7 +58,7 @@
                 button-description(:iconName="'add'")
                   | Füge hier einen Eintrag hinzu.
 
-      q-item.q-pa-none.row.items-center.q-mt-md(v-else)
+      q-item.q-pa-none.row.items-center.q-mt-md.q-mr-md(v-else)
         q-item-main.text-right
           q-btn.bg-grey-9.text-white(
           @click="handlerSpaceButtons('add')", round, flat)
