@@ -4,9 +4,9 @@
     // --------------------------------------------------------------------------------------------------- selection-box
     .bg-e4.q-mt-md.q-mx-md.round-borders.relative-position
 
-      // shapes
+      //----- shapes
       template(v-if="currentShapes.length > 0")
-        .row.q-pa-sm(:class="[currentShapes.length <= 3 ? 'justify-center' : '']")
+        .row.q-pa-sm.relative-position(:class="[currentShapes.length <= 3 ? 'justify-center' : '']")
           .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="(shape, index) in currentShapes",
           @click="selectShape(shape, index)",
           :class="[selectedShapeIndex === index ? 'bg-grey-1' : '']")
@@ -19,18 +19,15 @@
             //----- icon
             shape-icon(:shape="shape", :cols="4")
 
-          info-button.absolute-top-right(:size="'sm'", :nr="'4'")
-            | Markiere eine Form um sie zu verschieben oder zu löschen.
-
       template(v-else)
         .q-pa-sm.text-center.relative-position
           .inactive
             | Noch keine Form ausgewählt.
 
-          //
-            .absolute-left.full-height.row.items-center
-              info-button.q-ml-xs(:size="'sm'", :nr="'2'")
-                | Ausgewählte Formen werden hier angezeigt, die Reihenfolge lässt sich hier bearbeiten.
+      template(v-if="selection.length && selectedShapeIndex === undefined")
+        // info-button.absolute-top-right(:size="'sm'", :nr="'2'")
+        info-button.absolute-top-right(:size="'md'")
+          | Tippe auf eine Form, um sie auszuwählen und verschieben oder löschen zu können. Tippe erneut, um die Auswahl aufzuheben.
 
     //----- buttons
     template
@@ -38,14 +35,34 @@
         .q-pt-sm.absolute-top-left.transition
           q-btn.shadow-1.text-grey-9(@click="$router.push('/space-tool')", round, flat, size="sm")
             q-icon(name="play_arrow", size="18px")
-          info-button.q-ml-sm(:size="'sm'", :nr="'3'")
-            | Geht zum Tool.
+
+          template(v-if="selection.length && selectedShapeIndex === undefined")
+            // info-button.q-ml-sm(:size="'sm'", :nr="'4'")
+            info-button.q-ml-sm(:size="'sm'")
+              | Änderungen übernehmen und weiter in die Tool-Ansicht wechseln.
+              <!--| Geht zum Tool. Vergiss nicht die Form bei-->
+              <!--info-number(:number="'5'")-->
+              <!--| zu speichern.-->
 
         .q-pt-sm.absolute-top-right.transition(
         :class="[currentShapes.length > 0 ? '' : 'leave-right']")
 
-          info-button.q-mr-sm(:size="'sm'", :nr="'2'")
-            | Die Reihenfolge lässt sich hier bearbeiten.
+          template(v-if="selectedShapeIndex >= 0")
+            // info-button.q-mr-sm(:size="'sm'", :nr="'3'")
+            info-button.q-mr-sm(:size="'sm'")
+              | Mit
+              span.q-mx-sm
+                q-btn.text-grey-1.shadow-1-bright.q-mr-sm(size="xs", flat, round)
+                  q-icon(name="keyboard_arrow_left", size="14px")
+                q-btn.text-grey-1.shadow-1-bright(size="xs", flat, round)
+                  q-icon(name="keyboard_arrow_right", size="14px")
+              | die Formen verschieben,
+              br
+              | mit
+              span.q-mx-sm
+                q-btn.text-grey-1.shadow-1-bright(size="xs", flat, round)
+                  q-icon(name="delete", size="14px")
+              | löschen.
 
           q-btn.bg-grey-3.transition(@click="moveSelectedShape('left')",
           :disabled="checkIfDisabled('left')", size="sm", round, flat,
@@ -71,9 +88,12 @@
           shape-icon(:shape="shape", :cols="4")
 
       //----- help-spinner
-      .col-3.q-px-sm.q-mt-md.text-center.items-center
-        info-button.q-mt-sm(:size="'md'", :nr="'1'")
-          | Füge eine oder mehrere Formen hinzu indem du auf eines der Symbole klickst.
+      template(v-if="selection.length === 0")
+        .col-3.q-px-sm.q-mt-md.text-center.items-center
+          // info-button.q-mt-sm(:size="'md'", :nr="'1'")
+          info-button.q-mt-sm(:size="'md'")
+            | Füge eine oder mehrere Formen hinzu indem du auf eines der Symbole klickst.
+            | Diese erscheinen in der Box über den Symbolen.
 
       //----- "shape editor"-button
       //
@@ -84,16 +104,25 @@
     // --------------------------------------------------------------------------------------------------- buttons below
     .fixed-bottom-left.q-px-md.q-mt-md.q-mb-md
       .relative-position
-        .absolute-bottom-left.transition
-          q-btn.q-mr-sm.bg-grey-9.text-grey-2(@click="$router.push('/space-tool/list')", round, flat)
+        .absolute-bottom-left.transition(style="white-space: nowrap;")
+          q-btn.bg-grey-9.text-grey-2(@click="$router.push('/space-tool/list')", round, flat)
             q-icon(name="clear")
+
+          template(v-if="selection.length && selectedShapeIndex === undefined")
+            info-button(:size="'md'")
+              | Vorgang abbrechen, Änderungen werden nicht übernommen.
 
     .fixed-bottom-right.q-px-md.q-mt-md.q-mb-md
       .relative-position
         .absolute-bottom-right.transition(:class="[currentShapes.length <= 0 ? 'leave-right' : '']")
           div(style="white-space: nowrap;")
 
-            q-btn.q-ml-sm(
+            template(v-if="selection.length && selectedShapeIndex === undefined")
+              // info-button(:size="'md'", :nr="'5'")
+              info-button(:size="'md'")
+                | Änderungen übernehmen und zur Übersicht zurückkehren.
+
+            q-btn(
             @click="handlerCreateButton()", round, flat,
             :class="[currentShapes.length <= 0 ? '' : 'bg-grey-9 text-grey-2']",
             :disabled="currentShapes.length <= 0")
@@ -105,6 +134,7 @@
 
   import shapeIcon from '../../components/ShapeIcon'
   import infoButton from '../../components/InfoButton'
+  import infoNumber from '../../components/InfoNumber'
 
   export default {
     data () {
@@ -117,6 +147,7 @@
     },
     components: {
       infoButton,
+      infoNumber,
       shapeIcon
     },
     computed: {
@@ -185,6 +216,7 @@
           this.selectedShapeIndex = index
           this.selectedShape = shape
         }
+        console.log(this.selectedShapeIndex)
       },
       checkIfSelected (val) {
         return this.checkboxSelectedShapes.includes(val)
