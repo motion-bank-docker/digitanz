@@ -1,8 +1,8 @@
 <template lang="pug">
-  q-page.min-height-auto.q-px-md.q-pb-md
+  q-page.min-height-auto.q-pb-md
 
     // ---------------------------------------------------------------------------------------------------------- spaces
-    .bg-e4.q-mt-md(v-for="(space, index) in tempSpaces")
+    .bg-e4.q-mt-md.q-mx-md(v-for="(space, index) in tempSpaces")
       .relative-position.overflow-hidden.round-borders
 
         q-radio.q-mb-none(v-model="optionSpace", :val="index",
@@ -31,12 +31,14 @@
       div.row.items-center.height-empty.relative-position(v-if="tempSpaces.length <= 0")
 
         .absolute-top-right
-          info-button.q-mt-sm(:size="'md'", :nr="'1'")
+          <!--info-button.q-mt-sm(:size="'md'", :nr="'1'")-->
+          info-button.q-mt-sm.q-mr-sm(:size="'md'")
             div Hier steht beschrieben was das Tool macht.
-            .q-mt-sm
-              | Zur Zeit sind noch keine Einträge vorhanden. Mit dem Button bei
-              info-number(:number="'2'")
-              | kannst du Einträge hinzufügen.
+            //
+              .q-mt-sm
+                | Zur Zeit sind noch keine Einträge vorhanden. Mit dem Button bei
+                info-number(:number="'2'")
+                | kannst du Einträge hinzufügen.
 
         q-item.text-center.q-ma-none.full-width
           q-item-main.q-mb-xl
@@ -51,8 +53,10 @@
                 q-icon(name="add")
 
             q-item-tile.q-mt-xs
-              info-button(:size="'md'", :nr="'2'")
-                | Füge hier einen Eintrag hinzu.
+              // info-button(:size="'md'", :nr="'2'")
+              info-button(:size="'md'")
+                button-description(:iconName="'add'")
+                  | Füge hier einen Eintrag hinzu.
 
       q-item.q-pa-none.row.items-center.q-mt-md(v-else)
         q-item-main.text-right
@@ -67,12 +71,14 @@
   import shapeIcon from '../../components/ShapeIcon'
   import infoButton from '../../components/InfoButton'
   import infoNumber from '../../components/InfoNumber'
+  import buttonDescription from '../../components/ButtonDescription'
 
   export default {
     components: {
       shapeIcon,
       infoButton,
-      infoNumber
+      infoNumber,
+      buttonDescription
     },
     data () {
       return {
