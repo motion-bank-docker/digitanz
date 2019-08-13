@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-btn.relative-position(v-if="showInfoBox", flat, :size="buttonSize", round)
+  q-btn.relative-position(v-if="statusInfoBox", flat, :size="buttonSize", round)
     span.absolute {{ nr }}
     q-spinner-puff(color="grey-9", :size="spinnerSize")
     q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm
@@ -19,8 +19,7 @@
     data () {
       return {
         spinnerSize: undefined,
-        buttonSize: undefined,
-        showInfoBox: undefined
+        buttonSize: undefined
       }
     },
     props: ['size', 'nr'],
@@ -29,13 +28,7 @@
         statusInfoBox: 'globalSettings/getStatusInfoBox'
       })
     },
-    watch: {
-      statusInfoBox () {
-        this.showInfoBox = this.statusInfoBox
-      }
-    },
     mounted () {
-      // console.log(this.statusInfoBox)
       if (this.size === ('md' || '')) {
         this.spinnerSize = '30'
         this.buttonSize = 'md'
