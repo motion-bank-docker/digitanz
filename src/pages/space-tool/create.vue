@@ -23,11 +23,13 @@
             | Markiere eine Form um sie zu verschieben oder zu löschen.
 
       template(v-else)
-        .q-pa-sm.inactive.text-center.relative-position
-          | Noch keine Form ausgewählt.
+        .q-pa-sm.text-center.relative-position
+          .inactive
+            | Noch keine Form ausgewählt.
 
-          info-button.absolute-left.q-mt-xs.q-ml-xs(:size="'sm'", :nr="'2'")
-            | Ausgewählte Formen werden hier angezeigt, die Reihenfolge lässt sich hier bearbeiten.
+          .absolute-left.full-height.row.items-center
+            info-button.q-ml-xs(:size="'sm'", :nr="'2'")
+              | Ausgewählte Formen werden hier angezeigt, die Reihenfolge lässt sich hier bearbeiten.
 
     //----- buttons
     template
