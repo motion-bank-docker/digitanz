@@ -27,7 +27,8 @@
       template(v-if="selection.length && selectedShapeIndex === undefined")
         // info-button.absolute-top-right(:size="'sm'", :nr="'2'")
         info-button.absolute-top-right(:size="'md'")
-          | Tippe auf eine Form, um sie auszuwählen und verschieben oder löschen zu können. Tippe erneut, um die Auswahl aufzuheben.
+          | Tippe auf eine Form, um sie auszuwählen und dann verschieben oder löschen zu können.
+          | Tippe erneut, um die Auswahl aufzuheben.
 
     //----- buttons
     template
@@ -50,19 +51,32 @@
           template(v-if="selectedShapeIndex >= 0")
             // info-button.q-mr-sm(:size="'sm'", :nr="'3'")
             info-button.q-mr-sm(:size="'sm'")
-              | Mit
-              span.q-mx-sm
+              div
                 q-btn.text-grey-1.shadow-1-bright.q-mr-sm(size="xs", flat, round)
                   q-icon(name="keyboard_arrow_left", size="14px")
-                q-btn.text-grey-1.shadow-1-bright(size="xs", flat, round)
+                | Auswahl nach links verschieben.
+              div.q-my-xs
+                q-btn.text-grey-1.shadow-1-bright.q-mr-sm(size="xs", flat, round)
                   q-icon(name="keyboard_arrow_right", size="14px")
-              | die Formen verschieben,
-              br
-              | mit
-              span.q-mx-sm
-                q-btn.text-grey-1.shadow-1-bright(size="xs", flat, round)
+                | Auswahl nach rechts verschieben.
+              div
+                q-btn.text-grey-1.shadow-1-bright.q-mr-sm(size="xs", flat, round)
                   q-icon(name="delete", size="14px")
-              | löschen.
+                | Auswahl entfernen.
+              //
+                | Mit
+                span.q-mx-sm
+                  q-btn.text-grey-1.shadow-1-bright.q-mr-sm(size="xs", flat, round)
+                    q-icon(name="keyboard_arrow_left", size="14px")
+                  q-btn.text-grey-1.shadow-1-bright(size="xs", flat, round)
+                    q-icon(name="keyboard_arrow_right", size="14px")
+                | die Formen verschieben,
+                br
+                | mit
+                span.q-mx-sm
+                  q-btn.text-grey-1.shadow-1-bright(size="xs", flat, round)
+                    q-icon(name="delete", size="14px")
+                | löschen.
 
           q-btn.bg-grey-3.transition(@click="moveSelectedShape('left')",
           :disabled="checkIfDisabled('left')", size="sm", round, flat,
