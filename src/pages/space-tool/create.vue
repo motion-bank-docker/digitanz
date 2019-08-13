@@ -40,10 +40,8 @@
           template(v-if="selection.length && selectedShapeIndex === undefined")
             // info-button.q-ml-sm(:size="'sm'", :nr="'4'")
             info-button.q-ml-sm(:size="'sm'")
-              | Änderungen übernehmen und weiter in die Tool-Ansicht wechseln.
-              <!--| Geht zum Tool. Vergiss nicht die Form bei-->
-              <!--info-number(:number="'5'")-->
-              <!--| zu speichern.-->
+              button-description(:iconName="'play_arrow'")
+                | Änderungen übernehmen und weiter in die Tool-Ansicht wechseln.
 
         .q-pt-sm.absolute-top-right.transition(
         :class="[currentShapes.length > 0 ? '' : 'leave-right']")
@@ -51,32 +49,12 @@
           template(v-if="selectedShapeIndex >= 0")
             // info-button.q-mr-sm(:size="'sm'", :nr="'3'")
             info-button.q-mr-sm(:size="'sm'")
-              div
-                q-btn.text-grey-1.shadow-1-bright.q-mr-sm(size="xs", flat, round)
-                  q-icon(name="keyboard_arrow_left", size="14px")
+              button-description(:iconName="'keyboard_arrow_left'")
                 | Auswahl nach links verschieben.
-              div.q-my-xs
-                q-btn.text-grey-1.shadow-1-bright.q-mr-sm(size="xs", flat, round)
-                  q-icon(name="keyboard_arrow_right", size="14px")
+              button-description.q-my-xs(:iconName="'keyboard_arrow_right'")
                 | Auswahl nach rechts verschieben.
-              div
-                q-btn.text-grey-1.shadow-1-bright.q-mr-sm(size="xs", flat, round)
-                  q-icon(name="delete", size="14px")
+              button-description(:iconName="'delete'")
                 | Auswahl entfernen.
-              //
-                | Mit
-                span.q-mx-sm
-                  q-btn.text-grey-1.shadow-1-bright.q-mr-sm(size="xs", flat, round)
-                    q-icon(name="keyboard_arrow_left", size="14px")
-                  q-btn.text-grey-1.shadow-1-bright(size="xs", flat, round)
-                    q-icon(name="keyboard_arrow_right", size="14px")
-                | die Formen verschieben,
-                br
-                | mit
-                span.q-mx-sm
-                  q-btn.text-grey-1.shadow-1-bright(size="xs", flat, round)
-                    q-icon(name="delete", size="14px")
-                | löschen.
 
           q-btn.bg-grey-3.transition(@click="moveSelectedShape('left')",
           :disabled="checkIfDisabled('left')", size="sm", round, flat,
@@ -149,6 +127,7 @@
   import shapeIcon from '../../components/ShapeIcon'
   import infoButton from '../../components/InfoButton'
   import infoNumber from '../../components/InfoNumber'
+  import buttonDescription from '../../components/ButtonDescription'
 
   export default {
     data () {
@@ -162,7 +141,8 @@
     components: {
       infoButton,
       infoNumber,
-      shapeIcon
+      shapeIcon,
+      buttonDescription
     },
     computed: {
       ...mapGetters({
@@ -237,7 +217,6 @@
           this.selectedShapeIndex = index
           this.selectedShape = shape
         }
-        console.log(this.selectedShapeIndex)
       },
       checkIfSelected (val) {
         return this.checkboxSelectedShapes.includes(val)
