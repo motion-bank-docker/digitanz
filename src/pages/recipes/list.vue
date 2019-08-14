@@ -69,6 +69,14 @@
                         q-item-separator.q-ma-none
 
               .absolute-top-right.transition.q-px-sm.q-pt-sm.q-mt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
+                info-button.q-mr-sm(:size="'sm'")
+                  button-description(:iconName="'fullscreen'")
+                    | Betrachte das Rezept auf ganzer Bildschirmfläche.
+                  button-description.q-my-sm(:iconName="'edit'")
+                    | Bearbeite das Rezept.
+                  button-description(:iconName="'delete'")
+                    | Lösche das Rezept.
+
                 //----- "zoom"-button
                 q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(recipe, index)", round, size="sm", flat)
                   q-icon(name="fullscreen", size="18px")
@@ -81,6 +89,9 @@
                 q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeFromTempRecipe(index)", round, size="sm", flat)
                   q-icon(name="delete", size="16px")
 
+              info-button.absolute-top-right(v-if="option === undefined && index === 0", :size="'sm'")
+                | Dies ist ein Rezept. Durch antippen lässt es sich aus- und wieder abwählen.
+
         // ------------------------------------------------------------------------------- buttons below, "empty"-screen
         template
           //----- "empty"-screen
@@ -88,13 +99,17 @@
             q-item.text-center.q-ma-none.full-width
               q-item-main.q-mb-xl
                 q-item-tile.inactive.q-title.text-weight-light
-                  | Noch keine Einträge,
-                  br
-                  | füge einen hinzu.
+                  | Noch keine eigenen Rezepte vorhanden,
+                  | füge eins hinzu.
                 q-item-tile.q-pt-sm.q-mt-xs
                   q-btn.bg-grey-9.text-white(
                   @click="$router.push('/recipes/create')", round, flat)
                     q-icon(name="add")
+                q-item-tile.q-mt-xs
+                  info-button(:size="'md'")
+                    | Rezepte sind eine Sammlung von Vorgaben, den Zutaten.
+                    button-description.q-mt-xs(:iconName="'add'")
+                      | Füge hier ein Rezept hinzu.
 
           //----- "add"-button
           q-item.q-pa-none.row.items-center(v-else)
@@ -133,6 +148,13 @@
                       q-item-separator.q-ma-none
 
             .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
+              info-button.q-mr-sm(:size="'sm'")
+                button-description(:iconName="'fullscreen'")
+                  | Betrachte den Remix auf ganzer Bildschirmfläche.
+                button-description.q-my-sm(:iconName="'edit'")
+                  | Bearbeite den Remix.
+                button-description(:iconName="'delete'")
+                  | Lösche den Remix.
 
               //----- "zoom"-button
               q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(remix, index)", round, size="sm", flat)
@@ -168,6 +190,11 @@
                     q-icon(name="add")
                     q-tooltip.bg-transparent.text-grey-9.q-px-md(anchor="bottom middle", self="top middle")
                       .bg-white.q-px-sm.q-py-sm.round-borders.shadow-1 In deinen erstellten Rezepten müssen zusammen mindestens vier Zutaten verwendet worden sein um einen Remix erstellen zu können.
+                q-item-tile.q-mt-xs
+                  info-button(:size="'md'")
+                    | Remixe sind eine Rezepte, die aus den Zutaten der bisher erstellten Rezepte zufallsgeneriert werden.
+                    button-description.q-mt-xs(:iconName="'add'")
+                      | Lass hier einen neuen Remix erstellen.
 
           //----- "add"-button
           q-item.q-pa-none.row.items-center(v-else)
@@ -185,9 +212,15 @@
   import { mapGetters } from 'vuex'
   import Chance from 'chance'
   import Sentencer from 'sentencer'
+  import infoButton from '../../components/InfoButton'
+  import buttonDescription from '../../components/ButtonDescription'
 
   const chance = new Chance()
   export default {
+    components: {
+      infoButton,
+      buttonDescription
+    },
     data () {
       return {
         selectedTab: undefined,
