@@ -49,7 +49,7 @@
         .relative-position
 
           .absolute-top-right.q-mr-md.q-mt-md.transition(:class="{'leave-right': editSettings}")
-            .no-wrap
+            .no-wrapping
               info-button.q-mr-sm(v-if="!editSettings", :size="'sm'")
                 button-description(:iconName="'edit'")
                   | Zum Edit-Modus: Änderungen am Grid oder an der Geschwindigkeit werden hier vorgenommen.
