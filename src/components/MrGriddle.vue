@@ -1,10 +1,10 @@
 <template lang="pug">
   div
     div.row(style="margin-top: -1px;")
-      <!--| {{ storedStates.length }}-->
+
       //----- mr griddle
       svg(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
-        //.q-mt-xl.row.justify-end
+
         defs
           pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
             path.transition-200(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
@@ -57,13 +57,8 @@
                 q-icon(name="edit", size="16px")
 
           .absolute-top-right.q-mr-md.q-mt-md.transition(:class="{'leave-right': !editSettings}")
-            .no-wrap
-              //
-                info-button.q-mr-sm(:size="'sm'")
-                  | Zurück zum Posen-Editor.
-
-              q-btn.text-grey-9.shadow-1.bg-grey-3(@click="handleModeChange", round, flat, no-ripple, size="sm")
-                q-icon(name="clear", size="16px")
+            q-btn.text-grey-9.shadow-1.bg-grey-3(@click="handleModeChange", round, flat, no-ripple, size="sm")
+              q-icon(name="clear", size="16px")
 
     //----- "resize grid"-buttons (top left)
     .absolute-top-left.text-center.q-mx-md.q-mt-md.transition(:class="{'leave-left-absolute' : !editSettings}")
