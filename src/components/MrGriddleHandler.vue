@@ -27,10 +27,11 @@
 
         info-button(v-if="states.length > 0 && states.length < 3", :size="'sm'")
           | Wähle eine Pose aus, indem du auf einen Grauen Punkt klickst. Eine ausgewählte Pose erkennt man hier am vergrößerten und dunklen Punkt.
+          .q-mt-sm Durch erneutes Tippen: Löschen-Sprechblase zeigen und verstecken.
+          button-description.q-mt-sm(:iconName="'delete'")
+            | Ausgewählte Pose entfernen.
           .q-mt-sm
-            | Durch erneutes Tippen auf einen hervorgehobenen Punkt lässt sich so eine Sprechblase mit der Möglichkeit die Pose zu entfernen öffnen und schließen.
-          .q-mt-sm
-            | Tippst du auf die Figur wird die Posen-Auswahl aufgehoben eine neue Pose generiert, die hinzugefügt werden kann.
+            | Tippst du auf die Figur wird die Posen-Auswahl aufgehoben und eine neue Pose generiert, die hinzugefügt werden kann.
 
       //----- add-butoon
       q-item-side.q-mr-md(style="min-width: auto;")

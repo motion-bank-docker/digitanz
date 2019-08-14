@@ -50,8 +50,9 @@
 
           .absolute-top-right.q-mr-md.q-mt-md.transition(:class="{'leave-right': editSettings}")
             .no-wrap
-              info-button.q-mr-sm(:size="'sm'")
-                | Hier gelangst du zum Edit-Modus um Änderungen am Grid oder an der Geschwindigkeit vorzunehmen.
+              info-button.q-mr-sm(v-if="!editSettings", :size="'sm'")
+                button-description(:iconName="'edit'")
+                  | Zum Edit-Modus: Änderungen am Grid oder an der Geschwindigkeit werden hier vorgenommen.
 
               q-btn.text-grey-9.shadow-1(@click="handleModeChange", round, flat, no-ripple, size="sm")
                 q-icon(name="edit", size="16px")
@@ -79,17 +80,22 @@
         q-btn.shadow-1.bg-grey-3.text-grey-9(@click="handleGridChange(0,1)", round, size="sm", flat)
           q-icon(name="add", size="16px")
 
-    .absolute-bottom.text-center.full-width(v-if="editSettings", style="margin-bottom: 52px;")
+    .absolute-bottom.text-center.full-width.q-mb-xl(v-if="editSettings")
       info-button(:size="'sm'")
-        | Stelle hier die Geschwindigkeit ein..
+        | Stelle hier die Geschwindigkeit ein.
 
-    .absolute-bottom-right.q-mr-md(v-if="!editSettings && !storedStates.length", style="margin-bottom: 52px;")
+    .absolute-bottom-left.q-ml-md.q-mb-xl(v-if="storedStates.length")
       info-button(:size="'sm'")
-        | Füge hier maximal 5 Posen deiner Sequenz hinzu.
+        button-description(:iconName="'play_arrow'")
+          | Starte und pausiere hier die Sequenz.
+        .q-mt-sm Ändere die Geschwindigkeit im Edit-Mode (Button rechts oben).
 
-    .absolute-top-left.q-ml-md.q-mt-md(v-if="!editSettings && !storedStates.length")
+    .absolute-bottom-right.q-mr-md.q-mb-xl(v-if="!editSettings && !storedStates.length")
       info-button(:size="'sm'")
-        | Tippe auf die Fläche um eine neue Pose zu generieren. Wenn sie dir gefällt tippe auf das + rechts unten um die Pose der Sequenz hinzuzufügen.
+        | Du befindest dich im Posen-Editor. Tippe auf die Fläche um eine neue Pose zu generieren.
+        button-description.q-mt-sm(:iconName="'add'")
+          | Füge die Pose der Sequenz hinzu.
+        .q-mt-sm Du kannst maximal 5 Posen hinzufügen.
 
 </template>
 
