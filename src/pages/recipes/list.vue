@@ -168,6 +168,9 @@
               q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempRemix(index)", round, size="sm", flat)
                 q-icon(name="delete", size="16px")
 
+            info-button.absolute-top-right(v-if="optionRemix === undefined && index === 0", :size="'sm'")
+              | Dies ist ein Remix. Durch antippen lässt es sich aus- und wieder abwählen.
+
         // ------------------------------------------------------------------------------- buttons below, "empty"-screen
         template
 
