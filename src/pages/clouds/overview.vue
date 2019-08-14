@@ -49,7 +49,7 @@
                     q-icon(name="delete", size="16px")
 
                 info-button.absolute-top-left.q-ma-sm(v-if="optionCloud === undefined && index === 0", :size="'sm'")
-                  | Dies ist eine Wortwolke. Tippe sie an um sie auszuwählen und mit ihr zu interagieren.
+                  | Dies ist eine Wortwolke. Durch antippen lässt sie sich aus- und wieder abwählen.
 
     // ---------------------------------------------------------------------------------------------------- "add"-button
     .q-px-md.q-pb-md.q-pt-sm
