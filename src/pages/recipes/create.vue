@@ -22,7 +22,7 @@
 
         //----- ingredients
         template(v-for="(ingr, index) in newRecipe.entries")
-          q-item.q-px-sm.q-py-sm.min-height-auto.transition-padding(
+          q-item.q-px-sm.q-py-sm.min-height-auto.transition-padding.relative-position(
           :description="ingr",
           :key="ingr",
           @click="handlerRadiobutton(ingr)",
@@ -39,12 +39,23 @@
             .absolute-top-right.transition.q-px-sm.items-start.row.q-mt-sm.q-pt-xs(
             :class="[option !== ingr ? 'leave-right-absolute' : '']",
             style="margin-top: 10px;")
+              info-button.q-mr-sm(:size="'sm'")
+                button-description(:iconName="'keyboard_arrow_up'")
+                  | Verschiebe die Zutat nach oben.
+                button-description.q-my-sm(:iconName="'keyboard_arrow_down'")
+                  | Verschiebe die Zutat nach unten.
+                button-description(:iconName="'delete'")
+                  | Lösche die Zutat.
+
               q-btn.bg-grey-3.text-grey-9.shadow-1(@click="moveUp(index)", round, size="sm", flat)
                 q-icon(name="keyboard_arrow_up", size="18px")
               q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="moveDown(index)", round, size="sm", flat)
                 q-icon(name="keyboard_arrow_down", size="18px")
               q-btn.bg-grey-3.text-grey-9.shadow-1(@click="deleteTodoItem(index)", round, size="sm", flat)
                 q-icon(name="delete", size="16px")
+
+            info-button.absolute-right(v-if="option !== ingr && index === 0", :size="'sm'")
+              | Dies ist eine Zutat. Durch antippen lässt sie sich aus- und wieder abwählen.
 
           q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
@@ -93,7 +104,14 @@
   import json from '../../components/json/aktionsbegriffe.json'
   import wolkeDrei from '../../components/json/wolkeDrei.json'
 
+  import infoButton from '../../components/InfoButton'
+  import buttonDescription from '../../components/ButtonDescription'
+
   export default {
+    components: {
+      infoButton,
+      buttonDescription
+    },
     data () {
       return {
         myJson: json,
