@@ -41,7 +41,17 @@
               label.full-width(:for="term")
                 | {{ term }}
 
+              .absolute-right.q-pt-xs(v-if="!checkIfSelected(term) && index === 0")
+                info-button.q-mr-sm(:size="'sm'")
+                  | Wähle einen Begriff aus, um ihn dieser Wolke hinzuzufügen.
+                  .q-mt-sm Tippe erneut um ihn aus dieser Wolke zu entfernen.
+
               .absolute-right.q-pt-xs.q-pr-xs.transition(:class="[checkIfSelected(term) ? '' : 'leave-right']")
+                info-button.q-mr-sm(v-if="checkIfSelected(term) && index === 0", :size="'sm'")
+                  <!--| Wähle einen Begriff aus, um ihn dieser Wolke hinzuzufügen.-->
+                  <!--.q-my-sm Tippe erneut um ihn aus dieser Wolke zu entfernen.-->
+                  button-description(:iconName="'delete'")
+                    | Diesen Begriff aus dem Cloud-Tool löschen.
 
                 template(v-if="countCustomTermUsages(term) <= 0")
                   q-btn.bg-grey-3.text-grey-9.shadow-1(@click="deleteCustomTerm(term, index)", size="sm", flat, round)
@@ -75,6 +85,10 @@
               q-btn.text-grey-9.bg-grey-3.shadow-1.q-ml-sm(@click="inputNewWord = ''", round, size="sm", flat)
                 q-icon(name="clear", size="16px")
 
+          .q-mt-md.text-center
+            info-button(v-if="!tempTerms.length", :size="'md'")
+              | Erstelle eigene Begriffe, die anschließend in der gesamten Cloud verfügbar sind.
+
       // ---------------------------------------------------------------------------------------------- Aktionen (tab 1)
       q-tab-pane.q-px-sm.q-pt-none(keep alive, name="tab-2")
         q-list.q-pa-none.no-border.row
@@ -82,6 +96,11 @@
           .col-6.q-px-sm(v-for="(mJ, index) in myJson")
             q-item.q-px-sm.round-borders.q-caption.bg-e4(
             :class="[checkIfSelected(mJ.label) ? 'bg-grey-1 text-grey-9' : 'text-grey-8', {'q-mb-md': index < myJson.length - 1}]")
+
+              .absolute-right.full-height.row.items-center(v-if="index === 0")
+                info-button(:size="'md'")
+                  | Wähle einen Begriff aus, um ihn zur Wolke hinzuzufügen.
+                  .q-mt-sm Tippe erneut um ihn aus der Wolke zu entfernen.
 
               input.hidden(@click="countWords('aktionen', mJ.label)", v-model="selectedWords", type="checkbox",
               :id="mJ.label", :value="mJ.label")
@@ -95,6 +114,11 @@
           .col-6.q-px-sm(v-for="(cT, index) in cloudThree")
             q-item.q-px-sm.round-borders.q-caption.bg-e4(
             :class="[checkIfSelected(cT.label) ? 'bg-grey-1 text-grey-9' : 'text-grey-8', {'q-mb-md': index < cloudThree.length - 2}]")
+
+              .absolute-right.full-height.row.items-center(v-if="index === 0")
+                info-button(:size="'md'")
+                  | Wähle einen Begriff aus, um ihn zur Wolke hinzuzufügen.
+                  .q-mt-sm Tippe erneut um ihn aus der Wolke zu entfernen.
 
               input.hidden(@click="countWords('gestaltung', cT.label)", v-model="selectedWords", type="checkbox", :id="cT.label", :value="cT.label")
               label.full-width(:for="cT.label")
@@ -125,9 +149,14 @@
   import json from '../../components/json/aktionsbegriffe.json'
   import wolkeDrei from '../../components/json/wolkeDrei.json'
 
+  import infoButton from '../../components/InfoButton'
+  import buttonDescription from '../../components/ButtonDescription'
+
   export default {
     components: {
-      VideoListView
+      VideoListView,
+      infoButton,
+      buttonDescription
     },
     async mounted () {
       this.myJson.sort(function (a, b) {
