@@ -4,7 +4,7 @@
       <!--| {{ storedStates.length }}-->
       //----- mr griddle
       svg(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
-        .q-mt-xl.row.justify-end
+        //.q-mt-xl.row.justify-end
         defs
           pattern(id="cell-pattern", :width="gridCell.width", :height="gridCell.height", patternUnits="userSpaceOnUse")
             path.transition-200(:d="`M ${gridCell.width} 0 L 0 0 0 ${gridCell.height}`",
@@ -26,8 +26,8 @@
         :stroke-width="gridStrokeWidth", :opacity="patternOpacity")
 
       //----- slider
-      .absolute-bottom.row.items-center.transition(
-      style="height: 52px;",
+      .fixed-bottom.row.items-center.transition.bg-grey-3(
+      style="height: 52px; border-top: 1px solid #dadada;",
       :class="{'leave-bottom' : !editSettings}")
         q-item.q-pa-none.full-width(style="min-height: auto;")
 
@@ -173,6 +173,7 @@
         width: this.$el.offsetWidth,
         height: this.$el.offsetHeight
       }
+      console.log(this.$el.offsetHeight, this.$el)
       this.gridCell = {
         width: this.svgSize.width / this.grid.columns,
         height: this.svgSize.height / this.grid.rows

@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page.bg-grey-3.relative-position.overflow-hidden
+  q-page.bg-grey-3.relative-position.overflow-hidden.min-height-auto
     mr-griddle#mr-griddle-container(
     ref="mrGriddleContainer",
     :play="playing",
@@ -8,7 +8,7 @@
     @stateChanged="handleStateChanged",
     @editModeChanged="handleEditChange")
 
-    .absolute-bottom.transition(:class="{'leave-bottom' : editMode}")
+    .fixed-bottom.transition(:class="{'leave-bottom' : editMode}")
       mr-griddle-handler(
       :play="playing",
       :states="storedStates",
@@ -73,5 +73,5 @@
 <style lang="stylus">
   #mr-griddle-container
     width 100vw
-    height calc(100vh - 52px - 51px)
+    height calc(100vh - 52px - 50px)
 </style>
