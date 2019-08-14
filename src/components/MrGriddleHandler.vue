@@ -66,9 +66,11 @@
       }
     },
     watch: {
+      /*
       play () {
         console.log(this.$props.play)
       }
+      */
     },
     methods: {
       handlerStateButton (state, index) {

@@ -174,7 +174,6 @@
         width: this.$el.offsetWidth,
         height: this.$el.offsetHeight
       }
-      console.log(this.$el.offsetHeight, this.$el)
       this.gridCell = {
         width: this.svgSize.width / this.grid.columns,
         height: this.svgSize.height / this.grid.rows
