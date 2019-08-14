@@ -17,6 +17,7 @@
           div.relative-position.overflow-hidden.q-px-md.q-py-sm
             div.bg-e4.text-center.round-borders
               .overflow-hidden.relative-position.round-borders
+
                 q-radio.full-width(
                 v-model="optionCloud", :val="index",
                 :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']",
@@ -27,6 +28,14 @@
                       span(v-if="i < cloud.length - 1") ,&ensp;
 
                 .absolute-top-right.transition.q-mr-sm.q-pt-sm(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
+                  info-button.q-mr-sm(:size="'sm'")
+                    button-description(:iconName="'fullscreen'")
+                      | Betrachte die Wortwolke auf ganzer Bildschirmfläche.
+                    button-description.q-my-sm(:iconName="'edit'")
+                      | Bearbeite die Wortwolke.
+                    button-description(:iconName="'delete'")
+                      | Lösche die Wortwolke.
+
                   //----- "zoom-box"-button
                   q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(cloud, index)", round, size="sm", flat)
                     q-icon(name="fullscreen", size="16px")
@@ -39,6 +48,9 @@
                   q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempCloud(index)", round, size="sm", flat)
                     q-icon(name="delete", size="16px")
 
+                info-button.absolute-top-left.q-ma-sm(v-if="optionCloud === undefined && index === 0", :size="'sm'")
+                  | Dies ist eine Wortwolke. Tippe sie an um sie auszuwählen und mit ihr zu interagieren.
+
     // ---------------------------------------------------------------------------------------------------- "add"-button
     .q-px-md.q-pb-md.q-pt-sm
 
@@ -48,9 +60,8 @@
           q-item-main.q-mb-xl
 
             q-item-tile.inactive.q-title.text-weight-light
-              | Noch keine Einträge,
-              br
-              | füge einen hinzu.
+              | Noch keine Wortwolken vorhanden,
+              | füge eine hinzu.
 
             q-item-tile.q-pt-sm.q-mt-xs
               q-btn.bg-grey-9.text-white(@click="addCloud()", round, flat)
@@ -58,8 +69,9 @@
 
             q-item-tile.q-mt-xs
               info-button(:size="'md'")
-                button-description(:iconName="'add'")
-                  | Füge hier einen Eintrag hinzu.
+                | Wortwolken sind eine Sammlung von Begriffen.
+                button-description.q-mt-sx(:iconName="'add'")
+                  | Füge hier eine Wortwolke hinzu.
 
       //----- filled screen
       .text-right(v-else)

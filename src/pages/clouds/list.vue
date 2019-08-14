@@ -87,7 +87,7 @@
 
           .q-mt-md.text-center
             info-button(v-if="!tempTerms.length", :size="'md'")
-              | Erstelle eigene Begriffe, die anschließend in der gesamten Cloud verfügbar sind.
+              | Erstelle eigene Begriffe, die anschließend für dich im gesamten Wolken-Tool verfügbar sind.
 
       // ---------------------------------------------------------------------------------------------- Aktionen (tab 1)
       q-tab-pane.q-px-sm.q-pt-none(keep alive, name="tab-2")
