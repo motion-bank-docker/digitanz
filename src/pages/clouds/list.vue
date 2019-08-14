@@ -130,11 +130,17 @@
       .fixed-bottom-left.q-pa-md
         q-btn.bg-grey-9.text-grey-1(
         @click="$router.push('/clouds/overview')", flat, no-caps, icon="clear", round)
+        info-button(:size="'md'")
+          | Vorgang ohne zu speichern abbrechen.
 
       //----- add/save
       .fixed-bottom-right.q-pb-md
         .relative-position
           .absolute-position.transition.q-mr-md(:class="[selectedWords.length < 1 || inputNewWord ? 'leave-right' : '']")
+            info-button(v-if="editMode === 'edit'", :size="'md'")
+              | Änderungen an der Wolke übernehmen.
+            info-button(v-if="editMode === 'new'", :size="'md'")
+              | Neue Wortwolke speichern.
             q-btn.bg-grey-9.text-grey-2(
             @click="handlerCreateButton()",
             :disabled="selectedWords.length < 1", flat, no-caps, round)
