@@ -56,6 +56,11 @@
               q-btn.bg-grey-9.text-white(@click="addCloud()", round, flat)
                 q-icon(name="add")
 
+            q-item-tile.q-mt-xs
+              info-button(:size="'md'")
+                button-description(:iconName="'add'")
+                  | Füge hier einen Eintrag hinzu.
+
       //----- filled screen
       .text-right(v-else)
         q-btn.bg-grey-9.text-white(@click="addCloud()", round, flat)
@@ -66,7 +71,14 @@
 <script>
   import { mapGetters } from 'vuex'
 
+  import infoButton from '../../components/InfoButton'
+  import buttonDescription from '../../components/ButtonDescription'
+
   export default {
+    components: {
+      infoButton,
+      buttonDescription
+    },
     name: 'overview',
     data () {
       return {
