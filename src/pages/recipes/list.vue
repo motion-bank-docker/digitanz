@@ -192,7 +192,7 @@
                       .bg-white.q-px-sm.q-py-sm.round-borders.shadow-1 In deinen erstellten Rezepten müssen zusammen mindestens vier Zutaten verwendet worden sein um einen Remix erstellen zu können.
                 q-item-tile.q-mt-xs
                   info-button(:size="'md'")
-                    | Remixe sind eine Rezepte, die aus den Zutaten der bisher erstellten Rezepte zufallsgeneriert werden.
+                    | Remixe sind Rezepte, die aus den Zutaten der bisher von dir erstellten Rezepte zufallsgeneriert werden.
                     button-description.q-mt-xs(:iconName="'add'")
                       | Lass hier einen neuen Remix erstellen.
 
