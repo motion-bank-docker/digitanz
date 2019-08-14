@@ -25,6 +25,13 @@
               div.rotate-45.bg-white(style="width: 20px; height: 20px;")
             q-btn.text-grey-9(@click="deleteItem({state, index})", icon="delete", round, flat)
 
+        info-button(v-if="states.length > 0 && states.length < 3", :size="'sm'")
+          | Wähle eine Pose aus, indem du auf einen Grauen Punkt klickst. Eine ausgewählte Pose erkennt man hier am vergrößerten und dunklen Punkt.
+          .q-mt-sm
+            | Durch erneutes Tippen auf einen hervorgehobenen Punkt lässt sich so eine Sprechblase mit der Möglichkeit die Pose zu entfernen öffnen und schließen.
+          .q-mt-sm
+            | Tippst du auf die Figur wird die Posen-Auswahl aufgehoben eine neue Pose generiert, die hinzugefügt werden kann.
+
       //----- add-butoon
       q-item-side.q-mr-md(style="min-width: auto;")
         q-btn.no-padding.bg-grey-9.text-grey-1.transition(size="sm", flat, no-ripple,
@@ -37,10 +44,14 @@
 
 <script>
   import ConfirmModal from '../components/ConfirmModal'
+  import infoButton from './InfoButton'
+  import buttonDescription from './ButtonDescription'
 
   export default {
     components: {
-      ConfirmModal
+      ConfirmModal,
+      infoButton,
+      buttonDescription
     },
     props: [
       'states',

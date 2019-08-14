@@ -1,6 +1,7 @@
 <template lang="pug">
   div
     div.row(style="margin-top: -1px;")
+      <!--| {{ storedStates.length }}-->
       //----- mr griddle
       svg(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
         .q-mt-xl.row.justify-end
@@ -46,15 +47,23 @@
       //----- edit-button (top right)
       .absolute-top-right
         .relative-position
-          q-btn.absolute-top-right.q-mr-md.q-mt-md.text-grey-9.shadow-1.transition(@click="handleModeChange",
-          round, flat, no-ripple, size="sm",
-          :class="{'leave-right': editSettings}")
-            q-icon(name="edit", size="16px")
 
-          q-btn.absolute-top-right.q-mr-md.q-mt-md.text-grey-9.shadow-1.bg-grey-3.transition(@click="handleModeChange",
-          round, flat, no-ripple, size="sm",
-          :class="{'leave-right': !editSettings}")
-            q-icon(name="clear", size="16px")
+          .absolute-top-right.q-mr-md.q-mt-md.transition(:class="{'leave-right': editSettings}")
+            .no-wrap
+              info-button.q-mr-sm(:size="'sm'")
+                | Hier gelangst du zum Edit-Modus um Änderungen am Grid oder an der Geschwindigkeit vorzunehmen.
+
+              q-btn.text-grey-9.shadow-1(@click="handleModeChange", round, flat, no-ripple, size="sm")
+                q-icon(name="edit", size="16px")
+
+          .absolute-top-right.q-mr-md.q-mt-md.transition(:class="{'leave-right': !editSettings}")
+            .no-wrap
+              //
+                info-button.q-mr-sm(:size="'sm'")
+                  | Zurück zum Posen-Editor.
+
+              q-btn.text-grey-9.shadow-1.bg-grey-3(@click="handleModeChange", round, flat, no-ripple, size="sm")
+                q-icon(name="clear", size="16px")
 
     //----- "resize grid"-buttons (top left)
     .absolute-top-left.text-center.q-mx-md.q-mt-md.transition(:class="{'leave-left-absolute' : !editSettings}")
@@ -65,13 +74,27 @@
         q-btn.shadow-1.bg-grey-3.text-grey-9(@click="handleGridChange(-1,0)", round, size="sm", flat)
           q-icon(name="remove", size="16px")
 
-        q-btn.border.invisible(round, size="sm")
+        q-btn.border.invisible(v-if="!statusInfoBox", round, size="sm")
+        info-button(v-else, :size="'sm'")
+          | Bearbeite hier das Grid.
 
         q-btn.shadow-1.bg-grey-3.text-grey-9(@click="handleGridChange(1,0)", round, size="sm", flat)
           q-icon(name="add", size="16px")
       div
         q-btn.shadow-1.bg-grey-3.text-grey-9(@click="handleGridChange(0,1)", round, size="sm", flat)
           q-icon(name="add", size="16px")
+
+    .absolute-bottom.text-center.full-width(v-if="editSettings", style="margin-bottom: 52px;")
+      info-button(:size="'sm'")
+        | Stelle hier die Geschwindigkeit ein..
+
+    .absolute-bottom-right.q-mr-md(v-if="!editSettings && !storedStates.length", style="margin-bottom: 52px;")
+      info-button(:size="'sm'")
+        | Füge hier maximal 5 Posen deiner Sequenz hinzu.
+
+    .absolute-top-left.q-ml-md.q-mt-md(v-if="!editSettings && !storedStates.length")
+      info-button(:size="'sm'")
+        | Tippe auf die Fläche um eine neue Pose zu generieren. Wenn sie dir gefällt tippe auf das + rechts unten um die Pose der Sequenz hinzuzufügen.
 
 </template>
 
@@ -80,9 +103,16 @@
   import { DateTime } from 'luxon'
   import { mapGetters } from 'vuex'
 
+  import infoButton from './InfoButton'
+  import buttonDescription from './ButtonDescription'
+
   const skeleton = new Skeleton()
 
   export default {
+    components: {
+      infoButton,
+      buttonDescription
+    },
     props: [
       'play',
       'states'
@@ -122,7 +152,8 @@
       ...mapGetters({
         storedStates: 'mrGriddle/getTempPoses',
         grid: 'mrGriddle/getTempGrid',
-        frameLength: 'mrGriddle/getTempFrameLength'
+        frameLength: 'mrGriddle/getTempFrameLength',
+        statusInfoBox: 'globalSettings/getStatusInfoBox'
       }),
       strokeWidth () {
         return 20 * this.skeletonScale
