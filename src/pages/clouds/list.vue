@@ -301,8 +301,10 @@
 </style>
 
 <style lang="stylus">
+  /*
   .q-popover.custom-term-usage
     max-width calc(100vw - 16px - 16px)!important
     margin-left 16px
     left 16px!important
+  */
 </style>
