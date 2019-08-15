@@ -5,8 +5,8 @@
       griddle-moves(:enclosed="true", :time="1000", style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
 
       .absolute-bottom.q-pb-md.full-width.text-center(position="bottom")
-        q-btn.bg-grey-1(@click.native="", flat, round, size="sm")
-          q-icon(name="keyboard_arrow_down", size="20px")
+        q-btn(@click.native="", flat, round, size="sm")
+          q-icon(name="keyboard_arrow_down", size="30px")
 
     .bg-grey-1.q-body-1.line-height-wider
 
@@ -15,6 +15,8 @@
           | Etetur sadipscing elitr, sed diam nonumy eirm.
         div
           | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
+        div.q-mt-sm
+          | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna.
 
       q-item-separator.q-my-none.q-mx-md
 
