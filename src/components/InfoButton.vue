@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-btn.relative-position(v-if="statusInfoBox", flat, :size="buttonSize", round)
+  q-btn.relative-position(v-if="statusInfoBox", flat, :size="buttonSize", round, no-ripple)
     span.absolute {{ nr }}
     q-spinner-puff(color="grey-9", :size="spinnerSize")
     q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm.q-mb-sm(touch-position, anchor="bottom middle",
