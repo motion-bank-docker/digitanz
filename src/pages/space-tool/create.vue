@@ -12,8 +12,8 @@
           :class="[selectedShapeIndex === index ? 'bg-grey-1' : '']")
 
             //----- number
-            .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.inactive(
-            v-if="selectedShapeIndex !== index")
+            .absolute-top-left.q-caption.q-pa-xs.round-borders.inactive(
+            v-if="selectedShapeIndex === index")
               | {{ index + 1 }}
 
             //----- icon
