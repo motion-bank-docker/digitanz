@@ -48,7 +48,15 @@
         :style="{height: infoBoxHeight + 'px'}")
 
           //----- title
-          .bg-grey-3.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-sm.q-py-xs.round-borders(v-if="!usingTool") {{ tool }}
+          template(v-if="!usingTool && currentAppName !== undefined")
+            q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs.shadow-1(
+            v-for="t in tools", v-if="t.name === tool", flat, no-caps, rounded)
+              // | {{ t.label }}
+              | Info
+              q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm.q-mb-sm(
+              touch-position, anchor="bottom middle", self="top middle")
+                | {{ t.text }}
+
           //----- info-modus
           .q-px-md.q-py-sm.row.full-width.bg-grey-9(v-else, style="height: 46px;")
             span.q-mr-sm.self-center.text-grey-1 Hilfe-Modus
@@ -84,7 +92,24 @@
       return {
         showInfoBox: false,
         currentAppName: undefined,
-        infoBoxHeight: undefined
+        infoBoxHeight: undefined,
+        tools: [{
+          label: 'Mr. Griddle',
+          name: 'mr-griddle',
+          text: 'Mr. Griddle... Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
+        }, {
+          label: 'Wortwolke',
+          name: 'clouds',
+          text: 'Wortwolke...'
+        }, {
+          label: 'Rezepte',
+          name: 'recipes',
+          text: 'Rezepte...'
+        }, {
+          label: 'Raum',
+          name: 'space-tool',
+          text: 'Raum...'
+        }]
       }
     },
     computed: {
