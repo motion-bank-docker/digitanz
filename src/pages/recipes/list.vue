@@ -191,8 +191,9 @@
                     q-icon(name="add")
                   q-btn.bg-grey-9.text-white(v-else, round, flat)
                     q-icon(name="add")
-                    q-tooltip.bg-transparent.text-grey-9.q-px-md(anchor="bottom middle", self="top middle")
-                      .bg-white.q-px-sm.q-py-sm.round-borders.shadow-1 In deinen erstellten Rezepten müssen zusammen mindestens vier Zutaten verwendet worden sein um einen Remix erstellen zu können.
+                    q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm.q-mb-sm(touch-position,
+                    anchor="bottom middle", self="top middle")
+                      | In deinen erstellten Rezepten müssen zusammen mindestens vier Zutaten verwendet worden sein um einen Remix erstellen zu können.
                 q-item-tile.q-mt-xs
                   info-button(:size="'md'")
                     | Remixe sind Rezepte, die aus den Zutaten der bisher von dir erstellten Rezepte zufallsgeneriert werden.
