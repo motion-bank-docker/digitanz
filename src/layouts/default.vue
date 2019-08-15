@@ -48,7 +48,7 @@
         :style="{height: infoBoxHeight + 'px'}")
 
           //----- play-button
-          .fit.row.items-center.justify-between
+          .fit.row.items-center.justify-between(v-if="!usingTool")
             .text-center.full-width
               q-btn.bg-grey-1.text-grey-9(flat, round, size="lg")
                 q-icon(name="play_arrow")
