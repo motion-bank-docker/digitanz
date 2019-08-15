@@ -1,10 +1,13 @@
 <template lang="pug">
   q-page.bg-grey-3
+    q-scroll-observable(@scroll="userHasScrolled")
 
     div.relative-position(@click="$router.push({path: '/tools'})")
       griddle-moves(:enclosed="true", :time="1000", style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
 
-      .absolute-bottom.q-pb-md.full-width.text-center(position="bottom")
+      .absolute-bottom.q-pb-md.full-width.text-center.transition(
+      position="bottom",
+      :class="[scrolled ? 'hide-arrow' : '']")
         q-btn(@click.native="", flat, round, size="sm")
           q-icon(name="keyboard_arrow_down", size="30px")
 
@@ -47,8 +50,20 @@
     data () {
       return {
         name: pkg.name,
-        version: pkg.version
+        version: pkg.version,
+        scrolled: false
+      }
+    },
+    methods: {
+      userHasScrolled (scroll) {
+        scroll.position > 10 ? this.scrolled = true : this.scrolled = false
       }
     }
   }
 </script>
+
+<style scoped lang="styl">
+  .hide-arrow
+    opacity 0
+    margin-bottom 30px
+</style>
