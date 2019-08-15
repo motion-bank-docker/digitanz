@@ -60,7 +60,7 @@
                 template(v-else)
                   q-btn.bg-grey-3.text-grey-9.shadow-1(@click="", size="sm", flat, round)
                     q-icon.inactive(name="delete", size="16px")
-                    q-popover.q-pa-md.q-caption.full-width.custom-term-usage(
+                    q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm.q-mb-sm(touch-position,
                     anchor="bottom middle", self="top middle")
                       | Dieser Begriff kann nicht gelöscht werden, da er in einer anderen Wolke in Verwendung ist.
 
