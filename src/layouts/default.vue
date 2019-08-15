@@ -49,10 +49,10 @@
 
           //----- title
           template(v-if="!usingTool && currentAppName !== undefined")
-            q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs.shadow-1(
-            v-for="t in tools", v-if="t.name === tool", flat, no-caps, rounded)
+            q-btn.bg-grey-3.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs.shadow-1(
+            v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
               // | {{ t.label }}
-              | Info
+              .q-subheading.text-weight-medium.text-weight-regular ?
               q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm.q-mb-sm(
               touch-position, anchor="bottom middle", self="top middle")
                 | {{ t.text }}
