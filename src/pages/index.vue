@@ -2,38 +2,40 @@
   q-page.bg-grey-3
 
     div.relative-position(@click="$router.push({path: '/tools'})")
-      griddle-moves(:enclosed="true", :time="1000")
+      griddle-moves(:enclosed="true", :time="1000", style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
 
       .absolute-bottom.q-pb-md.full-width.text-center(position="bottom")
-        q-icon(name="keyboard_arrow_down", size="30px")
+        q-btn.bg-grey-1(@click.native="", flat, round, size="sm")
+          q-icon(name="keyboard_arrow_down", size="20px")
 
-    .bg-grey-1.q-px-md.q-mt-lg.q-body-1.line-height-wider
+    .bg-grey-1.q-body-1.line-height-wider
 
-      .q-py-lg
-        .q-subheading.q-mb-md.text-weight-medium
+      .q-px-md.q-py-lg.q-mb-md
+        .q-subheading.q-mb-md.text-weight-medium.q-mt-md
           | Etetur sadipscing elitr, sed diam nonumy eirm.
-        p.q-px-none
+        div
           | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
 
-      q-item-separator.q-ma-none
+      q-item-separator.q-my-none.q-mx-md
 
-      .q-py-lg
-        .q-subheading.q-mb-md.text-weight-medium
-          | Sub 22222
-        p.q-px-none
+      .q-px-md.q-py-lg.q-mb-md
+        .q-subheading.q-mb-md.text-weight-medium.q-mt-md
+          | Nonumy eirmod temportetur sadipscing elitr, sed diam nonumy eirm.
+        div
           | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
 
-      q-item.q-px-none.q-body-1.text-center
-        .full-width.text-center
-          q-btn.bg-grey-9.text-grey-1(flat, round, size="lg")
-            q-icon.rotate-180(name="keyboard_backspace", size="30px")
+      q-item-separator.q-my-none.q-mx-md
 
-      q-item-separator
+      .q-px-md.q-py-xl.text-center
+        q-btn.bg-white.text-grey-9.shadow-1(@click="$router.push({path: '/tools'})", flat, round, size="lg", no-caps)
+          q-icon.rotate-180(name="keyboard_backspace")
+        .q-caption.q-mt-sm.text-weight-medium Zu den Tools
 
-      .q-py-lg
-        q-item.q-px-none.q-body-1
-          .text-center.bg-white
-            img(src="~assets/BMBF_deutsch.jpg", style="width: 80%;")
+      .text-center.bg-white
+        img(src="~assets/BMBF_deutsch.jpg", style="width: 80%;")
+
+      q-btn.q-py-md.text-center.full-width(@click="$router.push({path: '/tools'})", flat, no-caps)
+        | Imprint
 
 </template>
 
