@@ -47,6 +47,11 @@
         :class="[showInfoBox ? 'height-auto' : 'height-0']",
         :style="{height: infoBoxHeight + 'px'}")
 
+          //----- play-button
+          .fit.row.items-center.justify-between
+            .text-center.full-width
+              q-btn.bg-grey-1.text-grey-9(flat, round, size="lg")
+                q-icon(name="play_arrow")
           //----- title
           template(v-if="!usingTool && currentAppName !== undefined")
             q-btn.bg-grey-3.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs.shadow-1(
