@@ -32,7 +32,7 @@
 
         //----- list
         q-list.q-pa-none.no-border.row
-          .col-6.q-px-sm(v-for="(term, index) in tempTerms")
+          .col-xs-6.col-sm-4.col-md-3.col-lg-2.q-px-sm(v-for="(term, index) in tempTerms")
 
             q-item.q-px-sm.q-mb-md.round-borders.q-caption.bg-e4.relative-position.overflow-hidden(
             :class="[checkIfSelected(term) ? 'bg-grey-1 text-grey-9' : 'text-grey-8']")
@@ -65,25 +65,26 @@
                       | Dieser Begriff kann nicht gelöscht werden, da er in einer anderen Wolke in Verwendung ist.
 
         //----- "add term"-block
-        .q-mb-md.q-px-sm
-          q-item.q-pa-none.round-borders.overflow-hidden.min-height-auto.q-py-sm(
-          :class="[showIcon && !inputNewWord ? 'bg-e4' : 'bg-grey-1']", multiline)
+        .q-mb-md.q-px-sm.row
+          .col-xs-12.col-md-8.offset-md-2.col-lg-6.offset-lg-3
+            q-item.q-pa-none.round-borders.overflow-hidden.min-height-auto.q-py-sm(
+            :class="[showIcon && !inputNewWord ? 'bg-e4' : 'bg-grey-1']", multiline)
 
-            //----- input-field
-            q-item-main(style="max-width: 100%;")
-              q-input.q-px-sm.q-py-xs(v-model="inputNewWord", hide-underline,
-              placeholder="neuer Begriff",
-              type="textarea",
-              @focus="showIcon = false",
-              @blur="showIcon = true",
-              :after="[{icon: 'edit', condition: showIcon && !inputNewWord}]")
+              //----- input-field
+              q-item-main(style="max-width: 100%;")
+                q-input.q-px-sm.q-py-xs(v-model="inputNewWord", hide-underline,
+                placeholder="neuer Begriff",
+                type="textarea",
+                @focus="showIcon = false",
+                @blur="showIcon = true",
+                :after="[{icon: 'edit', condition: showIcon && !inputNewWord}]")
 
-            //----- buttons
-            q-item-side.min-width-auto.transition.q-mr-sm(:class="[!inputNewWord ? 'leave-right' : '']")
-              q-btn.text-grey-9.bg-grey-3.shadow-1(@click="addWord(inputNewWord)", round, size="sm", flat)
-                q-icon(name="add", size="16px")
-              q-btn.text-grey-9.bg-grey-3.shadow-1.q-ml-sm(@click="inputNewWord = ''", round, size="sm", flat)
-                q-icon(name="clear", size="16px")
+              //----- buttons
+              q-item-side.min-width-auto.transition.q-mr-sm(:class="[!inputNewWord ? 'leave-right' : '']")
+                q-btn.text-grey-9.bg-grey-3.shadow-1(@click="addWord(inputNewWord)", round, size="sm", flat)
+                  q-icon(name="add", size="16px")
+                q-btn.text-grey-9.bg-grey-3.shadow-1.q-ml-sm(@click="inputNewWord = ''", round, size="sm", flat)
+                  q-icon(name="clear", size="16px")
 
           .q-mt-md.text-center
             info-button(v-if="!tempTerms.length", :size="'md'")
@@ -93,7 +94,7 @@
       q-tab-pane.q-px-sm.q-pt-none(keep alive, name="tab-2")
         q-list.q-pa-none.no-border.row
 
-          .col-6.q-px-sm(v-for="(mJ, index) in myJson")
+          .col-xs-6.col-sm-4.col-md-3.col-lg-2.q-px-sm(v-for="(mJ, index) in myJson")
             q-item.q-px-sm.round-borders.q-caption.bg-e4(
             :class="[checkIfSelected(mJ.label) ? 'bg-grey-1 text-grey-9' : 'text-grey-8', {'q-mb-md': index < myJson.length - 1}]")
 
@@ -111,7 +112,7 @@
       q-tab-pane.q-px-sm.q-pt-none(keep alive, name="tab-3")
         q-list.q-pa-none.no-border.row
 
-          .col-6.q-px-sm(v-for="(cT, index) in cloudThree")
+          .col-xs-6.col-sm-4.col-md-3.col-lg-2.q-px-sm(v-for="(cT, index) in cloudThree")
             q-item.q-px-sm.round-borders.q-caption.bg-e4(
             :class="[checkIfSelected(cT.label) ? 'bg-grey-1 text-grey-9' : 'text-grey-8', {'q-mb-md': index < cloudThree.length - 2}]")
 
