@@ -1,7 +1,7 @@
 <template lang="pug">
   q-page.min-height-auto
     .q-px-lg.row.items-center(style="height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
-      .col-xs-6.col-md-4(v-for="button in buttons", :class="{'inactive': !button.status}")
+      .col-xs-6.col-lg-2(v-for="button in buttons", :class="{'inactive': !button.status}")
 
         q-item.q-pa-none.q-mb-xs
           q-item-main
