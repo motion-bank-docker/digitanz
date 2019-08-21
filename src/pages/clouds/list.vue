@@ -8,14 +8,14 @@
 
       q-tab.capitalize.q-caption.text-weight-medium.q-mb-md.text-center.q-pa-none.text-grey-9.q-pr-sm.relative-position(
       name="tab-2", slot="title", :class="[selectedTab === 'tab-2' ? 'bg-grey-1' : '']",
-      label="Aktionen", default)
+      label="Was", default)
         .absolute-top-right.q-caption.q-ma-sm.q-px-xs.round-borders.inactive(v-if="countAktionen > 0",
         :class="[selectedTab === 'tab-2' ? '' : '']")
           | {{ countAktionen }}
 
       q-tab.capitalize.q-caption.text-weight-medium.q-mb-md.text-center.q-pa-none.text-grey-9.q-pr-sm.relative-position(
       name="tab-3", slot="title", :class="[selectedTab === 'tab-3' ? 'bg-grey-1' : '']",
-      label="Gestaltung")
+      label="Wie")
         .absolute-top-right.q-caption.q-ma-sm.q-px-xs.round-borders.inactive(v-if="countGestaltung > 0",
         :class="[selectedTab === 'tab-3' ? '' : '']")
           | {{ countGestaltung }}

@@ -12,8 +12,8 @@
           :class="[selectedShapeIndex === index ? 'bg-grey-1' : '']")
 
             //----- number
-            .absolute-top-left.q-caption.q-ma-xs.q-px-xs.round-borders.inactive(
-            v-if="selectedShapeIndex !== index")
+            .absolute-top-left.q-caption.q-pa-xs.round-borders.inactive(
+            v-if="selectedShapeIndex === index")
               | {{ index + 1 }}
 
             //----- icon
@@ -24,7 +24,7 @@
           .inactive
             | Noch keine Form ausgewählt.
 
-      template(v-if="selection.length && selectedShapeIndex === undefined")
+      template(v-if="selection.length")
         // info-button.absolute-top-right(:size="'sm'", :nr="'2'")
         info-button.absolute-top-right(:size="'md'")
           | Tippe auf eine Form, um sie auszuwählen und dann verschieben oder löschen zu können.
