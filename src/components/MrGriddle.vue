@@ -219,7 +219,7 @@
     },
     methods: {
       onResize (size) {
-        if (size.width > size.height) this.scaleFactor = 1800
+        if (size.width > size.height) this.scaleFactor = 2400
         else this.scaleFactor = 900
       },
       startTimer () {
