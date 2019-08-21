@@ -3,13 +3,14 @@
     q-scroll-observable(@scroll="userHasScrolled")
 
     div.relative-position(@click="$router.push({path: '/tools'})")
-      griddle-moves(:enclosed="true", :time="1000", style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
+      .row.justify-center.items-center(style="height: calc(100vh - 52px);")
+        griddle-moves.col-xs-10.col-sm-9.col-md-8.col-lg-7.col-xl-5(:enclosed="true", :time="1000")
 
-      .absolute-bottom.q-pb-md.full-width.text-center.transition(
+      .absolute-bottom.q-pb-md.full-width.text-center.transition.q-mb-xl(
       position="bottom",
       :class="[scrolled ? 'hide-arrow' : '']")
         q-btn(@click.native="", flat, round, size="sm")
-          q-icon(name="keyboard_arrow_down", size="30px")
+          q-icon(name="keyboard_arrow_down", size="50px")
 
     .bg-grey-1.q-body-1.line-height-wider.row
 
