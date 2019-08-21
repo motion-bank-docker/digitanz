@@ -1,8 +1,8 @@
 <template lang="pug">
-  q-page.q-py-md.min-height-auto
+  q-page.q-py-md.min-height-auto.row
 
     // ---------------------------------------------------------------------------------------------------------- recipe
-    div.q-mx-md.bg-e4.text-grey-8.round-borders(style="overflow: hidden;")
+    div.col.col-md-8.offset-md-2.col-lg-6.offset-lg-3.q-mx-md.bg-e4.text-grey-8.round-borders(style="overflow: hidden;")
       q-list.q-pa-none.no-border.full-width(style="overflow-x: hidden;")
 
         //----- title
@@ -77,7 +77,7 @@
                 q-icon(name="clear", size="16px")
 
     // ----------------------------------------------------------------------------------------------- buttons at bottom
-    .q-px-md.q-mt-md.overflow-hidden.row
+    .q-px-md.q-mt-md.overflow-hidden.row.col-12
 
       .col-6
         q-btn.border.bg-grey-9.text-grey-2.q-mr-md(@click="$router.push('/recipes')", flat, no-caps, icon="clear",
