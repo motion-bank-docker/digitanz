@@ -3,8 +3,8 @@
     .row(v-if="!enclosed")
       .col-md-12
         img.full-width(:src="currentImg")
-    .position-relative.row(v-else, style="overflow-y: hidden;")
-      img.full-width(:src="currentImg")
+    div(v-else, style="overflow-y: hidden;")
+      img(:src="currentImg", style="max-height: 80vh;")
 </template>
 
 <script>
