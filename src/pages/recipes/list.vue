@@ -42,55 +42,55 @@
 
         //----- recipes list
         template(v-if="tempRecipes.length")
+          .row
+            div.col-xs-12.col-md-8.offset-md-2.col-lg-6.offset-lg-3.q-mb-md.round-borders.transition(v-for="(recipe, index) in tempRecipes",
+            style="overflow: hidden;",
+            :class="[option !== index ? 'bg-e4 text-grey-8' : 'text-grey-9 bg-grey-1']")
+              div.relative-position(:class="{'bg-transparent': option === index}")
+                q-radio.full-width.q-mb-none.word-break(v-model="option", :val="index")
 
-          div.q-mb-md.round-borders.transition(v-for="(recipe, index) in tempRecipes",
-          style="overflow: hidden;",
-          :class="[option !== index ? 'bg-e4 text-grey-8' : 'text-grey-9 bg-grey-1']")
-            div.relative-position(:class="{'bg-transparent': option === index}")
-              q-radio.full-width.q-mb-none.word-break(v-model="option", :val="index")
+                  div.full-width(@click="handlerRadiobutton(index)")
+                    q-list.q-pa-none.no-border.full-width
 
-                div.full-width(@click="handlerRadiobutton(index)")
-                  q-list.q-pa-none.no-border.full-width
+                      //----- title
+                      q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm(
+                      :class="[option !== index ? 'text-grey-8' : 'text-grey-9']")
+                        | {{ recipe.title }}
 
-                    //----- title
-                    q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm(
-                    :class="[option !== index ? 'text-grey-8' : 'text-grey-9']")
-                      | {{ recipe.title }}
+                      template(v-if="option === index")
+                        q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
-                    template(v-if="option === index")
-                      q-item-separator.q-ma-none.bg-grey-5.opacity-4
+                        //----- ingredient
+                        template(v-for="(entry, i) in recipe.entries")
+                          q-item.items-baseline.q-px-sm.q-py-sm.q-my-xs.min-height-auto
+                            q-item-side.inactive {{ i + 1 }}
+                            q-item-main {{ entry }}
 
-                      //----- ingredient
-                      template(v-for="(entry, i) in recipe.entries")
-                        q-item.items-baseline.q-px-sm.q-py-sm.q-my-xs.min-height-auto
-                          q-item-side.inactive {{ i + 1 }}
-                          q-item-main {{ entry }}
+                          q-item-separator.q-ma-none
 
-                        q-item-separator.q-ma-none
+                .absolute-top-right.transition.q-px-sm.q-pt-sm.q-mt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
+                  info-button.q-mr-sm(:size="'sm'")
+                    button-description(:iconName="'fullscreen'")
+                      | Betrachte das Rezept auf ganzer Bildschirmfläche.
+                    button-description.q-my-sm(:iconName="'edit'")
+                      | Bearbeite das Rezept.
+                    button-description(:iconName="'delete'")
+                      | Lösche das Rezept.
 
-              .absolute-top-right.transition.q-px-sm.q-pt-sm.q-mt-xs(:class="[option !== index ? 'leave-right-absolute' : '']")
-                info-button.q-mr-sm(:size="'sm'")
-                  button-description(:iconName="'fullscreen'")
-                    | Betrachte das Rezept auf ganzer Bildschirmfläche.
-                  button-description.q-my-sm(:iconName="'edit'")
-                    | Bearbeite das Rezept.
-                  button-description(:iconName="'delete'")
-                    | Lösche das Rezept.
+                  //----- "zoom"-button
+                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(recipe, index)", round, size="sm", flat)
+                    q-icon(name="fullscreen", size="18px")
 
-                //----- "zoom"-button
-                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(recipe, index)", round, size="sm", flat)
-                  q-icon(name="fullscreen", size="18px")
+                  //----- "edit"-button
+                  q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editRecipe(index)", round, size="sm", flat)
+                    q-icon(name="edit", size="16px")
 
-                //----- "edit"-button
-                q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editRecipe(index)", round, size="sm", flat)
-                  q-icon(name="edit", size="16px")
+                  //----- "remove"-button
+                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeFromTempRecipe(index)", round, size="sm", flat)
+                    q-icon(name="delete", size="16px")
 
-                //----- "remove"-button
-                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeFromTempRecipe(index)", round, size="sm", flat)
-                  q-icon(name="delete", size="16px")
-
-              info-button.absolute-top-right(v-if="option === undefined && index === 0", :size="'sm'")
-                | Dies ist ein Rezept. Durch antippen lässt es sich aus- und wieder abwählen.
+                info-button.absolute-top-right(v-if="option === undefined && index === 0", :size="'sm'")
+                  | Dies ist ein Rezept. Durch antippen lässt es sich aus- und wieder abwählen.
 
         // ------------------------------------------------------------------------------- buttons below, "empty"-screen
         template
@@ -122,54 +122,55 @@
       q-tab-pane.q-px-md.q-mb-sm.q-pt-none(keep alive, name="tab-2")
 
         //----- remixes
-        div.q-mb-md.round-borders.transition(v-for="(remix, index) in tempRemixes",
-        style="overflow: hidden;",
-        :class="[optionRemix !== index ? 'bg-e4 text-grey-8' : 'text-grey-9 bg-grey-1', {'hidden': optionRemix !== index && remixStandalone}]")
-          div.relative-position(:class="{'bg-transparent': optionRemix === index}")
-            q-radio.full-width.q-mb-none.word-break(v-model="optionRemix", :val="index")
+        .row
+          div.col-xs-12.col-md-8.offset-md-2.col-lg-6.offset-lg-3.q-mb-md.q-mb-md.round-borders.transition(v-for="(remix, index) in tempRemixes",
+          style="overflow: hidden;",
+          :class="[optionRemix !== index ? 'bg-e4 text-grey-8' : 'text-grey-9 bg-grey-1', {'hidden': optionRemix !== index && remixStandalone}]")
+            div.relative-position(:class="{'bg-transparent': optionRemix === index}")
+              q-radio.full-width.q-mb-none.word-break(v-model="optionRemix", :val="index")
 
-              div.full-width(@click="handlerRadiobuttonRemix(index)")
-                q-list.q-pa-none.no-border.full-width
+                div.full-width(@click="handlerRadiobuttonRemix(index)")
+                  q-list.q-pa-none.no-border.full-width
 
-                  //----- title
-                  q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm(
-                  :class="[optionRemix !== index ? 'text-grey-8' : 'text-grey-9']")
-                    | {{ remix.title }}
+                    //----- title
+                    q-list-header.q-title.q-pa-none.q-py-md.min-height-auto.q-px-sm(
+                    :class="[optionRemix !== index ? 'text-grey-8' : 'text-grey-9']")
+                      | {{ remix.title }}
 
-                  template(v-if="optionRemix === index")
-                    q-item-separator.q-ma-none.bg-grey-5.opacity-4
+                    template(v-if="optionRemix === index")
+                      q-item-separator.q-ma-none.bg-grey-5.opacity-4
 
-                    //----- ingredient
-                    template(v-for="(entry, i) in remix.entries")
-                      q-item.items-baseline.q-px-sm.q-py-sm.q-my-xs.min-height-auto
-                        q-item-side.inactive {{ i + 1 }}
-                        q-item-main {{ entry }}
+                      //----- ingredient
+                      template(v-for="(entry, i) in remix.entries")
+                        q-item.items-baseline.q-px-sm.q-py-sm.q-my-xs.min-height-auto
+                          q-item-side.inactive {{ i + 1 }}
+                          q-item-main {{ entry }}
 
-                      q-item-separator.q-ma-none
+                        q-item-separator.q-ma-none
 
-            .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
-              info-button.q-mr-sm(:size="'sm'")
-                button-description(:iconName="'fullscreen'")
-                  | Betrachte den Remix auf ganzer Bildschirmfläche.
-                button-description.q-my-sm(:iconName="'edit'")
-                  | Bearbeite den Remix.
-                button-description(:iconName="'delete'")
-                  | Lösche den Remix.
+              .absolute-top-right.transition.q-mr-sm.q-mt-sm.q-pt-xs(:class="[optionRemix !== index ? 'leave-right-absolute' : '']")
+                info-button.q-mr-sm(:size="'sm'")
+                  button-description(:iconName="'fullscreen'")
+                    | Betrachte den Remix auf ganzer Bildschirmfläche.
+                  button-description.q-my-sm(:iconName="'edit'")
+                    | Bearbeite den Remix.
+                  button-description(:iconName="'delete'")
+                    | Lösche den Remix.
 
-              //----- "zoom"-button
-              q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(remix, index)", round, size="sm", flat)
-                q-icon(name="fullscreen", size="18px")
+                //----- "zoom"-button
+                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(remix, index)", round, size="sm", flat)
+                  q-icon(name="fullscreen", size="18px")
 
-              //----- "edit"-button
-              q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editRemix(index)", round, size="sm", flat)
-                q-icon(name="edit", size="16px")
+                //----- "edit"-button
+                q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editRemix(index)", round, size="sm", flat)
+                  q-icon(name="edit", size="16px")
 
-              //----- "remove"-button
-              q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempRemix(index)", round, size="sm", flat)
-                q-icon(name="delete", size="16px")
+                //----- "remove"-button
+                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempRemix(index)", round, size="sm", flat)
+                  q-icon(name="delete", size="16px")
 
-            info-button.absolute-top-right(v-if="optionRemix === undefined && index === 0", :size="'sm'")
-              | Dies ist ein Remix. Durch antippen lässt es sich aus- und wieder abwählen.
+              info-button.absolute-top-right(v-if="optionRemix === undefined && index === 0", :size="'sm'")
+                | Dies ist ein Remix. Durch antippen lässt es sich aus- und wieder abwählen.
 
         // ------------------------------------------------------------------------------- buttons below, "empty"-screen
         template
