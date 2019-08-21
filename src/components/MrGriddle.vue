@@ -1,5 +1,6 @@
 <template lang="pug">
   div
+    q-window-resize-observable(@resize="onResize")
     div.row(style="margin-top: -1px;")
 
       //----- mr griddle
@@ -146,7 +147,8 @@
         timerId: undefined,
         editSettings: false,
         gridStrokeWidth: 0,
-        patternOpacity: 0
+        patternOpacity: 0,
+        scaleFactor: 900
       }
     },
     computed: {
@@ -160,7 +162,7 @@
         return 20 * this.skeletonScale
       },
       skeletonScale () {
-        const scale = Math.min(1, this.svgSize.width / 900)
+        const scale = Math.min(1, this.svgSize.width / this.scaleFactor)
         return scale
       },
       timerInterval () {
@@ -216,6 +218,10 @@
       }
     },
     methods: {
+      onResize (size) {
+        if (size.width > size.height) this.scaleFactor = 1800
+        else this.scaleFactor = 900
+      },
       startTimer () {
         this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
         this.lastFrameTime = Date.now()

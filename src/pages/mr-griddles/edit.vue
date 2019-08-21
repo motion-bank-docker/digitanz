@@ -74,4 +74,5 @@
   #mr-griddle-container
     width 100vw
     height calc(100vh - 52px - 50px)
+    max-height calc(100vh - 52px - 50px)
 </style>
