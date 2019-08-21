@@ -42,8 +42,8 @@
         :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
 
         //----- visible info-box
-        .fixed-top.bg-grey-1.text-grey-9.transition.overflow-hidden(
-        style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3); z-index: 10; top: 52px",
+        .fixed-top.bg-grey-1.text-grey-9.transition.overflow-hidden.soft-shadow(
+        style="z-index: 10; top: 52px",
         position="top",
         :class="[showInfoBox ? 'height-auto' : 'height-0']",
         :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
