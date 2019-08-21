@@ -1,5 +1,6 @@
 <template lang="pug">
   q-layout(view='lHh Lpr lFf')
+    q-window-resize-observable(@resize="onResize")
 
     // ---------------------------------------------------------------------------------------------------------- header
     q-layout-header.bg-grey-3.text-grey-9(style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
@@ -31,21 +32,21 @@
           size="sm", flat, :class="[showInfoBox || currentAppName === 'Tools' ? 'leave-right' : '']")
             .q-subheading.text-weight-medium.text-weight-regular ?
 
-    // ---------------------------------------------------------------------------------------------------------- others
+    // -----------------------------------------------------------------------------------------------------------------
     q-page-container
 
       .relative-position
 
         //----- invisible space placeholder
         div.bg-grey-3.text-grey-9.transition.overflow-hidden(:class="[showInfoBox ? 'height-auto' : 'height-0']",
-        :style="{height: infoBoxHeight + 'px'}")
+        :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
 
         //----- visible info-box
         .fixed-top.bg-grey-1.text-grey-9.transition.overflow-hidden(
         style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3); z-index: 10; top: 52px",
         position="top",
         :class="[showInfoBox ? 'height-auto' : 'height-0']",
-        :style="{height: infoBoxHeight + 'px'}")
+        :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
 
           //----- play-button
           .fit.row.items-center.justify-between(v-if="!usingTool")
@@ -98,6 +99,7 @@
         showInfoBox: false,
         currentAppName: undefined,
         infoBoxHeight: undefined,
+        infoBoxHeightMax: undefined,
         tools: [{
           label: 'Mr. Griddle',
           name: 'mr-griddle',
@@ -178,6 +180,10 @@
       }
     },
     methods: {
+      onResize (size) {
+        let headerHeight = 52
+        this.infoBoxHeightMax = size.height - headerHeight - 50
+      },
       handlerInfoBox () {
         // this.showInfoBox = !this.showInfoBox
         if (this.showInfoBox) this.$store.commit('globalSettings/handlerStatusInfoBox', 'close')

@@ -1,6 +1,9 @@
 <template lang="pug">
   q-page.min-height-auto
-    .q-px-lg.row.items-center(style="height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
+    q-window-resize-observable(@resize="onResize")
+
+    //----- portrait
+    .q-px-lg.row.items-center(v-if="!landscape", style="height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
       .col-xs-6.col-lg-2(v-for="button in buttons", :class="{'inactive': !button.status}")
 
         q-item.q-pa-none.q-mb-xs
@@ -17,6 +20,19 @@
             q-item-tile.text-center
               .q-caption {{ button.label }}
 
+    //----- landscape
+    .row.items-center.justify-between.q-px-sm(v-else, style="height: 50px")
+      div(v-for="button in buttons")
+        //----- tool-button
+        q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
+        rounded, flat :disabled="!button.status", no-ripple, no-caps)
+          q-icon.on-left(:name="button.icon")
+          | {{ button.label }}
+
+        q-btn.shadow-1.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", rounded, flat, no-caps)
+          q-icon.rotate-180.on-left(name="keyboard_backspace")
+          | {{ button.label }}
+
 </template>
 
 <script>
@@ -25,6 +41,7 @@
   export default {
     data () {
       return {
+        landscape: undefined,
         buttons: [{
           action: 'mr-griddle',
           icon: 'accessibility',
@@ -75,6 +92,10 @@
       this.$store.commit('globalSettings/handlerStatusInfoBox')
     },
     methods: {
+      onResize (size) {
+        if (size.width > size.height) this.landscape = true
+        else this.landscape = false
+      },
       highlightButton (val) {
         this.$store.commit('globalSettings/handlerTool', val)
       },
