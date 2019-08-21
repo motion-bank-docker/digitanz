@@ -22,10 +22,11 @@
                 v-model="optionCloud", :val="index",
                 :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']",
                 style="min-height: 100px;")
-                  .word-break.full-width.q-px-lg(@click="handlerRadiobutton(index)")
-                    template(v-for="(term, i) in cloud")
-                      span {{ term }}
-                      span(v-if="i < cloud.length - 1") ,&ensp;
+                  .row.word-break.full-width.q-px-lg(@click="handlerRadiobutton(index)")
+                    .col-xs-12.col-sm-8.offset-sm-2.col-lg-6.offset-lg-3
+                      template(v-for="(term, i) in cloud")
+                        span {{ term }}
+                        span(v-if="i < cloud.length - 1") ,&ensp;
 
                 .absolute-top-right.transition.q-mr-sm.q-pt-sm(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
                   info-button.q-mr-sm(:size="'sm'")
