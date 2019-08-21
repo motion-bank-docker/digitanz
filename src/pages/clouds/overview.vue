@@ -13,44 +13,44 @@
     //----------------------------------------------------------------------------------------------------------- clouds
     .q-pt-sm
       template(v-if="tempClouds.length > 0")
-        q-list.min-height-auto.q-py-none(v-for="(cloud, index) in tempClouds", no-border)
-          div.relative-position.overflow-hidden.q-px-md.q-py-sm
-            div.bg-e4.text-center.round-borders
-              .overflow-hidden.relative-position.round-borders
+        .row
+          q-list.min-height-auto.q-py-none.col-xs-12.col-md-8.offset-md-2.col-lg-6.offset-lg-3(v-for="(cloud, index) in tempClouds", no-border)
+            div.relative-position.overflow-hidden.q-px-md.q-py-sm
+              div.bg-e4.text-center.round-borders
+                .overflow-hidden.relative-position.round-borders
 
-                q-radio.full-width(
-                v-model="optionCloud", :val="index",
-                :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']",
-                style="min-height: 100px;")
-                  .row.word-break.full-width.q-px-lg(@click="handlerRadiobutton(index)")
-                    .col-xs-12.col-sm-8.offset-sm-2.col-lg-6.offset-lg-3
+                  q-radio.full-width(
+                  v-model="optionCloud", :val="index",
+                  :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']",
+                  style="min-height: 100px;")
+                    .word-break.full-width.q-px-lg(@click="handlerRadiobutton(index)")
                       template(v-for="(term, i) in cloud")
                         span {{ term }}
                         span(v-if="i < cloud.length - 1") ,&ensp;
 
-                .absolute-top-right.transition.q-mr-sm.q-pt-sm(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
-                  info-button.q-mr-sm(:size="'sm'")
-                    button-description(:iconName="'fullscreen'")
-                      | Betrachte die Wortwolke auf ganzer Bildschirmfläche.
-                    button-description.q-my-sm(:iconName="'edit'")
-                      | Bearbeite die Wortwolke.
-                    button-description(:iconName="'delete'")
-                      | Lösche die Wortwolke.
+                  .absolute-top-right.transition.q-mr-sm.q-pt-sm(:class="[optionCloud !== index ? 'leave-right-absolute' : '']")
+                    info-button.q-mr-sm(:size="'sm'")
+                      button-description(:iconName="'fullscreen'")
+                        | Betrachte die Wortwolke auf ganzer Bildschirmfläche.
+                      button-description.q-my-sm(:iconName="'edit'")
+                        | Bearbeite die Wortwolke.
+                      button-description(:iconName="'delete'")
+                        | Lösche die Wortwolke.
 
-                  //----- "zoom-box"-button
-                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(cloud, index)", round, size="sm", flat)
-                    q-icon(name="fullscreen", size="16px")
+                    //----- "zoom-box"-button
+                    q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(cloud, index)", round, size="sm", flat)
+                      q-icon(name="fullscreen", size="16px")
 
-                  //----- "zoom-box"-button
-                  q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editCloud(index)", round, size="sm", flat)
-                    q-icon(name="edit", size="16px")
+                    //----- "zoom-box"-button
+                    q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editCloud(index)", round, size="sm", flat)
+                      q-icon(name="edit", size="16px")
 
-                  //----- "remove"-button
-                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempCloud(index)", round, size="sm", flat)
-                    q-icon(name="delete", size="16px")
+                    //----- "remove"-button
+                    q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempCloud(index)", round, size="sm", flat)
+                      q-icon(name="delete", size="16px")
 
-                info-button.absolute-top-left.q-ma-sm(v-if="optionCloud === undefined && index === 0", :size="'sm'")
-                  | Dies ist eine Wortwolke. Durch antippen lässt sie sich aus- und wieder abwählen.
+                  info-button.absolute-top-left.q-ma-sm(v-if="optionCloud === undefined && index === 0", :size="'sm'")
+                    | Dies ist eine Wortwolke. Durch antippen lässt sie sich aus- und wieder abwählen.
 
     // ---------------------------------------------------------------------------------------------------- "add"-button
     .q-px-md.q-pb-md.q-pt-sm
