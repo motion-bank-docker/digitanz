@@ -23,7 +23,7 @@
                   v-model="optionCloud", :val="index",
                   :class="[optionCloud === index ? 'bg-grey-1 text-grey-9' : 'text-grey-8']",
                   style="min-height: 100px;")
-                    .word-break.full-width.q-px-lg(@click="handlerRadiobutton(index)")
+                    .word-break.full-width.q-pa-lg(@click="handlerRadiobutton(index)")
                       template(v-for="(term, i) in cloud")
                         span {{ term }}
                         span(v-if="i < cloud.length - 1") ,&ensp;
