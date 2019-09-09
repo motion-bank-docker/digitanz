@@ -16,9 +16,9 @@
         button-description(:iconName="'clear'")
           | Zurück zur Übersicht aller erstellten Spaces.
 
-      q-btn.text-grey-9.bg-grey-3.shadow-1.q-mx-sm(@click="$router.push('/space-tool/create')", round, flat, size="sm")
+      q-btn.text-grey-9.bg-grey-4.q-mx-sm(@click="$router.push('/space-tool/create')", round, flat, size="sm")
         q-icon(name="edit", size="16px")
-      q-btn.text-grey-9.bg-grey-3.shadow-1(@click="$router.push('/space-tool/list')", round, flat, size="sm")
+      q-btn.text-grey-9.bg-grey-4(@click="$router.push('/space-tool/list')", round, flat, size="sm")
         q-icon(name="clear", size="16px")
 </template>
 
