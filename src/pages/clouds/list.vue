@@ -54,7 +54,8 @@
                     | Diesen Begriff aus dem Cloud-Tool löschen.
 
                 template(v-if="countCustomTermUsages(term) <= 0")
-                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="deleteCustomTerm(term, index)", size="sm", flat, round)
+                  // .shadow-1
+                  q-btn.bg-grey-4.text-grey-9(@click="deleteCustomTerm(term, index)", size="sm", flat, round)
                     q-icon(name="delete", size="16px")
 
                 template(v-else)
@@ -81,9 +82,11 @@
 
               //----- buttons
               q-item-side.min-width-auto.transition.q-mr-sm(:class="[!inputNewWord ? 'leave-right' : '']")
-                q-btn.text-grey-9.bg-grey-3.shadow-1(@click="addWord(inputNewWord)", round, size="sm", flat)
+                // .shadow-1
+                q-btn.bg-grey-4.text-grey-9(@click="addWord(inputNewWord)", round, size="sm", flat)
                   q-icon(name="add", size="16px")
-                q-btn.text-grey-9.bg-grey-3.shadow-1.q-ml-sm(@click="inputNewWord = ''", round, size="sm", flat)
+                // .shadow-1
+                q-btn.bg-grey-4.text-grey-9.q-ml-sm(@click="inputNewWord = ''", round, size="sm", flat)
                   q-icon(name="clear", size="16px")
 
           .q-mt-md.text-center

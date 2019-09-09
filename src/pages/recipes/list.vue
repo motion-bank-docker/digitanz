@@ -78,15 +78,15 @@
                       | Lösche das Rezept.
 
                   //----- "zoom"-button
-                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(recipe, index)", round, size="sm", flat)
+                  q-btn.bg-grey-4.text-grey-9(@click="handlerZoom(recipe, index)", round, size="sm", flat)
                     q-icon(name="fullscreen", size="18px")
 
                   //----- "edit"-button
-                  q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editRecipe(index)", round, size="sm", flat)
+                  q-btn.bg-grey-4.text-grey-9.q-mx-sm(@click="editRecipe(index)", round, size="sm", flat)
                     q-icon(name="edit", size="16px")
 
                   //----- "remove"-button
-                  q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeFromTempRecipe(index)", round, size="sm", flat)
+                  q-btn.bg-grey-4.text-grey-9(@click="removeFromTempRecipe(index)", round, size="sm", flat)
                     q-icon(name="delete", size="16px")
 
                 info-button.absolute-top-right(v-if="option === undefined && index === 0", :size="'sm'")
@@ -158,15 +158,15 @@
                     | Lösche den Remix.
 
                 //----- "zoom"-button
-                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(remix, index)", round, size="sm", flat)
+                q-btn.bg-grey-4.text-grey-9(@click="handlerZoom(remix, index)", round, size="sm", flat)
                   q-icon(name="fullscreen", size="18px")
 
                 //----- "edit"-button
-                q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editRemix(index)", round, size="sm", flat)
+                q-btn.bg-grey-4.text-grey-9.q-mx-sm(@click="editRemix(index)", round, size="sm", flat)
                   q-icon(name="edit", size="16px")
 
                 //----- "remove"-button
-                q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempRemix(index)", round, size="sm", flat)
+                q-btn.bg-grey-4.text-grey-9(@click="removeTempRemix(index)", round, size="sm", flat)
                   q-icon(name="delete", size="16px")
 
               info-button.absolute-top-right(v-if="optionRemix === undefined && index === 0", :size="'sm'")

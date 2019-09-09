@@ -38,7 +38,7 @@
         .col-xs-12.col-sm-10.offset-sm-1.col-md-8.offset-md-2.col-lg-6.offset-lg-3
           .relative-position.overflow-hidden.q-mx-md(:class="[currentShapes.length > 0 ? 'height-46' : 'height-0']")
             .q-pt-sm.absolute-top-left.transition
-              q-btn.shadow-1.text-grey-9(@click="handlerPlayButton()", round, flat, size="sm")
+              q-btn.bg-grey-4.text-grey-9(@click="handlerPlayButton()", round, flat, size="sm")
                 q-icon(name="play_arrow", size="18px")
 
               template(v-if="selection.length && selectedShapeIndex === undefined")
@@ -60,19 +60,19 @@
                   button-description(:iconName="'delete'")
                     | Auswahl entfernen.
 
-              q-btn.bg-grey-3.transition(@click="moveSelectedShape('left')",
+              q-btn.transition(@click="moveSelectedShape('left')",
               :disabled="checkIfDisabled('left')", size="sm", round, flat,
-              :class="[checkIfDisabled('left') ? '' : 'shadow-1']")
+              :class="[checkIfDisabled('left') ? 'bg-grey-3' : 'bg-grey-4']")
                 q-icon(name="keyboard_arrow_left", size="20px")
 
-              q-btn.bg-grey-3.q-ml-sm.q-mr-md.transition(@click="moveSelectedShape('right')",
+              q-btn.q-ml-sm.q-mr-md.transition(@click="moveSelectedShape('right')",
               :disabled="checkIfDisabled('right')", size="sm", round, flat,
-              :class="[checkIfDisabled('right') ? '' : 'shadow-1']")
+              :class="[checkIfDisabled('right') ? 'bg-grey-3' : 'bg-grey-4']")
                 q-icon(name="keyboard_arrow_right", size="20px")
 
-              q-btn.bg-grey-3(@click="removeSelectedShape()",
+              q-btn(@click="removeSelectedShape()",
               :disabled="selectedShapeIndex === undefined", size="sm", round, flat,
-              :class="[this.selectedShapeIndex === undefined ? '' : 'shadow-1']")
+              :class="[this.selectedShapeIndex === undefined ? 'bg-grey-3' : 'bg-grey-4']")
                 q-icon(name="delete", size="16px")
 
     // ---------------------------------------------------------------------------------------------------------- shapes

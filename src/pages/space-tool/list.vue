@@ -28,15 +28,15 @@
                 | Auswahl löschen.
 
             //----- "play"-button
-            q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerSpaceButtons('play', index)", flat, size="sm", round)
+            q-btn.bg-grey-4.text-grey-9(@click="handlerSpaceButtons('play', index)", flat, size="sm", round)
               q-icon(name="play_arrow", size="18px")
 
             //----- "edit"-button
-            q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="handlerSpaceButtons('edit', index, space)", round, size="sm", flat)
+            q-btn.bg-grey-4.text-grey-9.q-mx-sm(@click="handlerSpaceButtons('edit', index, space)", round, size="sm", flat)
               q-icon(name="edit", size="16px")
 
             //----- "delete"-button
-            q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerSpaceButtons('delete', index)", round, size="sm", flat)
+            q-btn.bg-grey-4.text-grey-9(@click="handlerSpaceButtons('delete', index)", round, size="sm", flat)
               q-icon(name="delete", size="16px")
 
     // --------------------------------------------------------------------------------------------------- buttons below

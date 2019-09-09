@@ -47,11 +47,14 @@
                 button-description(:iconName="'delete'")
                   | Lösche die Zutat.
 
-              q-btn.bg-grey-3.text-grey-9.shadow-1(@click="moveUp(index)", round, size="sm", flat)
+              // .shadow-1
+              q-btn.bg-grey-4.text-grey-9(@click="moveUp(index)", round, size="sm", flat)
                 q-icon(name="keyboard_arrow_up", size="18px")
-              q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="moveDown(index)", round, size="sm", flat)
+              //.shadow-1
+              q-btn.bg-grey-4.text-grey-9.q-mx-sm(@click="moveDown(index)", round, size="sm", flat)
                 q-icon(name="keyboard_arrow_down", size="18px")
-              q-btn.bg-grey-3.text-grey-9.shadow-1(@click="deleteTodoItem(index)", round, size="sm", flat)
+              //.shadow-1
+              q-btn.bg-grey-4.text-grey-9(@click="deleteTodoItem(index)", round, size="sm", flat)
                 q-icon(name="delete", size="16px")
 
             info-button.absolute-right(v-if="option !== ingr && index === 0", :size="'sm'")
@@ -71,9 +74,9 @@
             :after="[{icon: 'edit', condition: showIcon.newRecipeEntry && !addIngredient}]")
           q-item-side.min-width-auto.min-height-auto.transition.row.self-stretch(:class="[!addIngredient ? 'leave-right' : '']")
             .transition.q-px-sm.items-top.row.q-pt-xs.q-mt-sm
-              q-btn.bg-grey-3.text-grey-9.shadow-1(@click="addTodoItem", round, size="sm", flat)
+              q-btn.bg-grey-4.text-grey-9(@click="addTodoItem", round, size="sm", flat)
                 q-icon(name="add", size="16px")
-              q-btn.bg-grey-3.text-grey-9.shadow-1.q-ml-sm(@click="resetValues", round, size="sm", flat)
+              q-btn.bg-grey-4.text-grey-9.q-ml-sm(@click="resetValues", round, size="sm", flat)
                 q-icon(name="clear", size="16px")
 
     // ----------------------------------------------------------------------------------------------- buttons at bottom

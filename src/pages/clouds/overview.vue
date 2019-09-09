@@ -38,15 +38,18 @@
                         | Lösche die Wortwolke.
 
                     //----- "zoom-box"-button
-                    q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerZoom(cloud, index)", round, size="sm", flat)
+                    // .shadow-1
+                    q-btn.bg-grey-4.text-grey-9(@click="handlerZoom(cloud, index)", round, size="sm", flat)
                       q-icon(name="fullscreen", size="16px")
 
                     //----- "zoom-box"-button
-                    q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="editCloud(index)", round, size="sm", flat)
+                    // .shadow-1
+                    q-btn.bg-grey-4.text-grey-9.q-mx-sm(@click="editCloud(index)", round, size="sm", flat)
                       q-icon(name="edit", size="16px")
 
                     //----- "remove"-button
-                    q-btn.bg-grey-3.text-grey-9.shadow-1(@click="removeTempCloud(index)", round, size="sm", flat)
+                    // .shadow-1
+                    q-btn.bg-grey-4.text-grey-9(@click="removeTempCloud(index)", round, size="sm", flat)
                       q-icon(name="delete", size="16px")
 
                   info-button.absolute-top-left.q-ma-sm(v-if="optionCloud === undefined && index === 0", :size="'sm'")
