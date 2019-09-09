@@ -10,7 +10,7 @@
         q-item-side.min-width-auto.overflow-hidden.row(:class="{'offset': !usingTool}",
         style="transition: all ease 200ms; width: 54px; min-height: 50px;")
           // shadow-1
-          q-btn.self-center.bg-grey-1.text-grey-9.q-ml-md(@click="$router.push('/tools')", no-ripple, round, size="sm", flat)
+          q-btn.self-center.bg-white.text-grey-9.q-ml-md(@click="$router.push('/tools')", no-ripple, round, size="sm", flat)
             q-icon(name="keyboard_backspace", size="16px")
 
         //----- title
