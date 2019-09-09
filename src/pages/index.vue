@@ -16,7 +16,7 @@
 
       .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3
         .q-px-md.q-pt-sm.q-pb-lg.q-mb-md.bg-white.q-mx-sm
-          .q-subheading.q-mb-md.text-weight-medium.q-mt-md
+          .q-subheading.q-mb-lg.text-weight-medium.q-mt-md
             | Etetur sadipscing elitr, sed diam nonumy eirm.
           div
             | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
@@ -24,7 +24,7 @@
             | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna.
 
         .q-px-md.q-pt-sm.q-pb-lg.q-mb-md.bg-white.q-mx-sm
-          .q-subheading.q-mb-md.text-weight-medium.q-mt-md
+          .q-subheading.q-mb-lg.text-weight-medium.q-mt-md
             | Nonumy eirmod temportetur sadipscing elitr, sed diam nonumy eirm.
           div
             | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
