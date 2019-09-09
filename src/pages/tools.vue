@@ -28,7 +28,7 @@
     //----- landscape
     .orientation-landscape
 
-      .desktop-only.q-px-lg.row.items-center(style="min-height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
+      // .desktop-only.q-px-lg.row.items-center(style="min-height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
         .col-xs-6.col-md-4.col-lg-2(v-for="button in buttons", :class="{'inactive': !button.status}")
 
           q-item.q-pa-none.q-mb-xs
@@ -37,7 +37,7 @@
 
                 //----- tool-button
                 q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
-                :icon="button.icon", size="lg", round, flat :disabled="!button.status", no-ripple)
+                // :icon="button.icon", size="lg", round, flat :disabled="!button.status", no-ripple)
 
                 q-btn.shadow-2.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", size="lg", round, flat)
                   q-icon.rotate-180(name="keyboard_backspace", size="30px")
@@ -46,7 +46,8 @@
                 .q-caption {{ button.label }}
 
       // .bg-green.mobile-only.row.items-center.justify-between.q-px-sm(style="height: 50px")
-      .mobile-only.row.items-center.justify-between.q-px-sm(style="min-height: calc(100vh - 52px - calc(100vw * 0.5625))!important;")
+      // .mobile-only.row.items-center.justify-between.q-px-sm(style="min-height: calc(100vh - 52px - calc(100vw * 0.5625))!important;")
+      .row.items-center.justify-between.q-px-sm(style="min-height: calc(100vh - 52px - calc(100vw * 0.5625))!important;")
         .col-xs-12.col-xl-8.offset-xl-2.row.items-center.justify-between
 
           div.q-py-sm(v-for="button in buttons")
