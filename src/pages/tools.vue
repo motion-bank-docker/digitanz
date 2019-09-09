@@ -26,7 +26,7 @@
     //----- landscape
     .orientation-landscape
 
-      .desktop-only.q-px-lg.row.items-center(style="height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
+      .desktop-only.q-px-lg.row.items-center(style="min-height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
         .col-xs-6.col-md-4.col-lg-2(v-for="button in buttons", :class="{'inactive': !button.status}")
 
           q-item.q-pa-none.q-mb-xs
@@ -43,8 +43,9 @@
               q-item-tile.text-center
                 .q-caption {{ button.label }}
 
-      .mobile-only.row.items-center.justify-between.q-px-sm(style="height: 50px")
-        div(v-for="button in buttons")
+      // .bg-green.mobile-only.row.items-center.justify-between.q-px-sm(style="height: 50px")
+      .mobile-only.row.items-center.justify-between.q-px-sm(style="min-height: calc(100vh - 52px - calc(100vw * 0.5625))!important;")
+        div.q-py-sm(v-for="button in buttons")
           //----- tool-button
           q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
           rounded, flat :disabled="!button.status", no-ripple, no-caps)
