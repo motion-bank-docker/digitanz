@@ -12,10 +12,10 @@
         q-btn(@click.native="", flat, round, size="sm")
           q-icon(name="keyboard_arrow_down", size="50px")
 
-    .bg-grey-1.q-body-1.line-height-wider.row
+    .q-body-1.line-height-wider.row
 
       .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3
-        .q-px-md.q-py-lg.q-mb-md
+        .q-px-md.q-pt-sm.q-pb-lg.q-mb-md.bg-white.q-mx-sm
           .q-subheading.q-mb-md.text-weight-medium.q-mt-md
             | Etetur sadipscing elitr, sed diam nonumy eirm.
           div
@@ -23,23 +23,19 @@
           div.q-mt-sm
             | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna.
 
-        q-item-separator.q-my-none.q-mx-md
-
-        .q-px-md.q-py-lg.q-mb-md
+        .q-px-md.q-pt-sm.q-pb-lg.q-mb-md.bg-white.q-mx-sm
           .q-subheading.q-mb-md.text-weight-medium.q-mt-md
             | Nonumy eirmod temportetur sadipscing elitr, sed diam nonumy eirm.
           div
             | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
 
-        q-item-separator.q-my-none.q-mx-md
-
-        .q-px-md.q-py-xl.text-center
-          q-btn.bg-white.text-grey-9.shadow-1(@click="$router.push({path: '/tools'})", flat, round, size="lg", no-caps)
+        .q-px-md.q-pt-md.q-pb-lg.text-center
+          q-btn.bg-white.text-grey-9(@click="$router.push({path: '/tools'})", flat, round, size="lg", no-caps)
             q-icon.rotate-180(name="keyboard_backspace")
           .q-caption.q-mt-sm.text-weight-medium Zu den Tools
 
-      .row.col-12
-        .text-center.bg-white.col-12
+      .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3
+        .text-center.bg-white.col-12.q-mx-sm
           img(src="~assets/BMBF_deutsch.jpg", style="width: 80%; max-width: 200px;")
 
         q-btn.q-py-md.text-center.full-width(@click="$router.push({path: '/tools'})", flat, no-caps)
