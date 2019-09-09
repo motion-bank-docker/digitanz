@@ -53,7 +53,7 @@
                     | Dies ist eine Wortwolke. Durch antippen lässt sie sich aus- und wieder abwählen.
 
     // ---------------------------------------------------------------------------------------------------- "add"-button
-    .q-px-md.q-pb-md.q-pt-sm
+    .q-px-md.q-pb-md
 
       //----- empty screen
       .row.items-center.height-empty(v-if="tempClouds.length <= 0")
@@ -75,7 +75,7 @@
                   | Füge hier eine Wortwolke hinzu.
 
       //----- filled screen
-      .text-right(v-else)
+      .text-right.q-pt-sm(v-else)
         q-btn.bg-grey-9.text-white(@click="addCloud()", round, flat)
           q-icon(name="add")
 
