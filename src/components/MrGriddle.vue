@@ -56,30 +56,36 @@
                 button-description(:iconName="'edit'")
                   | Zum Edit-Modus: Änderungen am Grid oder an der Geschwindigkeit werden hier vorgenommen.
 
-              q-btn.text-grey-9.shadow-1(@click="handleModeChange", round, flat, no-ripple, size="sm")
+              // .shadow-1
+              q-btn.bg-grey-4.text-grey-9(@click="handleModeChange", round, flat, no-ripple, size="sm")
                 q-icon(name="edit", size="16px")
 
           .absolute-top-right.q-mr-md.q-mt-md.transition(:class="{'leave-right': !editSettings}")
-            q-btn.text-grey-9.shadow-1.bg-grey-3(@click="handleModeChange", round, flat, no-ripple, size="sm")
+            // .shadow-1
+            q-btn.bg-grey-4.text-grey-9.bg-grey-3(@click="handleModeChange", round, flat, no-ripple, size="sm")
               q-icon(name="clear", size="16px")
 
     //----- "resize grid"-buttons (top left)
     .absolute-top-left.text-center.q-mx-md.q-mt-md.transition(:class="{'leave-left-absolute' : !editSettings}")
       div
-        q-btn.shadow-1.bg-grey-3.text-grey-9(@click="handleGridChange(0,-1)", round, size="sm", flat)
+        // .shadow-1
+        q-btn.bg-grey-4.text-grey-9(@click="handleGridChange(0,-1)", round, size="sm", flat)
           q-icon(name="remove", size="16px")
       div
-        q-btn.shadow-1.bg-grey-3.text-grey-9(@click="handleGridChange(-1,0)", round, size="sm", flat)
+        // .shadow-1
+        q-btn.bg-grey-4.text-grey-9(@click="handleGridChange(-1,0)", round, size="sm", flat)
           q-icon(name="remove", size="16px")
 
         q-btn.border.invisible(v-if="!statusInfoBox", round, size="sm")
         info-button(v-else, :size="'sm'")
           | Bearbeite hier das Grid.
 
-        q-btn.shadow-1.bg-grey-3.text-grey-9(@click="handleGridChange(1,0)", round, size="sm", flat)
+        // .shadow-1
+        q-btn.bg-grey-4.text-grey-9(@click="handleGridChange(1,0)", round, size="sm", flat)
           q-icon(name="add", size="16px")
       div
-        q-btn.shadow-1.bg-grey-3.text-grey-9(@click="handleGridChange(0,1)", round, size="sm", flat)
+        // .shadow-1
+        q-btn.bg-grey-4.text-grey-9(@click="handleGridChange(0,1)", round, size="sm", flat)
           q-icon(name="add", size="16px")
 
     .absolute-bottom.text-center.full-width.q-mb-xl(v-if="editSettings")

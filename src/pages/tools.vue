@@ -19,7 +19,8 @@
                     q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
                     :icon="button.icon", size="lg", round, flat :disabled="!button.status", no-ripple)
 
-                    q-btn.shadow-2.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", size="lg", round, flat)
+                    // shadow-2
+                    q-btn.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", size="lg", round, flat)
                       q-icon.rotate-180(name="keyboard_backspace", size="30px")
 
                   q-item-tile.text-center
@@ -57,7 +58,8 @@
               q-icon.on-left(:name="button.icon")
               .gt-md {{ button.label }}
 
-            q-btn.shadow-1.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", rounded, flat, no-caps)
+            // shadow-1
+            q-btn.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", rounded, flat, no-caps)
               q-icon.rotate-180.on-left(name="keyboard_backspace")
               | {{ button.label }}
 

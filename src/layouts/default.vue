@@ -9,8 +9,9 @@
         //----- back-button
         q-item-side.min-width-auto.overflow-hidden.row(:class="{'offset': !usingTool}",
         style="transition: all ease 200ms; width: 54px; min-height: 50px;")
-          q-btn.self-center.bg-grey-1.text-grey-9.q-ml-md.shadow-1(@click="$router.push('/tools')", no-ripple, round, size="sm")
-            q-icon(name="keyboard_backspace", size="16px", flat)
+          // shadow-1
+          q-btn.self-center.bg-grey-1.text-grey-9.q-ml-md(@click="$router.push('/tools')", no-ripple, round, size="sm", flat)
+            q-icon(name="keyboard_backspace", size="16px")
 
         //----- title
         q-item-main.text-weight-bold
@@ -26,7 +27,8 @@
 
         //----- info-button
         q-item-side.q-pr-md.absolute-top-right.q-pt-sm.q-mt-xs
-          q-btn.absolute-top-right.bg-grey-3.text-grey-9.transition.q-mt-sm.q-mr-md.shadow-1(
+          // shadow-1
+          q-btn.absolute-top-right.bg-grey-4.text-grey-9.transition.q-mt-sm.q-mr-md(
           v-if="currentAppName !== 'Startscreen'",
           @click="handlerInfoBox", round,
           size="sm", flat, :class="[showInfoBox || currentAppName === 'Tools' ? 'leave-right' : '']")
@@ -42,7 +44,8 @@
         :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
 
         //----- visible info-box
-        .fixed-top.bg-grey-1.text-grey-9.transition.overflow-hidden.soft-shadow(
+        // .soft-shadow
+        .fixed-top.bg-grey-1.text-grey-9.transition.overflow-hidden(
         style="z-index: 10; top: 52px",
         position="top",
         :class="[showInfoBox ? 'height-auto' : 'height-0']",
@@ -55,7 +58,8 @@
                 q-icon(name="play_arrow")
           //----- title
           template(v-if="!usingTool && currentAppName !== undefined")
-            q-btn.bg-grey-3.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs.shadow-1(
+            // .shadow-1
+            q-btn.bg-grey-4.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
             v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
               // | {{ t.label }}
               .q-subheading.text-weight-medium.text-weight-regular ?
@@ -79,7 +83,8 @@
               p showInfoBox: {{ showInfoBox }}
 
           //----- close-button
-          q-btn.absolute-top-right.shadow-1.bg-grey-3.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
+          // .shadow-1
+          q-btn.absolute-top-right.bg-grey-4.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
           round, flat, size="sm",
           :class="[(showInfoBox ? '' : 'leave-right'), (currentAppName === 'Tools' ? 'leave-right' : '')]")
             q-icon(name="clear")
