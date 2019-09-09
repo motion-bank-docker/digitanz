@@ -45,16 +45,18 @@
 
       // .bg-green.mobile-only.row.items-center.justify-between.q-px-sm(style="height: 50px")
       .mobile-only.row.items-center.justify-between.q-px-sm(style="min-height: calc(100vh - 52px - calc(100vw * 0.5625))!important;")
-        div.q-py-sm(v-for="button in buttons")
-          //----- tool-button
-          q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
-          rounded, flat :disabled="!button.status", no-ripple, no-caps)
-            q-icon.on-left(:name="button.icon")
-            .gt-md {{ button.label }}
+        .col-xs-12.col-xl-8.offset-xl-2.row.items-center.justify-between
 
-          q-btn.shadow-1.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", rounded, flat, no-caps)
-            q-icon.rotate-180.on-left(name="keyboard_backspace")
-            | {{ button.label }}
+          div.q-py-sm(v-for="button in buttons")
+            //----- tool-button
+            q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
+            rounded, flat :disabled="!button.status", no-ripple, no-caps)
+              q-icon.on-left(:name="button.icon")
+              .gt-md {{ button.label }}
+
+            q-btn.shadow-1.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", rounded, flat, no-caps)
+              q-icon.rotate-180.on-left(name="keyboard_backspace")
+              | {{ button.label }}
 
 </template>
 
