@@ -8,16 +8,17 @@
     @stateChanged="handleStateChanged",
     @editModeChanged="handleEditChange")
 
-    .fixed-bottom.transition(:class="{'leave-bottom' : editMode}")
-      mr-griddle-handler(
-      :play="playing",
-      :states="storedStates",
-      :currentState="currentState",
-      @clickPlay="handleClickPlay",
-      @clickAdd="handleClickAdd",
-      @clickState="handleClickState",
-      @deleteItem="handleDeleteItem",
-      @saveSequence="handeSaveSequence")
+    q-page-sticky(position="bottom")
+      .absolute-bottom.transition(:class="{'leave-bottom' : editMode}")
+        mr-griddle-handler(
+        :play="playing",
+        :states="storedStates",
+        :currentState="currentState",
+        @clickPlay="handleClickPlay",
+        @clickAdd="handleClickAdd",
+        @clickState="handleClickState",
+        @deleteItem="handleDeleteItem",
+        @saveSequence="handeSaveSequence")
 </template>
 
 <script>

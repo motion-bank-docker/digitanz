@@ -27,23 +27,24 @@
         :stroke-width="gridStrokeWidth", :opacity="patternOpacity")
 
       //----- slider
-      .fixed-bottom.row.items-center.transition.bg-grey-3(
-      style="height: 52px; border-top: 1px solid #dadada;",
-      :class="{'leave-bottom' : !editSettings}")
-        q-item.q-pa-none.full-width(style="min-height: auto;")
+      q-page-sticky(position="bottom")
+        .absolute-bottom.row.items-center.transition.bg-grey-3(
+        style="height: 52px; border-top: 1px solid #dadada;",
+        :class="{'leave-bottom' : !editSettings}")
+          q-item.q-pa-none.full-width(style="min-height: auto;")
 
-          q-item-side.q-ml-md(style="min-width: auto;",
-          :class="{'hidden': states.length === 0}")
+            q-item-side.q-ml-md(style="min-width: auto;",
+            :class="{'hidden': states.length === 0}")
 
-            q-btn.text-white.q-pa-none.text-grey-9.bg-transparent(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
-            :class="{'leave-bottom': states.length <= 0}", flat,
-            size="lg", no-ripple,
-            :disabled="states.length === 0")
+              q-btn.text-white.q-pa-none.text-grey-9.bg-transparent(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
+              :class="{'leave-bottom': states.length <= 0}", flat,
+              size="lg", no-ripple,
+              :disabled="states.length === 0")
 
-          q-item-main.q-px-md
-            q-slider(
-            v-model="frameLengthSlider", color="grey-9", :min="minFrameLength", :max="maxFrameLength",
-            :step="20", fill-handle-always, snap)
+            q-item-main.q-px-md
+              q-slider(
+              v-model="frameLengthSlider", color="grey-9", :min="minFrameLength", :max="maxFrameLength",
+              :step="20", fill-handle-always, snap)
 
       //----- edit-button (top right)
       .absolute-top-right
