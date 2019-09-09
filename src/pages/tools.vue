@@ -5,22 +5,23 @@
     //----- portrait
     .orientation-portrait
 
-      .q-px-lg.row.items-center(style="height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
-        .col-xs-6.col-md-4.col-lg-2(v-for="button in buttons", :class="{'inactive': !button.status}")
+      .q-px-lg.row(style="height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
+        .col-xs-12.col-md-8.offset-md-2.row.items-center
+          .col-xs-6.col-md-4(v-for="button in buttons", :class="{'inactive': !button.status}")
 
-          q-item.q-pa-none.q-mb-xs
-            q-item-main
-              q-item-tile.text-center.q-mb-sm.text-grey-9
+            q-item.q-pa-none.q-mb-xs
+              q-item-main
+                q-item-tile.text-center.q-mb-sm.text-grey-9
 
-                //----- tool-button
-                q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
-                :icon="button.icon", size="lg", round, flat :disabled="!button.status", no-ripple)
+                  //----- tool-button
+                  q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
+                  :icon="button.icon", size="lg", round, flat :disabled="!button.status", no-ripple)
 
-                q-btn.shadow-2.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", size="lg", round, flat)
-                  q-icon.rotate-180(name="keyboard_backspace", size="30px")
+                  q-btn.shadow-2.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", size="lg", round, flat)
+                    q-icon.rotate-180(name="keyboard_backspace", size="30px")
 
-              q-item-tile.text-center
-                .q-caption {{ button.label }}
+                q-item-tile.text-center
+                  .q-caption {{ button.label }}
 
     //----- landscape
     .orientation-landscape
