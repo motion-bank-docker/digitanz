@@ -2,97 +2,101 @@
   q-page.q-pb-xl.min-height-auto
 
     // --------------------------------------------------------------------------------------------------- selection-box
-    .bg-e4.q-mt-md.q-mx-md.round-borders.relative-position
+    .row.q-px-md
+      .col-xs-12.col-sm-10.offset-sm-1.col-md-8.offset-md-2.col-lg-6.offset-lg-3.bg-e4.q-mt-md.round-borders.relative-position
+        //----- shapes
+        template(v-if="currentShapes.length > 0")
+          .row.q-pa-sm.relative-position(:class="[currentShapes.length <= 3 ? 'justify-center' : '']")
 
-      //----- shapes
-      template(v-if="currentShapes.length > 0")
-        .row.q-pa-sm.relative-position(:class="[currentShapes.length <= 3 ? 'justify-center' : '']")
-          .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="(shape, index) in currentShapes",
-          @click="selectShape(shape, index)",
-          :class="[selectedShapeIndex === index ? 'bg-grey-1' : '']")
+            .col-3.q-px-md.q-py-sm.round-borders.relative-position(
+            v-for="(shape, index) in currentShapes",
+            @click="selectShape(shape, index)",
+            :class="[selectedShapeIndex === index ? 'bg-grey-1' : '']")
 
-            //----- number
-            .absolute-top-left.q-caption.q-pa-xs.round-borders.inactive(
-            v-if="selectedShapeIndex === index")
-              | {{ index + 1 }}
+              //----- number
+              .absolute-top-left.q-caption.q-pa-xs.round-borders.inactive(
+              v-if="selectedShapeIndex === index")
+                | {{ index + 1 }}
 
-            //----- icon
-            shape-icon(:shape="shape", :cols="4")
+              //----- icon
+              shape-icon(:shape="shape", :cols="4", style="max-height: 50px;")
 
-      template(v-else)
-        .q-pa-sm.text-center.relative-position
-          .inactive
-            | Noch keine Form ausgewählt.
+        template(v-else)
+          .q-pa-sm.text-center.relative-position
+            .inactive
+              | Noch keine Form ausgewählt.
 
-      template(v-if="selection.length")
-        // info-button.absolute-top-right(:size="'sm'", :nr="'2'")
-        info-button.absolute-top-right(:size="'md'")
-          | Tippe auf eine Form, um sie auszuwählen und dann verschieben oder löschen zu können.
-          | Tippe erneut, um die Auswahl aufzuheben.
+        template(v-if="selection.length")
+          // info-button.absolute-top-right(:size="'sm'", :nr="'2'")
+          info-button.absolute-top-right(:size="'md'")
+            | Tippe auf eine Form, um sie auszuwählen und dann verschieben oder löschen zu können.
+            | Tippe erneut, um die Auswahl aufzuheben.
 
     //----- buttons
     template
-      .relative-position.overflow-hidden.q-mx-md(:class="[currentShapes.length > 0 ? 'height-46' : 'height-0']")
-        .q-pt-sm.absolute-top-left.transition
-          q-btn.shadow-1.text-grey-9(@click="handlerPlayButton()", round, flat, size="sm")
-            q-icon(name="play_arrow", size="18px")
+      .row
+        .col-xs-12.col-sm-10.offset-sm-1.col-md-8.offset-md-2.col-lg-6.offset-lg-3
+          .relative-position.overflow-hidden.q-mx-md(:class="[currentShapes.length > 0 ? 'height-46' : 'height-0']")
+            .q-pt-sm.absolute-top-left.transition
+              q-btn.shadow-1.text-grey-9(@click="handlerPlayButton()", round, flat, size="sm")
+                q-icon(name="play_arrow", size="18px")
 
-          template(v-if="selection.length && selectedShapeIndex === undefined")
-            // info-button.q-ml-sm(:size="'sm'", :nr="'4'")
-            info-button.q-ml-sm(:size="'sm'")
-              button-description(:iconName="'play_arrow'")
-                | Änderungen übernehmen und weiter in die Tool-Ansicht wechseln.
+              template(v-if="selection.length && selectedShapeIndex === undefined")
+                // info-button.q-ml-sm(:size="'sm'", :nr="'4'")
+                info-button.q-ml-sm(:size="'sm'")
+                  button-description(:iconName="'play_arrow'")
+                    | Änderungen übernehmen und weiter in die Tool-Ansicht wechseln.
 
-        .q-pt-sm.absolute-top-right.transition(
-        :class="[currentShapes.length > 0 ? '' : 'leave-right']")
+            .q-pt-sm.absolute-top-right.transition(
+            :class="[currentShapes.length > 0 ? '' : 'leave-right']")
 
-          template(v-if="selectedShapeIndex >= 0")
-            // info-button.q-mr-sm(:size="'sm'", :nr="'3'")
-            info-button.q-mr-sm(:size="'sm'")
-              button-description(:iconName="'keyboard_arrow_left'")
-                | Auswahl nach links verschieben.
-              button-description.q-my-xs(:iconName="'keyboard_arrow_right'")
-                | Auswahl nach rechts verschieben.
-              button-description(:iconName="'delete'")
-                | Auswahl entfernen.
+              template(v-if="selectedShapeIndex >= 0")
+                // info-button.q-mr-sm(:size="'sm'", :nr="'3'")
+                info-button.q-mr-sm(:size="'sm'")
+                  button-description(:iconName="'keyboard_arrow_left'")
+                    | Auswahl nach links verschieben.
+                  button-description.q-my-xs(:iconName="'keyboard_arrow_right'")
+                    | Auswahl nach rechts verschieben.
+                  button-description(:iconName="'delete'")
+                    | Auswahl entfernen.
 
-          q-btn.bg-grey-3.transition(@click="moveSelectedShape('left')",
-          :disabled="checkIfDisabled('left')", size="sm", round, flat,
-          :class="[checkIfDisabled('left') ? '' : 'shadow-1']")
-            q-icon(name="keyboard_arrow_left", size="20px")
+              q-btn.bg-grey-3.transition(@click="moveSelectedShape('left')",
+              :disabled="checkIfDisabled('left')", size="sm", round, flat,
+              :class="[checkIfDisabled('left') ? '' : 'shadow-1']")
+                q-icon(name="keyboard_arrow_left", size="20px")
 
-          q-btn.bg-grey-3.q-ml-sm.q-mr-md.transition(@click="moveSelectedShape('right')",
-          :disabled="checkIfDisabled('right')", size="sm", round, flat,
-          :class="[checkIfDisabled('right') ? '' : 'shadow-1']")
-            q-icon(name="keyboard_arrow_right", size="20px")
+              q-btn.bg-grey-3.q-ml-sm.q-mr-md.transition(@click="moveSelectedShape('right')",
+              :disabled="checkIfDisabled('right')", size="sm", round, flat,
+              :class="[checkIfDisabled('right') ? '' : 'shadow-1']")
+                q-icon(name="keyboard_arrow_right", size="20px")
 
-          q-btn.bg-grey-3(@click="removeSelectedShape()",
-          :disabled="selectedShapeIndex === undefined", size="sm", round, flat,
-          :class="[this.selectedShapeIndex === undefined ? '' : 'shadow-1']")
-            q-icon(name="delete", size="16px")
+              q-btn.bg-grey-3(@click="removeSelectedShape()",
+              :disabled="selectedShapeIndex === undefined", size="sm", round, flat,
+              :class="[this.selectedShapeIndex === undefined ? '' : 'shadow-1']")
+                q-icon(name="delete", size="16px")
 
     // ---------------------------------------------------------------------------------------------------------- shapes
     .row.q-px-sm.q-mb-md.q-pb-sm
+      .col-xs-12.col-sm-10.offset-sm-1.col-md-8.offset-md-2.col-lg-6.offset-lg-3.row
+        //----- shapes
+        .col-3.q-px-sm.q-mt-md.text-center.items-center(v-for="shape in shapes")
+          .q-px-md.bg-e4.text-grey-8.round-borders.q-py-sm(@click="addToSelection(shape)")
+            shape-icon(:shape="shape", :cols="4", style="max-height: 50px;")
 
-      //----- shapes
-      .col-3.q-px-sm.q-mt-md.text-center.items-center(v-for="shape in shapes")
-        .q-px-md.bg-e4.text-grey-8.round-borders(@click="addToSelection(shape)")
-          shape-icon(:shape="shape", :cols="4")
+        //----- help-spinner
+        template(v-if="selection.length === 0")
+          .col-3.q-px-sm.q-mt-md.text-center.items-center
+            // info-button.q-mt-sm(:size="'md'", :nr="'1'")
+            info-button.q-mt-sm(:size="'md'")
+              | Füge eine oder mehrere Formen hinzu indem du auf eines der Symbole klickst.
+              | Diese erscheinen in der Box über den Symbolen.
 
-      //----- help-spinner
-      template(v-if="selection.length === 0")
-        .col-3.q-px-sm.q-mt-md.text-center.items-center
-          // info-button.q-mt-sm(:size="'md'", :nr="'1'")
-          info-button.q-mt-sm(:size="'md'")
-            | Füge eine oder mehrere Formen hinzu indem du auf eines der Symbole klickst.
-            | Diese erscheinen in der Box über den Symbolen.
-
-      //----- "shape editor"-button
-      //
-        .col-3.q-mt-md.items-center.row
-          .text-center.full-width
-            q-btn.self-center(@click="$router.push('')", round, disabled)
-              q-icon(name="edit")
+        //----- "shape editor"-button
+        //
+          .col-3.q-mt-md.items-center.row
+            .text-center.full-width
+              q-btn.self-center(@click="$router.push('')", round, disabled)
+                q-icon(name="edit")
     // --------------------------------------------------------------------------------------------------- buttons below
     .fixed-bottom-left.q-px-md.q-mt-md.q-mb-md
       .relative-position

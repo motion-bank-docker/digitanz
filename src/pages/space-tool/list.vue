@@ -2,41 +2,42 @@
   q-page.min-height-auto.q-pb-md
 
     // ---------------------------------------------------------------------------------------------------------- spaces
-    .bg-e4.q-mt-md.q-mx-md(v-for="(space, index) in tempSpaces")
-      .relative-position.overflow-hidden.round-borders
+    .row.q-px-md(v-for="(space, index) in tempSpaces")
+      .col-xs-12.col-sm-10.offset-sm-1.col-md-8.offset-md-2.col-lg-6.offset-lg-3.bg-e4.q-mt-md
+        .relative-position.overflow-hidden.round-borders
 
-        info-button.absolute-top-left.q-mr-sm(v-if="index === 0 && optionSpace === undefined", :size="'md'")
-          button-description(:iconName="'play_arrow'")
-            | Space auswählen
-
-        q-radio.q-mb-none(v-model="optionSpace", :val="index",
-        :class="{'bg-grey-1': optionSpace === index}")
-          .row.q-pa-md(@click="handlerRadiobutton(index)",
-          :class="[space.length <= 3 ? 'justify-center' : '']")
-            .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="shape in space")
-              shape-icon(:shape="shape", :cols="4")
-
-        .absolute-top-right.transition.q-px-sm.q-pt-sm(:class="[optionSpace !== index ? 'leave-right-absolute' : '']")
-
-          info-button.q-mr-sm(v-if="optionSpace === index", :size="'md'")
+          info-button.absolute-top-left.q-mr-sm(v-if="index === 0 && optionSpace === undefined", :size="'md'")
             button-description(:iconName="'play_arrow'")
-              | Zum Tool springen.
-            button-description.q-my-xs(:iconName="'edit'")
-              | Auswahl bearbeiten.
-            button-description(:iconName="'delete'")
-              | Auswahl löschen.
+              | Space auswählen
 
-          //----- "play"-button
-          q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerSpaceButtons('play', index)", flat, size="sm", round)
-            q-icon(name="play_arrow", size="18px")
+          q-radio.q-mb-none(v-model="optionSpace", :val="index",
+          :class="{'bg-grey-1': optionSpace === index}")
+            .row.q-pa-md(@click="handlerRadiobutton(index)",
+            :class="[space.length <= 3 ? 'justify-center' : '']")
+              .col-3.q-px-md.q-py-sm.round-borders.relative-position(v-for="shape in space")
+                shape-icon(:shape="shape", :cols="4", style="max-height: 50px;")
 
-          //----- "edit"-button
-          q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="handlerSpaceButtons('edit', index, space)", round, size="sm", flat)
-            q-icon(name="edit", size="16px")
+          .absolute-top-right.transition.q-px-sm.q-pt-sm(:class="[optionSpace !== index ? 'leave-right-absolute' : '']")
 
-          //----- "delete"-button
-          q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerSpaceButtons('delete', index)", round, size="sm", flat)
-            q-icon(name="delete", size="16px")
+            info-button.q-mr-sm(v-if="optionSpace === index", :size="'md'")
+              button-description(:iconName="'play_arrow'")
+                | Zum Tool springen.
+              button-description.q-my-xs(:iconName="'edit'")
+                | Auswahl bearbeiten.
+              button-description(:iconName="'delete'")
+                | Auswahl löschen.
+
+            //----- "play"-button
+            q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerSpaceButtons('play', index)", flat, size="sm", round)
+              q-icon(name="play_arrow", size="18px")
+
+            //----- "edit"-button
+            q-btn.bg-grey-3.text-grey-9.shadow-1.q-mx-sm(@click="handlerSpaceButtons('edit', index, space)", round, size="sm", flat)
+              q-icon(name="edit", size="16px")
+
+            //----- "delete"-button
+            q-btn.bg-grey-3.text-grey-9.shadow-1(@click="handlerSpaceButtons('delete', index)", round, size="sm", flat)
+              q-icon(name="delete", size="16px")
 
     // --------------------------------------------------------------------------------------------------- buttons below
     template
