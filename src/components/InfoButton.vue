@@ -5,7 +5,7 @@
     //
       q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm.q-mb-sm(touch-position, anchor="bottom middle",
       self="top middle")
-    q-tooltip.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm.q-mb-sm
+    q-tooltip.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm.q-mb-sm.shadow-5
       //
         span.q-mr-sm.q-pr-xs {{ nr }}
       //
@@ -49,4 +49,5 @@
 </script>
 
 <style scoped lang="styl">
+  @import '~variables'
 </style>
