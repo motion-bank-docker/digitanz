@@ -28,8 +28,7 @@
           q-item-separator.q-ma-none
 
     // ------------------------------------------------------------------------------------------------------------ tabs
-    q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab",
-    swipeable)
+    q-tabs(animated, color="transparent", text-color="white", align="justify", v-model="selectedTab")
 
       q-tab.capitalize.q-caption.text-weight-medium.q-mb-md.text-center.q-pa-none.text-grey-9(name="tab-1", slot="title",
       :class="[selectedTab === 'tab-1' ? 'bg-grey-1' : '']", default) Eigene
