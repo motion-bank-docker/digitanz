@@ -83,11 +83,11 @@
               //----- buttons
               q-item-side.min-width-auto.transition.q-mr-sm(:class="[!inputNewWord ? 'leave-right' : '']")
                 // .shadow-1
-                q-btn.bg-grey-4.text-grey-9(@click="addWord(inputNewWord)", round, size="sm", flat)
-                  q-icon(name="add", size="16px")
-                // .shadow-1
-                q-btn.bg-grey-4.text-grey-9.q-ml-sm(@click="inputNewWord = ''", round, size="sm", flat)
+                q-btn.bg-grey-4.text-grey-9.q-mr-sm(@click="inputNewWord = ''", round, size="sm", flat)
                   q-icon(name="clear", size="16px")
+                // .shadow-1
+                q-btn.bg-grey-4.text-grey-9(@click="addWord(inputNewWord)", round, size="sm", flat)
+                  q-icon(name="check", size="16px")
 
           .q-mt-md.text-center
             info-button(v-if="!tempTerms.length", :size="'md'")
