@@ -6,18 +6,21 @@
       .row.justify-center.items-center(@click="$router.push({path: '/tools'})", style="height: calc(100vh - 52px);")
         griddle-moves.col-xs-10.col-sm-9.col-md-8.col-lg-7.col-xl-5(:enclosed="true", :time="1000")
 
-      .absolute-bottom.q-px-md.full-width.text-center.transition(position="bottom", :class="[scrolled ? 'hide-arrow' : '']")
-        .bg-white
-          q-btn.full-width.q-py-md.bg-white(@click.native="smoothScroll", flat, no-ripple, no-caps)
-            // q-icon(name="keyboard_arrow_down", size="30px")
-            //
-              | Hier geht's lang
-              q-icon.rotate-270.q-ml-xs(name="keyboard_backspace", size="20px")
-            .q-subheading.text-weight-medium
-              | Mehr über #digitanz
-            //
-              .float-right
-                q-icon.rotate-270.q-ml-xs(name="keyboard_backspace", size="20px")
+      .absolute-bottom.row
+        .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.text-center.transition(
+        position="bottom", :class="[scrolled ? 'hide-arrow' : '']")
+          .q-mx-md
+            .bg-white
+              q-btn.full-width.q-py-md(@click.native="smoothScroll", flat, no-ripple, no-caps)
+                // q-icon(name="keyboard_arrow_down", size="30px")
+                //
+                  | Hier geht's lang
+                  q-icon.rotate-270.q-ml-xs(name="keyboard_backspace", size="20px")
+                .q-subheading.text-weight-medium
+                  | Mehr über #digitanz
+                //
+                  .float-right
+                    q-icon.rotate-270.q-ml-xs(name="keyboard_backspace", size="20px")
 
     .q-body-1.line-height-wider.row(style="margin-top: 100vh;")
 
