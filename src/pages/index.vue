@@ -6,12 +6,18 @@
       .row.justify-center.items-center(@click="$router.push({path: '/tools'})", style="height: calc(100vh - 52px);")
         griddle-moves.col-xs-10.col-sm-9.col-md-8.col-lg-7.col-xl-5(:enclosed="true", :time="1000")
 
-      .absolute-bottom.full-width.text-center.transition(
-      position="bottom",
-      :class="[scrolled ? 'hide-arrow' : '']")
-        .bg-white.q-py-sm.q-mx-md
-          q-btn(@click.native="smoothScroll", flat, no-ripple)
-            q-icon(name="keyboard_arrow_down", size="30px")
+      .absolute-bottom.q-px-md.full-width.text-center.transition(position="bottom", :class="[scrolled ? 'hide-arrow' : '']")
+        .bg-white
+          q-btn.full-width.q-py-md.bg-white(@click.native="smoothScroll", flat, no-ripple, no-caps)
+            // q-icon(name="keyboard_arrow_down", size="30px")
+            //
+              | Hier geht's lang
+              q-icon.rotate-270.q-ml-xs(name="keyboard_backspace", size="20px")
+            .q-subheading.text-weight-medium
+              | Mehr über #digitanz
+            //
+              .float-right
+                q-icon.rotate-270.q-ml-xs(name="keyboard_backspace", size="20px")
 
     .q-body-1.line-height-wider.row(style="margin-top: 100vh;")
 
@@ -39,7 +45,7 @@
         .text-center.bg-white.col-12.q-mx-md
           img(src="~assets/BMBF_deutsch.jpg", style="width: 80%; max-width: 200px;")
 
-        q-btn.q-py-md.text-center.full-width(@click="$router.push({path: '/tools'})", flat, no-caps)
+        q-btn.q-py-md.text-center.full-width(@click="$router.push({path: '/'})", flat, no-caps)
           | Imprint
 
 </template>
@@ -73,5 +79,7 @@
 <style scoped lang="styl">
   .hide-arrow
     /*opacity 0*/
-    margin-bottom -100px
+    /*margin-bottom -100px*/
+    button
+      opacity 0
 </style>
