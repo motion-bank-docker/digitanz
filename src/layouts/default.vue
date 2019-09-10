@@ -3,7 +3,7 @@
     q-window-resize-observable(@resize="onResize")
 
     // ---------------------------------------------------------------------------------------------------------- header
-    q-layout-header.bg-grey-3.text-grey-9(style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
+    q-layout-header.bg-grey-3.text-grey-9.z-max(style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
       q-item.q-pa-none
 
         //----- back-button
