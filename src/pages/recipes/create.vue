@@ -74,10 +74,10 @@
             :after="[{icon: 'edit', condition: showIcon.newRecipeEntry && !addIngredient}]")
           q-item-side.min-width-auto.min-height-auto.transition.row.self-stretch(:class="[!addIngredient ? 'leave-right' : '']")
             .transition.q-px-sm.items-top.row.q-pt-xs.q-mt-sm
-              q-btn.bg-grey-4.text-grey-9(@click="addTodoItem", round, size="sm", flat)
-                q-icon(name="add", size="16px")
-              q-btn.bg-grey-4.text-grey-9.q-ml-sm(@click="resetValues", round, size="sm", flat)
+              q-btn.bg-grey-4.text-grey-9.q-mr-sm(@click="resetValues", round, size="sm", flat)
                 q-icon(name="clear", size="16px")
+              q-btn.bg-grey-4.text-grey-9(@click="addTodoItem", round, size="sm", flat)
+                q-icon(name="check", size="16px")
 
     // ----------------------------------------------------------------------------------------------- buttons at bottom
     .q-px-md.q-mt-md.overflow-hidden.row.col-12
