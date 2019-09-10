@@ -1,8 +1,8 @@
 <template lang="pug">
   q-page.bg-grey-3
-    q-scroll-observable(@scroll="userHasScrolled")
+    q-scroll-observable(@scroll="scrollingHandler")
 
-    div.relative-position(@click="$router.push({path: '/tools'})")
+    .fixed-top(@click="$router.push({path: '/tools'})", :style="{opacity: mrGriddleOpacity}")
       .row.justify-center.items-center(style="height: calc(100vh - 52px);")
         griddle-moves.col-xs-10.col-sm-9.col-md-8.col-lg-7.col-xl-5(:enclosed="true", :time="1000")
 
@@ -12,10 +12,10 @@
         q-btn(@click.native="", flat, round, size="sm")
           q-icon(name="keyboard_arrow_down", size="50px")
 
-    .q-body-1.line-height-wider.row
+    .q-body-1.line-height-wider.row(style="margin-top: 100vh;")
 
-      .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3
-        .q-px-md.q-pt-sm.q-pb-lg.q-mb-md.bg-white.q-mx-sm
+      .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.z-top
+        .q-px-md.q-pt-sm.q-pb-lg.q-mb-md.bg-white.q-mx-md
           .q-subheading.q-mb-lg.text-weight-medium.q-mt-md
             | Etetur sadipscing elitr, sed diam nonumy eirm.
           div
@@ -23,19 +23,19 @@
           div.q-mt-sm
             | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna.
 
-        .q-px-md.q-pt-sm.q-pb-lg.q-mb-md.bg-white.q-mx-sm
+        .q-px-md.q-pt-sm.q-pb-lg.q-mb-md.bg-white.q-mx-md
           .q-subheading.q-mb-lg.text-weight-medium.q-mt-md
             | Nonumy eirmod temportetur sadipscing elitr, sed diam nonumy eirm.
           div
             | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
 
-        .q-px-md.q-pt-md.q-pb-lg.text-center
-          q-btn.bg-white.text-grey-9(@click="$router.push({path: '/tools'})", flat, round, size="lg", no-caps)
+        .q-px-md.q-pt-md.q-mb-md.q-mx-md.q-pb-md.text-center.bg-white
+          q-btn.bg-grey-4.text-grey-9.q-mt-sm(@click="$router.push({path: '/tools'})", flat, round, size="lg", no-caps)
             q-icon.rotate-180(name="keyboard_backspace")
           .q-caption.q-mt-sm.text-weight-medium Zu den Tools
 
-      .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3
-        .text-center.bg-white.col-12.q-mx-sm
+      .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.z-top
+        .text-center.bg-white.col-12.q-mx-md
           img(src="~assets/BMBF_deutsch.jpg", style="width: 80%; max-width: 200px;")
 
         q-btn.q-py-md.text-center.full-width(@click="$router.push({path: '/tools'})", flat, no-caps)
@@ -50,12 +50,14 @@
       return {
         name: pkg.name,
         version: pkg.version,
-        scrolled: false
+        scrolled: false,
+        mrGriddleOpacity: 1
       }
     },
     methods: {
-      userHasScrolled (scroll) {
+      scrollingHandler (scroll) {
         scroll.position > 10 ? this.scrolled = true : this.scrolled = false
+        this.mrGriddleOpacity = 1 / (scroll.position / 100)
       }
     }
   }
