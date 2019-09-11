@@ -2,7 +2,8 @@ const poses = {
   namespaced: true,
   state: {
     tempPoses: [],
-    tempGrid: {columns: 10, rows: 16},
+    // tempGrid: {columns: 10, rows: 16},
+    tempGrid: {columns: undefined, rows: undefined},
     frameLength: 300
   },
   getters: {

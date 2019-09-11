@@ -178,10 +178,21 @@
     },
     mounted () {
       const _this = this
+      let offsetW = this.$el.offsetWidth
+      let offsetH = this.$el.offsetHeight
       this.frameLengthSlider = this.frameLength
       this.svgSize = {
-        width: this.$el.offsetWidth,
-        height: this.$el.offsetHeight
+        width: offsetW,
+        height: offsetH
+      }
+      console.log(offsetW, offsetH)
+      if (offsetW > offsetH) {
+        this.grid.columns = 24
+        this.grid.rows = 10
+      }
+      else {
+        this.grid.columns = 16
+        this.grid.rows = 10
       }
       this.gridCell = {
         width: this.svgSize.width / this.grid.columns,
