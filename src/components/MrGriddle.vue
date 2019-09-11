@@ -236,8 +236,8 @@
         // let figOffsetY
         // landscape
         if (this.deviceDimensions.width > this.deviceDimensions.height) {
-          this.grid.columns = 22
-          this.grid.rows = 14
+          this.grid.columns = 28
+          this.grid.rows = 20
           figOffsetX = 0
           // figOffsetY = 3
           this.scaleFactor = 2400
@@ -245,7 +245,7 @@
         // portrait
         else {
           this.grid.columns = 10
-          this.grid.rows = 20
+          this.grid.rows = 18
           figOffsetX = 0
           // figOffsetY = 0
           this.scaleFactor = 900
