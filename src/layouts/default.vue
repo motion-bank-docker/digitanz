@@ -186,6 +186,7 @@
     },
     methods: {
       onResize (size) {
+        this.$store.commit('globalSettings/handlerDeviceDimensions', size)
         let headerHeight = 52
         this.infoBoxHeightMax = size.height - headerHeight - 50
       },
