@@ -2,13 +2,20 @@ const global = {
   namespaced: true,
   state: {
     statusInfoBox: false,
-    tool: undefined
+    tool: undefined,
+    deviceDimensions: {height: undefined, width: undefined}
   },
   getters: {
     getStatusInfoBox: state => state.statusInfoBox,
-    getTool: state => state.tool
+    getTool: state => state.tool,
+    getDeviceDimensions: state => state.deviceDimensions
   },
   mutations: {
+    handlerDeviceDimensions (state, param) {
+      console.log('device dimensions', state.deviceDimensions, param)
+      state.deviceDimensions.width = param.width
+      state.deviceDimensions.height = param.height
+    },
     handlerTool (state, target) {
       state.tool = target
     },
