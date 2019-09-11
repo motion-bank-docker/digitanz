@@ -163,7 +163,8 @@
         storedStates: 'mrGriddle/getTempPoses',
         grid: 'mrGriddle/getTempGrid',
         frameLength: 'mrGriddle/getTempFrameLength',
-        statusInfoBox: 'globalSettings/getStatusInfoBox'
+        statusInfoBox: 'globalSettings/getStatusInfoBox',
+        deviceDimensions: 'globalSettings/getDeviceDimensions'
       }),
       strokeWidth () {
         return 20 * this.skeletonScale
@@ -178,26 +179,13 @@
     },
     mounted () {
       const _this = this
-      let offsetW = this.$el.offsetWidth
-      let offsetH = this.$el.offsetHeight
       this.frameLengthSlider = this.frameLength
       this.svgSize = {
-        width: offsetW,
-        height: offsetH
+        width: this.$el.offsetWidth,
+        height: this.$el.offsetHeight
       }
-      console.log(offsetW, offsetH)
-      if (offsetW > offsetH) {
-        this.grid.columns = 24
-        this.grid.rows = 10
-      }
-      else {
-        this.grid.columns = 16
-        this.grid.rows = 10
-      }
-      this.gridCell = {
-        width: this.svgSize.width / this.grid.columns,
-        height: this.svgSize.height / this.grid.rows
-      }
+      this.setGrid()
+
       this.updateFrame()
 
       // this is a "driver" for the "time to update bar"
@@ -236,7 +224,24 @@
       }
     },
     methods: {
+      setGrid () {
+        // landscape
+        if (this.deviceDimensions.width > this.deviceDimensions.height) {
+          this.grid.columns = 22
+          this.grid.rows = 14
+        }
+        // portrait
+        else {
+          this.grid.columns = 10
+          this.grid.rows = 20
+        }
+        this.gridCell = {
+          width: this.svgSize.width / this.grid.columns,
+          height: this.svgSize.height / this.grid.rows
+        }
+      },
       onResize (size) {
+        this.setGrid()
         if (size.width > size.height) this.scaleFactor = 2400
         else this.scaleFactor = 900
       },
