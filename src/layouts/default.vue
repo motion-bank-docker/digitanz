@@ -58,6 +58,7 @@
                 q-icon(name="play_arrow")
           //----- title
           template(v-if="!usingTool && currentAppName !== undefined")
+            video-player(:options="playerOptions")
             // .shadow-1
             q-btn.bg-grey-4.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
             v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
@@ -94,13 +95,25 @@
 </template>
 
 <script>
+  require('videojs-youtube')
+  import { videoPlayer } from 'vue-video-player'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
+      videoPlayer
     },
     data () {
       return {
+        playerOptions: {
+          fluid: true,
+          techOrder: ['youtube'],
+          sources: [{
+            type: 'video/youtube',
+            src: 'https://www.youtube.com/watch?time_continue=126&v=-KookvSw2lc'
+          }]
+          // poster: '/static/img/backgrounds/feature-video.jpg'
+        },
         showInfoBox: false,
         currentAppName: undefined,
         infoBoxHeight: undefined,
