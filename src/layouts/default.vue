@@ -28,7 +28,7 @@
         //----- info-button
         q-item-side.q-pr-md.absolute-top-right.q-pt-sm.q-mt-xs
           // shadow-1
-          q-btn.absolute-top-right.bg-grey-4.text-grey-9.transition.q-mt-sm.q-mr-md(
+          q-btn.absolute-top-right.bg-white.text-grey-9.transition.q-mt-sm.q-mr-md(
           v-if="currentAppName !== 'Startscreen'",
           @click="handlerInfoBox", round,
           size="sm", flat, :class="[showInfoBox || currentAppName === 'Tools' ? 'leave-right' : '']")
@@ -60,7 +60,7 @@
           template(v-if="!usingTool && currentAppName !== undefined")
             video-player(:options="playerOptions")
             // .shadow-1
-            q-btn.bg-grey-4.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
+            q-btn.bg-white.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
             v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
               // | {{ t.label }}
               .q-subheading.text-weight-medium.text-weight-regular ?
@@ -85,7 +85,7 @@
 
           //----- close-button
           // .shadow-1
-          q-btn.absolute-top-right.bg-grey-4.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
+          q-btn.absolute-top-right.bg-white.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
           round, flat, size="sm",
           :class="[(showInfoBox ? '' : 'leave-right'), (currentAppName === 'Tools' ? 'leave-right' : '')]")
             q-icon(name="clear")
