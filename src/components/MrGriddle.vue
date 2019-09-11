@@ -14,8 +14,8 @@
           rect(width="100%", height="100%", fill="url(#cell-pattern)")
           line(v-for="(line, i) in lines", :key="`line-${i}`",
           :stroke-width="strokeWidth",
-          :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
-          :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
+          :x1="line.x1 * gridCell.width + figureOffset.x", :y1="line.y1 * gridCell.height + figureOffset.y",
+          :x2="line.x2 * gridCell.width + figureOffset.x", :y2="line.y2 * gridCell.height + figureOffset.y")
         g#time-to-next-update
           rect(v-if="timerId", x="0", y="0", :width="`${timeToNextFrame * 100}%`", height="3", fill="e0e0e0")
         line.transition-200(x1="0", y1="0", x2="0", :y2="svgSize.height", stroke="#eeeeee", :stroke-width="gridStrokeWidth * 2",
@@ -155,7 +155,8 @@
         editSettings: false,
         gridStrokeWidth: 0,
         patternOpacity: 0,
-        scaleFactor: 900
+        scaleFactor: 900,
+        figureOffset: {x: undefined, y: undefined}
       }
     },
     computed: {
@@ -225,25 +226,45 @@
     },
     methods: {
       setGrid () {
+        if (this.$el) {
+          this.svgSize = {
+            width: this.$el.offsetWidth,
+            height: this.$el.offsetHeight
+          }
+        }
+        let figOffsetX
+        // let figOffsetY
         // landscape
         if (this.deviceDimensions.width > this.deviceDimensions.height) {
           this.grid.columns = 22
           this.grid.rows = 14
+          figOffsetX = 0
+          // figOffsetY = 3
+          this.scaleFactor = 2400
         }
         // portrait
         else {
           this.grid.columns = 10
           this.grid.rows = 20
+          figOffsetX = 0
+          // figOffsetY = 0
+          this.scaleFactor = 900
         }
         this.gridCell = {
-          width: this.svgSize.width / this.grid.columns,
+          width: this.svgSize.width / (this.grid.columns - figOffsetX),
           height: this.svgSize.height / this.grid.rows
         }
+        // this.figureOffset.x = this.gridCell.width * figOffsetX
+        // this.figureOffset.y = this.gridCell.height * figOffsetY
+        this.figureOffset.x = 0
+        this.figureOffset.y = 0
+        this.updateSkeleton()
       },
       onResize (size) {
+        console.log(size)
         this.setGrid()
-        if (size.width > size.height) this.scaleFactor = 2400
-        else this.scaleFactor = 900
+        // if (size.width > size.height) this.scaleFactor = 2400
+        // else this.scaleFactor = 900
       },
       startTimer () {
         this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
