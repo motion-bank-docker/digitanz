@@ -229,16 +229,6 @@
           }
         }
 
-        // landscape
-        if (this.deviceDimensions.width > this.deviceDimensions.height) {
-          this.grid.columns = this.gridStore.landscape.columns
-          this.grid.rows = this.gridStore.landscape.rows
-        }
-        // portrait
-        else {
-          this.grid.columns = this.gridStore.portrait.columns
-          this.grid.rows = this.gridStore.portrait.rows
-        }
         this.gridCell = {
           width: this.svgSize.height / (this.gridStore.rows * this.gridStore.ratioFactor),
           height: this.svgSize.height / this.gridStore.rows
