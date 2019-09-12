@@ -4,7 +4,7 @@ const poses = {
     tempPoses: [],
     // tempGrid: {columns: 10, rows: 16},
     tempGrid: {
-      rows: 18,
+      rows: 20,
       ratioFactor: 1,
       landscape: {columns: 28, rows: 20},
       portrait: {columns: 10, rows: 18}

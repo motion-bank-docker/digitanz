@@ -233,19 +233,27 @@
             height: this.$el.offsetHeight
           }
         }
-        this.scaleFactor = 1200
+        // this.scaleFactor = 1200
+        this.scaleFactor = 1400
+        /*
+        let cellHeight = this.svgSize.height / this.gridStore.rows
+        console.log('#####', cellHeight)
+        let countColumns = this.svgSize.width / cellHeight
+        console.log('+++++', countColumns)
+        console.log('----->', this.svgSize.height / this.svgSize.width)
+        */
 
         // landscape
         if (this.deviceDimensions.width > this.deviceDimensions.height) {
           this.grid.columns = this.gridStore.landscape.columns
           this.grid.rows = this.gridStore.landscape.rows
-          // this.scaleFactor = 2400
+          // this.scaleFactor = 1000
         }
         // portrait
         else {
           this.grid.columns = this.gridStore.portrait.columns
           this.grid.rows = this.gridStore.portrait.rows
-          // this.scaleFactor = 900
+          // this.scaleFactor = 1400
         }
         this.gridCell = {
           // width: this.svgSize.width / this.grid.columns,
@@ -345,17 +353,29 @@
           this.grid.width = state.grid.width
           this.grid.height = state.grid.height
         }
-        let x = Math.floor(this.grid.columns / 2)
-        let y = Math.floor(this.grid.rows / 2)
+        // let x = Math.floor(this.grid.columns / 2)
+        // let y = Math.floor(this.grid.rows / 2)
         // let w = this.svgSize.width / this.grid.columns
         // let h = this.svgSize.height / this.grid.rows
+        let cellHeight = this.svgSize.height / this.gridStore.rows
+        console.log('#####', cellHeight)
+        // let countColumns = this.svgSize.width / cellHeight
+        // console.log('+++++', countColumns)
+        console.log('----->', this.svgSize.height / this.svgSize.width)
+
+        let countColumns = this.svgSize.width / cellHeight
+        let x = Math.ceil(countColumns / 2)
+        let y = Math.floor(this.gridStore.rows / 2)
         let w = this.svgSize.height / (this.gridStore.rows * this.gridStore.ratioFactor)
         let h = this.svgSize.height / this.gridStore.rows
+        // let offX = Math.round(this.deviceDimensions.width / 100)
+        let offX = 0
         this.lines = skeletonLines.map(line => {
+          // console.log(x + Math.round(line.x1 * this.skeletonScale / w))
           return {
-            x1: x + Math.round(line.x1 * this.skeletonScale / w),
+            x1: x + Math.round(line.x1 * this.skeletonScale / w) + offX,
             y1: y + Math.round(line.y1 * this.skeletonScale / h),
-            x2: x + Math.round(line.x2 * this.skeletonScale / w),
+            x2: x + Math.round(line.x2 * this.skeletonScale / w) + offX,
             y2: y + Math.round(line.y2 * this.skeletonScale / h)
           }
         })
