@@ -138,6 +138,10 @@
           rows: 16
         },
         */
+        grid: {
+          columns: undefined,
+          rows: undefined
+        },
         gridCell: {
           width: 0,
           height: 0
@@ -162,7 +166,7 @@
     computed: {
       ...mapGetters({
         storedStates: 'mrGriddle/getTempPoses',
-        grid: 'mrGriddle/getTempGrid',
+        gridStore: 'mrGriddle/getTempGrid',
         frameLength: 'mrGriddle/getTempFrameLength',
         statusInfoBox: 'globalSettings/getStatusInfoBox',
         deviceDimensions: 'globalSettings/getDeviceDimensions'
@@ -236,16 +240,21 @@
         // let figOffsetY
         // landscape
         if (this.deviceDimensions.width > this.deviceDimensions.height) {
-          this.grid.columns = 28
-          this.grid.rows = 20
+          // this.grid.columns = 28
+          // this.grid.rows = 20
+          this.grid.columns = this.gridStore.landscape.columns
+          this.grid.rows = this.gridStore.landscape.rows
           figOffsetX = 0
           // figOffsetY = 3
           this.scaleFactor = 2400
         }
         // portrait
         else {
-          this.grid.columns = 10
-          this.grid.rows = 18
+          // this.$store.commit('mrGriddle/setTempGrid', {columns: 10, rows: 18})
+          // this.grid.columns = 10
+          // this.grid.rows = 18
+          this.grid.columns = this.gridStore.portrait.columns
+          this.grid.rows = this.gridStore.portrait.rows
           figOffsetX = 0
           // figOffsetY = 0
           this.scaleFactor = 900
@@ -313,6 +322,7 @@
         this.$emit('stateChanged', this.currentState)
       },
       handleGridChange (columns, rows) {
+        this.$store.commit('mrGriddle/setTempGrid', {columns: columns, rows: rows})
         this.grid.columns += columns
         this.grid.rows += rows
         this.gridCell = {
