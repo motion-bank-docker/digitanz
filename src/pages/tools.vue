@@ -4,8 +4,10 @@
 
     //----- portrait
     .orientation-portrait.column(style="height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
-      // placeholder
+
+      // vertical placeholder for bigger screens
       .col-md-2
+
       .col-xs-12.col-md-8
         .q-px-lg.row.fit
           .col-xs-12.col-md-8.offset-md-2.row.items-center
@@ -19,7 +21,6 @@
                     q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
                     :icon="button.icon", size="lg", round, flat :disabled="!button.status", no-ripple)
 
-                    // shadow-2
                     q-btn.bg-white.text-grey-9(v-else, @click.native="actions(button.action)", size="lg", round, flat)
                       q-icon.rotate-180(name="keyboard_backspace", size="30px")
 
@@ -29,36 +30,18 @@
     //----- landscape
     .orientation-landscape
 
-      // .desktop-only.q-px-lg.row.items-center(style="min-height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
-        .col-xs-6.col-md-4.col-lg-2(v-for="button in buttons", :class="{'inactive': !button.status}")
-
-          q-item.q-pa-none.q-mb-xs
-            q-item-main
-              q-item-tile.text-center.q-mb-sm.text-grey-9
-
-                //----- tool-button
-                q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
-                // :icon="button.icon", size="lg", round, flat :disabled="!button.status", no-ripple)
-
-                q-btn.shadow-2.bg-grey-1.text-grey-9(v-else, @click.native="actions(button.action)", size="lg", round, flat)
-                  q-icon.rotate-180(name="keyboard_backspace", size="30px")
-
-              q-item-tile.text-center
-                .q-caption {{ button.label }}
-
-      // .bg-green.mobile-only.row.items-center.justify-between.q-px-sm(style="height: 50px")
-      // .mobile-only.row.items-center.justify-between.q-px-sm(style="min-height: calc(100vh - 52px - calc(100vw * 0.5625))!important;")
       .row.items-center.justify-between.q-px-sm(style="min-height: calc(100vh - 52px - calc(100vw * 0.5625))!important;")
         .col-xs-12.col-xl-8.offset-xl-2.row.items-center.justify-between
 
+          //----- tool-button
           div.q-py-sm(v-for="button in buttons")
-            //----- tool-button
+
             q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
             rounded, flat :disabled="!button.status", no-ripple, no-caps)
+
               q-icon.on-left(:name="button.icon")
               .gt-md {{ button.label }}
 
-            // shadow-1
             q-btn.bg-white.text-grey-9(v-else, @click.native="actions(button.action)", rounded, flat, no-caps)
               q-icon.rotate-180.on-left(name="keyboard_backspace")
               | {{ button.label }}
