@@ -168,7 +168,8 @@
         return 20 * this.skeletonScale
       },
       skeletonScale () {
-        const scale = Math.min(1, this.svgSize.width / this.scaleFactor)
+        // const scale = Math.min(1, this.svgSize.width / this.scaleFactor)
+        const scale = Math.min(1, this.svgSize.height / this.scaleFactor)
         return scale
       },
       timerInterval () {
@@ -183,7 +184,7 @@
         height: this.$el.offsetHeight
       }
       this.setGrid()
-
+      this.getCellRatio()
       this.updateFrame()
 
       // this is a "driver" for the "time to update bar"
@@ -222,6 +223,9 @@
       }
     },
     methods: {
+      getCellRatio () {
+        console.log(this.deviceDimensions.height / this.gridStore.rows)
+      },
       setGrid () {
         if (this.$el) {
           this.svgSize = {
@@ -229,27 +233,31 @@
             height: this.$el.offsetHeight
           }
         }
+        this.scaleFactor = 1200
 
         // landscape
         if (this.deviceDimensions.width > this.deviceDimensions.height) {
           this.grid.columns = this.gridStore.landscape.columns
           this.grid.rows = this.gridStore.landscape.rows
-          this.scaleFactor = 2400
+          // this.scaleFactor = 2400
         }
         // portrait
         else {
           this.grid.columns = this.gridStore.portrait.columns
           this.grid.rows = this.gridStore.portrait.rows
-          this.scaleFactor = 900
+          // this.scaleFactor = 900
         }
         this.gridCell = {
-          width: this.svgSize.width / this.grid.columns,
-          height: this.svgSize.height / this.grid.rows
+          // width: this.svgSize.width / this.grid.columns,
+          // height: this.svgSize.height / this.grid.rows
+          width: this.svgSize.height / (this.gridStore.rows * this.gridStore.ratioFactor),
+          height: this.svgSize.height / this.gridStore.rows
         }
         this.updateSkeleton()
       },
       onResize () {
         this.setGrid()
+        this.getCellRatio()
       },
       startTimer () {
         this.timerId = setInterval(this.timerIntervalHandler, this.timerInterval)
@@ -302,8 +310,10 @@
         this.grid.columns += columns
         this.grid.rows += rows
         this.gridCell = {
-          width: this.svgSize.width / this.grid.columns,
-          height: this.svgSize.height / this.grid.rows
+          width: this.svgSize.height / (this.gridStore.rows * this.gridStore.ratioFactor),
+          height: this.svgSize.height / this.gridStore.rows
+          // width: this.svgSize.width / this.grid.columns,
+          // height: this.svgSize.height / this.grid.rows
         }
         this.updateSkeleton()
       },
@@ -337,8 +347,10 @@
         }
         let x = Math.floor(this.grid.columns / 2)
         let y = Math.floor(this.grid.rows / 2)
-        let w = this.svgSize.width / this.grid.columns
-        let h = this.svgSize.height / this.grid.rows
+        // let w = this.svgSize.width / this.grid.columns
+        // let h = this.svgSize.height / this.grid.rows
+        let w = this.svgSize.height / (this.gridStore.rows * this.gridStore.ratioFactor)
+        let h = this.svgSize.height / this.gridStore.rows
         this.lines = skeletonLines.map(line => {
           return {
             x1: x + Math.round(line.x1 * this.skeletonScale / w),
