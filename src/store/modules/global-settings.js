@@ -12,7 +12,6 @@ const global = {
   },
   mutations: {
     handlerDeviceDimensions (state, param) {
-      console.log('device dimensions', state.deviceDimensions, param)
       state.deviceDimensions.width = param.width
       state.deviceDimensions.height = param.height
     },
