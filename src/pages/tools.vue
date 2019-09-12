@@ -6,26 +6,29 @@
     .orientation-portrait.column(style="height: calc(100vh - 52px - calc(calc(100vw * 0.5625)) - 8px)!important;")
 
       // vertical placeholder for bigger screens
-      .col-md-2
+      .col-xs-1.col-md-2
 
-      .col-xs-12.col-md-8
+      .col-xs-10.col-md-8
         .q-px-lg.row.fit
           .col-xs-12.col-md-8.offset-md-2.row.items-center
             .col-xs-6.col-md-4(v-for="button in buttons", :class="{'inactive': !button.status}")
 
               q-item.q-pa-none.q-mb-xs
                 q-item-main
-                  q-item-tile.text-center.q-mb-sm.text-grey-9
+                  q-item-tile.q-pb-xs.text-center.text-grey-9
 
                     //----- tool-button
                     q-btn(v-if="button.action !== tool", @click.native="highlightButton(button.action)",
-                    :icon="button.icon", size="lg", round, flat :disabled="!button.status", no-ripple)
+                    :icon="button.icon", size="lg", round, flat, :disabled="!button.status", no-ripple)
 
                     q-btn.bg-white.text-grey-9(v-else, @click.native="actions(button.action)", size="lg", round, flat)
                       q-icon.rotate-180(name="keyboard_backspace", size="30px")
 
                   q-item-tile.text-center
                     .q-caption {{ button.label }}
+
+      // vertical placeholder for bigger screens
+      .col-xs-1.col-md-2
 
     //----- landscape
     .orientation-landscape
