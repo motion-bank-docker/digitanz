@@ -264,10 +264,12 @@
         this.lastFrameTime = Date.now()
       },
       handleSkeletonClick () {
-        clearInterval(this.timerId)
-        this.timerId = undefined
-        this.updateFrame()
-        this.setCurrentState(-1)
+        if (!this.editSettings) {
+          clearInterval(this.timerId)
+          this.timerId = undefined
+          this.updateFrame()
+          this.setCurrentState(-1)
+        }
       },
       handleModeChange () {
         this.editSettings = !this.editSettings
