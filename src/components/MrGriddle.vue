@@ -341,8 +341,8 @@
           this.grid.height = state.grid.height
         }
 
-        let cellHeight = (this.svgSize.height / this.gridStore.rows) * this.cellRatio
-        let countColumns = this.svgSize.width / cellHeight
+        let cellWidth = (this.svgSize.height / this.gridStore.rows) * this.cellRatio
+        let countColumns = this.svgSize.width / cellWidth
 
         let x = Math.ceil(countColumns / 2)
         let y = Math.floor(this.gridStore.rows / 2)
