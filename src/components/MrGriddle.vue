@@ -230,7 +230,7 @@
         }
 
         this.gridCell = {
-          width: this.svgSize.height / (this.gridStore.rows * this.gridStore.ratioFactor),
+          width: this.svgSize.height / this.gridStore.rows,
           height: this.svgSize.height / this.gridStore.rows
         }
         this.updateSkeleton()
@@ -289,7 +289,7 @@
         this.grid.columns += columns
         this.grid.rows += rows
         this.gridCell = {
-          width: this.svgSize.height / (this.gridStore.rows * this.gridStore.ratioFactor),
+          width: this.svgSize.height / this.gridStore.rows,
           height: this.svgSize.height / this.gridStore.rows
         }
         this.updateSkeleton()
@@ -325,9 +325,10 @@
 
         let cellHeight = this.svgSize.height / this.gridStore.rows
         let countColumns = this.svgSize.width / cellHeight
+
         let x = Math.ceil(countColumns / 2)
         let y = Math.floor(this.gridStore.rows / 2)
-        let w = this.svgSize.height / (this.gridStore.rows * this.gridStore.ratioFactor)
+        let w = this.svgSize.height / this.gridStore.rows
         let h = this.svgSize.height / this.gridStore.rows
 
         this.lines = skeletonLines.map(line => {
