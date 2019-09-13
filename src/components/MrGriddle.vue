@@ -185,10 +185,13 @@
       }
 
       // set cell ratio
+      this.setCellRatio()
+      /*
       let initialCellWidth = this.svgSize.width / this.gridStore.columns
       let initialCellHeight = this.svgSize.height / this.gridStore.rows
       let initialCellRatio = initialCellWidth / initialCellHeight
       this.$store.commit('mrGriddle/setCellRatio', initialCellRatio)
+      */
 
       this.setGrid()
       this.updateFrame()
@@ -229,6 +232,12 @@
       }
     },
     methods: {
+      setCellRatio () {
+        let initialCellWidth = this.svgSize.width / this.gridStore.columns
+        let initialCellHeight = this.svgSize.height / this.gridStore.rows
+        let initialCellRatio = initialCellWidth / initialCellHeight
+        this.$store.commit('mrGriddle/setCellRatio', initialCellRatio)
+      },
       setGrid () {
         if (this.$el) {
           this.svgSize = {
@@ -293,6 +302,7 @@
         this.$emit('stateChanged', this.currentState)
       },
       handleGridChange (columns, rows) {
+        this.setCellRatio()
         this.$store.commit('mrGriddle/setTempGrid', {columns: columns, rows: rows})
         this.grid.columns += columns
         this.grid.rows += rows

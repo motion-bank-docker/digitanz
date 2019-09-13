@@ -23,6 +23,7 @@ const poses = {
     setTempGrid (state, val) {
       console.log('store: tempGrid', val)
       state.tempGrid.rows += val.rows
+      state.tempGrid.columns += val.columns
     },
     setTempFrameLength (state, val) {
       state.frameLength = val
