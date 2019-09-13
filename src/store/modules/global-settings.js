@@ -2,7 +2,7 @@ const global = {
   namespaced: true,
   state: {
     statusInfoBox: false,
-    tool: undefined,
+    tool: 'mr-griddle',
     deviceDimensions: {height: undefined, width: undefined}
   },
   getters: {
