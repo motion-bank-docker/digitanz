@@ -297,7 +297,7 @@
         this.grid.columns += columns
         this.grid.rows += rows
         this.gridCell = {
-          width: this.svgSize.height / this.gridStore.rows,
+          width: (this.svgSize.height / this.gridStore.rows) * this.cellRatio,
           height: this.svgSize.height / this.gridStore.rows
         }
         this.updateSkeleton()
