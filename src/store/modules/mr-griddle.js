@@ -20,6 +20,10 @@ const poses = {
       state.cellRatio = ratio
       console.log('cellRatio', state.cellRatio)
     },
+    setColumns (state, param) {
+      console.log(param)
+      if (param) state.tempGrid.columns = param
+    },
     setTempGrid (state, val) {
       if (state.tempGrid.rows > 2) state.tempGrid.rows += val.rows
       else if (state.tempGrid.rows === 2 && val.rows === 1) state.tempGrid.rows += val.rows

@@ -132,10 +132,12 @@
           width: 0,
           height: 0
         },
+        /*
         grid: {
           columns: undefined,
           rows: undefined
         },
+        */
         gridCell: {
           width: 0,
           height: 0
@@ -245,11 +247,16 @@
             height: this.$el.offsetHeight
           }
         }
+        let cellWidth = (this.svgSize.height / this.gridStore.rows) * this.cellRatio
+        let countColumns = this.svgSize.width / cellWidth
+        console.log('countColumns', Math.floor(countColumns))
+        this.$store.commit('mrGriddle/setColumns', Math.floor(countColumns))
 
         this.gridCell = {
           width: (this.svgSize.height / this.gridStore.rows) * this.cellRatio,
           height: this.svgSize.height / this.gridStore.rows
         }
+        // this.$store.commit('mrGriddle/setColumns')
         this.updateSkeleton()
       },
       onResize () {
@@ -306,12 +313,15 @@
       handleGridChange (columns, rows) {
         this.setCellRatio()
         this.$store.commit('mrGriddle/setTempGrid', {columns: columns, rows: rows})
-        this.grid.columns += columns
-        this.grid.rows += rows
+        // let cellWidth = (this.svgSize.height / this.gridStore.rows) * this.cellRatio
+        // let countColumns = this.svgSize.width / cellWidth
+        // this.grid.columns += columns
+        // this.grid.rows += rows
         this.gridCell = {
           width: (this.svgSize.height / this.gridStore.rows) * this.cellRatio,
           height: this.svgSize.height / this.gridStore.rows
         }
+
         this.updateSkeleton()
       },
       handleStoreState () {
@@ -337,16 +347,17 @@
         else {
           let state = this.storedStates[this.currentState]
           skeletonLines = state.skeleton
-          this.grid.columns = state.grid.columns
-          this.grid.rows = state.grid.rows
-          this.grid.width = state.grid.width
-          this.grid.height = state.grid.height
+          // this.grid.columns = state.grid.columns
+          // this.grid.rows = state.grid.rows
+          // this.grid.width = state.grid.width
+          // this.grid.height = state.grid.height
         }
 
         let cellWidth = (this.svgSize.height / this.gridStore.rows) * this.cellRatio
         let countColumns = this.svgSize.width / cellWidth
+        // console.log('countColumns', countColumns)
 
-        let x = Math.ceil(countColumns / 2)
+        let x = Math.floor(countColumns / 2)
         let y = Math.floor(this.gridStore.rows / 2)
         let w = (this.svgSize.height / this.gridStore.rows) * this.cellRatio
         let h = this.svgSize.height / this.gridStore.rows
