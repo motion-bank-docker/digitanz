@@ -18,12 +18,11 @@ const poses = {
   mutations: {
     setCellRatio (state, ratio) {
       state.cellRatio = ratio
-      console.log(state.cellRatio)
+      console.log('cellRatio', state.cellRatio)
     },
     setTempGrid (state, val) {
-      console.log('store: tempGrid', val)
-      state.tempGrid.rows += val.rows
-      state.tempGrid.columns += val.columns
+      if (state.tempGrid.rows > 2) state.tempGrid.rows += val.rows
+      if (state.tempGrid.columns > 2) state.tempGrid.columns += val.columns
     },
     setTempFrameLength (state, val) {
       state.frameLength = val
