@@ -346,7 +346,7 @@
 
         let x = Math.ceil(countColumns / 2)
         let y = Math.floor(this.gridStore.rows / 2)
-        let w = this.svgSize.height / this.gridStore.rows
+        let w = (this.svgSize.height / this.gridStore.rows) * this.cellRatio
         let h = this.svgSize.height / this.gridStore.rows
 
         this.lines = skeletonLines.map(line => {
