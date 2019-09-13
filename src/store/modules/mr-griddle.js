@@ -22,7 +22,9 @@ const poses = {
     },
     setTempGrid (state, val) {
       if (state.tempGrid.rows > 2) state.tempGrid.rows += val.rows
+      else if (state.tempGrid.rows === 2 && val.rows === 1) state.tempGrid.rows += val.rows
       if (state.tempGrid.columns > 2) state.tempGrid.columns += val.columns
+      else if (state.tempGrid.columns === 2 && val.columns === 1) state.tempGrid.columns += val.columns
     },
     setTempFrameLength (state, val) {
       state.frameLength = val
