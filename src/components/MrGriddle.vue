@@ -153,7 +153,7 @@
         editSettings: false,
         gridStrokeWidth: 0,
         patternOpacity: 0,
-        scaleFactor: 1400
+        scaleFactor: 1600
       }
     },
     computed: {
@@ -162,7 +162,8 @@
         gridStore: 'mrGriddle/getTempGrid',
         frameLength: 'mrGriddle/getTempFrameLength',
         statusInfoBox: 'globalSettings/getStatusInfoBox',
-        deviceDimensions: 'globalSettings/getDeviceDimensions'
+        deviceDimensions: 'globalSettings/getDeviceDimensions',
+        cellRatio: 'mrGriddle/getCellRatio'
       }),
       strokeWidth () {
         return 20 * this.skeletonScale
@@ -182,6 +183,13 @@
         width: this.$el.offsetWidth,
         height: this.$el.offsetHeight
       }
+
+      // set cell ratio
+      let initialCellWidth = this.svgSize.width / this.gridStore.columns
+      let initialCellHeight = this.svgSize.height / this.gridStore.rows
+      let initialCellRatio = initialCellWidth / initialCellHeight
+      this.$store.commit('mrGriddle/setCellRatio', initialCellRatio)
+
       this.setGrid()
       this.updateFrame()
 
@@ -230,7 +238,7 @@
         }
 
         this.gridCell = {
-          width: this.svgSize.height / this.gridStore.rows,
+          width: (this.svgSize.height / this.gridStore.rows) * this.cellRatio,
           height: this.svgSize.height / this.gridStore.rows
         }
         this.updateSkeleton()
@@ -323,7 +331,7 @@
           this.grid.height = state.grid.height
         }
 
-        let cellHeight = this.svgSize.height / this.gridStore.rows
+        let cellHeight = (this.svgSize.height / this.gridStore.rows) * this.cellRatio
         let countColumns = this.svgSize.width / cellHeight
 
         let x = Math.ceil(countColumns / 2)
