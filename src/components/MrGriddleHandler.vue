@@ -13,26 +13,34 @@
       //----- state-buttons
       q-item-main.q-pl-sm
         template(v-for="(state, index) in states")
-          svg(ref="svgContainer", :width="previewShape.width", :height="previewShape.height")
-            rect(width="100%", height="100%", fill="#ff0000")
-            g#mr-griddle.random
-              line(v-for="(line, i) in allSkeletons[index]", :key="`line-${i}`",
+          span(:class="{'q-mr-xs': index < states.length}")
+            svg(ref="svgContainer", :width="previewShape.width", :height="previewShape.height", @click="handlerStateButton(state, index)")
+              rect(width="100%", height="100%", fill="#ffffff")
+              g#mr-griddle.random
+                line(v-for="(line, i) in allSkeletons[index]", :key="`line-${i}`",
                 stroke-width="2",
-                :x1="line.x1 * 5", :y1="line.y1 * 5",
-                :x2="line.x2 * 5", :y2="line.y2 * 5")
-
-          q-btn.q-mx-xs(
-          round,  size="sm", flat,
-          v-model="selectedStates",
-          val="'option-' + {{index}}",
-          @click="handlerStateButton(state, index)")
-            q-btn(round,  size="sm", flat, :class="[currentState === index ? 'bg-grey-9' : 'bg-d4 scaled']")
-            q-popover.q-pa-xs(anchor="top middle", self="bottom middle", :offset="[0, 12]", ref="popover",
-            style="overflow: visible;")
+                :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
+                :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
+            q-popover.q-pa-xs.bg-grey-4(anchor="top middle", self="bottom middle", :offset="[0, 50]", ref="popover",
+              style="overflow: visible;")
               div.absolute-bottom.full-width.animation(
-              style="align-items: center; display: flex; justify-content: center;")
-                div.rotate-45.bg-white(style="width: 20px; height: 20px;")
+                style="align-items: center; display: flex; justify-content: center;")
+                div.rotate-45.bg-grey-4(style="width: 20px; height: 20px;")
               q-btn.text-grey-9(@click="deleteItem({state, index})", icon="delete", round, flat)
+
+          //
+            q-btn.q-mx-xs(
+            round,  size="sm", flat,
+            v-model="selectedStates",
+            val="'option-' + {{index}}",
+            @click="handlerStateButton(state, index)")
+              q-btn(round,  size="sm", flat, :class="[currentState === index ? 'bg-grey-9' : 'bg-d4 scaled']")
+              q-popover.q-pa-xs(anchor="top middle", self="bottom middle", :offset="[0, 12]", ref="popover",
+              style="overflow: visible;")
+                div.absolute-bottom.full-width.animation(
+                style="align-items: center; display: flex; justify-content: center;")
+                  div.rotate-45.bg-white(style="width: 20px; height: 20px;")
+                q-btn.text-grey-9(@click="deleteItem({state, index})", icon="delete", round, flat)
 
           info-button(v-if="states.length > 0 && states.length < 3", :size="'sm'")
             | Wähle eine Pose aus, indem du auf einen Grauen Punkt klickst. Eine ausgewählte Pose erkennt man hier am vergrößerten und dunklen Punkt.
@@ -78,7 +86,8 @@
         skeletonScale: undefined,
         previewShape: {width: 30, height: 30},
         grid: {rows: 10, columns: 10},
-        allSkeletons: []
+        allSkeletons: [],
+        gridCell: undefined
       }
     },
     computed: {
@@ -97,9 +106,12 @@
       this.skeletonScale = Math.min(1, this.previewShape.width / 900)
       this.grid.rows = this.gridStore.rows
       this.grid.columns = this.gridStore.columns
-      console.log('this.grid', this.grid)
       this.previewShape.width = this.svgSizeStore.width / 10
       this.previewShape.height = this.svgSizeStore.height / 10
+      this.gridCell = {
+        width: ((this.svgSizeStore.height / this.gridStore.rows) * this.cellRatio) / 10,
+        height: (this.svgSizeStore.height / this.gridStore.rows) / 10
+      }
     },
     methods: {
       handlerStateButton (state, index) {
@@ -119,9 +131,9 @@
           let countColumns = this.svgSizeStore.width / cellWidth
 
           let x = Math.floor(countColumns / 2)
-          let y = Math.floor(this.grid.rows / 2)
-          let w = this.previewShape.width / this.grid.columns * this.cellRatio
-          let h = this.previewShape.height / this.grid.rows
+          let y = Math.floor(this.gridStore.rows / 2)
+          let w = (this.svgSizeStore.width / this.gridStore.columns * this.cellRatio) / 10
+          let h = (this.svgSizeStore.height / this.gridStore.rows) / 10
           let test = []
           skeletonLines.map((line) => {
             test.push({
@@ -170,5 +182,5 @@
 
   #mr-griddle.random
     line
-      stroke white
+      stroke black
 </style>
