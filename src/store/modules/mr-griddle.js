@@ -7,15 +7,22 @@ const poses = {
       columns: 10
     },
     cellRatio: 1,
-    frameLength: 300
+    frameLength: 300,
+    svgSize: {width: undefined, height: undefined}
   },
   getters: {
     getTempPoses: state => state.tempPoses,
     getTempGrid: state => state.tempGrid,
     getTempFrameLength: state => state.frameLength,
-    getCellRatio: state => state.cellRatio
+    getCellRatio: state => state.cellRatio,
+    getSvgSize: state => state.svgSize
   },
   mutations: {
+    setSvgSize (state, size) {
+      console.log('svgSize', size)
+      state.svgSize.width = size.width
+      state.svgSize.height = size.height
+    },
     setCellRatio (state, ratio) {
       state.cellRatio = ratio
       console.log('cellRatio', state.cellRatio)

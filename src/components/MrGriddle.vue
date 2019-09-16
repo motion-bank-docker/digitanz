@@ -262,6 +262,7 @@
             width: this.$el.offsetWidth,
             height: this.$el.offsetHeight
           }
+          this.$store.commit('mrGriddle/setSvgSize', this.svgSize)
         }
         let cellWidth = (this.svgSize.height / this.gridStore.rows) * this.cellRatio
         let countColumns = this.svgSize.width / cellWidth
