@@ -311,8 +311,8 @@
         this.$emit('stateChanged', this.currentState)
       },
       handleGridChange (columns, rows) {
-        this.setCellRatio()
         this.$store.commit('mrGriddle/setTempGrid', {columns: columns, rows: rows})
+        this.setCellRatio()
         // let cellWidth = (this.svgSize.height / this.gridStore.rows) * this.cellRatio
         // let countColumns = this.svgSize.width / cellWidth
         // this.grid.columns += columns
