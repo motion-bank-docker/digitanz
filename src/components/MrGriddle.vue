@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     q-window-resize-observable(@resize="onResize")
-    div.row(style="margin-top: -1px;")
+    div.row.fit(style="margin-top: -1px;")
 
       //----- mr griddle
       svg(ref="svgContainer", :width="svgSize.width", :height="svgSize.height")
@@ -26,47 +26,50 @@
         line.transition-200(x1="0", :y1="svgSize.height", :x2="svgSize.width", :y2="svgSize.height", stroke="#bdbdbd",
         :stroke-width="gridStrokeWidth", :opacity="patternOpacity")
 
-      //----- slider
-      q-page-sticky(position="bottom")
-        .absolute-bottom.row.items-center.transition.bg-grey-3(
-        style="height: 52px; border-top: 1px solid #dadada;",
-        :class="{'leave-bottom' : !editSettings}")
-          q-item.q-pa-none.full-width(style="min-height: auto;")
+    // grid resize via touch
+    .absolute-top(v-if="editSettings", v-touch-pan="handlerPan", style="height: calc(100vh - 52px); touch-action: none;")
 
-            q-item-side.q-ml-md(style="min-width: auto;",
-            :class="{'hidden': states.length === 0}")
+    //----- slider
+    q-page-sticky(position="bottom")
+      .absolute-bottom.row.items-center.transition.bg-grey-3(
+      style="height: 52px; border-top: 1px solid #dadada;",
+      :class="{'leave-bottom' : !editSettings}")
+        q-item.q-pa-none.full-width(style="min-height: auto;")
 
-              q-btn.text-white.q-pa-none.text-grey-9.bg-transparent(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
-              :class="{'leave-bottom': states.length <= 0}", flat,
-              size="lg", no-ripple,
-              :disabled="states.length === 0")
+          q-item-side.q-ml-md(style="min-width: auto;",
+          :class="{'hidden': states.length === 0}")
 
-            q-item-main.q-px-md
-              q-slider(
-              v-model="frameLengthSlider", color="grey-9", :min="minFrameLength", :max="maxFrameLength",
-              :step="20", fill-handle-always, snap)
+            q-btn.text-white.q-pa-none.text-grey-9.bg-transparent(@click="$emit('clickPlay')", :icon="$props.play ? 'pause' : 'play_arrow'",
+            :class="{'leave-bottom': states.length <= 0}", flat,
+            size="lg", no-ripple,
+            :disabled="states.length === 0")
 
-      //----- edit-button (top right)
-      .absolute-top-right
-        .relative-position
+          q-item-main.q-px-md
+            q-slider(
+            v-model="frameLengthSlider", color="grey-9", :min="minFrameLength", :max="maxFrameLength",
+            :step="20", fill-handle-always, snap)
 
-          .absolute-top-right.q-mr-md.q-mt-md.transition(:class="{'leave-right': editSettings}")
-            .no-wrapping
-              info-button.q-mr-sm(v-if="!editSettings", :size="'sm'")
-                button-description(:iconName="'edit'")
-                  | Zum Edit-Modus: Änderungen am Grid oder an der Geschwindigkeit werden hier vorgenommen.
+    //----- edit-button (top right)
+    .absolute-top-right
+      .relative-position
 
-              // .shadow-1
-              q-btn.bg-grey-4.text-grey-9(@click="handleModeChange", round, flat, no-ripple, size="sm")
-                q-icon(name="edit", size="16px")
+        .absolute-top-right.q-mr-md.q-mt-md.transition(:class="{'leave-right': editSettings}")
+          .no-wrapping
+            info-button.q-mr-sm(v-if="!editSettings", :size="'sm'")
+              button-description(:iconName="'edit'")
+                | Zum Edit-Modus: Änderungen am Grid oder an der Geschwindigkeit werden hier vorgenommen.
 
-          .absolute-top-right.q-mr-md.q-mt-md.transition(:class="{'leave-right': !editSettings}")
             // .shadow-1
-            q-btn.bg-grey-4.text-grey-9.bg-grey-3(@click="handleModeChange", round, flat, no-ripple, size="sm")
-              q-icon(name="clear", size="16px")
+            q-btn.bg-grey-4.text-grey-9(@click="handleModeChange", round, flat, no-ripple, size="sm")
+              q-icon(name="edit", size="16px")
+
+        .absolute-top-right.q-mr-md.q-mt-md.transition(:class="{'leave-right': !editSettings}")
+          // .shadow-1
+          q-btn.bg-grey-4.text-grey-9.bg-grey-3(@click="handleModeChange", round, flat, no-ripple, size="sm")
+            q-icon(name="clear", size="16px")
 
     //----- "resize grid"-buttons (top left)
-    .absolute-top-left.text-center.q-mx-md.q-mt-md.transition(:class="{'leave-left-absolute' : !editSettings}")
+    .desktop-only.absolute-top-left.text-center.q-mx-md.q-mt-md.transition(:class="{'leave-left-absolute' : !editSettings}")
       div
         // .shadow-1
         q-btn.bg-grey-4.text-grey-9(@click="handleGridChange(0,-1)", round, size="sm", flat)
@@ -155,7 +158,8 @@
         editSettings: false,
         gridStrokeWidth: 0,
         patternOpacity: 0,
-        scaleFactor: 1600
+        scaleFactor: 1600,
+        pan: {x: undefined, y: undefined}
       }
     },
     computed: {
@@ -210,6 +214,14 @@
       this.timerId = undefined
     },
     watch: {
+      pan: {
+        handler (obj) {
+          let columns = Math.sign(obj.x)
+          let rows = Math.sign(obj.y)
+          this.handleGridChange(columns, rows)
+        },
+        deep: true
+      },
       frameLengthSlider (val) {
         this.$store.commit('mrGriddle/setTempFrameLength', val)
       },
@@ -234,6 +246,10 @@
       }
     },
     methods: {
+      handlerPan (obj) {
+        this.pan.x = Math.floor(obj.distance.x / 50) * Math.sign(obj.delta.x)
+        this.pan.y = Math.floor(obj.distance.y / 50) * Math.sign(obj.delta.y)
+      },
       setCellRatio () {
         let initialCellWidth = this.svgSize.width / this.gridStore.columns
         let initialCellHeight = this.svgSize.height / this.gridStore.rows
