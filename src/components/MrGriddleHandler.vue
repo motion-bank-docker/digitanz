@@ -14,14 +14,14 @@
       q-item-main.q-pl-sm.center-test(style="height: 52px;")
         .row.items-center
           template(v-for="(state, index) in states")
-            div.overflow-hidden.center-test(:class="{'q-mr-sm': index < states.length}", :style="{borderRadius: '3px', height: previewIcon.width + 'px'}")
+            div.overflow-hidden.center-test(:class="{'q-mr-sm': index < states.length - 1}", :style="{borderRadius: '3px', height: previewIcon.width + 'px'}")
               svg(ref="svgContainer", :width="previewIcon.width", :height="previewIcon.height", @click="handlerStateButton(state, index)",
               :class="[currentState === index ? 'stroke-normal' : 'stroke-light']")
                 // rect(width="100%", height="100%", stroke="#ff0000", fill="transparent", stroke-width="5")
                 rect(width="100%", height="100%", :fill="[currentState === index ? '#ffffff' : '#e0e0e0']")
                 g#mr-griddle
                   line(v-for="(line, i) in allSkeletons[index]", :key="`line-${i}`",
-                  stroke-width="2", stroke-linecap="round",
+                  stroke-width="1", stroke-linecap="round",
                   :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
                   :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
               q-popover.q-pa-xs.bg-grey-4.no-shadow(anchor="top middle", self="bottom middle", :offset="[0, 20]", ref="popover",
