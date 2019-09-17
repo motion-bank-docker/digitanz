@@ -16,9 +16,9 @@
           template(v-for="(state, index) in states")
             div.overflow-hidden.center-test(:class="{'q-mr-sm': index < states.length}", :style="{borderRadius: '3px', height: previewIcon.width + 'px'}")
               svg(ref="svgContainer", :width="previewIcon.width", :height="previewIcon.height", @click="handlerStateButton(state, index)",
-              :class="[currentState === index ? 'stroke-normal' : 'stroke-light']")
+              :class="[currentState === index ? 'stroke-normal' : 'stroke-normal']")
                 // rect(width="100%", height="100%", stroke="#ff0000", fill="transparent", stroke-width="5")
-                // rect(width="100%", height="100%", :fill="[currentState === index ? '#424242' : 'transparent']")
+                rect(width="100%", height="100%", :fill="[currentState === index ? '#ffffff' : '#e0e0e0']")
                 g#mr-griddle
                   line(v-for="(line, i) in allSkeletons[index]", :key="`line-${i}`",
                   stroke-width="2",
@@ -157,7 +157,7 @@
           let cellWidth = (this.previewIcon.height / this.gridStore.rows) * this.cellRatio
           let countColumns = this.previewIcon.width / cellWidth
 
-          let x = Math.floor(countColumns / 2)
+          let x = Math.floor(countColumns / 2) + 1
           let y = Math.floor(this.gridStore.rows / 2)
           let w = (this.previewIcon.width / this.gridStore.columns * this.cellRatio)
           let h = (this.previewIcon.height / this.gridStore.rows)
