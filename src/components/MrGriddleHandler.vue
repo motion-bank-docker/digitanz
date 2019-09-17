@@ -103,6 +103,7 @@
     },
     watch: {
       states () {
+        this.drawPreviewIcons()
         this.drawSkeleton()
       }
     },
@@ -134,9 +135,10 @@
         this.$refs.popover[item.index].hide()
         this.$emit('deleteItem', item)
       },
-      drawSkeleton () {
+      drawPreviewIcons () {
         let skeletonLines = []
         this.allSkeletons = []
+
         for (let i = 0; i < this.states.length; i++) {
           skeletonLines = this.states[i].skeleton
           let cellWidth = (this.previewIcon.height / this.gridStore.rows) * this.cellRatio
@@ -146,18 +148,21 @@
           let y = Math.floor(this.gridStore.rows / 2)
           let w = (this.previewIcon.width / this.gridStore.columns * this.cellRatio)
           let h = (this.previewIcon.height / this.gridStore.rows)
-          let test = []
+
+          let skel = []
           skeletonLines.map((line) => {
-            test.push({
+            skel.push({
               x1: x + Math.round(line.x1 * this.skeletonScale / w),
               y1: y + Math.round(line.y1 * this.skeletonScale / h),
               x2: x + Math.round(line.x2 * this.skeletonScale / w),
               y2: y + Math.round(line.y2 * this.skeletonScale / h)
             })
           })
-          this.allSkeletons.push(test)
-          console.log(this.allSkeletons)
+          this.allSkeletons.push(skel)
         }
+      },
+      drawSkeleton () {
+        let skeletonLines = []
         if (this.states && this.states.length > 0) {
           skeletonLines = this.states[this.currentState].skeleton
           // skeletonLines = this.states[0].skeleton
