@@ -11,10 +11,10 @@
         :disabled="states.length === 0")
 
       //----- state-buttons
-      q-item-main.q-pl-sm(style="height: 52px;")
+      q-item-main.q-pl-sm.center-test(style="height: 52px;")
         .row.items-center
           template(v-for="(state, index) in states")
-            div.overflow-hidden(:class="{'': index < states.length}", style="border-radius: 3px;")
+            div.overflow-hidden.center-test(:class="{'q-mr-sm': index < states.length}", :style="{borderRadius: '3px', height: previewIcon.width + 'px'}")
               svg(ref="svgContainer", :width="previewIcon.width", :height="previewIcon.height", @click="handlerStateButton(state, index)",
               :class="[currentState === index ? 'stroke-light' : 'stroke-normal']")
                 // rect(width="100%", height="100%", stroke="#ff0000", fill="transparent", stroke-width="5")
@@ -206,4 +206,8 @@
   .stroke-normal
     line
       stroke #424242
+  .center-test
+    display flex
+    align-items center
+    /*justify-content center*/
 </style>
