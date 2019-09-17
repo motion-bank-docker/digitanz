@@ -15,8 +15,9 @@
         .row.items-center
           template(v-for="(state, index) in states")
             div.overflow-hidden(:class="{'q-mr-sm': index < states.length}")
-              svg(ref="svgContainer", :width="previewShape.width", :height="previewShape.height", @click="handlerStateButton(state, index)",
+              svg(ref="svgContainer", :width="previewIcon.width", :height="previewIcon.height", @click="handlerStateButton(state, index)",
               :class="[currentState === index ? 'stroke-light' : 'stroke-normal']")
+                rect(width="100%", height="100%", stroke="#ff0000", fill="transparent", stroke-width="5")
                 // rect(width="100%", height="100%", :fill="[currentState === index ? '#aaaaff' : 'transparent']")
                 g#mr-griddle
                   line(v-for="(line, i) in allSkeletons[index]", :key="`line-${i}`",
@@ -86,8 +87,8 @@
         selectedStates: [],
         lines: [],
         skeletonScale: undefined,
-        previewShape: {width: 30, height: 30},
-        grid: {rows: 10, columns: 10},
+        previewIcon: {width: undefined, height: undefined},
+        grid: {rows: undefined, columns: undefined},
         allSkeletons: [],
         gridCell: undefined,
         gridRatio: undefined
@@ -108,17 +109,21 @@
     mounted () {
       this.gridRatio = this.svgSizeStore.height / 52
       console.log('gridRatio', this.gridRatio)
-      this.skeletonScale = Math.min(1, this.previewShape.width / 900)
+
       this.grid.rows = this.gridStore.rows
       this.grid.columns = this.gridStore.columns
-      this.previewShape.height = this.svgSizeStore.height / this.gridRatio
-      console.log('previewshape height', this.previewShape.height)
-      this.previewShape.width = this.previewShape.height / (this.svgSizeStore.height / this.svgSizeStore.width)
-      console.log('previewshape width', this.previewShape.width)
+
+      this.previewIcon.height = this.svgSizeStore.height / this.gridRatio
+      this.previewIcon.width = this.previewIcon.height / (this.svgSizeStore.height / this.svgSizeStore.width)
+      console.log('previewIcon height', this.previewIcon.height)
+      console.log('previewIcon width', this.previewIcon.width)
+
       this.gridCell = {
-        width: ((this.previewShape.height / this.gridStore.rows) * this.cellRatio),
-        height: (this.svgSizeStore.height / this.gridStore.rows) / 10
+        width: ((this.previewIcon.height / this.gridStore.rows) * this.cellRatio),
+        height: (this.previewIcon.height / this.gridStore.rows)
       }
+
+      this.skeletonScale = Math.min(1, this.previewIcon.width / 900)
     },
     methods: {
       handlerStateButton (state, index) {
@@ -134,13 +139,13 @@
         this.allSkeletons = []
         for (let i = 0; i < this.states.length; i++) {
           skeletonLines = this.states[i].skeleton
-          let cellWidth = (this.previewShape.height / this.gridStore.rows) * this.cellRatio
-          let countColumns = this.previewShape.width / cellWidth
+          let cellWidth = (this.previewIcon.height / this.gridStore.rows) * this.cellRatio
+          let countColumns = this.previewIcon.width / cellWidth
 
           let x = Math.floor(countColumns / 2)
           let y = Math.floor(this.gridStore.rows / 2)
-          let w = (this.previewShape.width / this.gridStore.columns * this.cellRatio)
-          let h = (this.previewShape.height / this.gridStore.rows)
+          let w = (this.previewIcon.width / this.gridStore.columns * this.cellRatio)
+          let h = (this.previewIcon.height / this.gridStore.rows)
           let test = []
           skeletonLines.map((line) => {
             test.push({
@@ -161,8 +166,8 @@
 
           let x = Math.floor(countColumns / 2)
           let y = Math.floor(this.grid.rows / 2)
-          let w = this.previewShape.width / this.grid.columns * this.cellRatio
-          let h = this.previewShape.height / this.grid.rows
+          let w = this.previewIcon.width / this.grid.columns * this.cellRatio
+          let h = this.previewIcon.height / this.grid.rows
           this.lines = skeletonLines.map(line => {
             return {
               x1: x + Math.round(line.x1 * this.skeletonScale / w),
@@ -196,5 +201,5 @@
   .stroke-normal
     line
       stroke #000000
-      opacity .2
+    opacity .2
 </style>
