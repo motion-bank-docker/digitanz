@@ -14,11 +14,11 @@
       q-item-main.q-pl-sm(style="height: 52px;")
         .row.items-center
           template(v-for="(state, index) in states")
-            div.overflow-hidden(:class="{'q-mr-sm': index < states.length}")
+            div.overflow-hidden(:class="{'': index < states.length}", style="border-radius: 3px;")
               svg(ref="svgContainer", :width="previewIcon.width", :height="previewIcon.height", @click="handlerStateButton(state, index)",
               :class="[currentState === index ? 'stroke-light' : 'stroke-normal']")
-                rect(width="100%", height="100%", stroke="#ff0000", fill="transparent", stroke-width="5")
-                // rect(width="100%", height="100%", :fill="[currentState === index ? '#aaaaff' : 'transparent']")
+                // rect(width="100%", height="100%", stroke="#ff0000", fill="transparent", stroke-width="5")
+                rect(width="100%", height="100%", :fill="[currentState === index ? '#424242' : 'transparent']")
                 g#mr-griddle
                   line(v-for="(line, i) in allSkeletons[index]", :key="`line-${i}`",
                   stroke-width="2",
@@ -202,9 +202,8 @@
       stroke #757575
   .stroke-light
     line
-      stroke #000000
+      stroke #eeeeee
   .stroke-normal
     line
-      stroke #000000
-    opacity .2
+      stroke #424242
 </style>
