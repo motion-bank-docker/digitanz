@@ -28,7 +28,7 @@
               style="overflow: visible;")
                 div.absolute-bottom.full-width.animation(
                   style="align-items: center; display: flex; justify-content: center;")
-                  div.rotate-45.bg-grey-4(style="width: 40px; height: 40px;")
+                  div.bg-grey-4(style="width: 20px; height: 20px; transform: translateY(5px) rotate(45deg);")
                 q-btn.text-grey-9(@click="deleteItem({state, index})", icon="delete", round, flat)
 
             //
