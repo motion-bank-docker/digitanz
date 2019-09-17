@@ -16,9 +16,9 @@
           template(v-for="(state, index) in states")
             div.overflow-hidden.center-test(:class="{'q-mr-sm': index < states.length}", :style="{borderRadius: '3px', height: previewIcon.width + 'px'}")
               svg(ref="svgContainer", :width="previewIcon.width", :height="previewIcon.height", @click="handlerStateButton(state, index)",
-              :class="[currentState === index ? 'stroke-light' : 'stroke-normal']")
+              :class="[currentState === index ? 'stroke-normal' : 'stroke-light']")
                 // rect(width="100%", height="100%", stroke="#ff0000", fill="transparent", stroke-width="5")
-                rect(width="100%", height="100%", :fill="[currentState === index ? '#424242' : 'transparent']")
+                // rect(width="100%", height="100%", :fill="[currentState === index ? '#424242' : 'transparent']")
                 g#mr-griddle
                   line(v-for="(line, i) in allSkeletons[index]", :key="`line-${i}`",
                   stroke-width="2",
@@ -54,10 +54,11 @@
               | Tippst du auf die Figur wird die Posen-Auswahl aufgehoben und eine neue Pose generiert, die hinzugefügt werden kann.
 
       //----- add-butoon
-      q-item-side.q-mr-md(style="min-width: auto;")
+      q-item-side.q-mr-md.absolute.transition(
+      :class="{'leave-right': states.length >= 5}",
+      style="min-width: auto; right: 0;")
         q-btn.no-padding.bg-grey-9.text-grey-1.transition(size="sm", flat, no-ripple,
         round, @click="$emit('clickAdd')",
-        :class="{'leave-bottom': states.length >= 5}",
         :disabled="states.length >= 5")
           q-icon(name="add", size="16px")
 
@@ -102,6 +103,18 @@
       })
     },
     watch: {
+      gridStore: {
+        handler (obj) {
+          this.grid.rows = obj.rows
+          this.grid.columns = obj.columns
+          this.gridCell = {
+            width: ((this.previewIcon.height / this.gridStore.rows) * this.cellRatio),
+            height: (this.previewIcon.height / this.gridStore.rows)
+          }
+          this.drawPreviewIcons()
+        },
+        deep: true
+      },
       states () {
         this.drawPreviewIcons()
         this.drawSkeleton()
@@ -202,7 +215,9 @@
       stroke #757575
   .stroke-light
     line
-      stroke #eeeeee
+      /*stroke #eeeeee*/
+      stroke #424242
+      opacity .2
   .stroke-normal
     line
       stroke #424242
