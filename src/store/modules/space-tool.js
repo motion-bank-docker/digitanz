@@ -56,7 +56,7 @@ const spaceTool = {
         {type: 'ellipse', cx: '60', cy: '60', rx: '25', ry: '25'}
       ]
     }, {
-      id: 'traingle-4',
+      id: 'triangle-1',
       elements: [
         {type: 'polygon', points: '53,100 3,25 93,25'}
       ]
