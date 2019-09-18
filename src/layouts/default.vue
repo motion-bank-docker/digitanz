@@ -8,7 +8,7 @@
       // :class="{'leave-top': currentAppName === 'Startscreen' && scrollPosition <= deviceDimensions.height - 16}",
       style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
     q-layout-header.bg-grey-1.text-grey-9.z-max.transition.no-shadow(
-    :class="{'leave-top': currentAppName === 'Startscreen' && scrollPosition <= 30}")
+    :class="{'leave-top': currentAppName === 'Startscreen' && scrollPosition <= (this.deviceDimensions.height * 0.34 + 48)}")
       q-item.q-pa-none
 
         //----- back-button
@@ -213,6 +213,7 @@
     methods: {
       scrollingHandler (scroll) {
         this.scrollPosition = scroll.position
+        this.$store.commit('globalSettings/handlerScrollPosition', {y: this.scrollPosition})
       },
       onResize (size) {
         this.$store.commit('globalSettings/handlerDeviceDimensions', size)
@@ -245,5 +246,5 @@
     height calc(100vw * 0.5625)
 
   .leave-top
-    margin-top -52px
+    transform translateY(-52px)
 </style>
