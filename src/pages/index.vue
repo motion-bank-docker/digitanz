@@ -2,27 +2,37 @@
   q-page.bg-grey-3
     q-scroll-observable(@scroll="scrollingHandler")
 
-    .fixed-top(:style="{opacity: mrGriddleOpacity, marginTop: mrGriddleOffset * -1 + 'px'}")
+    .fixed-top.bg-grey-3(:style="{marginTop: mrGriddleOffset * -1 + 'px'}")
       // .row.items-center(@click="$router.push({path: '/tools'})", style="height: calc(100vh - 52px);")
-      .row.items-center(style="height: 100vh;")
-        .absolute.text-center.q-mx-md(
-        @click="smoothScroll")
+      .row.items-center(:style="{height: '66vh', opacity: mrGriddleOpacity}")
+        .absolute.text-center()
           // .bg-grey-3.text-grey-9.q-pa-md(style="border-radius: 3px;")
-          .text-grey-3.q-px-md.q-mt-sm.q-title(style="border-radius: 3px;")
-            | #digitanz ist ein Forschungsprojekt zwischen der JGU und der HS Mainz
-            br
-            br
-            //
-              q-btn.bg-white.text-grey-9(@click="$router.push({path: '/tools'})", flat, rounded)
-              | zu den tools
-          .q-mt-md
-            q-btn.bg-white.text-grey-9(@click="smoothScroll", flat, round, size="lg")
-              q-icon(name="keyboard_arrow_down")
-              // | mehr
-            q-btn.bg-white.text-grey-9.q-ml-md(@click="$router.push({path: '/tools'})", flat, round, size="lg")
-              q-icon(name="keyboard_arrow_right")
-        img.full-height(src="statics/screenshot-1.png")
+          .text-white.q-px-md.q-mt-sm.q-title(style="border-radius: 3px;")
+            | #digitanz
+            span.text-weight-light &nbsp;lite
+            | &nbsp;entstand in einem Forschungsprojekt zwischen JGU und HS Mainz.
+        img(src="statics/digitanz-1.jpg", style="height: 66vh")
         // griddle-moves.col-xs-10.col-sm-9.col-md-8.col-lg-7.col-xl-5(:enclosed="true", :time="1000")
+      .row.items-center.justify-center(:style="{height: '34vh', opacity: mrGriddleOpacity}")
+        .q-px-lg.row.full-width
+          .col-xs-10.offset-xs-1.col-md-4.offset-md-4.row.items-center.text-grey-9
+            .col-6.text-center
+              q-item.q-pa-none.q-mb-xs
+                q-item-main
+                  q-item-tile.q-pb-sm.text-center.text-grey-9
+                    q-btn.bg-white.text-grey-9(@click="smoothScroll", flat, round, size="xl")
+                      q-icon.rotate-270(name="keyboard_backspace", size="26px")
+                  q-item-tile.text-center
+                    .q-caption.text-weight-bold mehr
+
+            .col-6.text-center
+              q-item.q-pa-none.q-mb-xs
+                q-item-main
+                  q-item-tile.q-pb-sm.text-center.text-grey-9
+                    q-btn.bg-white.text-grey-9(@click="$router.push({path: '/tools'})", flat, round, size="xl")
+                      q-icon.rotate-180(name="keyboard_backspace", size="26px")
+                  q-item-tile.text-center
+                    .q-caption.text-weight-bold Tools
 
       //
         .absolute-bottom.row
@@ -43,23 +53,23 @@
 
     .q-body-1.line-height-wider.row(style="margin-top: 100vh;")
 
-      .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.z-top
+      .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.z-top(style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3);")
         //.q-px-md.q-pt-sm.q-pb-lg.q-mb-none.bg-white.q-mx-none.bg-grey-9.text-grey-3
-        .q-px-md.q-pt-lg.q-pb-lg.q-mb-none.bg-white.q-mx-none.bg-grey-9.text-grey-3
-          .q-subheading.q-mb-lg.text-weight-medium.q-mt-md
+        .q-px-md.q-pt-lg.q-pb-lg.q-mb-none.q-mx-none.bg-grey-3.text-grey-9
+          .q-title.q-mb-lg.text-weight-medium.q-mt-md
             | Etetur sadipscing elitr, sed diam nonumy eirm.
           div
             | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
           div.q-mt-sm
             | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna.
 
-        .q-px-md.q-pt-sm.q-pb-lg.bg-white
-          .q-subheading.q-mb-lg.text-weight-medium.q-mt-none
+        .q-px-md.q-pt-xl.q-pb-lg.bg-white
+          .q-title.q-mb-lg.text-weight-medium.q-mt-none
             | Nonumy eirmod temportetur sadipscing elitr, sed diam nonumy eirm.
           div
             | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
 
-        .q-px-md.q-pt-md.q-mb-md.q-pb-md.text-center.bg-grey-3
+        .q-px-md.q-pt-md.q-pb-md.text-center.bg-grey-3
           q-btn.bg-white.text-grey-9.q-mt-sm(@click="$router.push({path: '/tools'})", flat, round, size="lg", no-caps)
             q-icon.rotate-180(name="keyboard_backspace")
           .q-caption.q-mt-sm.text-weight-medium Zu den Tools
@@ -88,12 +98,12 @@
     methods: {
       scrollingHandler (scroll) {
         scroll.position > 10 ? this.scrolled = true : this.scrolled = false
-        // this.mrGriddleOpacity = 1 / (scroll.position / 100)
+        this.mrGriddleOpacity = 1 / (scroll.position / 100)
         this.mrGriddleOffset = scroll.position / 5
       },
       smoothScroll () {
         window.scroll({
-          top: window.innerHeight - 16,
+          top: window.innerHeight,
           behavior: 'smooth'
         })
       }
