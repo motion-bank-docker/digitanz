@@ -4,17 +4,21 @@
     q-window-resize-observable(@resize="onResize")
 
     // ---------------------------------------------------------------------------------------------------------- header
-    q-layout-header.bg-grey-3.text-grey-9.z-max.transition(
-    :class="{'leave-top': currentAppName === 'Startscreen' && scrollPosition <= deviceDimensions.height - 16}",
-    style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
+      q-layout-header.bg-grey-3.text-grey-9.z-max.transition(
+      // :class="{'leave-top': currentAppName === 'Startscreen' && scrollPosition <= deviceDimensions.height - 16}",
+      style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
+    q-layout-header.bg-grey-1.text-grey-9.z-max.transition.no-shadow(
+    :class="{'leave-top': currentAppName === 'Startscreen' && scrollPosition <= deviceDimensions.height - 16}")
       q-item.q-pa-none
 
         //----- back-button
         q-item-side.min-width-auto.overflow-hidden.row(:class="{'offset': !usingTool}",
         style="transition: all ease 200ms; width: 54px; min-height: 50px;")
           // shadow-1
-          q-btn.self-center.bg-white.text-grey-9.q-ml-md(@click="$router.push('/tools')", no-ripple, round, size="sm", flat)
-            q-icon(name="keyboard_backspace", size="16px")
+          // q-btn.self-center.bg-white.text-grey-9.q-ml-md(@click="$router.push('/tools')", no-ripple, round, size="sm", flat)
+          q-btn.self-center.text-grey-9.q-ml-md(@click="$router.push('/tools')", no-ripple, round, size="sm", flat)
+            .q-subheading.text-weight-medium.text-weight-regular
+              q-icon(name="keyboard_backspace")
 
         //----- title
         q-item-main.text-weight-bold
@@ -31,7 +35,8 @@
         //----- info-button
         q-item-side.q-pr-md.absolute-top-right.q-pt-sm.q-mt-xs
           // shadow-1
-          q-btn.absolute-top-right.bg-white.text-grey-9.transition.q-mt-sm.q-mr-md(
+          // q-btn.absolute-top-right.bg-white.text-grey-9.transition.q-mt-sm.q-mr-md(
+          q-btn.absolute-top-right.text-grey-9.transition.q-mt-sm.q-mr-md(
           v-if="currentAppName !== 'Startscreen'",
           @click="handlerInfoBox", round,
           size="sm", flat, :class="[showInfoBox || currentAppName === 'Tools' ? 'leave-right' : '']")
@@ -63,7 +68,7 @@
           template(v-if="!usingTool && currentAppName !== undefined")
             video-player(:options="playerOptions")
             // .shadow-1
-            q-btn.bg-white.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
+            q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
             v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
               // | {{ t.label }}
               .q-subheading.text-weight-medium.text-weight-regular ?
@@ -88,10 +93,13 @@
 
           //----- close-button
           // .shadow-1
-          q-btn.absolute-top-right.bg-white.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
-          round, flat, size="sm",
+          // q-btn.absolute-top-right.bg-white.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
+          q-btn.absolute-top-right.text-grey-1.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
+          round, flat, size="sm", no-ripple,
           :class="[(showInfoBox ? '' : 'leave-right'), (currentAppName === 'Tools' ? 'leave-right' : '')]")
-            q-icon(name="clear")
+            // q-icon(name="clear")
+            .q-subheading.text-weight-medium.text-weight-regular
+              q-icon(name="clear")
 
       router-view
 
