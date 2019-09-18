@@ -3,14 +3,19 @@ const global = {
   state: {
     statusInfoBox: false,
     tool: 'mr-griddle',
-    deviceDimensions: {height: undefined, width: undefined}
+    deviceDimensions: {height: undefined, width: undefined},
+    scrollPosition: {x: undefined, y: undefined}
   },
   getters: {
     getStatusInfoBox: state => state.statusInfoBox,
     getTool: state => state.tool,
-    getDeviceDimensions: state => state.deviceDimensions
+    getDeviceDimensions: state => state.deviceDimensions,
+    getScrollPosition: state => state.scrollPosition
   },
   mutations: {
+    handlerScrollPosition (state, param) {
+      state.scrollPosition.y = param.y
+    },
     handlerDeviceDimensions (state, param) {
       state.deviceDimensions.width = param.width
       state.deviceDimensions.height = param.height
