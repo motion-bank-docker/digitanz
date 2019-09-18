@@ -1,10 +1,11 @@
 <template lang="pug">
   q-layout(view='lHh Lpr lFf')
+    q-scroll-observable(@scroll="scrollingHandler")
     q-window-resize-observable(@resize="onResize")
 
     // ---------------------------------------------------------------------------------------------------------- header
-    q-layout-header.bg-grey-3.text-grey-9.z-max(
-    v-if="currentAppName !== 'Startscreen'",
+    q-layout-header.bg-grey-3.text-grey-9.z-max.transition(
+    :class="{'leave-top': currentAppName === 'Startscreen' && scrollPosition <= deviceDimensions.height - 16}",
     style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
       q-item.q-pa-none
 
@@ -107,6 +108,8 @@
     },
     data () {
       return {
+        deviceDimensions: {height: undefined, width: undefined},
+        scrollPosition: 0,
         playerOptions: {
           fluid: true,
           techOrder: ['youtube'],
@@ -200,8 +203,13 @@
       }
     },
     methods: {
+      scrollingHandler (scroll) {
+        this.scrollPosition = scroll.position
+      },
       onResize (size) {
         this.$store.commit('globalSettings/handlerDeviceDimensions', size)
+        this.deviceDimensions.height = size.height
+        this.deviceDimensions.width = size.width
         let headerHeight = 52
         this.infoBoxHeightMax = size.height - headerHeight - 50
       },
@@ -227,4 +235,7 @@
 
   .height-auto
     height calc(100vw * 0.5625)
+
+  .leave-top
+    margin-top -52px
 </style>
