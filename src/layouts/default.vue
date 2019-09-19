@@ -72,9 +72,9 @@
             v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
               // | {{ t.label }}
               .q-subheading.text-weight-medium.text-weight-regular ?
-              q-popover.bg-grey-9.q-px-md.q-py-sm.text-grey-1.q-caption.q-mx-sm.q-mb-sm(
+              q-popover.bg-grey-9.q-px-md.q-py-md.text-grey-1.q-caption.text-weight-medium.q-mx-sm.q-mb-sm.shadow-6(
               touch-position, anchor="bottom middle", self="top middle")
-                | {{ t.text }}
+                div(style="width: 66vw;") {{ t.text }}
 
           //----- info-modus
           .q-px-md.q-py-sm.row.full-width.bg-grey-9(v-else, style="height: 46px;")
