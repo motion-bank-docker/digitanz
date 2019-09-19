@@ -25,7 +25,7 @@
                       q-icon.rotate-180(name="keyboard_backspace", size="30px")
 
                   q-item-tile.text-center
-                    .q-caption {{ button.label }}
+                    .q-caption.text-weight-medium {{ button.label }}
 
       // vertical placeholder for bigger screens
       .col-xs-1.col-md-2
