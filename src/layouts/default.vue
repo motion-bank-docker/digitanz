@@ -11,7 +11,7 @@
     // q-layout-header.bg-grey-1.text-grey-9.z-max.transition.no-shadow(
     // :class="{'leave-top': currentAppName === 'Startscreen' && scrollPosition <= (this.deviceDimensions.height * 0.34 + 48)}")
 
-    q-layout-header.bg-grey-1.text-grey-9.z-max.transition.no-shadow(v-if="currentAppName !== 'Startscreen'")
+    q-layout-header.bg-grey-3.text-grey-9.z-max.transition.no-shadow(v-if="currentAppName !== 'Startscreen'")
       q-item.q-pa-none
 
         //----- back-button
