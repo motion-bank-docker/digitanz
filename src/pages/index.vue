@@ -2,24 +2,26 @@
   q-page.bg-grey-3
     // q-scroll-observable(@scroll="scrollingHandler")
 
-    // .fixed-top.bg-grey-3
     .fixed-top.bg-grey-3
 
-      //----- text
+      // ---------------------------------------------------------------------------------------------------- teaser-img
       .row.items-center(:style="{height: '66vh'}")
-        .bg-grey-10(:style="{height: '66vh', transform: 'translateY(' + mrGriddleOffset + 'px)'}")
-          // img(src="statics/003-master-1-white.svg", :style="{height: '100%', width: '100vw', opacity: mrGriddleOpacity}")
-          // img(src="statics/digitanz-2.jpg", :style="{height: '100%', opacity: mrGriddleOpacity}")
-          img(src="statics/digitanz-2.jpg", style="height: 100%;")
-        .absolute.transition.q-mx-md(:class="{'opacity-0': textOpacity}")
-          // .bg-grey-3.text-grey-9.q-pa-md(style="border-radius: 3px;")
-          .text-grey-1.q-mt-md.q-headline.q-px-md(style="border-radius: 3px;")
+
+        //----- images
+        .full-width.text-center(:style="{height: '66vh', transform: 'translateY(' + mrGriddleOffset + 'px)'}")
+          div.fit(style="background: url('statics/digitanz-2.jpg'); background-size: cover;")
+          // img(src="statics/digitanz-2.jpg", style="height: 100%;")
+
+        //----- text
+        .absolute.transition.q-mx-md.text-center.full-width.row(:class="{'opacity-0': textOpacity}")
+
+          .text-grey-1.q-mt-md.q-headline.q-px-md.col-xs-12.col-sm-10.offset-sm-1.col-md-6.offset-md-3(style="border-radius: 3px;")
             | #digitanz
             span.text-weight-light lite
             | &nbsp;entstand aus einem Forschungsprojekt zwischen JGU und HS Mainz.
-          .text-center.q-mt-md.q-pt-md
-            q-btn.bg-grey-1.text-grey-9(@click="smoothScroll", flat, rounded, no-caps)
-              // .q-caption.text-weight-bold
+
+          .text-center.q-mt-md.q-pt-md.col-12
+            q-btn.bg-grey-3.text-grey-9.round-borders-3(@click="smoothScroll", flat, no-caps)
               | Mehr...
 
         // griddle-moves.col-xs-10.col-sm-9.col-md-8.col-lg-7.col-xl-5(:enclosed="true", :time="1000")
@@ -29,20 +31,6 @@
         .q-px-lg.row.full-width
           .col-xs-8.offset-xs-2.col-md-4.offset-md-4.row.items-center.text-grey-9.transition(
           :class="{'opacity-0': textOpacity}")
-            // .col-6.text-center
-              q-item.q-pa-none.q-mb-xs
-                q-item-main
-                  q-item-tile.q-pb-sm.text-center.text-grey-9
-                    q-btn.bg-white.text-grey-9(@click="smoothScroll", flat, round, size="xl", no-caps)
-                      // .q-caption.text-weight-bold
-                        | Mehr
-                        | Infos
-                      q-icon.rotate-270(name="keyboard_backspace", size="26px")
-                      // q-icon(name="info", size="26px")
-                  q-item-tile.text-center.q-pt-sm
-                    .q-caption.text-weight-medium
-                      | Mehr...
-                      // | Mehr Infos
 
             .col-12.text-center
               q-item.q-pa-none.q-mb-xs
@@ -56,62 +44,63 @@
                     .q-caption.text-weight-medium
                       | Zu den Tools
 
-      //
-        .absolute-bottom.row
-          .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.text-center.transition(
-          position="bottom", :class="[scrolled ? 'hide-arrow' : '']")
-            .q-mx-md
-              .bg-white
-                q-btn.full-width.q-py-md(@click.native="smoothScroll", flat, no-ripple, no-caps)
-                  // q-icon(name="keyboard_arrow_down", size="30px")
-                  //
-                    | Hier geht's lang
-                    q-icon.rotate-270.q-ml-xs(name="keyboard_backspace", size="20px")
-                  .q-subheading.text-weight-medium
-                    | Mehr über #digitanz
-                  //
-                    .float-right
-                      q-icon.rotate-270.q-ml-xs(name="keyboard_backspace", size="20px")
-
+    // ------------------------------------------------------------------------------------------------------------ menu
+    .desktop-only.fixed-bottom-left.q-headline.q-ma-lg.z-max.transition(:class="{'opacity-0': !textOpacity}")
+      .round-borders-3.q-mt-xs.q-px-sm Das Projekt.
+      .bg-white.round-borders-3.q-mt-xs.q-px-sm Das Team.
+      .round-borders-3.q-mt-xs.q-px-sm Die Tools.
+      .round-borders-3.q-mt-xs.q-px-sm Die Ergebnisse.
     // --------------------------------------------------------------------------------------------------------- content
-    .q-body-1.line-height-wider.row(style="margin-top: 100vh;")
+    .row.q-body-1.line-height-wider(style="margin-top: 150vh;")
 
-      .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.z-top.bg-grey-3.text-grey-8
-        //.q-px-md.q-pt-sm.q-pb-lg.q-mb-none.bg-white.q-mx-none.bg-grey-9.text-grey-3
-        .q-px-md.q-mb-xl
-          .q-headline.q-px-md.q-py-xl
-            | Etetur sadipscing elitr, sed diam nonumy eirm.
-          div.q-mb-md
-            | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
-          div
-            | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor sed diam nonumy eirmod tempor invidunt ut labore et dolore magna ainvidunt ut labore et dolore magna aliquyam erat.
-          .q-my-xl
-            img.full-width.round-borders-3(src="statics/screenshot-1.png")
-          div
-            | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna.
+      .row.bg-grey-3.z-top
 
-        .q-px-md
-          .q-headline.q-px-md.q-py-xl
-            | Nonumy eirmod temportetur sadipscing elitr, sed diam nonumy eirm.
-          div
-            | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
+        .col-xs-12.col-sm-8.offset-sm-2.col-md-7.offset-md-4.bg-grey-3.text-grey-8
 
-        .q-px-md.q-py-xl.text-center
-          q-btn.bg-white.text-grey-9.q-mt-sm(@click="$router.push({path: '/tools'})", flat, round, size="xl", no-caps)
-            q-icon.rotate-180(name="keyboard_backspace", size="26px")
-          .q-caption.q-mt-sm.text-weight-medium Zu den Tools
+          .q-px-md(style="margin-bottom: 33vh;")
+            .q-headline.q-px-md.q-py-xl
+              | Das Projekt.
+            div.q-mb-md
+              | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
+            div.q-mb-md
+              | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor sed diam nonumy eirmod tempor invidunt ut labore et dolore magna ainvidunt ut labore et dolore magna aliquyam erat.
+            .q-my-xl
+              img.full-width.round-borders-3(src="statics/screenshot-1.png")
+            div
+              | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna.
 
-      .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.z-top.bg-grey-1
-        .text-center.col-12.bg-white.q-mb-xl
-          img(src="~assets/BMBF_deutsch.jpg", style="width: 80%; max-width: 200px;")
-        .row.q-mt-md
-          .col-4.offset-2
-            img(src="statics/HSM_Logo_G_schwarz_klein_bold_regular.png", style="width: 80%; max-width: 200px;")
-          .col-4
-            img(src="statics/logo-jgu.svg", style="width: 80%; max-width: 200px;")
+          .q-px-md(style="margin-bottom: 50vh;")
+            .q-headline.q-px-md.q-py-xl
+              | Nonumy eirmod temportetur sadipscing elitr, sed diam nonumy eirm.
+            div.q-mb-md
+              | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
+            div
+              | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor sed diam nonumy eirmod tempor invidunt ut labore et dolore magna ainvidunt ut labore et dolore magna aliquyam erat.
 
-        q-btn.q-mt-lg.q-py-md.text-center.full-width(@click="$router.push({path: '/'})", flat, no-caps)
-          | Imprint
+          .q-px-md.q-py-xl.text-center
+            q-btn.bg-white.text-grey-9.q-mt-sm(@click="$router.push({path: '/tools'})", flat, round, size="xl", no-caps)
+              q-icon.rotate-180(name="keyboard_backspace", size="26px")
+            .q-caption.q-mt-sm.text-weight-medium Zu den Tools
+
+        // .row.col-xs-12.col-md-8.offset-md-2.z-top.items-center
+          .col-xs-12.col-sm-4.text-center.q-my-lg
+            img(src="~assets/BMBF_deutsch.jpg", style="max-height: 100px;")
+          .col-xs-12.col-sm-4.text-center.q-my-lg
+            img(src="statics/HSM_Logo_G_schwarz_klein_bold_regular.png", style="max-height: 50px;")
+          .col-xs-12.col-sm-4.text-center.q-my-lg
+            img(src="statics/logo-jgu.svg", style="max-height: 80px;")
+
+        .row.full-width.bg-white.q-pt-md
+          .row.col-12.gutter-md.items-center
+            .col-xs-4.col-xs-4.col-md-3.text-center
+              img(src="~assets/BMBF_deutsch.jpg", style="max-height: 80px;")
+            .col-xs-4.col-xs-4.col-md-3.text-center
+              img(src="statics/HSM_Logo_G_schwarz_klein_bold_regular.png", style="max-height: 30px;")
+            .col-xs-4.col-xs-4.col-md-3.text-center
+              img(src="statics/logo-jgu.svg", style="max-height: 50px;")
+            .col-xs-12.col-xs-12.col-md-3.text-center
+              q-btn.q-my-lg(@click="$router.push({path: '/'})", flat, no-caps)
+              | Imprint
 
 </template>
 
