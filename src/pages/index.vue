@@ -27,13 +27,15 @@
               | Die einzelnen Tools sind ein Auszug aus einer für einen Tanzkurs an einer Regelschule entwickelten App, die im Forschungsprojekt #digitanz (Link auf digitanz.de) zum Einsatz kam. Das Kooperationsprojekt zwischen der Johannes Gutenberg Universität und der Hochschule Mainz erforscht, ob und wie digitale Tools die Kreativität der Schüler eines Tanzkurses an einer Regelschule beeinflussen. Das Projekt #digitanz findet im Rahmen der Förderlinie „Digitalität in der kulturellen Bildung“ des BMBF statt.
 
         .row.full-width.bg-white.q-my-xl
-          .row.col-12.items-center.q-pt-sm
-            .col-xs-4.col-xs-4.col-md-3.text-center.q-px-md
+          .row.col-12.items-center.q-px-lg.q-py-md
+            .col-xs-6.col-xs-4.col-md-3.text-center.q-px-md.q-my-sm
               img(src="~assets/BMBF_deutsch.jpg", style="max-height: 80px;")
-            .col-xs-4.col-xs-4.col-md-3.text-center.q-px-md
+            .col-xs-6.col-xs-4.col-md-3.text-center.q-px-md.q-my-sm
               img(src="statics/HSM_Logo_G_schwarz_klein_bold_regular.png", style="max-height: 30px;")
-            .col-xs-4.col-xs-4.col-md-3.text-center.q-px-md
+            .col-xs-6.col-xs-4.col-md-3.text-center.q-px-md.q-my-sm
               img(src="statics/logo-jgu.svg", style="max-height: 50px;")
+            .col-xs-6.col-xs-4.col-md-3.text-center.q-px-md.q-my-sm
+              img(src="statics/motionbank_logo.svg", style="max-height: 50px;")
 
         // ------------------------------------------------------------------------------------------------- description
         div.bg-grey-3.text-grey-9.full-width.q-px-md.q-pb-md
