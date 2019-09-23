@@ -19,7 +19,7 @@
               :class="[currentState === index ? 'stroke-normal' : 'stroke-normal']")
                 // rect(width="100%", height="100%", stroke="#ff0000", fill="transparent", stroke-width="5")
                 rect(width="100%", height="100%", :fill="[currentState === index ? '#ffffff' : '#e0e0e0']")
-                g#mr-griddle
+                g#mr-griddle(width="30px")
                   line(v-for="(line, i) in allSkeletons[index]", :key="`line-${i}`",
                   stroke-width="1", stroke-linecap="round",
                   :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
@@ -102,24 +102,6 @@
         cellRatio: 'mrGriddle/getCellRatio'
       })
     },
-    watch: {
-      gridStore: {
-        handler (obj) {
-          this.grid.rows = obj.rows
-          this.grid.columns = obj.columns
-          this.gridCell = {
-            width: ((this.previewIcon.height / this.gridStore.rows) * this.cellRatio),
-            height: (this.previewIcon.height / this.gridStore.rows)
-          }
-          this.drawPreviewIcons()
-        },
-        deep: true
-      },
-      states () {
-        this.drawPreviewIcons()
-        this.drawSkeleton()
-      }
-    },
     mounted () {
       this.gridRatio = this.svgSizeStore.height / 52
       console.log('gridRatio', this.gridRatio)
@@ -139,6 +121,27 @@
 
       this.skeletonScale = Math.min(1, this.previewIcon.width / 900)
     },
+    watch: {
+      gridStore: {
+        handler (obj) {
+          this.previewIcon.height = this.svgSizeStore.height / this.gridRatio
+          this.previewIcon.width = this.previewIcon.height / (this.svgSizeStore.height / this.svgSizeStore.width)
+
+          this.grid.rows = obj.rows
+          this.grid.columns = obj.columns
+          this.gridCell = {
+            width: ((this.previewIcon.height / this.gridStore.rows) * this.cellRatio),
+            height: (this.previewIcon.height / this.gridStore.rows)
+          }
+          this.drawPreviewIcons()
+        },
+        deep: true
+      },
+      states () {
+        this.drawPreviewIcons()
+        this.drawSkeleton()
+      }
+    },
     methods: {
       handlerStateButton (state, index) {
         this.$emit('clickState', {state, index})
@@ -157,18 +160,18 @@
           let cellWidth = (this.previewIcon.height / this.gridStore.rows) * this.cellRatio
           let countColumns = this.previewIcon.width / cellWidth
 
-          let x = Math.floor(countColumns / 2) + 1
-          let y = Math.floor(this.gridStore.rows / 2)
+          let x = countColumns / 2 + 1
+          let y = this.gridStore.rows / 2
           let w = (this.previewIcon.width / this.gridStore.columns * this.cellRatio)
           let h = (this.previewIcon.height / this.gridStore.rows)
 
           let skel = []
           skeletonLines.map((line) => {
             skel.push({
-              x1: x + Math.round(line.x1 * this.skeletonScale / w),
-              y1: y + Math.round(line.y1 * this.skeletonScale / h),
-              x2: x + Math.round(line.x2 * this.skeletonScale / w),
-              y2: y + Math.round(line.y2 * this.skeletonScale / h)
+              x1: x + line.x1 * this.skeletonScale / w,
+              y1: y + line.y1 * this.skeletonScale / h,
+              x2: x + line.x2 * this.skeletonScale / w,
+              y2: y + line.y2 * this.skeletonScale / h
             })
           })
           this.allSkeletons.push(skel)
@@ -182,16 +185,16 @@
           let cellWidth = (this.svgSizeStore.height / this.gridStore.rows) * this.cellRatio
           let countColumns = this.svgSizeStore.width / cellWidth
 
-          let x = Math.floor(countColumns / 2)
-          let y = Math.floor(this.grid.rows / 2)
+          let x = countColumns / 2
+          let y = this.grid.rows / 2
           let w = this.previewIcon.width / this.grid.columns * this.cellRatio
           let h = this.previewIcon.height / this.grid.rows
           this.lines = skeletonLines.map(line => {
             return {
-              x1: x + Math.round(line.x1 * this.skeletonScale / w),
-              y1: y + Math.round(line.y1 * this.skeletonScale / h),
-              x2: x + Math.round(line.x2 * this.skeletonScale / w),
-              y2: y + Math.round(line.y2 * this.skeletonScale / h)
+              x1: x + line.x1 * this.skeletonScale / w,
+              y1: y + line.y1 * this.skeletonScale / h,
+              x2: x + line.x2 * this.skeletonScale / w,
+              y2: y + line.y2 * this.skeletonScale / h
             }
           })
         }
