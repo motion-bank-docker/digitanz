@@ -35,7 +35,7 @@
             .col-xs-6.col-xs-4.col-md-3.text-center.q-px-md.q-my-sm
               img(src="statics/logo-jgu.svg", style="max-height: 50px;")
             .col-xs-6.col-xs-4.col-md-3.text-center.q-px-md.q-my-sm
-              img(src="statics/motionbank_logo.svg", style="max-height: 50px;")
+              img(src="statics/motionbank_logo.svg", style="max-height: 40px;")
 
         // ------------------------------------------------------------------------------------------------- description
         // div.bg-grey-3.text-grey-9.full-width.q-px-md.q-pb-md
