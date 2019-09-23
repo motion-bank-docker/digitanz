@@ -24,11 +24,11 @@
                   stroke-width="1", stroke-linecap="round",
                   :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
                   :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
-              q-popover.q-pa-xs.bg-grey-4.no-shadow(anchor="top middle", self="bottom middle", :offset="[0, 20]", ref="popover",
+              q-popover.q-pa-xs.bg-white.no-shadow(anchor="top middle", self="bottom middle", :offset="[0, 20]", ref="popover",
               style="overflow: visible;")
                 div.absolute-bottom.full-width.animation(
                   style="align-items: center; display: flex; justify-content: center;")
-                  div.bg-grey-4(style="width: 20px; height: 20px; transform: translateY(5px) rotate(45deg);")
+                  div.bg-white(style="width: 20px; height: 20px; transform: translateY(5px) rotate(45deg);")
                 q-btn.text-grey-9(@click="deleteItem({state, index})", icon="delete", round, flat)
 
             //
