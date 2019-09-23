@@ -31,9 +31,9 @@
             .col-xs-6.col-xs-4.col-md-3.text-center.q-px-md.q-my-sm
               img(src="~assets/BMBF_deutsch.jpg", style="max-height: 80px;")
             .col-xs-6.col-xs-4.col-md-3.text-center.q-px-md.q-my-sm
-              img(src="statics/HSM_Logo_G_schwarz_klein_bold_regular.png", style="max-height: 30px;")
-            .col-xs-6.col-xs-4.col-md-3.text-center.q-px-md.q-my-sm
               img(src="statics/logo-jgu.svg", style="max-height: 50px;")
+            .col-xs-6.col-xs-4.col-md-3.text-center.q-px-md.q-my-sm
+              img(src="statics/HSM_Logo_G_schwarz_klein_bold_regular.png", style="max-height: 30px;")
             .col-xs-6.col-xs-4.col-md-3.text-center.q-px-md.q-my-sm
               img(src="statics/motionbank_logo.svg", style="max-height: 40px;")
 
