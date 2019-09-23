@@ -39,11 +39,15 @@
 
         // ------------------------------------------------------------------------------------------------- description
         // div.bg-grey-3.text-grey-9.full-width.q-px-md.q-pb-md
-        .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.text-grey-9.q-pb-md
-          .q-px-md
+        .row.col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.text-grey-9.q-pb-md
+          .col-6.q-px-md
             | Holzstraße 36
             br
             | 55116 Mainz
+          .col-6.q-px-md
+            | Mail
+            br
+            | bla
 
 </template>
 
