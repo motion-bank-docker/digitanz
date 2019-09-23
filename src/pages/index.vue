@@ -1,106 +1,45 @@
 <template lang="pug">
-  q-page.bg-grey-3
+  q-page
     // q-scroll-observable(@scroll="scrollingHandler")
 
+    q-page-sticky.z-top.q-pb-xl.transition(position="bottom", :class="{'opacity-0': textOpacity}")
+      q-btn.text-weight-regular.text-grey-9.bg-grey-1.q-mx-sm.q-px-lg(@click="smoothScroll('down')", flat, rounded, no-caps, size="lg") Info
+      q-btn.text-weight-regular.text-grey-9.bg-grey-1.q-mx-sm.q-px-lg(@click="$router.push({path: '/tools'})", flat, rounded, no-caps, size="lg") Tools
+
+    // ------------------------------------------------------------------------------------------------------ teaser-img
     .fixed-top.bg-grey-3
-
-      // ---------------------------------------------------------------------------------------------------- teaser-img
-      .row.items-center(:style="{height: '66vh'}")
-
-        //----- images
-        .full-width.text-center(:style="{height: '66vh', transform: 'translateY(' + mrGriddleOffset + 'px)'}")
-          div.fit(style="background: url('statics/digitanz-2.jpg'); background-size: cover;")
-          // img(src="statics/digitanz-2.jpg", style="height: 100%;")
-
-        //----- text
-        .absolute.transition.q-mx-md.text-center.full-width.row(:class="{'opacity-0': textOpacity}")
-
-          .text-grey-1.q-mt-md.q-headline.q-px-md.col-xs-12.col-sm-10.offset-sm-1.col-md-6.offset-md-3(style="border-radius: 3px;")
-            | #digitanz
-            span.text-weight-light lite
-            | &nbsp;entstand aus einem Forschungsprojekt zwischen JGU und HS Mainz.
-
-          .text-center.q-mt-md.q-pt-md.col-12
-            q-btn.bg-grey-3.text-grey-9.round-borders-3(@click="smoothScroll", flat, no-caps)
-              | Mehr...
-
-        // griddle-moves.col-xs-10.col-sm-9.col-md-8.col-lg-7.col-xl-5(:enclosed="true", :time="1000")
-
-      //----- buttons
-      .row.items-center.justify-center(:style="{height: '34vh'}")
-        .q-px-lg.row.full-width
-          .col-xs-8.offset-xs-2.col-md-4.offset-md-4.row.items-center.text-grey-9.transition(
+      .row.items-end(:style="{height: '100vh'}")
+        .fit.text-center
+          .fit.transition(style="background: url('statics/003-master-1.svg'); background-size: contain; background-repeat: no-repeat; background-position: center center; transform: scale(.9);",
           :class="{'opacity-0': textOpacity}")
 
-            .col-12.text-center
-              q-item.q-pa-none.q-mb-xs
-                q-item-main
-                  q-item-tile.q-pb-sm.text-center.text-grey-9
-                    q-btn.text-grey-7.bg-grey-1(@click="$router.push({path: '/tools'})", flat, round, size="xl", no-caps)
-                      // .q-caption.text-weight-bold Tools
-                      q-icon.rotate-180(name="keyboard_backspace", size="26px")
-                      // q-icon(name="build", size="26px")
-                  q-item-tile.text-center.q-pt-sm
-                    .q-caption.text-weight-medium
-                      | Zu den Tools
+    // ----------------------------------------------------------------------------------------------------- description
+    .row.line-height-wider(style="margin-top: 100vh;")
 
-    // ------------------------------------------------------------------------------------------------------------ menu
-    .desktop-only.fixed-bottom-left.q-headline.q-ma-lg.z-max.transition(:class="{'opacity-0': !textOpacity}")
-      .round-borders-3.q-mt-xs.q-px-sm Das Projekt.
-      .bg-white.round-borders-3.q-mt-xs.q-px-sm Das Team.
-      .round-borders-3.q-mt-xs.q-px-sm Die Tools.
-      .round-borders-3.q-mt-xs.q-px-sm Die Ergebnisse.
-    // --------------------------------------------------------------------------------------------------------- content
-    .row.q-body-1.line-height-wider(style="margin-top: 150vh;")
+      .row.z-top.full-height(style="min-height: 100vh;")
 
-      .row.bg-grey-3.z-top
+        .col-xs-12.col-sm-8.offset-sm-2.col-md-7.offset-md-4.bg-grey-3.text-grey-9
 
-        .col-xs-12.col-sm-8.offset-sm-2.col-md-7.offset-md-4.bg-grey-3.text-grey-8
+          .q-px-md.q-mr-md.q-subheading.text-weight-regular.q-pt-md(style="line-height: 1.7rem;")
+            div.q-mb-md.hyphens
+              | Die in dieser App versammelten Tools sind für den Einsatz in einem angeleiteten Tanzkurs oder Workshop gedacht. Zu jedem Tool finden Sie in der App einige Beispiele für deren Einsatz. Darüber hinaus sind natürlich noch vielfältige andere Nutzungsformen denkbar und wir freuen uns über Ihre Erfahrungsberichte dazu.
+            div.hyphens
+              | Die einzelnen Tools sind ein Auszug aus einer für einen Tanzkurs an einer Regelschule entwickelten App, die im Forschungsprojekt #digitanz (Link auf digitanz.de) zum Einsatz kam. Das Kooperationsprojekt zwischen der Johannes Gutenberg Universität und der Hochschule Mainz erforscht, ob und wie digitale Tools die Kreativität der Schüler eines Tanzkurses an einer Regelschule beeinflussen. Das Projekt #digitanz findet im Rahmen der Förderlinie „Digitalität in der kulturellen Bildung“ des BMBF statt.
 
-          .q-px-md(style="margin-bottom: 33vh;")
-            .q-headline.q-px-md.q-py-xl
-              | Das Projekt.
-            div.q-mb-md
-              | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
-            div.q-mb-md
-              | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor sed diam nonumy eirmod tempor invidunt ut labore et dolore magna ainvidunt ut labore et dolore magna aliquyam erat.
-            .q-my-xl
-              img.full-width.round-borders-3(src="statics/screenshot-1.png")
-            div
-              | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna.
-
-          .q-px-md(style="margin-bottom: 50vh;")
-            .q-headline.q-px-md.q-py-xl
-              | Nonumy eirmod temportetur sadipscing elitr, sed diam nonumy eirm.
-            div.q-mb-md
-              | Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
-            div
-              | Consetetur sadipscing elitr, sed diam nonumy eirmod tempor sed diam nonumy eirmod tempor invidunt ut labore et dolore magna ainvidunt ut labore et dolore magna aliquyam erat.
-
-          .q-px-md.q-py-xl.text-center
-            q-btn.bg-white.text-grey-9.q-mt-sm(@click="$router.push({path: '/tools'})", flat, round, size="xl", no-caps)
-              q-icon.rotate-180(name="keyboard_backspace", size="26px")
-            .q-caption.q-mt-sm.text-weight-medium Zu den Tools
-
-        // .row.col-xs-12.col-md-8.offset-md-2.z-top.items-center
-          .col-xs-12.col-sm-4.text-center.q-my-lg
-            img(src="~assets/BMBF_deutsch.jpg", style="max-height: 100px;")
-          .col-xs-12.col-sm-4.text-center.q-my-lg
-            img(src="statics/HSM_Logo_G_schwarz_klein_bold_regular.png", style="max-height: 50px;")
-          .col-xs-12.col-sm-4.text-center.q-my-lg
-            img(src="statics/logo-jgu.svg", style="max-height: 80px;")
-
-        .row.full-width.bg-white.q-pt-md
-          .row.col-12.gutter-md.items-center
-            .col-xs-4.col-xs-4.col-md-3.text-center
+        .row.full-width.bg-white.q-my-xl
+          .row.col-12.items-center.q-pt-sm
+            .col-xs-4.col-xs-4.col-md-3.text-center.q-px-md
               img(src="~assets/BMBF_deutsch.jpg", style="max-height: 80px;")
-            .col-xs-4.col-xs-4.col-md-3.text-center
+            .col-xs-4.col-xs-4.col-md-3.text-center.q-px-md
               img(src="statics/HSM_Logo_G_schwarz_klein_bold_regular.png", style="max-height: 30px;")
-            .col-xs-4.col-xs-4.col-md-3.text-center
+            .col-xs-4.col-xs-4.col-md-3.text-center.q-px-md
               img(src="statics/logo-jgu.svg", style="max-height: 50px;")
-            .col-xs-12.col-xs-12.col-md-3.text-center
-              q-btn.q-my-lg(@click="$router.push({path: '/'})", flat, no-caps)
-              | Imprint
+
+        // ------------------------------------------------------------------------------------------------- description
+        div.bg-grey-3.text-grey-9.full-width.q-px-md.q-pb-md
+          | Holzstraße 36
+          br
+          | 55116 Mainz
 
 </template>
 
@@ -142,9 +81,13 @@
         // this.mrGriddleOffset = (this.scrollPosition.y / -5).toFixed(2)
         // this.scrollY = scroll.position
       },
-      smoothScroll () {
+      smoothScroll (direction) {
+        console.log(direction)
+        let distance
+        if (direction === 'down') distance = this.deviceDimensions.height
+        else distance = 0
         window.scroll({
-          top: this.deviceDimensions.height,
+          top: distance,
           behavior: 'smooth'
         })
       }
