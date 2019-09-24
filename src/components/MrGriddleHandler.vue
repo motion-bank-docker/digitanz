@@ -99,11 +99,11 @@
       this.grid.columns = this.gridStore.columns
 
       this.gridCell = {
-        width: ((this.previewIcon.width / this.gridStore.columns) * this.cellRatio),
-        height: (this.previewIcon.height / this.gridStore.rows)
+        width: this.previewIcon.width / this.gridStore.columns,
+        height: this.previewIcon.height / this.gridStore.rows
       }
 
-      this.skeletonScale = Math.min(1, this.previewIcon.width / 900)
+      this.skeletonScale = Math.min(1, this.previewIcon.width / 1200)
     },
     watch: {
       gridStore: {
@@ -112,8 +112,8 @@
           this.grid.columns = obj.columns
 
           this.gridCell = {
-            width: (this.previewIcon.width / obj.columns),
-            height: (this.previewIcon.height / obj.rows)
+            width: this.previewIcon.width / obj.columns,
+            height: this.previewIcon.height / obj.rows
           }
 
           this.drawPreviewIcons()
