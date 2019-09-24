@@ -112,7 +112,7 @@
           this.grid.columns = obj.columns
 
           this.gridCell = {
-            width: (this.previewIcon.width / obj.columns) * this.cellRatio,
+            width: (this.previewIcon.width / obj.columns),
             height: (this.previewIcon.height / obj.rows)
           }
 
@@ -138,11 +138,10 @@
         let skeletonLines = []
         this.allSkeletons = []
 
-        let x = (this.grid.columns * this.cellRatio) / 2
+        let x = this.grid.columns / 2
         let y = this.grid.rows / 2
-        let w = (this.previewIcon.width / this.grid.columns * this.cellRatio)
-        let h = (this.previewIcon.height / this.grid.rows)
-        console.log(x, y, w, h)
+        let w = this.previewIcon.width / this.grid.columns
+        let h = this.previewIcon.height / this.grid.rows
 
         for (let i = 0; i < this.states.length; i++) {
           skeletonLines = this.states[i].skeleton
