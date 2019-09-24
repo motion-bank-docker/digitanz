@@ -81,7 +81,7 @@
         selectedStates: [],
         lines: [],
         skeletonScale: undefined,
-        previewIcon: {width: undefined, height: undefined},
+        previewIcon: {width: 52, height: 52},
         grid: {rows: undefined, columns: undefined},
         allSkeletons: [],
         gridCell: undefined
@@ -98,9 +98,6 @@
       this.grid.rows = this.gridStore.rows
       this.grid.columns = this.gridStore.columns
 
-      this.previewIcon.height = 52
-      this.previewIcon.width = 52
-
       this.gridCell = {
         width: ((this.previewIcon.width / this.gridStore.columns) * this.cellRatio),
         height: (this.previewIcon.height / this.gridStore.rows)
@@ -111,16 +108,14 @@
     watch: {
       gridStore: {
         handler (obj) {
-          // this.previewIcon.width = this.previewIcon.height / (this.svgSizeStore.height / this.svgSizeStore.width)
-          this.previewIcon.height = 52
-          this.previewIcon.width = 52
-
           this.grid.rows = obj.rows
           this.grid.columns = obj.columns
+
           this.gridCell = {
             width: (this.previewIcon.width / obj.columns) * this.cellRatio,
             height: (this.previewIcon.height / obj.rows)
           }
+
           this.drawPreviewIcons()
         },
         deep: true
