@@ -15,15 +15,17 @@
         .row.items-center
           template(v-for="(state, index) in states")
             div.overflow-hidden.center-test(:class="{'q-mr-sm': index < states.length - 1}", :style="{borderRadius: '3px', height: previewIcon.width + 'px'}")
+
               svg(ref="svgContainer", :width="previewIcon.width", :height="previewIcon.height", @click="handlerStateButton(state, index)",
               :class="[currentState === index ? 'stroke-normal' : 'stroke-normal']")
                 // rect(width="100%", height="100%", stroke="#ff0000", fill="transparent", stroke-width="5")
                 rect(width="100%", height="100%", :fill="[currentState === index ? '#ffffff' : '#e0e0e0']")
-                g#mr-griddle(width="30px")
+                g#mr-griddle
                   line(v-for="(line, i) in allSkeletons[index]", :key="`line-${i}`",
                   stroke-width="1", stroke-linecap="round",
                   :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
                   :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
+
               q-popover.q-pa-xs.bg-white.no-shadow(anchor="top middle", self="bottom middle", :offset="[0, 20]", ref="popover",
               style="overflow: visible;")
                 div.absolute-bottom.full-width.animation(
@@ -104,18 +106,22 @@
     },
     mounted () {
       this.gridRatio = this.svgSizeStore.height / 52
-      console.log('gridRatio', this.gridRatio)
+      // console.log('gridRatio', this.gridRatio)
 
       this.grid.rows = this.gridStore.rows
       this.grid.columns = this.gridStore.columns
 
+      /*
       this.previewIcon.height = this.svgSizeStore.height / this.gridRatio
       this.previewIcon.width = this.previewIcon.height / (this.svgSizeStore.height / this.svgSizeStore.width)
       console.log('previewIcon height', this.previewIcon.height)
       console.log('previewIcon width', this.previewIcon.width)
+      */
+      this.previewIcon.height = 52
+      this.previewIcon.width = 52
 
       this.gridCell = {
-        width: ((this.previewIcon.height / this.gridStore.rows) * this.cellRatio),
+        width: ((this.previewIcon.width / this.gridStore.columns) * this.cellRatio),
         height: (this.previewIcon.height / this.gridStore.rows)
       }
 
@@ -124,14 +130,16 @@
     watch: {
       gridStore: {
         handler (obj) {
-          this.previewIcon.height = this.svgSizeStore.height / this.gridRatio
-          this.previewIcon.width = this.previewIcon.height / (this.svgSizeStore.height / this.svgSizeStore.width)
+          // this.previewIcon.height = this.svgSizeStore.height / this.gridRatio
+          // this.previewIcon.width = this.previewIcon.height / (this.svgSizeStore.height / this.svgSizeStore.width)
+          this.previewIcon.height = 52
+          this.previewIcon.width = 52
 
           this.grid.rows = obj.rows
           this.grid.columns = obj.columns
           this.gridCell = {
-            width: ((this.previewIcon.height / this.gridStore.rows) * this.cellRatio),
-            height: (this.previewIcon.height / this.gridStore.rows)
+            width: (this.previewIcon.width / obj.columns) * this.cellRatio,
+            height: (this.previewIcon.height / obj.rows)
           }
           this.drawPreviewIcons()
         },
@@ -155,23 +163,37 @@
         let skeletonLines = []
         this.allSkeletons = []
 
+        let x = (this.grid.columns * this.cellRatio) / 2
+        let y = this.grid.rows / 2
+        let w = (this.previewIcon.width / this.grid.columns * this.cellRatio)
+        let h = (this.previewIcon.height / this.grid.rows)
+        console.log(x, y, w, h)
+
         for (let i = 0; i < this.states.length; i++) {
           skeletonLines = this.states[i].skeleton
-          let cellWidth = (this.previewIcon.height / this.gridStore.rows) * this.cellRatio
-          let countColumns = this.previewIcon.width / cellWidth
+          // let cellWidth = (this.previewIcon.height / this.gridStore.rows) * this.cellRatio
+          // let countColumns = this.previewIcon.width / cellWidth
 
-          let x = countColumns / 2 + 1
+          // let x = countColumns / 2
+          // let x = this.gridStore.columns / 2
+          /*
+          let x = 26 - this.cellRatio
           let y = this.gridStore.rows / 2
           let w = (this.previewIcon.width / this.gridStore.columns * this.cellRatio)
           let h = (this.previewIcon.height / this.gridStore.rows)
+           */
 
           let skel = []
           skeletonLines.map((line) => {
+            console.log('x', x)
+            console.log('line.x1', line.x1)
+            console.log('res', x + (line.x1 * this.skeletonScale / w))
+            console.log('----------')
             skel.push({
-              x1: x + line.x1 * this.skeletonScale / w,
-              y1: y + line.y1 * this.skeletonScale / h,
-              x2: x + line.x2 * this.skeletonScale / w,
-              y2: y + line.y2 * this.skeletonScale / h
+              x1: x + (line.x1 * this.skeletonScale / w),
+              y1: y + (line.y1 * this.skeletonScale / h),
+              x2: x + (line.x2 * this.skeletonScale / w),
+              y2: y + (line.y2 * this.skeletonScale / h)
             })
           })
           this.allSkeletons.push(skel)
