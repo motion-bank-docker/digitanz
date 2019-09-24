@@ -14,7 +14,7 @@
       q-item-main.q-pl-sm
         .row.items-center
           template(v-for="(state, index) in states")
-            div.overflow-hidden(:class="{'': index < states.length - 1}", :style="{height: previewIcon.width + 'px'}")
+            div.overflow-hidden(:class="{'q-mr-xs': index < states.length - 1}", :style="{borderRadius: '100vw', height: previewIcon.width + 'px'}")
 
               //----- SVG
               svg(ref="svgContainer", :width="previewIcon.width", :height="previewIcon.height", @click="handlerStateButton(state, index)",
@@ -81,7 +81,7 @@
         selectedStates: [],
         lines: [],
         skeletonScale: undefined,
-        previewIcon: {width: 52, height: 52},
+        previewIcon: {width: 40, height: 40},
         grid: {rows: undefined, columns: undefined},
         allSkeletons: [],
         gridCell: undefined
@@ -95,6 +95,12 @@
       })
     },
     mounted () {
+      if (this.svgSizeStore.width > this.svgSizeStore.height) {
+        let cellWidth = (this.svgSizeStore.height / this.gridStore.rows) * this.cellRatio
+        let countColumns = this.svgSizeStore.width / cellWidth
+        console.log('countColumns', Math.floor(countColumns))
+        this.$store.commit('mrGriddle/setColumns', 40)
+      }
       this.grid.rows = this.gridStore.rows
       this.grid.columns = this.gridStore.columns
 
