@@ -145,24 +145,9 @@
 
         for (let i = 0; i < this.states.length; i++) {
           skeletonLines = this.states[i].skeleton
-          // let cellWidth = (this.previewIcon.height / this.gridStore.rows) * this.cellRatio
-          // let countColumns = this.previewIcon.width / cellWidth
-
-          // let x = countColumns / 2
-          // let x = this.gridStore.columns / 2
-          /*
-          let x = 26 - this.cellRatio
-          let y = this.gridStore.rows / 2
-          let w = (this.previewIcon.width / this.gridStore.columns * this.cellRatio)
-          let h = (this.previewIcon.height / this.gridStore.rows)
-           */
 
           let skel = []
           skeletonLines.map((line) => {
-            console.log('x', x)
-            console.log('line.x1', line.x1)
-            console.log('res', x + (line.x1 * this.skeletonScale / w))
-            console.log('----------')
             skel.push({
               x1: x + (line.x1 * this.skeletonScale / w),
               y1: y + (line.y1 * this.skeletonScale / h),
