@@ -84,8 +84,7 @@
         previewIcon: {width: undefined, height: undefined},
         grid: {rows: undefined, columns: undefined},
         allSkeletons: [],
-        gridCell: undefined,
-        gridRatio: undefined
+        gridCell: undefined
       }
     },
     computed: {
@@ -96,18 +95,9 @@
       })
     },
     mounted () {
-      this.gridRatio = this.svgSizeStore.height / 52
-      // console.log('gridRatio', this.gridRatio)
-
       this.grid.rows = this.gridStore.rows
       this.grid.columns = this.gridStore.columns
 
-      /*
-      this.previewIcon.height = this.svgSizeStore.height / this.gridRatio
-      this.previewIcon.width = this.previewIcon.height / (this.svgSizeStore.height / this.svgSizeStore.width)
-      console.log('previewIcon height', this.previewIcon.height)
-      console.log('previewIcon width', this.previewIcon.width)
-      */
       this.previewIcon.height = 52
       this.previewIcon.width = 52
 
@@ -121,7 +111,6 @@
     watch: {
       gridStore: {
         handler (obj) {
-          // this.previewIcon.height = this.svgSizeStore.height / this.gridRatio
           // this.previewIcon.width = this.previewIcon.height / (this.svgSizeStore.height / this.svgSizeStore.width)
           this.previewIcon.height = 52
           this.previewIcon.width = 52
