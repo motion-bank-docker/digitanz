@@ -16,36 +16,27 @@
           template(v-for="(state, index) in states")
             div.overflow-hidden.center-test(:class="{'q-mr-sm': index < states.length - 1}", :style="{borderRadius: '3px', height: previewIcon.width + 'px'}")
 
+              //----- SVG
               svg(ref="svgContainer", :width="previewIcon.width", :height="previewIcon.height", @click="handlerStateButton(state, index)",
               :class="[currentState === index ? 'stroke-normal' : 'stroke-normal']")
-                // rect(width="100%", height="100%", stroke="#ff0000", fill="transparent", stroke-width="5")
+
+                // background
                 rect(width="100%", height="100%", :fill="[currentState === index ? '#ffffff' : '#e0e0e0']")
+
+                // figure
                 g#mr-griddle
                   line(v-for="(line, i) in allSkeletons[index]", :key="`line-${i}`",
                   stroke-width="1", stroke-linecap="round",
                   :x1="line.x1 * gridCell.width", :y1="line.y1 * gridCell.height",
                   :x2="line.x2 * gridCell.width", :y2="line.y2 * gridCell.height")
 
+              //----- "delete"-popover
               q-popover.q-pa-xs.bg-white.no-shadow(anchor="top middle", self="bottom middle", :offset="[0, 20]", ref="popover",
               style="overflow: visible;")
                 div.absolute-bottom.full-width.animation(
                   style="align-items: center; display: flex; justify-content: center;")
                   div.bg-white(style="width: 20px; height: 20px; transform: translateY(5px) rotate(45deg);")
                 q-btn.text-grey-9(@click="deleteItem({state, index})", icon="delete", round, flat)
-
-            //
-              q-btn.q-mx-xs(
-              round,  size="sm", flat,
-              v-model="selectedStates",
-              val="'option-' + {{index}}",
-              @click="handlerStateButton(state, index)")
-                q-btn(round,  size="sm", flat, :class="[currentState === index ? 'bg-grey-9' : 'bg-d4 scaled']")
-                q-popover.q-pa-xs(anchor="top middle", self="bottom middle", :offset="[0, 12]", ref="popover",
-                style="overflow: visible;")
-                  div.absolute-bottom.full-width.animation(
-                  style="align-items: center; display: flex; justify-content: center;")
-                    div.rotate-45.bg-white(style="width: 20px; height: 20px;")
-                  q-btn.text-grey-9(@click="deleteItem({state, index})", icon="delete", round, flat)
 
           info-button(v-if="states.length > 0 && states.length < 3", :size="'sm'")
             | Wähle eine Pose aus, indem du auf einen Grauen Punkt klickst. Eine ausgewählte Pose erkennt man hier am vergrößerten und dunklen Punkt.
