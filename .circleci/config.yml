@@ -36,7 +36,6 @@ jobs:
             docker build --no-cache -t motionbank/digitanz-lite:latest .
             docker push motionbank/digitanz-lite:latest
 
-
 workflows:
   version: 2
   build_pipeline:
