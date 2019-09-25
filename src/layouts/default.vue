@@ -12,14 +12,12 @@
     // :class="{'leave-top': currentAppName === 'Startscreen' && scrollPosition <= (this.deviceDimensions.height * 0.34 + 48)}")
 
     // q-layout-header.bg-grey-3.text-grey-9.z-max.shadow-2(v-if="currentAppName !== 'Startscreen'")
-    q-layout-header.bg-grey-3.text-grey-9.z-max.shadow-2
+    q-layout-header.bg-grey-3.text-grey-9.z-max.soft-shadow
       q-item.q-pa-none
 
         //----- back-button
         q-item-side.min-width-auto.overflow-hidden.row(:class="{'offset': !usingTool}",
         style="transition: all ease 200ms; width: 54px; min-height: 50px;")
-          // shadow-1
-          // q-btn.self-center.bg-white.text-grey-9.q-ml-md(@click="$router.push('/tools')", no-ripple, round, size="sm", flat)
           q-btn.self-center.text-grey-9.q-ml-md(@click="$router.push('/tools')", no-ripple, round, size="sm", flat)
             .q-subheading.text-weight-medium.text-weight-regular
               q-icon(name="keyboard_backspace")
@@ -38,8 +36,6 @@
 
         //----- info-button
         q-item-side.q-pr-md.absolute-top-right.q-pt-sm.q-mt-xs
-          // shadow-1
-          // q-btn.absolute-top-right.bg-white.text-grey-9.transition.q-mt-sm.q-mr-md(
           q-btn.absolute-top-right.text-grey-9.transition.q-mt-sm.q-mr-md(
           v-if="currentAppName !== 'Startscreen'",
           @click="handlerInfoBox", round,
@@ -56,7 +52,6 @@
         :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
 
         //----- visible info-box
-        // .soft-shadow
         .fixed-top.bg-grey-1.text-grey-9.transition.overflow-hidden(
         style="z-index: 10; top: 52px",
         position="top",
@@ -68,15 +63,14 @@
             .text-center.full-width
               q-btn.bg-grey-1.text-grey-9(flat, round, size="lg")
                 q-icon(name="play_arrow")
+
           //----- title
           template(v-if="!usingTool && currentAppName !== undefined")
 
             video-player#vid-player(:options="playerOptions", :key="video.key")
 
-            // .shadow-1
             q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
             v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
-              // | {{ t.label }}
               .q-subheading.text-weight-medium.text-weight-regular ?
               q-popover.bg-grey-9.q-px-md.q-py-md.text-grey-1.q-caption.text-weight-medium.q-mx-sm.q-mb-sm.shadow-6(
               touch-position, anchor="bottom middle", self="top middle")
@@ -85,25 +79,11 @@
           //----- info-modus
           .q-px-md.q-py-sm.row.full-width.bg-grey-9(v-else, style="height: 46px;")
             span.q-mr-sm.self-center.text-grey-1 Hilfe-Modus
-            // span.q-mr-sm.self-center.text-grey-9 Hilfe:
-            // q-btn.bg-grey-3.shadow-1.q-mr-sm(v-for="n in 3", size="sm", round, flat) {{ n }}
-            <!--q-btn.bg-grey-1.text-grey-9.q-mr-sm(size="sm", flat, no-caps) Zurück-->
-            <!--q-btn.bg-grey-1.text-grey-9(size="sm", flat, no-caps) Weiter-->
-
-          //----- content
-            //
-              p {{ currentAppName }}
-              p {{ tool }}
-              p usingTool: {{ usingTool }}
-              p showInfoBox: {{ showInfoBox }}
 
           //----- close-button
-          // .shadow-1
-          // q-btn.absolute-top-right.bg-white.text-grey-9.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
           q-btn.absolute-top-right.text-grey-1.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
           round, flat, size="sm", no-ripple,
           :class="[(showInfoBox ? '' : 'leave-right'), (currentAppName === 'Tools' ? 'leave-right' : '')]")
-            // q-icon(name="clear")
             .q-subheading.text-weight-medium.text-weight-regular
               q-icon(name="clear")
 
