@@ -59,15 +59,16 @@
         :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
 
           //----- play-button
-          .fit.row.items-center.justify-between(v-if="!usingTool")
-            .text-center.full-width
-              q-btn.bg-grey-1.text-grey-9(flat, round, size="lg")
-                q-icon(name="play_arrow")
+            .fit.row.items-center.justify-between(v-if="!usingTool")
+              .text-center.full-width
+                q-btn.bg-grey-1.text-grey-9(flat, round, size="lg")
+                  q-icon(name="play_arrow")
 
           //----- title
           template(v-if="!usingTool && currentAppName !== undefined")
 
-            video-player#vid-player(:options="playerOptions", :key="video.key")
+            // video-player(:options="playerOptions", :key="video.key")
+            video-player(:src="video.src", :ratio="'16:9'", :key="video.key")
 
             q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
             v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
@@ -93,27 +94,37 @@
 
 <script>
   require('videojs-youtube')
-  import { videoPlayer } from 'vue-video-player'
+  // import { videoPlayer } from 'vue-video-player'
+  import VideoPlayer from '../components/VideoPlayer'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
-      videoPlayer
+      // videoPlayer
+      VideoPlayer
     },
     data () {
       return {
         deviceDimensions: {height: undefined, width: undefined},
         scrollPosition: 0,
-        video: {key: 'clouds'},
+        video: {key: 'mr-griddle', src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'},
+        /*
         playerOptions: {
           fluid: true,
-          techOrder: ['youtube'],
+          // techOrder: ['youtube'],
+          techOrder: ['html5'],
           sources: [{
-            type: 'video/youtube',
-            src: 'https://www.youtube.com/watch?v=KRA-Q_GmYbk'
-          }]
+            // type: 'video/youtube',
+            // src: 'https://www.youtube.com/watch?v=KRA-Q_GmYbk'
+            type: 'video/mp4',
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
+          }],
           // poster: '/static/img/backgrounds/feature-video.jpg'
+          controlBar: {
+            remainingTime: true
+          }
         },
+        */
         showInfoBox: false,
         currentAppName: undefined,
         infoBoxHeight: undefined,
@@ -154,16 +165,16 @@
       tool (val) {
         switch (val) {
         case 'mr-griddle':
-          this.playerOptions.sources[0].src = 'https://www.youtube.com/watch?v=KRA-Q_GmYbk'
+          this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
           break
         case 'clouds':
-          this.playerOptions.sources[0].src = 'https://www.youtube.com/watch?v=-KookvSw2lc'
+          this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
           break
         case 'recipes':
-          this.playerOptions.sources[0].src = 'https://www.youtube.com/watch?v=tHurpoF-s5c'
+          this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
           break
         case 'space-tool':
-          this.playerOptions.sources[0].src = 'https://www.youtube.com/watch?v=J5HgGYKgaIE'
+          this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/space.mp4'
           break
         }
         this.video.key = val
