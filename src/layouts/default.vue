@@ -52,11 +52,11 @@
         :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
 
         //----- visible info-box
-        .fixed-top.bg-red.text-grey-9.transition.overflow-hidden(
+        .fixed-top.bg-transparent.text-grey-9.transition.overflow-hidden(
         style="z-index: 10; top: 52px",
         position="top",
         :class="[showInfoBox ? 'height-auto' : 'height-0']",
-        :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
+        :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px', width: infoBoxWidth + 'px', maxWidth: infoBoxWidthMax + 'px', left: infoBoxLeft + 'px'}")
 
           //----- play-button
             .fit.row.items-center.justify-between(v-if="!usingTool")
@@ -211,12 +211,24 @@
       setInfoBoxHeight () {
         let headerHeight = 52
         this.infoBoxHeightMax = this.deviceDimensions.height - headerHeight - 52
+        this.infoBoxWidthMax = this.deviceDimensions.width
 
+        // define video player width
         if (this.deviceDimensions.height > this.deviceDimensions.width) {
           this.infoBoxHeight = this.deviceDimensions.width * 0.5625
+          this.infoBoxWidth = this.deviceDimensions.width
         }
         else {
           this.infoBoxHeight = this.deviceDimensions.height - headerHeight - 52
+          this.infoBoxWidth = (this.deviceDimensions.height - 52 - 52) / 9 * 16
+        }
+
+        // define video player offset left
+        if (this.deviceDimensions.width > this.infoBoxWidth) {
+          this.infoBoxLeft = (this.deviceDimensions.width - this.infoBoxWidth) / 2
+        }
+        else {
+          this.infoBoxLeft = 0
         }
       },
       scrollingHandler (scroll) {
