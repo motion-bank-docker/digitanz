@@ -52,7 +52,7 @@
         :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
 
         //----- visible info-box
-        .fixed-top.bg-grey-1.text-grey-9.transition.overflow-hidden(
+        .fixed-top.bg-red.text-grey-9.transition.overflow-hidden(
         style="z-index: 10; top: 52px",
         position="top",
         :class="[showInfoBox ? 'height-auto' : 'height-0']",
@@ -105,7 +105,7 @@
     },
     data () {
       return {
-        deviceDimensions: {height: undefined, width: undefined},
+        // deviceDimensions: {height: undefined, width: undefined},
         scrollPosition: 0,
         video: {key: 'mr-griddle', src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'},
         showInfoBox: false,
@@ -134,7 +134,8 @@
     computed: {
       ...mapGetters({
         statusInfoBox: 'globalSettings/getStatusInfoBox',
-        tool: 'globalSettings/getTool'
+        tool: 'globalSettings/getTool',
+        deviceDimensions: 'globalSettings/getDeviceDimensions'
       }),
       usingTool () {
         if (this.$route.path === '/' || this.$route.path === '/tools') return false
@@ -143,6 +144,7 @@
     },
     mounted () {
       this.currentAppName = 'Startscreen'
+      this.setInfoBoxHeight()
     },
     watch: {
       tool (val) {
@@ -164,7 +166,8 @@
       },
       usingTool (val) {
         if (val) this.infoBoxHeight = 46
-        else this.infoBoxHeight = window.innerWidth * 0.5625
+        // else this.infoBoxHeight = window.innerWidth * 0.5625
+        else this.setInfoBoxHeight()
       },
       statusInfoBox () {
         // if (!this.showInfoBox) this.handlerInfoBox()
@@ -205,16 +208,24 @@
       }
     },
     methods: {
+      setInfoBoxHeight () {
+        let headerHeight = 52
+        this.infoBoxHeightMax = this.deviceDimensions.height - headerHeight - 52
+
+        if (this.deviceDimensions.height > this.deviceDimensions.width) {
+          this.infoBoxHeight = this.deviceDimensions.width * 0.5625
+        }
+        else {
+          this.infoBoxHeight = this.deviceDimensions.height - headerHeight - 52
+        }
+      },
       scrollingHandler (scroll) {
         this.scrollPosition = scroll.position
         this.$store.commit('globalSettings/handlerScrollPosition', {y: this.scrollPosition})
       },
       onResize (size) {
         this.$store.commit('globalSettings/handlerDeviceDimensions', size)
-        this.deviceDimensions.height = size.height
-        this.deviceDimensions.width = size.width
-        let headerHeight = 52
-        this.infoBoxHeightMax = size.height - headerHeight - 50
+        this.setInfoBoxHeight()
       },
       handlerInfoBox () {
         // this.showInfoBox = !this.showInfoBox
