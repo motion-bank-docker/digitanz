@@ -210,17 +210,19 @@
     methods: {
       setInfoBoxHeight () {
         let headerHeight = 52
-        this.infoBoxHeightMax = this.deviceDimensions.height - headerHeight - 52
+        let buttonBarHeight = 52
         this.infoBoxWidthMax = this.deviceDimensions.width
 
         // define video player width
         if (this.deviceDimensions.height > this.deviceDimensions.width) {
           this.infoBoxHeight = this.deviceDimensions.width * 0.5625
           this.infoBoxWidth = this.deviceDimensions.width
+          this.infoBoxHeightMax = this.deviceDimensions.width * 0.5625
         }
         else {
-          this.infoBoxHeight = this.deviceDimensions.height - headerHeight - 52
-          this.infoBoxWidth = (this.deviceDimensions.height - 52 - 52) / 9 * 16
+          this.infoBoxHeight = this.deviceDimensions.height - headerHeight - buttonBarHeight
+          this.infoBoxWidth = (this.deviceDimensions.height - headerHeight - buttonBarHeight) / 9 * 16
+          this.infoBoxHeightMax = this.deviceDimensions.width * 0.5625
         }
 
         // define video player offset left
