@@ -58,12 +58,6 @@
         :class="[showInfoBox ? 'height-auto' : 'height-0']",
         :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px', width: infoBoxWidth + 'px', maxWidth: infoBoxWidthMax + 'px', left: infoBoxLeft + 'px'}")
 
-          //----- play-button
-            .fit.row.items-center.justify-between(v-if="!usingTool")
-              .text-center.full-width
-                q-btn.bg-grey-1.text-grey-9(flat, round, size="lg")
-                  q-icon(name="play_arrow")
-
           //----- title
           template(v-if="!usingTool && currentAppName !== undefined")
 
