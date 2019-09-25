@@ -54,7 +54,7 @@
           template(v-if="!usingTool && currentAppName !== undefined")
 
             //----- video-player
-            video-player(:src="video.src", :ratio="'16:9'", :key="video.key")
+            video-player(:src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="true")
 
             //----- help-button
             q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
