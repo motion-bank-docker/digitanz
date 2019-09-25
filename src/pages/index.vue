@@ -40,10 +40,9 @@
         // ------------------------------------------------------------------------------------------------- description
         // div.bg-grey-3.text-grey-9.full-width.q-px-md.q-pb-md
         #imprint.row.col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.text-grey-9.q-pb-md.q-px-md.hyphens
-          div
-            | Impressum:
 
           div
+            p Impressum:
             | digitanz lite (lite.digitanz.de)
             br
             | Hochschule Mainz
