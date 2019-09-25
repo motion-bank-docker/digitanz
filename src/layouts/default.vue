@@ -50,23 +50,27 @@
         :class="[showInfoBox ? 'height-auto' : 'height-0']",
         :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px', width: infoBoxWidth + 'px', maxWidth: infoBoxWidthMax + 'px', left: infoBoxLeft + 'px'}")
 
-          //----- title
+          //----- video-info-box in tool overview
           template(v-if="!usingTool && currentAppName !== undefined")
 
+            //----- video-player
             video-player(:src="video.src", :ratio="'16:9'", :key="video.key")
 
+            //----- help-button
             q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
             v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
+
               .q-subheading.text-weight-medium.text-weight-regular ?
+
               q-popover.bg-grey-9.q-px-md.q-py-md.text-grey-1.q-caption.text-weight-medium.q-mx-sm.q-mb-sm.shadow-6(
               touch-position, anchor="bottom middle", self="top middle")
                 div(style="width: 66vw;") {{ t.text }}
 
-          //----- info-modus
+          //----- info-modus bar when inside an app
           .q-px-md.q-py-sm.row.full-width.bg-grey-9(v-else, style="height: 46px;")
             span.q-mr-sm.self-center.text-grey-1 Hilfe-Modus
 
-          //----- close-button
+          //----- close-button when inside an app
           q-btn.absolute-top-right.text-grey-1.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
           round, flat, size="sm", no-ripple,
           :class="[(showInfoBox ? '' : 'leave-right'), (currentAppName === 'Tools' ? 'leave-right' : '')]")
