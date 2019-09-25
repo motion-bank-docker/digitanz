@@ -19,23 +19,26 @@ const poses = {
   },
   mutations: {
     setSvgSize (state, size) {
-      console.log('svgSize', size)
+      // console.log('svgSize', size)
       state.svgSize.width = size.width
       state.svgSize.height = size.height
     },
     setCellRatio (state, ratio) {
       state.cellRatio = ratio
-      console.log('cellRatio', state.cellRatio)
+      // console.log('cellRatio', state.cellRatio)
     },
     setColumns (state, param) {
-      console.log(param)
+      // console.log('setColumns STORE', param)
       if (param) state.tempGrid.columns = param
     },
     setTempGrid (state, val) {
       if (state.tempGrid.rows > 4) state.tempGrid.rows += (val.rows * 2)
       else if (state.tempGrid.rows === 4 && Math.sign(val.rows) > 0) state.tempGrid.rows += (val.rows * 2)
+      else if (state.tempGrid.rows < 4) state.tempGrid.rows = 4
+
       if (state.tempGrid.columns > 4) state.tempGrid.columns += (val.columns * 2)
       else if (state.tempGrid.columns === 4 && Math.sign(val.columns) > 0) state.tempGrid.columns += (val.columns * 2)
+      else if (state.tempGrid.columns < 4) state.tempGrid.columns = 4
     },
     setTempFrameLength (state, val) {
       state.frameLength = val
