@@ -51,7 +51,6 @@ workflows:
           cron: "0 1 * * 1"
           filters:
             branches:
-              only:
-                - lite
+              only: lite
     jobs:
       - release_lite
