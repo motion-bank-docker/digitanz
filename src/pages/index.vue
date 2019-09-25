@@ -39,67 +39,93 @@
 
         // ------------------------------------------------------------------------------------------------- description
         // div.bg-grey-3.text-grey-9.full-width.q-px-md.q-pb-md
-        .row.col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.text-grey-9.q-pb-md.q-px-md.hyphens
-          | Impressum
+        #imprint.row.col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.text-grey-9.q-pb-md.q-px-md.hyphens
           div
-            p digitanz lite (lite.digitanz.de)
-            p Hochschule Mainz
-            p Fachrichtung Kommunikationsdesign / Projekt Motion Bank
-            p Holzstrasse 36, 55116 Mainz
-            p Telefon: +49 (0) 61 31 - 628-2211
-            p E-Mail: florian.jenett (at) hs-mainz.de
-          div
-            p Gesetzlicher Vertreter
-            p Präsident der Hochschule, Prof. Dr.-Ing. Gerhard Muth
+            | Impressum:
 
           div
-            p Zuständige Aufsichtsbehörde
-            p Ministerium für Wissenschaft
-            p Weiterbildung und Kultur des Landes Rheinland-Pfalz
-            p Mittlere Bleiche 61
-            p 55116 Mainz
+            | digitanz lite (lite.digitanz.de)
+            br
+            | Hochschule Mainz
+            br
+            | Fachrichtung Kommunikationsdesign / Projekt Motion Bank
+            br
+            | Holzstrasse 36, 55116 Mainz
+            br
+            | Telefon: +49 (0) 61 31 - 628-2211
+            br
+            | E-Mail: florian.jenett (at) hs-mainz.de
 
           div
-            p Verantwortliche I. S. D. § 55 ABS. 2 RFSTV
-            p Prof. Dr.-Ing. Gerhard Muth
+            | Gesetzlicher Vertreter
+            br
+            | Präsident der Hochschule, Prof. Dr.-Ing. Gerhard Muth
 
           div
-            p Copyright
-            p Hochschule Mainz, Projekt Motion Bank sowie die Autoren von Text und Bild.
+            | Zuständige Aufsichtsbehörde
+            br
+            | Ministerium für Wissenschaft
+            br
+            | Weiterbildung und Kultur des Landes Rheinland-Pfalz
+            br
+            | Mittlere Bleiche 61
+            br
+            | 55116 Mainz
 
           div
-            p Rechtlicher Hinweis
-            p Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschlie?lich deren Betreiber zuständig.
+            | Verantwortliche I. S. D. § 55 ABS. 2 RFSTV
+            br
+            | Prof. Dr.-Ing. Gerhard Muth
 
           div
-            p Haftungsausschluss
-            p Mit Urteil vom 12. Mai 1998 hat das Landgericht Hamburg entschieden, dass man durch die Ausbringung eines Links die Inhalte der gelinkten Seite ggf. mit zu verantworten hat. Dies kann - so das LG - nur dadurch verhindert werden, dass man sich ausdr?cklich von diesen Inhalten distanziert. Der Studiengang Kommunikationsdesign der Hochschule Mainz hat auf ihrer Website Links zu anderen Seiten im Internet gelegt. F?r alle diese Links gilt: Es wird ausdr?cklich betont, dass der Studiengang Kommunikationsdesign der Hochschule Mainz keinerlei Einfluss auf die Gestaltung und die Inhalte der verlinkten Seiten hat. Deshalb distanziert sich der Studiengang Kommunikationsdesign der Hochschule Mainz hiermit ausdrücklich von allen Inhalten aller gelinkten Seiten auf dieser Homepage und macht sich ihre Inhalte nicht zueigen. Diese Erklärung gilt für alle auf dieser Homepage ausgebrachten Links. Alle genannten Warenzeichen und Marken sind Besitz ihrer jeweilig registrierten Eigent?mer.
+            | Copyright
+            br
+            | Hochschule Mainz, Projekt Motion Bank sowie die Autoren von Text und Bild.
 
           div
-            p DATENSCHUTZ
+            | Rechtlicher Hinweis
+            br
+            | Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschlie?lich deren Betreiber zuständig.
 
           div
-            p VERANTWORTLICHER UND DATENSCHUTZBEAUFTRAGTE
-            p Name und Kontaktdaten des für die Verarbeitung Verantwortlichen sowie der betrieblichen Datenschutzbeauftragten.
+            | Haftungsausschluss
+            br
+            | Mit Urteil vom 12. Mai 1998 hat das Landgericht Hamburg entschieden, dass man durch die Ausbringung eines Links die Inhalte der gelinkten Seite ggf. mit zu verantworten hat. Dies kann - so das LG - nur dadurch verhindert werden, dass man sich ausdr?cklich von diesen Inhalten distanziert. Der Studiengang Kommunikationsdesign der Hochschule Mainz hat auf ihrer Website Links zu anderen Seiten im Internet gelegt. F?r alle diese Links gilt: Es wird ausdr?cklich betont, dass der Studiengang Kommunikationsdesign der Hochschule Mainz keinerlei Einfluss auf die Gestaltung und die Inhalte der verlinkten Seiten hat. Deshalb distanziert sich der Studiengang Kommunikationsdesign der Hochschule Mainz hiermit ausdrücklich von allen Inhalten aller gelinkten Seiten auf dieser Homepage und macht sich ihre Inhalte nicht zueigen. Diese Erklärung gilt für alle auf dieser Homepage ausgebrachten Links. Alle genannten Warenzeichen und Marken sind Besitz ihrer jeweilig registrierten Eigent?mer.
 
           div
-            p Verantwortlicher
-            p Präsident der Hochschule Mainz
-            p Lucy-Hillebrand-Str. 2
-            p 55218 Mainz
-            p praesident (at) hs-mainz.de
+            | DATENSCHUTZ
 
           div
-            p Datenschutzbeauftragte
-            p Datenschutzbeauftragte der Hochschule Mainz
-            p Lucy-Hillebrand-Str. 2
-            p 55218 Mainz
-            p datenschutz (at) hs-mainz.de
+            | VERANTWORTLICHER UND DATENSCHUTZBEAUFTRAGTE
+            br
+            | Name und Kontaktdaten des für die Verarbeitung Verantwortlichen sowie der betrieblichen Datenschutzbeauftragten.
+
+          div
+            | Verantwortlicher
+            br
+            | Präsident der Hochschule Mainz
+            br
+            | Lucy-Hillebrand-Str. 2
+            br
+            | 55218 Mainz
+            br
+            | praesident (at) hs-mainz.de
+
+          div
+            | Datenschutzbeauftragte
+            br
+            | Datenschutzbeauftragte der Hochschule Mainz
+            br
+            | Lucy-Hillebrand-Str. 2
+            br
+            | 55218 Mainz
+            br
+            | datenschutz (at) hs-mainz.de
 
           div
             p ERHEBUNG UND SPEICHERUNG PERSONENBEZOGENER DATEN SOWIE ART UND ZWECK DER VERWENDUNG
             p BEIM BESUCH DER WEBSITE
-            p Beim Aufrufen unserer Website www.hs-mainz.de werden durch den auf Ihrem Endgerät zum Einsatz kommenden Browser automatisch Informationen an den Server unserer Website gesendet. Diese Informationen werden temporär in einem sog. Logfile gespeichert. Folgende Informationen werden dabei ohne Ihr Zutun erfasst und bis zur automatisierten Löschung gespeichert:
+            | Beim Aufrufen unserer Website www.hs-mainz.de werden durch den auf Ihrem Endgerät zum Einsatz kommenden Browser automatisch Informationen an den Server unserer Website gesendet. Diese Informationen werden temporär in einem sog. Logfile gespeichert. Folgende Informationen werden dabei ohne Ihr Zutun erfasst und bis zur automatisierten Löschung gespeichert:
 
             ul
               li IP-Adresse des anfragenden Rechners
@@ -108,7 +134,7 @@
               li Website, von der aus der Zugriff erfolgt (Referrer-URL)
               li verwendeter Browser und ggf. das Betriebssystem Ihres Rechners sowie der Name Ihres Access-Providers
           div
-            p Die genannten Daten werden durch uns zu folgenden Zwecken verarbeitet:
+            | Die genannten Daten werden durch uns zu folgenden Zwecken verarbeitet:
             ul
               li Gewährleistung eines reibungslosen Verbindungsaufbaus der Website
               li Gewährleistung einer komfortablen Nutzung unserer Website
@@ -229,4 +255,8 @@
     /*margin-bottom -100px*/
     button
       opacity 0
+
+  #imprint > div:not(:last-of-type)
+    margin-bottom 2rem
+
 </style>
