@@ -60,9 +60,10 @@
         }
       }
     },
-    props: ['src', 'annotation', 'autoplay'],
+    props: ['src', 'annotation', 'autoplay', 'ratio'],
     async mounted () {
       await this.getSource(this.src, this.annotation)
+      if (this.ratio) this.playerOptions.aspectRatio = this.ratio
     },
     watch: {
       async src (val) {
