@@ -101,19 +101,19 @@
         tools: [{
           label: 'Mr. Griddle',
           name: 'mr-griddle',
-          text: 'Mr. Griddle... Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
+          text: '»Mr. Griddle« ist ein Posen-Generator, der per Zufall immer neue Körperkonfigurationen erfindet.'
         }, {
           label: 'Wortwolke',
           name: 'clouds',
-          text: 'Wortwolke...'
+          text: 'Mit der »Wortwolke« lassen sich unterschiedliche Begriffe zu einer Liste kombinieren.'
         }, {
           label: 'Rezepte',
           name: 'recipes',
-          text: 'Rezepte...'
+          text: 'Mit dem »Rezepte« Werkzeug kann man die Schritte eines Tanz-Ablaufs erfassen.'
         }, {
           label: 'Raum',
           name: 'space-tool',
-          text: 'Raum...'
+          text: 'Das »Raum« Werkzeug ermöglicht die Arbeit mit unterschiedlichen Raum-Konstellationen.'
         }]
       }
     },
