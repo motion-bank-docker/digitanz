@@ -108,23 +108,6 @@
         deviceDimensions: {height: undefined, width: undefined},
         scrollPosition: 0,
         video: {key: 'mr-griddle', src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'},
-        /*
-        playerOptions: {
-          fluid: true,
-          // techOrder: ['youtube'],
-          techOrder: ['html5'],
-          sources: [{
-            // type: 'video/youtube',
-            // src: 'https://www.youtube.com/watch?v=KRA-Q_GmYbk'
-            type: 'video/mp4',
-            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
-          }],
-          // poster: '/static/img/backgrounds/feature-video.jpg'
-          controlBar: {
-            remainingTime: true
-          }
-        },
-        */
         showInfoBox: false,
         currentAppName: undefined,
         infoBoxHeight: undefined,
@@ -187,10 +170,6 @@
         // if (!this.showInfoBox) this.handlerInfoBox()
         this.showInfoBox = this.statusInfoBox
       },
-      /*
-      $route (to, from) {
-        console.log(to, from)
-      */
       $route (to) {
         let routeSplit = to.path.split('/')
         switch (routeSplit[1]) {
