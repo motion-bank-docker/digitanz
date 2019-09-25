@@ -70,7 +70,9 @@
                 q-icon(name="play_arrow")
           //----- title
           template(v-if="!usingTool && currentAppName !== undefined")
-            video-player(:options="playerOptions")
+
+            video-player#vid-player(:options="playerOptions", :key="video.key")
+
             // .shadow-1
             q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
             v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
@@ -122,12 +124,13 @@
       return {
         deviceDimensions: {height: undefined, width: undefined},
         scrollPosition: 0,
+        video: {key: 'clouds'},
         playerOptions: {
           fluid: true,
           techOrder: ['youtube'],
           sources: [{
             type: 'video/youtube',
-            src: 'https://www.youtube.com/watch?time_continue=126&v=-KookvSw2lc'
+            src: 'https://www.youtube.com/watch?v=KRA-Q_GmYbk'
           }]
           // poster: '/static/img/backgrounds/feature-video.jpg'
         },
@@ -168,6 +171,23 @@
       this.currentAppName = 'Startscreen'
     },
     watch: {
+      tool (val) {
+        switch (val) {
+        case 'mr-griddle':
+          this.playerOptions.sources[0].src = 'https://www.youtube.com/watch?v=KRA-Q_GmYbk'
+          break
+        case 'clouds':
+          this.playerOptions.sources[0].src = 'https://www.youtube.com/watch?v=-KookvSw2lc'
+          break
+        case 'recipes':
+          this.playerOptions.sources[0].src = 'https://www.youtube.com/watch?v=tHurpoF-s5c'
+          break
+        case 'space-tool':
+          this.playerOptions.sources[0].src = 'https://www.youtube.com/watch?v=J5HgGYKgaIE'
+          break
+        }
+        this.video.key = val
+      },
       usingTool (val) {
         if (val) this.infoBoxHeight = 46
         else this.infoBoxHeight = window.innerWidth * 0.5625
