@@ -4,14 +4,6 @@
     q-window-resize-observable(@resize="onResize")
 
     // ---------------------------------------------------------------------------------------------------------- header
-      q-layout-header.bg-grey-3.text-grey-9.z-max.transition(
-      // :class="{'leave-top': currentAppName === 'Startscreen' && scrollPosition <= deviceDimensions.height - 16}",
-      style="box-shadow: 0 0 3px 0 rgba(0, 0, 0, .3)")
-
-    // q-layout-header.bg-grey-1.text-grey-9.z-max.transition.no-shadow(
-    // :class="{'leave-top': currentAppName === 'Startscreen' && scrollPosition <= (this.deviceDimensions.height * 0.34 + 48)}")
-
-    // q-layout-header.bg-grey-3.text-grey-9.z-max.shadow-2(v-if="currentAppName !== 'Startscreen'")
     q-layout-header.bg-grey-3.text-grey-9.z-max.soft-shadow
       q-item.q-pa-none
 
