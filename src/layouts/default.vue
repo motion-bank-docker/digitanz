@@ -52,11 +52,11 @@
         :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
 
         //----- visible info-box
-        .fixed-top.bg-grey-1.text-grey-9.transition.overflow-hidden(
+        .fixed-top.bg-transparent.text-grey-9.transition.overflow-hidden(
         style="z-index: 10; top: 52px",
         position="top",
         :class="[showInfoBox ? 'height-auto' : 'height-0']",
-        :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
+        :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px', width: infoBoxWidth + 'px', maxWidth: infoBoxWidthMax + 'px', left: infoBoxLeft + 'px'}")
 
           //----- play-button
             .fit.row.items-center.justify-between(v-if="!usingTool")
@@ -105,26 +105,9 @@
     },
     data () {
       return {
-        deviceDimensions: {height: undefined, width: undefined},
+        // deviceDimensions: {height: undefined, width: undefined},
         scrollPosition: 0,
         video: {key: 'mr-griddle', src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'},
-        /*
-        playerOptions: {
-          fluid: true,
-          // techOrder: ['youtube'],
-          techOrder: ['html5'],
-          sources: [{
-            // type: 'video/youtube',
-            // src: 'https://www.youtube.com/watch?v=KRA-Q_GmYbk'
-            type: 'video/mp4',
-            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
-          }],
-          // poster: '/static/img/backgrounds/feature-video.jpg'
-          controlBar: {
-            remainingTime: true
-          }
-        },
-        */
         showInfoBox: false,
         currentAppName: undefined,
         infoBoxHeight: undefined,
@@ -151,7 +134,8 @@
     computed: {
       ...mapGetters({
         statusInfoBox: 'globalSettings/getStatusInfoBox',
-        tool: 'globalSettings/getTool'
+        tool: 'globalSettings/getTool',
+        deviceDimensions: 'globalSettings/getDeviceDimensions'
       }),
       usingTool () {
         if (this.$route.path === '/' || this.$route.path === '/tools') return false
@@ -160,6 +144,7 @@
     },
     mounted () {
       this.currentAppName = 'Startscreen'
+      this.setInfoBoxHeight()
     },
     watch: {
       tool (val) {
@@ -181,16 +166,13 @@
       },
       usingTool (val) {
         if (val) this.infoBoxHeight = 46
-        else this.infoBoxHeight = window.innerWidth * 0.5625
+        // else this.infoBoxHeight = window.innerWidth * 0.5625
+        else this.setInfoBoxHeight()
       },
       statusInfoBox () {
         // if (!this.showInfoBox) this.handlerInfoBox()
         this.showInfoBox = this.statusInfoBox
       },
-      /*
-      $route (to, from) {
-        console.log(to, from)
-      */
       $route (to) {
         let routeSplit = to.path.split('/')
         switch (routeSplit[1]) {
@@ -226,16 +208,36 @@
       }
     },
     methods: {
+      setInfoBoxHeight () {
+        let headerHeight = 52
+        this.infoBoxHeightMax = this.deviceDimensions.height - headerHeight - 52
+        this.infoBoxWidthMax = this.deviceDimensions.width
+
+        // define video player width
+        if (this.deviceDimensions.height > this.deviceDimensions.width) {
+          this.infoBoxHeight = this.deviceDimensions.width * 0.5625
+          this.infoBoxWidth = this.deviceDimensions.width
+        }
+        else {
+          this.infoBoxHeight = this.deviceDimensions.height - headerHeight - 52
+          this.infoBoxWidth = (this.deviceDimensions.height - 52 - 52) / 9 * 16
+        }
+
+        // define video player offset left
+        if (this.deviceDimensions.width > this.infoBoxWidth) {
+          this.infoBoxLeft = (this.deviceDimensions.width - this.infoBoxWidth) / 2
+        }
+        else {
+          this.infoBoxLeft = 0
+        }
+      },
       scrollingHandler (scroll) {
         this.scrollPosition = scroll.position
         this.$store.commit('globalSettings/handlerScrollPosition', {y: this.scrollPosition})
       },
       onResize (size) {
         this.$store.commit('globalSettings/handlerDeviceDimensions', size)
-        this.deviceDimensions.height = size.height
-        this.deviceDimensions.width = size.width
-        let headerHeight = 52
-        this.infoBoxHeightMax = size.height - headerHeight - 50
+        this.setInfoBoxHeight()
       },
       handlerInfoBox () {
         // this.showInfoBox = !this.showInfoBox
