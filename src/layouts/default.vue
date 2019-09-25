@@ -61,7 +61,6 @@
           //----- title
           template(v-if="!usingTool && currentAppName !== undefined")
 
-            // video-player(:options="playerOptions", :key="video.key")
             video-player(:src="video.src", :ratio="'16:9'", :key="video.key")
 
             q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
@@ -88,18 +87,15 @@
 
 <script>
   require('videojs-youtube')
-  // import { videoPlayer } from 'vue-video-player'
   import VideoPlayer from '../components/VideoPlayer'
   import { mapGetters } from 'vuex'
 
   export default {
     components: {
-      // videoPlayer
       VideoPlayer
     },
     data () {
       return {
-        // deviceDimensions: {height: undefined, width: undefined},
         scrollPosition: 0,
         video: {key: 'mr-griddle', src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'},
         showInfoBox: false,
