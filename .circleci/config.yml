@@ -1,0 +1,56 @@
+aliases:
+  - &pull-submodules
+    name: Pull Submodules
+    command: |
+      ssh-keyscan gitlab.rlp.net >> ~/.ssh/known_hosts
+      git submodule init
+      git submodule update
+  - &install-dependencies
+    name: Install dependencies
+    command: |
+      apk add --update --no-cache nodejs nodejs-npm python make g++ pkgconfig libsecret-dev
+      npm config set unsafe-perm true
+      npm i -g npm
+      node --version
+      npm --version
+      npm i -g @quasar/cli
+      npm install
+
+version: 2
+jobs:
+  release_lite:
+    working_directory: /app
+    docker:
+      - image: docker:stable-git
+    steps:
+      - checkout
+      - run: *pull-submodules
+      - setup_remote_docker
+      - run: *install-dependencies
+      - run:
+          name: Release Lite Image
+          command: |
+            set +o pipefail
+            npm run build
+            docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            docker build --no-cache -t motionbank/digitanz-lite:latest .
+            docker push motionbank/digitanz-lite:latest
+
+
+workflows:
+  version: 2
+  build_pipeline:
+    jobs:
+      - release_lite:
+          filters:
+            branches:
+              only: lite
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 1 * * 1"
+          filters:
+            branches:
+              only: lite
+    jobs:
+      - release_lite
