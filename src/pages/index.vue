@@ -22,7 +22,9 @@
 
           #infotext.q-px-md.q-mr-md.q-subheading.text-weight-regular.q-pt-md(style="line-height: 1.7rem;")
             div.q-mb-md.hyphens
-              | Die in dieser App versammelten Tools sind für den Einsatz der Tanzvermittlung gedacht. Zu jedem Tool finden Sie in der App einige Beispiele für deren Einsatz. Darüber hinaus sind natürlich noch vielfältige andere Nutzungsformen denkbar.
+              | Die in dieser App versammelten Tools sind für den Einsatz der Tanzvermittlung gedacht. Zu jedem Tool
+              |
+              | finden Sie in der App einige Beispiele für deren Einsatz. Darüber hinaus sind natürlich noch vielfältige andere Nutzungsformen denkbar.
             div.hyphens
               | Die einzelnen Tools sind ein Auszug aus einer für den Kontext Tanzvermittlung mit Jugendlichen entwickelten App, die im Forschungsprojekt
               |
