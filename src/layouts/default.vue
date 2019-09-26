@@ -57,14 +57,12 @@
             video-player(:src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="true")
 
             //----- help-button
-            q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(
-            v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
+            // q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
 
-              .q-subheading.text-weight-medium.text-weight-regular ?
+              // .q-subheading.text-weight-medium.text-weight-regular ?
 
-              q-popover.bg-grey-9.q-px-md.q-py-md.text-grey-1.q-caption.text-weight-medium.q-mx-sm.q-mb-sm.shadow-6(
-              touch-position, anchor="bottom middle", self="top middle")
-                div(style="width: 66vw;") {{ t.text }}
+              // q-popover.bg-grey-9.q-px-md.q-py-md.text-grey-1.q-caption.text-weight-medium.q-mx-sm.q-mb-sm.shadow-6(touch-position, anchor="bottom middle", self="top middle")
+                // div(style="width: 66vw;") {{ t.text }}
 
           //----- info-modus bar when inside an app
           .q-px-md.q-py-sm.row.full-width.bg-grey-9(v-else, style="height: 46px;")
@@ -240,7 +238,7 @@
   }
 </script>
 
-<style scoped lang="styl">
+<style scoped lang="stylus">
   .offset
     margin-left -54px
 
