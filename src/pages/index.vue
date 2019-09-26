@@ -22,13 +22,13 @@
 
           #infotext.q-px-md.q-mr-md.q-subheading.text-weight-regular.q-pt-md(style="line-height: 1.7rem;")
             div.q-mb-md.hyphens
-              | Die in dieser App versammelten Tools sind für den Einsatz in einem angeleiteten Tanzkurs oder Workshop gedacht. Zu jedem Tool finden Sie in der App einige Beispiele für deren Einsatz. Darüber hinaus sind natürlich noch vielfältige andere Nutzungsformen denkbar und wir freuen uns über Ihre Erfahrungsberichte dazu.
+              | Die in dieser App versammelten Tools sind für den Einsatz der Tanzvermittlung gedacht. Zu jedem Tool finden Sie in der App einige Beispiele für deren Einsatz. Darüber hinaus sind natürlich noch vielfältige andere Nutzungsformen denkbar.
             div.hyphens
-              | Die einzelnen Tools sind ein Auszug aus einer für einen Tanzkurs an einer Regelschule entwickelten App, die im Forschungsprojekt
+              | Die einzelnen Tools sind ein Auszug aus einer für den Kontext Tanzvermittlung mit Jugendlichen entwickelten App, die im Forschungsprojekt
               |
               a(href="http://digitanz.de" title="Link zum #digitanz Projekt") #digitanz
               |
-              | zum Einsatz kam. Das Kooperationsprojekt zwischen der Johannes Gutenberg Universität und der Hochschule Mainz erforscht, ob und wie digitale Tools die Kreativität der Schüler eines Tanzkurses an einer Regelschule beeinflussen. Das Projekt #digitanz findet im Rahmen der Förderlinie „Digitalität in der kulturellen Bildung“ des BMBF statt.
+              | zum Einsatz kam. Das Kooperationsprojekt zwischen der Johannes Gutenberg-Universität Mainz und der Hochschule Mainz erforscht, ob und wie digitale Tools die Kreativität der Teilnehmenden eines künstlerischen Tanzangebotes an einer Regelschule beeinflussen. Das Projekt #digitanz findet im Rahmen der Förderlinie „Forschung zur Digitalität in der kulturellen Bildung“ des BMBF statt.
 
         .row.full-width.bg-white.q-my-xl
           .row.col-12.items-center.q-px-lg.q-py-md
