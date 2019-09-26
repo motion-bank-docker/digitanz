@@ -26,8 +26,8 @@
             div.hyphens
               | Die einzelnen Tools sind ein Auszug aus einer für den Kontext Tanzvermittlung mit Jugendlichen entwickelten App, die im Forschungsprojekt
               |
-              a(href="http://digitanz.de" title="Link zum #digitanz Projekt") #digitanz
-              |
+              a(href="http://digitanz.de" title="Link zum #digitanz Projekt ") #digitanz
+              |K
               | zum Einsatz kam. Das Kooperationsprojekt zwischen der Johannes Gutenberg-Universität Mainz und der Hochschule Mainz erforscht, ob und wie digitale Tools die Kreativität der Teilnehmenden eines künstlerischen Tanzangebotes an einer Regelschule beeinflussen. Das Projekt #digitanz findet im Rahmen der Förderlinie „Forschung zur Digitalität in der kulturellen Bildung“ des BMBF statt.
 
         .row.full-width.bg-white.q-my-xl
