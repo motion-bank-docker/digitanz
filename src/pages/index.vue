@@ -24,11 +24,7 @@
             div.q-mb-md.hyphens
               | Die in dieser App versammelten Tools sind für den Einsatz der Tanzvermittlung gedacht. Zu jedem Tool finden Sie in der App einige Beispiele für deren Einsatz. Darüber hinaus sind natürlich noch vielfältige andere Nutzungsformen denkbar.
             div.hyphens
-              | Die einzelnen Tools sind ein Auszug aus einer für den Kontext Tanzvermittlung mit Jugendlichen entwickelten App, die im Forschungsprojekt
-              |
-              a(href="http://digitanz.de" title="Link zum #digitanz Projekt ") #digitanz
-              |K
-              | zum Einsatz kam. Das Kooperationsprojekt zwischen der Johannes Gutenberg-Universität Mainz und der Hochschule Mainz erforscht, ob und wie digitale Tools die Kreativität der Teilnehmenden eines künstlerischen Tanzangebotes an einer Regelschule beeinflussen. Das Projekt #digitanz findet im Rahmen der Förderlinie „Forschung zur Digitalität in der kulturellen Bildung“ des BMBF statt.
+              | Die einzelnen Tools sind ein Auszug aus einer für den Kontext Tanzvermittlung mit Jugendlichen entwickelten App, die im Forschungsprojekt #digitanz zum Einsatz kam. Das Kooperationsprojekt zwischen der Johannes Gutenberg-Universität Mainz und der Hochschule Mainz erforscht, ob und wie digitale Tools die Kreativität der Teilnehmenden eines künstlerischen Tanzangebotes an einer Regelschule beeinflussen. Das Projekt #digitanz findet im Rahmen der Förderlinie „Forschung zur Digitalität in der kulturellen Bildung“ des BMBF statt.
 
         .row.full-width.bg-white.q-my-xl
           .row.col-12.items-center.q-px-lg.q-py-md
