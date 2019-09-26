@@ -20,11 +20,15 @@
 
         .col-xs-12.col-sm-8.offset-sm-2.col-md-6.offset-md-3.text-grey-9
 
-          .q-px-md.q-mr-md.q-subheading.text-weight-regular.q-pt-md(style="line-height: 1.7rem;")
+          #infotext.q-px-md.q-mr-md.q-subheading.text-weight-regular.q-pt-md(style="line-height: 1.7rem;")
             div.q-mb-md.hyphens
               | Die in dieser App versammelten Tools sind für den Einsatz in einem angeleiteten Tanzkurs oder Workshop gedacht. Zu jedem Tool finden Sie in der App einige Beispiele für deren Einsatz. Darüber hinaus sind natürlich noch vielfältige andere Nutzungsformen denkbar und wir freuen uns über Ihre Erfahrungsberichte dazu.
             div.hyphens
-              | Die einzelnen Tools sind ein Auszug aus einer für einen Tanzkurs an einer Regelschule entwickelten App, die im Forschungsprojekt #digitanz (Link auf digitanz.de) zum Einsatz kam. Das Kooperationsprojekt zwischen der Johannes Gutenberg Universität und der Hochschule Mainz erforscht, ob und wie digitale Tools die Kreativität der Schüler eines Tanzkurses an einer Regelschule beeinflussen. Das Projekt #digitanz findet im Rahmen der Förderlinie „Digitalität in der kulturellen Bildung“ des BMBF statt.
+              | Die einzelnen Tools sind ein Auszug aus einer für einen Tanzkurs an einer Regelschule entwickelten App, die im Forschungsprojekt
+              |
+              a(href="http://digitanz.de" title="Link zum #digitanz Projekt") #digitanz
+              |
+              | zum Einsatz kam. Das Kooperationsprojekt zwischen der Johannes Gutenberg Universität und der Hochschule Mainz erforscht, ob und wie digitale Tools die Kreativität der Schüler eines Tanzkurses an einer Regelschule beeinflussen. Das Projekt #digitanz findet im Rahmen der Förderlinie „Digitalität in der kulturellen Bildung“ des BMBF statt.
 
         .row.full-width.bg-white.q-my-xl
           .row.col-12.items-center.q-px-lg.q-py-md
@@ -227,4 +231,8 @@
     h6
       margin-bottom 1em
       margin-top 1em
+
+  #infotext
+    a
+      color #222
 </style>
