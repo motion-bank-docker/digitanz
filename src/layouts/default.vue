@@ -54,7 +54,7 @@
           template(v-if="!usingTool && currentAppName !== undefined")
 
             //----- video-player
-            video-player(:src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="true")
+            video-player(:src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="autoplay")
 
             //----- help-button
             // q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
@@ -90,6 +90,7 @@
     },
     data () {
       return {
+        autoplay: undefined,
         scrollPosition: 0,
         video: {key: 'mr-griddle', src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'},
         showInfoBox: false,
@@ -129,6 +130,7 @@
     mounted () {
       this.currentAppName = 'Startscreen'
       this.setInfoBoxHeight()
+      this.$q.platform.is.mobile ? this.autoplay = false : this.autoplay = true
     },
     watch: {
       tool (val) {
