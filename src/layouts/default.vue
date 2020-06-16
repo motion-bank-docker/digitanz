@@ -62,7 +62,7 @@
                   template(v-if="s.startscreen")
                     .absolute-center.text-center
                       p.q-ma-none(v-for="(screen, n) in s.startscreen", :class="{'q-mt-xs': n > 0}") {{ screen }}
-                      q-btn.q-mt-md.text-dark.bg-white.custom-font-size(@click="executeApp()", rounded, no-caps)
+                      q-btn.q-mt-md.text-dark.bg-grey-1.custom-font-size(@click="executeApp()", rounded, no-caps)
                         // q-icon.rotate-180(name="keyboard_backspace", size="20px")
                         | Verwenden
 
@@ -71,10 +71,11 @@
 
                   video-player(v-if="s.src", :src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="autoplay")
 
-              template(v-else)
-                q-carousel-slide.q-pa-none
-                  video-player(:src="video.src", :ratio="'16:9'", :key="video.key")
-                  // video-player(:src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="autoplay")
+              //
+                template(v-else)
+                  q-carousel-slide.q-pa-none
+                    video-player(:src="video.src", :ratio="'16:9'", :key="video.key")
+                    // video-player(:src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="autoplay")
 
             //----- help-button
             // q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
@@ -152,7 +153,7 @@
     mounted () {
       this.currentAppName = 'Startscreen'
       this.setInfoBoxHeight()
-      this.tool = 'mr-griddle'
+      this.$store.commit('globalSettings/handlerTool', 'mr-griddle')
       // this.$q.platform.is.mobile ? this.autoplay = false : this.autoplay = true
     },
     watch: {
