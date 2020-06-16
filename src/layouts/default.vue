@@ -64,7 +64,7 @@
                       p.q-ma-none(v-for="(screen, n) in s.startslide", :class="{'q-mb-xs': n === 0}",
                       style="white-space: nowrap;") {{ screen }}
 
-                      q-btn.q-mt-md.text-dark.bg-grey-1.custom-font-size(@click="executeApp(s.route)", rounded, no-caps)
+                      q-btn.q-mt-md.text-dark.bg-grey-1(@click="executeApp(s.route)", rounded, no-caps)
                         // q-icon.rotate-180(name="keyboard_backspace", size="20px")
                         | Verwenden
 
