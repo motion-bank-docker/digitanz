@@ -54,7 +54,22 @@
           template(v-if="!usingTool && currentAppName !== undefined")
 
             //----- video-player
-            video-player(:src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="autoplay")
+            q-carousel.bg-grey-9.text-white(v-model="slide")
+
+              template(v-if="slides")
+                q-carousel-slide.q-pa-none.relative-position.custom-font-size(v-for="s in slides")
+
+                  template(v-if="s.startscreen")
+                    p.q-ma-none(v-for="screen in s.startscreen") {{ screen }}
+
+                  .absolute-center(v-if="s.text")
+                    p.q-ma-none.text-center(v-for="(t, n) in s.text", :class="{'q-mt-xs': n > 0}") {{ t }}
+
+                  video-player(v-if="s.src", :src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="autoplay")
+
+              template(v-else)
+                q-carousel-slide.q-pa-none
+                  video-player(:src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="autoplay")
 
             //----- help-button
             // q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
@@ -90,6 +105,8 @@
     },
     data () {
       return {
+        slide: undefined,
+        slides: undefined,
         autoplay: undefined,
         scrollPosition: 0,
         video: {key: 'mr-griddle', src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'},
@@ -137,6 +154,25 @@
         switch (val) {
         case 'mr-griddle':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
+          this.slides = [{
+            startscreen: ['Tool:', 'Mr. Griddle']
+          }, {
+            text: ['Einführung']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
+          }, {
+            text: ['1. Anwendungsbeispiel:', 'Posen adaptieren']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
+          }, {
+            text: ['2. Anwendungsbeispiel:', 'Improvisieren zwischen Start- und Endpose']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
+          }, {
+            text: ['3. Anwendungsbeispiel', 'Posen selbst auswählen, improvisieren, filmen']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
+          }]
           break
         case 'clouds':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
@@ -241,6 +277,8 @@
 </script>
 
 <style scoped lang="stylus">
+  .custom-font-size
+    font-size 4vw
   .offset
     margin-left -54px
 
