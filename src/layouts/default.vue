@@ -61,13 +61,16 @@
 
                   template(v-if="s.startslide")
                     .absolute-center.text-center
-                      p.q-ma-none(v-for="(screen, n) in s.startslide", :class="{'q-mt-xs': n > 0}") {{ screen }}
+                      p.q-ma-none(v-for="(screen, n) in s.startslide", :class="{'q-mb-xs': n === 0}",
+                      style="white-space: nowrap;") {{ screen }}
+
                       q-btn.q-mt-md.text-dark.bg-grey-1.custom-font-size(@click="executeApp(s.route)", rounded, no-caps)
                         // q-icon.rotate-180(name="keyboard_backspace", size="20px")
                         | Verwenden
 
                   .absolute-center(v-if="s.text")
-                    p.q-ma-none.text-center(v-for="(t, n) in s.text", :class="{'q-mt-xs': n > 0}") {{ t }}
+                    p.q-ma-none.text-center(v-for="(t, n) in s.text", :class="{'q-mb-xs': n === 0}",
+                    style="white-space: nowrap;") {{ t }}
 
                   video-player(v-if="s.src", :src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="autoplay")
 
@@ -173,11 +176,11 @@
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
           }, {
-            text: ['2. Anwendungsbeispiel:', 'Improvisieren zwischen Start- und Endpose']
+            text: ['2. Anwendungsbeispiel:', 'Improvisieren zwischen', 'Start- und Endpose']
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
           }, {
-            text: ['3. Anwendungsbeispiel', 'Posen selbst auswählen, improvisieren, filmen']
+            text: ['3. Anwendungsbeispiel', 'Posen selbst auswählen,', 'improvisieren, filmen']
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
           }]
@@ -192,15 +195,15 @@
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
           }, {
-            text: ['1. Anwendungsbeispiel:', 'Wörter sammeln, "Tanz ist für mich..."']
+            text: ['1. Anwendungsbeispiel:', 'Wörter sammeln,', '"Tanz ist für mich..."']
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
           }, {
-            text: ['2. Anwendungsbeispiel:', 'Improvisation mit Wortwolke und Raumebenen']
+            text: ['2. Anwendungsbeispiel:', 'Improvisation mit Wort-', 'wolke und Raumebenen']
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
           }, {
-            text: ['3. Anwendungsbeispiel', 'Eigene Wolke erstellen, improvisieren, filmen']
+            text: ['3. Anwendungsbeispiel', 'Eigene Wolke erstellen,', 'improvisieren, filmen']
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
           }]
@@ -215,11 +218,11 @@
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
           }, {
-            text: ['1. Anwendungsbeispiel:', 'Verschiedene Bewegungsanwendungen eintragen']
+            text: ['1. Anwendungsbeispiel:', 'Verschiedene Bewegungs-', 'anwendungen eintragen']
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
           }, {
-            text: ['2. Anwendungsbeispiel:', 'Zufälliges Rezept generieren, Anweisungen in Improvisation umsetzen, filmen']
+            text: ['2. Anwendungsbeispiel:', 'Zufälliges Rezept generieren,', 'Anweisungen in Improvisation', 'umsetzen, filmen']
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
           }]
