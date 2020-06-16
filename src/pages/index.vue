@@ -22,9 +22,12 @@
 
           #infotext.q-px-md.q-mr-md.q-subheading.text-weight-regular.q-pt-md(style="line-height: 1.7rem;")
             div.q-mb-md.hyphens
-              | Die in dieser App versammelten Tools sind für den Einsatz der Tanzvermittlung gedacht. Zu jedem Tool finden Sie in der App einige Beispiele für deren Einsatz. Darüber hinaus sind natürlich noch vielfältige andere Nutzungsformen denkbar.
+              | Die in dieser App versammelten Tools sind für den Einsatz in der Tanzvermittlung gedacht. Zu jedem Tool finden Sie in der App einige Beispiele für deren Einsatz. Darüber hinaus sind natürlich noch vielfältige andere Nutzungsformen denkbar.
             div.q-mb-md.hyphens
-              | Die einzelnen Tools sind ein Auszug aus einer für den Kontext Tanzvermittlung mit Jugendlichen entwickelten App, die im Forschungsprojekt #digitanz zum Einsatz kam. Das Kooperationsprojekt zwischen der Johannes Gutenberg-Universität Mainz und der Hochschule Mainz erforscht, ob und wie digitale Tools die Kreativität der Teilnehmenden eines künstlerischen Tanzangebotes an einer Regelschule beeinflussen. Das Projekt #digitanz findet im Rahmen der Förderlinie „Forschung zur Digitalität in der kulturellen Bildung“ des BMBF statt.
+              | Die einzelnen Tools sind ein Auszug aus einer für den Kontext Tanzvermittlung mit Jugendlichen entwickelten App, die im Forschungsprojekt #digitanz zum Einsatz kam. Das Kooperationsprojekt zwischen der Johannes Gutenberg-Universität Mainz und der Hochschule Mainz fragt danach, inwieweit digitale Technologien kreative Prozesse im Tanz anregen und bereichern können.
+            div.q-mb-md.hyphens
+              | Gleichzeitig werden neue Herausforderungen hinsichtlich der Aspekte Unterrichtsmethoden, Tanzverständnisse und Tanzästhetiken sowie Umgangsweisen mit dem eigenen (und fremden) Körper, Bewegungen und digitalen Medien untersucht.  Das Projekt #digitanz findet im Rahmen der Förderlinie „Forschung zur Digitalisierung in der kulturellen Bildung“ des BMBF statt.
+              | Wir danken dem Tanzstudio Sabine Odenthal in Hürth für die Unterstützung der Filmaufnahmen.
             div.text-center.q-pt-md
               q-btn.text-weight-regular.text-grey-9.bg-grey-1.q-mx-sm.q-px-lg(@click="$router.push({path: '/tools'})", flat, rounded, no-caps, size="lg") Tools
 
