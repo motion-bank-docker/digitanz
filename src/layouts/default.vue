@@ -40,8 +40,8 @@
       .relative-position(v-if="currentAppName !== 'Startscreen'")
 
         //----- invisible space placeholder
-        div.bg-grey-3.text-grey-9.transition.overflow-hidden(:class="[showInfoBox ? 'height-auto' : 'height-0']",
-        :style="{height: infoBoxHeight + 'px', 'max-height': infoBoxHeightMax + 'px'}")
+        div.text-grey-9.transition.overflow-hidden(:class="[showInfoBox ? 'height-auto' : 'height-0']",
+        :style="{height: infoBoxHeight + 1 + 'px', 'max-height': infoBoxHeightMax + 'px', backgroundColor: '#303030'}")
 
         //----- visible info-box
         .fixed-top.bg-transparent.text-grey-9.transition.overflow-hidden(
