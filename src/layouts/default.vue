@@ -54,7 +54,7 @@
           template(v-if="!usingTool && currentAppName !== undefined")
 
             //----- video-player
-            q-carousel.text-white(v-model="slide", style="background-color: #303030;")
+            q-carousel.text-white(v-model="slide", style="background-color: #303030;", arrows)
 
               template(v-if="slides")
                 q-carousel-slide.q-pa-none.relative-position.custom-font-size(v-for="s in slides")
