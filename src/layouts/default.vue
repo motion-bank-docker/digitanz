@@ -59,9 +59,9 @@
               template(v-if="slides")
                 q-carousel-slide.q-pa-none.relative-position.custom-font-size(v-for="s in slides")
 
-                  template(v-if="s.startscreen")
+                  template(v-if="s.startslide")
                     .absolute-center.text-center
-                      p.q-ma-none(v-for="(screen, n) in s.startscreen", :class="{'q-mt-xs': n > 0}") {{ screen }}
+                      p.q-ma-none(v-for="(screen, n) in s.startslide", :class="{'q-mt-xs': n > 0}") {{ screen }}
                       q-btn.q-mt-md.text-dark.bg-grey-1.custom-font-size(@click="executeApp(s.route)", rounded, no-caps)
                         // q-icon.rotate-180(name="keyboard_backspace", size="20px")
                         | Verwenden
@@ -162,7 +162,7 @@
         case 'mr-griddle':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
           this.slides = [{
-            startscreen: ['Tool:', 'Mr. Griddle'],
+            startslide: ['Tool:', 'Mr. Griddle'],
             route: '/mr-griddle/create'
           }, {
             text: ['Einführung']
@@ -185,7 +185,7 @@
         case 'clouds':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
           this.slides = [{
-            startscreen: ['Tool:', 'Wortwolke'],
+            startslide: ['Tool:', 'Wortwolke'],
             route: '/clouds/overview'
           }, {
             text: ['Einführung']
@@ -208,7 +208,7 @@
         case 'recipes':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
           this.slides = [{
-            startscreen: ['Tool:', 'Rezepte'],
+            startslide: ['Tool:', 'Rezepte'],
             route: '/recipes'
           }, {
             text: ['Einführung']
@@ -227,7 +227,7 @@
         case 'space-tool':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/space.mp4'
           this.slides = [{
-            startscreen: ['Tool:', 'Raum/Formation'],
+            startslide: ['Tool:', 'Raum/Formation'],
             route: '/space-tool/list'
           }, {
             text: ['Einführung']
@@ -249,6 +249,7 @@
           break
         }
         this.video.key = val
+        this.slide = 0
       },
       usingTool (val) {
         if (val) this.infoBoxHeight = 46
