@@ -54,13 +54,17 @@
           template(v-if="!usingTool && currentAppName !== undefined")
 
             //----- video-player
-            q-carousel.bg-grey-9.text-white(v-model="slide")
+            q-carousel.text-white(v-model="slide", style="background-color: #303030;")
 
               template(v-if="slides")
                 q-carousel-slide.q-pa-none.relative-position.custom-font-size(v-for="s in slides")
 
                   template(v-if="s.startscreen")
-                    p.q-ma-none(v-for="screen in s.startscreen") {{ screen }}
+                    .absolute-center.text-center
+                      p.q-ma-none(v-for="(screen, n) in s.startscreen", :class="{'q-mt-xs': n > 0}") {{ screen }}
+                      q-btn.q-mt-md.text-dark.bg-white.custom-font-size(@click="executeApp()", rounded, no-caps)
+                        // q-icon.rotate-180(name="keyboard_backspace", size="20px")
+                        | Verwenden
 
                   .absolute-center(v-if="s.text")
                     p.q-ma-none.text-center(v-for="(t, n) in s.text", :class="{'q-mt-xs': n > 0}") {{ t }}
@@ -69,7 +73,8 @@
 
               template(v-else)
                 q-carousel-slide.q-pa-none
-                  video-player(:src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="autoplay")
+                  video-player(:src="video.src", :ratio="'16:9'", :key="video.key")
+                  // video-player(:src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="autoplay")
 
             //----- help-button
             // q-btn.bg-grey-1.tetx-grey-9.absolute-top-left.q-mt-sm.q-ml-md.q-px-md.q-py-xs(v-for="t in tools", v-if="t.name === tool", flat, no-caps, round, size="sm")
@@ -107,7 +112,7 @@
       return {
         slide: undefined,
         slides: undefined,
-        autoplay: undefined,
+        // autoplay: undefined,
         scrollPosition: 0,
         video: {key: 'mr-griddle', src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'},
         showInfoBox: false,
@@ -147,7 +152,8 @@
     mounted () {
       this.currentAppName = 'Startscreen'
       this.setInfoBoxHeight()
-      this.$q.platform.is.mobile ? this.autoplay = false : this.autoplay = true
+      this.tool = 'mr-griddle'
+      // this.$q.platform.is.mobile ? this.autoplay = false : this.autoplay = true
     },
     watch: {
       tool (val) {
@@ -176,12 +182,65 @@
           break
         case 'clouds':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
+          this.slides = [{
+            startscreen: ['Tool:', 'Wortwolke']
+          }, {
+            text: ['Einführung']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
+          }, {
+            text: ['1. Anwendungsbeispiel:', 'Wörter sammeln, "Tanz ist für mich..."']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
+          }, {
+            text: ['2. Anwendungsbeispiel:', 'Improvisation mit Wortwolke und Raumebenen']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
+          }, {
+            text: ['3. Anwendungsbeispiel', 'Eigene Wolke erstellen, improvisieren, filmen']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
+          }]
           break
         case 'recipes':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
+          this.slides = [{
+            startscreen: ['Tool:', 'Rezepte']
+          }, {
+            text: ['Einführung']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
+          }, {
+            text: ['1. Anwendungsbeispiel:', 'Verschiedene Bewegungsanwendungen eintragen']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
+          }, {
+            text: ['2. Anwendungsbeispiel:', 'Zufälliges Rezept generieren, Anweisungen in Improvisation umsetzen, filmen']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
+          }]
           break
         case 'space-tool':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/space.mp4'
+          this.slides = [{
+            startscreen: ['Tool:', 'Raum/Formation']
+          }, {
+            text: ['Einführung']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/space.mp4'
+          }, {
+            text: ['1. Anwendungsbeispiel:', 'Formationen einnehmen']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/space.mp4'
+          }, {
+            text: ['2. Anwendungsbeispiel:', 'Übergänge tänzerisch füllen']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/space.mp4'
+          }, {
+            text: ['3. Anwendungsbeispiel:', 'Raumebenen hinzufügen']
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/space.mp4'
+          }]
           break
         }
         this.video.key = val
