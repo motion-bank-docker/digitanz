@@ -62,7 +62,7 @@
                   template(v-if="s.startscreen")
                     .absolute-center.text-center
                       p.q-ma-none(v-for="(screen, n) in s.startscreen", :class="{'q-mt-xs': n > 0}") {{ screen }}
-                      q-btn.q-mt-md.text-dark.bg-grey-1.custom-font-size(@click="executeApp()", rounded, no-caps)
+                      q-btn.q-mt-md.text-dark.bg-grey-1.custom-font-size(@click="executeApp(s.route)", rounded, no-caps)
                         // q-icon.rotate-180(name="keyboard_backspace", size="20px")
                         | Verwenden
 
@@ -162,7 +162,8 @@
         case 'mr-griddle':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
           this.slides = [{
-            startscreen: ['Tool:', 'Mr. Griddle']
+            startscreen: ['Tool:', 'Mr. Griddle'],
+            route: '/mr-griddle/create'
           }, {
             text: ['Einführung']
           }, {
@@ -184,7 +185,8 @@
         case 'clouds':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
           this.slides = [{
-            startscreen: ['Tool:', 'Wortwolke']
+            startscreen: ['Tool:', 'Wortwolke'],
+            route: '/clouds/overview'
           }, {
             text: ['Einführung']
           }, {
@@ -206,7 +208,8 @@
         case 'recipes':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
           this.slides = [{
-            startscreen: ['Tool:', 'Rezepte']
+            startscreen: ['Tool:', 'Rezepte'],
+            route: '/recipes'
           }, {
             text: ['Einführung']
           }, {
@@ -224,7 +227,8 @@
         case 'space-tool':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/space.mp4'
           this.slides = [{
-            startscreen: ['Tool:', 'Raum/Formation']
+            startscreen: ['Tool:', 'Raum/Formation'],
+            route: '/space-tool/list'
           }, {
             text: ['Einführung']
           }, {
@@ -328,9 +332,9 @@
         if (this.showInfoBox) this.$store.commit('globalSettings/handlerStatusInfoBox', 'close')
         else this.$store.commit('globalSettings/handlerStatusInfoBox', 'open')
       },
-      executeApp (appName) {
+      executeApp (route) {
         // this.currentApp = appName
-        this.$router.push({path: '/' + appName})
+        this.$router.push({path: route})
       }
     }
   }
