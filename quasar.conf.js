@@ -127,7 +127,9 @@ module.exports = function (ctx) {
         'QRadio',
         'QSelect',
         'QSpinnerPuff',
-        'QScrollObservable'
+        'QScrollObservable',
+        'QCarousel',
+        'QCarouselSlide'
       ],
       directives: [
         'Ripple',
