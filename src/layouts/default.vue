@@ -343,7 +343,7 @@
 
 <style scoped lang="stylus">
   .custom-font-size
-    font-size 4vw
+    font-size 4.5vw
   .offset
     margin-left -54px
 
