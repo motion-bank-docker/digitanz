@@ -184,6 +184,12 @@
         height: this.$el.offsetHeight
       }
 
+      // set amount of columns
+      let
+        rowHeight = Math.floor(this.svgSize.height / this.gridStore.rows),
+        cols = Math.floor(this.svgSize.width / rowHeight)
+      this.$store.commit('mrGriddle/setColumns', cols)
+
       // set cell ratio
       this.setCellRatio()
       /*
