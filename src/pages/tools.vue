@@ -22,7 +22,7 @@
                     :icon="button.icon", size="lg", round, flat, :disabled="!button.status", no-ripple)
 
                     q-btn.bg-white.text-grey-9(v-else, @click.native="actions(button.action)", size="lg", round, flat)
-                      q-icon.rotate-180(name="keyboard_backspace", size="30px")
+                      q-icon.rotate-180(name="keyboard_backspace", size="20px")
 
                   q-item-tile.text-center
                     .q-caption.text-weight-medium {{ button.label }}
