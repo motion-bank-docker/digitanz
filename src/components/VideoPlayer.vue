@@ -60,12 +60,15 @@
         }
       }
     },
-    props: ['src', 'annotation', 'autoplay', 'ratio'],
+    props: ['src', 'annotation', 'autoplay', 'ratio', 'slide'],
     async mounted () {
       await this.getSource(this.src, this.annotation)
       if (this.ratio) this.playerOptions.aspectRatio = this.ratio
     },
     watch: {
+      slide () {
+        this.$refs.videoPlayer.player.pause()
+      },
       async src (val) {
         await this.getSource(val, this.annotation)
       },
@@ -129,7 +132,6 @@
         this.$refs.videoPlayer.player.reset()
       },
       isPaused () {
-        // console.log(this.$refs.videoPlayer.player.paused())
         return this.player ? this.player.paused() : false
       },
       pause () {

@@ -58,12 +58,12 @@
           //----- video-info-box in tool overview
           template(v-if="!usingTool && currentAppName !== undefined")
 
-            //----- video-player
             q-carousel.text-white(v-model="slide", style="background-color: #303030;", arrows)
 
               template(v-if="slides")
                 q-carousel-slide.q-pa-none.relative-position.custom-font-size(v-for="s in slides")
 
+                  //----- first slide / start slide
                   template(v-if="s.startslide")
                     .absolute-center.text-center
                       p.q-ma-none(v-for="(screen, n) in s.startslide", :class="{'q-mb-xs': n === 0}",
@@ -73,11 +73,14 @@
                         q-icon.rotate-180.q-mr-sm(name="keyboard_backspace", size="20px")
                         | Tool öffnen
 
+                  //----- text
                   .absolute-center(v-if="s.text")
                     p.q-ma-none.text-center(v-for="(t, n) in s.text", :class="{'q-mb-xs': n === 0}",
                     style="white-space: nowrap;") {{ t }}
 
-                  video-player(v-if="s.src", :src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="autoplay")
+                  //----- video
+                  video-player(v-if="s.src", :src="video.src", :ratio="'16:9'", :key="video.key", :autoplay="autoplay",
+                  :slide="slide")
 
               //
                 template(v-else)
