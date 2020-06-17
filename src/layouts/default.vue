@@ -170,7 +170,13 @@
         case 'mr-griddle':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
           this.slides = [{
-            // startslide: ['Tool:', 'Mr. Griddle'],
+            startslide: ['Mr. Griddle'],
+            route: '/mr-griddle/create'
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
+          }]
+          /*
+          this.slides = [{
             startslide: ['Mr. Griddle'],
             route: '/mr-griddle/create'
           }, {
@@ -190,9 +196,17 @@
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
           }]
+          */
           break
         case 'clouds':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
+          this.slides = [{
+            startslide: ['Wortwolke'],
+            route: '/clouds/overview'
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
+          }]
+          /*
           this.slides = [{
             startslide: ['Wortwolke'],
             route: '/clouds/overview'
@@ -213,9 +227,17 @@
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
           }]
+          */
           break
         case 'recipes':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
+          this.slides = [{
+            startslide: ['Rezepte'],
+            route: '/recipes'
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
+          }]
+          /*
           this.slides = [{
             startslide: ['Rezepte'],
             route: '/recipes'
@@ -232,9 +254,17 @@
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
           }]
+          */
           break
         case 'space-tool':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/space.mp4'
+          this.slides = [{
+            startslide: ['Raum/Formation'],
+            route: '/space-tool/list'
+          }, {
+            src: 'https://assets.motionbank.org/digitanz/videos-lite-app/space.mp4'
+          }]
+          /*
           this.slides = [{
             startslide: ['Raum/Formation'],
             route: '/space-tool/list'
@@ -255,6 +285,7 @@
           }, {
             src: 'https://assets.motionbank.org/digitanz/videos-lite-app/space.mp4'
           }]
+          */
           break
         }
         this.video.key = val
