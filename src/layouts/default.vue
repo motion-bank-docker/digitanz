@@ -26,12 +26,17 @@
           q-btn.q-title.capitalize.full-width.q-pl-sm(v-else, flat, no-ripple, align="left")
             .ellipsis {{ currentAppName }}
 
-        //----- info-button
-        q-item-side.q-pr-md.absolute-top-right.q-pt-sm.q-mt-xs
-          q-btn.absolute-top-right.text-grey-9.transition.q-mt-sm.q-mr-md(
+        //----- buttons
+        q-item-side
+
+          // language
+          q-btn.q-mt-xs(size="sm", flat, rounded, icon="language", label="Dt.", no-wrap, no-caps, disabled)
+
+          // info / help
+          q-btn.q-mt-xs.q-mr-md.text-grey-9.transition(
           v-if="currentAppName !== 'Startscreen'",
           @click="handlerInfoBox", round,
-          size="sm", flat, :class="[showInfoBox || currentAppName === 'Tools' ? 'leave-right' : '']")
+          size="sm", flat, :class="[showInfoBox || currentAppName === 'Tools' ? 'leave-right-header' : '']")
             .q-subheading.text-weight-medium.text-weight-regular ?
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -89,7 +94,7 @@
                 // div(style="width: 66vw;") {{ t.text }}
 
           //----- info-modus bar when inside an app
-          .q-px-md.q-py-sm.row.full-width.bg-grey-9(v-else, style="height: 46px;")
+          .q-px-md.q-py-sm.row.full-width(v-else, style="height: 46px; background-color: #303030;")
             span.q-mr-sm.self-center.text-grey-1 Hilfe-Modus
 
           //----- close-button when inside an app
