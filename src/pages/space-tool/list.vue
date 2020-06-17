@@ -44,15 +44,15 @@
 
       div.row.items-center.height-empty.relative-position(v-if="tempSpaces.length <= 0")
 
-        .absolute-top-right
-          <!--info-button.q-mt-sm(:size="'md'", :nr="'1'")-->
-          info-button.q-mt-sm.q-mr-sm(:size="'md'")
-            div Hier steht beschrieben was das Tool macht.
-            //
-              .q-mt-sm
-                | Zur Zeit sind noch keine Einträge vorhanden. Mit dem Button bei
-                info-number(:number="'2'")
-                | kannst du Einträge hinzufügen.
+        //
+          .absolute-top-right
+            info-button.q-mt-sm.q-mr-sm(:size="'md'")
+              div Hier steht beschrieben was das Tool macht.
+              //
+                .q-mt-sm
+                  | Zur Zeit sind noch keine Einträge vorhanden. Mit dem Button bei
+                  info-number(:number="'2'")
+                  | kannst du Einträge hinzufügen.
 
         q-item.text-center.q-ma-none.full-width
           q-item-main.q-mb-xl
