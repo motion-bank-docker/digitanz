@@ -266,7 +266,7 @@
         }
         let cellWidth = (this.svgSize.height / this.gridStore.rows) * this.cellRatio
         let countColumns = this.svgSize.width / cellWidth
-        console.log('countColumns', Math.floor(countColumns))
+        // console.log('countColumns', Math.floor(countColumns))
         this.$store.commit('mrGriddle/setColumns', Math.floor(countColumns))
 
         this.gridCell = {
