@@ -98,7 +98,7 @@
             span.q-mr-sm.self-center.text-grey-1 Hilfe-Modus
 
           //----- close-button when inside an app
-          q-btn.absolute-top-right.text-grey-1.q-mr-md.q-mt-sm.transition(@click="handlerInfoBox",
+          q-btn.absolute-top-right.text-grey-1.q-mr-sm.q-mt-sm.transition(@click="handlerInfoBox",
           round, flat, size="sm", no-ripple,
           :class="[(showInfoBox ? '' : 'leave-right'), (currentAppName === 'Tools' ? 'leave-right' : '')]")
             .q-subheading.text-weight-medium.text-weight-regular
