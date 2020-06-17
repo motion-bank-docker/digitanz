@@ -70,8 +70,8 @@
                       style="white-space: nowrap;") {{ screen }}
 
                       q-btn.q-mt-md.text-dark.bg-grey-1(@click="executeApp(s.route)", rounded, no-caps)
-                        // q-icon.rotate-180(name="keyboard_backspace", size="20px")
-                        | Verwenden
+                        q-icon.rotate-180.q-mr-sm(name="keyboard_backspace", size="20px")
+                        | Tool öffnen
 
                   .absolute-center(v-if="s.text")
                     p.q-ma-none.text-center(v-for="(t, n) in s.text", :class="{'q-mb-xs': n === 0}",
@@ -170,7 +170,8 @@
         case 'mr-griddle':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/mrgriddle.mp4'
           this.slides = [{
-            startslide: ['Tool:', 'Mr. Griddle'],
+            // startslide: ['Tool:', 'Mr. Griddle'],
+            startslide: ['Mr. Griddle'],
             route: '/mr-griddle/create'
           }, {
             text: ['Einführung']
@@ -193,7 +194,7 @@
         case 'clouds':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/wordcloud.mp4'
           this.slides = [{
-            startslide: ['Tool:', 'Wortwolke'],
+            startslide: ['Wortwolke'],
             route: '/clouds/overview'
           }, {
             text: ['Einführung']
@@ -216,7 +217,7 @@
         case 'recipes':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/recipes.mp4'
           this.slides = [{
-            startslide: ['Tool:', 'Rezepte'],
+            startslide: ['Rezepte'],
             route: '/recipes'
           }, {
             text: ['Einführung']
@@ -235,7 +236,7 @@
         case 'space-tool':
           this.video.src = 'https://assets.motionbank.org/digitanz/videos-lite-app/space.mp4'
           this.slides = [{
-            startslide: ['Tool:', 'Raum/Formation'],
+            startslide: ['Raum/Formation'],
             route: '/space-tool/list'
           }, {
             text: ['Einführung']
