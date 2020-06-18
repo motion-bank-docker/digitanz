@@ -1,6 +1,6 @@
 # #digitanz frontend
 
-[![motion-bank-docker](https://circleci.com/gh/motion-bank-docker/digitanz.svg?style=svg)](https://circleci.com/github/motion-bank-docker/digitanz)
+[![motion-bank-docker](https://circleci.com/gh/motion-bank-docker/digitanz.svg?style=svg)](https://circleci.com/gh/motion-bank-docker/digitanz)
 
 > Frontend for the #digitanz project
 
